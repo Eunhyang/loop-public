@@ -83,6 +83,48 @@ LOOP/
 - `30_Strategy/(LV1 Strategic Hypotheses) 3-year strategy (조건 기반) 정리.md`
 - `30_Strategy/12-month 실행 계획(숫자 기반) 정리.md`
 
+## 실제 데이터 소스
+
+LOOP OS의 **실제 구현체 및 데이터**는 다음 프로젝트에서 확인할 수 있습니다:
+
+### 프로젝트 경로
+
+1. **SoSi (Flutter App)**
+   - 경로: `/Users/gim-eunhyang/dev/flutter/sosi`
+   - 역할: 모바일 앱 (사용자 대면 인터페이스)
+   - 데이터:
+     - Firestore 다이어리 데이터 구조
+     - Event/Episode 실제 기록 로직
+     - 사용자 입력 UI/UX
+   - **메타정보**: `/Users/gim-eunhyang/dev/flutter/sosi/docs/`
+
+2. **KkokKkokFit Web**
+   - 경로: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
+   - 역할: 웹 기반 코칭 인터페이스
+   - 데이터:
+     - RDB 코칭 세션 데이터
+     - ActionExecution/Outcome 구현
+     - 코치 대시보드 로직
+   - **메타정보**: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web/docs/`
+
+### 참조 시점
+
+다음 작업 시 **반드시 위 프로젝트 코드를 참조**하세요:
+
+- ✅ 엔티티 필드 설계 검증 (실제 사용 중인 필드 확인)
+- ✅ Event/Episode 구조 분석 (실제 저장 방식)
+- ✅ ActionExecution 트랜잭션 구현 확인
+- ✅ Firestore/RDB 스키마 매핑
+- ✅ 데이터 예시 작성 시 실제 데이터 기반
+- ✅ API 엔드포인트 구조 파악
+- ✅ 온톨로지와 실제 구현 간 갭 분석
+
+### 주의사항
+
+- 온톨로지는 **이상적 설계**, 실제 코드는 **현실 구현**
+- 갭이 있을 경우 온톨로지를 조정하거나 마이그레이션 계획 수립
+- 실제 데이터 구조를 이해한 후 온톨로지 확장 설계
+
 ## 작업 규칙
 
 ### 파일 생성 위치
