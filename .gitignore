@@ -1,0 +1,17 @@
+# Obsidian workspace (개인 설정)
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/plugins/obsidian-git/data.json
+
+# Mac 시스템 파일
+.DS_Store
+.Trash-*
+
+# IntelliJ IDEA
+.idea/
+
+# 임시 파일
+*.tmp
+*.temp
+~$*
