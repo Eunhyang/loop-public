@@ -30,6 +30,7 @@
 - [ ] 헬스케어 온톨로지 사례
 
 ### 6. 실습 `06_Exercises/`
+- [x] [[Event vs Episode vs LoopStateWindow 비교 (실제 데이터 기반)]]
 - [ ] 미니 프로젝트
 
 ---
@@ -43,7 +44,7 @@
 | Tools | 🔲 시작 전 | |
 | Methodology | 🔲 시작 전 | |
 | Case-Studies | 🔲 시작 전 | |
-| Exercises | 🔲 시작 전 | |
+| Exercises | 🟡 진행 중 | Event/Episode/LoopStateWindow 비교 완료 |
 
 ---
 
