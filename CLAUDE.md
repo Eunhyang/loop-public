@@ -508,11 +508,13 @@ tags: [ontology/entity, version/v0-1, core]
 
 ### 새 전략 가설 추가
 1. 가설 타입 결정 (MetaHypothesis, Condition, Track, Hypothesis)
-2. 적절한 폴더에 문서 생성 (`01_North_Star/`, `20_Strategy/`)
-3. YAML frontmatter 작성 (entity_type, if_broken, validates/enables)
-4. 관계 명시 (상위/하위 가설, 온톨로지 연결)
-5. `_Graph_Index.md` 업데이트
-6. 관련 MOC 업데이트
+2. 해당 템플릿 복사 (`00_Meta/_TEMPLATES/template_*.md`)
+3. 적절한 폴더에 문서 생성 (`01_North_Star/`, `20_Strategy/`)
+4. 템플릿의 `{{PLACEHOLDERS}}`를 실제 값으로 교체
+5. YAML frontmatter 작성 (entity_type, if_broken, validates/enables)
+6. 관계 명시 (상위/하위 가설, 온톨로지 연결)
+7. `_Graph_Index.md` 자동 재생성 (`python3 scripts/build_graph_index.py .`)
+8. 관련 MOC 업데이트
 
 ### 새 온톨로지 엔티티 추가
 1. `30_Ontology/Entities/`에 문서 생성
@@ -638,7 +640,21 @@ A: Microsoft GraphRAG나 LangChain+Neo4j. YAML frontmatter의 관계 정보를 �
 
 ### Python Scripts
 
-This vault includes three Python scripts for maintaining data integrity:
+This vault includes three Python scripts for maintaining data integrity.
+
+**Requirements**: Python 3.7+ with PyYAML (`pip install pyyaml`)
+
+**ID Format Reference**:
+| Prefix | Pattern | Example | Entity Type |
+|--------|---------|---------|-------------|
+| `ns:` | `ns:NNN` | `ns:001` | NorthStar |
+| `mh:` | `mh:1-4` | `mh:3` | MetaHypothesis |
+| `cond:` | `cond:a-e` | `cond:b` | Condition |
+| `trk:` | `trk:1-6` | `trk:2` | Track |
+| `prj:` | `prj:NNN` | `prj:003` | Project |
+| `tsk:` | `tsk:NNN-NN` | `tsk:003-01` | Task |
+| `hyp:` | `hyp:NNN` | `hyp:001` | Hypothesis |
+| `exp:` | `exp:NNN` | `exp:001` | Experiment |
 
 #### 1. Validate Schema
 ```bash
@@ -700,17 +716,42 @@ python3 scripts/check_orphans.py .
 python3 scripts/build_graph_index.py .
 ```
 
-**On git commit**:
+**On git commit** (if pre-commit hook is set up):
 - All three scripts run automatically via pre-commit hook
 - `_Graph_Index.md` auto-updates and stages
 - Commit blocked if validation fails
 
+**Setting up the pre-commit hook**:
+```bash
+# Create the hook file
+cat > .git/hooks/pre-commit << 'EOF'
+#!/bin/bash
+echo "Running schema validation..."
+python3 scripts/validate_schema.py . || exit 1
+
+echo "Checking for orphans..."
+python3 scripts/check_orphans.py .
+
+echo "Rebuilding graph index..."
+python3 scripts/build_graph_index.py . || exit 1
+
+# Stage the updated index
+git add _Graph_Index.md
+
+echo "Pre-commit checks passed!"
+EOF
+
+# Make it executable
+chmod +x .git/hooks/pre-commit
+```
+
 ---
 
 **마지막 업데이트**: 2025-12-18
-**문서 버전**: 3.2 (automation scripts 문서화)
+**문서 버전**: 3.3 (/init improvements)
 **작성자**: Claude Code
 **변경사항**:
-- Python 스크립트 사용법 추가
-- 검증 워크플로우 명시
-- pre-commit hook 동작 설명 추가
+- Python 스크립트 요구사항 추가 (PyYAML)
+- ID 형식 빠른 참조 테이블 추가
+- pre-commit hook 설정 가이드 추가
+- 템플릿 사용 워크플로우 명확화
