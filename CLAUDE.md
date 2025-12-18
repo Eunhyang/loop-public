@@ -2,6 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Quick Reference: Common Commands
+
+This is an **Obsidian vault** for knowledge management - there is no code compilation or testing.
+
+### Validation Commands
+```bash
+# Validate all frontmatter schemas
+python3 scripts/validate_schema.py .
+
+# Check for broken entity references
+python3 scripts/check_orphans.py .
+
+# Regenerate graph index
+python3 scripts/build_graph_index.py .
+```
+
+### Key Entry Points
+- `_HOME.md` - Main navigation hub
+- `_Graph_Index.md` - Auto-generated entity index (do not edit manually)
+- `01_North_Star/` - 10-year vision and meta-hypotheses
+- `20_Strategy/` - Strategic layer (Conditions, Tracks)
+- `30_Ontology/` - Ontology schema development
+
+### Templates Location
+- `00_Meta/_TEMPLATES/` - Templates for all entity types
+
+---
+
 ## 프로젝트 개요
 
 이 Obsidian vault는 **Inner Loop OS (ILOS)** 의 전체 전략, 온톨로지 스키마, 프로젝트 실행을 통합 관리하는 지식 시스템입니다.
@@ -140,15 +168,18 @@ LOOP/
     └── skills/                         # 커스텀 스킬
 ```
 
-### 폴더 변경 사항
-- `20_Ontology/` → `30_Ontology/` (번호 변경)
-- `30_Strategy/` → `20_Strategy/` (번호 변경, 우선순위 상승)
-- `50_Experiments/` → `70_Experiments/`
-- 🆕 `00_Meta/` - 메타 문서 및 템플릿
-- 🆕 `01_North_Star/` - 10년 비전 + MH1-4
-- 🆕 `50_Projects/` - 프로젝트 실행 단위
-- 🆕 `60_Hypotheses/` - 가설 검증 로그
-- 🆕 `.claude/` - Claude Code 커스터마이제이션
+### 주요 폴더 설명
+- `00_Meta/` - 메타 문서, 템플릿, 빌드 설정
+- `01_North_Star/` - 10년 비전 + Meta Hypotheses (MH1-4)
+- `10_Study/` - 온톨로지 학습 자료
+- `20_Strategy/` - 전략 계층 (Conditions, Tracks)
+- `30_Ontology/` - 온톨로지 스키마 개발
+- `40_LOOP_OS/` - LOOP OS 시스템 정의
+- `50_Projects/` - 프로젝트 실행 단위
+- `60_Hypotheses/` - 가설 검증 로그
+- `70_Experiments/` - 실험 및 검증 결과
+- `scripts/` - Python 자동화 스크립트
+- `.claude/` - Claude Code 커스터마이제이션
 
 ### 현재 존재하는 핵심 파일
 - ✅ `01_North_Star/10년 비전.md`
@@ -601,11 +632,85 @@ A: Microsoft GraphRAG나 LangChain+Neo4j. YAML frontmatter의 관계 정보를 �
 
 ---
 
+---
+
+## 🛠️ Validation & Automation
+
+### Python Scripts
+
+This vault includes three Python scripts for maintaining data integrity:
+
+#### 1. Validate Schema
+```bash
+python3 scripts/validate_schema.py .
+```
+
+Validates all markdown frontmatter against schema rules:
+- Checks required fields for each entity type
+- Validates ID format patterns (ns:001, mh:1-4, cond:a-e, etc.)
+- Verifies status values
+- Ensures parent_id references are valid
+
+**Scans**: `01_North_Star/`, `20_Strategy/`, `50_Projects/`, `60_Hypotheses/`, `70_Experiments/`
+**Excludes**: `00_Meta/_TEMPLATES/`, `10_Study/`, `30_Ontology/`, `40_LOOP_OS/`, `90_Archive/`
+
+#### 2. Check Orphans
+```bash
+python3 scripts/check_orphans.py .
+```
+
+Detects broken references:
+- Finds parent_id references to non-existent entities
+- Checks project_id and hypothesis_id validity
+- Verifies validates/validated_by symmetry
+- Reports broken outgoing_relations
+
+**Note**: Currently reports warnings but doesn't block commits
+
+#### 3. Build Graph Index
+```bash
+python3 scripts/build_graph_index.py .
+```
+
+Auto-generates `_Graph_Index.md`:
+- Scans all entities with frontmatter
+- Derives children_ids from parent_id
+- Derives incoming_relations from outgoing_relations
+- Creates summary tables and relationship maps
+- Flags critical entities
+
+**Auto-runs**: On every commit via pre-commit hook
+
+### Recommended Workflow
+
+**Before creating new entity documents**:
+1. Check existing templates in `00_Meta/_TEMPLATES/`
+2. Follow YAML frontmatter standards from this guide
+3. Use correct entity_id patterns
+
+**After editing entity documents**:
+```bash
+# Validate your changes
+python3 scripts/validate_schema.py .
+
+# Check for broken links
+python3 scripts/check_orphans.py .
+
+# Regenerate graph index
+python3 scripts/build_graph_index.py .
+```
+
+**On git commit**:
+- All three scripts run automatically via pre-commit hook
+- `_Graph_Index.md` auto-updates and stages
+- Commit blocked if validation fails
+
+---
+
 **마지막 업데이트**: 2025-12-18
-**문서 버전**: 3.1 (실제 폴더 구조 반영 + Claude Code 통합)
-**작성자**: Claude Code 전략-온톨로지 통합
+**문서 버전**: 3.2 (automation scripts 문서화)
+**작성자**: Claude Code
 **변경사항**:
-- 실제 존재하는 폴더와 파일 구분
-- 00_Meta, scripts, .claude 폴더 추가
-- Claude Code 커스터마이제이션 섹션 추가
-- 생성 예정 문서 명시
+- Python 스크립트 사용법 추가
+- 검증 워크플로우 명시
+- pre-commit hook 동작 설명 추가
