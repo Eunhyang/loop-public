@@ -499,17 +499,130 @@
         let entities = {};
         let members = {};
         let allEntitiesMap = {};
+        let db = null;
+
+        // IndexedDB 초기화
+        async function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('LOOPDashboard', 1);
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                request.onupgradeneeded = (e) => {
+                    const database = e.target.result;
+                    if (!database.objectStoreNames.contains('handles')) {
+                        database.createObjectStore('handles');
+                    }
+                };
+            });
+        }
+
+        // 핸들 저장
+        async function saveHandle(handle) {
+            if (!db) return;
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('handles', 'readwrite');
+                const store = tx.objectStore('handles');
+                const request = store.put(handle, 'vaultHandle');
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // 핸들 불러오기
+        async function loadHandle() {
+            if (!db) return null;
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('handles', 'readonly');
+                const store = tx.objectStore('handles');
+                const request = store.get('vaultHandle');
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // 저장된 핸들로 재연결 시도
+        async function tryReconnect() {
+            try {
+                const savedHandle = await loadHandle();
+                if (!savedHandle) return false;
+
+                // 권한 확인
+                const permission = await savedHandle.queryPermission({ mode: 'read' });
+                if (permission === 'granted') {
+                    vaultHandle = savedHandle;
+                    vaultName = savedHandle.name;
+                    await loadData();
+                    showMainContent();
+                    return true;
+                }
+
+                // 권한 요청 필요 - 재연결 버튼 표시
+                showReconnectScreen(savedHandle.name);
+                return false;
+            } catch (err) {
+                console.log('재연결 실패:', err.message);
+                return false;
+            }
+        }
+
+        // 재연결 화면 표시
+        function showReconnectScreen(folderName) {
+            document.getElementById('initScreen').innerHTML = `
+                <h2>📁 이전 Vault에 재연결</h2>
+                <p>마지막으로 사용한 폴더: <strong>${folderName}</strong></p>
+                <button class="btn btn-primary" onclick="reconnect()" style="margin-bottom: 12px;">🔗 재연결</button>
+                <p style="font-size: 0.9em; color: #666;">또는</p>
+                <button class="btn btn-secondary" onclick="selectFolder()" style="background: #e0e0e0; color: #333;">📁 다른 폴더 선택</button>
+                <div class="warning" style="margin-top: 16px;">
+                    💡 브라우저 보안 정책상 재연결 클릭이 필요합니다
+                </div>
+            `;
+        }
+
+        // 재연결
+        async function reconnect() {
+            try {
+                const savedHandle = await loadHandle();
+                if (!savedHandle) {
+                    alert('저장된 폴더가 없습니다. 새로 선택해주세요.');
+                    return;
+                }
+
+                // 권한 요청
+                const permission = await savedHandle.requestPermission({ mode: 'read' });
+                if (permission === 'granted') {
+                    vaultHandle = savedHandle;
+                    vaultName = savedHandle.name;
+                    await loadData();
+                    showMainContent();
+                } else {
+                    alert('폴더 접근 권한이 거부되었습니다.');
+                }
+            } catch (err) {
+                console.error('재연결 에러:', err);
+                alert('재연결에 실패했습니다. 폴더를 다시 선택해주세요.');
+            }
+        }
+
+        // 메인 화면 표시
+        function showMainContent() {
+            document.getElementById('initScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('refreshBtn').style.display = 'inline-block';
+            document.getElementById('selectBtn').textContent = '📁 다른 Vault 선택';
+        }
 
         // 폴더 선택
         async function selectFolder() {
             try {
                 vaultHandle = await window.showDirectoryPicker();
                 vaultName = vaultHandle.name;
+                await saveHandle(vaultHandle);  // IndexedDB에 저장
                 await loadData();
-                document.getElementById('initScreen').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('refreshBtn').style.display = 'inline-block';
-                document.getElementById('selectBtn').textContent = '📁 다른 Vault 선택';
+                showMainContent();
             } catch (err) {
                 if (err.name !== 'AbortError') {
                     console.error('폴더 선택 에러:', err);
@@ -976,16 +1089,30 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        // File System Access API 지원 체크
-        if (!('showDirectoryPicker' in window)) {
-            document.getElementById('initScreen').innerHTML = `
-                <h2>❌ 지원하지 않는 브라우저</h2>
-                <p>File System Access API를 지원하지 않습니다.</p>
-                <div class="warning">
-                    Chrome 또는 Edge 브라우저를 사용해주세요.
-                </div>
-            `;
+        // File System Access API 지원 체크 및 초기화
+        async function init() {
+            if (!('showDirectoryPicker' in window)) {
+                document.getElementById('initScreen').innerHTML = `
+                    <h2>❌ 지원하지 않는 브라우저</h2>
+                    <p>File System Access API를 지원하지 않습니다.</p>
+                    <div class="warning">
+                        Chrome 또는 Edge 브라우저를 사용해주세요.
+                    </div>
+                `;
+                return;
+            }
+
+            // IndexedDB 초기화 및 재연결 시도
+            try {
+                await initDB();
+                await tryReconnect();
+            } catch (err) {
+                console.log('초기화 에러:', err.message);
+            }
         }
+
+        // 페이지 로드 시 초기화
+        init();
     </script>
 </body>
 </html>
