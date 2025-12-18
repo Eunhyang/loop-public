@@ -1,29 +1,27 @@
 ---
 entity_type: MetaHypothesis
-entity_id: mh:3
+entity_id: "mh:3"
 entity_name: MH3_데이터_모델링_가능
-
-# 전략 계층
-layer: north-star
-level: meta-hypothesis
-sequence: 3
-
-# 가설 정의
-hypothesis: "정서-섭식-습관 루프는 데이터로 모델링 가능한 구조를 가진다"
-if_false: "회사 존재 이유 재검토"
-
-# 검증 상태
+created: 2024-12-18
+updated: 2024-12-18
 status: validating
-confidence: 0.7
-last_validation: 2024-12-18
 
-# 검증 방법
-validated_by:
-  tracks: [Track_2_Data]
-  projects:
-    - Ontology_v0.1
-    - CoachOS_Phase1
-  conditions: [Condition_B_Loop_Dataset]
+# 계층
+parent_id: "ns:001"
+aliases:
+  - MH3
+  - MH3_데이터_모델링_가능
+
+# 관계
+outgoing_relations: []
+validates: []
+validated_by: ["trk:2", "prj:001", "cond:b"]
+
+# MetaHypothesis 전용
+hypothesis_text: "정서-섭식-습관 루프는 데이터로 모델링 가능한 구조를 가진다"
+if_broken: "회사 존재 이유 재검토"
+evidence_status: validating
+confidence: 0.7
 
 # 증거 (Evidence)
 evidence:
@@ -47,7 +45,11 @@ risk_signals:
     - "새 루프 타입 발견 시 스키마로 표현 불가"
     - "개인화 모델 정확도 60% 미만"
 
-# 관계
+# 메타
+tags: ["metahypothesis", "core", "data"]
+priority_flag: critical
+
+# 관계 (기존 형식 호환)
 enables: [Condition_B, Condition_C]
 depends_on: [Track_2_Data, Track_4_Coaching]
 supports: [10년_비전]

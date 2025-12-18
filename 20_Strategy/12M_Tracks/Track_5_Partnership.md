@@ -1,22 +1,37 @@
 ---
 entity_type: Track
-entity_id: track:5
+entity_id: "trk:5"
 entity_name: Track_5_Partnership
+created: 2024-12-18
+updated: 2024-12-18
+status: planning
 
-# 전략 계층
-layer: 12month-strategy
-level: track
-sequence: 5
+# 계층
+parent_id: "cond:c"
+aliases:
+  - track:5
+  - Track_5_Partnership
 
-# Track 정의
+# 관계
+outgoing_relations:
+  - type: enables
+    target_id: "trk:6"
+    description: "의료 제휴가 DTx/B2B 수익 기반"
+  - type: depends_on
+    target_id: "trk:2"
+    description: "데이터가 의료 파트너십 근거"
+validates: []
+validated_by: []
+
+# Track 전용
+horizon: "12month"
 hypothesis: "국내 의원급 파트너십으로 2027 의료 제휴 기반을 마련할 수 있다"
 focus:
   - "의원급 파일럿 1곳"
   - "케이스 스터디 10명"
   - "Early Warning Index 초기 검증"
   - "의료 서류 템플릿 정리"
-
-# 12개월 목표 (중단 신호)
+owner: "Founder + BD 담당"
 objectives:
   - metric: "제휴"
     target: "의원급 1곳"
@@ -27,18 +42,11 @@ objectives:
     current: 0
     status: "시작 전"
 
-# 현재 상태
-status: planning
+# 메타
 progress: 0.1
 risk_level: medium
-last_updated: 2024-12-18
-
-# 관계
-validates: []
-enables: [Track_6_Revenue]  # 의료 제휴가 DTx/B2B 수익 기반
-depends_on: [Track_2_Data]  # 데이터가 의료 파트너십 근거
-
-tags: [track, 12month, partnership, medical]
+tags: ["track", "12month", "partnership", "medical"]
+priority_flag: medium
 ---
 
 # Track 5: Partnership (국내 의료/클리닉)

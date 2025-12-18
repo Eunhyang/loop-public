@@ -1,51 +1,51 @@
 ---
 entity_type: Condition
-entity_id: cond:b
+entity_id: "cond:b"
 entity_name: Condition_B_Loop_Dataset
+created: 2024-12-18
+updated: 2024-12-18
+status: in_progress
 
-# 전략 계층
-layer: 3year-strategy
-level: condition
-sequence: B
+# 계층
+parent_id: "mh:3"
+aliases:
+  - Condition_B
+  - Condition_B_Loop_Dataset
 
-# 조건 정의
+# 관계
+outgoing_relations:
+  - type: triggers_shutdown
+    target_id: "action:data_strategy_shutdown"
+    description: "깨지면 데이터 전략 폐기"
+  - type: depends_on
+    target_id: "trk:4"
+    description: "코칭 데이터 필요"
+validates: []
+validated_by: ["mh:3", "trk:2", "prj:001"]
+
+# Condition 전용
 condition: "데이터 수가 아니라 재현 가능한 패턴이 늘어나는가?"
 unlock: "3년 전략 진입"
 if_broken: "데이터 전략 폐기"
-
-# 측정 지표 (중단 신호, NOT 목표)
 metrics:
   - name: "재현 패턴 수"
-    type: "pattern_count"
     threshold: "10개 이상"
     current: 3
-    measurement: "distinct reproducible patterns"
+    status: "위험"
   - name: "패턴 재현율"
-    type: "reproduction_rate"
     threshold: "70% 이상"
     current: "측정 중"
-    measurement: "% of patterns reproduced across users"
+    status: "진행 중"
   - name: "패턴 발견 속도"
-    type: "discovery_rate"
     threshold: "월 1개 이상"
     current: 1.0
-    measurement: "new patterns per month"
+    status: "정상"
 
-# 현재 상태
-status: in_progress
+# 메타
 risk_level: medium
 confidence: 0.6
-last_check: 2024-12-18
-
-# 관계
-validated_by: [MH3_데이터_모델링_가능]
-enabled_by:
-  tracks: [Track_2_Data]
-  projects:
-    - Ontology_v0.1
-    - CoachOS_Phase1
-depends_on: [Track_4_Coaching]
-unlocks: [3년_전략_진입]
+tags: ["condition", "3year", "data", "critical"]
+priority_flag: critical
 
 # 깨짐 트리거
 break_triggers:

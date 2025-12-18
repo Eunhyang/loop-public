@@ -1,14 +1,33 @@
 ---
 entity_type: Track
-entity_id: track:1
+entity_id: "trk:1"
 entity_name: Track_1_Product
+created: 2024-12-18
+updated: 2024-12-18
+status: active
 
-# 전략 계층
-layer: 12month-strategy
-level: track
-sequence: 1
+# 계층
+parent_id: "cond:a"
+aliases:
+  - track:1
+  - Track_1_Product
 
-# Track 정의
+# 관계
+outgoing_relations:
+  - type: enables
+    target_id: "trk:6"
+    description: "천천히 먹기 = 유료화 핵심"
+  - type: depends_on
+    target_id: "trk:2"
+    description: "Schema가 제품 기능 뒷받침"
+  - type: supports
+    target_id: "trk:4"
+    description: "제품으로 코칭 지원"
+validates: ["cond:a"]
+validated_by: []
+
+# Track 전용
+horizon: "12month"
 hypothesis: "Loop Core OS 제품이 국내 PMF를 달성할 수 있다"
 focus:
   - "Loop Mapping v1 완성"
@@ -16,8 +35,7 @@ focus:
   - "천천히 먹기 기능"
   - "Loop Intervention v0.5"
   - "노코드 어드민 도입"
-
-# 12개월 목표 (중단 신호)
+owner: "PM 1 + 개발 1 + 노코드 지원"
 objectives:
   - metric: "Loop Mapping"
     target: "v1"
@@ -28,22 +46,11 @@ objectives:
     current: "80%"
     status: "진행 중"
 
-# 현재 상태
-status: active
+# 메타
 progress: 0.4
 risk_level: medium
-last_updated: 2024-12-18
-
-# 관계
-validates: [Condition_A_국내_PMF]
-enables: [Track_6_Revenue]
-depends_on: [Track_2_Data]  # Schema가 제품 기능 뒷받침
-supports: [Track_4_Coaching]  # 제품으로 코칭 지원
-
-# 담당
-owner: PM 1 + 개발 1 + 노코드 지원
-
-tags: [track, 12month, product, core]
+tags: ["track", "12month", "product", "core"]
+priority_flag: medium
 ---
 
 # Track 1: Product (Loop Core OS)

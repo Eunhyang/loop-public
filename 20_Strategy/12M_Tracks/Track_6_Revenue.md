@@ -1,22 +1,43 @@
 ---
 entity_type: Track
-entity_id: track:6
+entity_id: "trk:6"
 entity_name: Track_6_Revenue
+created: 2024-12-18
+updated: 2024-12-18
+status: active
 
-# 전략 계층
-layer: 12month-strategy
-level: track
-sequence: 6
+# 계층
+parent_id: "cond:d"
+aliases:
+  - track:6
+  - Track_6_Revenue
 
-# Track 정의
+# 관계
+outgoing_relations:
+  - type: depends_on
+    target_id: "trk:1"
+    description: "제품이 유료화 기반"
+  - type: depends_on
+    target_id: "trk:3"
+    description: "콘텐츠가 유입 견인"
+  - type: depends_on
+    target_id: "trk:4"
+    description: "코칭이 매출 기여"
+  - type: depends_on
+    target_id: "trk:5"
+    description: "의료 제휴가 B2B 기반"
+validates: ["cond:d"]
+validated_by: []
+
+# Track 전용
+horizon: "12month"
 hypothesis: "전면 유료화와 투자 확보로 18개월 런웨이를 확보할 수 있다"
 focus:
   - "유료 구독: 천천히 먹기 + Loop Tracker"
   - "코칭 월매출 확대"
   - "Loop Pro Lite 판매 구조"
   - "Seed/Bridge 투자"
-
-# 12개월 목표 (중단 신호)
+owner: "Founder + 전 팀"
 objectives:
   - metric: "월매출"
     target: "2,000만원"
@@ -27,22 +48,11 @@ objectives:
     current: "6-9개월"
     status: "위험"
 
-# 현재 상태
-status: active
+# 메타
 progress: 0.35
 risk_level: high
-last_updated: 2024-12-18
-
-# 관계
-validates: [Condition_D_Runway]
-enables: []  # 최종 Track
-depends_on:
-  - Track_1_Product  # 제품이 유료화 기반
-  - Track_3_Content  # 콘텐츠가 유입 견인
-  - Track_4_Coaching  # 코칭이 매출 기여
-  - Track_5_Partnership  # 의료 제휴가 B2B 기반
-
-tags: [track, 12month, revenue, runway, critical]
+tags: ["track", "12month", "revenue", "runway", "critical"]
+priority_flag: critical
 ---
 
 # Track 6: Revenue & Runway

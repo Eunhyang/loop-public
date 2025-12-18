@@ -1,21 +1,39 @@
 ---
 entity_type: Track
-entity_id: track:2
+entity_id: "trk:2"
 entity_name: Track_2_Data
+created: 2024-12-18
+updated: 2024-12-18
+status: active
 
-# 전략 계층
-layer: 12month-strategy
-level: track
-sequence: 2
+# 계층
+parent_id: "cond:b"
+aliases:
+  - track:2
+  - Track_2_Data
 
-# Track 정의
+# 관계
+outgoing_relations:
+  - type: enables
+    target_id: "cond:b"
+    description: "재현 패턴 10개 enable"
+  - type: depends_on
+    target_id: "trk:4"
+    description: "코칭 데이터 필요"
+  - type: supports
+    target_id: "trk:5"
+    description: "의료 파트너십 근거 제공"
+validates: ["mh:3"]
+validated_by: []
+
+# Track 전용
+horizon: "12month"
 hypothesis: "코치+기록 기반 데이터는 패턴화 가능하다"
 focus:
   - "고밀도 Tier1/Tier2 확장"
   - "Loop Pattern v1"
-  - "Schema 안정화"  # ← 온톨로지
-
-# 12개월 목표 (중단 신호)
+  - "Schema 안정화"
+owner: "Founder + Data Team"
 objectives:
   - metric: "고밀도 사용자"
     target: "50명 이상"
@@ -30,23 +48,11 @@ objectives:
     current: "2개월"
     status: "진행 중"
 
-# 현재 상태
-status: active
+# 메타
 progress: 0.6
 risk_level: medium
-last_updated: 2024-12-18
-
-# 관계
-validates: [MH3_데이터_모델링_가능]
-enables: [Condition_B_Loop_Dataset]
-contains:
-  - Project: Ontology_v0.1
-  - Project: CoachOS_Phase1
-  - Project: Pattern_Discovery_v1
-depends_on: [Track_4_Coaching]  # 코칭 데이터 필요
-supports: [Track_5_Partnership]  # 의료 파트너십 근거 제공
-
-tags: [track, 12month, data, ontology]
+tags: ["track", "12month", "data", "ontology"]
+priority_flag: critical
 ---
 
 # Track 2: Data
