@@ -23,16 +23,51 @@
             color: white;
             padding: 24px 32px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .header h1 {
             font-size: 1.8em;
-            margin-bottom: 8px;
         }
 
         .header-meta {
             font-size: 0.9em;
             opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
         }
 
         .tabs {
@@ -67,6 +102,42 @@
 
         .tab-content.active {
             display: block;
+        }
+
+        /* 초기 화면 */
+        .init-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+        }
+
+        .init-screen h2 {
+            font-size: 1.5em;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .init-screen p {
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .init-screen .btn {
+            font-size: 1.1em;
+            padding: 14px 32px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 0.9em;
         }
 
         /* 칸반 보드 */
@@ -195,6 +266,7 @@
             color: #f5576c;
             text-decoration: none;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .validates-link:hover {
@@ -255,8 +327,7 @@
             padding: 12px 14px;
             background: #f8f9fa;
             border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
+            cursor: pointer;
             transition: all 0.2s;
         }
 
@@ -282,22 +353,6 @@
             background: #e0e0e0;
         }
 
-        .entity-item.status-active .entity-status,
-        .entity-item.status-validating .entity-status {
-            background: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .entity-item.status-fixed .entity-status {
-            background: #F3E5F5;
-            color: #7B1FA2;
-        }
-
-        .entity-item.status-in_progress .entity-status {
-            background: #E3F2FD;
-            color: #1565C0;
-        }
-
         /* 프로젝트 섹션 */
         .project-card {
             background: white;
@@ -319,14 +374,11 @@
         .project-title {
             font-size: 1.2em;
             font-weight: 600;
-        }
-
-        .project-title a {
             color: #333;
-            text-decoration: none;
+            cursor: pointer;
         }
 
-        .project-title a:hover {
+        .project-title:hover {
             color: #667eea;
         }
 
@@ -344,10 +396,35 @@
             border-radius: 4px;
         }
 
+        .task-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-list-item:hover {
+            background: #e8f4fd;
+        }
+
+        .status-badge {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            color: white;
+            border-radius: 10px;
+        }
+
         /* 반응형 */
         @media (max-width: 768px) {
             .header {
-                padding: 16px;
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
             }
 
             .tabs {
@@ -376,259 +453,538 @@
 </head>
 <body>
     <div class="header">
-        <h1>LOOP Strategy Dashboard</h1>
-        <div class="header-meta">
-            Generated: 2025-12-18 21:09 |
-            Tasks: 3 |
-            Projects: 1
+        <div>
+            <h1>LOOP Strategy Dashboard</h1>
+            <div class="header-meta" id="headerMeta">Vault을 선택해주세요</div>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="refreshData()" id="refreshBtn" style="display:none;">🔄 새로고침</button>
+            <button class="btn btn-primary" onclick="selectFolder()" id="selectBtn">📁 Vault 폴더 선택</button>
         </div>
     </div>
 
-    <div class="tabs">
-        <div class="tab active" onclick="showTab('kanban')">📋 Kanban Board</div>
-        <div class="tab" onclick="showTab('strategy')">🎯 Strategy</div>
-        <div class="tab" onclick="showTab('projects')">📁 Projects</div>
-    </div>
-
-    <div id="kanban" class="tab-content active">
-        <div class="kanban-board">
-            
-        <div class="kanban-column" style="--column-color: #FF9800">
-            <div class="column-header">
-                <span class="column-title">📋 TODO</span>
-                <span class="column-count">1</span>
-            </div>
-            <div class="column-body">
-                
-        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md'">
-            <div class="task-header">
-                <span class="task-name">Episode 엔티티 검증</span>
-                <span class="task-id">tsk:prj001-002</span>
-            </div>
-            <div class="task-meta">
-                <span class="assignee">👨‍🔬 명학</span>
-                <span class="due">📅 2025-12-30</span>
-            </div>
-            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%EC%A0%95%EC%9D%98.md" class="project-link">Ontology v0.1</a></div>
-            <div class="validates">validates: <a href="obsidian://open?vault=LOOP&file=01_North_Star/MH3_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%AA%A8%EB%8D%B8%EB%A7%81_%EA%B0%80%EB%8A%A5.md" class="validates-link">MH3_데이터_모델링_가능</a></div>
-            <div class="task-tags"><span class="tag">ontology</span><span class="tag">validation</span></div>
-        </div>
-        
-            </div>
-        </div>
-        
-            
-        <div class="kanban-column" style="--column-color: #2196F3">
-            <div class="column-header">
-                <span class="column-title">⚡ DOING</span>
-                <span class="column-count">1</span>
-            </div>
-            <div class="column-body">
-                
-        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md'">
-            <div class="task-header">
-                <span class="task-name">Event 엔티티 검증</span>
-                <span class="task-id">tsk:prj001-001</span>
-            </div>
-            <div class="task-meta">
-                <span class="assignee">👩‍💻 은향</span>
-                <span class="due">📅 2025-12-25</span>
-            </div>
-            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%EC%A0%95%EC%9D%98.md" class="project-link">Ontology v0.1</a></div>
-            <div class="validates">validates: <a href="obsidian://open?vault=LOOP&file=01_North_Star/MH3_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%AA%A8%EB%8D%B8%EB%A7%81_%EA%B0%80%EB%8A%A5.md" class="validates-link">MH3_데이터_모델링_가능</a></div>
-            <div class="task-tags"><span class="tag">ontology</span><span class="tag">validation</span></div>
-        </div>
-        
-            </div>
-        </div>
-        
-            
-        <div class="kanban-column" style="--column-color: #4CAF50">
-            <div class="column-header">
-                <span class="column-title">✅ DONE</span>
-                <span class="column-count">1</span>
-            </div>
-            <div class="column-body">
-                
-        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md'">
-            <div class="task-header">
-                <span class="task-name">스키마 문서화</span>
-                <span class="task-id">tsk:prj001-003</span>
-            </div>
-            <div class="task-meta">
-                <span class="assignee">🧑‍🎨 단</span>
-                <span class="due">📅 2025-12-15</span>
-            </div>
-            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%EC%A0%95%EC%9D%98.md" class="project-link">Ontology v0.1</a></div>
-            
-            <div class="task-tags"><span class="tag">ontology</span><span class="tag">documentation</span></div>
-        </div>
-        
-            </div>
-        </div>
-        
-            
-        <div class="kanban-column" style="--column-color: #f44336">
-            <div class="column-header">
-                <span class="column-title">🚫 BLOCKED</span>
-                <span class="column-count">0</span>
-            </div>
-            <div class="column-body">
-                <div class="empty-column">No tasks</div>
-            </div>
-        </div>
-        
+    <div id="initScreen" class="init-screen">
+        <h2>📁 Vault 폴더를 선택해주세요</h2>
+        <p>LOOP vault 폴더를 선택하면 대시보드가 로드됩니다.</p>
+        <button class="btn btn-primary" onclick="selectFolder()">폴더 선택하기</button>
+        <div class="warning">
+            ⚠️ Chrome 또는 Edge 브라우저에서만 동작합니다.
         </div>
     </div>
 
-    <div id="strategy" class="tab-content">
-        <div class="strategy-grid">
-            
-        <div class="entity-section">
-            <h3>🎯 North Star</h3>
-            <div class="entity-list">
-                
-            <a href="obsidian://open?vault=LOOP&file=01_North_Star/10%EB%85%84%20%EB%B9%84%EC%A0%84.md" class="entity-item status-fixed">
-                <span class="entity-name">10년 비전</span>
-                <span class="entity-id">ns:001</span>
-                <span class="entity-status">fixed</span>
-            </a>
-            
-            </div>
+    <div id="mainContent" style="display:none;">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('kanban')">📋 Kanban Board</div>
+            <div class="tab" onclick="showTab('strategy')">🎯 Strategy</div>
+            <div class="tab" onclick="showTab('projects')">📁 Projects</div>
         </div>
-        
-            
-        <div class="entity-section">
-            <h3>🔬 Meta Hypotheses</h3>
-            <div class="entity-list">
-                
-            <a href="obsidian://open?vault=LOOP&file=01_North_Star/MH3_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%AA%A8%EB%8D%B8%EB%A7%81_%EA%B0%80%EB%8A%A5.md" class="entity-item status-validating">
-                <span class="entity-name">MH3_데이터_모델링_가능</span>
-                <span class="entity-id">mh:3</span>
-                <span class="entity-status">validating</span>
-            </a>
-            
-            </div>
-        </div>
-        
-            
-        <div class="entity-section">
-            <h3>📋 Conditions</h3>
-            <div class="entity-list">
-                
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md" class="entity-item status-in_progress">
-                <span class="entity-name">Condition_B_Loop_Dataset</span>
-                <span class="entity-id">cond:b</span>
-                <span class="entity-status">in_progress</span>
-            </a>
-            
-            </div>
-        </div>
-        
-            
-        <div class="entity-section">
-            <h3>🛤️ Tracks</h3>
-            <div class="entity-list">
-                
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_1_Product.md" class="entity-item status-active">
-                <span class="entity-name">Track_1_Product</span>
-                <span class="entity-id">trk:1</span>
-                <span class="entity-status">active</span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_2_Data.md" class="entity-item status-active">
-                <span class="entity-name">Track_2_Data</span>
-                <span class="entity-id">trk:2</span>
-                <span class="entity-status">active</span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_3_Content.md" class="entity-item status-active">
-                <span class="entity-name">Track_3_Content</span>
-                <span class="entity-id">trk:3</span>
-                <span class="entity-status">active</span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_4_Coaching.md" class="entity-item status-active">
-                <span class="entity-name">Track_4_Coaching</span>
-                <span class="entity-id">trk:4</span>
-                <span class="entity-status">active</span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_5_Partnership.md" class="entity-item status-planning">
-                <span class="entity-name">Track_5_Partnership</span>
-                <span class="entity-id">trk:5</span>
-                <span class="entity-status">planning</span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_6_Revenue.md" class="entity-item status-active">
-                <span class="entity-name">Track_6_Revenue</span>
-                <span class="entity-id">trk:6</span>
-                <span class="entity-status">active</span>
-            </a>
-            
-            </div>
-        </div>
-        
-        </div>
-    </div>
 
-    <div id="projects" class="tab-content">
-        
-        <div class="project-card">
-            <div class="project-header">
-                <div>
-                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%EC%A0%95%EC%9D%98.md">Ontology v0.1</a></div>
-                    <div style="font-size: 0.85em; color: #666;">
-                        <code>prj:001</code> | Track: <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_2_Data.md" style="color: #667eea; text-decoration: none;">Track_2_Data</a>
-                    </div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 0.9em; color: #666;">Tasks: 1/3</div>
-                    <div class="progress-bar" style="width: 120px;">
-                        <div class="progress-fill" style="width: 33%"></div>
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top: 12px;">
-                
-            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
-                <span>Event 엔티티 검증</span>
-                <span style="display: flex; gap: 8px; align-items: center;">
-                    <span style="font-size: 0.8em; color: #666;">👩‍💻 은향</span>
-                    <span style="font-size: 0.75em; padding: 2px 8px; background: #2196F3; color: white; border-radius: 10px;">doing</span>
-                </span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
-                <span>Episode 엔티티 검증</span>
-                <span style="display: flex; gap: 8px; align-items: center;">
-                    <span style="font-size: 0.8em; color: #666;">👨‍🔬 명학</span>
-                    <span style="font-size: 0.75em; padding: 2px 8px; background: #FF9800; color: white; border-radius: 10px;">todo</span>
-                </span>
-            </a>
-            
-            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
-                <span>스키마 문서화</span>
-                <span style="display: flex; gap: 8px; align-items: center;">
-                    <span style="font-size: 0.8em; color: #666;">🧑‍🎨 단</span>
-                    <span style="font-size: 0.75em; padding: 2px 8px; background: #4CAF50; color: white; border-radius: 10px;">done</span>
-                </span>
-            </a>
-            
-            </div>
+        <div id="kanban" class="tab-content active">
+            <div class="kanban-board" id="kanbanBoard"></div>
         </div>
-        
+
+        <div id="strategy" class="tab-content">
+            <div class="strategy-grid" id="strategyGrid"></div>
+        </div>
+
+        <div id="projects" class="tab-content">
+            <div id="projectsList"></div>
+        </div>
     </div>
 
     <script>
+        // 전역 상태
+        let vaultHandle = null;
+        let vaultName = 'LOOP';
+        let entities = {};
+        let members = {};
+        let allEntitiesMap = {};
+
+        // 폴더 선택
+        async function selectFolder() {
+            try {
+                vaultHandle = await window.showDirectoryPicker();
+                vaultName = vaultHandle.name;
+                await loadData();
+                document.getElementById('initScreen').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('refreshBtn').style.display = 'inline-block';
+                document.getElementById('selectBtn').textContent = '📁 다른 Vault 선택';
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.error('폴더 선택 에러:', err);
+                    alert('폴더 선택에 실패했습니다.');
+                }
+            }
+        }
+
+        // 데이터 새로고침
+        async function refreshData() {
+            if (!vaultHandle) return;
+            await loadData();
+        }
+
+        // 데이터 로드
+        async function loadData() {
+            entities = {
+                NorthStar: [],
+                MetaHypothesis: [],
+                Condition: [],
+                Track: [],
+                Project: [],
+                Task: [],
+            };
+            allEntitiesMap = {};
+
+            // 멤버 로드
+            await loadMembers();
+
+            // 엔티티 스캔
+            const scanFolders = ['01_North_Star', '20_Strategy', '50_Projects', '60_Hypotheses'];
+            for (const folder of scanFolders) {
+                await scanFolder(folder);
+            }
+
+            // entity_id -> entity 매핑
+            for (const [type, list] of Object.entries(entities)) {
+                for (const entity of list) {
+                    if (entity.entity_id) {
+                        allEntitiesMap[entity.entity_id] = entity;
+                    }
+                }
+            }
+
+            // 렌더링
+            renderKanban();
+            renderStrategy();
+            renderProjects();
+            updateHeader();
+        }
+
+        // 멤버 로드
+        async function loadMembers() {
+            try {
+                const metaHandle = await vaultHandle.getDirectoryHandle('00_Meta');
+                const fileHandle = await metaHandle.getFileHandle('members.yaml');
+                const file = await fileHandle.getFile();
+                const content = await file.text();
+                const data = parseYaml(content);
+                if (data && data.members) {
+                    for (const member of data.members) {
+                        if (member.id) {
+                            members[member.id] = member;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.log('members.yaml 로드 실패 (무시됨):', err.message);
+            }
+        }
+
+        // 폴더 스캔
+        async function scanFolder(folderPath) {
+            try {
+                const parts = folderPath.split('/');
+                let handle = vaultHandle;
+                for (const part of parts) {
+                    handle = await handle.getDirectoryHandle(part);
+                }
+                await scanDirectoryRecursive(handle, folderPath);
+            } catch (err) {
+                console.log(`폴더 스캔 실패 (${folderPath}):`, err.message);
+            }
+        }
+
+        // 재귀 디렉토리 스캔
+        async function scanDirectoryRecursive(dirHandle, currentPath) {
+            for await (const entry of dirHandle.values()) {
+                const entryPath = `${currentPath}/${entry.name}`;
+
+                if (entry.kind === 'directory') {
+                    // 제외 폴더 체크
+                    if (entry.name === '_TEMPLATES' || entry.name === 'Legacy') continue;
+                    await scanDirectoryRecursive(entry, entryPath);
+                } else if (entry.kind === 'file' && entry.name.endsWith('.md')) {
+                    await processMarkdownFile(entry, entryPath);
+                }
+            }
+        }
+
+        // 마크다운 파일 처리
+        async function processMarkdownFile(fileHandle, filePath) {
+            try {
+                const file = await fileHandle.getFile();
+                const content = await file.text();
+                const frontmatter = extractFrontmatter(content);
+
+                if (frontmatter && frontmatter.entity_type) {
+                    frontmatter._file_path = filePath;
+                    frontmatter._file_name = fileHandle.name.replace('.md', '');
+
+                    if (entities[frontmatter.entity_type]) {
+                        entities[frontmatter.entity_type].push(frontmatter);
+                    }
+                }
+            } catch (err) {
+                console.log(`파일 처리 실패 (${filePath}):`, err.message);
+            }
+        }
+
+        // Frontmatter 추출
+        function extractFrontmatter(content) {
+            const match = content.match(/^---\s*\n([\s\S]*?)\n---/);
+            if (!match) return null;
+            return parseYaml(match[1]);
+        }
+
+        // 간단한 YAML 파서
+        function parseYaml(yamlStr) {
+            const result = {};
+            const lines = yamlStr.split('\n');
+            let currentKey = null;
+            let currentArray = null;
+
+            for (let line of lines) {
+                // 주석 무시
+                if (line.trim().startsWith('#')) continue;
+
+                // 배열 항목
+                if (line.match(/^\s+-\s+/)) {
+                    const value = line.replace(/^\s+-\s+/, '').trim();
+                    if (currentKey && result[currentKey]) {
+                        // 객체 배열인지 단순 배열인지 체크
+                        if (value.startsWith('type:') || value.startsWith('id:')) {
+                            // 객체 시작
+                            const obj = {};
+                            const keyVal = value.split(':');
+                            obj[keyVal[0].trim()] = keyVal.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
+                            result[currentKey].push(obj);
+                        } else if (value.includes(':')) {
+                            // 이전 객체에 추가
+                            const lastObj = result[currentKey][result[currentKey].length - 1];
+                            if (lastObj && typeof lastObj === 'object') {
+                                const keyVal = value.split(':');
+                                lastObj[keyVal[0].trim()] = keyVal.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
+                            }
+                        } else {
+                            result[currentKey].push(value.replace(/^["']|["']$/g, ''));
+                        }
+                    }
+                    continue;
+                }
+
+                // 키:값 쌍
+                const keyMatch = line.match(/^(\w+):\s*(.*)/);
+                if (keyMatch) {
+                    const key = keyMatch[1];
+                    let value = keyMatch[2].trim();
+
+                    // 배열 시작
+                    if (value === '' || value === '[]') {
+                        result[key] = [];
+                        currentKey = key;
+                        continue;
+                    }
+
+                    // 인라인 배열
+                    if (value.startsWith('[') && value.endsWith(']')) {
+                        const items = value.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+                        result[key] = items.filter(s => s);
+                        currentKey = null;
+                        continue;
+                    }
+
+                    // 일반 값
+                    value = value.replace(/^["']|["']$/g, '');
+                    if (value === 'true') value = true;
+                    else if (value === 'false') value = false;
+                    else if (value === 'null') value = null;
+                    else if (!isNaN(value) && value !== '') value = parseFloat(value);
+
+                    result[key] = value;
+                    currentKey = null;
+                }
+            }
+
+            return result;
+        }
+
+        // 멤버 표시명 가져오기
+        function getMemberDisplay(assigneeId) {
+            if (members[assigneeId]) {
+                const member = members[assigneeId];
+                return `${member.icon || '👤'} ${member.name || assigneeId}`;
+            }
+            return `👤 ${assigneeId}`;
+        }
+
+        // Obsidian URI 생성
+        function getObsidianUri(filePath) {
+            const encodedPath = encodeURIComponent(filePath);
+            return `obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodedPath}`;
+        }
+
+        // 파일 열기
+        function openFile(filePath) {
+            window.location.href = getObsidianUri(filePath);
+        }
+
+        // 칸반 렌더링
+        function renderKanban() {
+            const board = document.getElementById('kanbanBoard');
+            const tasks = entities.Task || [];
+
+            const tasksByStatus = {
+                todo: tasks.filter(t => t.status === 'todo'),
+                doing: tasks.filter(t => t.status === 'doing'),
+                done: tasks.filter(t => t.status === 'done'),
+                blocked: tasks.filter(t => t.status === 'blocked'),
+            };
+
+            const columns = [
+                { status: 'todo', emoji: '📋', color: '#FF9800' },
+                { status: 'doing', emoji: '⚡', color: '#2196F3' },
+                { status: 'done', emoji: '✅', color: '#4CAF50' },
+                { status: 'blocked', emoji: '🚫', color: '#f44336' },
+            ];
+
+            board.innerHTML = columns.map(col => {
+                const colTasks = tasksByStatus[col.status] || [];
+                const cardsHtml = colTasks.map(task => renderTaskCard(task)).join('');
+
+                return `
+                    <div class="kanban-column" style="--column-color: ${col.color}">
+                        <div class="column-header">
+                            <span class="column-title">${col.emoji} ${col.status.toUpperCase()}</span>
+                            <span class="column-count">${colTasks.length}</span>
+                        </div>
+                        <div class="column-body">
+                            ${cardsHtml || '<div class="empty-column">No tasks</div>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Task 카드 렌더링
+        function renderTaskCard(task) {
+            const name = task.entity_name || task._file_name || 'Unknown';
+            const entityId = task.entity_id || '';
+            const assigneeDisplay = getMemberDisplay(task.assignee || 'unassigned');
+            const priority = task.priority || 'medium';
+            const tags = task.tags || [];
+            const due = task.due || '';
+            const filePath = task._file_path || '';
+
+            // Project 정보
+            const projectId = task.project_id || '';
+            const projectInfo = allEntitiesMap[projectId] || {};
+            const projectName = projectInfo.entity_name || projectId;
+            const projectPath = projectInfo._file_path || '';
+
+            // validates 정보
+            const validates = [];
+            if (task.validates && Array.isArray(task.validates)) {
+                for (const targetId of task.validates) {
+                    const target = allEntitiesMap[targetId];
+                    validates.push({
+                        id: targetId,
+                        name: target ? target.entity_name : targetId,
+                        path: target ? target._file_path : '',
+                    });
+                }
+            }
+
+            const tagsHtml = tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('');
+
+            let validatesHtml = '';
+            if (validates.length > 0) {
+                const links = validates.map(v =>
+                    v.path
+                        ? `<span class="validates-link" onclick="event.stopPropagation(); openFile('${v.path}')">${v.name}</span>`
+                        : `<span class="validates-link">${v.name}</span>`
+                ).join(' ');
+                validatesHtml = `<div class="validates">validates: ${links}</div>`;
+            }
+
+            let projectHtml = '';
+            if (projectId) {
+                projectHtml = projectPath
+                    ? `<div class="task-project">📁 <span class="project-link" onclick="event.stopPropagation(); openFile('${projectPath}')">${projectName}</span></div>`
+                    : `<div class="task-project">📁 ${projectName}</div>`;
+            }
+
+            return `
+                <div class="task-card priority-${priority}" onclick="openFile('${filePath}')">
+                    <div class="task-header">
+                        <span class="task-name">${name}</span>
+                        <span class="task-id">${entityId}</span>
+                    </div>
+                    <div class="task-meta">
+                        <span class="assignee">${assigneeDisplay}</span>
+                        ${due ? `<span class="due">📅 ${due}</span>` : ''}
+                    </div>
+                    ${projectHtml}
+                    ${validatesHtml}
+                    <div class="task-tags">${tagsHtml}</div>
+                </div>
+            `;
+        }
+
+        // 전략 렌더링
+        function renderStrategy() {
+            const grid = document.getElementById('strategyGrid');
+
+            const sections = [
+                { type: 'NorthStar', title: 'North Star', emoji: '🎯' },
+                { type: 'MetaHypothesis', title: 'Meta Hypotheses', emoji: '🔬' },
+                { type: 'Condition', title: 'Conditions', emoji: '📋' },
+                { type: 'Track', title: 'Tracks', emoji: '🛤️' },
+            ];
+
+            grid.innerHTML = sections.map(section => {
+                const items = entities[section.type] || [];
+                if (items.length === 0) return '';
+
+                const itemsHtml = items
+                    .sort((a, b) => (a.entity_id || '').localeCompare(b.entity_id || ''))
+                    .map(entity => {
+                        const name = entity.entity_name || entity._file_name || 'Unknown';
+                        const entityId = entity.entity_id || '';
+                        const status = entity.status || '';
+                        const filePath = entity._file_path || '';
+
+                        return `
+                            <div class="entity-item" onclick="openFile('${filePath}')">
+                                <span class="entity-name">${name}</span>
+                                <span>
+                                    <span class="entity-id">${entityId}</span>
+                                    ${status ? `<span class="entity-status">${status}</span>` : ''}
+                                </span>
+                            </div>
+                        `;
+                    }).join('');
+
+                return `
+                    <div class="entity-section">
+                        <h3>${section.emoji} ${section.title}</h3>
+                        <div class="entity-list">${itemsHtml}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 프로젝트 렌더링
+        function renderProjects() {
+            const container = document.getElementById('projectsList');
+            const projects = entities.Project || [];
+            const tasks = entities.Task || [];
+
+            if (projects.length === 0) {
+                container.innerHTML = '<p style="color: #999;">No projects found.</p>';
+                return;
+            }
+
+            container.innerHTML = projects
+                .sort((a, b) => (a.entity_id || '').localeCompare(b.entity_id || ''))
+                .map(project => {
+                    const name = project.entity_name || project._file_name || 'Unknown';
+                    const entityId = project.entity_id || '';
+                    const filePath = project._file_path || '';
+                    const trackId = project.track_id || '';
+                    const trackInfo = allEntitiesMap[trackId] || {};
+                    const trackName = trackInfo.entity_name || trackId;
+                    const trackPath = trackInfo._file_path || '';
+
+                    const projectTasks = tasks.filter(t => t.project_id === entityId);
+                    const doneCount = projectTasks.filter(t => t.status === 'done').length;
+                    const totalCount = projectTasks.length;
+                    const progress = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+
+                    const statusColors = {
+                        todo: '#FF9800',
+                        doing: '#2196F3',
+                        done: '#4CAF50',
+                        blocked: '#f44336',
+                    };
+
+                    const tasksHtml = projectTasks
+                        .sort((a, b) => {
+                            const order = { doing: 0, todo: 1, blocked: 2, done: 3 };
+                            return (order[a.status] || 4) - (order[b.status] || 4);
+                        })
+                        .map(task => {
+                            const tName = task.entity_name || task._file_name || '';
+                            const tStatus = task.status || 'todo';
+                            const tAssignee = getMemberDisplay(task.assignee || 'unassigned');
+                            const tPath = task._file_path || '';
+                            const statusColor = statusColors[tStatus] || '#999';
+
+                            return `
+                                <div class="task-list-item" onclick="openFile('${tPath}')">
+                                    <span>${tName}</span>
+                                    <span style="display: flex; gap: 8px; align-items: center;">
+                                        <span style="font-size: 0.8em; color: #666;">${tAssignee}</span>
+                                        <span class="status-badge" style="background: ${statusColor}">${tStatus}</span>
+                                    </span>
+                                </div>
+                            `;
+                        }).join('');
+
+                    const trackHtml = trackPath
+                        ? `<span class="project-link" onclick="event.stopPropagation(); openFile('${trackPath}')">${trackName}</span>`
+                        : trackName || 'N/A';
+
+                    return `
+                        <div class="project-card">
+                            <div class="project-header">
+                                <div>
+                                    <div class="project-title" onclick="openFile('${filePath}')">${name}</div>
+                                    <div style="font-size: 0.85em; color: #666;">
+                                        <code>${entityId}</code> | Track: ${trackHtml}
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 0.9em; color: #666;">Tasks: ${doneCount}/${totalCount}</div>
+                                    <div class="progress-bar" style="width: 120px;">
+                                        <div class="progress-fill" style="width: ${progress}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 12px;">
+                                ${tasksHtml || '<p style="color: #999; font-style: italic;">No tasks</p>'}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        // 헤더 업데이트
+        function updateHeader() {
+            const taskCount = (entities.Task || []).length;
+            const projectCount = (entities.Project || []).length;
+            const now = new Date().toLocaleString('ko-KR');
+            document.getElementById('headerMeta').textContent =
+                `Vault: ${vaultName} | Tasks: ${taskCount} | Projects: ${projectCount} | Updated: ${now}`;
+        }
+
+        // 탭 전환
         function showTab(tabId) {
-            // 모든 탭 비활성화
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-            // 선택된 탭 활성화
             document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
             document.getElementById(tabId).classList.add('active');
+        }
+
+        // File System Access API 지원 체크
+        if (!('showDirectoryPicker' in window)) {
+            document.getElementById('initScreen').innerHTML = `
+                <h2>❌ 지원하지 않는 브라우저</h2>
+                <p>File System Access API를 지원하지 않습니다.</p>
+                <div class="warning">
+                    Chrome 또는 Edge 브라우저를 사용해주세요.
+                </div>
+            `;
         }
     </script>
 </body>
