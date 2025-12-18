@@ -4,561 +4,539 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-이 Obsidian vault는 **Inner Loop OS (ILOS)** 온톨로지 학습과 스키마 개발을 위한 지식 관리 공간입니다.
+이 Obsidian vault는 **Inner Loop OS (ILOS)** 의 전체 전략, 온톨로지 스키마, 프로젝트 실행을 통합 관리하는 지식 시스템입니다.
 
-Inner Loop OS는 인간의 정서-섭식-습관-보상-신경계 루프를 하나의 시스템으로 다루는 행동 OS입니다. 이 vault는 ILOS의 데이터 모델, 온톨로지 스펙, 그리고 전략적 방향성을 정의하고 관리합니다.
+Inner Loop OS는 인간의 정서-섭식-습관-보상-신경계 루프를 하나의 시스템으로 다루는 행동 OS입니다.
 
 **중요:** 이것은 Obsidian vault이므로 코드 실행이나 빌드 명령이 없습니다. 모든 작업은 마크다운 문서 작성과 관리에 집중됩니다.
 
-## 핵심 아키텍처
+---
 
-### Inner Loop OS의 5대 루프
-1. **Emotional Loop**: 스트레스, 불안, 공허감 등 감정 패턴
-2. **Eating Loop**: 폭식, 야식, 보상 먹기 등 섭식 루프
-3. **Habit Loop**: 환경/루틴 기반 자동 섭식 행동
-4. **Reward/Dopamine Loop**: 갈망, 보상 회로, 쾌감 결핍
-5. **Nervous System Loop**: 자율신경계(교감/부교감) 활성 패턴
+## 🎯 이 Vault가 다루는 모든 것
 
-### 온톨로지 계층 구조 (Ontology-lite v0.1)
+1. **10년 비전**: Human Inner Loop OS 글로벌 표준
+2. **전략 가설**: Meta Hypotheses (MH1-4), Conditions (A-E), Tracks (1-6)
+3. **온톨로지 스키마**: 데이터 모델 (Event, Episode, ActionExecution 등)
+4. **프로젝트 실행**: Track별 Project와 Task
+5. **가설 검증**: 검증 중인 Hypotheses 로그
+6. **실제 구현**: SoSi, KkokKkokFit 프로젝트 연결
 
-현재 구현된 코어 엔티티 (4조건 규칙 기반):
+→ **"가설을 빠르게 죽이면서 살아남는 조직"의 모든 구조**
 
-**Core Entities:**
-- `Event`: 원자적 사실 (meal, emotion_tag, urge, binge 등)
-- `Episode (LoopInstance)`: 한 번의 루프 단위 컨테이너
-- `LoopStateWindow`: 30-60분 단위 상태 벡터 윈도우
-- `ActionExecution`: 개입 실행 트랜잭션 (코치/시스템/사용자)
-- `OutcomeMeasurement`: ActionExecution 이후 윈도우 기반 결과 측정
+---
 
-**필수 공통 필드:**
+## 🏗️ 전략 계층 구조 (핵심 이해)
+
 ```
-id, userId, createdAt, updatedAt, source, specVersion
+10년 비전 (North Star) - 절대 불변
+ └─ Meta Hypotheses (MH1-4) - 하나라도 무너지면 회사 재검토
+     └─ 3년 Conditions (A-E) - 충족 시 Unlock, 깨지면 특정 피봇/폐기
+         └─ 12개월 Tracks (1-6) - 투자 방향 가설
+             └─ Projects - 실험 단위
+                 └─ Tasks - 실행 단위
 ```
 
-**4가지 확장 가능성 규칙:**
-1. **Rule A - Type System 고정**: 5개 코어 타입 불변
-2. **Rule B - ID & Reference 불변**: 모든 엔티티 불변 ID + Reference 구조
-3. **Rule C - Action은 트랜잭션**: 실행 트랜잭션 + 전/후 윈도우 강제
-4. **Rule D - specVersion 강제**: 데이터 해석 규칙 버전 관리
+### 핵심 원칙
+1. **비전은 고정, 전략은 조건부**
+2. **수치 ≠ 목표**, 수치 = 중단 신호
+3. **나쁜 결과 ≠ 실패**, 나쁜 결과 = 가설 생성 기회
+4. **Condition 깨짐 → 명확한 피봇/폐기 결정**
 
-### Event-Action-Result 인과 구조
-- **Event**: 인과 재료 (관찰 데이터)
-- **ActionExecution**: 인과 스위치 (개입)
-- **OutcomeMeasurement**: 인과 증거 (측정 결과)
+**예시**:
+- Condition B (재현 패턴 10개) 깨짐 → 데이터 전략 폐기
+- MH3 (데이터 모델링 가능) 거짓 → 회사 존재 이유 재검토
 
-## 폴더 구조
+---
+
+## 📁 폴더 구조 (v2.0 - GraphRAG 최적화)
 
 ```
 LOOP/
-├── _HOME.md                    # 메인 네비게이션 허브
-├── README.md                   # 프로젝트 소개
-├── CLAUDE.md                   # 이 파일
+├── _HOME.md                            # 메인 네비게이션 허브
+├── _Graph_Index.md                     # 전체 그래프 인덱스 ⭐
+├── README.md
+├── CLAUDE.md                           # 이 파일
 │
-├── 00_Inbox/                   # 임시 메모, 정리되지 않은 아이디어
+├── 00_Inbox/                           # 임시 메모
 │
-├── 10_Study/                   # 온톨로지 학습 자료
-│   ├── _MOC 온톨로지 학습.md  # 학습 로드맵 MOC
-│   ├── 01_Foundations/         # 온톨로지 기초 개념
-│   ├── 02_Languages/           # RDF, RDFS, OWL, SPARQL
-│   ├── 03_Tools/               # Protégé 등 도구
-│   ├── 04_Methodology/         # 온톨로지 설계 방법론
-│   ├── 05_Case-Studies/        # 실제 온톨로지 사례 분석
-│   └── 06_Exercises/           # 실습 및 연습 문제
+├── 01_North_Star/                      # 🆕 10년 비전 + Meta Hypotheses
+│   ├── 10년 비전.md                    # Human Inner Loop OS 글로벌 표준
+│   ├── MH1_루프는_지속적_문제.md
+│   ├── MH2_행동개입_효과.md
+│   ├── MH3_데이터_모델링_가능.md       # ⭐ 온톨로지가 검증
+│   └── MH4_단계적_확장_가능.md
 │
-├── 20_Ontology/                # ILOS 스키마 개발 (핵심)
-│   ├── _MOC 온톨로지 개발.md  # 개발 현황 MOC
-│   ├── Schema/                 # 버전별 스키마 스펙
-│   │   └── v0.1/              # 현재 버전 (Ontology-lite v0.1)
-│   ├── Entities/               # 엔티티 정의 (Event, Episode 등)
-│   ├── Relations/              # 관계 정의 (contains, triggers 등)
-│   └── Rules/                  # 제약조건 및 규칙
+├── 10_Study/                           # 온톨로지 학습
+│   ├── _MOC 온톨로지 학습.md
+│   ├── 01_Foundations/
+│   ├── 02_Languages/
+│   ├── 03_Tools/
+│   ├── 04_Methodology/
+│   ├── 05_Case-Studies/
+│   └── 06_Exercises/
 │
-├── 30_Strategy/                # 전략 문서 (10년/3년/12개월)
+├── 20_Strategy/                        # 🔄 전략 (기존 30_Strategy)
+│   ├── _MOC_전략.md
+│   ├── 3Y_Conditions/                  # 3년 조건
+│   │   ├── Condition_A_국내_PMF.md
+│   │   ├── Condition_B_Loop_Dataset.md  # ⭐ 온톨로지가 enable
+│   │   ├── Condition_C_Global_Data.md
+│   │   ├── Condition_D_Runway.md
+│   │   └── Condition_E_Team.md
+│   ├── 12M_Tracks/                     # 12개월 Track
+│   │   ├── Track_1_Product.md
+│   │   ├── Track_2_Data.md              # ⭐ 온톨로지 소속
+│   │   ├── Track_3_Content.md
+│   │   ├── Track_4_Coaching.md
+│   │   ├── Track_5_Partnership.md
+│   │   └── Track_6_Revenue.md
+│   └── Legacy/                         # 기존 전략 문서 보관
 │
-├── 40_LOOP_OS/                 # Inner Loop OS 시스템 정의
+├── 30_Ontology/                        # 🔄 온톨로지 (기존 20_Ontology)
+│   ├── _MOC_온톨로지_개발.md
+│   ├── _Strategy_Link.md               # 🆕 ⭐ 온톨로지-전략 연결
+│   ├── Schema/
+│   │   └── v0.1/
+│   │       └── Ontology-lite v0.1.md
+│   ├── Entities/
+│   │   └── Event (GraphRAG 최적화 예시).md
+│   ├── Relations/
+│   ├── Rules/
+│   ├── _Communities/                   # 🆕 GraphRAG 커뮤니티
+│   │   └── C1_Core_Entities.md
+│   ├── RelationTypes/                  # 🆕 관계 타입 레지스트리
+│   └── GraphRAG 최적화 가이드.md       # 🆕
+│
+├── 40_LOOP_OS/                         # ILOS 시스템 정의
 │   ├── Inner Loop OS 정의v1.md
 │   └── LOOP OS관련 문서.md
 │
-├── 50_Experiments/             # 실험 및 검증
+├── 50_Projects/                        # 🆕 프로젝트 (실험 단위)
+│   ├── _MOC_프로젝트.md
+│   ├── P1_Loop_Core_OS/
+│   ├── P2_CoachOS_Phase1/
+│   ├── P3_Ontology_v0.1/               # ⭐ 온톨로지 프로젝트
+│   │   ├── Project_정의.md
+│   │   ├── Tasks/
+│   │   └── Results/
+│   └── P4_Pattern_Discovery_v1/
+│
+├── 60_Hypotheses/                      # 🆕 가설 검증 로그
+│   ├── _MOC_가설.md
+│   ├── H_천천히먹기_효과.md
+│   ├── H_Loop_모델링_가능.md           # ⭐ 온톨로지 핵심 가설
+│   └── H_유료화_고밀도_비율.md
+│
+├── 70_Experiments/                     # 🔄 실험 (기존 50_Experiments)
 │   └── Use-cases/
 │
-└── 90_Archive/                 # 아카이브된 문서
+└── 90_Archive/
 ```
 
-### 폴더별 용도
+### 폴더 변경 사항
+- `20_Ontology/` → `30_Ontology/` (번호 변경)
+- `30_Strategy/` → `20_Strategy/` (번호 변경, 우선순위 상승)
+- `50_Experiments/` → `70_Experiments/`
+- 🆕 `01_North_Star/` - 10년 비전 + MH1-4
+- 🆕 `50_Projects/` - 프로젝트 실행 단위
+- 🆕 `60_Hypotheses/` - 가설 검증 로그
 
-**00_Inbox**: 빠른 캡처 공간. 정기적으로 정리하여 적절한 폴더로 이동
+---
 
-**10_Study**: 온톨로지 이론 학습. 외부 자료 요약, 개념 정리, 실습
+## 🔗 온톨로지와 전략의 관계 (핵심!)
 
-**20_Ontology**: ILOS 온톨로지 **실제 개발**. 가장 중요한 폴더. 버전 관리 엄격
+### 온톨로지의 3가지 역할
 
-**30_Strategy**: 비즈니스 전략, 로드맵, 시장 분석
+#### 1. MH3 검증 도구
+**MH3**: "루프는 데이터로 모델링 가능하다"
 
-**40_LOOP_OS**: ILOS 시스템 스펙 및 아키텍처 문서
+**온톨로지가 검증하는 방법**:
+- 5개 코어 엔티티로 Loop 데이터 표현 가능한지
+- Event-Action-Result 인과 구조가 작동하는지
+- 재현 패턴을 데이터로 저장 가능한지
 
-**50_Experiments**: 유즈케이스, 데이터 검증, 실험 결과
+**현재 상태**: 70% 검증 (긍정적)
 
-## 핵심 문서
+**만약 MH3가 거짓이라면**?
+→ 회사 존재 이유 재검토
 
-**네비게이션:**
-- `_HOME.md` - 메인 허브
-- `10_Study/_MOC 온톨로지 학습.md` - 학습 로드맵
-- `20_Ontology/_MOC 온톨로지 개발.md` - 개발 허브
+**문서**: [[MH3_데이터_모델링_가능]], [[30_Ontology/_Strategy_Link]]
 
-**스키마:**
-- `20_Ontology/Schema/v0.1/Ontology-lite v0.1 (ILOS) — 규칙(4조건) + 최소 엔티티 스펙.md` - 현재 스키마 (v0.1)
+---
 
-**LOOP OS 정의:**
-- `40_LOOP_OS/Inner Loop OS 정의v1.md` - ILOS 전체 시스템 스펙
+#### 2. Condition B Enable 인프라
+**Condition B**: "재현 패턴 10개"
 
-**전략:**
-- `30_Strategy/10-year direction 정리(헬스케어 섭식 도메인 레이어의 성공선).md`
-- `30_Strategy/(LV1 Strategic Hypotheses) 3-year strategy (조건 기반) 정리.md`
-- `30_Strategy/12-month 실행 계획(숫자 기반) 정리.md`
+**온톨로지가 Enable하는 방법**:
+- 패턴을 Event-Episode-Action-Outcome으로 데이터화
+- 패턴 재현 테스트 가능
+- 패턴 수 카운트 가능
 
-## 실제 데이터 소스
+**만약 Condition B가 깨진다면**?
+→ 데이터 전략 폐기, 3년 전략 진입 불가
 
-LOOP OS의 **실제 구현체 및 데이터**는 다음 프로젝트에서 확인할 수 있습니다:
+**온톨로지 없으면**?
+- 패턴 저장 불가
+- Condition B 측정 불가
 
-### 프로젝트 경로
+**문서**: [[Condition_B_Loop_Dataset]]
 
-1. **SoSi (Flutter App)**
-   - 경로: `/Users/gim-eunhyang/dev/flutter/sosi`
-   - 역할: 모바일 앱 (사용자 대면 인터페이스)
-   - 데이터:
-     - Firestore 다이어리 데이터 구조
-     - Event/Episode 실제 기록 로직
-     - 사용자 입력 UI/UX
-   - **메타정보**: `/Users/gim-eunhyang/dev/flutter/sosi/docs/`
+---
 
-2. **KkokKkokFit Web**
-   - 경로: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
-   - 역할: 웹 기반 코칭 인터페이스
-   - 데이터:
-     - RDB 코칭 세션 데이터
-     - ActionExecution/Outcome 구현
-     - 코치 대시보드 로직
-   - **메타정보**: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web/docs/`
+#### 3. Track 2 핵심 구성요소
+**Track 2 (Data)**: "코치+기록 데이터는 패턴화 가능"
 
-### 참조 시점
+**온톨로지는 Track 2의 Focus 3** (Schema 안정화)
 
-다음 작업 시 **반드시 위 프로젝트 코드를 참조**하세요:
+**Track 2 성공 조건**:
+- 고밀도 50명 ✅
+- 재현 패턴 10개 ← **온톨로지 필수**
+- 스키마 3개월 안정 ← **온톨로지 필수**
 
-- ✅ 엔티티 필드 설계 검증 (실제 사용 중인 필드 확인)
-- ✅ Event/Episode 구조 분석 (실제 저장 방식)
-- ✅ ActionExecution 트랜잭션 구현 확인
-- ✅ Firestore/RDB 스키마 매핑
-- ✅ 데이터 예시 작성 시 실제 데이터 기반
-- ✅ API 엔드포인트 구조 파악
-- ✅ 온톨로지와 실제 구현 간 갭 분석
+**문서**: [[Track_2_Data]]
 
-### 주의사항
+---
 
-- 온톨로지는 **이상적 설계**, 실제 코드는 **현실 구현**
-- 갭이 있을 경우 온톨로지를 조정하거나 마이그레이션 계획 수립
-- 실제 데이터 구조를 이해한 후 온톨로지 확장 설계
+## 📊 Entity Types (전략 + 온톨로지)
 
-## 작업 규칙
+### 전략 계층
+```yaml
+entity_type: NorthStar          # 10년 비전
+entity_type: MetaHypothesis     # MH1-4
+entity_type: Condition          # 3년 조건 (A-E)
+entity_type: Track              # 12개월 Track (1-6)
+entity_type: Hypothesis         # 검증할 가설
+entity_type: Project            # 실험 단위
+entity_type: Task               # 실행 단위
+```
+
+### 온톨로지 계층
+```yaml
+entity_type: CoreEntity         # Event, Episode 등 (v0.1 고정)
+entity_type: Relation           # 관계 정의
+entity_type: Rule               # 제약조건
+entity_type: Community          # GraphRAG 커뮤니티
+entity_type: RelationType       # 관계 타입 레지스트리
+```
+
+### 연결
+```yaml
+entity_type: StrategyOntologyLink  # 전략-온톨로지 연결
+entity_type: GraphIndex            # 전체 그래프 인덱스
+```
+
+---
+
+## 🔗 Relation Types (주요 관계)
+
+### 전략 관계
+```yaml
+relation: validates          # Ontology v0.1 validates MH3
+relation: enables            # Ontology v0.1 enables Condition B
+relation: part_of            # Ontology v0.1 part_of Track 2
+relation: unlocks            # Condition B unlocks 3년_전략
+relation: triggersShutdown   # Condition 깨짐 → 폐기
+relation: implements         # Project implements Hypothesis
+relation: executes           # Task executes Project
+```
+
+### 온톨로지 관계
+```yaml
+relation: contains           # Episode contains Event
+relation: evaluatedBy        # ActionExecution evaluatedBy OutcomeMeasurement
+relation: precedes           # Event precedes Event
+relation: triggers           # Event triggers ActionExecution
+relation: contextOf          # LoopStateWindow contextOf Episode
+```
+
+---
+
+## 📝 핵심 문서 (빠른 참조)
+
+### 전략
+| 문서 | 경로 | 설명 |
+|------|------|------|
+| 10년 비전 | `01_North_Star/10년 비전.md` | 절대 불변 좌표 |
+| MH3 | `01_North_Star/MH3_데이터_모델링_가능.md` | 온톨로지가 검증 ⭐ |
+| Condition B | `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md` | 온톨로지가 enable ⭐ |
+| Track 2 | `20_Strategy/12M_Tracks/Track_2_Data.md` | 온톨로지 소속 ⭐ |
+
+### 온톨로지
+| 문서 | 경로 | 설명 |
+|------|------|------|
+| 스키마 v0.1 | `30_Ontology/Schema/v0.1/` | 5개 코어 엔티티 + 4조건 규칙 |
+| 전략 연결 | `30_Ontology/_Strategy_Link.md` | 온톨로지-전략 연결 ⭐ |
+| Event 예시 | `30_Ontology/Entities/Event (GraphRAG 최적화 예시).md` | GraphRAG 최적화 |
+| GraphRAG 가이드 | `30_Ontology/GraphRAG 최적화 가이드.md` | GraphRAG 활용법 |
+
+### 프로젝트
+| 문서 | 경로 | 설명 |
+|------|------|------|
+| 온톨로지 v0.1 | `50_Projects/P3_Ontology_v0.1/Project_정의.md` | 온톨로지 프로젝트 ⭐ |
+
+### 인덱스
+| 문서 | 경로 | 설명 |
+|------|------|------|
+| Graph Index | `_Graph_Index.md` | 전체 그래프 인덱스 ⭐ |
+| HOME | `_HOME.md` | 메인 네비게이션 |
+
+---
+
+## 🎨 YAML Frontmatter 표준
+
+### 전략 문서 (예: Condition)
+```yaml
+---
+entity_type: Condition
+entity_id: cond:b
+entity_name: Condition_B_Loop_Dataset
+
+# 전략 계층
+layer: 3year-strategy
+level: condition
+sequence: B
+
+# 조건 정의
+condition: "재현 가능한 패턴이 늘어나는가?"
+unlock: "3년 전략 진입"
+if_broken: "데이터 전략 폐기"
+
+# 측정 지표 (중단 신호)
+metrics:
+  - name: "재현 패턴 수"
+    threshold: "10개 이상"
+    current: 3
+
+# 현재 상태
+status: in_progress
+risk_level: medium
+confidence: 0.6
+
+# 관계
+validated_by: [MH3]
+enabled_by: [Ontology_v0.1, Track_2]
+unlocks: [3년_전략_진입]
+
+tags: [condition, track-2, critical]
+---
+```
+
+### 온톨로지 문서 (예: Event)
+```yaml
+---
+entity_type: CoreEntity
+entity_name: Event
+entity_id: entity:event:v0.1
+
+# 온톨로지 메타데이터
+version: "0.1"
+parent: [LoopInstance]
+relations:
+  - type: contains
+    source: Episode
+    direction: incoming
+    cardinality: "0..1:N"
+
+# 🆕 전략 연결
+strategy_link:
+  validates: [MH3]
+  part_of: [Project:Ontology_v0.1]
+  enables: [Condition_B]
+  supports: [Track_2_Data]
+
+# 🆕 가설 검증 기여
+hypothesis_contribution:
+  - hypothesis: "Loop는 모델링 가능"
+    evidence: "Event로 meal/emotion/urge/binge 모두 표현 가능"
+
+# GraphRAG
+community: [C1_Core_Entities, C3_Causality]
+importance: critical
+centrality: 0.95
+
+# 다층 요약
+summaries:
+  executive: "원자적 사실 기록 엔티티"
+  technical: "관찰 기반 최소 단위 데이터"
+  detailed: "..."
+
+tags: [ontology/entity, version/v0-1, core]
+---
+```
+
+---
+
+## 🚀 작업 규칙
 
 ### 파일 생성 위치 (반드시 준수)
 | 내용 유형 | 생성 위치 | 예시 |
 |----------|----------|------|
-| 온톨로지 학습 노트 | `10_Study/{01-06}/` | RDF 개념 정리 → `10_Study/02_Languages/` |
-| 엔티티 정의 | `20_Ontology/Entities/` | `Event 정의.md` |
-| 관계 정의 | `20_Ontology/Relations/` | `contains 관계.md` |
-| 규칙/제약조건 | `20_Ontology/Rules/` | `Event-Episode 참조 규칙.md` |
-| 스키마 버전 스펙 | `20_Ontology/Schema/v{X.Y}/` | `v0.2/` |
-| LOOP OS 시스템 스펙 | `40_LOOP_OS/` | 루프 정의, 아키텍처 |
-| 전략/로드맵 | `30_Strategy/` | 시장 분석, 실행 계획 |
-| 임시 아이디어 | `00_Inbox/` | → 정리 후 적절한 위치로 이동 |
+| 10년 비전/Meta Hypotheses | `01_North_Star/` | MH3 문서 |
+| 3년 Conditions | `20_Strategy/3Y_Conditions/` | Condition B |
+| 12개월 Tracks | `20_Strategy/12M_Tracks/` | Track 2 |
+| 온톨로지 엔티티 | `30_Ontology/Entities/` | Event 정의 |
+| 온톨로지 관계 | `30_Ontology/Relations/` | contains 관계 |
+| 온톨로지 규칙 | `30_Ontology/Rules/` | Rule A |
+| 온톨로지-전략 연결 | `30_Ontology/_Strategy_Link.md` | 전략 연결 |
+| 프로젝트 | `50_Projects/P{N}_{Name}/` | Ontology v0.1 |
+| 가설 검증 | `60_Hypotheses/` | Loop 모델링 가능 |
+| 실험 결과 | `70_Experiments/Use-cases/` | 검증 결과 |
 
-### Obsidian 링크 규칙
-- **필수**: 위키링크 사용 `[[파일명]]` (절대 상대 경로 사용 금지)
-- 파일명만 사용 (경로 불필요): `[[Event 정의]]` ✅, `[[20_Ontology/Entities/Event 정의.md]]` ❌
-- 새 문서 생성 시:
-  1. 해당 MOC 파일에 링크 추가 (`_MOC 온톨로지 학습.md` 또는 `_MOC 온톨로지 개발.md`)
-  2. `_HOME.md`에 필요시 추가
-- 섹션 링크: `[[파일명#섹션명]]`
-- 별칭: `[[파일명|표시명]]`
+### 전략 문서 작성 시
+1. **entity_type** 명확히 지정 (NorthStar, MetaHypothesis, Condition, Track, Project, Task)
+2. **if_broken** 조건 명시 (무엇이 트리거되는지)
+3. **enables/validated_by** 관계 명시
+4. **수치는 중단 신호지 목표 아님** 강조
 
-### 버전 관리 원칙 (엄격)
+### 온톨로지 문서 작성 시
+1. **strategy_link** 섹션 필수 (validates, enables, supports)
+2. **hypothesis_contribution** 섹션 추가
+3. **community** 소속 명시
+4. **다층 요약** (executive/technical/detailed) 작성
+5. **예시 포함** (JSON, 시나리오)
 
-**절대 변경 금지 (v0.1 고정 사항):**
-- 5개 코어 타입: Event, Episode, LoopStateWindow, ActionExecution, OutcomeMeasurement
-- ID 필드명: eventId, episodeId, stateWindowId, actionExecutionId, outcomeId
-- Reference 구조: episodeId 참조, actionExecutionId 참조
-- 공통 필드: id, userId, createdAt, updatedAt, source, specVersion
+### 관계 문서화
+- 전략 → 온톨로지: `validates`, `enables`, `supports`
+- 온톨로지 내부: `contains`, `evaluatedBy`, `precedes`, `triggers`
+- 전략 내부: `unlocks`, `triggersShutdown`, `implements`
 
-**허용되는 변경:**
-- 새 필드 추가 (기존 필드 의미 유지)
-- 선택적 필드 추가
-- payload 내부 구조 확장
-
-**스키마 변경 시 필수 작업:**
-1. `specVersion` 업데이트 (예: 0.1 → 0.2)
-2. `20_Ontology/Schema/v{새버전}/` 폴더 생성
-3. 변경 사항 문서화 (What changed, Why, Migration path)
-4. 기존 버전과의 호환성 명시
-
-**v0.2+ 승격 후보:**
-- ActionType registry (actionName string → 구조화된 프로토콜)
-- Metric registry (metricName string → 계산식 정의)
-- LinkType (Reference → 1급 관계 엔티티)
-
-### 태그 컨벤션
-```yaml
-# 온톨로지 관련
-#ontology/entity          # 엔티티 정의 문서
-#ontology/relation        # 관계 정의 문서
-#ontology/rule            # 규칙/제약조건 문서
-#ontology/pattern         # 설계 패턴
-
-# 루프 타입별
-#loop/emotional           # Emotional Loop
-#loop/eating              # Eating Loop
-#loop/habit               # Habit Loop
-#loop/reward              # Reward/Dopamine Loop
-#loop/nervous             # Nervous System Loop
-
-# 문서 상태
-#status/draft             # 초안
-#status/review            # 검토 필요
-#status/active            # 현재 활성
-#status/done              # 완료
-#status/archived          # 아카이브됨
-
-# 버전
-#version/v0-1            # v0.1 관련
-#version/v0-2            # v0.2 관련 (미래)
-```
-
-## 온톨로지 용어
-
-### 기본 개념
-- **Entity**: 핵심 개념/클래스 (예: Event, Episode, ActionExecution)
-- **Relation**: 엔티티 간 관계/Property (예: contains, triggers, evaluatedBy)
-- **Rule**: 제약조건, 추론 규칙
-- **Triple**: Subject-Predicate-Object 구조
-
-### ILOS 특화 용어
-- **Loop Instance**: 한 번의 루프 단위 (에피소드)
-- **State Vector**: 5대 루프 상태를 담는 벡터 구조
-- **Time Scale**: micro(초-분), meso(30-60분), macro(일-주)
-- **Window**: 측정 윈도우 (next_2h, next_meal, today, next_7d)
-- **Causality Layer**: Event-Action-Result 인과 구조
-
-## 스키마 개발 원칙
-
-1. **최소주의**: 필요한 것만 정의, 과도한 추상화 금지
-2. **확장 가능성**: v0.2+ 승격 경로 고려 (Reference → LinkType)
-3. **실용성**: LOOP OS 유즈케이스 기반 설계
-4. **버전 안정성**: 하위 호환성 유지, 기존 의미 변경 금지
-
-## 문서 작성 가이드
-
-### 엔티티 정의 템플릿 (`20_Ontology/Entities/`)
-
-```markdown
----
-tags: [ontology/entity, version/v0-1, status/active]
 ---
 
-# {EntityName}
+## ⚠️ 절대 규칙 (Immutable Rules)
 
-## 정의
-{간결한 1-2문장 정의. 이 엔티티가 무엇을 표현하는지}
-
-## 온톨로지 위치
-- **상위 개념**: {부모 엔티티 또는 Category}
-- **하위 개념**: {자식 엔티티들, 있다면}
-- **관련 엔티티**: {관련된 다른 엔티티들}
-
-## 필드 정의
-
-### 공통 필드 (상속)
-- `id` (string, 불변): 고유 식별자
-- `userId` (string): 사용자 ID
-- `createdAt` (timestamp): 생성 시각
-- `updatedAt` (timestamp): 수정 시각
-- `source` (enum: app|coach|system|import): 데이터 소스
-- `specVersion` (string): 스펙 버전 (예: "0.1")
-
-### 엔티티 고유 필드
-- `{field_name}` ({type}, {필수/선택}): {설명}
-- `{field_name}` ({type}, {필수/선택}): {설명}
-
-### 권장 필드 (선택)
-- `{optional_field}` ({type}): {설명}
-
-## 관계 (Relations)
-- `{RelationName}` → `{TargetEntity}`: {관계 설명}
-- 예: `contains` → `Event`: Episode는 여러 Event를 포함
-
-## 제약조건 (Constraints)
-- {제약조건 설명}
-- 예: episodeId는 0개 또는 1개만 허용
-
-## 예시
-
-### JSON 예시
-\`\`\`json
-{
-  "id": "event_abc123",
-  "userId": "user_xyz",
-  "eventType": "meal",
-  "timestamp": "2024-01-15T12:30:00Z",
-  "payload": { ... },
-  "episodeId": "episode_def456",
-  "source": "app",
-  "specVersion": "0.1",
-  "createdAt": "2024-01-15T12:30:00Z",
-  "updatedAt": "2024-01-15T12:30:00Z"
-}
-\`\`\`
-
-### 실제 사용 사례
-{구체적인 사용 예시 시나리오}
-
-## 버전 히스토리
-- v0.1 (2024-XX-XX): 초기 정의
-
-## 참고
-- [[Ontology-lite v0.1 (ILOS) — 규칙(4조건) + 최소 엔티티 스펙]]
-- [[Inner Loop OS 정의v1]]
-```
-
-### 관계 정의 템플릿 (`20_Ontology/Relations/`)
-
-```markdown
----
-tags: [ontology/relation, version/v0-1, status/active]
----
-
-# {RelationName}
-
-## 정의
-{관계의 의미를 명확히 설명}
-
-## 관계 구조
-- **Source (주체)**: `{SourceEntity}`
-- **Target (객체)**: `{TargetEntity}`
-- **Cardinality (다중도)**: {1:1 | 1:N | N:M | 0..1:N 등}
-- **방향성**: {단방향 | 양방향}
-
-## v0.1 구현 방식
-현재는 Reference 필드로 구현:
-- 필드명: `{referenceFieldName}` (예: `episodeId`)
-- 위치: `{SourceEntity}` 엔티티 내부
-- 타입: `string | null`
-
-## 의미론적 정의
-{이 관계가 도메인에서 의미하는 것}
-
-예: "Episode는 Event를 시간적/의미적으로 묶는 컨테이너 역할"
-
-## 제약조건
-- {제약조건 1}
-- {제약조건 2}
-
-## 예시
-\`\`\`
-Episode(id: ep1, startTime: T1, endTime: T2)
-  --contains-->
-Event(id: ev1, episodeId: ep1, timestamp: T1.5)
-Event(id: ev2, episodeId: ep1, timestamp: T1.8)
-\`\`\`
-
-## v0.2+ 승격 계획
-{LinkType으로 전환 계획이 있다면}
-
-예: Reference → `Link` 엔티티로 승격, 관계 메타데이터 추가
-
-## 참고
-- [[{SourceEntity}]]
-- [[{TargetEntity}]]
-```
-
-### 규칙 정의 템플릿 (`20_Ontology/Rules/`)
-
-```markdown
----
-tags: [ontology/rule, version/v0-1, status/active]
----
-
-# {RuleName}
-
-## 규칙 설명
-{이 규칙이 강제하는 제약 또는 추론}
-
-## 규칙 유형
-- [ ] 제약조건 (Constraint)
-- [ ] 추론 규칙 (Inference Rule)
-- [ ] 검증 규칙 (Validation Rule)
-- [ ] 비즈니스 규칙 (Business Rule)
-
-## 적용 대상
-- 엔티티: `{EntityName}`
-- 관계: `{RelationName}`
-- 속성: `{fieldName}`
-
-## 규칙 정의
-
-### 자연어
-{평문으로 규칙 설명}
-
-### 형식 표현 (선택)
-\`\`\`
-IF {조건}
-THEN {결과}
-\`\`\`
-
-또는
-
-\`\`\`
-FORALL x: Entity
-  WHERE condition(x)
-  ASSERT constraint(x)
-\`\`\`
-
-## 예외 사항
-{규칙이 적용되지 않는 경우}
-
-## 위반 시 처리
-- 데이터 검증 실패
-- 경고 발생
-- 자동 수정
-
-## 예시
-
-### 올바른 경우
-\`\`\`
-{규칙을 만족하는 예시}
-\`\`\`
-
-### 잘못된 경우
-\`\`\`
-{규칙을 위반하는 예시}
-\`\`\`
-
-## 참고
-- [[관련 엔티티]]
-- [[관련 규칙]]
-```
-
-## 일반적인 작업 워크플로우
-
-### 새 엔티티 추가하기
-1. `20_Ontology/Entities/`에 `{EntityName}.md` 생성 (템플릿 사용)
-2. 엔티티 정의 작성:
-   - 정의, 필드, 관계, 제약조건, 예시
-   - 실제 구현체(SoSi/KkokKkokFit) 참조하여 현실성 검증
-3. 관련 관계가 있다면 `20_Ontology/Relations/`에 관계 문서 생성
-4. 필요시 제약조건을 `20_Ontology/Rules/`에 문서화
-5. `_MOC 온톨로지 개발.md`의 Entities 섹션에 링크 추가
-6. 스키마 버전 문서 업데이트 (현재: `Ontology-lite v0.1`)
-
-### 온톨로지 학습 노트 작성하기
-1. 학습 주제 결정 (RDF, OWL, 설계 패턴 등)
-2. `10_Study/{적절한 폴더}/`에 노트 생성
-   - 예: RDF 학습 → `10_Study/02_Languages/RDF 개념 정리.md`
-3. 노트 작성 (개념 정리, 코드 예시, 참고 링크)
-4. `_MOC 온톨로지 학습.md` 해당 섹션에 링크 추가
-5. 관련 태그 추가 (예: `#ontology/pattern`, `#status/done`)
-
-### 스키마 버전 업그레이드 (v0.1 → v0.2)
-1. **계획 단계**:
-   - 변경 사항 목록 작성
-   - 하위 호환성 영향 분석
-   - 마이그레이션 경로 설계
-2. **실행 단계**:
-   - `20_Ontology/Schema/v0.2/` 폴더 생성
-   - 새 버전 스펙 문서 작성
-   - 변경된 엔티티/관계/규칙 문서 업데이트 (버전 히스토리 추가)
-   - `specVersion` 필드 업데이트
-3. **검증 단계**:
-   - 실제 구현체(SoSi/KkokKkokFit)와 대조
-   - 마이그레이션 스크립트 필요성 검토
-4. **문서화**:
-   - `_MOC 온톨로지 개발.md` 버전 히스토리 업데이트
-   - 변경 사항을 `CHANGELOG.md` 또는 스키마 문서에 기록
-
-### 실제 데이터 구조 검증
-1. 온톨로지 스펙 작성 완료
-2. SoSi 또는 KkokKkokFit 프로젝트 참조:
-   - SoSi: `/Users/gim-eunhyang/dev/flutter/sosi`
-   - KkokKkokFit Web: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
-3. 실제 Firestore/RDB 스키마 확인
-4. 갭 분석:
-   - 온톨로지에는 있지만 구현에는 없는 필드 → 구현 계획 또는 온톨로지 조정
-   - 구현에는 있지만 온톨로지에는 없는 필드 → 온톨로지 확장
-5. 검증 결과를 `50_Experiments/Use-cases/`에 문서화
-
-### Inbox 정리하기
-1. 주기적으로 (주 1회 권장) `00_Inbox/` 검토
-2. 각 메모의 성격 파악:
-   - 학습 자료 → `10_Study/`
-   - 엔티티/관계/규칙 아이디어 → `20_Ontology/`
-   - 전략/아이디어 → `30_Strategy/`
-   - LOOP OS 스펙 → `40_LOOP_OS/`
-   - 실험 결과 → `50_Experiments/`
-3. 적절한 위치로 이동하고 MOC 업데이트
-4. 더 이상 유효하지 않은 메모는 `90_Archive/`로 이동
-
-## 주의사항
-
-### 절대 하지 말 것
-- ❌ v0.1 코어 타입/필드 삭제 또는 의미 변경
+### v0.1 고정 사항 (절대 변경 금지)
+- ❌ 5개 코어 엔티티 (Event, Episode, LoopStateWindow, ActionExecution, OutcomeMeasurement) 삭제/의미 변경
+- ❌ ID 필드명 변경 (eventId, episodeId, stateWindowId, actionExecutionId, outcomeId)
+- ❌ Reference 구조 파괴 (episodeId, actionExecutionId 참조)
 - ❌ 공통 필드 제거 (id, userId, createdAt, updatedAt, source, specVersion)
-- ❌ 기존 Reference 구조 파괴 (episodeId, actionExecutionId 등)
-- ❌ 상대 경로나 절대 경로 링크 사용 (`[[파일명]]`만 사용)
-- ❌ 온톨로지 스펙 변경 없이 실제 구현 변경 제안
+- ❌ 4조건 규칙 (Rule A-D) 변경
 
-### 권장 사항
-- ✅ 새 문서 생성 시 항상 MOC 업데이트
-- ✅ 엔티티 설계 전 실제 구현체(SoSi/KkokKkokFit) 참조
-- ✅ 태그 일관성 유지
-- ✅ 예시 포함 (JSON, 시나리오)
-- ✅ 버전 히스토리 기록
-- ✅ 정기적인 Inbox 정리
+### 허용되는 변경
+- ✅ 새 엔티티 추가 (Rule A 위반 아님)
+- ✅ 새 필드 추가 (기존 필드 의미 유지)
+- ✅ payload 내부 구조 확장
 
-### Obsidian 특화 기능 활용
-- 그래프 뷰로 엔티티 간 관계 시각화
-- 백링크로 엔티티가 어디서 참조되는지 추적
-- 태그 검색으로 특정 버전/상태 문서 필터링
-- 임베드 기능으로 관련 정의 참조: `![[Event 정의#정의]]`
-
-## 자주 묻는 질문 (FAQ)
-
-**Q: 새 엔티티를 추가할 때 v0.1 규칙을 위반하는 건 아닌가요?**
-A: 아닙니다. 새 엔티티 추가는 허용됩니다. 금지되는 것은 기존 5개 코어 엔티티(Event, Episode, LoopStateWindow, ActionExecution, OutcomeMeasurement)의 **삭제 또는 의미 변경**입니다.
-
-**Q: 실제 구현(SoSi/KkokKkokFit)과 온톨로지가 다르면 어떻게 하나요?**
-A: 갭 분석 후 두 가지 옵션:
-1. 온톨로지가 더 나은 설계라면 → 구현 변경 제안 (마이그레이션 계획 포함)
-2. 구현이 현실적이라면 → 온톨로지 조정 (단, v0.1 규칙 위반 금지)
-
-**Q: ActionType이나 Metric registry는 언제 만드나요?**
-A: v0.2+ 승격 후보입니다. v0.1에서는 actionName과 metricName을 문자열로 유지합니다.
-
-**Q: MOC 파일은 무엇인가요?**
-A: Map of Content. Obsidian에서 관련 노트들을 체계적으로 연결하는 허브 문서입니다. 이 vault에는 `_MOC 온톨로지 학습.md`와 `_MOC 온톨로지 개발.md`가 있습니다.
-
-## 관련 파일 위치 요약
-
-| 목적 | 파일 경로 |
-|------|----------|
-| 메인 허브 | `_HOME.md` |
-| 현재 스키마 | `20_Ontology/Schema/v0.1/Ontology-lite v0.1 (ILOS) — 규칙(4조건) + 최소 엔티티 스펙.md` |
-| LOOP OS 정의 | `40_LOOP_OS/Inner Loop OS 정의v1.md` |
-| 학습 로드맵 | `10_Study/_MOC 온톨로지 학습.md` |
-| 개발 현황 | `20_Ontology/_MOC 온톨로지 개발.md` |
-| 10년 전략 | `30_Strategy/10-year direction 정리(헬스케어 섭식 도메인 레이어의 성공선).md` |
-| 3년 전략 | `30_Strategy/(LV1 Strategic Hypotheses) 3-year strategy (조건 기반) 정리.md` |
-| 12개월 계획 | `30_Strategy/12-month 실행 계획(숫자 기반) 정리.md` |
+### 전략 문서 원칙
+- ❌ 수치를 목표로 설정 금지 (중단 신호로만)
+- ❌ "성공/실패" 용어 사용 금지 ("가설 검증/반증")
+- ✅ Condition 깨짐 시 명확한 대응 명시
+- ✅ if_broken 조건 항상 명시
 
 ---
 
-**마지막 업데이트**: 2025-12-17
-**문서 버전**: 2.0
-**작성자**: Claude Code 초기 분석 + 개선
+## 🔍 GraphRAG 활용
+
+### GraphRAG가 답할 수 있어야 하는 질문
+
+**Global 질문 (전체 맥락)**:
+- "이 회사의 10년 목표는?" → Inner Loop OS 글로벌 표준
+- "온톨로지는 왜 만드나?" → MH3 검증 + Condition B enable + Track 2 실행
+- "MH3가 거짓이면?" → 회사 존재 이유 재검토
+
+**Conditional 질문 (If-Then)**:
+- "Condition B가 깨지면?" → 데이터 전략 폐기 → 3년 전략 포기
+- "온톨로지 실패하면?" → MH3 위험 → 회사 재검토 OR v0.2 재설계
+- "패턴 10개 안 되면?" → Condition B 미달 → 데이터 전략 폐기
+
+**Relation 질문 (연결)**:
+- "Event 엔티티는 어떤 가설 검증?" → MH3 (데이터 모델링 가능)
+- "Track 2와 온톨로지의 관계?" → 온톨로지는 Track 2의 Focus 3
+- "온톨로지 성공 시 unlock?" → Condition B → 3년 전략 → 의료 진입
+
+**Timeline 질문 (시계열)**:
+- "12개월 후 성공 조건?" → Condition A,B 명확화 + Condition D 확보
+- "3년 전략 진입 조건?" → Condition A,B,D,E 충족
+- "온톨로지 v0.1 → v0.2 트리거?" → 3개월 안정 + 패턴 10개 + 새 요구사항
+
+**문서**: [[_Graph_Index]], [[30_Ontology/GraphRAG 최적화 가이드]]
+
+---
+
+## 🛠️ 일반적인 작업 워크플로우
+
+### 새 전략 가설 추가
+1. 가설 타입 결정 (MetaHypothesis, Condition, Track, Hypothesis)
+2. 적절한 폴더에 문서 생성 (`01_North_Star/`, `20_Strategy/`)
+3. YAML frontmatter 작성 (entity_type, if_broken, validates/enables)
+4. 관계 명시 (상위/하위 가설, 온톨로지 연결)
+5. `_Graph_Index.md` 업데이트
+6. 관련 MOC 업데이트
+
+### 새 온톨로지 엔티티 추가
+1. `30_Ontology/Entities/`에 문서 생성
+2. YAML frontmatter에 **strategy_link** 섹션 필수
+3. **hypothesis_contribution** 작성 (어떤 가설 검증에 기여하는지)
+4. 3-level summary 작성 (executive/technical/detailed)
+5. 관계 섹션 추가 (테이블 형식)
+6. JSON 예시 포함
+7. `_MOC 온톨로지 개발.md` 업데이트
+8. `_Graph_Index.md` 업데이트
+
+### 온톨로지-전략 갭 분석
+1. 온톨로지 스펙 작성
+2. SoSi/KkokKkokFit 실제 구현 확인
+   - SoSi: `/Users/gim-eunhyang/dev/flutter/sosi`
+   - KkokKkokFit: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
+3. 갭 분석:
+   - 온톨로지에만 있음 → 구현 계획
+   - 구현에만 있음 → 온톨로지 확장
+4. 조정:
+   - 온톨로지가 더 나음 → 구현 변경 제안 (마이그레이션)
+   - 구현이 더 현실적 → 온톨로지 조정 (v0.1 규칙 위반 금지)
+5. 결과를 `70_Experiments/Use-cases/`에 문서화
+
+### Condition 체크
+1. 해당 Condition 문서 열기 (`20_Strategy/3Y_Conditions/`)
+2. metrics 현재 값 업데이트
+3. risk_level 재평가
+4. break_triggers 체크 (충족 시 폐기 결정)
+5. 관련 Track/Project 상태 확인
+6. `_Graph_Index.md` 업데이트
+
+---
+
+## 📚 참고 문서 (Quick Links)
+
+### 전략 계층
+- [[10년 비전]] - `01_North_Star/10년 비전.md`
+- [[MH3_데이터_모델링_가능]] - `01_North_Star/MH3_데이터_모델링_가능.md` ⭐
+- [[Condition_B_Loop_Dataset]] - `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md` ⭐
+- [[Track_2_Data]] - `20_Strategy/12M_Tracks/Track_2_Data.md` ⭐
+
+### 온톨로지 계층
+- [[Ontology-lite v0.1]] - `30_Ontology/Schema/v0.1/`
+- [[_Strategy_Link]] - `30_Ontology/_Strategy_Link.md` ⭐
+- [[Event (GraphRAG 최적화 예시)]] - `30_Ontology/Entities/`
+- [[GraphRAG 최적화 가이드]] - `30_Ontology/GraphRAG 최적화 가이드.md`
+
+### 시스템 정의
+- [[Inner Loop OS 정의v1]] - `40_LOOP_OS/Inner Loop OS 정의v1.md`
+
+### 인덱스
+- [[_Graph_Index]] - `_Graph_Index.md` ⭐
+- [[_HOME]] - `_HOME.md`
+
+---
+
+## 🎓 자주 묻는 질문 (FAQ)
+
+**Q: 온톨로지와 전략은 어떤 관계?**
+A: 온톨로지는 MH3를 검증하고 Condition B를 enable하는 **전략 실행 도구**. 온톨로지 없으면 데이터 전략 불가능.
+
+**Q: Condition이 깨지면 어떻게 되나?**
+A: Condition마다 if_broken 명시. 예: Condition B 깨짐 → 데이터 전략 폐기.
+
+**Q: 수치 목표는 어디에?**
+A: 수치는 **목표가 아니라 중단 신호**. Condition/Track의 metrics는 "이 밑으로 떨어지면 폐기"하는 임계치.
+
+**Q: v0.1 규칙을 바꾸고 싶으면?**
+A: Rule A-D 고정. 새 엔티티 추가는 가능하나 기존 5개는 절대 변경 금지. v0.2로 승격 계획.
+
+**Q: GraphRAG는 어떻게 쓰나?**
+A: Microsoft GraphRAG나 LangChain+Neo4j. YAML frontmatter의 관계 정보를 그래프로 구축.
+
+---
+
+**마지막 업데이트**: 2024-12-18
+**문서 버전**: 3.0 (전략 통합 + GraphRAG 최적화)
+**작성자**: Claude Code 전략-온톨로지 통합
