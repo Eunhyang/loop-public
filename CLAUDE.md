@@ -58,13 +58,15 @@ LOOP/
 ├── CLAUDE.md                           # 이 파일
 │
 ├── 00_Inbox/                           # 임시 메모
+├── 00_Meta/                            # 메타 문서
+│   └── _TEMPLATES/                     # 문서 템플릿
 │
 ├── 01_North_Star/                      # 🆕 10년 비전 + Meta Hypotheses
 │   ├── 10년 비전.md                    # Human Inner Loop OS 글로벌 표준
-│   ├── MH1_루프는_지속적_문제.md
-│   ├── MH2_행동개입_효과.md
+│   ├── MH1_루프는_지속적_문제.md       # (생성 예정)
+│   ├── MH2_행동개입_효과.md            # (생성 예정)
 │   ├── MH3_데이터_모델링_가능.md       # ⭐ 온톨로지가 검증
-│   └── MH4_단계적_확장_가능.md
+│   └── MH4_단계적_확장_가능.md         # (생성 예정)
 │
 ├── 10_Study/                           # 온톨로지 학습
 │   ├── _MOC 온톨로지 학습.md
@@ -76,13 +78,13 @@ LOOP/
 │   └── 06_Exercises/
 │
 ├── 20_Strategy/                        # 🔄 전략 (기존 30_Strategy)
-│   ├── _MOC_전략.md
+│   ├── _MOC_전략.md                    # (생성 예정)
 │   ├── 3Y_Conditions/                  # 3년 조건
-│   │   ├── Condition_A_국내_PMF.md
+│   │   ├── Condition_A_국내_PMF.md     # (생성 예정)
 │   │   ├── Condition_B_Loop_Dataset.md  # ⭐ 온톨로지가 enable
-│   │   ├── Condition_C_Global_Data.md
-│   │   ├── Condition_D_Runway.md
-│   │   └── Condition_E_Team.md
+│   │   ├── Condition_C_Global_Data.md  # (생성 예정)
+│   │   ├── Condition_D_Runway.md       # (생성 예정)
+│   │   └── Condition_E_Team.md         # (생성 예정)
 │   ├── 12M_Tracks/                     # 12개월 Track
 │   │   ├── Track_1_Product.md
 │   │   ├── Track_2_Data.md              # ⭐ 온톨로지 소속
@@ -112,34 +114,52 @@ LOOP/
 │   └── LOOP OS관련 문서.md
 │
 ├── 50_Projects/                        # 🆕 프로젝트 (실험 단위)
-│   ├── _MOC_프로젝트.md
-│   ├── P1_Loop_Core_OS/
-│   ├── P2_CoachOS_Phase1/
+│   ├── _MOC_프로젝트.md                # (생성 예정)
+│   ├── P1_Loop_Core_OS/                # (생성 예정)
+│   ├── P2_CoachOS_Phase1/              # (생성 예정)
 │   ├── P3_Ontology_v0.1/               # ⭐ 온톨로지 프로젝트
-│   │   ├── Project_정의.md
-│   │   ├── Tasks/
-│   │   └── Results/
-│   └── P4_Pattern_Discovery_v1/
+│   │   ├── Project_정의.md             # (생성 예정)
+│   │   ├── Tasks/                      # (생성 예정)
+│   │   └── Results/                    # (생성 예정)
+│   └── P4_Pattern_Discovery_v1/        # (생성 예정)
 │
 ├── 60_Hypotheses/                      # 🆕 가설 검증 로그
-│   ├── _MOC_가설.md
-│   ├── H_천천히먹기_효과.md
-│   ├── H_Loop_모델링_가능.md           # ⭐ 온톨로지 핵심 가설
-│   └── H_유료화_고밀도_비율.md
+│   ├── _MOC_가설.md                    # (생성 예정)
+│   ├── H_천천히먹기_효과.md            # (생성 예정)
+│   ├── H_Loop_모델링_가능.md           # ⭐ 온톨로지 핵심 가설 (생성 예정)
+│   └── H_유료화_고밀도_비율.md         # (생성 예정)
 │
 ├── 70_Experiments/                     # 🔄 실험 (기존 50_Experiments)
 │   └── Use-cases/
 │
-└── 90_Archive/
+├── 90_Archive/                         # 아카이브 (생성 예정)
+│
+├── scripts/                            # 자동화 스크립트
+└── .claude/                            # Claude Code 설정
+    ├── commands/                       # 커스텀 슬래시 커맨드
+    └── skills/                         # 커스텀 스킬
 ```
 
 ### 폴더 변경 사항
 - `20_Ontology/` → `30_Ontology/` (번호 변경)
 - `30_Strategy/` → `20_Strategy/` (번호 변경, 우선순위 상승)
 - `50_Experiments/` → `70_Experiments/`
+- 🆕 `00_Meta/` - 메타 문서 및 템플릿
 - 🆕 `01_North_Star/` - 10년 비전 + MH1-4
 - 🆕 `50_Projects/` - 프로젝트 실행 단위
 - 🆕 `60_Hypotheses/` - 가설 검증 로그
+- 🆕 `.claude/` - Claude Code 커스터마이제이션
+
+### 현재 존재하는 핵심 파일
+- ✅ `01_North_Star/10년 비전.md`
+- ✅ `01_North_Star/MH3_데이터_모델링_가능.md`
+- ✅ `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md`
+- ✅ `20_Strategy/12M_Tracks/Track_*.md` (6개)
+- ✅ `30_Ontology/Entities/Event (GraphRAG 최적화 예시).md`
+- ✅ `40_LOOP_OS/Inner Loop OS 정의v1.md`
+
+### 생성 예정 문서
+대부분의 전략 문서(MH1,2,4, Condition A,C,D,E)와 프로젝트/가설 문서는 이 CLAUDE.md에 정의된 구조에 따라 생성될 예정입니다.
 
 ---
 
@@ -369,18 +389,19 @@ tags: [ontology/entity, version/v0-1, core]
 ## 🚀 작업 규칙
 
 ### 파일 생성 위치 (반드시 준수)
-| 내용 유형 | 생성 위치 | 예시 |
-|----------|----------|------|
-| 10년 비전/Meta Hypotheses | `01_North_Star/` | MH3 문서 |
-| 3년 Conditions | `20_Strategy/3Y_Conditions/` | Condition B |
-| 12개월 Tracks | `20_Strategy/12M_Tracks/` | Track 2 |
-| 온톨로지 엔티티 | `30_Ontology/Entities/` | Event 정의 |
-| 온톨로지 관계 | `30_Ontology/Relations/` | contains 관계 |
-| 온톨로지 규칙 | `30_Ontology/Rules/` | Rule A |
-| 온톨로지-전략 연결 | `30_Ontology/_Strategy_Link.md` | 전략 연결 |
-| 프로젝트 | `50_Projects/P{N}_{Name}/` | Ontology v0.1 |
-| 가설 검증 | `60_Hypotheses/` | Loop 모델링 가능 |
-| 실험 결과 | `70_Experiments/Use-cases/` | 검증 결과 |
+| 내용 유형 | 생성 위치 | 예시 | 상태 |
+|----------|----------|------|------|
+| 10년 비전/Meta Hypotheses | `01_North_Star/` | MH3 문서 | 부분 완성 |
+| 3년 Conditions | `20_Strategy/3Y_Conditions/` | Condition B | 부분 완성 |
+| 12개월 Tracks | `20_Strategy/12M_Tracks/` | Track 2 | 완성 |
+| 온톨로지 엔티티 | `30_Ontology/Entities/` | Event 정의 | 부분 완성 |
+| 온톨로지 관계 | `30_Ontology/Relations/` | contains 관계 | 생성 예정 |
+| 온톨로지 규칙 | `30_Ontology/Rules/` | Rule A | 생성 예정 |
+| 온톨로지-전략 연결 | `30_Ontology/_Strategy_Link.md` | 전략 연결 | 생성 예정 |
+| 프로젝트 | `50_Projects/P{N}_{Name}/` | Ontology v0.1 | 생성 예정 |
+| 가설 검증 | `60_Hypotheses/` | Loop 모델링 가능 | 생성 예정 |
+| 실험 결과 | `70_Experiments/Use-cases/` | 검증 결과 | 폴더 존재 |
+| 템플릿 | `00_Meta/_TEMPLATES/` | 전략/온톨로지 템플릿 | 폴더 존재 |
 
 ### 전략 문서 작성 시
 1. **entity_type** 명확히 지정 (NorthStar, MetaHypothesis, Condition, Track, Project, Task)
@@ -537,6 +558,54 @@ A: Microsoft GraphRAG나 LangChain+Neo4j. YAML frontmatter의 관계 정보를 �
 
 ---
 
-**마지막 업데이트**: 2024-12-18
-**문서 버전**: 3.0 (전략 통합 + GraphRAG 최적화)
+## 🤖 Claude Code 통합
+
+### 커스텀 슬래시 커맨드
+`.claude/commands/` 폴더에 커스텀 슬래시 커맨드를 추가할 수 있습니다.
+
+**예시 사용 케이스**:
+- `/new-strategy` - 새로운 전략 가설 문서 생성
+- `/new-entity` - 새로운 온톨로지 엔티티 생성
+- `/check-condition` - Condition 상태 체크 및 업데이트
+- `/update-graph` - _Graph_Index.md 자동 업데이트
+
+### 커스텀 스킬
+`.claude/skills/` 폴더에 특화된 스킬을 추가할 수 있습니다.
+
+**예시 사용 케이스**:
+- `strategy-analyzer` - 전략 계층 분석 및 관계 검증
+- `ontology-validator` - v0.1 규칙 위반 체크
+- `gap-analyzer` - 온톨로지-구현 갭 분석
+
+### 자동화 스크립트
+`scripts/` 폴더에 반복 작업 자동화 스크립트를 추가할 수 있습니다.
+
+**참고**: 이 vault는 순수 마크다운 기반이므로, 스크립트는 주로 문서 생성/검증/인덱싱에 사용됩니다.
+
+---
+
+## 📌 중요 참고 사항
+
+### Obsidian Vault 특성
+- **코드 실행 없음**: 이것은 지식 관리 vault이지 소프트웨어 프로젝트가 아닙니다
+- **빌드 명령 없음**: `npm`, `cargo`, `go build` 등의 명령은 사용하지 않습니다
+- **테스트 없음**: 단위 테스트나 통합 테스트가 없습니다
+- **마크다운 중심**: 모든 작업은 `.md` 파일 생성, 편집, 구조화에 집중됩니다
+
+### 실제 구현 프로젝트
+이 vault는 전략과 온톨로지 **명세**를 관리합니다. 실제 구현은:
+- **SoSi**: `/Users/gim-eunhyang/dev/flutter/sosi`
+- **KkokKkokFit**: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
+
+온톨로지-구현 갭 분석 시 이 경로들을 참조하세요.
+
+---
+
+**마지막 업데이트**: 2025-12-18
+**문서 버전**: 3.1 (실제 폴더 구조 반영 + Claude Code 통합)
 **작성자**: Claude Code 전략-온톨로지 통합
+**변경사항**:
+- 실제 존재하는 폴더와 파일 구분
+- 00_Meta, scripts, .claude 폴더 추가
+- Claude Code 커스터마이제이션 섹션 추가
+- 생성 예정 문서 명시
