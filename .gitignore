@@ -15,3 +15,17 @@
 *.tmp
 *.temp
 ~$*
+
+# === Auto-generated files (충돌 방지) ===
+# 아래 파일들은 스크립트로 자동 생성되므로 Git에서 제외
+# 필요시 로컬에서 재생성: poetry run python scripts/build_graph_index.py .
+_Graph_Index.md
+
+# Python 환경
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Poetry
+poetry.lock
