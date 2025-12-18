@@ -38,6 +38,39 @@ EXCLUDE_FOLDERS = [
     "90_Archive",
 ]
 
+# 멤버 설정 파일
+MEMBERS_FILE = "00_Meta/members.yaml"
+
+
+def load_members(vault_path: Path) -> Dict[str, Dict]:
+    """멤버 정보 로드"""
+    members_path = vault_path / MEMBERS_FILE
+    members = {}
+
+    if members_path.exists():
+        try:
+            with open(members_path, 'r', encoding='utf-8') as f:
+                data = yaml.safe_load(f)
+                if data and 'members' in data:
+                    for member in data['members']:
+                        member_id = member.get('id', '')
+                        if member_id:
+                            members[member_id] = member
+        except Exception as e:
+            print(f"Warning: Failed to load members: {e}")
+
+    return members
+
+
+def get_member_display(assignee: str, members: Dict[str, Dict]) -> str:
+    """assignee ID를 표시용 문자열로 변환 (아이콘 + 이름)"""
+    if assignee in members:
+        member = members[assignee]
+        icon = member.get('icon', '👤')
+        name = member.get('name', assignee)
+        return f"{icon} {name}"
+    return f"👤 {assignee}"
+
 
 def extract_frontmatter(file_path: Path) -> Optional[Dict[str, Any]]:
     """마크다운 파일에서 YAML frontmatter 추출"""
@@ -107,7 +140,7 @@ def get_obsidian_uri(vault_name: str, file_path: str) -> str:
     return f"obsidian://open?vault={quote(vault_name)}&file={encoded_path}"
 
 
-def generate_html(entities: Dict[str, List[Dict]], vault_name: str) -> str:
+def generate_html(entities: Dict[str, List[Dict]], vault_name: str, members: Dict[str, Dict]) -> str:
     """칸반 보드 HTML 생성"""
 
     # Task를 status별로 분류
@@ -171,7 +204,8 @@ def generate_html(entities: Dict[str, List[Dict]], vault_name: str) -> str:
         """Task 카드 HTML 렌더링"""
         name = task.get('entity_name', task.get('_file_name', 'Unknown'))
         entity_id = task.get('entity_id', '')
-        assignee = task.get('assignee', 'unassigned')
+        assignee_id = task.get('assignee', 'unassigned')
+        assignee_display = get_member_display(assignee_id, members)
         status = task.get('status', 'todo')
         priority = task.get('priority', 'medium')
         tags = task.get('tags', [])
@@ -222,7 +256,7 @@ def generate_html(entities: Dict[str, List[Dict]], vault_name: str) -> str:
                 <span class="task-id">{entity_id}</span>
             </div>
             <div class="task-meta">
-                <span class="assignee">👤 {assignee}</span>
+                <span class="assignee">{assignee_display}</span>
                 {f'<span class="due">📅 {due}</span>' if due else ''}
             </div>
             {f'<div class="task-project">📁 {project_html}</div>' if project_html else ''}
@@ -690,7 +724,7 @@ def generate_html(entities: Dict[str, List[Dict]], vault_name: str) -> str:
     </div>
 
     <div id="projects" class="tab-content">
-        {generate_projects_section(entities, vault_name, all_entities)}
+        {generate_projects_section(entities, vault_name, all_entities, members)}
     </div>
 
     <script>
@@ -711,7 +745,7 @@ def generate_html(entities: Dict[str, List[Dict]], vault_name: str) -> str:
     return html
 
 
-def generate_projects_section(entities: Dict, vault_name: str, all_entities: Dict) -> str:
+def generate_projects_section(entities: Dict, vault_name: str, all_entities: Dict, members: Dict[str, Dict]) -> str:
     """프로젝트 섹션 HTML 생성"""
     projects = entities.get('Project', [])
     tasks = entities.get('Task', [])
@@ -751,7 +785,8 @@ def generate_projects_section(entities: Dict, vault_name: str, all_entities: Dic
         for task in sorted(project_tasks, key=lambda x: {'doing': 0, 'todo': 1, 'blocked': 2, 'done': 3}.get(x.get('status', 'todo'), 4)):
             t_name = task.get('entity_name', task.get('_file_name', ''))
             t_status = task.get('status', 'todo')
-            t_assignee = task.get('assignee', 'unassigned')
+            t_assignee_id = task.get('assignee', 'unassigned')
+            t_assignee_display = get_member_display(t_assignee_id, members)
             t_path = task.get('_relative_path', '')
             t_uri = get_obsidian_uri(vault_name, t_path)
 
@@ -767,7 +802,7 @@ def generate_projects_section(entities: Dict, vault_name: str, all_entities: Dic
             <a href="{t_uri}" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
                 <span>{t_name}</span>
                 <span style="display: flex; gap: 8px; align-items: center;">
-                    <span style="font-size: 0.8em; color: #666;">👤 {t_assignee}</span>
+                    <span style="font-size: 0.8em; color: #666;">{t_assignee_display}</span>
                     <span style="font-size: 0.75em; padding: 2px 8px; background: {status_color}; color: white; border-radius: 10px;">{t_status}</span>
                 </span>
             </a>
@@ -807,6 +842,12 @@ def main():
 
     print(f"Scanning vault: {vault_path}")
 
+    # 멤버 정보 로드
+    members = load_members(vault_path)
+    print(f"Members loaded: {len(members)}")
+    for member_id, member in members.items():
+        print(f"  {member.get('icon', '👤')} {member.get('name', member_id)} ({member_id})")
+
     # Vault 스캔
     entities = scan_vault(vault_path)
 
@@ -817,7 +858,7 @@ def main():
             print(f"  {entity_type}: {len(entity_list)}")
 
     # HTML 생성
-    html = generate_html(entities, VAULT_NAME)
+    html = generate_html(entities, VAULT_NAME, members)
 
     # 출력 디렉토리 생성
     output_dir = vault_path / "_dashboard"

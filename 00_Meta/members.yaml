@@ -1,0 +1,19 @@
+# LOOP Team Members
+# Task의 assignee 필드에서 id로 참조합니다.
+# 예: assignee: "eunhyang"
+
+members:
+  - id: "eunhyang"
+    name: "은향"
+    icon: "👩‍💻"
+    role: "Founder"
+
+  - id: "myunghak"
+    name: "명학"
+    icon: "👨‍🔬"
+    role: "Member"
+
+  - id: "dan"
+    name: "단"
+    icon: "🧑‍🎨"
+    role: "Member"
