@@ -8,6 +8,10 @@
 .DS_Store
 .Trash-*
 
+# Synology NAS 메타데이터
+@eaDir/
+*/@eaDir/
+
 # IntelliJ IDEA
 .idea/
 
@@ -16,10 +20,8 @@
 *.temp
 ~$*
 
-# === Auto-generated files (충돌 방지) ===
-# 아래 파일들은 스크립트로 자동 생성되므로 Git에서 제외
-# 필요시 로컬에서 재생성: poetry run python scripts/build_graph_index.py .
-_Graph_Index.md
+# === Auto-generated files ===
+# _Graph_Index.md는 pre-commit hook에서 자동 생성/커밋됨
 
 # Python 환경
 __pycache__/

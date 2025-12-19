@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-19T19:16:35.748195",
+  "generated": "2025-12-19T20:51:33.590905",
   "total_entities": 73,
   "nodes": [
     {
@@ -14,7 +14,7 @@
       "type": "Project",
       "name": "LoopOS V0 데이터 설계",
       "status": "active",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -26,7 +26,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 6. 저장 전략 결정",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -38,7 +38,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -50,7 +50,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기",
       "status": "in_progress",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -62,7 +62,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -74,7 +74,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -86,7 +86,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -98,7 +98,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -110,7 +110,7 @@
       "type": "Project",
       "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
       "status": "active",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -122,7 +122,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결",
       "status": "planning",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -134,7 +134,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기",
       "status": "in_progress",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -146,7 +146,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차",
       "status": "planning",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -158,7 +158,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 6 — 최소 구현 시작",
       "status": "planning",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -170,7 +170,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기",
       "status": "planning",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -182,7 +182,7 @@
       "type": "Project",
       "name": "[펀딩·마케팅] 와디즈 펀딩",
       "status": "active",
-      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -194,7 +194,7 @@
       "type": "Task",
       "name": "와디즈 새소식 초안 작성 - 브랜드 방향성 위주",
       "status": "in_progress",
-      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -206,7 +206,7 @@
       "type": "Task",
       "name": "와디즈 오픈 후 고객 대응",
       "status": "in_progress",
-      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -218,7 +218,7 @@
       "type": "Project",
       "name": "[투자/TIPS준비] 배치 프로그램 지원",
       "status": "active",
-      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -230,7 +230,7 @@
       "type": "Task",
       "name": "[투자/TIPS준비] 프라이머 배치 프로그램 지원",
       "status": "planning",
-      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 프라이머 배치 프로그램 지원.md",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 프라이머 배치 프로그램 지원.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -242,7 +242,7 @@
       "type": "Task",
       "name": "[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원",
       "status": "planning",
-      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 아이디어파트너스 배치 프로그램 지원.md",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 아이디어파트너스 배치 프로그램 지원.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -254,7 +254,7 @@
       "type": "Project",
       "name": "외부 비서",
       "status": "active",
-      "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
+      "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -266,7 +266,7 @@
       "type": "Task",
       "name": "외부 비서 채용 – 3. 공고용 업무·요건 문단 작성",
       "status": "planning",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -278,7 +278,7 @@
       "type": "Task",
       "name": "외부 비서 채용 – 1. 역할·권한 정책 문서 고정",
       "status": "planning",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -290,7 +290,7 @@
       "type": "Task",
       "name": "외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리",
       "status": "planning",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
       "conditions_3y": [
         "cond:e"
       ],
@@ -302,7 +302,7 @@
       "type": "Project",
       "name": "Ontology v0.1",
       "status": "active",
-      "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
+      "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -350,7 +350,7 @@
       "type": "Project",
       "name": "[코칭 서비스] 1:1 코칭 서비스",
       "status": "active",
-      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -363,7 +363,7 @@
       "type": "Task",
       "name": "꼭꼭Fit 3기 환급 검토",
       "status": "in_progress",
-      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -376,7 +376,7 @@
       "type": "Project",
       "name": "코치 1명 구인 & 1차 온보딩 준비",
       "status": "active",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -389,7 +389,7 @@
       "type": "Task",
       "name": "기본 프로토콜 및 교육 프로세스 정하기",
       "status": "planning",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -402,7 +402,7 @@
       "type": "Task",
       "name": "코치 규칙 정하기",
       "status": "planning",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/코치 규칙 정하기.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/코치 규칙 정하기.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -415,7 +415,7 @@
       "type": "Task",
       "name": "채용 및 계약서 작성",
       "status": "planning",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -428,7 +428,7 @@
       "type": "Task",
       "name": "혜영 코치에게 인수인계 받기",
       "status": "planning",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -441,7 +441,7 @@
       "type": "Project",
       "name": "YouTube 1주 1업로드 프로젝트",
       "status": "active",
-      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
       "conditions_3y": [
         "cond:a"
       ],
@@ -453,7 +453,7 @@
       "type": "Task",
       "name": "[콘텐츠 분석] 유튜브 w31 영상 성과 측정",
       "status": "planning",
-      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Tasks/[콘텐츠 분석] 유튜브 w31 영상 성과 측정.md",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Tasks/[콘텐츠 분석] 유튜브 w31 영상 성과 측정.md",
       "conditions_3y": [
         "cond:a"
       ],
@@ -465,7 +465,7 @@
       "type": "Project",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
       "status": "active",
-      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
       "conditions_3y": [
         "cond:c",
         "cond:d"
@@ -478,7 +478,7 @@
       "type": "Task",
       "name": "리크루팅 사이트) 원택님 피드백 반영",
       "status": "planning",
-      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
       "conditions_3y": [
         "cond:c",
         "cond:d"
@@ -491,7 +491,7 @@
       "type": "Project",
       "name": "(프로젝트 없음)",
       "status": "active",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -527,7 +527,7 @@
       "type": "Task",
       "name": "(이름 없음)",
       "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/(이름 없음).md",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/(이름 없음).md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -539,7 +539,7 @@
       "type": "Task",
       "name": "[YouTube/W32] 영상 업로드",
       "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 영상 업로드.md",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 영상 업로드.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -551,7 +551,7 @@
       "type": "Task",
       "name": "[YouTube/W32] 썸네일 제작",
       "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 썸네일 제작.md",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 썸네일 제작.md",
       "conditions_3y": [
         "cond:b"
       ],
@@ -563,7 +563,7 @@
       "type": "Project",
       "name": "[와디즈] 12주 코칭 습관팩 런칭",
       "status": "active",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -576,7 +576,7 @@
       "type": "Task",
       "name": "꼭꼭 앱 1년 구독권 QA",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭 앱 1년 구독권 QA.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭 앱 1년 구독권 QA.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -589,7 +589,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 페이지 UI 업데이트",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -602,7 +602,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 관련 과제 내용과 AI 통합",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -615,7 +615,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 강의 페이지 + 과제 페이지 만들기",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -628,7 +628,7 @@
       "type": "Task",
       "name": "12/17: 본펀딩 공개",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -641,7 +641,7 @@
       "type": "Task",
       "name": "11/22: 심사 통과, 광고 소재 제작 (크)",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -654,7 +654,7 @@
       "type": "Task",
       "name": "12/31: 펀딩 종료",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -667,7 +667,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 음식편향테스트 특정 주차에 노출",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -680,7 +680,7 @@
       "type": "Task",
       "name": "11/25: 오픈예정 공개",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -693,7 +693,7 @@
       "type": "Task",
       "name": "꼭꼭FIT+꼭꼭 앱 로그인 통합",
       "status": "planning",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -706,7 +706,7 @@
       "type": "Project",
       "name": "[CS·운영] 고객관리/대응",
       "status": "active",
-      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -719,7 +719,7 @@
       "type": "Task",
       "name": "[고객 관리] 카카오톡 채널 활성화 방안 기획",
       "status": "in_progress",
-      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -732,7 +732,7 @@
       "type": "Project",
       "name": "파일럿 프로젝트 후보",
       "status": "active",
-      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -745,7 +745,7 @@
       "type": "Task",
       "name": "[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계",
       "status": "planning",
-      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -758,7 +758,7 @@
       "type": "Task",
       "name": "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안",
       "status": "planning",
-      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -771,7 +771,7 @@
       "type": "Task",
       "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
       "status": "in_progress",
-      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -784,7 +784,7 @@
       "type": "MetaHypothesis",
       "name": "MH3_데이터_모델링_가능",
       "status": "validating",
-      "path": "01_North_Star/MH3_데이터_모델링_가능.md",
+      "path": "01_North_Star/MH3_데이터_모델링_가능.md",
       "priority_flag": "critical"
     },
     {
@@ -792,7 +792,7 @@
       "type": "NorthStar",
       "name": "10년 비전",
       "status": "fixed",
-      "path": "01_North_Star/10년 비전.md",
+      "path": "01_North_Star/10년 비전.md",
       "priority_flag": "critical"
     },
     {

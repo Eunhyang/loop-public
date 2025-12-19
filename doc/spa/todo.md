@@ -79,17 +79,20 @@
     - `/css`, `/js` 경로 마운트
   - 완료일: 2025-12-19
 
+- [x] **SPA-029** Task 드래그 앤 드롭
+  - 수정 파일: `_dashboard/js/components/task-card.js`, `_dashboard/js/components/kanban.js`, `_dashboard/css/kanban.css`
+  - 작업 내용: Task 카드를 드래그하여 다른 상태 컬럼으로 이동
+  - 변경 사항:
+    - `task-card.js`: `draggable="true"` 속성 추가
+    - `kanban.js`: `attachDragListeners()` 메서드 추가, dragstart/dragend/dragover/dragleave/drop 이벤트 처리
+    - `kanban.css`: `.dragging`, `.drag-over` 클래스 스타일 추가 (opacity, 파란색 테두리)
+  - 완료일: 2025-12-19
+
 ---
 
 ## 진행 중
 
-- [ ] **SPA-029** Task 드래그 앤 드롭
-  - 파일: `_dashboard/js/components/task-card.js`, `kanban.js`, `_dashboard/css/kanban.css`
-  - 작업 내용: Task 카드를 드래그하여 다른 상태 컬럼으로 이동
-  - 상세 계획:
-    - task-card.js: `draggable="true"` 속성 추가, `dragstart` 이벤트에서 task ID 저장
-    - kanban.js: `dragover`, `drop` 이벤트 추가, 드롭 시 API 호출하여 상태 변경
-    - kanban.css: 드래그 중 시각적 피드백 (opacity, 컬럼 하이라이트)
+(없음)
 
 ---
 
@@ -140,6 +143,8 @@
 ### 완료
 - API: Project PUT/DELETE, Track GET, Constants GET
 - SPA 구조: 모듈화된 파일 구조, 정적 파일 서빙
+- Task Side Panel (카드 클릭 → 상세 보기/수정)
+- Task 드래그 앤 드롭 (컬럼 간 이동으로 상태 변경)
 
 ### 구현됨 (테스트 필요)
 - Task CRUD (생성, 수정, 삭제)
@@ -157,19 +162,21 @@
 
 ```
 _dashboard/
-├── index.html              # 메인 HTML (모달, 컨테이너)
+├── index.html              # 메인 HTML (모달, 패널, 컨테이너)
 ├── css/
 │   ├── main.css            # 기본 레이아웃, 버튼, 토스트
-│   ├── kanban.css          # 칸반 보드, 카드 스타일
-│   └── modal.css           # 모달 스타일
+│   ├── kanban.css          # 칸반 보드, 카드, 드래그앤드롭 스타일
+│   ├── modal.css           # 모달 스타일
+│   └── panel.css           # 사이드 패널 스타일
 └── js/
     ├── api.js              # API 호출 모듈
     ├── state.js            # 전역 상태 관리
     ├── app.js              # 메인 엔트리, 초기화
     └── components/
         ├── tabs.js         # 프로젝트 탭
-        ├── kanban.js       # 칸반 보드
-        ├── task-card.js    # Task 카드 (관계 표시 포함)
+        ├── kanban.js       # 칸반 보드, 드래그앤드롭
+        ├── task-card.js    # Task 카드 (관계 표시, draggable)
+        ├── task-panel.js   # Task 상세 사이드 패널
         ├── task-modal.js   # Task CRUD 모달
         ├── project-modal.js # Project CRUD 모달
         └── relations.js    # 상위 연결 정보 (Track, validates, conditions)

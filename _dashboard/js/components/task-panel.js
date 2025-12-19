@@ -4,6 +4,8 @@
  */
 const TaskPanel = {
     currentTask: null,
+    isExpanded: false,
+    isEditingNotes: false,
 
     /**
      * 패널 초기화 - Select 옵션 채우기
@@ -72,6 +74,125 @@ const TaskPanel = {
 
         // Delete button
         document.getElementById('panelTaskDelete')?.addEventListener('click', () => this.delete());
+
+        // Expand button
+        document.getElementById('taskPanelExpand')?.addEventListener('click', () => this.toggleExpand());
+
+        // Notes toggle button
+        document.getElementById('notesToggleBtn')?.addEventListener('click', () => this.toggleNotesEdit());
+
+        // Live preview on notes input
+        document.getElementById('panelTaskNotes')?.addEventListener('input', (e) => {
+            this.updateNotesPreview(e.target.value);
+        });
+    },
+
+    /**
+     * 전체화면 토글
+     */
+    toggleExpand() {
+        this.isExpanded = !this.isExpanded;
+        const panel = document.getElementById('taskPanel');
+        const btn = document.getElementById('taskPanelExpand');
+
+        if (this.isExpanded) {
+            panel.classList.add('expanded');
+            btn.textContent = '⛶';
+            btn.title = 'Collapse';
+        } else {
+            panel.classList.remove('expanded');
+            btn.textContent = '⛶';
+            btn.title = 'Expand';
+        }
+    },
+
+    /**
+     * Notes 편집 모드 토글
+     */
+    toggleNotesEdit() {
+        this.isEditingNotes = !this.isEditingNotes;
+        const previewEl = document.getElementById('panelTaskNotesPreview');
+        const editEl = document.getElementById('panelTaskNotesEdit');
+        const toggleBtn = document.getElementById('notesToggleBtn');
+
+        if (this.isEditingNotes) {
+            previewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            toggleBtn.textContent = '👁️';
+            toggleBtn.title = 'Preview';
+            toggleBtn.classList.add('active');
+            document.getElementById('panelTaskNotes').focus();
+        } else {
+            previewEl.style.display = 'block';
+            editEl.style.display = 'none';
+            toggleBtn.textContent = '✏️';
+            toggleBtn.title = 'Edit';
+            toggleBtn.classList.remove('active');
+            // Update preview with current textarea value
+            this.updateNotesPreview(document.getElementById('panelTaskNotes').value);
+        }
+    },
+
+    /**
+     * 마크다운 렌더링
+     */
+    renderMarkdown(text) {
+        if (!text || !text.trim()) {
+            return '<div class="notes-placeholder">No notes</div>';
+        }
+
+        let html = text
+            // Escape HTML
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            // Code blocks (```code```)
+            .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+            // Inline code (`code`)
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            // Headers
+            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+            // Bold (**text**)
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            // Italic (*text*)
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            // Strikethrough (~~text~~)
+            .replace(/~~(.+?)~~/g, '<del>$1</del>')
+            // Blockquotes
+            .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+            // Horizontal rule
+            .replace(/^---$/gm, '<hr>')
+            // Checklists
+            .replace(/^- \[x\] (.+)$/gm, '<div class="checklist-item"><input type="checkbox" checked disabled> $1</div>')
+            .replace(/^- \[ \] (.+)$/gm, '<div class="checklist-item"><input type="checkbox" disabled> $1</div>')
+            // Unordered lists
+            .replace(/^- (.+)$/gm, '<li>$1</li>')
+            // Links [text](url)
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+            // Paragraphs (double newlines)
+            .replace(/\n\n/g, '</p><p>')
+            // Single newlines to <br>
+            .replace(/\n/g, '<br>');
+
+        // Wrap list items in <ul>
+        html = html.replace(/(<li>.*?<\/li>)+/gs, '<ul>$&</ul>');
+
+        // Wrap in paragraph if not already structured
+        if (!html.startsWith('<h') && !html.startsWith('<ul') && !html.startsWith('<pre') && !html.startsWith('<blockquote')) {
+            html = '<p>' + html + '</p>';
+        }
+
+        return html;
+    },
+
+    /**
+     * Notes 프리뷰 업데이트
+     */
+    updateNotesPreview(text) {
+        const previewEl = document.getElementById('panelTaskNotesPreview');
+        previewEl.innerHTML = this.renderMarkdown(text);
     },
 
     /**
@@ -100,6 +221,12 @@ const TaskPanel = {
 
         // Delete 버튼 숨기기
         document.getElementById('panelTaskDelete').style.display = 'none';
+
+        // Notes 초기화 (편집 모드로 시작)
+        this.resetNotesView();
+        this.isEditingNotes = false;
+        this.toggleNotesEdit(); // 새 Task는 편집 모드로 시작
+        this.updateNotesPreview('');
 
         this.show();
     },
@@ -133,7 +260,24 @@ const TaskPanel = {
         // Delete 버튼 표시
         document.getElementById('panelTaskDelete').style.display = 'block';
 
+        // Notes 프리뷰 모드로 초기화
+        this.resetNotesView();
+        this.updateNotesPreview(task.notes || '');
+
         this.show();
+    },
+
+    /**
+     * Notes 뷰 리셋 (프리뷰 모드로)
+     */
+    resetNotesView() {
+        this.isEditingNotes = false;
+        document.getElementById('panelTaskNotesPreview').style.display = 'block';
+        document.getElementById('panelTaskNotesEdit').style.display = 'none';
+        const toggleBtn = document.getElementById('notesToggleBtn');
+        toggleBtn.textContent = '✏️';
+        toggleBtn.title = 'Edit';
+        toggleBtn.classList.remove('active');
     },
 
     /**
@@ -209,9 +353,18 @@ const TaskPanel = {
      * 패널 닫기
      */
     close() {
-        document.getElementById('taskPanel').classList.remove('active');
+        const panel = document.getElementById('taskPanel');
+        panel.classList.remove('active');
+        panel.classList.remove('expanded');
         document.getElementById('taskPanelOverlay').classList.remove('active');
         this.currentTask = null;
+        this.isExpanded = false;
+        this.resetNotesView();
+
+        // Reset expand button
+        const btn = document.getElementById('taskPanelExpand');
+        btn.textContent = '⛶';
+        btn.title = 'Expand';
     },
 
     /**

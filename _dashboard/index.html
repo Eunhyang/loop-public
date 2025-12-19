@@ -147,7 +147,10 @@
     <aside class="side-panel" id="taskPanel">
         <div class="panel-header">
             <h2 id="taskPanelTitle">Task Detail</h2>
-            <button class="panel-close" id="taskPanelClose">&times;</button>
+            <div class="panel-header-actions">
+                <button class="panel-expand" id="taskPanelExpand" title="Expand">⛶</button>
+                <button class="panel-close" id="taskPanelClose">&times;</button>
+            </div>
         </div>
         <div class="panel-body">
             <div class="panel-field-id" id="panelTaskId"></div>
@@ -195,9 +198,17 @@
 
             <!-- Notes -->
             <div class="panel-section">
-                <div class="panel-section-title">Notes</div>
-                <div class="panel-field">
-                    <textarea id="panelTaskNotes" placeholder="Add notes..."></textarea>
+                <div class="panel-section-title">
+                    Notes
+                    <button class="notes-toggle-btn" id="notesToggleBtn" title="Toggle Edit">✏️</button>
+                </div>
+                <div class="panel-notes-container">
+                    <div class="panel-notes-preview" id="panelTaskNotesPreview">
+                        <div class="notes-placeholder">No notes</div>
+                    </div>
+                    <div class="panel-field panel-notes-edit" id="panelTaskNotesEdit" style="display: none;">
+                        <textarea id="panelTaskNotes" placeholder="Add notes... (Markdown supported: ## heading, **bold**, *italic*, - list)"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
