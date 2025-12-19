@@ -37,8 +37,8 @@ tags: ["meta", "graph", "index"]
 | completed | 1 |
 | fixed | 1 |
 | in_progress | 9 |
-| pending | 1 |
-| planning | 39 |
+| pending | 2 |
+| planning | 38 |
 | unknown | 2 |
 | validating | 1 |
 
@@ -104,7 +104,7 @@ tags: ["meta", "graph", "index"]
 | `tsk:001-01` | Event 엔티티 검증 | pending | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md` |
 | `tsk:001-02` | Episode 엔티티 검증 | in_progress | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md` |
 | `tsk:001-03` | 스키마 문서화 | completed | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md` |
-| `tsk:002-01` | 12/17: 본펀딩 공개 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md` |
+| `tsk:002-01` | 12/17: 본펀딩 공개 | pending | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md` |
 | `tsk:002-02` | 12/31: 펀딩 종료 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md` |
 | `tsk:002-03` | 11/25: 오픈예정 공개 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md` |
 | `tsk:002-04` | 11/22: 심사 통과, 광고 소재 제작 (크) | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md` |

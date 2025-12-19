@@ -28,12 +28,14 @@ This skill ensures Task and Project entities follow strict schema requirements a
 
 **Step 1: Collect required information**
 
+First, read `00_Meta/members.yaml` to get valid assignee options.
+
 Use AskUserQuestion to collect:
 
 Required fields:
 - `entity_name` - Task name (e.g., "CoachOS 프로토타입 개발")
 - `project_id` - Parent project ID (must exist, e.g., "prj:003")
-- `assignee` - Person responsible
+- `assignee` - Person responsible (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 
 Optional fields:
 - `parent_id` - Parent task ID if this is a subtask
@@ -97,11 +99,13 @@ Run validation (see "Validation Workflow" section below).
 
 **Step 1: Collect required information**
 
+First, read `00_Meta/members.yaml` to get valid owner options.
+
 Use AskUserQuestion to collect:
 
 Required fields:
 - `entity_name` - Project name (e.g., "Ontology_v0.2")
-- `owner` - Project owner
+- `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 - `parent_id` - Parent Track or Hypothesis ID (e.g., "trk:2" or "hyp:005")
 
 Optional fields:

@@ -36,14 +36,16 @@ async function init() {
 
         // Render UI
         Tabs.render();
+        Kanban.renderAssigneeFilter();
         Kanban.render();
 
         // Populate form selects
         TaskModal.populateSelects();
         ProjectModal.populateSelects();
 
-        // Initialize Task Panel
+        // Initialize Panels
         TaskPanel.init();
+        ProjectPanel.init();
 
         // Setup event listeners
         setupEventListeners();
@@ -95,6 +97,7 @@ function setupEventListeners() {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
             TaskPanel.close();
+            ProjectPanel.close();
         }
     });
 }

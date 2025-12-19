@@ -1,0 +1,169 @@
+# LOOP Impact Model Configuration
+# Version: 1.0.0
+# Last Updated: 2025-12-19
+#
+# 이 파일은 Impact A/B 점수 계산에 사용되는 모든 상수를 정의합니다.
+# build_impact.py, API autofill 등에서 참조합니다.
+
+version: "1.0.0"
+
+# ============================================
+# Tier 정의
+# ============================================
+tiers:
+  strategic:
+    description: "비전/전략에 직접 기여하는 핵심 프로젝트"
+    examples:
+      - "신규 시장 진출"
+      - "핵심 제품 출시"
+      - "전략적 파트너십"
+
+  enabling:
+    description: "전략 실행을 가속하는 기반 프로젝트"
+    examples:
+      - "인프라 구축"
+      - "팀 채용"
+      - "프로세스 개선"
+
+  operational:
+    description: "일상 운영을 유지하는 필수 프로젝트"
+    examples:
+      - "유지보수"
+      - "정기 업데이트"
+      - "운영 지원"
+
+# ============================================
+# Expected Score (A) 계산
+# ============================================
+# ExpectedScore = magnitude_points[tier][magnitude] × confidence
+
+magnitude_points:
+  strategic:
+    high: 10
+    mid: 6
+    low: 3
+  enabling:
+    high: 5
+    mid: 3
+    low: 1.5
+  operational:
+    high: 2
+    mid: 1
+    low: 0.5
+
+# impact_magnitude 정의
+magnitude_levels:
+  high:
+    description: "핵심 지표에 직접적이고 큰 영향"
+    threshold: "목표 달성의 30% 이상 기여"
+  mid:
+    description: "지표에 중간 수준의 영향"
+    threshold: "목표 달성의 10-30% 기여"
+  low:
+    description: "지표에 간접적이거나 작은 영향"
+    threshold: "목표 달성의 10% 미만 기여"
+
+# confidence 범위
+confidence:
+  min: 0.0
+  max: 1.0
+  default: 0.7
+  guidelines:
+    high: 0.8    # 실행 계획이 명확하고 리스크가 낮음
+    medium: 0.5  # 불확실성이 있지만 관리 가능
+    low: 0.3     # 리스크가 높거나 실험적
+
+# ============================================
+# Realized Score (B) 계산
+# ============================================
+# RealizedScore = normalized_delta × strength_mult × attribution_share
+
+strength_multipliers:
+  strong: 1.0   # 정량적 데이터, 명확한 인과관계
+  medium: 0.7   # 정성적 증거, 합리적 추론
+  weak: 0.4     # 간접 증거, 약한 연관성
+
+# normalized_delta 범위
+normalized_delta:
+  min: 0.0
+  max: 1.0
+  description: "목표 대비 실제 달성 비율 (0=미달, 1=완전달성)"
+
+# attribution_share 범위
+attribution_share:
+  min: 0.0
+  max: 1.0
+  default: 1.0
+  description: "해당 프로젝트의 기여 비율 (다른 요인 배제)"
+
+# ============================================
+# Realized Status 정의
+# ============================================
+realized_status:
+  planned:
+    description: "아직 시작 전"
+    can_have_evidence: false
+
+  in_progress:
+    description: "진행 중, 부분 증거 가능"
+    can_have_evidence: true
+
+  completed:
+    description: "완료, 최종 증거 필요"
+    can_have_evidence: true
+
+  validated:
+    description: "증거 검증 완료"
+    can_have_evidence: true
+
+# ============================================
+# Roll-up 설정
+# ============================================
+rollup:
+  # Condition 롤업: 연결된 Project들의 가중 합
+  condition:
+    method: "weighted_sum"
+    formula: "sum(project.expected × project.contributes[cond].weight)"
+
+  # NorthStar 롤업: Condition들의 가중 합
+  northstar:
+    method: "weighted_sum"
+    formula: "sum(condition.score × condition.weight_to_northstar)"
+
+# ============================================
+# LLM Autofill 설정
+# ============================================
+autofill:
+  model: "claude-sonnet-4-20250514"
+  max_tokens: 1024
+  temperature: 0.3
+
+  # Context 수집 제한
+  context_limits:
+    max_similar_projects: 3
+    max_condition_chars: 2000
+    max_northstar_chars: 500
+
+# ============================================
+# 검증 규칙
+# ============================================
+validation:
+  project:
+    required_fields:
+      - tier
+      - track
+      - contributes
+      - impact_magnitude
+      - confidence
+
+    contributes_rules:
+      min_count: 1
+      max_count: 5
+      weight_sum_max: 1.0
+
+  evidence:
+    required_fields:
+      - project
+      - summary
+      - normalized_delta
+      - evidence_strength

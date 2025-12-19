@@ -3,6 +3,56 @@
  * 칸반 보드 렌더링
  */
 const Kanban = {
+    /**
+     * 담당자 필터 렌더링
+     */
+    renderAssigneeFilter() {
+        const filterEl = document.getElementById('assigneeFilter');
+        if (!filterEl) return;
+
+        // 담당자별 Task 개수 계산 (프로젝트 필터는 유지)
+        const tasksByAssignee = {};
+        let filteredByProject = State.tasks;
+        if (State.currentProject !== 'all') {
+            filteredByProject = State.tasks.filter(t => t.project_id === State.currentProject);
+        }
+
+        filteredByProject.forEach(task => {
+            const assignee = task.assignee || 'unassigned';
+            tasksByAssignee[assignee] = (tasksByAssignee[assignee] || 0) + 1;
+        });
+
+        // All 버튼
+        let html = `
+            <button class="filter-btn ${State.currentAssignee === 'all' ? 'active' : ''}" data-assignee="all">
+                All
+                <span class="filter-count">${filteredByProject.length}</span>
+            </button>
+        `;
+
+        // 각 멤버 버튼
+        State.members.forEach(member => {
+            const count = tasksByAssignee[member.id] || 0;
+            html += `
+                <button class="filter-btn ${State.currentAssignee === member.id ? 'active' : ''}" data-assignee="${member.id}">
+                    ${member.name}
+                    <span class="filter-count">${count}</span>
+                </button>
+            `;
+        });
+
+        filterEl.innerHTML = html;
+
+        // 이벤트 리스너
+        filterEl.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                State.currentAssignee = btn.dataset.assignee;
+                this.renderAssigneeFilter();
+                this.render();
+            });
+        });
+    },
+
     render() {
         const boardEl = document.getElementById('board');
         const statuses = State.getTaskStatuses();

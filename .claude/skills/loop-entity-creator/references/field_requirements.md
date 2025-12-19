@@ -10,7 +10,7 @@ Required and optional fields for each entity type.
 |-------|-------------|---------|
 | `entity_name` | Task name | "CoachOS 프로토타입 개발" |
 | `project_id` | Parent project ID | "prj:003" |
-| `assignee` | Person responsible | "김코치" |
+| `assignee` | Person responsible (from members.yaml) | "김은향", "한명학", "임단", "미정" |
 
 ### Optional Fields
 
@@ -44,7 +44,7 @@ Required and optional fields for each entity type.
 | Field | Description | Example |
 |-------|-------------|---------|
 | `entity_name` | Project name | "Ontology_v0.2" |
-| `owner` | Project owner | "김개발" |
+| `owner` | Project owner (from members.yaml) | "김은향", "한명학", "임단", "미정" |
 | `parent_id` | Parent Track or Hypothesis ID | "trk:2" or "hyp:005" |
 
 ### Optional Fields

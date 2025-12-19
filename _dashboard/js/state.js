@@ -12,6 +12,7 @@ const State = {
 
     // UI State
     currentProject: 'all',
+    currentAssignee: 'all',
     loading: false,
     editingTask: null,
     editingProject: null,
@@ -114,12 +115,21 @@ const State = {
         return this.tracks.find(t => t.entity_id === parentId);
     },
 
-    // Get filtered tasks by current project
+    // Get filtered tasks by current project and assignee
     getFilteredTasks() {
-        if (this.currentProject === 'all') {
-            return this.tasks;
+        let filtered = this.tasks;
+
+        // Filter by project
+        if (this.currentProject !== 'all') {
+            filtered = filtered.filter(t => t.project_id === this.currentProject);
         }
-        return this.tasks.filter(t => t.project_id === this.currentProject);
+
+        // Filter by assignee
+        if (this.currentAssignee !== 'all') {
+            filtered = filtered.filter(t => t.assignee === this.currentAssignee);
+        }
+
+        return filtered;
     },
 
     // Status 매핑 (다양한 상태값을 표준 상태로 변환)

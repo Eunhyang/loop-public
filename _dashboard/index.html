@@ -27,6 +27,14 @@
         <!-- Dynamically populated -->
     </nav>
 
+    <!-- Assignee Filter -->
+    <div class="filter-bar" id="filterBar">
+        <span class="filter-label">Assignee:</span>
+        <div class="filter-buttons" id="assigneeFilter">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
     <!-- Kanban Board -->
     <main class="board-container">
         <div class="kanban-board" id="board">
@@ -142,6 +150,98 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Project Side Panel -->
+    <div class="panel-overlay" id="projectPanelOverlay"></div>
+    <aside class="side-panel" id="projectPanel">
+        <div class="panel-header">
+            <h2 id="projectPanelTitle">Project Detail</h2>
+            <div class="panel-header-actions">
+                <button class="panel-expand" id="projectPanelExpand" title="Expand">⛶</button>
+                <button class="panel-close" id="projectPanelClose">&times;</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="panel-columns">
+                <!-- Left Column: Basic Info + Relations -->
+                <div class="panel-column-left">
+                    <div class="panel-field-id" id="panelProjectId"></div>
+
+                    <!-- Basic Info -->
+                    <div class="panel-section">
+                        <div class="panel-section-title">Basic Info</div>
+                        <div class="panel-field">
+                            <label>Project Name *</label>
+                            <input type="text" id="panelProjectName" placeholder="Enter project name">
+                        </div>
+                        <div class="panel-field-row">
+                            <div class="panel-field">
+                                <label>Owner *</label>
+                                <select id="panelProjectOwner"></select>
+                            </div>
+                            <div class="panel-field">
+                                <label>Parent Track</label>
+                                <select id="panelProjectTrack"></select>
+                            </div>
+                        </div>
+                        <div class="panel-field-row">
+                            <div class="panel-field">
+                                <label>Status</label>
+                                <select id="panelProjectStatus"></select>
+                            </div>
+                            <div class="panel-field">
+                                <label>Priority</label>
+                                <select id="panelProjectPriority"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Relations -->
+                    <div class="panel-section">
+                        <div class="panel-section-title">Relations</div>
+                        <div class="panel-relations" id="panelProjectRelations">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Tasks in Project -->
+                    <div class="panel-section">
+                        <div class="panel-section-title">Tasks</div>
+                        <div class="panel-project-tasks" id="panelProjectTasks">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Notes -->
+                <div class="panel-column-right">
+                    <div class="panel-section panel-section-notes">
+                        <div class="panel-section-title">
+                            Notes
+                            <button class="notes-toggle-btn" id="projectNotesToggleBtn" title="Toggle Edit">✏️</button>
+                        </div>
+                        <div class="panel-notes-container">
+                            <div class="panel-notes-preview" id="panelProjectNotesPreview">
+                                <div class="notes-placeholder">No notes</div>
+                            </div>
+                            <div class="panel-field panel-notes-edit" id="panelProjectNotesEdit" style="display: none;">
+                                <textarea id="panelProjectNotes" placeholder="Add notes... (Markdown supported)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="panel-footer-left">
+                <button class="btn btn-danger" id="panelProjectDelete">Delete</button>
+            </div>
+            <div class="panel-footer-right">
+                <button class="btn btn-secondary" id="panelProjectCancel">Cancel</button>
+                <button class="btn btn-success" id="panelProjectSave">Save</button>
+            </div>
+        </div>
+    </aside>
+
     <!-- Task Side Panel -->
     <div class="panel-overlay" id="taskPanelOverlay"></div>
     <aside class="side-panel" id="taskPanel">
@@ -153,61 +253,68 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="panel-field-id" id="panelTaskId"></div>
+            <div class="panel-columns">
+                <!-- Left Column: Basic Info + Relations -->
+                <div class="panel-column-left">
+                    <div class="panel-field-id" id="panelTaskId"></div>
 
-            <!-- Basic Info -->
-            <div class="panel-section">
-                <div class="panel-section-title">Basic Info</div>
-                <div class="panel-field">
-                    <label>Task Name *</label>
-                    <input type="text" id="panelTaskName" placeholder="Enter task name">
-                </div>
-                <div class="panel-field-row">
-                    <div class="panel-field">
-                        <label>Project *</label>
-                        <select id="panelTaskProject"></select>
+                    <!-- Basic Info -->
+                    <div class="panel-section">
+                        <div class="panel-section-title">Basic Info</div>
+                        <div class="panel-field">
+                            <label>Task Name *</label>
+                            <input type="text" id="panelTaskName" placeholder="Enter task name">
+                        </div>
+                        <div class="panel-field-row">
+                            <div class="panel-field">
+                                <label>Project *</label>
+                                <select id="panelTaskProject"></select>
+                            </div>
+                            <div class="panel-field">
+                                <label>Assignee *</label>
+                                <select id="panelTaskAssignee"></select>
+                            </div>
+                        </div>
+                        <div class="panel-field-row">
+                            <div class="panel-field">
+                                <label>Status</label>
+                                <select id="panelTaskStatus"></select>
+                            </div>
+                            <div class="panel-field">
+                                <label>Priority</label>
+                                <select id="panelTaskPriority"></select>
+                            </div>
+                        </div>
+                        <div class="panel-field">
+                            <label>Due Date</label>
+                            <input type="date" id="panelTaskDue">
+                        </div>
                     </div>
-                    <div class="panel-field">
-                        <label>Assignee *</label>
-                        <select id="panelTaskAssignee"></select>
-                    </div>
-                </div>
-                <div class="panel-field-row">
-                    <div class="panel-field">
-                        <label>Status</label>
-                        <select id="panelTaskStatus"></select>
-                    </div>
-                    <div class="panel-field">
-                        <label>Priority</label>
-                        <select id="panelTaskPriority"></select>
-                    </div>
-                </div>
-                <div class="panel-field">
-                    <label>Due Date</label>
-                    <input type="date" id="panelTaskDue">
-                </div>
-            </div>
 
-            <!-- Relations -->
-            <div class="panel-section">
-                <div class="panel-section-title">Relations</div>
-                <div class="panel-relations" id="panelTaskRelations">
-                    <!-- Dynamically populated -->
-                </div>
-            </div>
-
-            <!-- Notes -->
-            <div class="panel-section">
-                <div class="panel-section-title">
-                    Notes
-                    <button class="notes-toggle-btn" id="notesToggleBtn" title="Toggle Edit">✏️</button>
-                </div>
-                <div class="panel-notes-container">
-                    <div class="panel-notes-preview" id="panelTaskNotesPreview">
-                        <div class="notes-placeholder">No notes</div>
+                    <!-- Relations -->
+                    <div class="panel-section">
+                        <div class="panel-section-title">Relations</div>
+                        <div class="panel-relations" id="panelTaskRelations">
+                            <!-- Dynamically populated -->
+                        </div>
                     </div>
-                    <div class="panel-field panel-notes-edit" id="panelTaskNotesEdit" style="display: none;">
-                        <textarea id="panelTaskNotes" placeholder="Add notes... (Markdown supported: ## heading, **bold**, *italic*, - list)"></textarea>
+                </div>
+
+                <!-- Right Column: Notes -->
+                <div class="panel-column-right">
+                    <div class="panel-section panel-section-notes">
+                        <div class="panel-section-title">
+                            Notes
+                            <button class="notes-toggle-btn" id="notesToggleBtn" title="Toggle Edit">✏️</button>
+                        </div>
+                        <div class="panel-notes-container">
+                            <div class="panel-notes-preview" id="panelTaskNotesPreview">
+                                <div class="notes-placeholder">No notes</div>
+                            </div>
+                            <div class="panel-field panel-notes-edit" id="panelTaskNotesEdit" style="display: none;">
+                                <textarea id="panelTaskNotes" placeholder="Add notes... (Markdown supported: ## heading, **bold**, *italic*, - list)"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -233,6 +340,7 @@
     <script src="js/components/project-modal.js"></script>
     <script src="js/components/relations.js"></script>
     <script src="js/components/task-panel.js"></script>
+    <script src="js/components/project-panel.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

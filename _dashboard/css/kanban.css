@@ -1,4 +1,63 @@
 /* ============================================
+   Assignee Filter Bar
+   ============================================ */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 32px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-label {
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #666;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 14px;
+    font-size: 0.85em;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-btn:hover {
+    border-color: #667eea;
+    background: #f8f8ff;
+}
+
+.filter-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.filter-btn .filter-count {
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+}
+
+.filter-btn.active .filter-count {
+    background: rgba(255,255,255,0.3);
+}
+
+/* ============================================
    Kanban Board Container
    ============================================ */
 .board-container {

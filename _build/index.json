@@ -1,0 +1,848 @@
+{
+  "generated": "2025-12-19T21:48:34.965939",
+  "version": "1.0.0",
+  "total_entities": 73,
+  "records": [
+    {
+      "id": "idx:projects",
+      "type": "Index",
+      "name": "Projects Index",
+      "path": "50_Projects/_INDEX.md",
+      "summary": "> 모든 프로젝트 목록 및 conditions_3y 기반 분류"
+    },
+    {
+      "id": "prj:003",
+      "type": "Project",
+      "name": "LoopOS V0 데이터 설계",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
+      "summary": "> Project ID: `prj:003` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:003-07",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 6. 저장 전략 결정",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
+      "summary": "> Task ID: `tsk:003-07` | Project: `prj:003` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:003-03",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
+      "summary": "> Task ID: `tsk:003-03` | Project: `prj:003` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:003-01",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
+      "summary": "> Task ID: `tsk:003-01` | Project: `prj:003` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:003-02",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
+      "summary": "> Task ID: `tsk:003-02` | Project: `prj:003` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:003-04",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
+      "summary": "> Task ID: `tsk:003-04` | Project: `prj:003` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:003-05",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
+      "summary": "> Task ID: `tsk:003-05` | Project: `prj:003` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:003-06",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
+      "summary": "> Task ID: `tsk:003-06` | Project: `prj:003` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:005",
+      "type": "Project",
+      "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
+      "summary": "> Project ID: `prj:005` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:005-03",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
+      "summary": "> Task ID: `tsk:005-03` | Project: `prj:005` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:005-05",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
+      "summary": "> Task ID: `tsk:005-05` | Project: `prj:005` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:005-01",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
+      "summary": "> Task ID: `tsk:005-01` | Project: `prj:005` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:005-04",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 6 — 최소 구현 시작",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
+      "summary": "> Task ID: `tsk:005-04` | Project: `prj:005` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:005-02",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
+      "summary": "> Task ID: `tsk:005-02` | Project: `prj:005` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "prj:010",
+      "type": "Project",
+      "name": "[펀딩·마케팅] 와디즈 펀딩",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
+      "summary": "> Project ID: `prj:010` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:010-02",
+      "type": "Task",
+      "name": "와디즈 새소식 초안 작성 - 브랜드 방향성 위주",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
+      "summary": "> Task ID: `tsk:010-02` | Project: `prj:010` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:010-01",
+      "type": "Task",
+      "name": "와디즈 오픈 후 고객 대응",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md",
+      "summary": "> Task ID: `tsk:010-01` | Project: `prj:010` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:009",
+      "type": "Project",
+      "name": "[투자/TIPS준비] 배치 프로그램 지원",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
+      "summary": "> Project ID: `prj:009` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:009-02",
+      "type": "Task",
+      "name": "[투자/TIPS준비] 프라이머 배치 프로그램 지원",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 프라이머 배치 프로그램 지원.md",
+      "summary": "> Task ID: `tsk:009-02` | Project: `prj:009` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:009-01",
+      "type": "Task",
+      "name": "[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 아이디어파트너스 배치 프로그램 지원.md",
+      "summary": "> Task ID: `tsk:009-01` | Project: `prj:009` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "prj:007",
+      "type": "Project",
+      "name": "외부 비서",
+      "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
+      "summary": "> Project ID: `prj:007` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:007-01",
+      "type": "Task",
+      "name": "외부 비서 채용 – 3. 공고용 업무·요건 문단 작성",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
+      "summary": "> Task ID: `tsk:007-01` | Project: `prj:007` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:007-03",
+      "type": "Task",
+      "name": "외부 비서 채용 – 1. 역할·권한 정책 문서 고정",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
+      "summary": "> Task ID: `tsk:007-03` | Project: `prj:007` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:007-02",
+      "type": "Task",
+      "name": "외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
+      "summary": "> Task ID: `tsk:007-02` | Project: `prj:007` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "prj:001",
+      "type": "Project",
+      "name": "Ontology v0.1",
+      "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
+      "summary": "5개 코어 엔티티로 Loop 데이터 표현 가능성 검증",
+      "status": "active",
+      "priority": "critical",
+      "contributes": [],
+      "owner": "Founder + 온톨로지 팀"
+    },
+    {
+      "id": "tsk:001-01",
+      "type": "Task",
+      "name": "Event 엔티티 검증",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md",
+      "summary": "> Task ID: `tsk:001-01` | Project: `prj:001` | Status: in_progress",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:001-02",
+      "type": "Task",
+      "name": "Episode 엔티티 검증",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md",
+      "summary": "> Task ID: `tsk:001-02` | Project: `prj:001` | Status: pending",
+      "status": "in_progress",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:001-03",
+      "type": "Task",
+      "name": "스키마 문서화",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md",
+      "summary": "> Task ID: `tsk:001-03` | Project: `prj:001` | Status: completed",
+      "status": "completed",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:014",
+      "type": "Project",
+      "name": "[코칭 서비스] 1:1 코칭 서비스",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
+      "summary": "> Project ID: `prj:014` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:014-01",
+      "type": "Task",
+      "name": "꼭꼭Fit 3기 환급 검토",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md",
+      "summary": "> Task ID: `tsk:014-01` | Project: `prj:014` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:006",
+      "type": "Project",
+      "name": "코치 1명 구인 & 1차 온보딩 준비",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
+      "summary": "> Project ID: `prj:006` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "미정"
+    },
+    {
+      "id": "tsk:006-04",
+      "type": "Task",
+      "name": "기본 프로토콜 및 교육 프로세스 정하기",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md",
+      "summary": "> Task ID: `tsk:006-04` | Project: `prj:006` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:006-01",
+      "type": "Task",
+      "name": "코치 규칙 정하기",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/코치 규칙 정하기.md",
+      "summary": "> Task ID: `tsk:006-01` | Project: `prj:006` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:006-02",
+      "type": "Task",
+      "name": "채용 및 계약서 작성",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md",
+      "summary": "> Task ID: `tsk:006-02` | Project: `prj:006` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:006-03",
+      "type": "Task",
+      "name": "혜영 코치에게 인수인계 받기",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md",
+      "summary": "> Task ID: `tsk:006-03` | Project: `prj:006` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:013",
+      "type": "Project",
+      "name": "YouTube 1주 1업로드 프로젝트",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
+      "summary": "> Project ID: `prj:013` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:013-01",
+      "type": "Task",
+      "name": "[콘텐츠 분석] 유튜브 w31 영상 성과 측정",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Tasks/[콘텐츠 분석] 유튜브 w31 영상 성과 측정.md",
+      "summary": "> Task ID: `tsk:013-01` | Project: `prj:013` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:011",
+      "type": "Project",
+      "name": "사이드프로젝트 리크루팅 사이트 제작",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
+      "summary": "> Project ID: `prj:011` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:011-01",
+      "type": "Task",
+      "name": "리크루팅 사이트) 원택님 피드백 반영",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
+      "summary": "> Task ID: `tsk:011-01` | Project: `prj:011` | Status: planning",
+      "status": "planning",
+      "priority": "low"
+    },
+    {
+      "id": "prj:004",
+      "type": "Project",
+      "name": "(프로젝트 없음)",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
+      "summary": "> Project ID: `prj:004` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:004-01",
+      "type": "Task",
+      "name": "New Task",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/New Task.md",
+      "summary": "> Task ID: `tsk:004-01` | Project: `prj:004` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:004-05",
+      "type": "Task",
+      "name": "[dan2]",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[dan2].md",
+      "summary": "> Task ID: `tsk:004-05` | Project: `prj:004` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:004-02",
+      "type": "Task",
+      "name": "(이름 없음)",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/(이름 없음).md",
+      "summary": "> Task ID: `tsk:004-02` | Project: `prj:004` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:004-04",
+      "type": "Task",
+      "name": "[YouTube/W32] 영상 업로드",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 영상 업로드.md",
+      "summary": "> Task ID: `tsk:004-04` | Project: `prj:004` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:004-03",
+      "type": "Task",
+      "name": "[YouTube/W32] 썸네일 제작",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 썸네일 제작.md",
+      "summary": "> Task ID: `tsk:004-03` | Project: `prj:004` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:002",
+      "type": "Project",
+      "name": "[와디즈] 12주 코칭 습관팩 런칭",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
+      "summary": "> Project ID: `prj:002` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:002-05",
+      "type": "Task",
+      "name": "꼭꼭 앱 1년 구독권 QA",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭 앱 1년 구독권 QA.md",
+      "summary": "> Task ID: `tsk:002-05` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:002-09",
+      "type": "Task",
+      "name": "꼭꼭FIT 페이지 UI 업데이트",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
+      "summary": "> Task ID: `tsk:002-09` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:002-08",
+      "type": "Task",
+      "name": "꼭꼭FIT 관련 과제 내용과 AI 통합",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
+      "summary": "> Task ID: `tsk:002-08` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:002-10",
+      "type": "Task",
+      "name": "꼭꼭FIT 강의 페이지 + 과제 페이지 만들기",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
+      "summary": "> Task ID: `tsk:002-10` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:002-04",
+      "type": "Task",
+      "name": "11/22: 심사 통과, 광고 소재 제작 (크)",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
+      "summary": "> Task ID: `tsk:002-04` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:002-02",
+      "type": "Task",
+      "name": "12/31: 펀딩 종료",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md",
+      "summary": "> Task ID: `tsk:002-02` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:002-06",
+      "type": "Task",
+      "name": "꼭꼭FIT 음식편향테스트 특정 주차에 노출",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
+      "summary": "> Task ID: `tsk:002-06` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:002-03",
+      "type": "Task",
+      "name": "11/25: 오픈예정 공개",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
+      "summary": "> Task ID: `tsk:002-03` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "medium"
+    },
+    {
+      "id": "tsk:002-07",
+      "type": "Task",
+      "name": "꼭꼭FIT+꼭꼭 앱 로그인 통합",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
+      "summary": "> Task ID: `tsk:002-07` | Project: `prj:002` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:002-01",
+      "type": "Task",
+      "name": "12/17: 본펀딩 공개",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md",
+      "summary": "> Task ID: `tsk:002-01` | Project: `prj:002` | Status: planning",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:012",
+      "type": "Project",
+      "name": "[CS·운영] 고객관리/대응",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
+      "summary": "> Project ID: `prj:012` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:012-01",
+      "type": "Task",
+      "name": "[고객 관리] 카카오톡 채널 활성화 방안 기획",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
+      "summary": "> Task ID: `tsk:012-01` | Project: `prj:012` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "medium"
+    },
+    {
+      "id": "prj:008",
+      "type": "Project",
+      "name": "파일럿 프로젝트 후보",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
+      "summary": "> Project ID: `prj:008` | Track: `trk:2` | Status: active",
+      "status": "active",
+      "priority": "medium",
+      "contributes": [],
+      "owner": "임단"
+    },
+    {
+      "id": "tsk:008-03",
+      "type": "Task",
+      "name": "[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
+      "summary": "> Task ID: `tsk:008-03` | Project: `prj:008` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:008-02",
+      "type": "Task",
+      "name": "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
+      "summary": "> Task ID: `tsk:008-02` | Project: `prj:008` | Status: planning",
+      "status": "planning",
+      "priority": "high"
+    },
+    {
+      "id": "tsk:008-01",
+      "type": "Task",
+      "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
+      "summary": "> Task ID: `tsk:008-01` | Project: `prj:008` | Status: in_progress",
+      "status": "in_progress",
+      "priority": "high"
+    },
+    {
+      "id": "mh:3",
+      "type": "MetaHypothesis",
+      "name": "MH3_데이터_모델링_가능",
+      "path": "01_North_Star/MH3_데이터_모델링_가능.md",
+      "summary": "> Meta Hypothesis 3 | 상태: Validating (70%) | **온톨로지 핵심 가설**",
+      "status": "validating",
+      "priority": "critical"
+    },
+    {
+      "id": "ns:001",
+      "type": "NorthStar",
+      "name": "10년 비전",
+      "path": "01_North_Star/10년 비전.md",
+      "summary": "인간의 정서–섭식–습관 루프를 읽고, 예측하고, 전환하는 Human Inner Loop OS의 글로벌 표준",
+      "status": "fixed",
+      "priority": "critical",
+      "vision": "인간의 정서–섭식–습관 루프를 읽고, 예측하고, 전환하는 Human Inner Loop OS의 글로벌 표준"
+    },
+    {
+      "id": "cond:b",
+      "type": "Condition",
+      "name": "Condition_B_Loop_Dataset",
+      "path": "20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md",
+      "summary": "> 조건 ID: `cond:b` | 상태: In Progress (60%) | 위험도: Medium",
+      "status": "in_progress",
+      "priority": "critical",
+      "metrics": [
+        {
+          "name": "재현 패턴 수",
+          "threshold": "10개 이상",
+          "current": 3,
+          "status": "위험"
+        },
+        {
+          "name": "패턴 재현율",
+          "threshold": "70% 이상",
+          "current": "측정 중",
+          "status": "진행 중"
+        },
+        {
+          "name": "패턴 발견 속도",
+          "threshold": "월 1개 이상",
+          "current": 1.0,
+          "status": "정상"
+        }
+      ],
+      "if_broken": "데이터 전략 폐기"
+    },
+    {
+      "id": "idx:3y-conditions",
+      "type": "Index",
+      "name": "3Y Conditions Index",
+      "path": "20_Strategy/3Y_Conditions/_INDEX.md",
+      "summary": "> 3년 전략의 모든 Conditions를 빠르게 탐색하기 위한 인덱스"
+    },
+    {
+      "id": "trk:1",
+      "type": "Track",
+      "name": "Track_1_Product",
+      "path": "20_Strategy/12M_Tracks/Track_1_Product.md",
+      "summary": "Loop Mapping v1 완성 Emotion–Eating–Habit Tracking v1 천천히 먹기 기능",
+      "status": "active",
+      "priority": "medium",
+      "conditions": [
+        "cond:a"
+      ]
+    },
+    {
+      "id": "trk:6",
+      "type": "Track",
+      "name": "Track_6_Revenue",
+      "path": "20_Strategy/12M_Tracks/Track_6_Revenue.md",
+      "summary": "유료 구독: 천천히 먹기 + Loop Tracker 코칭 월매출 확대 Loop Pro Lite 판매 구조",
+      "status": "active",
+      "priority": "critical",
+      "conditions": [
+        "cond:e"
+      ]
+    },
+    {
+      "id": "trk:5",
+      "type": "Track",
+      "name": "Track_5_Partnership",
+      "path": "20_Strategy/12M_Tracks/Track_5_Partnership.md",
+      "summary": "의원급 파일럿 1곳 케이스 스터디 10명 Early Warning Index 초기 검증",
+      "status": "planning",
+      "priority": "medium",
+      "conditions": [
+        "cond:c",
+        "cond:d"
+      ]
+    },
+    {
+      "id": "trk:3",
+      "type": "Track",
+      "name": "Track_3_Content",
+      "path": "20_Strategy/12M_Tracks/Track_3_Content.md",
+      "summary": "GLP-1 Off-phase 언어 정의 콘텐츠 50개 배포 Loop Index 교육 콘텐츠",
+      "status": "active",
+      "priority": "medium",
+      "conditions": [
+        "cond:a"
+      ]
+    },
+    {
+      "id": "trk:4",
+      "type": "Track",
+      "name": "Track_4_Coaching",
+      "path": "20_Strategy/12M_Tracks/Track_4_Coaching.md",
+      "summary": "코치 교육: 루프/정서/섭식 라벨링 라벨링 품질 QA 코치 수 확장",
+      "status": "active",
+      "priority": "medium",
+      "conditions": [
+        "cond:b",
+        "cond:d"
+      ]
+    },
+    {
+      "id": "trk:2",
+      "type": "Track",
+      "name": "Track_2_Data",
+      "path": "20_Strategy/12M_Tracks/Track_2_Data.md",
+      "summary": "고밀도 Tier1/Tier2 확장 Loop Pattern v1 Schema 안정화",
+      "status": "active",
+      "priority": "critical",
+      "conditions": [
+        "cond:b"
+      ]
+    }
+  ],
+  "by_type": {
+    "Index": [
+      "idx:projects",
+      "idx:3y-conditions"
+    ],
+    "Project": [
+      "prj:003",
+      "prj:005",
+      "prj:010",
+      "prj:009",
+      "prj:007",
+      "prj:001",
+      "prj:014",
+      "prj:006",
+      "prj:013",
+      "prj:011",
+      "prj:004",
+      "prj:002",
+      "prj:012",
+      "prj:008"
+    ],
+    "Task": [
+      "tsk:003-07",
+      "tsk:003-03",
+      "tsk:003-01",
+      "tsk:003-02",
+      "tsk:003-04",
+      "tsk:003-05",
+      "tsk:003-06",
+      "tsk:005-03",
+      "tsk:005-05",
+      "tsk:005-01",
+      "tsk:005-04",
+      "tsk:005-02",
+      "tsk:010-02",
+      "tsk:010-01",
+      "tsk:009-02",
+      "tsk:009-01",
+      "tsk:007-01",
+      "tsk:007-03",
+      "tsk:007-02",
+      "tsk:001-01",
+      "tsk:001-02",
+      "tsk:001-03",
+      "tsk:014-01",
+      "tsk:006-04",
+      "tsk:006-01",
+      "tsk:006-02",
+      "tsk:006-03",
+      "tsk:013-01",
+      "tsk:011-01",
+      "tsk:004-01",
+      "tsk:004-05",
+      "tsk:004-02",
+      "tsk:004-04",
+      "tsk:004-03",
+      "tsk:002-05",
+      "tsk:002-09",
+      "tsk:002-08",
+      "tsk:002-10",
+      "tsk:002-04",
+      "tsk:002-02",
+      "tsk:002-06",
+      "tsk:002-03",
+      "tsk:002-07",
+      "tsk:002-01",
+      "tsk:012-01",
+      "tsk:008-03",
+      "tsk:008-02",
+      "tsk:008-01"
+    ],
+    "MetaHypothesis": [
+      "mh:3"
+    ],
+    "NorthStar": [
+      "ns:001"
+    ],
+    "Condition": [
+      "cond:b"
+    ],
+    "Track": [
+      "trk:1",
+      "trk:6",
+      "trk:5",
+      "trk:3",
+      "trk:4",
+      "trk:2"
+    ]
+  },
+  "conditions": {
+    "cond:b": {
+      "name": "Condition_B_Loop_Dataset",
+      "summary": "> 조건 ID: `cond:b` | 상태: In Progress (60%) | 위험도: Medium",
+      "metrics": [
+        {
+          "name": "재현 패턴 수",
+          "threshold": "10개 이상",
+          "current": 3,
+          "status": "위험"
+        },
+        {
+          "name": "패턴 재현율",
+          "threshold": "70% 이상",
+          "current": "측정 중",
+          "status": "진행 중"
+        },
+        {
+          "name": "패턴 발견 속도",
+          "threshold": "월 1개 이상",
+          "current": 1.0,
+          "status": "정상"
+        }
+      ],
+      "weight_to_northstar": null,
+      "if_broken": "데이터 전략 폐기",
+      "projects": []
+    }
+  }
+}

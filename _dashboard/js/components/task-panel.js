@@ -371,6 +371,9 @@ const TaskPanel = {
      * Task 저장
      */
     async save() {
+        const saveBtn = document.getElementById('panelTaskSave');
+        const originalText = saveBtn.textContent;
+
         const taskData = {
             entity_name: document.getElementById('panelTaskName').value.trim(),
             project_id: document.getElementById('panelTaskProject').value,
@@ -395,6 +398,10 @@ const TaskPanel = {
             return;
         }
 
+        // Show loading state
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+
         try {
             let result;
             if (this.currentTask) {
@@ -416,6 +423,10 @@ const TaskPanel = {
         } catch (err) {
             console.error('Save task error:', err);
             showToast('Error saving task', 'error');
+        } finally {
+            // Restore button state
+            saveBtn.disabled = false;
+            saveBtn.textContent = originalText;
         }
     },
 
