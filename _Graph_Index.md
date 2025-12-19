@@ -2,8 +2,8 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2025-12-19
-updated: 2025-12-19
+created: 2025-12-20
+updated: 2025-12-20
 total_entities: 73
 auto_generated: true
 tags: ["meta", "graph", "index"]
@@ -18,7 +18,7 @@ tags: ["meta", "graph", "index"]
 ## 요약 통계
 
 - **총 엔티티**: 73개
-- **마지막 업데이트**: 2025-12-19
+- **마지막 업데이트**: 2025-12-20
 
 ### 타입별
 | Type | Count |
@@ -261,5 +261,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2025-12-19
+**Auto-generated**: 2025-12-20
 **Script**: scripts/build_graph_index.py
