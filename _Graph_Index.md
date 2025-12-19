@@ -2,9 +2,9 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2025-12-18
-updated: 2025-12-18
-total_entities: 73
+created: 2025-12-19
+updated: 2025-12-19
+total_entities: 72
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,8 +17,8 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 73개
-- **마지막 업데이트**: 2025-12-18
+- **총 엔티티**: 72개
+- **마지막 업데이트**: 2025-12-19
 
 ### 타입별
 | Type | Count |
@@ -33,13 +33,12 @@ tags: ["meta", "graph", "index"]
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 20 |
-| doing | 1 |
-| done | 1 |
+| active | 19 |
+| completed | 1 |
 | fixed | 1 |
-| in_progress | 8 |
+| in_progress | 9 |
+| pending | 1 |
 | planning | 39 |
-| todo | 1 |
 | unknown | 1 |
 | validating | 1 |
 
@@ -102,6 +101,9 @@ tags: ["meta", "graph", "index"]
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
+| `tsk:001-01` | Event 엔티티 검증 | in_progress | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md` |
+| `tsk:001-02` | Episode 엔티티 검증 | pending | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md` |
+| `tsk:001-03` | 스키마 문서화 | completed | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md` |
 | `tsk:002-01` | 12/17: 본펀딩 공개 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md` |
 | `tsk:002-02` | 12/31: 펀딩 종료 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md` |
 | `tsk:002-03` | 11/25: 오픈예정 공개 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md` |
@@ -147,9 +149,6 @@ tags: ["meta", "graph", "index"]
 | `tsk:012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | in_progress | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
 | `tsk:013-01` | [콘텐츠 분석] 유튜브 w31 영상 성과 측정 | planning | `50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Tasks/[콘텐츠 분석] 유튜브 w31 영상 성과 측정.md` |
 | `tsk:014-01` | 꼭꼭Fit 3기 환급 검토 | in_progress | `50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md` |
-| `tsk:prj001-001` | Event 엔티티 검증 | doing | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md` |
-| `tsk:prj001-002` | Episode 엔티티 검증 | todo | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md` |
-| `tsk:prj001-003` | 스키마 문서화 | done | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md` |
 
 
 ---
@@ -166,9 +165,9 @@ tags: ["meta", "graph", "index"]
 - **ns:001** (10년 비전)
   - mh:3 (MH3_데이터_모델링_가능)
 - **prj:001** (Ontology v0.1)
-  - tsk:prj001-001 (Event 엔티티 검증)
-  - tsk:prj001-002 (Episode 엔티티 검증)
-  - tsk:prj001-003 (스키마 문서화)
+  - tsk:001-01 (Event 엔티티 검증)
+  - tsk:001-02 (Episode 엔티티 검증)
+  - tsk:001-03 (스키마 문서화)
 - **prj:002** ([와디즈] 12주 코칭 습관팩 런칭)
   - tsk:002-01 (12/17: 본펀딩 공개)
   - tsk:002-02 (12/31: 펀딩 종료)
@@ -258,5 +257,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2025-12-18
+**Auto-generated**: 2025-12-19
 **Script**: scripts/build_graph_index.py

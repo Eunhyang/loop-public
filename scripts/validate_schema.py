@@ -64,7 +64,7 @@ REQUIRED_FIELDS = {
 }
 
 # === 유효한 상태값 ===
-VALID_STATUSES = ["planning", "active", "blocked", "done", "failed", "learning", "fixed", "assumed", "validating", "validated", "falsified", "in_progress"]
+VALID_STATUSES = ["planning", "active", "blocked", "done", "failed", "learning", "fixed", "assumed", "validating", "validated", "falsified", "in_progress", "pending", "completed"]
 
 
 def extract_frontmatter(content: str) -> Optional[Dict]:

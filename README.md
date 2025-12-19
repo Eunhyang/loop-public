@@ -89,3 +89,23 @@ Inner Loop OS는 인간의 정서-섭식-습관-보상-신경계 루프를 하�
 - **Claude Code**: AI 기반 문서 작성/검증
 - **Git**: 버전 관리
 - **Python Scripts**: 자동 검증 (PyYAML 필요)
+- **Synology NAS**: 칸반 대시보드 자동 배포
+
+---
+
+## 🌐 칸반 대시보드 (팀용)
+
+팀 칸반 보드가 Synology NAS에 자동으로 배포됩니다.
+
+**접근 방법**:
+```
+http://nas-ip:8080
+```
+
+**업데이트 방식**:
+1. 로컬에서 작업 → Git push
+2. NAS가 15분마다 자동 pull
+3. Dashboard 자동 재생성
+4. 브라우저 새로고침하여 확인
+
+**설정 가이드**: `NAS_DEPLOYMENT_GUIDE.md` 참조

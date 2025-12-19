@@ -1,19 +1,6 @@
----
-entity_type: View
-entity_id: "view:kanban-prj001"
-entity_name: "P001 Ontology Kanban"
-created: 2025-12-18
-updated: 2025-12-18
-status: active
-
-# === 메타 ===
-view_type: kanban
-project_id: "prj:001"
-auto_generated: false
-tags: ["view", "kanban", "readonly"]
----
-
 # P001 Ontology v0.1 - Kanban Board
+
+> **View Type**: Kanban | **Project**: prj:001 | **Created**: 2025-12-18
 
 > 이 뷰는 **읽기 전용**입니다. Task 상태를 변경하려면 해당 Task 파일의 frontmatter를 직접 수정하세요.
 
@@ -23,9 +10,9 @@ tags: ["view", "kanban", "readonly"]
 
 1. 자신에게 할당된 Task 파일을 엽니다 (예: `tsk-prj001-001.md`)
 2. frontmatter의 `status` 필드를 변경합니다:
-   - `todo` → 시작 전
-   - `doing` → 진행 중
-   - `done` → 완료
+   - `pending` → 시작 전
+   - `in_progress` → 진행 중
+   - `completed` → 완료
    - `blocked` → 차단됨
 3. 파일 저장 후 Git commit & push
 4. 이 Kanban 뷰가 자동으로 업데이트됩니다
@@ -40,9 +27,9 @@ const tasks = dv.pages('"50_Projects/2025/P001_Ontology/Tasks"')
 
 // Status별 그룹핑
 const statusGroups = {
-  "📋 Todo": tasks.where(t => t.status === "todo").array(),
-  "⚡ Doing": tasks.where(t => t.status === "doing").array(),
-  "✅ Done": tasks.where(t => t.status === "done").array(),
+  "📋 Pending": tasks.where(t => t.status === "pending").array(),
+  "⚡ In Progress": tasks.where(t => t.status === "in_progress").array(),
+  "✅ Completed": tasks.where(t => t.status === "completed").array(),
   "🚫 Blocked": tasks.where(t => t.status === "blocked").array()
 };
 
@@ -89,12 +76,12 @@ const tasks = dv.pages('"50_Projects/2025/P001_Ontology/Tasks"')
 const byAssignee = tasks.groupBy(t => t.assignee || "unassigned");
 
 dv.table(
-  ["담당자", "Todo", "Doing", "Done", "Total"],
+  ["담당자", "Pending", "In Progress", "Completed", "Total"],
   byAssignee.map(g => [
     g.key,
-    g.rows.filter(t => t.status === "todo").length,
-    g.rows.filter(t => t.status === "doing").length,
-    g.rows.filter(t => t.status === "done").length,
+    g.rows.filter(t => t.status === "pending").length,
+    g.rows.filter(t => t.status === "in_progress").length,
+    g.rows.filter(t => t.status === "completed").length,
     g.rows.length
   ])
 );
