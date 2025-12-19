@@ -57,18 +57,43 @@ def extract_frontmatter(content: str) -> tuple[Optional[Dict], str]:
 
 
 def extract_first_paragraph(body: str) -> str:
-    """본문에서 첫 번째 의미있는 단락 추출"""
+    """본문에서 첫 번째 의미있는 단락 추출 (메타데이터 블록 스킵)"""
     lines = body.split('\n')
     paragraph_lines = []
+    skip_meta_block = True  # 처음 메타 블록(>, |, ---)은 스킵
 
     for line in lines:
         stripped = line.strip()
-        # 헤더나 빈 줄 스킵
-        if stripped.startswith('#') or not stripped:
+
+        # 빈 줄
+        if not stripped:
             if paragraph_lines:
                 break
+            skip_meta_block = False  # 빈 줄 이후는 메타 블록이 아님
             continue
-        # 목록 아이템 포함
+
+        # 헤더 스킵
+        if stripped.startswith('#'):
+            if paragraph_lines:
+                break
+            skip_meta_block = False
+            continue
+
+        # 메타데이터 블록 스킵 (>, |로 시작하는 줄, --- 구분선)
+        if skip_meta_block:
+            if stripped.startswith('>') or stripped.startswith('|') or stripped == '---':
+                continue
+            skip_meta_block = False
+
+        # 코드 블록 스킵
+        if stripped.startswith('```'):
+            continue
+
+        # 의미있는 텍스트 수집
+        # 링크만 있는 줄 스킵 ([[...]] 형식)
+        if re.match(r'^\[\[.*\]\]$', stripped):
+            continue
+
         paragraph_lines.append(stripped)
         # 2~3줄이면 충분
         if len(paragraph_lines) >= 3:
@@ -80,24 +105,77 @@ def extract_first_paragraph(body: str) -> str:
     return result
 
 
+def extract_section_content(body: str, section_names: List[str]) -> Optional[str]:
+    """특정 섹션 헤더 아래의 내용 추출"""
+    lines = body.split('\n')
+    in_target_section = False
+    section_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        # 헤더 체크
+        if stripped.startswith('#'):
+            # 타겟 섹션 시작?
+            header_text = stripped.lstrip('#').strip().lower()
+            if any(name.lower() in header_text for name in section_names):
+                in_target_section = True
+                continue
+            elif in_target_section:
+                # 다른 섹션 시작 → 종료
+                break
+
+        if in_target_section and stripped:
+            # 메타 블록 스킵
+            if stripped.startswith('>') or stripped.startswith('|'):
+                continue
+            section_lines.append(stripped)
+            if len(section_lines) >= 3:
+                break
+
+    if section_lines:
+        result = ' '.join(section_lines)
+        return result[:MAX_BODY_CHARS] if len(result) > MAX_BODY_CHARS else result
+    return None
+
+
+# Entity type별 섹션 추출 우선순위
+SECTION_PRIORITIES = {
+    "Project": ["개요", "목적", "설명", "overview", "description", "objective"],
+    "Condition": ["정의", "definition", "설명", "description"],
+    "Track": ["목표", "설명", "focus", "goal"],
+    "NorthStar": ["비전", "vision", "설명"],
+    "MetaHypothesis": ["가설", "hypothesis", "설명"],
+}
+
+
 def extract_summary(frontmatter: Dict, body: str, entity_type: str) -> str:
-    """엔티티에서 요약 추출"""
-    # 1. frontmatter에서 summary 필드 찾기
+    """엔티티에서 요약 추출 (개선된 버전)"""
+    # 1. frontmatter에서 summary/description 필드 찾기
     strategies = SUMMARY_STRATEGIES.get(entity_type, ["description", "summary"])
 
     for field in strategies:
         if field in frontmatter and frontmatter[field]:
             value = frontmatter[field]
-            if isinstance(value, str):
+            if isinstance(value, str) and len(value) > 10:  # 너무 짧은 값 스킵
                 return value[:MAX_BODY_CHARS]
-            elif isinstance(value, list):
+            elif isinstance(value, list) and value:
                 return ' '.join(str(v) for v in value[:3])
 
-    # 2. 본문에서 첫 단락 추출
-    if body:
-        return extract_first_paragraph(body)
+    # 2. 특정 섹션에서 추출 시도
+    section_names = SECTION_PRIORITIES.get(entity_type, [])
+    if body and section_names:
+        section_content = extract_section_content(body, section_names)
+        if section_content and len(section_content) > 10:
+            return section_content
 
-    # 3. entity_name 사용
+    # 3. 본문에서 첫 의미있는 단락 추출
+    if body:
+        paragraph = extract_first_paragraph(body)
+        if paragraph and len(paragraph) > 10:
+            return paragraph
+
+    # 4. entity_name 사용 (최후 수단)
     return frontmatter.get("entity_name", "")
 
 

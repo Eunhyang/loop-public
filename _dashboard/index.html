@@ -5,42 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOOP Strategy Dashboard</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/kanban.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/panel.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <h1>LOOP Strategy Dashboard</h1>
-            <div class="meta">Task & Project Management</div>
-        </div>
-        <div class="header-actions">
-            <button class="btn btn-primary" id="btnNewTask">+ New Task</button>
-            <button class="btn btn-primary" id="btnNewProject">+ New Project</button>
-        </div>
-    </header>
+    <!-- App Layout: Sidebar + Main Content -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>LOOP</h2>
+                <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">&#9776;</button>
+            </div>
 
-    <!-- Project Tabs -->
-    <nav class="tabs" id="tabs">
-        <!-- Dynamically populated -->
-    </nav>
+            <!-- Tracks Section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" data-section="tracks">
+                    <span class="sidebar-section-icon">&#9776;</span>
+                    <span class="sidebar-section-title">Tracks</span>
+                    <span class="sidebar-section-arrow">&#9662;</span>
+                </div>
+                <ul class="sidebar-list" id="sidebarTracks">
+                    <!-- Dynamically populated -->
+                </ul>
+            </div>
 
-    <!-- Assignee Filter -->
-    <div class="filter-bar" id="filterBar">
-        <span class="filter-label">Assignee:</span>
-        <div class="filter-buttons" id="assigneeFilter">
-            <!-- Dynamically populated -->
+            <!-- Hypotheses Section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" data-section="hypotheses">
+                    <span class="sidebar-section-icon">&#128161;</span>
+                    <span class="sidebar-section-title">Hypotheses</span>
+                    <span class="sidebar-section-arrow">&#9662;</span>
+                </div>
+                <ul class="sidebar-list" id="sidebarHypotheses">
+                    <!-- Dynamically populated -->
+                </ul>
+            </div>
+
+            <!-- Conditions Section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-header" data-section="conditions">
+                    <span class="sidebar-section-icon">&#9888;</span>
+                    <span class="sidebar-section-title">Conditions</span>
+                    <span class="sidebar-section-arrow">&#9662;</span>
+                </div>
+                <ul class="sidebar-list" id="sidebarConditions">
+                    <!-- Dynamically populated -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1>LOOP Strategy Dashboard</h1>
+                    <div class="meta" id="headerMeta">Task & Project Management</div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btnNewTask">+ New Task</button>
+                    <button class="btn btn-primary" id="btnNewProject">+ New Project</button>
+                </div>
+            </header>
+
+            <!-- Project Tabs -->
+            <nav class="tabs" id="tabs">
+                <!-- Dynamically populated -->
+            </nav>
+
+            <!-- Assignee Filter -->
+            <div class="filter-bar" id="filterBar">
+                <span class="filter-label">Assignee:</span>
+                <div class="filter-buttons" id="assigneeFilter">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Kanban Board -->
+            <main class="board-container">
+                <div class="kanban-board" id="board">
+                    <!-- Dynamically populated -->
+                </div>
+            </main>
         </div>
     </div>
-
-    <!-- Kanban Board -->
-    <main class="board-container">
-        <div class="kanban-board" id="board">
-            <!-- Dynamically populated -->
-        </div>
-    </main>
 
     <!-- Task Modal -->
     <div class="modal-overlay" id="taskModal">
@@ -333,6 +384,7 @@
     <!-- Scripts -->
     <script src="js/api.js"></script>
     <script src="js/state.js"></script>
+    <script src="js/components/sidebar.js"></script>
     <script src="js/components/tabs.js"></script>
     <script src="js/components/kanban.js"></script>
     <script src="js/components/task-card.js"></script>

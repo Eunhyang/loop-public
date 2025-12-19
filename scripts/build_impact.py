@@ -36,6 +36,28 @@ DEFAULT_STRENGTH_MULTIPLIERS = {
     "weak": 0.4,
 }
 
+# Impact 모델 버전 (점수 변경 추적용)
+IMPACT_MODEL_VERSION = "IM-2025-01"
+
+# Tier별 계산 정책
+TIER_POLICY = {
+    "strategic": {
+        "calculate_expected": True,
+        "calculate_realized": True,
+        "include_in_rollup": True,
+    },
+    "enabling": {
+        "calculate_expected": True,
+        "calculate_realized": True,  # light realized (evidence 선택적)
+        "include_in_rollup": True,
+    },
+    "operational": {
+        "calculate_expected": False,  # Impact 계산 제외
+        "calculate_realized": False,
+        "include_in_rollup": False,
+    },
+}
+
 # 스캔 경로
 INCLUDE_PATHS = ["50_Projects"]
 
@@ -204,17 +226,27 @@ def build_project_impact(
     contributes = fm.get("contributes", [])
     realized_status = fm.get("realized_status", "planned")
 
-    # 점수 계산
+    # Tier 정책 조회
+    policy = TIER_POLICY.get(tier, TIER_POLICY["enabling"])
+
+    # 점수 계산 (Tier 정책에 따라)
     magnitude_points = config.get("magnitude_points", DEFAULT_MAGNITUDE_POINTS)
     strength_multipliers = config.get("strength_multipliers", DEFAULT_STRENGTH_MULTIPLIERS)
 
-    expected_score = calculate_expected_score(
-        tier, magnitude, confidence, magnitude_points
-    )
+    if policy["calculate_expected"]:
+        expected_score = calculate_expected_score(
+            tier, magnitude, confidence, magnitude_points
+        )
+    else:
+        expected_score = 0.0  # operational tier는 Impact 계산 제외
 
-    realized_score, evidence_count = calculate_realized_score(
-        evidence_list, strength_multipliers
-    )
+    if policy["calculate_realized"]:
+        realized_score, evidence_count = calculate_realized_score(
+            evidence_list, strength_multipliers
+        )
+    else:
+        realized_score = 0.0
+        evidence_count = len(evidence_list)  # 개수는 기록
 
     # Impact 레코드
     record = {
@@ -233,6 +265,9 @@ def build_project_impact(
         "realized_score": realized_score,
         "realized_status": realized_status,
 
+        # Tier 정책
+        "impact_excluded": not policy["calculate_expected"],
+
         # Evidence 통계
         "evidence_count": evidence_count,
 
@@ -248,17 +283,20 @@ def build_project_impact(
 def calculate_condition_rollup(
     project_records: List[Dict],
 ) -> Dict[str, Dict]:
-    """Condition별 롤업 계산"""
+    """Condition별 롤업 계산 (Tier 정책 적용)"""
     rollup = defaultdict(lambda: {
         "expected_sum": 0.0,
         "realized_sum": 0.0,
         "project_count": 0,
         "projects": [],
+        "excluded_projects": [],  # operational tier 등 제외된 프로젝트
         "tier_distribution": {"strategic": 0, "enabling": 0, "operational": 0},
     })
 
     for project in project_records:
         contributes = project.get("contributes", [])
+        tier = project.get("tier", "enabling")
+        policy = TIER_POLICY.get(tier, TIER_POLICY["enabling"])
 
         for c in contributes:
             if not isinstance(c, dict):
@@ -270,22 +308,32 @@ def calculate_condition_rollup(
             if not cond_id:
                 continue
 
-            # 가중 점수 합산
+            # Tier 분포 (모든 프로젝트 카운트)
+            if tier in rollup[cond_id]["tier_distribution"]:
+                rollup[cond_id]["tier_distribution"][tier] += 1
+
+            # Rollup 포함 여부 체크
+            if not policy["include_in_rollup"]:
+                rollup[cond_id]["excluded_projects"].append({
+                    "id": project["id"],
+                    "name": project["name"],
+                    "tier": tier,
+                    "reason": "operational tier excluded from rollup",
+                })
+                continue
+
+            # 가중 점수 합산 (strategic, enabling만)
             rollup[cond_id]["expected_sum"] += project["expected_score"] * weight
             rollup[cond_id]["realized_sum"] += project["realized_score"] * weight
             rollup[cond_id]["project_count"] += 1
             rollup[cond_id]["projects"].append({
                 "id": project["id"],
                 "name": project["name"],
+                "tier": tier,
                 "weight": weight,
                 "expected": project["expected_score"],
                 "realized": project["realized_score"],
             })
-
-            # Tier 분포
-            tier = project.get("tier", "enabling")
-            if tier in rollup[cond_id]["tier_distribution"]:
-                rollup[cond_id]["tier_distribution"][tier] += 1
 
     # 반올림
     for cond_id in rollup:
@@ -333,15 +381,20 @@ def main(vault_path: str) -> int:
     total_realized = sum(p["realized_score"] for p in project_records)
     with_impact = len([p for p in project_records if p.get("contributes")])
 
+    # operational 제외 통계
+    excluded_count = len([p for p in project_records if p.get("impact_excluded")])
+
     # 최종 결과
     impact_data = {
+        "model_version": IMPACT_MODEL_VERSION,  # Impact 모델 버전 (점수 변경 추적용)
         "generated": datetime.now().isoformat(),
-        "version": "1.0.0",
+        "script_version": "1.1.0",
 
         # 전체 통계
         "summary": {
             "total_projects": len(project_records),
             "projects_with_impact": with_impact,
+            "projects_excluded": excluded_count,  # operational tier 등 제외된 수
             "total_expected": round(total_expected, 2),
             "total_realized": round(total_realized, 2),
             "total_evidence": sum(p["evidence_count"] for p in project_records),

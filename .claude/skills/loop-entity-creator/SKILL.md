@@ -317,10 +317,10 @@ User: "패턴 발견 v2 프로젝트 만들어줘"
 
 **Edit a Task:**
 ```
-User: "tsk:003-01 담당자를 김코치로 바꿔줘"
+User: "tsk:003-01 담당자를 한명학으로 바꿔줘"
 → Find file
 → Read current values
-→ Update assignee field
+→ Update assignee field (must be from members.yaml)
 → Validate and index
 ```
 

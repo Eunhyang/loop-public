@@ -38,6 +38,24 @@ const API = {
     },
 
     // ============================================
+    // Hypotheses
+    // ============================================
+    async getHypotheses() {
+        const res = await fetch(`${this.baseUrl}/api/hypotheses`);
+        const data = await res.json();
+        return data.hypotheses || [];
+    },
+
+    // ============================================
+    // Conditions
+    // ============================================
+    async getConditions() {
+        const res = await fetch(`${this.baseUrl}/api/conditions`);
+        const data = await res.json();
+        return data.conditions || [];
+    },
+
+    // ============================================
     // Projects
     // ============================================
     async getProjects() {

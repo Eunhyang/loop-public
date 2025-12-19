@@ -34,6 +34,10 @@ async function init() {
         // Load all data
         await State.loadAll();
 
+        // Initialize and Render Sidebar
+        Sidebar.init();
+        Sidebar.render();
+
         // Render UI
         Tabs.render();
         Kanban.renderAssigneeFilter();

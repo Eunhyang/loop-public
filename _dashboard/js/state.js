@@ -9,10 +9,18 @@ const State = {
     tracks: [],
     projects: [],
     tasks: [],
+    hypotheses: [],
+    conditions: [],
 
     // UI State
     currentProject: 'all',
     currentAssignee: 'all',
+    currentTrack: 'all',
+    currentHypothesis: null,
+    currentCondition: null,
+    filterTrack: null,
+    filterHypothesis: null,
+    filterCondition: null,
     loading: false,
     editingTask: null,
     editingProject: null,
@@ -23,12 +31,14 @@ const State = {
     async loadAll() {
         this.loading = true;
         try {
-            const [constants, members, tracks, projects, tasks] = await Promise.all([
+            const [constants, members, tracks, projects, tasks, hypotheses, conditions] = await Promise.all([
                 API.getConstants(),
                 API.getMembers(),
                 API.getTracks(),
                 API.getProjects(),
-                API.getTasks()
+                API.getTasks(),
+                API.getHypotheses().catch(() => []),
+                API.getConditions().catch(() => [])
             ]);
 
             this.constants = constants;
@@ -36,6 +46,8 @@ const State = {
             this.tracks = tracks;
             this.projects = projects;
             this.tasks = tasks;
+            this.hypotheses = hypotheses;
+            this.conditions = conditions;
         } finally {
             this.loading = false;
         }
@@ -115,9 +127,32 @@ const State = {
         return this.tracks.find(t => t.entity_id === parentId);
     },
 
-    // Get filtered tasks by current project and assignee
+    // Get filtered tasks by current project, assignee, and strategy filters
     getFilteredTasks() {
         let filtered = this.tasks;
+
+        // Filter by track (via project's parent_id)
+        if (this.filterTrack && this.filterTrack !== 'all') {
+            const trackProjects = this.projects
+                .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => trackProjects.includes(t.project_id));
+        }
+
+        // Filter by hypothesis (tasks that validate this hypothesis)
+        if (this.filterHypothesis) {
+            filtered = filtered.filter(t =>
+                t.validates?.includes(this.filterHypothesis) ||
+                t.outgoing_relations?.some(r => r.target_id === this.filterHypothesis)
+            );
+        }
+
+        // Filter by condition (tasks with conditions_3y containing this condition)
+        if (this.filterCondition) {
+            filtered = filtered.filter(t =>
+                t.conditions_3y?.includes(this.filterCondition)
+            );
+        }
 
         // Filter by project
         if (this.currentProject !== 'all') {
