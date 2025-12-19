@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-19T20:51:33.590905",
+  "generated": "2025-12-19T20:59:15.173601",
   "total_entities": 73,
   "nodes": [
     {
@@ -310,18 +310,6 @@
       "owner": "Founder + 온톨로지 팀"
     },
     {
-      "id": "tsk:001-02",
-      "type": "Task",
-      "name": "Episode 엔티티 검증",
-      "status": "pending",
-      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md",
-      "conditions_3y": [
-        "cond:b"
-      ],
-      "priority_flag": "high",
-      "assignee": "myunghak"
-    },
-    {
       "id": "tsk:001-03",
       "type": "Task",
       "name": "스키마 문서화",
@@ -337,13 +325,25 @@
       "id": "tsk:001-01",
       "type": "Task",
       "name": "Event 엔티티 검증",
-      "status": "in_progress",
+      "status": "pending",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md",
       "conditions_3y": [
         "cond:b"
       ],
       "priority_flag": "high",
       "assignee": "eunhyang"
+    },
+    {
+      "id": "tsk:001-02",
+      "type": "Task",
+      "name": "Episode 엔티티 검증",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "myunghak"
     },
     {
       "id": "prj:014",
@@ -1018,17 +1018,17 @@
     },
     {
       "source": "prj:001",
-      "target": "tsk:001-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj:001",
       "target": "tsk:001-03",
       "type": "parent_of"
     },
     {
       "source": "prj:001",
       "target": "tsk:001-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:001",
+      "target": "tsk:001-02",
       "type": "parent_of"
     },
     {
@@ -1252,16 +1252,6 @@
       "type": "part_of"
     },
     {
-      "source": "tsk:001-02",
-      "target": "mh:3",
-      "type": "validates"
-    },
-    {
-      "source": "tsk:001-02",
-      "target": "tsk:001-01",
-      "type": "depends_on"
-    },
-    {
       "source": "tsk:001-03",
       "target": "trk:2",
       "type": "supports"
@@ -1270,6 +1260,16 @@
       "source": "tsk:001-01",
       "target": "mh:3",
       "type": "validates"
+    },
+    {
+      "source": "tsk:001-02",
+      "target": "mh:3",
+      "type": "validates"
+    },
+    {
+      "source": "tsk:001-02",
+      "target": "tsk:001-01",
+      "type": "depends_on"
     },
     {
       "source": "cond:b",
@@ -1384,9 +1384,9 @@
       "tsk:005-04",
       "tsk:005-02",
       "prj:001",
-      "tsk:001-02",
       "tsk:001-03",
       "tsk:001-01",
+      "tsk:001-02",
       "prj:014",
       "tsk:014-01",
       "prj:006",
@@ -1516,9 +1516,9 @@
       "tsk:007-01",
       "tsk:007-03",
       "tsk:007-02",
-      "tsk:001-02",
       "tsk:001-03",
       "tsk:001-01",
+      "tsk:001-02",
       "tsk:014-01",
       "tsk:006-04",
       "tsk:006-01",
@@ -1636,17 +1636,17 @@
       "tsk:005-05",
       "tsk:010-02",
       "tsk:010-01",
-      "tsk:001-01",
+      "tsk:001-02",
       "tsk:014-01",
       "tsk:012-01",
       "tsk:008-01",
       "cond:b"
     ],
-    "pending": [
-      "tsk:001-02"
-    ],
     "completed": [
       "tsk:001-03"
+    ],
+    "pending": [
+      "tsk:001-01"
     ],
     "validating": [
       "mh:3"

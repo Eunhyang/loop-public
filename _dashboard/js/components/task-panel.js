@@ -377,7 +377,8 @@ const TaskPanel = {
             assignee: document.getElementById('panelTaskAssignee').value,
             status: document.getElementById('panelTaskStatus').value,
             priority: document.getElementById('panelTaskPriority').value,
-            due: document.getElementById('panelTaskDue').value || null
+            due: document.getElementById('panelTaskDue').value || null,
+            notes: document.getElementById('panelTaskNotes').value || null
         };
 
         // Validation

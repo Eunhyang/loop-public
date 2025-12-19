@@ -139,6 +139,9 @@ def create_task(task: TaskCreate):
     if task.due:
         frontmatter["due"] = task.due
 
+    if task.notes:
+        frontmatter["notes"] = task.notes
+
     # 6. 파일 생성
     content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
@@ -203,6 +206,8 @@ def update_task(task_id: str, task: TaskUpdate):
         frontmatter['due'] = task.due
     if task.status:
         frontmatter['status'] = task.status
+    if task.notes is not None:
+        frontmatter['notes'] = task.notes if task.notes else None
     if task.tags is not None:
         frontmatter['tags'] = task.tags
 

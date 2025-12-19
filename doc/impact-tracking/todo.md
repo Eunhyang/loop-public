@@ -1,32 +1,91 @@
 # Impact Tracking 구현 Todo
 
-> techspec.md 기반 구현 체크리스트
+> techspec.md v0.3 기반 구현 체크리스트
+
+---
+
+## Phase 0: 필수 정책 인프라 (Day 0) - CRITICAL
+
+> techspec.md "CRITICAL: 필수 정책 8개" 기반. 이것부터 해야 나머지가 동작함.
+
+### 0.1 build_impact.py 신설 (Policy 6, 8)
+
+- [ ] `scripts/build_impact.py` 생성
+  - impact_model_config.yml 로딩
+  - 전체 Task/Evidence frontmatter 스캔
+  - ExpectedScore / RealizedScore 계산
+  - `_build/impact.json` 출력
+
+- [ ] impact.json 구조 구현
+  ```json
+  {
+    "model_version": "IM-2025-01",
+    "tasks": {"T-2025-0001": {"expected_score": 42, ...}},
+    "rollup": {"conditions": {...}, "northstar": {...}}
+  }
+  ```
+
+### 0.2 Merge Gate 설정 (Policy 7)
+
+- [ ] `.git/hooks/pre-commit` 업데이트
+  - validate_schema.py 실행
+  - check_orphans.py 실행
+  - build_graph_index.py 실행
+  - **build_impact.py 실행** (신규)
+
+- [ ] 모든 스크립트 exit code 검증
+
+### 0.3 metric_ranges 정의 (Policy 4)
+
+- [ ] `00_Meta/impact_model_config.yml`에 metric_ranges 추가
+  - M-DatasetCoverage: max_delta, unit, window
+  - M-LoopPrediction: max_delta, unit, window
+  - 기타 지표 등록
+
+### 0.4 Evidence 갱신 트리거 쿼리 (Policy 5)
+
+- [ ] `00_Meta/query_recipes.md`에 추가
+  - "T+7d Evidence 갱신 필요 목록"
+  - "T+28d KPI 업데이트 필요 목록"
+  - "evidence_strength 업그레이드 대상"
+
+---
 
 ## Phase 1: 스키마/템플릿 (Day 1)
 
-### 1.1 템플릿 확장
+### 1.1 템플릿 확장 (Policy 1, 2, 3 반영)
 
 - [ ] `template_task.md`에 Impact 필드 추가
-  - `impact_magnitude`: small | mid | large
-  - `confidence`: 0.0 ~ 1.0
-  - `contributes[]`: to, weight, mechanism
+  - `id`: **필수** (Policy 2) - `T-YYYY-NNNN` 형식
+  - `impact_magnitude`: small | mid | large (원천 필드)
+  - `confidence`: 0.0 ~ 1.0 (원천 필드)
+  - `contributes[]`: to, weight, mechanism - **정본** (Policy 1)
   - `realized_status`: unknown | positive | neutral | negative
   - `evidence[]`: Evidence ID 배열
+  - ~~expected_score~~ (저장 안 함, Policy 3)
 
 - [ ] `template_condition.md`에 롤업 필드 추가
+  - `id`: **필수** (Policy 2) - `C3-X` 형식
   - `weight_to_northstar`: 0.0 ~ 1.0
   - `northstar[]`: NS ID 배열
 
+- [ ] `template_project.md` / `template_hypothesis.md` 확장
+  - `id`: **필수** (Policy 2)
+  - `conditions_3y[]`: 요약/캐시 (Policy 1)
+
 - [ ] `template_evidence.md` 신설
+  - `id`: **필수** - `E-YYYY-NNNN` 형식
   - 4층 구조: output_done, outcome_summary, impact_metric, metric_delta
-  - evidence_strength, attribution_share, realized_score
+  - evidence_strength, attribution_share
+  - ~~realized_score~~ (저장 안 함, Policy 3)
 
 ### 1.2 모델 설정 파일
 
 - [ ] `00_Meta/impact_model_config.yml` 생성
+  - `version`: 모델 버전 (예: "IM-2025-01")
   - MagnitudePoints 초기값
   - EvidenceStrength 계수
-  - Metric 정규화 범위
+  - **metric_ranges** (Policy 4) - 지표별 max_delta, unit, window
   - Attribution 규칙
 
 ---
@@ -80,12 +139,12 @@
   - 전체 ExpectedSum, RealizedSum
   - Condition 기여도 순위
 
-### 3.3 (선택) build_impact.py 신설
+### 3.3 build_impact.py 확장 (Phase 0에서 기본 구현 완료)
 
-- [ ] impact_model_config.yml 로딩
-- [ ] 전체 Task 스캔 및 점수 계산
-- [ ] `_build/impact.json` 생성
-- [ ] Condition/NorthStar 롤업 계산
+- [ ] Condition Roll-up 계산 로직 추가
+- [ ] NorthStar Roll-up 계산 로직 추가
+- [ ] Top tasks by expected/realized 정렬
+- [ ] Evidence strength 분포 통계
 
 ---
 
@@ -220,4 +279,9 @@
 
 **Status**: Planning
 **Created**: 2025-12-19
-**Updated**: 2025-12-19 (v0.2 - Strategy Change Protocol 추가)
+**Updated**: 2025-12-19
+
+**Changelog**:
+- v0.3: Phase 0 추가 (필수 정책 인프라), Policy 참조 추가, build_impact.py 필수로 승격
+- v0.2: Phase 6 (Strategy Change Protocol) 추가
+- v0.1: Initial checklist

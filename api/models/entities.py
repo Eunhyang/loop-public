@@ -16,6 +16,7 @@ class TaskCreate(BaseModel):
     priority: str = Field(default="medium", description="우선순위: low/medium/high")
     due: Optional[str] = Field(default=None, description="마감일 (YYYY-MM-DD)")
     status: str = Field(default="todo", description="상태: todo/doing/done/blocked")
+    notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
     tags: List[str] = Field(default_factory=list, description="태그")
 
 
@@ -26,6 +27,7 @@ class TaskUpdate(BaseModel):
     priority: Optional[str] = None
     due: Optional[str] = None
     status: Optional[str] = None
+    notes: Optional[str] = None
     tags: Optional[List[str]] = None
 
 

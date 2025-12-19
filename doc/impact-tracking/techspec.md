@@ -1,9 +1,128 @@
-# LOOP Vault Impact Tracking v0.1
+# LOOP Vault Impact Tracking v0.3
 
 > Expected Impact / Realized Impact 기반 "비전-전략-프로젝트-가설-태스크" 추적 & 수치화 설계
 
 이 문서는 현재 LOOP Obsidian vault 구조(North Star / Strategy / Projects / Meta / Graph scripts)를 유지하면서,
 칸반(태스크 단위)에서 비전/전략 연계성을 끝까지 추적하고 영향도를 수치로 롤업하기 위한 **구현 가능한** 운영/스키마/파이프라인을 정리한 스펙이다.
+
+---
+
+## CRITICAL: 필수 정책 8개 (v0.3)
+
+> 이 8개는 "권장"이 아니라 **"필수"**. 이게 없으면 시스템이 2달 뒤부터 무너진다.
+
+### Policy 1: 전략 연결 단일 표준
+
+| 필드 | 역할 | 필수 여부 |
+|------|------|----------|
+| `contributes[]` | **정본** (가중치 포함, 롤업 계산 기준) | Task 필수 |
+| `conditions_3y[]` | 요약/캐시 (빠른 탐색용) | Project/Hypothesis 필수 권장 |
+
+> **룰**: 롤업 계산은 항상 `contributes[]` 기준. "가중치 있는 연결은 contributes, 리스트 요약은 conditions_3y"
+
+### Policy 2: 모든 Entity에 Stable ID 필수
+
+| Entity | ID 패턴 | 예시 |
+|--------|---------|------|
+| NorthStar | `NS-YYYY` | `NS-2035` |
+| Condition | `C3-X` | `C3-B` |
+| Track | `TR-N-Name` | `TR-2-Data` |
+| Project | `PNNN_Name` | `P001_Ontology` |
+| Hypothesis | `H-YYYY-NNNN` | `H-2025-0003` |
+| Task | `T-YYYY-NNNN` | `T-2025-0001` |
+| Evidence | `E-YYYY-NNNN` | `E-2025-0007` |
+
+> **룰**: ID는 절대 재사용/재할당 금지. 파일명은 바뀌어도 ID는 고정.
+
+### Policy 3: 저장 vs 계산 정책 (점수)
+
+```
+[저장] 원천 필드만 저장
+       - magnitude, confidence, contributes.weight
+       - metric_delta, evidence_strength, attribution_share
+
+[계산] 점수는 스크립트가 매번 계산
+       - ExpectedScore, RealizedScore
+       - 출력 위치: _build/impact.json, 대시보드
+
+[스냅샷] 버전 전환 시에만 저장
+       - expected_score_snapshot (모델 버전 변경 시)
+       - realized_score_snapshot (Evidence 확정 시)
+```
+
+> **룰**: Task/Evidence frontmatter에 점수를 직접 쓰지 않는다. 계산식 바뀌면 전체 재계산.
+
+### Policy 4: metric_ranges 필수 정의
+
+```yaml
+# 00_Meta/impact_model_config.yml
+metric_ranges:
+  M-DatasetCoverage:
+    unit: "pp"              # 단위
+    max_delta: 5.0          # +5pp = normalized 1.0
+    window: "28d"           # 측정 기간
+  M-LoopPrediction:
+    unit: "pp"
+    max_delta: 10.0
+    window: "28d"
+  M-UserActivation:
+    unit: "count"
+    max_delta: 50
+    window: "7d"
+```
+
+> **룰**: 새 지표 추가 시 반드시 metric_ranges에 등록. 미등록 지표는 Evidence 검증 실패.
+
+### Policy 5: Evidence 갱신 트리거 (필수)
+
+| 시점 | 갱신 내용 |
+|------|----------|
+| **T+0** (완료 직후) | Output/Outcome 1차 Evidence 생성 |
+| **T+7d** | Outcome 업데이트 (행동 변화 관측) |
+| **T+28d** | KPI(Impact) 업데이트 (지표 변화) |
+| **A/B 완료 시** | evidence_strength 상향 (weak→medium→strong) |
+
+> **룰**: query_recipes에 "Evidence 갱신 필요 목록" 쿼리 필수 등록
+
+### Policy 6: graph.json + impact.json 산출물 필수
+
+```
+_build/
+├── graph.json    # 노드/엣지 관계 (LLM 길찾기 지도)
+└── impact.json   # 점수 테이블 (칸반/대시보드 데이터)
+```
+
+| 산출물 | 용도 | 생성 주기 |
+|--------|------|----------|
+| `graph.json` | LLM 전역 탐색, 관계 추적 | 커밋 시 자동 |
+| `impact.json` | 칸반 점수 표시, 대시보드 | 커밋 시 자동 |
+
+> **룰**: 이 두 파일 없으면 LLM이 전체 md를 매번 스캔해야 함. 필수.
+
+### Policy 7: Merge Gate 필수
+
+```bash
+# .git/hooks/pre-commit (또는 CI)
+python3 scripts/validate_schema.py . || exit 1
+python3 scripts/check_orphans.py . || exit 1
+python3 scripts/build_graph_index.py . || exit 1
+python3 scripts/build_impact.py . || exit 1
+```
+
+> **룰**: 검증 실패 시 main 반영 불가. 예외 없음.
+
+### Policy 8: 칸반 점수 표시 방식
+
+```
+[선택됨] B) impact.json을 DataviewJS가 읽어서 카드에 표시
+
+장점:
+- 원본 노트(Task.md) 불변
+- 계산식 변경 시 재계산만 하면 됨
+- frontmatter 오염 없음
+```
+
+> **룰**: Task frontmatter에 점수 직접 쓰지 않음. impact.json이 유일한 점수 소스.
 
 ---
 
@@ -342,12 +461,32 @@ NS별:
 - ExpectedSum, RealizedSum
 - "어떤 Condition이 NS를 실제로 밀고 있는가" 순위
 
-### 7.3 (선택) 별도 스크립트: build_impact.py
+### 7.3 build_impact.py (필수)
+
+> Policy 6에 따라 필수. 이 스크립트 없으면 칸반 점수 표시 불가.
 
 ```
-scripts/build_impact.py → graph + frontmatter 읽음
-                       → _build/impact.json 생성
-                       → DataviewJS가 읽어 칸반 카드에 표시
+scripts/build_impact.py
+├── 입력: graph.json + 전체 Task/Evidence frontmatter
+├── 처리: impact_model_config.yml 로딩 → 점수 계산
+└── 출력: _build/impact.json
+
+_build/impact.json 구조:
+{
+  "model_version": "IM-2025-01",
+  "generated_at": "2025-12-19T12:00:00",
+  "tasks": {
+    "T-2025-0001": {
+      "expected_score": 42,
+      "realized_score": 18,
+      "contributes": [{"to": "C3-B", "weight": 1.0, "score": 42}]
+    }
+  },
+  "rollup": {
+    "conditions": {"C3-B": {"expected_sum": 420, "realized_sum": 180}},
+    "northstar": {"NS-2035": {"expected_sum": 294, "realized_sum": 126}}
+  }
+}
 ```
 
 ---
@@ -674,11 +813,21 @@ LLM에게 시키는 "정해진 역할":
 
 ---
 
-**Version**: 0.2
+**Version**: 0.3
 **Created**: 2025-12-19
 **Updated**: 2025-12-19
 **Author**: LOOP Team
 
 **Changelog**:
+- v0.3: Added "CRITICAL: 필수 정책 8개" section
+  - Policy 1: contributes[] 정본, conditions_3y 캐시 표준
+  - Policy 2: 모든 Entity Stable ID 필수
+  - Policy 3: 저장 vs 계산 정책 확정 (원천만 저장, 점수는 계산)
+  - Policy 4: metric_ranges 필수 정의
+  - Policy 5: Evidence 갱신 트리거 (T+0/7d/28d/A/B)
+  - Policy 6: graph.json + impact.json 필수 (선택→필수)
+  - Policy 7: Merge Gate 필수 (validate + orphan + build)
+  - Policy 8: 칸반 점수는 impact.json에서만 읽음
+  - build_impact.py 필수로 승격 + impact.json 구조 정의
 - v0.2: Added Section 13 "Strategy Change Protocol" - Stable ID, versioning, migration, score snapshot
 - v0.1: Initial spec - Expected/Realized model, roll-up, validation rules

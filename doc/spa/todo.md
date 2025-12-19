@@ -88,6 +88,26 @@
     - `kanban.css`: `.dragging`, `.drag-over` 클래스 스타일 추가 (opacity, 파란색 테두리)
   - 완료일: 2025-12-19
 
+- [x] **SPA-030** Task Panel 전체화면 확장
+  - 수정 파일: `_dashboard/index.html`, `_dashboard/css/panel.css`, `_dashboard/js/components/task-panel.js`
+  - 작업 내용: 패널 헤더에 확장 버튼 추가, 전체화면 토글
+  - 변경 사항:
+    - `index.html`: 패널 헤더에 `panel-expand` 버튼 추가
+    - `panel.css`: `.expanded` 클래스 스타일 (width: 100%, 중앙 정렬)
+    - `task-panel.js`: `toggleExpand()` 메서드, `isExpanded` 상태 관리
+  - 완료일: 2025-12-19
+
+- [x] **SPA-031** Notes 마크다운 렌더링
+  - 수정 파일: `_dashboard/index.html`, `_dashboard/css/panel.css`, `_dashboard/js/components/task-panel.js`, `api/models/entities.py`, `api/routers/tasks.py`
+  - 작업 내용: Notes 필드에 마크다운 지원 (## 제목, **볼드**, *이탤릭*, 리스트 등)
+  - 변경 사항:
+    - `index.html`: Notes 섹션에 프리뷰/편집 토글 구조
+    - `panel.css`: 마크다운 렌더링 스타일 (h1-h3, code, blockquote, list 등)
+    - `task-panel.js`: `renderMarkdown()`, `toggleNotesEdit()`, `updateNotesPreview()` 메서드
+    - `api/models/entities.py`: TaskCreate/TaskUpdate에 `notes` 필드 추가
+    - `api/routers/tasks.py`: create/update에 notes 저장 로직 추가
+  - 완료일: 2025-12-19
+
 ---
 
 ## 진행 중
@@ -141,10 +161,12 @@
 ## 진행 현황
 
 ### 완료
-- API: Project PUT/DELETE, Track GET, Constants GET
+- API: Project PUT/DELETE, Track GET, Constants GET, Task notes 필드
 - SPA 구조: 모듈화된 파일 구조, 정적 파일 서빙
 - Task Side Panel (카드 클릭 → 상세 보기/수정)
 - Task 드래그 앤 드롭 (컬럼 간 이동으로 상태 변경)
+- Task Panel 전체화면 확장 (⛶ 버튼)
+- Notes 마크다운 렌더링 (## 제목, **볼드**, 리스트 등)
 
 ### 구현됨 (테스트 필요)
 - Task CRUD (생성, 수정, 삭제)
