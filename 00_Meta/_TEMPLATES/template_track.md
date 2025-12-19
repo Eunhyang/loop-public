@@ -8,7 +8,7 @@ status: active
 
 # === 계층 ===
 parent_id: "cond:{{CONDITION}}"
-aliases: []
+aliases: ["trk:{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -25,6 +25,9 @@ objectives:
     target: ""
     current: ""
     status: "진행 중"
+
+# === 3Y 전략 연결 (필수) ===
+conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
 # === 분류 ===
 tags: ["track", "12month"]

@@ -8,7 +8,7 @@ status: fixed
 
 # === 계층 ===
 parent_id: null
-aliases: []
+aliases: ["ns:001"]
 
 # === 관계 ===
 outgoing_relations: []

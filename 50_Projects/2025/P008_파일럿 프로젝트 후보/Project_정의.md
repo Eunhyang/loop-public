@@ -1,29 +1,25 @@
 ---
 entity_type: Project
-entity_id: "prj:008"
-entity_name: "파일럿 프로젝트 후보"
+entity_id: prj:008
+entity_name: 파일럿 프로젝트 후보
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-
-# === 계층 ===
-parent_id: "trk:2"
-aliases: []
-
-# === 관계 ===
+parent_id: trk:4
+aliases:
+- prj:008
+- 파일럿 프로젝트 후보
+- prj-008
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "임단"
+owner: 임단
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 experiments: []
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b', 'cond:d']
+tags: []
 priority_flag: medium
 ---
 

@@ -7,8 +7,11 @@ updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:2"
-aliases: []
+parent_id: "trk:6"
+aliases:
+  - "prj:010"
+  - "[펀딩·마케팅] 와디즈 펀딩"
+  - "prj-010"
 
 # === 관계 ===
 outgoing_relations: []
@@ -23,7 +26,8 @@ hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
 experiments: []
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:e']
+tags: []
 priority_flag: medium
 ---
 

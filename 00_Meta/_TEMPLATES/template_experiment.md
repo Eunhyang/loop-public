@@ -8,7 +8,7 @@ status: planning
 
 # === 계층 ===
 parent_id: null
-aliases: []
+aliases: ["exp:{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []

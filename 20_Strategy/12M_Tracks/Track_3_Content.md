@@ -1,51 +1,49 @@
 ---
 entity_type: Track
-entity_id: "trk:3"
+entity_id: trk:3
 entity_name: Track_3_Content
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-
-# 계층
-parent_id: "cond:a"
+parent_id: cond:a
 aliases:
-  - track:3
-  - Track_3_Content
-
-# 관계
+- trk:3
+- Track_3_Content
+- trk-3
 outgoing_relations:
-  - type: enables
-    target_id: "trk:6"
-    description: "콘텐츠가 유입/전환 견인"
-  - type: supports
-    target_id: "trk:1"
-    description: "콘텐츠로 제품 인지도 확보"
+- type: enables
+  target_id: trk:6
+  description: 콘텐츠가 유입/전환 견인
+- type: supports
+  target_id: trk:1
+  description: 콘텐츠로 제품 인지도 확보
 validates: []
 validated_by: []
-
-# Track 전용
-horizon: "12month"
-hypothesis: "GLP-1 언어 선점과 Loop Narrative로 자연 유입 기반을 확보할 수 있다"
+horizon: 12month
+hypothesis: GLP-1 언어 선점과 Loop Narrative로 자연 유입 기반을 확보할 수 있다
 focus:
-  - "GLP-1 Off-phase 언어 정의"
-  - "콘텐츠 50개 배포"
-  - "Loop Index 교육 콘텐츠"
-  - "유튜브/블로그/TikTok 분산 배포"
-owner: "콘텐츠 담당"
+- GLP-1 Off-phase 언어 정의
+- 콘텐츠 50개 배포
+- Loop Index 교육 콘텐츠
+- 유튜브/블로그/TikTok 분산 배포
+owner: 콘텐츠 담당
 objectives:
-  - metric: "GLP-1 키워드"
-    target: "30개"
-    current: 0
-    status: "시작 전"
-  - metric: "콘텐츠"
-    target: "50개"
-    current: 10
-    status: "진행 중"
-
-# 메타
+- metric: GLP-1 키워드
+  target: 30개
+  current: 0
+  status: 시작 전
+- metric: 콘텐츠
+  target: 50개
+  current: 10
+  status: 진행 중
 progress: 0.2
 risk_level: low
-tags: ["track", "12month", "content", "marketing"]
+conditions_3y: ['cond:a']
+tags:
+- track
+- 12month
+- content
+- marketing
 priority_flag: medium
 ---
 

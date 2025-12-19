@@ -1,59 +1,55 @@
 ---
 entity_type: Condition
-entity_id: "cond:b"
+entity_id: cond:b
 entity_name: Condition_B_Loop_Dataset
 created: 2024-12-18
 updated: 2024-12-18
 status: in_progress
-
-# 계층
-parent_id: "mh:3"
+parent_id: mh:3
 aliases:
-  - Condition_B
-  - Condition_B_Loop_Dataset
-
-# 관계
+- cond:b
+- Condition_B_Loop_Dataset
+- cond-b
 outgoing_relations:
-  - type: triggers_shutdown
-    target_id: "action:data_strategy_shutdown"
-    description: "깨지면 데이터 전략 폐기"
-  - type: depends_on
-    target_id: "trk:4"
-    description: "코칭 데이터 필요"
+- type: triggers_shutdown
+  target_id: action:data_strategy_shutdown
+  description: 깨지면 데이터 전략 폐기
+- type: depends_on
+  target_id: trk:4
+  description: 코칭 데이터 필요
 validates: []
-validated_by: ["mh:3", "trk:2", "prj:001"]
-
-# Condition 전용
-condition: "데이터 수가 아니라 재현 가능한 패턴이 늘어나는가?"
-unlock: "3년 전략 진입"
-if_broken: "데이터 전략 폐기"
+validated_by:
+- mh:3
+- trk:2
+- prj:001
+condition: 데이터 수가 아니라 재현 가능한 패턴이 늘어나는가?
+unlock: 3년 전략 진입
+if_broken: 데이터 전략 폐기
 metrics:
-  - name: "재현 패턴 수"
-    threshold: "10개 이상"
-    current: 3
-    status: "위험"
-  - name: "패턴 재현율"
-    threshold: "70% 이상"
-    current: "측정 중"
-    status: "진행 중"
-  - name: "패턴 발견 속도"
-    threshold: "월 1개 이상"
-    current: 1.0
-    status: "정상"
-
-# 메타
+- name: 재현 패턴 수
+  threshold: 10개 이상
+  current: 3
+  status: 위험
+- name: 패턴 재현율
+  threshold: 70% 이상
+  current: 측정 중
+  status: 진행 중
+- name: 패턴 발견 속도
+  threshold: 월 1개 이상
+  current: 1.0
+  status: 정상
 risk_level: medium
 confidence: 0.6
-tags: ["condition", "3year", "data", "critical"]
+tags:
+- condition
+- track-2
+- critical
+- data
 priority_flag: critical
-
-# 깨짐 트리거
 break_triggers:
-  - "6개월간 패턴 3개 정체"
-  - "패턴 재현율 30% 미만"
-  - "새 패턴 발견 0개/월이 3개월 지속"
-
-tags: [condition, track-2, critical, data]
+- 6개월간 패턴 3개 정체
+- 패턴 재현율 30% 미만
+- 새 패턴 발견 0개/월이 3개월 지속
 ---
 
 # Condition B: Loop Dataset

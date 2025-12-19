@@ -26,6 +26,8 @@ python3 scripts/csv_to_loop_entities.py <csv_file>
 
 **Requirements**: Python 3.9+ with PyYAML (`pip install pyyaml` or use `poetry install`)
 
+**Note**: All Python scripts are located in `scripts/` directory. See individual script files for detailed usage and options.
+
 ### Key Entry Points
 - `_HOME.md` - Main navigation hub
 - `_Graph_Index.md` - Auto-generated entity index (do not edit manually)
@@ -529,12 +531,14 @@ python3 scripts/build_dashboard.py .
 
 **Output location**: `_dashboard/index.html` (can be opened in any browser)
 
+**Complete architecture**: See `NAS_DASHBOARD_ARCHITECTURE.md` for detailed component breakdown, deployment flow, and troubleshooting
+
 #### 6. Deploy to Synology NAS (Production)
 ```bash
 # On NAS (via SSH)
 /volume1/scripts/deploy-kanban.sh
 ```
-- Auto-pulls from GitHub
+- Detects file changes (since last build)
 - Validates schema
 - Rebuilds dashboard
 - Deploys to Web Station (http://nas-ip:8080)
@@ -542,13 +546,17 @@ python3 scripts/build_dashboard.py .
 
 **Automated**: Runs every 15 minutes via Task Scheduler
 
-For complete NAS deployment guide, see: `NAS_DEPLOYMENT_GUIDE.md`
+**Note**: No git pull needed - vault is already on NAS and synced in real-time
+
+For complete NAS deployment guide, see: `NAS_DEPLOYMENT_SIMPLE.md`
 
 ---
 
 ## NAS Dashboard Deployment
 
 This vault includes a complete automated deployment system for Synology NAS.
+
+**📖 완전한 아키텍처 문서**: `NAS_DASHBOARD_ARCHITECTURE.md` - 전체 시스템 구조, 컴포넌트, 트러블슈팅 포함
 
 ### Quick Start (NAS Admin)
 
@@ -567,16 +575,17 @@ This vault includes a complete automated deployment system for Synology NAS.
 ### Deployment Flow
 
 ```
-Developer (MacBook)
-    ↓ git commit & push
-GitHub Repository
-    ↓ auto-pull (every 15min)
+Developer (MacBook Obsidian)
+    ↓ SMB/NFS mount (real-time sync)
 Synology NAS (/volume1/vault/LOOP)
+    ↓ detect changes (every 15min)
     ↓ build_dashboard.py
 Dashboard HTML (/volume1/web/kanban/)
     ↓ Web Station
 Team Members (Browser: http://nas-ip:8080)
 ```
+
+**Key Point**: Vault is already on NAS - MacBook mounts it via SMB/NFS. Files sync in real-time, no git pull needed!
 
 ### Monitoring
 
@@ -594,11 +603,15 @@ curl http://nas-ip:8080
 
 ### Documentation
 
-**Full deployment guide**: `NAS_DEPLOYMENT_GUIDE.md` (Step-by-step setup, troubleshooting, advanced features)
+**완전한 아키텍처**: `NAS_DASHBOARD_ARCHITECTURE.md` ⭐ (전체 시스템 구조, 스크립트 상세, 트러블슈팅)
 
-**Comparison of deployment options**: `nas-setup-comparison.md` (Vault on NAS vs Local+Clone vs Hybrid)
+**빠른 시작**: `NAS_DEPLOYMENT_SIMPLE.md` (10분 설정, 실시간 동기화 아키텍처)
 
-**Alternative solutions**: `nas-kanban-setup.md` (MkDocs, Next.js, Focalboard options)
+**Advanced features**: `NAS_DEPLOYMENT_GUIDE.md` (Slack 알림, HTTPS, 다중 대시보드)
+
+**Architecture comparison**: `nas-setup-comparison.md` (Vault on NAS vs Local+Clone vs Hybrid)
+
+**Alternative solutions**: `nas-kanban-setup.md` (MkDocs, Next.js, Focalboard 옵션)
 
 ---
 
@@ -706,11 +719,25 @@ These files define the vault's schema and automation rules:
 - `_ENTRY_POINT.md` - LLM-specific entry point (if exists)
 - `_Graph_Index.md` - Auto-generated entity relationship map (do NOT edit manually)
 
+**Python Configuration**:
+- `pyproject.toml` - Project dependencies and Poetry configuration (Python 3.9+, PyYAML 6.0.3+)
+
 ---
 
 **Last updated**: 2025-12-19
-**Document version**: 4.2
+**Document version**: 4.4
 **Author**: Claude Code
+
+**Changes** (v4.4):
+- Added note about Python scripts location in scripts/ directory
+- Added reference to `pyproject.toml` in Key Metadata Files section
+- Minor clarifications for script usage
+
+**Changes** (v4.3):
+- Added reference to `NAS_DASHBOARD_ARCHITECTURE.md` (complete system architecture)
+- Enhanced NAS deployment documentation section
+- Added direct links to architecture documentation from related sections
+
 **Changes** (v4.2):
 - Updated Python requirement to 3.9+ (matches pyproject.toml)
 - Added section on loop-entity-creator skill usage

@@ -1,29 +1,25 @@
 ---
 entity_type: Project
-entity_id: "prj:006"
-entity_name: "코치 1명 구인 & 1차 온보딩 준비"
+entity_id: prj:006
+entity_name: 코치 1명 구인 & 1차 온보딩 준비
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-
-# === 계층 ===
-parent_id: "trk:2"
-aliases: []
-
-# === 관계 ===
+parent_id: trk:4
+aliases:
+- prj:006
+- 코치 1명 구인 & 1차 온보딩 준비
+- prj-006
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "미정"
+owner: 미정
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 experiments: []
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b', 'cond:d']
+tags: []
 priority_flag: medium
 ---
 

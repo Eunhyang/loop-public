@@ -1,0 +1,1658 @@
+{
+  "generated": "2025-12-19T18:50:00.828778",
+  "total_entities": 73,
+  "nodes": [
+    {
+      "id": "idx:projects",
+      "type": "Index",
+      "name": "Projects Index",
+      "status": null,
+      "path": "50_Projects/_INDEX.md"
+    },
+    {
+      "id": "prj:003",
+      "type": "Project",
+      "name": "LoopOS V0 데이터 설계",
+      "status": "active",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:003-07",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 6. 저장 전략 결정",
+      "status": "planning",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:003-03",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화",
+      "status": "planning",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:003-01",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:003-02",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec",
+      "status": "planning",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:003-04",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙",
+      "status": "planning",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:003-05",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의",
+      "status": "planning",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:003-06",
+      "type": "Task",
+      "name": "Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계",
+      "status": "planning",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:005",
+      "type": "Project",
+      "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
+      "status": "active",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:005-03",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결",
+      "status": "planning",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:005-05",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:005-01",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차",
+      "status": "planning",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:005-04",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 6 — 최소 구현 시작",
+      "status": "planning",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:005-02",
+      "type": "Task",
+      "name": "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기",
+      "status": "planning",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:010",
+      "type": "Project",
+      "name": "[펀딩·마케팅] 와디즈 펀딩",
+      "status": "active",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:010-02",
+      "type": "Task",
+      "name": "와디즈 새소식 초안 작성 - 브랜드 방향성 위주",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk:010-01",
+      "type": "Task",
+      "name": "와디즈 오픈 후 고객 대응",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj:009",
+      "type": "Project",
+      "name": "[투자/TIPS준비] 배치 프로그램 지원",
+      "status": "active",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:009-02",
+      "type": "Task",
+      "name": "[투자/TIPS준비] 프라이머 배치 프로그램 지원",
+      "status": "planning",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 프라이머 배치 프로그램 지원.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:009-01",
+      "type": "Task",
+      "name": "[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원",
+      "status": "planning",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 아이디어파트너스 배치 프로그램 지원.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:007",
+      "type": "Project",
+      "name": "외부 비서",
+      "status": "active",
+      "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:007-01",
+      "type": "Task",
+      "name": "외부 비서 채용 – 3. 공고용 업무·요건 문단 작성",
+      "status": "planning",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:007-03",
+      "type": "Task",
+      "name": "외부 비서 채용 – 1. 역할·권한 정책 문서 고정",
+      "status": "planning",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:007-02",
+      "type": "Task",
+      "name": "외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리",
+      "status": "planning",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:001",
+      "type": "Project",
+      "name": "Ontology v0.1",
+      "status": "active",
+      "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "critical",
+      "owner": "Founder + 온톨로지 팀"
+    },
+    {
+      "id": "tsk:001-02",
+      "type": "Task",
+      "name": "Episode 엔티티 검증",
+      "status": "pending",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "myunghak"
+    },
+    {
+      "id": "tsk:001-03",
+      "type": "Task",
+      "name": "스키마 문서화",
+      "status": "completed",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "dan"
+    },
+    {
+      "id": "tsk:001-01",
+      "type": "Task",
+      "name": "Event 엔티티 검증",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "high",
+      "assignee": "eunhyang"
+    },
+    {
+      "id": "prj:014",
+      "type": "Project",
+      "name": "[코칭 서비스] 1:1 코칭 서비스",
+      "status": "active",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:014-01",
+      "type": "Task",
+      "name": "꼭꼭Fit 3기 환급 검토",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj:006",
+      "type": "Project",
+      "name": "코치 1명 구인 & 1차 온보딩 준비",
+      "status": "active",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "미정"
+    },
+    {
+      "id": "tsk:006-04",
+      "type": "Task",
+      "name": "기본 프로토콜 및 교육 프로세스 정하기",
+      "status": "planning",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:006-01",
+      "type": "Task",
+      "name": "코치 규칙 정하기",
+      "status": "planning",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/코치 규칙 정하기.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:006-02",
+      "type": "Task",
+      "name": "채용 및 계약서 작성",
+      "status": "planning",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:006-03",
+      "type": "Task",
+      "name": "혜영 코치에게 인수인계 받기",
+      "status": "planning",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "prj:013",
+      "type": "Project",
+      "name": "YouTube 1주 1업로드 프로젝트",
+      "status": "active",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
+      "conditions_3y": [
+        "cond:a"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:013-01",
+      "type": "Task",
+      "name": "[콘텐츠 분석] 유튜브 w31 영상 성과 측정",
+      "status": "planning",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Tasks/[콘텐츠 분석] 유튜브 w31 영상 성과 측정.md",
+      "conditions_3y": [
+        "cond:a"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj:011",
+      "type": "Project",
+      "name": "사이드프로젝트 리크루팅 사이트 제작",
+      "status": "active",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
+      "conditions_3y": [
+        "cond:c",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:011-01",
+      "type": "Task",
+      "name": "리크루팅 사이트) 원택님 피드백 반영",
+      "status": "planning",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
+      "conditions_3y": [
+        "cond:c",
+        "cond:d"
+      ],
+      "priority_flag": "low",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:004",
+      "type": "Project",
+      "name": "(프로젝트 없음)",
+      "status": "active",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:004-01",
+      "type": "Task",
+      "name": "New Task",
+      "status": "planning",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/New Task.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:004-05",
+      "type": "Task",
+      "name": "[dan2]",
+      "status": "planning",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[dan2].md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:004-02",
+      "type": "Task",
+      "name": "(이름 없음)",
+      "status": "planning",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/(이름 없음).md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:004-04",
+      "type": "Task",
+      "name": "[YouTube/W32] 영상 업로드",
+      "status": "planning",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 영상 업로드.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk:004-03",
+      "type": "Task",
+      "name": "[YouTube/W32] 썸네일 제작",
+      "status": "planning",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 썸네일 제작.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:002",
+      "type": "Project",
+      "name": "[와디즈] 12주 코칭 습관팩 런칭",
+      "status": "active",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk:002-05",
+      "type": "Task",
+      "name": "꼭꼭 앱 1년 구독권 QA",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭 앱 1년 구독권 QA.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:002-09",
+      "type": "Task",
+      "name": "꼭꼭FIT 페이지 UI 업데이트",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:002-08",
+      "type": "Task",
+      "name": "꼭꼭FIT 관련 과제 내용과 AI 통합",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:002-10",
+      "type": "Task",
+      "name": "꼭꼭FIT 강의 페이지 + 과제 페이지 만들기",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:002-01",
+      "type": "Task",
+      "name": "12/17: 본펀딩 공개",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:002-04",
+      "type": "Task",
+      "name": "11/22: 심사 통과, 광고 소재 제작 (크)",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:002-02",
+      "type": "Task",
+      "name": "12/31: 펀딩 종료",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:002-06",
+      "type": "Task",
+      "name": "꼭꼭FIT 음식편향테스트 특정 주차에 노출",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:002-03",
+      "type": "Task",
+      "name": "11/25: 오픈예정 공개",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "미정"
+    },
+    {
+      "id": "tsk:002-07",
+      "type": "Task",
+      "name": "꼭꼭FIT+꼭꼭 앱 로그인 통합",
+      "status": "planning",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj:012",
+      "type": "Project",
+      "name": "[CS·운영] 고객관리/대응",
+      "status": "active",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk:012-01",
+      "type": "Task",
+      "name": "[고객 관리] 카카오톡 채널 활성화 방안 기획",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj:008",
+      "type": "Project",
+      "name": "파일럿 프로젝트 후보",
+      "status": "active",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "임단"
+    },
+    {
+      "id": "tsk:008-03",
+      "type": "Task",
+      "name": "[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계",
+      "status": "planning",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:008-02",
+      "type": "Task",
+      "name": "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안",
+      "status": "planning",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk:008-01",
+      "type": "Task",
+      "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "high",
+      "assignee": "임단"
+    },
+    {
+      "id": "mh:3",
+      "type": "MetaHypothesis",
+      "name": "MH3_데이터_모델링_가능",
+      "status": "validating",
+      "path": "01_North_Star/MH3_데이터_모델링_가능.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "ns:001",
+      "type": "NorthStar",
+      "name": "10년 비전",
+      "status": "fixed",
+      "path": "01_North_Star/10년 비전.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "cond:b",
+      "type": "Condition",
+      "name": "Condition_B_Loop_Dataset",
+      "status": "in_progress",
+      "path": "20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "idx:3y-conditions",
+      "type": "Index",
+      "name": "3Y Conditions Index",
+      "status": null,
+      "path": "20_Strategy/3Y_Conditions/_INDEX.md"
+    },
+    {
+      "id": "trk:1",
+      "type": "Track",
+      "name": "Track_1_Product",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/Track_1_Product.md",
+      "conditions_3y": [
+        "cond:a"
+      ],
+      "priority_flag": "medium",
+      "owner": "PM 1 + 개발 1 + 노코드 지원"
+    },
+    {
+      "id": "trk:6",
+      "type": "Track",
+      "name": "Track_6_Revenue",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/Track_6_Revenue.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "critical",
+      "owner": "Founder + 전 팀"
+    },
+    {
+      "id": "trk:5",
+      "type": "Track",
+      "name": "Track_5_Partnership",
+      "status": "planning",
+      "path": "20_Strategy/12M_Tracks/Track_5_Partnership.md",
+      "conditions_3y": [
+        "cond:c",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "Founder + BD 담당"
+    },
+    {
+      "id": "trk:3",
+      "type": "Track",
+      "name": "Track_3_Content",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/Track_3_Content.md",
+      "conditions_3y": [
+        "cond:a"
+      ],
+      "priority_flag": "medium",
+      "owner": "콘텐츠 담당"
+    },
+    {
+      "id": "trk:4",
+      "type": "Track",
+      "name": "Track_4_Coaching",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/Track_4_Coaching.md",
+      "conditions_3y": [
+        "cond:b",
+        "cond:d"
+      ],
+      "priority_flag": "medium",
+      "owner": "코치 팀 리드"
+    },
+    {
+      "id": "trk:2",
+      "type": "Track",
+      "name": "Track_2_Data",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/Track_2_Data.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "critical",
+      "owner": "Founder + Data Team"
+    }
+  ],
+  "edges": [
+    {
+      "source": "trk:2",
+      "target": "prj:003",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "prj:005",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "prj:001",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "prj:004",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:003",
+      "target": "tsk:003-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:005",
+      "target": "tsk:005-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:005",
+      "target": "tsk:005-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:005",
+      "target": "tsk:005-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:005",
+      "target": "tsk:005-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:005",
+      "target": "tsk:005-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "prj:010",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "prj:009",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "prj:007",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:010",
+      "target": "tsk:010-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:010",
+      "target": "tsk:010-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:009",
+      "target": "tsk:009-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:009",
+      "target": "tsk:009-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:007",
+      "target": "tsk:007-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:007",
+      "target": "tsk:007-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:007",
+      "target": "tsk:007-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:001",
+      "target": "tsk:001-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:001",
+      "target": "tsk:001-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:001",
+      "target": "tsk:001-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:014",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:006",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:002",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:012",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:008",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:014",
+      "target": "tsk:014-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:006",
+      "target": "tsk:006-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:006",
+      "target": "tsk:006-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:006",
+      "target": "tsk:006-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:006",
+      "target": "tsk:006-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:3",
+      "target": "prj:013",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:013",
+      "target": "tsk:013-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:5",
+      "target": "prj:011",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:011",
+      "target": "tsk:011-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:004",
+      "target": "tsk:004-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:004",
+      "target": "tsk:004-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:004",
+      "target": "tsk:004-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:004",
+      "target": "tsk:004-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:004",
+      "target": "tsk:004-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:002",
+      "target": "tsk:002-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:012",
+      "target": "tsk:012-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:008",
+      "target": "tsk:008-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:008",
+      "target": "tsk:008-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:008",
+      "target": "tsk:008-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "ns:001",
+      "target": "mh:3",
+      "type": "parent_of"
+    },
+    {
+      "source": "mh:3",
+      "target": "cond:b",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:a",
+      "target": "trk:1",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:a",
+      "target": "trk:3",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:d",
+      "target": "trk:6",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:c",
+      "target": "trk:5",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "trk:4",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "trk:2",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:001",
+      "target": "mh:3",
+      "type": "validates"
+    },
+    {
+      "source": "prj:001",
+      "target": "cond:b",
+      "type": "enables"
+    },
+    {
+      "source": "prj:001",
+      "target": "trk:2",
+      "type": "part_of"
+    },
+    {
+      "source": "tsk:001-02",
+      "target": "mh:3",
+      "type": "validates"
+    },
+    {
+      "source": "tsk:001-02",
+      "target": "tsk:001-01",
+      "type": "depends_on"
+    },
+    {
+      "source": "tsk:001-03",
+      "target": "trk:2",
+      "type": "supports"
+    },
+    {
+      "source": "tsk:001-01",
+      "target": "mh:3",
+      "type": "validates"
+    },
+    {
+      "source": "cond:b",
+      "target": "action:data_strategy_shutdown",
+      "type": "triggers_shutdown"
+    },
+    {
+      "source": "cond:b",
+      "target": "trk:4",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:1",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:1",
+      "target": "trk:2",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:1",
+      "target": "trk:4",
+      "type": "supports"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:1",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:3",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:4",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:5",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:5",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:5",
+      "target": "trk:2",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:3",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:3",
+      "target": "trk:1",
+      "type": "supports"
+    },
+    {
+      "source": "trk:4",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:4",
+      "target": "trk:2",
+      "type": "supports"
+    },
+    {
+      "source": "trk:4",
+      "target": "trk:1",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:2",
+      "target": "cond:b",
+      "type": "enables"
+    },
+    {
+      "source": "trk:2",
+      "target": "trk:4",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:2",
+      "target": "trk:5",
+      "type": "supports"
+    }
+  ],
+  "conditions_3y_index": {
+    "cond:b": [
+      "prj:003",
+      "tsk:003-07",
+      "tsk:003-03",
+      "tsk:003-01",
+      "tsk:003-02",
+      "tsk:003-04",
+      "tsk:003-05",
+      "tsk:003-06",
+      "prj:005",
+      "tsk:005-03",
+      "tsk:005-05",
+      "tsk:005-01",
+      "tsk:005-04",
+      "tsk:005-02",
+      "prj:001",
+      "tsk:001-02",
+      "tsk:001-03",
+      "tsk:001-01",
+      "prj:014",
+      "tsk:014-01",
+      "prj:006",
+      "tsk:006-04",
+      "tsk:006-01",
+      "tsk:006-02",
+      "tsk:006-03",
+      "prj:004",
+      "tsk:004-01",
+      "tsk:004-05",
+      "tsk:004-02",
+      "tsk:004-04",
+      "tsk:004-03",
+      "prj:002",
+      "tsk:002-05",
+      "tsk:002-09",
+      "tsk:002-08",
+      "tsk:002-10",
+      "tsk:002-01",
+      "tsk:002-04",
+      "tsk:002-02",
+      "tsk:002-06",
+      "tsk:002-03",
+      "tsk:002-07",
+      "prj:012",
+      "tsk:012-01",
+      "prj:008",
+      "tsk:008-03",
+      "tsk:008-02",
+      "tsk:008-01",
+      "trk:4",
+      "trk:2"
+    ],
+    "cond:e": [
+      "prj:010",
+      "tsk:010-02",
+      "tsk:010-01",
+      "prj:009",
+      "tsk:009-02",
+      "tsk:009-01",
+      "prj:007",
+      "tsk:007-01",
+      "tsk:007-03",
+      "tsk:007-02",
+      "trk:6"
+    ],
+    "cond:d": [
+      "prj:014",
+      "tsk:014-01",
+      "prj:006",
+      "tsk:006-04",
+      "tsk:006-01",
+      "tsk:006-02",
+      "tsk:006-03",
+      "prj:011",
+      "tsk:011-01",
+      "prj:002",
+      "tsk:002-05",
+      "tsk:002-09",
+      "tsk:002-08",
+      "tsk:002-10",
+      "tsk:002-01",
+      "tsk:002-04",
+      "tsk:002-02",
+      "tsk:002-06",
+      "tsk:002-03",
+      "tsk:002-07",
+      "prj:012",
+      "tsk:012-01",
+      "prj:008",
+      "tsk:008-03",
+      "tsk:008-02",
+      "tsk:008-01",
+      "trk:5",
+      "trk:4"
+    ],
+    "cond:a": [
+      "prj:013",
+      "tsk:013-01",
+      "trk:1",
+      "trk:3"
+    ],
+    "cond:c": [
+      "prj:011",
+      "tsk:011-01",
+      "trk:5"
+    ]
+  },
+  "by_type": {
+    "Index": [
+      "idx:projects",
+      "idx:3y-conditions"
+    ],
+    "Project": [
+      "prj:003",
+      "prj:005",
+      "prj:010",
+      "prj:009",
+      "prj:007",
+      "prj:001",
+      "prj:014",
+      "prj:006",
+      "prj:013",
+      "prj:011",
+      "prj:004",
+      "prj:002",
+      "prj:012",
+      "prj:008"
+    ],
+    "Task": [
+      "tsk:003-07",
+      "tsk:003-03",
+      "tsk:003-01",
+      "tsk:003-02",
+      "tsk:003-04",
+      "tsk:003-05",
+      "tsk:003-06",
+      "tsk:005-03",
+      "tsk:005-05",
+      "tsk:005-01",
+      "tsk:005-04",
+      "tsk:005-02",
+      "tsk:010-02",
+      "tsk:010-01",
+      "tsk:009-02",
+      "tsk:009-01",
+      "tsk:007-01",
+      "tsk:007-03",
+      "tsk:007-02",
+      "tsk:001-02",
+      "tsk:001-03",
+      "tsk:001-01",
+      "tsk:014-01",
+      "tsk:006-04",
+      "tsk:006-01",
+      "tsk:006-02",
+      "tsk:006-03",
+      "tsk:013-01",
+      "tsk:011-01",
+      "tsk:004-01",
+      "tsk:004-05",
+      "tsk:004-02",
+      "tsk:004-04",
+      "tsk:004-03",
+      "tsk:002-05",
+      "tsk:002-09",
+      "tsk:002-08",
+      "tsk:002-10",
+      "tsk:002-01",
+      "tsk:002-04",
+      "tsk:002-02",
+      "tsk:002-06",
+      "tsk:002-03",
+      "tsk:002-07",
+      "tsk:012-01",
+      "tsk:008-03",
+      "tsk:008-02",
+      "tsk:008-01"
+    ],
+    "MetaHypothesis": [
+      "mh:3"
+    ],
+    "NorthStar": [
+      "ns:001"
+    ],
+    "Condition": [
+      "cond:b"
+    ],
+    "Track": [
+      "trk:1",
+      "trk:6",
+      "trk:5",
+      "trk:3",
+      "trk:4",
+      "trk:2"
+    ]
+  },
+  "by_status": {
+    "unknown": [
+      "idx:projects",
+      "idx:3y-conditions"
+    ],
+    "active": [
+      "prj:003",
+      "prj:005",
+      "prj:010",
+      "prj:009",
+      "prj:007",
+      "prj:001",
+      "prj:014",
+      "prj:006",
+      "prj:013",
+      "prj:011",
+      "prj:004",
+      "prj:002",
+      "prj:012",
+      "prj:008",
+      "trk:1",
+      "trk:6",
+      "trk:3",
+      "trk:4",
+      "trk:2"
+    ],
+    "planning": [
+      "tsk:003-07",
+      "tsk:003-03",
+      "tsk:003-02",
+      "tsk:003-04",
+      "tsk:003-05",
+      "tsk:003-06",
+      "tsk:005-03",
+      "tsk:005-01",
+      "tsk:005-04",
+      "tsk:005-02",
+      "tsk:009-02",
+      "tsk:009-01",
+      "tsk:007-01",
+      "tsk:007-03",
+      "tsk:007-02",
+      "tsk:006-04",
+      "tsk:006-01",
+      "tsk:006-02",
+      "tsk:006-03",
+      "tsk:013-01",
+      "tsk:011-01",
+      "tsk:004-01",
+      "tsk:004-05",
+      "tsk:004-02",
+      "tsk:004-04",
+      "tsk:004-03",
+      "tsk:002-05",
+      "tsk:002-09",
+      "tsk:002-08",
+      "tsk:002-10",
+      "tsk:002-01",
+      "tsk:002-04",
+      "tsk:002-02",
+      "tsk:002-06",
+      "tsk:002-03",
+      "tsk:002-07",
+      "tsk:008-03",
+      "tsk:008-02",
+      "trk:5"
+    ],
+    "in_progress": [
+      "tsk:003-01",
+      "tsk:005-05",
+      "tsk:010-02",
+      "tsk:010-01",
+      "tsk:001-01",
+      "tsk:014-01",
+      "tsk:012-01",
+      "tsk:008-01",
+      "cond:b"
+    ],
+    "pending": [
+      "tsk:001-02"
+    ],
+    "completed": [
+      "tsk:001-03"
+    ],
+    "validating": [
+      "mh:3"
+    ],
+    "fixed": [
+      "ns:001"
+    ]
+  }
+}

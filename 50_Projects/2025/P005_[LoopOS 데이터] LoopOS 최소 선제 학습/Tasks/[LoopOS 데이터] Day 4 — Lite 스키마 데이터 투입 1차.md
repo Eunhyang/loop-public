@@ -9,7 +9,10 @@ status: planning
 # === 계층 ===
 parent_id: "prj:005"
 project_id: "prj:005"
-aliases: []
+aliases:
+  - "tsk:005-01"
+  - "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차"
+  - "tsk-005-01"
 
 # === 관계 ===
 outgoing_relations: []
@@ -24,7 +27,8 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b']
+tags: []
 priority_flag: high
 ---
 

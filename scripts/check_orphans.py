@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Orphan Checker v3.2
+LOOP Vault Orphan Checker v4.0
 고아 엔티티(끊어진 링크)를 검사합니다.
+
+변경사항 (v4.0):
+- conditions_3y 참조 검사 추가
+- 블로킹 모드: 오류 발견 시 커밋 차단 (return 1)
 """
 
 import os
@@ -103,6 +107,16 @@ def check_orphans(entities: Dict[str, Dict]) -> List[str]:
                         if not target.startswith("action:"):
                             warnings.append(f"{entity_id}: relation target '{target}' does not exist")
 
+        # conditions_3y 검사 (cond:* ID가 존재하는지)
+        conditions_3y = fm.get("conditions_3y", [])
+        if isinstance(conditions_3y, list):
+            for cond_id in conditions_3y:
+                if isinstance(cond_id, str) and cond_id not in all_ids:
+                    # cond:a-e 중 아직 문서가 없는 것도 있으므로 유효한 패턴인지 체크
+                    import re
+                    if not re.match(r'^cond:[a-e]$', cond_id):
+                        warnings.append(f"{entity_id}: conditions_3y contains invalid ID '{cond_id}'")
+
     return warnings
 
 
@@ -170,11 +184,12 @@ def main(vault_path: str) -> int:
     print(f"Warnings: {len(all_warnings)}")
 
     if all_warnings:
-        print(f"\n--- Warnings ---")
+        print(f"\n--- Errors (Blocking) ---")
         for warning in all_warnings:
             print(f"  - {warning}")
-        # 경고만 출력, 커밋 차단은 하지 않음 (원하면 return 1로 변경)
-        return 0
+        # 블로킹 모드: 커밋 차단
+        print("\n[BLOCKING] Fix the above errors before committing.")
+        return 1
 
     print("\nNo orphans found!")
     return 0

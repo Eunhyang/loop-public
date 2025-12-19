@@ -73,6 +73,7 @@ Optional fields:
    - `{{parent_id}}` → user-provided parent ID (if any)
    - `{{priority_flag}}` → user-provided priority (if any)
    - `{{DATE}}` → current date (YYYY-MM-DD format)
+   - Note: `aliases` will automatically include entity_id for Obsidian linking
 
 **Step 4: Determine file path**
 
@@ -139,6 +140,7 @@ Optional fields:
    - `{{priority_flag}}` → user-provided priority (if any)
    - `{{DATE}}` → current date
    - `{{project_num}}` → extracted from ID (004)
+   - Note: `aliases` will automatically include entity_id for Obsidian linking
 
 **Step 4: Create project directory structure**
 

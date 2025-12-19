@@ -1,55 +1,54 @@
 ---
 entity_type: Track
-entity_id: "trk:1"
+entity_id: trk:1
 entity_name: Track_1_Product
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-
-# 계층
-parent_id: "cond:a"
+parent_id: cond:a
 aliases:
-  - track:1
-  - Track_1_Product
-
-# 관계
+- trk:1
+- Track_1_Product
+- trk-1
 outgoing_relations:
-  - type: enables
-    target_id: "trk:6"
-    description: "천천히 먹기 = 유료화 핵심"
-  - type: depends_on
-    target_id: "trk:2"
-    description: "Schema가 제품 기능 뒷받침"
-  - type: supports
-    target_id: "trk:4"
-    description: "제품으로 코칭 지원"
-validates: ["cond:a"]
+- type: enables
+  target_id: trk:6
+  description: 천천히 먹기 = 유료화 핵심
+- type: depends_on
+  target_id: trk:2
+  description: Schema가 제품 기능 뒷받침
+- type: supports
+  target_id: trk:4
+  description: 제품으로 코칭 지원
+validates:
+- cond:a
 validated_by: []
-
-# Track 전용
-horizon: "12month"
-hypothesis: "Loop Core OS 제품이 국내 PMF를 달성할 수 있다"
+horizon: 12month
+hypothesis: Loop Core OS 제품이 국내 PMF를 달성할 수 있다
 focus:
-  - "Loop Mapping v1 완성"
-  - "Emotion–Eating–Habit Tracking v1"
-  - "천천히 먹기 기능"
-  - "Loop Intervention v0.5"
-  - "노코드 어드민 도입"
-owner: "PM 1 + 개발 1 + 노코드 지원"
+- Loop Mapping v1 완성
+- Emotion–Eating–Habit Tracking v1
+- 천천히 먹기 기능
+- Loop Intervention v0.5
+- 노코드 어드민 도입
+owner: PM 1 + 개발 1 + 노코드 지원
 objectives:
-  - metric: "Loop Mapping"
-    target: "v1"
-    current: "v0.3"
-    status: "진행 중"
-  - metric: "Product 안정성"
-    target: "95%"
-    current: "80%"
-    status: "진행 중"
-
-# 메타
+- metric: Loop Mapping
+  target: v1
+  current: v0.3
+  status: 진행 중
+- metric: Product 안정성
+  target: 95%
+  current: 80%
+  status: 진행 중
 progress: 0.4
 risk_level: medium
-tags: ["track", "12month", "product", "core"]
+conditions_3y: ['cond:a']
+tags:
+- track
+- 12month
+- product
+- core
 priority_flag: medium
 ---
 

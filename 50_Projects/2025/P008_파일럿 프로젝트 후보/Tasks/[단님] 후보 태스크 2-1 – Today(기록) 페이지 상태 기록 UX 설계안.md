@@ -9,7 +9,10 @@ status: planning
 # === 계층 ===
 parent_id: "prj:008"
 project_id: "prj:008"
-aliases: []
+aliases:
+  - "tsk:008-02"
+  - "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안"
+  - "tsk-008-02"
 
 # === 관계 ===
 outgoing_relations: []
@@ -24,7 +27,8 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b', 'cond:d']
+tags: []
 priority_flag: high
 ---
 

@@ -1,30 +1,26 @@
 ---
 entity_type: Task
-entity_id: "tsk:002-07"
-entity_name: "꼭꼭FIT+꼭꼭 앱 로그인 통합"
+entity_id: tsk:002-07
+entity_name: 꼭꼭FIT+꼭꼭 앱 로그인 통합
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
-
-# === 계층 ===
-parent_id: "prj:002"
-project_id: "prj:002"
-aliases: []
-
-# === 관계 ===
+parent_id: prj:002
+project_id: prj:002
+aliases:
+- tsk:002-07
+- 꼭꼭FIT+꼭꼭 앱 로그인 통합
+- tsk-002-07
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 due: 2025-12-16
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b', 'cond:d']
+tags: []
 priority_flag: high
 ---
 

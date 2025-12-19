@@ -1,57 +1,56 @@
 ---
 entity_type: Track
-entity_id: "trk:2"
+entity_id: trk:2
 entity_name: Track_2_Data
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-
-# 계층
-parent_id: "cond:b"
+parent_id: cond:b
 aliases:
-  - track:2
-  - Track_2_Data
-
-# 관계
+- trk:2
+- Track_2_Data
+- trk-2
 outgoing_relations:
-  - type: enables
-    target_id: "cond:b"
-    description: "재현 패턴 10개 enable"
-  - type: depends_on
-    target_id: "trk:4"
-    description: "코칭 데이터 필요"
-  - type: supports
-    target_id: "trk:5"
-    description: "의료 파트너십 근거 제공"
-validates: ["mh:3"]
+- type: enables
+  target_id: cond:b
+  description: 재현 패턴 10개 enable
+- type: depends_on
+  target_id: trk:4
+  description: 코칭 데이터 필요
+- type: supports
+  target_id: trk:5
+  description: 의료 파트너십 근거 제공
+validates:
+- mh:3
 validated_by: []
-
-# Track 전용
-horizon: "12month"
-hypothesis: "코치+기록 기반 데이터는 패턴화 가능하다"
+horizon: 12month
+hypothesis: 코치+기록 기반 데이터는 패턴화 가능하다
 focus:
-  - "고밀도 Tier1/Tier2 확장"
-  - "Loop Pattern v1"
-  - "Schema 안정화"
-owner: "Founder + Data Team"
+- 고밀도 Tier1/Tier2 확장
+- Loop Pattern v1
+- Schema 안정화
+owner: Founder + Data Team
 objectives:
-  - metric: "고밀도 사용자"
-    target: "50명 이상"
-    current: 32
-    status: "진행 중"
-  - metric: "재현 패턴"
-    target: "10개 이상"
-    current: 3
-    status: "위험"
-  - metric: "스키마 안정성"
-    target: "3개월 변경 없음"
-    current: "2개월"
-    status: "진행 중"
-
-# 메타
+- metric: 고밀도 사용자
+  target: 50명 이상
+  current: 32
+  status: 진행 중
+- metric: 재현 패턴
+  target: 10개 이상
+  current: 3
+  status: 위험
+- metric: 스키마 안정성
+  target: 3개월 변경 없음
+  current: 2개월
+  status: 진행 중
 progress: 0.6
 risk_level: medium
-tags: ["track", "12month", "data", "ontology"]
+conditions_3y: ['cond:b']
+tags:
+- track
+- 12month
+- data
+- ontology
 priority_flag: critical
 ---
 

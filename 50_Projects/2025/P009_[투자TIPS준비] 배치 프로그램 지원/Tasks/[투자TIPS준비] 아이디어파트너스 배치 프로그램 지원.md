@@ -9,7 +9,10 @@ status: planning
 # === 계층 ===
 parent_id: "prj:009"
 project_id: "prj:009"
-aliases: []
+aliases:
+  - "tsk:009-01"
+  - "[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원"
+  - "tsk-009-01"
 
 # === 관계 ===
 outgoing_relations: []
@@ -24,7 +27,8 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:e']
+tags: []
 priority_flag: high
 ---
 

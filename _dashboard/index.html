@@ -23,51 +23,16 @@
             color: white;
             padding: 24px 32px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .header h1 {
             font-size: 1.8em;
+            margin-bottom: 8px;
         }
 
         .header-meta {
             font-size: 0.9em;
             opacity: 0.9;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .btn-primary {
-            background: white;
-            color: #667eea;
-        }
-
-        .btn-primary:hover {
-            background: #f0f0f0;
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
         }
 
         .tabs {
@@ -102,42 +67,6 @@
 
         .tab-content.active {
             display: block;
-        }
-
-        /* 초기 화면 */
-        .init-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
-            text-align: center;
-        }
-
-        .init-screen h2 {
-            font-size: 1.5em;
-            margin-bottom: 16px;
-            color: #333;
-        }
-
-        .init-screen p {
-            color: #666;
-            margin-bottom: 24px;
-        }
-
-        .init-screen .btn {
-            font-size: 1.1em;
-            padding: 14px 32px;
-        }
-
-        .warning {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            color: #856404;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-top: 16px;
-            font-size: 0.9em;
         }
 
         /* 칸반 보드 */
@@ -266,7 +195,6 @@
             color: #f5576c;
             text-decoration: none;
             font-weight: 500;
-            cursor: pointer;
         }
 
         .validates-link:hover {
@@ -327,7 +255,8 @@
             padding: 12px 14px;
             background: #f8f9fa;
             border-radius: 8px;
-            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
             transition: all 0.2s;
         }
 
@@ -353,6 +282,22 @@
             background: #e0e0e0;
         }
 
+        .entity-item.status-active .entity-status,
+        .entity-item.status-validating .entity-status {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .entity-item.status-fixed .entity-status {
+            background: #F3E5F5;
+            color: #7B1FA2;
+        }
+
+        .entity-item.status-in_progress .entity-status {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
         /* 프로젝트 섹션 */
         .project-card {
             background: white;
@@ -374,11 +319,14 @@
         .project-title {
             font-size: 1.2em;
             font-weight: 600;
-            color: #333;
-            cursor: pointer;
         }
 
-        .project-title:hover {
+        .project-title a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .project-title a:hover {
             color: #667eea;
         }
 
@@ -396,35 +344,10 @@
             border-radius: 4px;
         }
 
-        .task-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            margin-bottom: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .task-list-item:hover {
-            background: #e8f4fd;
-        }
-
-        .status-badge {
-            font-size: 0.75em;
-            padding: 2px 8px;
-            color: white;
-            border-radius: 10px;
-        }
-
         /* 반응형 */
         @media (max-width: 768px) {
             .header {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
+                padding: 16px;
             }
 
             .tabs {
@@ -449,670 +372,2216 @@
                 max-width: none;
             }
         }
+    
+        .header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+
+        .header-actions {{
+            display: flex;
+            gap: 12px;
+        }}
+
+        .btn-new {{
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }}
+
+        .btn-new:hover {{
+            background: rgba(255,255,255,0.3);
+        }}
+
+        /* Modal 스타일 */
+        .modal {{
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            animation: fadeIn 0.2s;
+        }}
+
+        @keyframes fadeIn {{
+            from {{ opacity: 0; }}
+            to {{ opacity: 1; }}
+        }}
+
+        .modal-content {{
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+        }}
+
+        @keyframes slideDown {{
+            from {{ transform: translateY(-50px); opacity: 0; }}
+            to {{ transform: translateY(0); opacity: 1; }}
+        }}
+
+        .modal-header {{
+            padding: 24px 28px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+
+        .modal-header h2 {{
+            font-size: 1.4em;
+            color: #333;
+        }}
+
+        .close {{
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+        }}
+
+        .close:hover {{
+            color: #333;
+        }}
+
+        .modal-body {{
+            padding: 24px 28px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }}
+
+        .form-group {{
+            margin-bottom: 20px;
+        }}
+
+        .form-group label {{
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }}
+
+        .form-group input,
+        .form-group select {{
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+        }}
+
+        .form-group input:focus,
+        .form-group select:focus {{
+            outline: none;
+            border-color: #667eea;
+        }}
+
+        .form-row {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }}
+
+        .modal-footer {{
+            padding: 20px 28px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }}
+
+        .btn {{
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }}
+
+        .btn-primary {{
+            background: #667eea;
+            color: white;
+        }}
+
+        .btn-primary:hover {{
+            background: #5568d3;
+        }}
+
+        .btn-secondary {{
+            background: #e0e0e0;
+            color: #555;
+        }}
+
+        .btn-secondary:hover {{
+            background: #d0d0d0;
+        }}
+
+        /* Toast */
+        .toast {{
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #333;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 2000;
+        }}
+
+        .toast.show {{
+            opacity: 1;
+            transform: translateY(0);
+        }}
+
+        .toast.success {{
+            background: #4CAF50;
+        }}
+
+        .toast.error {{
+            background: #f44336;
+        }}
+    
+        .form-group textarea {{
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+            min-height: 150px;
+            resize: vertical;
+        }}
+
+        .form-group textarea:focus {{
+            outline: none;
+            border-color: #667eea;
+        }}
+
+        .task-detail-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+
+        .task-detail-id {{
+            font-size: 0.9em;
+            color: #888;
+            font-family: monospace;
+        }}
+
+        .btn-danger {{
+            background: #f44336;
+            color: white;
+        }}
+
+        .btn-danger:hover {{
+            background: #d32f2f;
+        }}
+
+        .modal-footer-left {{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }}
+    
     </style>
 </head>
 <body>
     <div class="header">
-        <div>
-            <h1>LOOP Strategy Dashboard</h1>
-            <div class="header-meta" id="headerMeta">Vault을 선택해주세요</div>
+        <h1>LOOP Strategy Dashboard</h1>
+        <div class="header-meta">
+            Generated: 2025-12-19 19:06 |
+            Tasks: 48 |
+            Projects: 14
         </div>
+        
         <div class="header-actions">
-            <button class="btn btn-secondary" onclick="refreshData()" id="refreshBtn" style="display:none;">🔄 새로고침</button>
-            <button class="btn btn-primary" onclick="selectFolder()" id="selectBtn">📁 Vault 폴더 선택</button>
+            <button class="btn-new" onclick="openNewTaskModal()">➕ New Task</button>
+            <button class="btn-new" onclick="openNewProjectModal()">📁 New Project</button>
+            <button class="btn-new" onclick="location.reload()">🔄 Refresh</button>
+        </div>
+    
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('kanban')">📋 Kanban Board</div>
+        <div class="tab" onclick="showTab('strategy')">🎯 Strategy</div>
+        <div class="tab" onclick="showTab('projects')">📁 Projects</div>
+    </div>
+
+    <div id="kanban" class="tab-content active">
+        <div class="kanban-board">
+            
+        <div class="kanban-column" style="--column-color: #FF9800">
+            <div class="column-header">
+                <span class="column-title">📋 TODO</span>
+                <span class="column-count">48</span>
+            </div>
+            <div class="column-body">
+                
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%206.%20%E1%84%8C%E1%85%A5%E1%84%8C%E1%85%A1%E1%86%BC%20%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%85%E1%85%A3%E1%86%A8%20%E1%84%80%E1%85%A7%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 6. 저장 전략 결정</span>
+                <span class="task-id">tsk:003-07</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-19</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%207~8.%20%E1%84%85%E1%85%B5%E1%84%91%E1%85%A9%E1%84%90%E1%85%B3%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4%20%26%20V0%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%84%92%E1%85%AA.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화</span>
+                <span class="task-id">tsk:003-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-19</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%201.%20%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1%20%E1%84%8E%E1%85%A9%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기</span>
+                <span class="task-id">tsk:003-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-10</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%204.%20Minimal%20Logging%20Spec.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 4. Minimal Logging Spec</span>
+                <span class="task-id">tsk:003-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-19</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%205.%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20QA%20%E1%84%80%E1%85%B2%E1%84%8E%E1%85%B5%E1%86%A8.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙</span>
+                <span class="task-id">tsk:003-04</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%202.%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의</span>
+                <span class="task-id">tsk:003-05</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-18</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%203.%20%E1%84%80%E1%85%AA%E1%86%AB%E1%84%80%E1%85%A8%28Relationship%29%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8.md'">
+            <div class="task-header">
+                <span class="task-name">Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계</span>
+                <span class="task-id">tsk:003-06</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-19</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">LoopOS V0 데이터 설계</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%205%20%E2%80%94%20Lite%20%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%90%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%B8%202%E1%84%8E%E1%85%A1%20%2B%20v0.1%20%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결</span>
+                <span class="task-id">tsk:005-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-20</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[LoopOS 데이터] LoopOS 최소 선제 학습</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%202%20%E2%80%94%20%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%90%E1%85%B5%E1%84%90%E1%85%B5%20%E1%84%80%E1%85%A7%E1%86%BC%E1%84%80%E1%85%A8%20%E1%84%81%E1%85%A2%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기</span>
+                <span class="task-id">tsk:005-05</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-14</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[LoopOS 데이터] LoopOS 최소 선제 학습</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%204%20%E2%80%94%20Lite%20%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%90%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%B8%201%E1%84%8E%E1%85%A1.md'">
+            <div class="task-header">
+                <span class="task-name">[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차</span>
+                <span class="task-id">tsk:005-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[LoopOS 데이터] LoopOS 최소 선제 학습</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%206%20%E2%80%94%20%E1%84%8E%E1%85%AC%E1%84%89%E1%85%A9%20%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%20%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8.md'">
+            <div class="task-header">
+                <span class="task-name">[LoopOS 데이터] Day 6 — 최소 구현 시작</span>
+                <span class="task-id">tsk:005-04</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[LoopOS 데이터] LoopOS 최소 선제 학습</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%203%20%E2%80%94%20v0.1%20%E1%84%83%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A7%E1%86%AF%20%E1%84%8E%E1%85%A9%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기</span>
+                <span class="task-id">tsk:005-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[LoopOS 데이터] LoopOS 최소 선제 학습</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Tasks/%E1%84%8B%E1%85%AA%E1%84%83%E1%85%B5%E1%84%8C%E1%85%B3%20%E1%84%89%E1%85%A2%E1%84%89%E1%85%A9%E1%84%89%E1%85%B5%E1%86%A8%20%E1%84%8E%E1%85%A9%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%20-%20%E1%84%87%E1%85%B3%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3%20%E1%84%87%E1%85%A1%E1%86%BC%E1%84%92%E1%85%A3%E1%86%BC%E1%84%89%E1%85%A5%E1%86%BC%20%E1%84%8B%E1%85%B1%E1%84%8C%E1%85%AE.md'">
+            <div class="task-header">
+                <span class="task-name">와디즈 새소식 초안 작성 - 브랜드 방향성 위주</span>
+                <span class="task-id">tsk:010-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 한명학</span>
+                <span class="due">📅 2025-12-18</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[펀딩·마케팅] 와디즈 펀딩</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Tasks/%E1%84%8B%E1%85%AA%E1%84%83%E1%85%B5%E1%84%8C%E1%85%B3%20%E1%84%8B%E1%85%A9%E1%84%91%E1%85%B3%E1%86%AB%20%E1%84%92%E1%85%AE%20%E1%84%80%E1%85%A9%E1%84%80%E1%85%A2%E1%86%A8%20%E1%84%83%E1%85%A2%E1%84%8B%E1%85%B3%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">와디즈 오픈 후 고객 대응</span>
+                <span class="task-id">tsk:010-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 한명학</span>
+                
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[펀딩·마케팅] 와디즈 펀딩</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Tasks/%5B%E1%84%90%E1%85%AE%E1%84%8C%E1%85%A1TIPS%E1%84%8C%E1%85%AE%E1%86%AB%E1%84%87%E1%85%B5%5D%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A5%20%E1%84%87%E1%85%A2%E1%84%8E%E1%85%B5%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%20%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%AF%E1%86%AB.md'">
+            <div class="task-header">
+                <span class="task-name">[투자/TIPS준비] 프라이머 배치 프로그램 지원</span>
+                <span class="task-id">tsk:009-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2026-01-02</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[투자/TIPS준비] 배치 프로그램 지원</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Tasks/%5B%E1%84%90%E1%85%AE%E1%84%8C%E1%85%A1TIPS%E1%84%8C%E1%85%AE%E1%86%AB%E1%84%87%E1%85%B5%5D%20%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B5%E1%84%8B%E1%85%A5%E1%84%91%E1%85%A1%E1%84%90%E1%85%B3%E1%84%82%E1%85%A5%E1%84%89%E1%85%B3%20%E1%84%87%E1%85%A2%E1%84%8E%E1%85%B5%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%20%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%AF%E1%86%AB.md'">
+            <div class="task-header">
+                <span class="task-name">[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원</span>
+                <span class="task-id">tsk:009-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-28</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[투자/TIPS준비] 배치 프로그램 지원</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Tasks/%E1%84%8B%E1%85%AC%E1%84%87%E1%85%AE%20%E1%84%87%E1%85%B5%E1%84%89%E1%85%A5%20%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E2%80%93%203.%20%E1%84%80%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A9%E1%84%8B%E1%85%AD%E1%86%BC%20%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%86%E1%85%AE%C2%B7%E1%84%8B%E1%85%AD%E1%84%80%E1%85%A5%E1%86%AB%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%83%E1%85%A1%E1%86%AB%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">외부 비서 채용 – 3. 공고용 업무·요건 문단 작성</span>
+                <span class="task-id">tsk:007-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-06</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">외부 비서</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Tasks/%E1%84%8B%E1%85%AC%E1%84%87%E1%85%AE%20%E1%84%87%E1%85%B5%E1%84%89%E1%85%A5%20%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E2%80%93%201.%20%E1%84%8B%E1%85%A7%E1%86%A8%E1%84%92%E1%85%A1%E1%86%AF%C2%B7%E1%84%80%E1%85%AF%E1%86%AB%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8E%E1%85%A2%E1%86%A8%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%20%E1%84%80%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">외부 비서 채용 – 1. 역할·권한 정책 문서 고정</span>
+                <span class="task-id">tsk:007-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-04</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">외부 비서</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Tasks/%E1%84%8B%E1%85%AC%E1%84%87%E1%85%AE%20%E1%84%87%E1%85%B5%E1%84%89%E1%85%A5%20%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E2%80%93%202.%20%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%8A%E1%85%B5%E1%84%8B%E1%85%A9%E1%86%AB%20%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%AB%20%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC%20%E1%84%92%E1%85%A1%E1%86%B8%E1%84%8B%E1%85%B4%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리</span>
+                <span class="task-id">tsk:007-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-05</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">외부 비서</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md'">
+            <div class="task-header">
+                <span class="task-name">Episode 엔티티 검증</span>
+                <span class="task-id">tsk:001-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👨‍🔬 명학</span>
+                <span class="due">📅 2025-12-30</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">Ontology v0.1</a></div>
+            <div class="validates">validates: <a href="obsidian://open?vault=LOOP&file=01_North_Star/MH3_%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5_%E1%84%86%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC_%E1%84%80%E1%85%A1%E1%84%82%E1%85%B3%E1%86%BC.md" class="validates-link">MH3_데이터_모델링_가능</a></div>
+            <div class="task-tags"><span class="tag">ontology</span><span class="tag">validation</span></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md'">
+            <div class="task-header">
+                <span class="task-name">스키마 문서화</span>
+                <span class="task-id">tsk:001-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">🧑‍🎨 단</span>
+                <span class="due">📅 2025-12-15</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">Ontology v0.1</a></div>
+            
+            <div class="task-tags"><span class="tag">ontology</span><span class="tag">documentation</span></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md'">
+            <div class="task-header">
+                <span class="task-name">Event 엔티티 검증</span>
+                <span class="task-id">tsk:001-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👩‍💻 은향</span>
+                <span class="due">📅 2025-12-25</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">Ontology v0.1</a></div>
+            <div class="validates">validates: <a href="obsidian://open?vault=LOOP&file=01_North_Star/MH3_%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5_%E1%84%86%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC_%E1%84%80%E1%85%A1%E1%84%82%E1%85%B3%E1%86%BC.md" class="validates-link">MH3_데이터_모델링_가능</a></div>
+            <div class="task-tags"><span class="tag">ontology</span><span class="tag">validation</span></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P014_%5B%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4%5D%2011%20%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8Fit%203%E1%84%80%E1%85%B5%20%E1%84%92%E1%85%AA%E1%86%AB%E1%84%80%E1%85%B3%E1%86%B8%20%E1%84%80%E1%85%A5%E1%86%B7%E1%84%90%E1%85%A9.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭Fit 3기 환급 검토</span>
+                <span class="task-id">tsk:014-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 한명학</span>
+                <span class="due">📅 2025-12-18</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P014_%5B%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4%5D%2011%20%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[코칭 서비스] 1:1 코칭 서비스</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%90%E1%85%A9%E1%84%8F%E1%85%A9%E1%86%AF%20%E1%84%86%E1%85%B5%E1%86%BE%20%E1%84%80%E1%85%AD%E1%84%8B%E1%85%B2%E1%86%A8%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%89%E1%85%A6%E1%84%89%E1%85%B3%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">기본 프로토콜 및 교육 프로세스 정하기</span>
+                <span class="task-id">tsk:006-04</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-12-14</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">코치 1명 구인 & 1차 온보딩 준비</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%8F%E1%85%A9%E1%84%8E%E1%85%B5%20%E1%84%80%E1%85%B2%E1%84%8E%E1%85%B5%E1%86%A8%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">코치 규칙 정하기</span>
+                <span class="task-id">tsk:006-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-12-14</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">코치 1명 구인 & 1차 온보딩 준비</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E1%84%86%E1%85%B5%E1%86%BE%20%E1%84%80%E1%85%A8%E1%84%8B%E1%85%A3%E1%86%A8%E1%84%89%E1%85%A5%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">채용 및 계약서 작성</span>
+                <span class="task-id">tsk:006-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-12-14</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">코치 1명 구인 & 1차 온보딩 준비</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%92%E1%85%A8%E1%84%8B%E1%85%A7%E1%86%BC%20%E1%84%8F%E1%85%A9%E1%84%8E%E1%85%B5%E1%84%8B%E1%85%A6%E1%84%80%E1%85%A6%20%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A8%20%E1%84%87%E1%85%A1%E1%86%AE%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">혜영 코치에게 인수인계 받기</span>
+                <span class="task-id">tsk:006-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-12-14</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">코치 1명 구인 & 1차 온보딩 준비</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P013_YouTube%201%EC%A3%BC%201%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Tasks/%5B%E1%84%8F%E1%85%A9%E1%86%AB%E1%84%90%E1%85%A6%E1%86%AB%E1%84%8E%E1%85%B3%20%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%5D%20%E1%84%8B%E1%85%B2%E1%84%90%E1%85%B2%E1%84%87%E1%85%B3%20w31%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%20%E1%84%89%E1%85%A5%E1%86%BC%E1%84%80%E1%85%AA%20%E1%84%8E%E1%85%B3%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">[콘텐츠 분석] 유튜브 w31 영상 성과 측정</span>
+                <span class="task-id">tsk:013-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 한명학</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P013_YouTube%201%EC%A3%BC%201%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">YouTube 1주 1업로드 프로젝트</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-low" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P011_%EC%82%AC%EC%9D%B4%EB%93%9C%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%A6%AC%ED%81%AC%EB%A3%A8%ED%8C%85%20%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EC%A0%9C%EC%9E%91/Tasks/%E1%84%85%E1%85%B5%E1%84%8F%E1%85%B3%E1%84%85%E1%85%AE%E1%84%90%E1%85%B5%E1%86%BC%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%90%E1%85%B3%29%20%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%90%E1%85%A2%E1%86%A8%E1%84%82%E1%85%B5%E1%86%B7%20%E1%84%91%E1%85%B5%E1%84%83%E1%85%B3%E1%84%87%E1%85%A2%E1%86%A8%20%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%A7%E1%86%BC.md'">
+            <div class="task-header">
+                <span class="task-name">리크루팅 사이트) 원택님 피드백 반영</span>
+                <span class="task-id">tsk:011-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P011_%EC%82%AC%EC%9D%B4%EB%93%9C%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%A6%AC%ED%81%AC%EB%A3%A8%ED%8C%85%20%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EC%A0%9C%EC%9E%91/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">사이드프로젝트 리크루팅 사이트 제작</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/New%20Task.md'">
+            <div class="task-header">
+                <span class="task-name">New Task</span>
+                <span class="task-id">tsk:004-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">(프로젝트 없음)</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%5Bdan2%5D.md'">
+            <div class="task-header">
+                <span class="task-name">[dan2]</span>
+                <span class="task-id">tsk:004-05</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">(프로젝트 없음)</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%28%E1%84%8B%E1%85%B5%E1%84%85%E1%85%B3%E1%86%B7%20%E1%84%8B%E1%85%A5%E1%86%B9%E1%84%8B%E1%85%B3%E1%86%B7%29.md'">
+            <div class="task-header">
+                <span class="task-name">(이름 없음)</span>
+                <span class="task-id">tsk:004-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">(프로젝트 없음)</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%5BYouTubeW32%5D%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%20%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.md'">
+            <div class="task-header">
+                <span class="task-name">[YouTube/W32] 영상 업로드</span>
+                <span class="task-id">tsk:004-04</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 한명학</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">(프로젝트 없음)</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%5BYouTubeW32%5D%20%E1%84%8A%E1%85%A5%E1%86%B7%E1%84%82%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AF%20%E1%84%8C%E1%85%A6%E1%84%8C%E1%85%A1%E1%86%A8.md'">
+            <div class="task-header">
+                <span class="task-name">[YouTube/W32] 썸네일 제작</span>
+                <span class="task-id">tsk:004-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-22</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">(프로젝트 없음)</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8%20%E1%84%8B%E1%85%A2%E1%86%B8%201%E1%84%82%E1%85%A7%E1%86%AB%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%A8%E1%84%80%E1%85%AF%E1%86%AB%20QA.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭 앱 1년 구독권 QA</span>
+                <span class="task-id">tsk:002-05</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-24</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20UI%20%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%B3.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭FIT 페이지 UI 업데이트</span>
+                <span class="task-id">tsk:002-09</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-20</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%80%E1%85%AA%E1%86%AB%E1%84%85%E1%85%A7%E1%86%AB%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20%E1%84%82%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%80%E1%85%AA%20AI%20%E1%84%90%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭FIT 관련 과제 내용과 AI 통합</span>
+                <span class="task-id">tsk:002-08</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-23</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%2B%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭FIT 강의 페이지 + 과제 페이지 만들기</span>
+                <span class="task-id">tsk:002-10</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-25</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1217%20%E1%84%87%E1%85%A9%E1%86%AB%E1%84%91%E1%85%A5%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%20%E1%84%80%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A2.md'">
+            <div class="task-header">
+                <span class="task-name">12/17: 본펀딩 공개</span>
+                <span class="task-id">tsk:002-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-12-17</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1122%20%E1%84%89%E1%85%B5%E1%86%B7%E1%84%89%E1%85%A1%20%E1%84%90%E1%85%A9%E1%86%BC%E1%84%80%E1%85%AA%2C%20%E1%84%80%E1%85%AA%E1%86%BC%E1%84%80%E1%85%A9%20%E1%84%89%E1%85%A9%E1%84%8C%E1%85%A2%20%E1%84%8C%E1%85%A6%E1%84%8C%E1%85%A1%E1%86%A8%20%28%E1%84%8F%E1%85%B3%29.md'">
+            <div class="task-header">
+                <span class="task-name">11/22: 심사 통과, 광고 소재 제작 (크)</span>
+                <span class="task-id">tsk:002-04</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-11-22</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1231%20%E1%84%91%E1%85%A5%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%20%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%85%E1%85%AD.md'">
+            <div class="task-header">
+                <span class="task-name">12/31: 펀딩 종료</span>
+                <span class="task-id">tsk:002-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-12-31</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%8B%E1%85%B3%E1%86%B7%E1%84%89%E1%85%B5%E1%86%A8%E1%84%91%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A3%E1%86%BC%E1%84%90%E1%85%A6%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%20%E1%84%90%E1%85%B3%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1%E1%84%8B%E1%85%A6%20%E1%84%82%E1%85%A9%E1%84%8E%E1%85%AE%E1%86%AF.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭FIT 음식편향테스트 특정 주차에 노출</span>
+                <span class="task-id">tsk:002-06</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-26</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1125%20%E1%84%8B%E1%85%A9%E1%84%91%E1%85%B3%E1%86%AB%E1%84%8B%E1%85%A8%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%80%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A2.md'">
+            <div class="task-header">
+                <span class="task-name">11/25: 오픈예정 공개</span>
+                <span class="task-id">tsk:002-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 미정</span>
+                <span class="due">📅 2025-11-26</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%2B%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8%20%E1%84%8B%E1%85%A2%E1%86%B8%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB%20%E1%84%90%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8.md'">
+            <div class="task-header">
+                <span class="task-name">꼭꼭FIT+꼭꼭 앱 로그인 통합</span>
+                <span class="task-id">tsk:002-07</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-16</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-medium" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P012_%5BCS%C2%B7%EC%9A%B4%EC%98%81%5D%20%EA%B3%A0%EA%B0%9D%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9D%91/Tasks/%5B%E1%84%80%E1%85%A9%E1%84%80%E1%85%A2%E1%86%A8%20%E1%84%80%E1%85%AA%E1%86%AB%E1%84%85%E1%85%B5%5D%20%E1%84%8F%E1%85%A1%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8%20%E1%84%8E%E1%85%A2%E1%84%82%E1%85%A5%E1%86%AF%20%E1%84%92%E1%85%AA%E1%86%AF%E1%84%89%E1%85%A5%E1%86%BC%E1%84%92%E1%85%AA%20%E1%84%87%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8.md'">
+            <div class="task-header">
+                <span class="task-name">[고객 관리] 카카오톡 채널 활성화 방안 기획</span>
+                <span class="task-id">tsk:012-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 한명학</span>
+                <span class="due">📅 2025-12-21</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P012_%5BCS%C2%B7%EC%9A%B4%EC%98%81%5D%20%EA%B3%A0%EA%B0%9D%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9D%91/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">[CS·운영] 고객관리/대응</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Tasks/%5B%E1%84%83%E1%85%A1%E1%86%AB%E1%84%82%E1%85%B5%E1%86%B7%5D%20%E1%84%92%E1%85%AE%E1%84%87%E1%85%A9%20%E1%84%90%E1%85%A2%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%202-2%20%E2%80%93%20%E1%84%89%E1%85%B5%E1%86%A8%E1%84%89%E1%85%A1%20%E1%84%8C%E1%85%A5%E1%84%8C%E1%85%A1%E1%86%BC%20%E1%84%89%E1%85%B5%20%E2%80%98%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8%20%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%20%E1%84%85%E1%85%B5%E1%84%86%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E2%80%99%20UX%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8.md'">
+            <div class="task-header">
+                <span class="task-name">[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계</span>
+                <span class="task-id">tsk:008-03</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-11</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">파일럿 프로젝트 후보</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Tasks/%5B%E1%84%83%E1%85%A1%E1%86%AB%E1%84%82%E1%85%B5%E1%86%B7%5D%20%E1%84%92%E1%85%AE%E1%84%87%E1%85%A9%20%E1%84%90%E1%85%A2%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%202-1%20%E2%80%93%20Today%28%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8%29%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%E1%84%89%E1%85%A1%E1%86%BC%E1%84%90%E1%85%A2%20%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8%20UX%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%E1%84%8B%E1%85%A1%E1%86%AB.md'">
+            <div class="task-header">
+                <span class="task-name">[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안</span>
+                <span class="task-id">tsk:008-02</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 김은향</span>
+                <span class="due">📅 2025-12-10</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">파일럿 프로젝트 후보</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+
+        <div class="task-card priority-high" onclick="window.location.href='obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Tasks/%5B%E1%84%83%E1%85%A1%E1%86%AB%E1%84%82%E1%85%B5%E1%86%B7%5D%20%E1%84%92%E1%85%AE%E1%84%87%E1%85%A9%20%E1%84%90%E1%85%A2%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%201%20%E2%80%93%20%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8%20%E1%84%8B%E1%85%A2%E1%86%B8%20Onboarding%20UIUX.md'">
+            <div class="task-header">
+                <span class="task-name">[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX</span>
+                <span class="task-id">tsk:008-01</span>
+            </div>
+            <div class="task-meta">
+                <span class="assignee">👤 임단</span>
+                <span class="due">📅 2025-12-09</span>
+            </div>
+            <div class="task-project">📁 <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" class="project-link">파일럿 프로젝트 후보</a></div>
+            
+            <div class="task-tags"></div>
+        </div>
+        
+            </div>
+        </div>
+        
+            
+        <div class="kanban-column" style="--column-color: #2196F3">
+            <div class="column-header">
+                <span class="column-title">⚡ DOING</span>
+                <span class="column-count">0</span>
+            </div>
+            <div class="column-body">
+                <div class="empty-column">No tasks</div>
+            </div>
+        </div>
+        
+            
+        <div class="kanban-column" style="--column-color: #4CAF50">
+            <div class="column-header">
+                <span class="column-title">✅ DONE</span>
+                <span class="column-count">0</span>
+            </div>
+            <div class="column-body">
+                <div class="empty-column">No tasks</div>
+            </div>
+        </div>
+        
+            
+        <div class="kanban-column" style="--column-color: #f44336">
+            <div class="column-header">
+                <span class="column-title">🚫 BLOCKED</span>
+                <span class="column-count">0</span>
+            </div>
+            <div class="column-body">
+                <div class="empty-column">No tasks</div>
+            </div>
+        </div>
+        
         </div>
     </div>
 
-    <div id="initScreen" class="init-screen">
-        <h2>📁 Vault 폴더를 선택해주세요</h2>
-        <p>LOOP vault 폴더를 선택하면 대시보드가 로드됩니다.</p>
-        <button class="btn btn-primary" onclick="selectFolder()">폴더 선택하기</button>
-        <div class="warning">
-            ⚠️ Chrome 또는 Edge 브라우저에서만 동작합니다.
+    <div id="strategy" class="tab-content">
+        <div class="strategy-grid">
+            
+        <div class="entity-section">
+            <h3>🎯 North Star</h3>
+            <div class="entity-list">
+                
+            <a href="obsidian://open?vault=LOOP&file=01_North_Star/10%E1%84%82%E1%85%A7%E1%86%AB%20%E1%84%87%E1%85%B5%E1%84%8C%E1%85%A5%E1%86%AB.md" class="entity-item status-fixed">
+                <span class="entity-name">10년 비전</span>
+                <span class="entity-id">ns:001</span>
+                <span class="entity-status">fixed</span>
+            </a>
+            
+            </div>
+        </div>
+        
+            
+        <div class="entity-section">
+            <h3>🔬 Meta Hypotheses</h3>
+            <div class="entity-list">
+                
+            <a href="obsidian://open?vault=LOOP&file=01_North_Star/MH3_%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5_%E1%84%86%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC_%E1%84%80%E1%85%A1%E1%84%82%E1%85%B3%E1%86%BC.md" class="entity-item status-validating">
+                <span class="entity-name">MH3_데이터_모델링_가능</span>
+                <span class="entity-id">mh:3</span>
+                <span class="entity-status">validating</span>
+            </a>
+            
+            </div>
+        </div>
+        
+            
+        <div class="entity-section">
+            <h3>📋 Conditions</h3>
+            <div class="entity-list">
+                
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md" class="entity-item status-in_progress">
+                <span class="entity-name">Condition_B_Loop_Dataset</span>
+                <span class="entity-id">cond:b</span>
+                <span class="entity-status">in_progress</span>
+            </a>
+            
+            </div>
+        </div>
+        
+            
+        <div class="entity-section">
+            <h3>🛤️ Tracks</h3>
+            <div class="entity-list">
+                
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_1_Product.md" class="entity-item status-active">
+                <span class="entity-name">Track_1_Product</span>
+                <span class="entity-id">trk:1</span>
+                <span class="entity-status">active</span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_2_Data.md" class="entity-item status-active">
+                <span class="entity-name">Track_2_Data</span>
+                <span class="entity-id">trk:2</span>
+                <span class="entity-status">active</span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_3_Content.md" class="entity-item status-active">
+                <span class="entity-name">Track_3_Content</span>
+                <span class="entity-id">trk:3</span>
+                <span class="entity-status">active</span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_4_Coaching.md" class="entity-item status-active">
+                <span class="entity-name">Track_4_Coaching</span>
+                <span class="entity-id">trk:4</span>
+                <span class="entity-status">active</span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_5_Partnership.md" class="entity-item status-planning">
+                <span class="entity-name">Track_5_Partnership</span>
+                <span class="entity-id">trk:5</span>
+                <span class="entity-status">planning</span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_6_Revenue.md" class="entity-item status-active">
+                <span class="entity-name">Track_6_Revenue</span>
+                <span class="entity-id">trk:6</span>
+                <span class="entity-status">active</span>
+            </a>
+            
+            </div>
+        </div>
+        
         </div>
     </div>
 
-    <div id="mainContent" style="display:none;">
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('kanban')">📋 Kanban Board</div>
-            <div class="tab" onclick="showTab('strategy')">🎯 Strategy</div>
-            <div class="tab" onclick="showTab('projects')">📁 Projects</div>
+    <div id="projects" class="tab-content">
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">Ontology v0.1</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:001</code> | Track: <a href="obsidian://open?vault=LOOP&file=20_Strategy/12M_Tracks/Track_2_Data.md" style="color: #667eea; text-decoration: none;">Track_2_Data</a>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/3</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Episode 엔티티 검증</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👨‍🔬 명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">pending</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>스키마 문서화</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">🧑‍🎨 단</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">completed</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Event 엔티티 검증</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👩‍💻 은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            </div>
         </div>
-
-        <div id="kanban" class="tab-content active">
-            <div class="kanban-board" id="kanbanBoard"></div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">[와디즈] 12주 코칭 습관팩 런칭</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:002</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/10</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8%20%E1%84%8B%E1%85%A2%E1%86%B8%201%E1%84%82%E1%85%A7%E1%86%AB%20%E1%84%80%E1%85%AE%E1%84%83%E1%85%A9%E1%86%A8%E1%84%80%E1%85%AF%E1%86%AB%20QA.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭 앱 1년 구독권 QA</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20UI%20%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%B3.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭FIT 페이지 UI 업데이트</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%80%E1%85%AA%E1%86%AB%E1%84%85%E1%85%A7%E1%86%AB%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20%E1%84%82%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%80%E1%85%AA%20AI%20%E1%84%90%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭FIT 관련 과제 내용과 AI 통합</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%2B%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭FIT 강의 페이지 + 과제 페이지 만들기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1217%20%E1%84%87%E1%85%A9%E1%86%AB%E1%84%91%E1%85%A5%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%20%E1%84%80%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A2.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>12/17: 본펀딩 공개</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1122%20%E1%84%89%E1%85%B5%E1%86%B7%E1%84%89%E1%85%A1%20%E1%84%90%E1%85%A9%E1%86%BC%E1%84%80%E1%85%AA%2C%20%E1%84%80%E1%85%AA%E1%86%BC%E1%84%80%E1%85%A9%20%E1%84%89%E1%85%A9%E1%84%8C%E1%85%A2%20%E1%84%8C%E1%85%A6%E1%84%8C%E1%85%A1%E1%86%A8%20%28%E1%84%8F%E1%85%B3%29.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>11/22: 심사 통과, 광고 소재 제작 (크)</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1231%20%E1%84%91%E1%85%A5%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%20%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%85%E1%85%AD.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>12/31: 펀딩 종료</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%20%E1%84%8B%E1%85%B3%E1%86%B7%E1%84%89%E1%85%B5%E1%86%A8%E1%84%91%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A3%E1%86%BC%E1%84%90%E1%85%A6%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%20%E1%84%90%E1%85%B3%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1%E1%84%8B%E1%85%A6%20%E1%84%82%E1%85%A9%E1%84%8E%E1%85%AE%E1%86%AF.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭FIT 음식편향테스트 특정 주차에 노출</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/1125%20%E1%84%8B%E1%85%A9%E1%84%91%E1%85%B3%E1%86%AB%E1%84%8B%E1%85%A8%E1%84%8C%E1%85%A5%E1%86%BC%20%E1%84%80%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A2.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>11/25: 오픈예정 공개</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P002_%5B%EC%99%80%EB%94%94%EC%A6%88%5D%2012%EC%A3%BC%20%EC%BD%94%EC%B9%AD%20%EC%8A%B5%EA%B4%80%ED%8C%A9%20%EB%9F%B0%EC%B9%AD/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8FIT%2B%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8%20%E1%84%8B%E1%85%A2%E1%86%B8%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB%20%E1%84%90%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭FIT+꼭꼭 앱 로그인 통합</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
         </div>
-
-        <div id="strategy" class="tab-content">
-            <div class="strategy-grid" id="strategyGrid"></div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">LoopOS V0 데이터 설계</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:003</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/7</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%206.%20%E1%84%8C%E1%85%A5%E1%84%8C%E1%85%A1%E1%86%BC%20%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%85%E1%85%A3%E1%86%A8%20%E1%84%80%E1%85%A7%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 6. 저장 전략 결정</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%207~8.%20%E1%84%85%E1%85%B5%E1%84%91%E1%85%A9%E1%84%90%E1%85%B3%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4%20%26%20V0%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%84%92%E1%85%AA.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%201.%20%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1%20%E1%84%8E%E1%85%A9%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%204.%20Minimal%20Logging%20Spec.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 4. Minimal Logging Spec</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%205.%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20QA%20%E1%84%80%E1%85%B2%E1%84%8E%E1%85%B5%E1%86%A8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%202.%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%8B%E1%85%AE%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P003_LoopOS%20V0%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%84%A4%EA%B3%84/Tasks/Loop%20OS%20V0%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%20%E2%80%93%203.%20%E1%84%80%E1%85%AA%E1%86%AB%E1%84%80%E1%85%A8%28Relationship%29%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
         </div>
-
-        <div id="projects" class="tab-content">
-            <div id="projectsList"></div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">(프로젝트 없음)</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:004</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/5</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/New%20Task.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>New Task</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%5Bdan2%5D.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[dan2]</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%28%E1%84%8B%E1%85%B5%E1%84%85%E1%85%B3%E1%86%B7%20%E1%84%8B%E1%85%A5%E1%86%B9%E1%84%8B%E1%85%B3%E1%86%B7%29.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>(이름 없음)</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%5BYouTubeW32%5D%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%20%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[YouTube/W32] 영상 업로드</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 한명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P004_%28%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%97%86%EC%9D%8C%29/Tasks/%5BYouTubeW32%5D%20%E1%84%8A%E1%85%A5%E1%86%B7%E1%84%82%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AF%20%E1%84%8C%E1%85%A6%E1%84%8C%E1%85%A1%E1%86%A8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[YouTube/W32] 썸네일 제작</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
         </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">[LoopOS 데이터] LoopOS 최소 선제 학습</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:005</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/5</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%205%20%E2%80%94%20Lite%20%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%90%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%B8%202%E1%84%8E%E1%85%A1%20%2B%20v0.1%20%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%202%20%E2%80%94%20%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%90%E1%85%B5%E1%84%90%E1%85%B5%20%E1%84%80%E1%85%A7%E1%86%BC%E1%84%80%E1%85%A8%20%E1%84%81%E1%85%A2%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%204%20%E2%80%94%20Lite%20%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%20%E1%84%90%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%B8%201%E1%84%8E%E1%85%A1.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%206%20%E2%80%94%20%E1%84%8E%E1%85%AC%E1%84%89%E1%85%A9%20%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%20%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[LoopOS 데이터] Day 6 — 최소 구현 시작</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P005_%5BLoopOS%20%EB%8D%B0%EC%9D%B4%ED%84%B0%5D%20LoopOS%20%EC%B5%9C%EC%86%8C%20%EC%84%A0%EC%A0%9C%20%ED%95%99%EC%8A%B5/Tasks/%5BLoopOS%20%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%5D%20Day%203%20%E2%80%94%20v0.1%20%E1%84%83%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A7%E1%86%AF%20%E1%84%8E%E1%85%A9%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">코치 1명 구인 & 1차 온보딩 준비</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:006</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/4</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%90%E1%85%A9%E1%84%8F%E1%85%A9%E1%86%AF%20%E1%84%86%E1%85%B5%E1%86%BE%20%E1%84%80%E1%85%AD%E1%84%8B%E1%85%B2%E1%86%A8%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%89%E1%85%A6%E1%84%89%E1%85%B3%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>기본 프로토콜 및 교육 프로세스 정하기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%8F%E1%85%A9%E1%84%8E%E1%85%B5%20%E1%84%80%E1%85%B2%E1%84%8E%E1%85%B5%E1%86%A8%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>코치 규칙 정하기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E1%84%86%E1%85%B5%E1%86%BE%20%E1%84%80%E1%85%A8%E1%84%8B%E1%85%A3%E1%86%A8%E1%84%89%E1%85%A5%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>채용 및 계약서 작성</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P006_%EC%BD%94%EC%B9%98%201%EB%AA%85%20%EA%B5%AC%EC%9D%B8%20%26%201%EC%B0%A8%20%EC%98%A8%EB%B3%B4%EB%94%A9%20%EC%A4%80%EB%B9%84/Tasks/%E1%84%92%E1%85%A8%E1%84%8B%E1%85%A7%E1%86%BC%20%E1%84%8F%E1%85%A9%E1%84%8E%E1%85%B5%E1%84%8B%E1%85%A6%E1%84%80%E1%85%A6%20%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A8%20%E1%84%87%E1%85%A1%E1%86%AE%E1%84%80%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>혜영 코치에게 인수인계 받기</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 미정</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">외부 비서</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:007</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/3</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Tasks/%E1%84%8B%E1%85%AC%E1%84%87%E1%85%AE%20%E1%84%87%E1%85%B5%E1%84%89%E1%85%A5%20%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E2%80%93%203.%20%E1%84%80%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A9%E1%84%8B%E1%85%AD%E1%86%BC%20%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%86%E1%85%AE%C2%B7%E1%84%8B%E1%85%AD%E1%84%80%E1%85%A5%E1%86%AB%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%83%E1%85%A1%E1%86%AB%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>외부 비서 채용 – 3. 공고용 업무·요건 문단 작성</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Tasks/%E1%84%8B%E1%85%AC%E1%84%87%E1%85%AE%20%E1%84%87%E1%85%B5%E1%84%89%E1%85%A5%20%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E2%80%93%201.%20%E1%84%8B%E1%85%A7%E1%86%A8%E1%84%92%E1%85%A1%E1%86%AF%C2%B7%E1%84%80%E1%85%AF%E1%86%AB%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8E%E1%85%A2%E1%86%A8%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%20%E1%84%80%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>외부 비서 채용 – 1. 역할·권한 정책 문서 고정</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P007_%EC%99%B8%EB%B6%80%20%EB%B9%84%EC%84%9C/Tasks/%E1%84%8B%E1%85%AC%E1%84%87%E1%85%AE%20%E1%84%87%E1%85%B5%E1%84%89%E1%85%A5%20%E1%84%8E%E1%85%A2%E1%84%8B%E1%85%AD%E1%86%BC%20%E2%80%93%202.%20%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%8A%E1%85%B5%E1%84%8B%E1%85%A9%E1%86%AB%20%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%AB%20%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC%20%E1%84%92%E1%85%A1%E1%86%B8%E1%84%8B%E1%85%B4%20%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%B5.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">파일럿 프로젝트 후보</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:008</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/3</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Tasks/%5B%E1%84%83%E1%85%A1%E1%86%AB%E1%84%82%E1%85%B5%E1%86%B7%5D%20%E1%84%92%E1%85%AE%E1%84%87%E1%85%A9%20%E1%84%90%E1%85%A2%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%202-2%20%E2%80%93%20%E1%84%89%E1%85%B5%E1%86%A8%E1%84%89%E1%85%A1%20%E1%84%8C%E1%85%A5%E1%84%8C%E1%85%A1%E1%86%BC%20%E1%84%89%E1%85%B5%20%E2%80%98%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8%20%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%20%E1%84%85%E1%85%B5%E1%84%86%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E2%80%99%20UX%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Tasks/%5B%E1%84%83%E1%85%A1%E1%86%AB%E1%84%82%E1%85%B5%E1%86%B7%5D%20%E1%84%92%E1%85%AE%E1%84%87%E1%85%A9%20%E1%84%90%E1%85%A2%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%202-1%20%E2%80%93%20Today%28%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8%29%20%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%20%E1%84%89%E1%85%A1%E1%86%BC%E1%84%90%E1%85%A2%20%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8%20UX%20%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%E1%84%8B%E1%85%A1%E1%86%AB.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P008_%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9B%84%EB%B3%B4/Tasks/%5B%E1%84%83%E1%85%A1%E1%86%AB%E1%84%82%E1%85%B5%E1%86%B7%5D%20%E1%84%92%E1%85%AE%E1%84%87%E1%85%A9%20%E1%84%90%E1%85%A2%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%201%20%E2%80%93%20%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8%20%E1%84%8B%E1%85%A2%E1%86%B8%20Onboarding%20UIUX.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 임단</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">[투자/TIPS준비] 배치 프로그램 지원</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:009</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/2</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Tasks/%5B%E1%84%90%E1%85%AE%E1%84%8C%E1%85%A1TIPS%E1%84%8C%E1%85%AE%E1%86%AB%E1%84%87%E1%85%B5%5D%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A5%20%E1%84%87%E1%85%A2%E1%84%8E%E1%85%B5%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%20%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%AF%E1%86%AB.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[투자/TIPS준비] 프라이머 배치 프로그램 지원</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P009_%5B%ED%88%AC%EC%9E%90TIPS%EC%A4%80%EB%B9%84%5D%20%EB%B0%B0%EC%B9%98%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%20%EC%A7%80%EC%9B%90/Tasks/%5B%E1%84%90%E1%85%AE%E1%84%8C%E1%85%A1TIPS%E1%84%8C%E1%85%AE%E1%86%AB%E1%84%87%E1%85%B5%5D%20%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B5%E1%84%8B%E1%85%A5%E1%84%91%E1%85%A1%E1%84%90%E1%85%B3%E1%84%82%E1%85%A5%E1%84%89%E1%85%B3%20%E1%84%87%E1%85%A2%E1%84%8E%E1%85%B5%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7%20%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%AF%E1%86%AB.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">[펀딩·마케팅] 와디즈 펀딩</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:010</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/2</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Tasks/%E1%84%8B%E1%85%AA%E1%84%83%E1%85%B5%E1%84%8C%E1%85%B3%20%E1%84%89%E1%85%A2%E1%84%89%E1%85%A9%E1%84%89%E1%85%B5%E1%86%A8%20%E1%84%8E%E1%85%A9%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%20-%20%E1%84%87%E1%85%B3%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3%20%E1%84%87%E1%85%A1%E1%86%BC%E1%84%92%E1%85%A3%E1%86%BC%E1%84%89%E1%85%A5%E1%86%BC%20%E1%84%8B%E1%85%B1%E1%84%8C%E1%85%AE.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>와디즈 새소식 초안 작성 - 브랜드 방향성 위주</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 한명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P010_%5B%ED%8E%80%EB%94%A9%C2%B7%EB%A7%88%EC%BC%80%ED%8C%85%5D%20%EC%99%80%EB%94%94%EC%A6%88%20%ED%8E%80%EB%94%A9/Tasks/%E1%84%8B%E1%85%AA%E1%84%83%E1%85%B5%E1%84%8C%E1%85%B3%20%E1%84%8B%E1%85%A9%E1%84%91%E1%85%B3%E1%86%AB%20%E1%84%92%E1%85%AE%20%E1%84%80%E1%85%A9%E1%84%80%E1%85%A2%E1%86%A8%20%E1%84%83%E1%85%A2%E1%84%8B%E1%85%B3%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>와디즈 오픈 후 고객 대응</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 한명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P011_%EC%82%AC%EC%9D%B4%EB%93%9C%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%A6%AC%ED%81%AC%EB%A3%A8%ED%8C%85%20%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EC%A0%9C%EC%9E%91/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">사이드프로젝트 리크루팅 사이트 제작</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:011</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/1</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P011_%EC%82%AC%EC%9D%B4%EB%93%9C%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%A6%AC%ED%81%AC%EB%A3%A8%ED%8C%85%20%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EC%A0%9C%EC%9E%91/Tasks/%E1%84%85%E1%85%B5%E1%84%8F%E1%85%B3%E1%84%85%E1%85%AE%E1%84%90%E1%85%B5%E1%86%BC%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%90%E1%85%B3%29%20%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%90%E1%85%A2%E1%86%A8%E1%84%82%E1%85%B5%E1%86%B7%20%E1%84%91%E1%85%B5%E1%84%83%E1%85%B3%E1%84%87%E1%85%A2%E1%86%A8%20%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%A7%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>리크루팅 사이트) 원택님 피드백 반영</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 김은향</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P012_%5BCS%C2%B7%EC%9A%B4%EC%98%81%5D%20%EA%B3%A0%EA%B0%9D%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9D%91/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">[CS·운영] 고객관리/대응</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:012</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/1</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P012_%5BCS%C2%B7%EC%9A%B4%EC%98%81%5D%20%EA%B3%A0%EA%B0%9D%EA%B4%80%EB%A6%AC%EB%8C%80%EC%9D%91/Tasks/%5B%E1%84%80%E1%85%A9%E1%84%80%E1%85%A2%E1%86%A8%20%E1%84%80%E1%85%AA%E1%86%AB%E1%84%85%E1%85%B5%5D%20%E1%84%8F%E1%85%A1%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8%20%E1%84%8E%E1%85%A2%E1%84%82%E1%85%A5%E1%86%AF%20%E1%84%92%E1%85%AA%E1%86%AF%E1%84%89%E1%85%A5%E1%86%BC%E1%84%92%E1%85%AA%20%E1%84%87%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%A1%E1%86%AB%20%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[고객 관리] 카카오톡 채널 활성화 방안 기획</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 한명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P013_YouTube%201%EC%A3%BC%201%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">YouTube 1주 1업로드 프로젝트</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:013</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/1</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P013_YouTube%201%EC%A3%BC%201%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Tasks/%5B%E1%84%8F%E1%85%A9%E1%86%AB%E1%84%90%E1%85%A6%E1%86%AB%E1%84%8E%E1%85%B3%20%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%5D%20%E1%84%8B%E1%85%B2%E1%84%90%E1%85%B2%E1%84%87%E1%85%B3%20w31%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%20%E1%84%89%E1%85%A5%E1%86%BC%E1%84%80%E1%85%AA%20%E1%84%8E%E1%85%B3%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>[콘텐츠 분석] 유튜브 w31 영상 성과 측정</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 한명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">planning</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div>
+                    <div class="project-title"><a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P014_%5B%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4%5D%2011%20%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4/Project_%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8B%E1%85%B4.md">[코칭 서비스] 1:1 코칭 서비스</a></div>
+                    <div style="font-size: 0.85em; color: #666;">
+                        <code>prj:014</code> | Track: N/A
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #666;">Tasks: 0/1</div>
+                    <div class="progress-bar" style="width: 120px;">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 12px;">
+                
+            <a href="obsidian://open?vault=LOOP&file=50_Projects/2025/P014_%5B%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4%5D%2011%20%EC%BD%94%EC%B9%AD%20%EC%84%9C%EB%B9%84%EC%8A%A4/Tasks/%E1%84%81%E1%85%A9%E1%86%A8%E1%84%81%E1%85%A9%E1%86%A8Fit%203%E1%84%80%E1%85%B5%20%E1%84%92%E1%85%AA%E1%86%AB%E1%84%80%E1%85%B3%E1%86%B8%20%E1%84%80%E1%85%A5%E1%86%B7%E1%84%90%E1%85%A9.md" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: inherit;">
+                <span>꼭꼭Fit 3기 환급 검토</span>
+                <span style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.8em; color: #666;">👤 한명학</span>
+                    <span style="font-size: 0.75em; padding: 2px 8px; background: #999; color: white; border-radius: 10px;">in_progress</span>
+                </span>
+            </a>
+            
+            </div>
+        </div>
+        
     </div>
 
     <script>
-        // 전역 상태
-        let vaultHandle = null;
-        let vaultName = 'LOOP';
-        let entities = {};
-        let members = {};
-        let allEntitiesMap = {};
-        let db = null;
-
-        // IndexedDB 초기화
-        async function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open('LOOPDashboard', 1);
-                request.onerror = () => reject(request.error);
-                request.onsuccess = () => {
-                    db = request.result;
-                    resolve(db);
-                };
-                request.onupgradeneeded = (e) => {
-                    const database = e.target.result;
-                    if (!database.objectStoreNames.contains('handles')) {
-                        database.createObjectStore('handles');
-                    }
-                };
-            });
-        }
-
-        // 핸들 저장
-        async function saveHandle(handle) {
-            if (!db) return;
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction('handles', 'readwrite');
-                const store = tx.objectStore('handles');
-                const request = store.put(handle, 'vaultHandle');
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        // 핸들 불러오기
-        async function loadHandle() {
-            if (!db) return null;
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction('handles', 'readonly');
-                const store = tx.objectStore('handles');
-                const request = store.get('vaultHandle');
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        // 저장된 핸들로 재연결 시도
-        async function tryReconnect() {
-            try {
-                const savedHandle = await loadHandle();
-                if (!savedHandle) return false;
-
-                // 권한 확인
-                const permission = await savedHandle.queryPermission({ mode: 'read' });
-                if (permission === 'granted') {
-                    vaultHandle = savedHandle;
-                    vaultName = savedHandle.name;
-                    await loadData();
-                    showMainContent();
-                    return true;
-                }
-
-                // 권한 요청 필요 - 재연결 버튼 표시
-                showReconnectScreen(savedHandle.name);
-                return false;
-            } catch (err) {
-                console.log('재연결 실패:', err.message);
-                return false;
-            }
-        }
-
-        // 재연결 화면 표시
-        function showReconnectScreen(folderName) {
-            document.getElementById('initScreen').innerHTML = `
-                <h2>📁 이전 Vault에 재연결</h2>
-                <p>마지막으로 사용한 폴더: <strong>${folderName}</strong></p>
-                <button class="btn btn-primary" onclick="reconnect()" style="margin-bottom: 12px;">🔗 재연결</button>
-                <p style="font-size: 0.9em; color: #666;">또는</p>
-                <button class="btn btn-secondary" onclick="selectFolder()" style="background: #e0e0e0; color: #333;">📁 다른 폴더 선택</button>
-                <div class="warning" style="margin-top: 16px;">
-                    💡 브라우저 보안 정책상 재연결 클릭이 필요합니다
-                </div>
-            `;
-        }
-
-        // 재연결
-        async function reconnect() {
-            try {
-                const savedHandle = await loadHandle();
-                if (!savedHandle) {
-                    alert('저장된 폴더가 없습니다. 새로 선택해주세요.');
-                    return;
-                }
-
-                // 권한 요청
-                const permission = await savedHandle.requestPermission({ mode: 'read' });
-                if (permission === 'granted') {
-                    vaultHandle = savedHandle;
-                    vaultName = savedHandle.name;
-                    await loadData();
-                    showMainContent();
-                } else {
-                    alert('폴더 접근 권한이 거부되었습니다.');
-                }
-            } catch (err) {
-                console.error('재연결 에러:', err);
-                alert('재연결에 실패했습니다. 폴더를 다시 선택해주세요.');
-            }
-        }
-
-        // 메인 화면 표시
-        function showMainContent() {
-            document.getElementById('initScreen').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('refreshBtn').style.display = 'inline-block';
-            document.getElementById('selectBtn').textContent = '📁 다른 Vault 선택';
-        }
-
-        // 폴더 선택
-        async function selectFolder() {
-            try {
-                vaultHandle = await window.showDirectoryPicker();
-                vaultName = vaultHandle.name;
-                await saveHandle(vaultHandle);  // IndexedDB에 저장
-                await loadData();
-                showMainContent();
-            } catch (err) {
-                if (err.name !== 'AbortError') {
-                    console.error('폴더 선택 에러:', err);
-                    alert('폴더 선택에 실패했습니다.');
-                }
-            }
-        }
-
-        // 데이터 새로고침
-        async function refreshData() {
-            if (!vaultHandle) return;
-            await loadData();
-        }
-
-        // 데이터 로드
-        async function loadData() {
-            entities = {
-                NorthStar: [],
-                MetaHypothesis: [],
-                Condition: [],
-                Track: [],
-                Project: [],
-                Task: [],
-            };
-            allEntitiesMap = {};
-
-            // 멤버 로드
-            await loadMembers();
-
-            // 엔티티 스캔
-            const scanFolders = ['01_North_Star', '20_Strategy', '50_Projects', '60_Hypotheses'];
-            for (const folder of scanFolders) {
-                await scanFolder(folder);
-            }
-
-            // entity_id -> entity 매핑
-            for (const [type, list] of Object.entries(entities)) {
-                for (const entity of list) {
-                    if (entity.entity_id) {
-                        allEntitiesMap[entity.entity_id] = entity;
-                    }
-                }
-            }
-
-            // 렌더링
-            renderKanban();
-            renderStrategy();
-            renderProjects();
-            updateHeader();
-        }
-
-        // 멤버 로드
-        async function loadMembers() {
-            try {
-                const metaHandle = await vaultHandle.getDirectoryHandle('00_Meta');
-                const fileHandle = await metaHandle.getFileHandle('members.yaml');
-                const file = await fileHandle.getFile();
-                const content = await file.text();
-                const data = parseYaml(content);
-                if (data && data.members) {
-                    for (const member of data.members) {
-                        if (member.id) {
-                            members[member.id] = member;
-                        }
-                    }
-                }
-            } catch (err) {
-                console.log('members.yaml 로드 실패 (무시됨):', err.message);
-            }
-        }
-
-        // 폴더 스캔
-        async function scanFolder(folderPath) {
-            try {
-                const parts = folderPath.split('/');
-                let handle = vaultHandle;
-                for (const part of parts) {
-                    handle = await handle.getDirectoryHandle(part);
-                }
-                await scanDirectoryRecursive(handle, folderPath);
-            } catch (err) {
-                console.log(`폴더 스캔 실패 (${folderPath}):`, err.message);
-            }
-        }
-
-        // 재귀 디렉토리 스캔
-        async function scanDirectoryRecursive(dirHandle, currentPath) {
-            for await (const entry of dirHandle.values()) {
-                const entryPath = `${currentPath}/${entry.name}`;
-
-                if (entry.kind === 'directory') {
-                    // 제외 폴더 체크
-                    if (entry.name === '_TEMPLATES' || entry.name === 'Legacy') continue;
-                    await scanDirectoryRecursive(entry, entryPath);
-                } else if (entry.kind === 'file' && entry.name.endsWith('.md')) {
-                    await processMarkdownFile(entry, entryPath);
-                }
-            }
-        }
-
-        // 마크다운 파일 처리
-        async function processMarkdownFile(fileHandle, filePath) {
-            try {
-                const file = await fileHandle.getFile();
-                const content = await file.text();
-                const frontmatter = extractFrontmatter(content);
-
-                if (frontmatter && frontmatter.entity_type) {
-                    frontmatter._file_path = filePath;
-                    frontmatter._file_name = fileHandle.name.replace('.md', '');
-
-                    if (entities[frontmatter.entity_type]) {
-                        entities[frontmatter.entity_type].push(frontmatter);
-                    }
-                }
-            } catch (err) {
-                console.log(`파일 처리 실패 (${filePath}):`, err.message);
-            }
-        }
-
-        // Frontmatter 추출
-        function extractFrontmatter(content) {
-            const match = content.match(/^---\s*\n([\s\S]*?)\n---/);
-            if (!match) return null;
-            return parseYaml(match[1]);
-        }
-
-        // 간단한 YAML 파서
-        function parseYaml(yamlStr) {
-            const result = {};
-            const lines = yamlStr.split('\n');
-            let currentKey = null;
-            let currentArray = null;
-
-            for (let line of lines) {
-                // 주석 무시
-                if (line.trim().startsWith('#')) continue;
-
-                // 배열 항목
-                if (line.match(/^\s+-\s+/)) {
-                    const value = line.replace(/^\s+-\s+/, '').trim();
-                    if (currentKey && result[currentKey]) {
-                        // 객체 배열인지 단순 배열인지 체크
-                        if (value.startsWith('type:') || value.startsWith('id:')) {
-                            // 객체 시작
-                            const obj = {};
-                            const keyVal = value.split(':');
-                            obj[keyVal[0].trim()] = keyVal.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
-                            result[currentKey].push(obj);
-                        } else if (value.includes(':')) {
-                            // 이전 객체에 추가
-                            const lastObj = result[currentKey][result[currentKey].length - 1];
-                            if (lastObj && typeof lastObj === 'object') {
-                                const keyVal = value.split(':');
-                                lastObj[keyVal[0].trim()] = keyVal.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
-                            }
-                        } else {
-                            result[currentKey].push(value.replace(/^["']|["']$/g, ''));
-                        }
-                    }
-                    continue;
-                }
-
-                // 키:값 쌍
-                const keyMatch = line.match(/^(\w+):\s*(.*)/);
-                if (keyMatch) {
-                    const key = keyMatch[1];
-                    let value = keyMatch[2].trim();
-
-                    // 배열 시작
-                    if (value === '' || value === '[]') {
-                        result[key] = [];
-                        currentKey = key;
-                        continue;
-                    }
-
-                    // 인라인 배열
-                    if (value.startsWith('[') && value.endsWith(']')) {
-                        const items = value.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
-                        result[key] = items.filter(s => s);
-                        currentKey = null;
-                        continue;
-                    }
-
-                    // 일반 값
-                    value = value.replace(/^["']|["']$/g, '');
-                    if (value === 'true') value = true;
-                    else if (value === 'false') value = false;
-                    else if (value === 'null') value = null;
-                    else if (!isNaN(value) && value !== '') value = parseFloat(value);
-
-                    result[key] = value;
-                    currentKey = null;
-                }
-            }
-
-            return result;
-        }
-
-        // 멤버 표시명 가져오기
-        function getMemberDisplay(assigneeId) {
-            if (members[assigneeId]) {
-                const member = members[assigneeId];
-                return `${member.icon || '👤'} ${member.name || assigneeId}`;
-            }
-            return `👤 ${assigneeId}`;
-        }
-
-        // Obsidian URI 생성
-        function getObsidianUri(filePath) {
-            const encodedPath = encodeURIComponent(filePath);
-            return `obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodedPath}`;
-        }
-
-        // 파일 열기
-        function openFile(filePath) {
-            window.location.href = getObsidianUri(filePath);
-        }
-
-        // 칸반 렌더링
-        function renderKanban() {
-            const board = document.getElementById('kanbanBoard');
-            const tasks = entities.Task || [];
-
-            const tasksByStatus = {
-                todo: tasks.filter(t => t.status === 'todo'),
-                doing: tasks.filter(t => t.status === 'doing'),
-                done: tasks.filter(t => t.status === 'done'),
-                blocked: tasks.filter(t => t.status === 'blocked'),
-            };
-
-            const columns = [
-                { status: 'todo', emoji: '📋', color: '#FF9800' },
-                { status: 'doing', emoji: '⚡', color: '#2196F3' },
-                { status: 'done', emoji: '✅', color: '#4CAF50' },
-                { status: 'blocked', emoji: '🚫', color: '#f44336' },
-            ];
-
-            board.innerHTML = columns.map(col => {
-                const colTasks = tasksByStatus[col.status] || [];
-                const cardsHtml = colTasks.map(task => renderTaskCard(task)).join('');
-
-                return `
-                    <div class="kanban-column" style="--column-color: ${col.color}">
-                        <div class="column-header">
-                            <span class="column-title">${col.emoji} ${col.status.toUpperCase()}</span>
-                            <span class="column-count">${colTasks.length}</span>
-                        </div>
-                        <div class="column-body">
-                            ${cardsHtml || '<div class="empty-column">No tasks</div>'}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Task 카드 렌더링
-        function renderTaskCard(task) {
-            const name = task.entity_name || task._file_name || 'Unknown';
-            const entityId = task.entity_id || '';
-            const assigneeDisplay = getMemberDisplay(task.assignee || 'unassigned');
-            const priority = task.priority || 'medium';
-            const tags = task.tags || [];
-            const due = task.due || '';
-            const filePath = task._file_path || '';
-
-            // Project 정보
-            const projectId = task.project_id || '';
-            const projectInfo = allEntitiesMap[projectId] || {};
-            const projectName = projectInfo.entity_name || projectId;
-            const projectPath = projectInfo._file_path || '';
-
-            // validates 정보
-            const validates = [];
-            if (task.validates && Array.isArray(task.validates)) {
-                for (const targetId of task.validates) {
-                    const target = allEntitiesMap[targetId];
-                    validates.push({
-                        id: targetId,
-                        name: target ? target.entity_name : targetId,
-                        path: target ? target._file_path : '',
-                    });
-                }
-            }
-
-            const tagsHtml = tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('');
-
-            let validatesHtml = '';
-            if (validates.length > 0) {
-                const links = validates.map(v =>
-                    v.path
-                        ? `<span class="validates-link" onclick="event.stopPropagation(); openFile('${v.path}')">${v.name}</span>`
-                        : `<span class="validates-link">${v.name}</span>`
-                ).join(' ');
-                validatesHtml = `<div class="validates">validates: ${links}</div>`;
-            }
-
-            let projectHtml = '';
-            if (projectId) {
-                projectHtml = projectPath
-                    ? `<div class="task-project">📁 <span class="project-link" onclick="event.stopPropagation(); openFile('${projectPath}')">${projectName}</span></div>`
-                    : `<div class="task-project">📁 ${projectName}</div>`;
-            }
-
-            return `
-                <div class="task-card priority-${priority}" onclick="openFile('${filePath}')">
-                    <div class="task-header">
-                        <span class="task-name">${name}</span>
-                        <span class="task-id">${entityId}</span>
-                    </div>
-                    <div class="task-meta">
-                        <span class="assignee">${assigneeDisplay}</span>
-                        ${due ? `<span class="due">📅 ${due}</span>` : ''}
-                    </div>
-                    ${projectHtml}
-                    ${validatesHtml}
-                    <div class="task-tags">${tagsHtml}</div>
-                </div>
-            `;
-        }
-
-        // 전략 렌더링
-        function renderStrategy() {
-            const grid = document.getElementById('strategyGrid');
-
-            const sections = [
-                { type: 'NorthStar', title: 'North Star', emoji: '🎯' },
-                { type: 'MetaHypothesis', title: 'Meta Hypotheses', emoji: '🔬' },
-                { type: 'Condition', title: 'Conditions', emoji: '📋' },
-                { type: 'Track', title: 'Tracks', emoji: '🛤️' },
-            ];
-
-            grid.innerHTML = sections.map(section => {
-                const items = entities[section.type] || [];
-                if (items.length === 0) return '';
-
-                const itemsHtml = items
-                    .sort((a, b) => (a.entity_id || '').localeCompare(b.entity_id || ''))
-                    .map(entity => {
-                        const name = entity.entity_name || entity._file_name || 'Unknown';
-                        const entityId = entity.entity_id || '';
-                        const status = entity.status || '';
-                        const filePath = entity._file_path || '';
-
-                        return `
-                            <div class="entity-item" onclick="openFile('${filePath}')">
-                                <span class="entity-name">${name}</span>
-                                <span>
-                                    <span class="entity-id">${entityId}</span>
-                                    ${status ? `<span class="entity-status">${status}</span>` : ''}
-                                </span>
-                            </div>
-                        `;
-                    }).join('');
-
-                return `
-                    <div class="entity-section">
-                        <h3>${section.emoji} ${section.title}</h3>
-                        <div class="entity-list">${itemsHtml}</div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // 프로젝트 렌더링
-        function renderProjects() {
-            const container = document.getElementById('projectsList');
-            const projects = entities.Project || [];
-            const tasks = entities.Task || [];
-
-            if (projects.length === 0) {
-                container.innerHTML = '<p style="color: #999;">No projects found.</p>';
-                return;
-            }
-
-            container.innerHTML = projects
-                .sort((a, b) => (a.entity_id || '').localeCompare(b.entity_id || ''))
-                .map(project => {
-                    const name = project.entity_name || project._file_name || 'Unknown';
-                    const entityId = project.entity_id || '';
-                    const filePath = project._file_path || '';
-                    const trackId = project.track_id || '';
-                    const trackInfo = allEntitiesMap[trackId] || {};
-                    const trackName = trackInfo.entity_name || trackId;
-                    const trackPath = trackInfo._file_path || '';
-
-                    const projectTasks = tasks.filter(t => t.project_id === entityId);
-                    const doneCount = projectTasks.filter(t => t.status === 'done').length;
-                    const totalCount = projectTasks.length;
-                    const progress = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
-
-                    const statusColors = {
-                        todo: '#FF9800',
-                        doing: '#2196F3',
-                        done: '#4CAF50',
-                        blocked: '#f44336',
-                    };
-
-                    const tasksHtml = projectTasks
-                        .sort((a, b) => {
-                            const order = { doing: 0, todo: 1, blocked: 2, done: 3 };
-                            return (order[a.status] || 4) - (order[b.status] || 4);
-                        })
-                        .map(task => {
-                            const tName = task.entity_name || task._file_name || '';
-                            const tStatus = task.status || 'todo';
-                            const tAssignee = getMemberDisplay(task.assignee || 'unassigned');
-                            const tPath = task._file_path || '';
-                            const statusColor = statusColors[tStatus] || '#999';
-
-                            return `
-                                <div class="task-list-item" onclick="openFile('${tPath}')">
-                                    <span>${tName}</span>
-                                    <span style="display: flex; gap: 8px; align-items: center;">
-                                        <span style="font-size: 0.8em; color: #666;">${tAssignee}</span>
-                                        <span class="status-badge" style="background: ${statusColor}">${tStatus}</span>
-                                    </span>
-                                </div>
-                            `;
-                        }).join('');
-
-                    const trackHtml = trackPath
-                        ? `<span class="project-link" onclick="event.stopPropagation(); openFile('${trackPath}')">${trackName}</span>`
-                        : trackName || 'N/A';
-
-                    return `
-                        <div class="project-card">
-                            <div class="project-header">
-                                <div>
-                                    <div class="project-title" onclick="openFile('${filePath}')">${name}</div>
-                                    <div style="font-size: 0.85em; color: #666;">
-                                        <code>${entityId}</code> | Track: ${trackHtml}
-                                    </div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div style="font-size: 0.9em; color: #666;">Tasks: ${doneCount}/${totalCount}</div>
-                                    <div class="progress-bar" style="width: 120px;">
-                                        <div class="progress-fill" style="width: ${progress}%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 12px;">
-                                ${tasksHtml || '<p style="color: #999; font-style: italic;">No tasks</p>'}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-        }
-
-        // 헤더 업데이트
-        function updateHeader() {
-            const taskCount = (entities.Task || []).length;
-            const projectCount = (entities.Project || []).length;
-            const now = new Date().toLocaleString('ko-KR');
-            document.getElementById('headerMeta').textContent =
-                `Vault: ${vaultName} | Tasks: ${taskCount} | Projects: ${projectCount} | Updated: ${now}`;
-        }
-
-        // 탭 전환
         function showTab(tabId) {
+            // 모든 탭 비활성화
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            // 선택된 탭 활성화
             document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
             document.getElementById(tabId).classList.add('active');
         }
+    </script>
 
-        // File System Access API 지원 체크 및 초기화
-        async function init() {
-            if (!('showDirectoryPicker' in window)) {
-                document.getElementById('initScreen').innerHTML = `
-                    <h2>❌ 지원하지 않는 브라우저</h2>
-                    <p>File System Access API를 지원하지 않습니다.</p>
-                    <div class="warning">
-                        Chrome 또는 Edge 브라우저를 사용해주세요.
+    <!-- Task Detail/Edit Modal -->
+    <div id="taskDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="task-detail-header">
+                    <h2>Task Details</h2>
+                    <span class="task-detail-id" id="detailTaskId"></span>
+                </div>
+                <span class="close" onclick="closeTaskDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="taskDetailForm">
+                    <div class="form-group">
+                        <label for="detailTaskName">Task Name *</label>
+                        <input type="text" id="detailTaskName" required>
                     </div>
-                `;
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="detailAssignee">Assignee *</label>
+                            <select id="detailAssignee" required>
+                                <option value="eunhyang">👩‍💻 은향</option><option value="myunghak">👨‍🔬 명학</option><option value="dan">🧑‍🎨 단</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="detailPriority">Priority</label>
+                            <select id="detailPriority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="detailStatus">Status</label>
+                            <select id="detailStatus">
+                                <option value="todo">Todo</option>
+                                <option value="doing">Doing</option>
+                                <option value="done">Done</option>
+                                <option value="blocked">Blocked</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="detailDue">Due Date</label>
+                            <input type="date" id="detailDue">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailBody">Description (Markdown)</label>
+                        <textarea id="detailBody" placeholder="Task description..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-left">
+                    <button class="btn btn-danger" onclick="deleteTask()">Delete</button>
+                    <div>
+                        <button class="btn btn-secondary" onclick="closeTaskDetailModal()">Cancel</button>
+                        <button class="btn btn-primary" onclick="updateTask()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Task Modal -->
+    <div id="newTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Task</h2>
+                <span class="close" onclick="closeNewTaskModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="newTaskForm">
+                    <div class="form-group">
+                        <label for="taskName">Task Name *</label>
+                        <input type="text" id="taskName" required placeholder="e.g., API 서버 구축">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskProject">Project *</label>
+                        <select id="taskProject" required>
+                            <option value="">Select Project...</option>
+                            <option value="prj:001">Ontology v0.1 (prj:001)</option><option value="prj:002">[와디즈] 12주 코칭 습관팩 런칭 (prj:002)</option><option value="prj:003">LoopOS V0 데이터 설계 (prj:003)</option><option value="prj:004">(프로젝트 없음) (prj:004)</option><option value="prj:005">[LoopOS 데이터] LoopOS 최소 선제 학습 (prj:005)</option><option value="prj:006">코치 1명 구인 & 1차 온보딩 준비 (prj:006)</option><option value="prj:007">외부 비서 (prj:007)</option><option value="prj:008">파일럿 프로젝트 후보 (prj:008)</option><option value="prj:009">[투자/TIPS준비] 배치 프로그램 지원 (prj:009)</option><option value="prj:010">[펀딩·마케팅] 와디즈 펀딩 (prj:010)</option><option value="prj:011">사이드프로젝트 리크루팅 사이트 제작 (prj:011)</option><option value="prj:012">[CS·운영] 고객관리/대응 (prj:012)</option><option value="prj:013">YouTube 1주 1업로드 프로젝트 (prj:013)</option><option value="prj:014">[코칭 서비스] 1:1 코칭 서비스 (prj:014)</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskAssignee">Assignee *</label>
+                            <select id="taskAssignee" required>
+                                <option value="">Select Assignee...</option>
+                                <option value="eunhyang">👩‍💻 은향</option><option value="myunghak">👨‍🔬 명학</option><option value="dan">🧑‍🎨 단</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriority">Priority</label>
+                            <select id="taskPriority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskStatus">Status</label>
+                            <select id="taskStatus">
+                                <option value="todo" selected>Todo</option>
+                                <option value="doing">Doing</option>
+                                <option value="done">Done</option>
+                                <option value="blocked">Blocked</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDue">Due Date</label>
+                            <input type="date" id="taskDue">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskTags">Tags (comma separated)</label>
+                        <input type="text" id="taskTags" placeholder="e.g., urgent, bug, feature">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeNewTaskModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="createTask()">Create Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div id="newProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Project</h2>
+                <span class="close" onclick="closeNewProjectModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="newProjectForm">
+                    <div class="form-group">
+                        <label for="projectName">Project Name *</label>
+                        <input type="text" id="projectName" required placeholder="e.g., API 서버 개발">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectOwner">Owner *</label>
+                        <select id="projectOwner" required>
+                            <option value="">Select Owner...</option>
+                            <option value="eunhyang">👩‍💻 은향</option><option value="myunghak">👨‍🔬 명학</option><option value="dan">🧑‍🎨 단</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectPriority">Priority</label>
+                        <select id="projectPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeNewProjectModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="createProject()">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+    
+
+    <script>
+        const API_URL = 'http://localhost:8081';
+
+        // Toast
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        // Modal
+        function openNewTaskModal() {
+            document.getElementById('newTaskModal').style.display = 'block';
+        }
+
+        function closeNewTaskModal() {
+            document.getElementById('newTaskModal').style.display = 'none';
+            document.getElementById('newTaskForm').reset();
+        }
+
+        function openNewProjectModal() {
+            document.getElementById('newProjectModal').style.display = 'block';
+        }
+
+        function closeNewProjectModal() {
+            document.getElementById('newProjectModal').style.display = 'none';
+            document.getElementById('newProjectForm').reset();
+        }
+
+        // Task 생성
+        async function createTask() {
+            const name = document.getElementById('taskName').value;
+            const project_id = document.getElementById('taskProject').value;
+            const assignee = document.getElementById('taskAssignee').value;
+            const priority = document.getElementById('taskPriority').value;
+            const status = document.getElementById('taskStatus').value;
+            const due = document.getElementById('taskDue').value;
+            const tags = document.getElementById('taskTags').value
+                .split(',')
+                .map(t => t.trim())
+                .filter(t => t);
+
+            if (!name || !project_id || !assignee) {
+                showToast('Please fill all required fields', 'error');
                 return;
             }
 
-            // IndexedDB 초기화 및 재연결 시도
             try {
-                await initDB();
-                await tryReconnect();
-            } catch (err) {
-                console.log('초기화 에러:', err.message);
+                const response = await fetch(`${API_URL}/api/tasks`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        entity_name: name,
+                        project_id: project_id,
+                        assignee: assignee,
+                        priority: priority,
+                        status: status,
+                        due: due || null,
+                        tags: tags
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast(`Task created: ${data.task_id}`);
+                    closeNewTaskModal();
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.detail || 'Failed to create task', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('API server not running. Please start: uvicorn api.main:app --port 8081', 'error');
             }
         }
 
-        // 페이지 로드 시 초기화
-        init();
+        // Project 생성
+        async function createProject() {
+            const name = document.getElementById('projectName').value;
+            const owner = document.getElementById('projectOwner').value;
+            const priority = document.getElementById('projectPriority').value;
+
+            if (!name || !owner) {
+                showToast('Please fill all required fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/projects`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        entity_name: name,
+                        owner: owner,
+                        priority: priority
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast(`Project created: ${data.project_id}`);
+                    closeNewProjectModal();
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.detail || 'Failed to create project', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('API server not running', 'error');
+            }
+        }
+
+        // Modal 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            const taskModal = document.getElementById('newTaskModal');
+            const projectModal = document.getElementById('newProjectModal');
+            const detailModal = document.getElementById('taskDetailModal');
+            if (event.target == taskModal) closeNewTaskModal();
+            if (event.target == projectModal) closeNewProjectModal();
+            if (event.target == detailModal) closeTaskDetailModal();
+        }
+
+        // ========================================
+        // Task Detail Modal
+        // ========================================
+        let currentTaskId = null;
+
+        async function openTaskDetail(taskId) {
+            currentTaskId = taskId;
+
+            try {
+                const response = await fetch(`${API_URL}/api/tasks/${taskId}`);
+                if (!response.ok) {
+                    showToast('Task not found', 'error');
+                    return;
+                }
+
+                const data = await response.json();
+                const task = data.task;
+
+                // Modal에 데이터 채우기
+                document.getElementById('detailTaskId').textContent = task.entity_id;
+                document.getElementById('detailTaskName').value = task.entity_name || '';
+                document.getElementById('detailAssignee').value = task.assignee || '';
+                document.getElementById('detailPriority').value = task.priority || 'medium';
+                document.getElementById('detailStatus').value = task.status || 'todo';
+                document.getElementById('detailDue').value = task.due || '';
+                document.getElementById('detailBody').value = task._body || '';
+
+                // Modal 표시
+                document.getElementById('taskDetailModal').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Failed to load task details', 'error');
+            }
+        }
+
+        function closeTaskDetailModal() {
+            document.getElementById('taskDetailModal').style.display = 'none';
+            currentTaskId = null;
+        }
+
+        async function updateTask() {
+            if (!currentTaskId) return;
+
+            const data = {
+                entity_name: document.getElementById('detailTaskName').value,
+                assignee: document.getElementById('detailAssignee').value,
+                priority: document.getElementById('detailPriority').value,
+                status: document.getElementById('detailStatus').value,
+                due: document.getElementById('detailDue').value || null
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/tasks/${currentTaskId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    showToast('Task updated successfully');
+                    closeTaskDetailModal();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    const err = await response.json();
+                    showToast(err.detail || 'Failed to update task', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Failed to update task', 'error');
+            }
+        }
+
+        async function deleteTask() {
+            if (!currentTaskId) return;
+
+            if (!confirm('Are you sure you want to delete this task?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/tasks/${currentTaskId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showToast('Task deleted successfully');
+                    closeTaskDetailModal();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    const err = await response.json();
+                    showToast(err.detail || 'Failed to delete task', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Failed to delete task', 'error');
+            }
+        }
+
+        // ========================================
+        // Task 카드 클릭 이벤트 재바인딩
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.task-card').forEach(card => {
+                const taskIdEl = card.querySelector('.task-id');
+                if (taskIdEl) {
+                    const taskId = taskIdEl.textContent.trim();
+                    card.onclick = function(e) {
+                        e.preventDefault();
+                        openTaskDetail(taskId);
+                    };
+                    card.style.cursor = 'pointer';
+                }
+            });
+        });
     </script>
+    
 </body>
 </html>

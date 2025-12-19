@@ -1,61 +1,60 @@
 ---
 entity_type: MetaHypothesis
-entity_id: "mh:3"
+entity_id: mh:3
 entity_name: MH3_데이터_모델링_가능
 created: 2024-12-18
 updated: 2024-12-18
 status: validating
-
-# 계층
-parent_id: "ns:001"
+parent_id: ns:001
 aliases:
-  - MH3
-  - MH3_데이터_모델링_가능
-
-# 관계
+- mh:3
+- MH3_데이터_모델링_가능
+- mh-3
 outgoing_relations: []
 validates: []
-validated_by: ["trk:2", "prj:001", "cond:b"]
-
-# MetaHypothesis 전용
-hypothesis_text: "정서-섭식-습관 루프는 데이터로 모델링 가능한 구조를 가진다"
-if_broken: "회사 존재 이유 재검토"
+validated_by:
+- trk:2
+- prj:001
+- cond:b
+hypothesis_text: 정서-섭식-습관 루프는 데이터로 모델링 가능한 구조를 가진다
+if_broken: 회사 존재 이유 재검토
 evidence_status: validating
 confidence: 0.7
-
-# 증거 (Evidence)
 evidence:
   positive:
-    - "Event로 meal/emotion/urge/binge 모두 표현 가능"
-    - "Episode로 2-4시간 위험 구간 캡처 가능"
-    - "폭식 전조 패턴 3개 발견"
-    - "SoSi 앱에서 3개월간 스키마 안정"
+  - Event로 meal/emotion/urge/binge 모두 표현 가능
+  - Episode로 2-4시간 위험 구간 캡처 가능
+  - 폭식 전조 패턴 3개 발견
+  - SoSi 앱에서 3개월간 스키마 안정
   negative:
-    - "재현 패턴이 10개 목표 대비 3개만 달성"
-    - "일부 사회적 압력 루프는 아직 표현 어려움"
-    - "개인차가 커서 일반화 어려운 부분 존재"
-
-# 위험 신호 (Risk Signals)
+  - 재현 패턴이 10개 목표 대비 3개만 달성
+  - 일부 사회적 압력 루프는 아직 표현 어려움
+  - 개인차가 커서 일반화 어려운 부분 존재
 risk_signals:
   critical:
-    - "6개월간 패턴 3개에서 정체"
-    - "SoSi/KkokKkokFit에서 매주 스키마 변경 필요"
-    - "코치 간 라벨링 일관성 50% 미만"
+  - 6개월간 패턴 3개에서 정체
+  - SoSi/KkokKkokFit에서 매주 스키마 변경 필요
+  - 코치 간 라벨링 일관성 50% 미만
   warning:
-    - "새 루프 타입 발견 시 스키마로 표현 불가"
-    - "개인화 모델 정확도 60% 미만"
-
-# 메타
-tags: ["metahypothesis", "core", "data"]
+  - 새 루프 타입 발견 시 스키마로 표현 불가
+  - 개인화 모델 정확도 60% 미만
+tags:
+- meta-hypothesis
+- core
+- track-2
+- ontology
 priority_flag: critical
-
-# 관계 (기존 형식 호환)
-enables: [Condition_B, Condition_C]
-depends_on: [Track_2_Data, Track_4_Coaching]
-supports: [10년_비전]
-validated_by_projects: [Ontology_v0.1, CoachOS_Phase1]
-
-tags: [meta-hypothesis, core, track-2, ontology]
+enables:
+- Condition_B
+- Condition_C
+depends_on:
+- Track_2_Data
+- Track_4_Coaching
+supports:
+- 10년_비전
+validated_by_projects:
+- Ontology_v0.1
+- CoachOS_Phase1
 ---
 
 # MH3: 데이터 모델링 가능성

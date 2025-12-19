@@ -103,9 +103,9 @@ http://nas-ip:8080
 ```
 
 **업데이트 방식**:
-1. 로컬에서 작업 → Git push
-2. NAS가 15분마다 자동 pull
-3. Dashboard 자동 재생성
-4. 브라우저 새로고침하여 확인
+1. MacBook Obsidian에서 작업 (파일이 실시간으로 NAS에 동기화됨)
+2. NAS가 15분마다 변경 감지
+3. 변경 있으면 Dashboard 자동 재생성
+4. 브라우저 새로고침하여 최신 칸반 확인
 
-**설정 가이드**: `NAS_DEPLOYMENT_GUIDE.md` 참조
+**설정 가이드**: `NAS_DEPLOYMENT_SIMPLE.md` (10분 설정)

@@ -7,8 +7,11 @@ updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:2"
-aliases: []
+parent_id: "trk:6"
+aliases:
+  - "prj:009"
+  - "[투자/TIPS준비] 배치 프로그램 지원"
+  - "prj-009"
 
 # === 관계 ===
 outgoing_relations: []
@@ -23,7 +26,8 @@ hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
 experiments: []
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:e']
+tags: []
 priority_flag: medium
 ---
 

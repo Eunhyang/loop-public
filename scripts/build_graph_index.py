@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Graph Index Builder v3.2
-_Graph_Index.md를 자동 생성합니다.
+LOOP Vault Graph Index Builder v4.0
+_Graph_Index.md와 _build/graph.json을 자동 생성합니다.
+
+변경사항 (v4.0):
+- graph.json 생성 추가 (LLM 최적화된 JSON 형식)
+- conditions_3y_index 추가 (Condition별 엔티티 매핑)
 """
 
 import os
 import re
 import sys
+import json
 import yaml
 from pathlib import Path
 from typing import Dict, List, Optional, Set
@@ -245,6 +250,87 @@ def generate_index(entities: Dict[str, Dict], children_map: Dict, incoming_map: 
     return "\n".join(lines)
 
 
+def generate_json_index(entities: Dict[str, Dict], children_map: Dict, incoming_map: Dict) -> Dict:
+    """LLM 최적화된 JSON 그래프 인덱스 생성"""
+    now = datetime.now().isoformat()
+
+    graph = {
+        "generated": now,
+        "total_entities": len(entities),
+        "nodes": [],
+        "edges": [],
+        "conditions_3y_index": {},
+        "by_type": {},
+        "by_status": {},
+    }
+
+    # 노드 생성
+    for entity_id, data in entities.items():
+        fm = data["frontmatter"]
+        node = {
+            "id": entity_id,
+            "type": fm.get("entity_type"),
+            "name": fm.get("entity_name"),
+            "status": fm.get("status"),
+            "path": data["relative_path"],
+        }
+
+        # 추가 메타데이터
+        if fm.get("conditions_3y"):
+            node["conditions_3y"] = fm.get("conditions_3y")
+        if fm.get("priority_flag"):
+            node["priority_flag"] = fm.get("priority_flag")
+        if fm.get("assignee"):
+            node["assignee"] = fm.get("assignee")
+        if fm.get("owner"):
+            node["owner"] = fm.get("owner")
+
+        graph["nodes"].append(node)
+
+        # 타입별 인덱스
+        entity_type = fm.get("entity_type", "Unknown")
+        if entity_type not in graph["by_type"]:
+            graph["by_type"][entity_type] = []
+        graph["by_type"][entity_type].append(entity_id)
+
+        # 상태별 인덱스
+        status = fm.get("status", "unknown")
+        if status not in graph["by_status"]:
+            graph["by_status"][status] = []
+        graph["by_status"][status].append(entity_id)
+
+        # conditions_3y 인덱스 구축
+        conditions = fm.get("conditions_3y", [])
+        if isinstance(conditions, list):
+            for cond in conditions:
+                if cond not in graph["conditions_3y_index"]:
+                    graph["conditions_3y_index"][cond] = []
+                graph["conditions_3y_index"][cond].append(entity_id)
+
+    # 에지 생성 (parent-child)
+    for parent_id, children in children_map.items():
+        for child_id in children:
+            graph["edges"].append({
+                "source": parent_id,
+                "target": child_id,
+                "type": "parent_of"
+            })
+
+    # 에지 생성 (outgoing_relations)
+    for entity_id, data in entities.items():
+        relations = data["frontmatter"].get("outgoing_relations", [])
+        if isinstance(relations, list):
+            for rel in relations:
+                if isinstance(rel, dict):
+                    graph["edges"].append({
+                        "source": entity_id,
+                        "target": rel.get("target_id"),
+                        "type": rel.get("type")
+                    })
+
+    return graph
+
+
 def main(vault_path: str) -> int:
     """메인 함수"""
     vault_root = Path(vault_path).resolve()
@@ -263,15 +349,27 @@ def main(vault_path: str) -> int:
     print("Deriving incoming relations...")
     incoming_map = derive_incoming_relations(entities)
 
-    print("Generating index...")
+    print("Generating markdown index...")
     index_content = generate_index(entities, children_map, incoming_map, vault_root)
 
-    # 인덱스 파일 저장
+    # 마크다운 인덱스 저장
     index_path = vault_root / "_Graph_Index.md"
     index_path.write_text(index_content, encoding="utf-8")
+    print(f"  Saved: {index_path}")
 
-    print(f"\nGraph index saved to: {index_path}")
-    print(f"Total entities indexed: {len(entities)}")
+    # JSON 인덱스 생성 및 저장
+    print("Generating JSON index...")
+    json_graph = generate_json_index(entities, children_map, incoming_map)
+
+    build_dir = vault_root / "_build"
+    build_dir.mkdir(exist_ok=True)
+    json_path = build_dir / "graph.json"
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(json_graph, f, indent=2, ensure_ascii=False)
+    print(f"  Saved: {json_path}")
+
+    print(f"\nTotal entities indexed: {len(entities)}")
+    print(f"Conditions indexed: {len(json_graph['conditions_3y_index'])}")
 
     return 0
 

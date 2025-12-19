@@ -8,7 +8,7 @@ status: planning
 
 # === 계층 ===
 parent_id: null
-aliases: []
+aliases: ["hyp:{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -20,6 +20,9 @@ hypothesis_text: "{{HYPOTHESIS_FULL_TEXT}}"
 evidence_status: planning
 confidence: 0.0
 loop_layer: []
+
+# === 3Y 전략 연결 (선택) ===
+conditions_3y: []  # 관련 Conditions (선택적)
 
 # === 분류 ===
 tags: []

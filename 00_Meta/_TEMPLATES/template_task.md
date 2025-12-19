@@ -9,7 +9,7 @@ status: planning
 # === 계층 ===
 parent_id: "prj:{{PRJ_NUMBER}}"
 project_id: "prj:{{PRJ_NUMBER}}"
-aliases: []
+aliases: ["tsk:{{PRJ_NUMBER}}-{{SEQ}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -22,6 +22,9 @@ due: null
 priority: medium
 estimated_hours: null
 actual_hours: null
+
+# === 3Y 전략 연결 (필수) ===
+conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
 # === 분류 ===
 tags: []

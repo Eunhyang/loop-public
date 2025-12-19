@@ -1,51 +1,49 @@
 ---
 entity_type: Track
-entity_id: "trk:5"
+entity_id: trk:5
 entity_name: Track_5_Partnership
 created: 2024-12-18
 updated: 2024-12-18
 status: planning
-
-# 계층
-parent_id: "cond:c"
+parent_id: cond:c
 aliases:
-  - track:5
-  - Track_5_Partnership
-
-# 관계
+- trk:5
+- Track_5_Partnership
+- trk-5
 outgoing_relations:
-  - type: enables
-    target_id: "trk:6"
-    description: "의료 제휴가 DTx/B2B 수익 기반"
-  - type: depends_on
-    target_id: "trk:2"
-    description: "데이터가 의료 파트너십 근거"
+- type: enables
+  target_id: trk:6
+  description: 의료 제휴가 DTx/B2B 수익 기반
+- type: depends_on
+  target_id: trk:2
+  description: 데이터가 의료 파트너십 근거
 validates: []
 validated_by: []
-
-# Track 전용
-horizon: "12month"
-hypothesis: "국내 의원급 파트너십으로 2027 의료 제휴 기반을 마련할 수 있다"
+horizon: 12month
+hypothesis: 국내 의원급 파트너십으로 2027 의료 제휴 기반을 마련할 수 있다
 focus:
-  - "의원급 파일럿 1곳"
-  - "케이스 스터디 10명"
-  - "Early Warning Index 초기 검증"
-  - "의료 서류 템플릿 정리"
-owner: "Founder + BD 담당"
+- 의원급 파일럿 1곳
+- 케이스 스터디 10명
+- Early Warning Index 초기 검증
+- 의료 서류 템플릿 정리
+owner: Founder + BD 담당
 objectives:
-  - metric: "제휴"
-    target: "의원급 1곳"
-    current: 0
-    status: "시작 전"
-  - metric: "케이스 스터디"
-    target: "10명"
-    current: 0
-    status: "시작 전"
-
-# 메타
+- metric: 제휴
+  target: 의원급 1곳
+  current: 0
+  status: 시작 전
+- metric: 케이스 스터디
+  target: 10명
+  current: 0
+  status: 시작 전
 progress: 0.1
 risk_level: medium
-tags: ["track", "12month", "partnership", "medical"]
+conditions_3y: ['cond:c', 'cond:d']
+tags:
+- track
+- 12month
+- partnership
+- medical
 priority_flag: medium
 ---
 

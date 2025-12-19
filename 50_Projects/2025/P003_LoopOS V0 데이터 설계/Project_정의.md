@@ -1,29 +1,25 @@
 ---
 entity_type: Project
-entity_id: "prj:003"
-entity_name: "LoopOS V0 데이터 설계"
+entity_id: prj:003
+entity_name: LoopOS V0 데이터 설계
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-
-# === 계층 ===
-parent_id: "trk:2"
-aliases: []
-
-# === 관계 ===
+parent_id: trk:2
+aliases:
+- prj:003
+- LoopOS V0 데이터 설계
+- prj-003
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 experiments: []
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b']
+tags: []
 priority_flag: medium
 ---
 

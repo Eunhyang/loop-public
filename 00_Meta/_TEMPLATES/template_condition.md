@@ -8,7 +8,7 @@ status: in_progress
 
 # === 계층 ===
 parent_id: "mh:{{MH_NUMBER}}"
-aliases: []
+aliases: ["cond:{{LETTER}}"]
 
 # === 관계 ===
 outgoing_relations:

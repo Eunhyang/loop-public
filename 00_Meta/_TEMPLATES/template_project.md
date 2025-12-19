@@ -8,7 +8,7 @@ status: planning
 
 # === 계층 ===
 parent_id: "trk:{{TRACK_NUMBER}}"
-aliases: []
+aliases: ["prj:{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -21,6 +21,9 @@ budget: null
 deadline: null
 hypothesis_text: "{{PROJECT_HYPOTHESIS}}"
 experiments: []
+
+# === 3Y 전략 연결 (필수) ===
+conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
 # === 분류 ===
 tags: []

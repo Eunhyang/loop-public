@@ -1,30 +1,26 @@
 ---
 entity_type: Task
-entity_id: "tsk:014-01"
-entity_name: "꼭꼭Fit 3기 환급 검토"
+entity_id: tsk:014-01
+entity_name: 꼭꼭Fit 3기 환급 검토
 created: 2025-12-18
 updated: 2025-12-18
 status: in_progress
-
-# === 계층 ===
-parent_id: "prj:014"
-project_id: "prj:014"
-aliases: []
-
-# === 관계 ===
+parent_id: prj:014
+project_id: prj:014
+aliases:
+- tsk:014-01
+- 꼭꼭Fit 3기 환급 검토
+- tsk-014-01
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "한명학"
+assignee: 한명학
 due: 2025-12-18
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b', 'cond:d']
+tags: []
 priority_flag: medium
 ---
 

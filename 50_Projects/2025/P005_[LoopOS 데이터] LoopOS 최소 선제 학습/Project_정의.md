@@ -8,7 +8,10 @@ status: active
 
 # === 계층 ===
 parent_id: "trk:2"
-aliases: []
+aliases:
+  - "prj:005"
+  - "[LoopOS 데이터] LoopOS 최소 선제 학습"
+  - "prj-005"
 
 # === 관계 ===
 outgoing_relations: []
@@ -23,7 +26,8 @@ hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
 experiments: []
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b']
+tags: []
 priority_flag: medium
 ---
 

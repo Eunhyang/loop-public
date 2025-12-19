@@ -1,30 +1,26 @@
 ---
 entity_type: Task
-entity_id: "tsk:003-02"
-entity_name: "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec"
+entity_id: tsk:003-02
+entity_name: Loop OS V0 데이터 설계 – 4. Minimal Logging Spec
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
-
-# === 계층 ===
-parent_id: "prj:003"
-project_id: "prj:003"
-aliases: []
-
-# === 관계 ===
+parent_id: prj:003
+project_id: prj:003
+aliases:
+- tsk:003-02
+- Loop OS V0 데이터 설계 – 4. Minimal Logging Spec
+- tsk-003-02
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 due: 2025-12-19
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b']
+tags: []
 priority_flag: medium
 ---
 

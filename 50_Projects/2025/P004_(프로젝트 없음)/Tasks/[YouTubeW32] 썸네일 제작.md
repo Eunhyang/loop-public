@@ -9,7 +9,10 @@ status: planning
 # === 계층 ===
 parent_id: "prj:004"
 project_id: "prj:004"
-aliases: []
+aliases:
+  - "tsk:004-03"
+  - "[YouTube/W32] 썸네일 제작"
+  - "tsk-004-03"
 
 # === 관계 ===
 outgoing_relations: []
@@ -24,7 +27,8 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b']
+tags: []
 priority_flag: medium
 ---
 

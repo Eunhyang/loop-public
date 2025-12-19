@@ -9,7 +9,10 @@ status: in_progress
 # === 계층 ===
 parent_id: "prj:008"
 project_id: "prj:008"
-aliases: []
+aliases:
+  - "tsk:008-01"
+  - "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX"
+  - "tsk-008-01"
 
 # === 관계 ===
 outgoing_relations: []
@@ -24,7 +27,8 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:b', 'cond:d']
+tags: []
 priority_flag: high
 ---
 

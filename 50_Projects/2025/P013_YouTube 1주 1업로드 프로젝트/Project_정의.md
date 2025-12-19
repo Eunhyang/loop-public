@@ -1,29 +1,25 @@
 ---
 entity_type: Project
-entity_id: "prj:013"
-entity_name: "YouTube 1주 1업로드 프로젝트"
+entity_id: prj:013
+entity_name: YouTube 1주 1업로드 프로젝트
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-
-# === 계층 ===
-parent_id: "trk:2"
-aliases: []
-
-# === 관계 ===
+parent_id: trk:3
+aliases:
+- prj:013
+- YouTube 1주 1업로드 프로젝트
+- prj-013
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "한명학"
+owner: 한명학
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 experiments: []
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:a']
+tags: []
 priority_flag: medium
 ---
 

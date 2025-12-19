@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Schema Validator v3.2
+LOOP Vault Schema Validator v4.0
 모든 마크다운 파일의 frontmatter를 검증합니다.
+
+변경사항 (v4.0):
+- conditions_3y 필드 검증 추가 (Task, Project, Track 필수)
+- VALID_CONDITION_IDS 상수 추가
 """
 
 import os
@@ -56,12 +60,15 @@ REQUIRED_FIELDS = {
     "NorthStar": [],
     "MetaHypothesis": ["if_broken"],
     "Condition": ["if_broken"],
-    "Track": ["owner", "horizon"],
-    "Project": ["owner", "parent_id"],
-    "Task": ["assignee", "project_id", "parent_id"],
+    "Track": ["owner", "horizon", "conditions_3y"],
+    "Project": ["owner", "parent_id", "conditions_3y"],
+    "Task": ["assignee", "project_id", "parent_id", "conditions_3y"],
     "Hypothesis": ["hypothesis_text"],
     "Experiment": ["hypothesis_id", "metrics"],
 }
+
+# === 유효한 Condition IDs ===
+VALID_CONDITION_IDS = ["cond:a", "cond:b", "cond:c", "cond:d", "cond:e"]
 
 # === 유효한 상태값 ===
 VALID_STATUSES = ["planning", "active", "blocked", "done", "failed", "learning", "fixed", "assumed", "validating", "validated", "falsified", "in_progress", "pending", "completed"]
@@ -93,6 +100,43 @@ def validate_id_format(entity_id: str) -> Tuple[bool, str]:
         return False, f"ID '{entity_id}' doesn't match pattern '{pattern}'"
 
     return True, ""
+
+
+def validate_conditions_3y(frontmatter: Dict, entity_type: str) -> List[str]:
+    """conditions_3y 필드 검증"""
+    errors = []
+
+    # Task, Project, Track만 필수
+    if entity_type not in ["Task", "Project", "Track"]:
+        return errors
+
+    conditions = frontmatter.get("conditions_3y")
+
+    # 필수 체크
+    if conditions is None:
+        errors.append("conditions_3y field is required")
+        return errors
+
+    # 리스트 타입 체크
+    if not isinstance(conditions, list):
+        errors.append("conditions_3y must be a list")
+        return errors
+
+    # 최소 1개 필수
+    if len(conditions) == 0:
+        errors.append("conditions_3y must have at least 1 condition")
+        return errors
+
+    # 각 항목이 유효한 cond:* ID인지 체크
+    for cond in conditions:
+        if not isinstance(cond, str):
+            errors.append(f"conditions_3y items must be strings, got: {type(cond)}")
+        elif not cond.startswith("cond:"):
+            errors.append(f"conditions_3y must reference cond:* IDs, got: {cond}")
+        elif cond not in VALID_CONDITION_IDS:
+            errors.append(f"conditions_3y contains invalid condition: {cond} (valid: {VALID_CONDITION_IDS})")
+
+    return errors
 
 
 def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
@@ -150,6 +194,10 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
                 for v in values:
                     if not isinstance(v, str):
                         errors.append(f"{field} must contain only strings, got: {type(v)}")
+
+    # conditions_3y 검증 (Task, Project, Track)
+    conditions_errors = validate_conditions_3y(frontmatter, entity_type)
+    errors.extend(conditions_errors)
 
     return errors
 

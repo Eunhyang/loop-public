@@ -8,7 +8,7 @@ status: assumed
 
 # === 계층 ===
 parent_id: "ns:001"
-aliases: []
+aliases: ["mh:{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []

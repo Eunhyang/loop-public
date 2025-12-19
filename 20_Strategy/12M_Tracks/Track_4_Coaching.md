@@ -1,59 +1,57 @@
 ---
 entity_type: Track
-entity_id: "trk:4"
+entity_id: trk:4
 entity_name: Track_4_Coaching
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-
-# 계층
-parent_id: "cond:b"
+parent_id: cond:b
 aliases:
-  - track:4
-  - Track_4_Coaching
-
-# 관계
+- trk:4
+- Track_4_Coaching
+- trk-4
 outgoing_relations:
-  - type: enables
-    target_id: "trk:6"
-    description: "코칭 매출 직접 기여"
-  - type: supports
-    target_id: "trk:2"
-    description: "코치 라벨링이 고품질 데이터 생성"
-  - type: depends_on
-    target_id: "trk:1"
-    description: "제품으로 코칭 지원"
+- type: enables
+  target_id: trk:6
+  description: 코칭 매출 직접 기여
+- type: supports
+  target_id: trk:2
+  description: 코치 라벨링이 고품질 데이터 생성
+- type: depends_on
+  target_id: trk:1
+  description: 제품으로 코칭 지원
 validates: []
 validated_by: []
-
-# Track 전용
-horizon: "12month"
-hypothesis: "코치가 라벨러 역할로 전환하여 고품질 데이터를 생성할 수 있다"
+horizon: 12month
+hypothesis: 코치가 라벨러 역할로 전환하여 고품질 데이터를 생성할 수 있다
 focus:
-  - "코치 교육: 루프/정서/섭식 라벨링"
-  - "라벨링 품질 QA"
-  - "코치 수 확장"
-  - "고밀도 Tier2 이상 전환"
-  - "정서 기반 상호작용 증가"
-owner: "코치 팀 리드"
+- '코치 교육: 루프/정서/섭식 라벨링'
+- 라벨링 품질 QA
+- 코치 수 확장
+- 고밀도 Tier2 이상 전환
+- 정서 기반 상호작용 증가
+owner: 코치 팀 리드
 objectives:
-  - metric: "코치 수"
-    target: "6명"
-    current: 3
-    status: "진행 중"
-  - metric: "참여자"
-    target: "150명"
-    current: 60
-    status: "진행 중"
-  - metric: "라벨링 품질"
-    target: "주 150건"
-    current: 30
-    status: "위험"
-
-# 메타
+- metric: 코치 수
+  target: 6명
+  current: 3
+  status: 진행 중
+- metric: 참여자
+  target: 150명
+  current: 60
+  status: 진행 중
+- metric: 라벨링 품질
+  target: 주 150건
+  current: 30
+  status: 위험
 progress: 0.4
 risk_level: medium
-tags: ["track", "12month", "coaching", "labeling"]
+conditions_3y: ['cond:b', 'cond:d']
+tags:
+- track
+- 12month
+- coaching
+- labeling
 priority_flag: medium
 ---
 

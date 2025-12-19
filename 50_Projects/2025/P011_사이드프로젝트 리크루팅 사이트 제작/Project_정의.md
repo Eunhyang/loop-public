@@ -1,29 +1,25 @@
 ---
 entity_type: Project
-entity_id: "prj:011"
-entity_name: "사이드프로젝트 리크루팅 사이트 제작"
+entity_id: prj:011
+entity_name: 사이드프로젝트 리크루팅 사이트 제작
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-
-# === 계층 ===
-parent_id: "trk:2"
-aliases: []
-
-# === 관계 ===
+parent_id: trk:5
+aliases:
+- prj:011
+- 사이드프로젝트 리크루팅 사이트 제작
+- prj-011
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 experiments: []
-
-# === 분류 ===
-tags: ["migrated", "notion"]
+conditions_3y: ['cond:c', 'cond:d']
+tags: []
 priority_flag: medium
 ---
 
