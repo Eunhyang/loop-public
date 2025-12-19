@@ -37,6 +37,18 @@ class ProjectCreate(BaseModel):
     priority: str = Field(default="medium", description="우선순위")
 
 
+class ProjectUpdate(BaseModel):
+    """Project 수정 요청"""
+    entity_name: Optional[str] = None
+    owner: Optional[str] = None
+    parent_id: Optional[str] = None
+    status: Optional[str] = None
+    priority_flag: Optional[str] = None
+    deadline: Optional[str] = None
+    hypothesis_text: Optional[str] = None
+    tags: Optional[List[str]] = None
+
+
 class TaskResponse(BaseModel):
     """Task 응답"""
     success: bool

@@ -55,6 +55,14 @@ poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
 |--------|----------|-------------|
 | GET | `/api/projects` | Project 목록 조회 |
 | POST | `/api/projects` | Project 생성 |
+| PUT | `/api/projects/{project_id}` | Project 수정 |
+| DELETE | `/api/projects/{project_id}` | Project 삭제 |
+
+### Tracks
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/tracks` | Track 목록 조회 |
 
 ### Members
 
@@ -118,6 +126,27 @@ curl -X POST http://localhost:8081/api/projects \
     "owner": "eunhyang",
     "priority": "high"
   }'
+```
+
+### Project 수정
+
+```bash
+curl -X PUT http://localhost:8081/api/projects/prj:001 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "active",
+    "priority_flag": "high"
+  }'
+```
+
+### Project 삭제
+
+```bash
+# 하위 Task 없는 프로젝트 삭제
+curl -X DELETE http://localhost:8081/api/projects/prj:015
+
+# 하위 Task 포함 강제 삭제
+curl -X DELETE "http://localhost:8081/api/projects/prj:015?force=true"
 ```
 
 ---

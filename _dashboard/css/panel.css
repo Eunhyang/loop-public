@@ -1,0 +1,242 @@
+/* ============================================
+   Side Panel
+   ============================================ */
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 90;
+}
+
+.panel-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 450px;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    transition: right 0.3s ease;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-panel.active {
+    right: 0;
+}
+
+/* ============================================
+   Panel Header
+   ============================================ */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e0e0e0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.panel-header h2 {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.panel-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.panel-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   Panel Body
+   ============================================ */
+.panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.panel-section {
+    margin-bottom: 24px;
+}
+
+.panel-section-title {
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* ============================================
+   Panel Form Fields
+   ============================================ */
+.panel-field {
+    margin-bottom: 16px;
+}
+
+.panel-field label {
+    display: block;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.panel-field input,
+.panel-field select,
+.panel-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.panel-field input:focus,
+.panel-field select:focus,
+.panel-field textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.panel-field textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.panel-field-row {
+    display: flex;
+    gap: 12px;
+}
+
+.panel-field-row .panel-field {
+    flex: 1;
+}
+
+/* Task ID (read-only) */
+.panel-field-id {
+    font-family: monospace;
+    font-size: 0.85em;
+    color: #888;
+    background: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+/* ============================================
+   Relations Display
+   ============================================ */
+.panel-relations {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.panel-relation-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.panel-relation-item:last-child {
+    border-bottom: none;
+}
+
+.panel-relation-label {
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #888;
+    min-width: 80px;
+}
+
+.panel-relation-value {
+    font-size: 0.9em;
+    color: #333;
+    padding: 4px 8px;
+    background: white;
+    border-radius: 4px;
+}
+
+.panel-relation-value.track {
+    color: #8b5cf6;
+    background: #f3f0ff;
+}
+
+.panel-relation-value.validates {
+    color: #06b6d4;
+    background: #ecfeff;
+}
+
+.panel-relation-value.condition {
+    color: #f59e0b;
+    background: #fffbeb;
+}
+
+/* ============================================
+   Panel Footer
+   ============================================ */
+.panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.panel-footer-left {
+    display: flex;
+    gap: 8px;
+}
+
+.panel-footer-right {
+    display: flex;
+    gap: 8px;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    .side-panel {
+        width: 100%;
+        right: -100%;
+    }
+
+    .panel-field-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

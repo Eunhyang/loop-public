@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj:001
 entity_name: Ontology v0.1
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2025-12-19'
 status: active
 parent_id: trk:2
 track_id: trk:2
@@ -45,7 +45,8 @@ milestones:
   status: pending
 progress: 0.4
 risk_level: medium
-conditions_3y: ['cond:b']
+conditions_3y:
+- cond:b
 tags:
 - project
 - ontology
@@ -53,7 +54,6 @@ tags:
 - core
 priority_flag: critical
 ---
-
 # Project: Ontology v0.1
 
 > Project ID: `prj:001` | Track: `trk:2` Data | Status: Active (40%)

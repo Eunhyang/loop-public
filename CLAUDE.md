@@ -724,24 +724,89 @@ These files define the vault's schema and automation rules:
 
 ---
 
+## Interactive Dashboard & API Server
+
+For development with full CRUD capabilities, the vault includes a FastAPI server (`api/` module) and interactive dashboard.
+
+### Running the API Server
+```bash
+# Install API dependencies
+poetry install --extras api
+
+# Start the API server (development mode with auto-reload)
+uvicorn api.main:app --host 0.0.0.0 --port 8081 --reload
+
+# Production mode
+uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
+```
+
+**Access points:**
+- Dashboard UI: http://localhost:8081/
+- Swagger docs: http://localhost:8081/docs
+- Health check: http://localhost:8081/health
+
+### API Endpoints
+
+| Resource | GET | POST | PUT | DELETE |
+|----------|-----|------|-----|--------|
+| `/api/tasks` | List tasks | Create task | - | - |
+| `/api/tasks/{id}` | - | - | Update task | Delete task |
+| `/api/projects` | List projects | Create project | - | - |
+| `/api/projects/{id}` | - | - | Update project | Delete project |
+| `/api/tracks` | List tracks | - | - | - |
+| `/api/members` | List members | - | - | - |
+| `/api/constants` | Get status/priority values | - | - | - |
+
+### API Module Structure
+```
+api/
+├── main.py              # FastAPI app entry point
+├── constants.py         # Task status, priority values
+├── routers/
+│   ├── tasks.py         # Task CRUD endpoints
+│   ├── projects.py      # Project CRUD endpoints
+│   └── tracks.py        # Track list endpoint
+├── models/
+│   └── entities.py      # Pydantic request/response schemas
+└── utils/
+    └── vault_utils.py   # Vault file operations
+```
+
+See `api/README.md` for detailed usage examples and NAS deployment instructions
+
+---
+
+## Utility Scripts (One-time Migrations)
+
+Located in `scripts/`, these are typically used once for data migrations:
+
+| Script | Purpose |
+|--------|---------|
+| `backfill_conditions_3y.py` | Add `conditions_3y` field to entities |
+| `fix_project_parent_ids.py` | Fix malformed parent_id references |
+| `add_entity_id_aliases.py` | Add entity_id to aliases for Obsidian linking |
+| `csv_to_loop_entities.py` | Import tasks from Notion CSV exports |
+
+---
+
 **Last updated**: 2025-12-19
-**Document version**: 4.4
+**Document version**: 4.6
 **Author**: Claude Code
+
+**Changes** (v4.6):
+- Fixed API server command (was `scripts.api_server:app`, now `api.main:app`)
+- Added API module structure documentation (`api/` directory)
+- Added API endpoints table with all resources
+- Added Swagger docs and access points
+- Referenced `api/README.md` for detailed deployment instructions
+
+**Changes** (v4.5):
+- Added Interactive Dashboard & API Server section
+- Added API endpoints documentation
+- Added Utility Scripts reference table
+- Added Poetry extras installation for API dependencies
 
 **Changes** (v4.4):
 - Added note about Python scripts location in scripts/ directory
 - Added reference to `pyproject.toml` in Key Metadata Files section
 - Minor clarifications for script usage
-
-**Changes** (v4.3):
-- Added reference to `NAS_DASHBOARD_ARCHITECTURE.md` (complete system architecture)
-- Enhanced NAS deployment documentation section
-- Added direct links to architecture documentation from related sections
-
-**Changes** (v4.2):
-- Updated Python requirement to 3.9+ (matches pyproject.toml)
-- Added section on loop-entity-creator skill usage
-- Added dashboard build documentation
-- Enhanced real implementation project guidance
-- Added key metadata files reference section
-- Clarified Poetry as recommended installation method

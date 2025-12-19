@@ -24,7 +24,7 @@ from build_dashboard import (
 )
 
 # API 서버 URL (NAS/MacBook 공통)
-API_BASE_URL = "http://localhost:8081"
+API_BASE_URL = ""  # 상대 경로 사용 (로컬/NAS 모두 호환)
 
 
 # 기존 generate_html 함수를 덮어쓰기 (인터랙티브 UI 추가)
@@ -58,18 +58,18 @@ def generate_interactive_html(entities, vault_name, members):
 
     # Task 카드에 액션 버튼 추가를 위한 CSS
     interactive_css = '''
-        .header {{
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
+        }
 
-        .header-actions {{
+        .header-actions {
             display: flex;
             gap: 12px;
-        }}
+        }
 
-        .btn-new {{
+        .btn-new {
             background: rgba(255,255,255,0.2);
             border: 1px solid rgba(255,255,255,0.3);
             color: white;
@@ -79,14 +79,14 @@ def generate_interactive_html(entities, vault_name, members):
             font-size: 0.95em;
             font-weight: 500;
             transition: all 0.2s;
-        }}
+        }
 
-        .btn-new:hover {{
+        .btn-new:hover {
             background: rgba(255,255,255,0.3);
-        }}
+        }
 
         /* Modal 스타일 */
-        .modal {{
+        .modal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -96,14 +96,14 @@ def generate_interactive_html(entities, vault_name, members):
             height: 100%;
             background: rgba(0,0,0,0.5);
             animation: fadeIn 0.2s;
-        }}
+        }
 
-        @keyframes fadeIn {{
-            from {{ opacity: 0; }}
-            to {{ opacity: 1; }}
-        }}
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-        .modal-content {{
+        .modal-content {
             background: white;
             margin: 5% auto;
             padding: 0;
@@ -112,85 +112,85 @@ def generate_interactive_html(entities, vault_name, members):
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             animation: slideDown 0.3s;
-        }}
+        }
 
-        @keyframes slideDown {{
-            from {{ transform: translateY(-50px); opacity: 0; }}
-            to {{ transform: translateY(0); opacity: 1; }}
-        }}
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
-        .modal-header {{
+        .modal-header {
             padding: 24px 28px;
             border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
+        }
 
-        .modal-header h2 {{
+        .modal-header h2 {
             font-size: 1.4em;
             color: #333;
-        }}
+        }
 
-        .close {{
+        .close {
             font-size: 28px;
             color: #999;
             cursor: pointer;
             line-height: 1;
-        }}
+        }
 
-        .close:hover {{
+        .close:hover {
             color: #333;
-        }}
+        }
 
-        .modal-body {{
+        .modal-body {
             padding: 24px 28px;
             max-height: 60vh;
             overflow-y: auto;
-        }}
+        }
 
-        .form-group {{
+        .form-group {
             margin-bottom: 20px;
-        }}
+        }
 
-        .form-group label {{
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
             color: #555;
-        }}
+        }
 
         .form-group input,
-        .form-group select {{
+        .form-group select {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 0.95em;
             font-family: inherit;
-        }}
+        }
 
         .form-group input:focus,
-        .form-group select:focus {{
+        .form-group select:focus {
             outline: none;
             border-color: #667eea;
-        }}
+        }
 
-        .form-row {{
+        .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-        }}
+        }
 
-        .modal-footer {{
+        .modal-footer {
             padding: 20px 28px;
             border-top: 1px solid #e0e0e0;
             display: flex;
             justify-content: flex-end;
             gap: 12px;
-        }}
+        }
 
-        .btn {{
+        .btn {
             padding: 10px 20px;
             border: none;
             border-radius: 6px;
@@ -198,28 +198,28 @@ def generate_interactive_html(entities, vault_name, members):
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-        }}
+        }
 
-        .btn-primary {{
+        .btn-primary {
             background: #667eea;
             color: white;
-        }}
+        }
 
-        .btn-primary:hover {{
+        .btn-primary:hover {
             background: #5568d3;
-        }}
+        }
 
-        .btn-secondary {{
+        .btn-secondary {
             background: #e0e0e0;
             color: #555;
-        }}
+        }
 
-        .btn-secondary:hover {{
+        .btn-secondary:hover {
             background: #d0d0d0;
-        }}
+        }
 
         /* Toast */
-        .toast {{
+        .toast {
             position: fixed;
             bottom: 24px;
             right: 24px;
@@ -232,25 +232,25 @@ def generate_interactive_html(entities, vault_name, members):
             transform: translateY(20px);
             transition: all 0.3s;
             z-index: 2000;
-        }}
+        }
 
-        .toast.show {{
+        .toast.show {
             opacity: 1;
             transform: translateY(0);
-        }}
+        }
 
-        .toast.success {{
+        .toast.success {
             background: #4CAF50;
-        }}
+        }
 
-        .toast.error {{
+        .toast.error {
             background: #f44336;
-        }}
+        }
     '''
 
     # Task 상세/수정 Modal용 추가 CSS
     task_detail_css = '''
-        .form-group textarea {{
+        .form-group textarea {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #ddd;
@@ -259,39 +259,39 @@ def generate_interactive_html(entities, vault_name, members):
             font-family: inherit;
             min-height: 150px;
             resize: vertical;
-        }}
+        }
 
-        .form-group textarea:focus {{
+        .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
-        }}
+        }
 
-        .task-detail-header {{
+        .task-detail-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
+        }
 
-        .task-detail-id {{
+        .task-detail-id {
             font-size: 0.9em;
             color: #888;
             font-family: monospace;
-        }}
+        }
 
-        .btn-danger {{
+        .btn-danger {
             background: #f44336;
             color: white;
-        }}
+        }
 
-        .btn-danger:hover {{
+        .btn-danger:hover {
             background: #d32f2f;
-        }}
+        }
 
-        .modal-footer-left {{
+        .modal-footer-left {
             display: flex;
             justify-content: space-between;
             width: 100%;
-        }}
+        }
     '''
 
     # Modals HTML
@@ -473,36 +473,36 @@ def generate_interactive_html(entities, vault_name, members):
         const API_URL = '{API_BASE_URL}';
 
         // Toast
-        function showToast(message, type = 'success') {{
+        function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.className = `toast ${{type}} show`;
-            setTimeout(() => {{
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
                 toast.className = 'toast';
-            }}, 3000);
-        }}
+            }, 3000);
+        }
 
         // Modal
-        function openNewTaskModal() {{
+        function openNewTaskModal() {
             document.getElementById('newTaskModal').style.display = 'block';
-        }}
+        }
 
-        function closeNewTaskModal() {{
+        function closeNewTaskModal() {
             document.getElementById('newTaskModal').style.display = 'none';
             document.getElementById('newTaskForm').reset();
-        }}
+        }
 
-        function openNewProjectModal() {{
+        function openNewProjectModal() {
             document.getElementById('newProjectModal').style.display = 'block';
-        }}
+        }
 
-        function closeNewProjectModal() {{
+        function closeNewProjectModal() {
             document.getElementById('newProjectModal').style.display = 'none';
             document.getElementById('newProjectForm').reset();
-        }}
+        }
 
         // Task 생성
-        async function createTask() {{
+        async function createTask() {
             const name = document.getElementById('taskName').value;
             const project_id = document.getElementById('taskProject').value;
             const assignee = document.getElementById('taskAssignee').value;
@@ -514,16 +514,16 @@ def generate_interactive_html(entities, vault_name, members):
                 .map(t => t.trim())
                 .filter(t => t);
 
-            if (!name || !project_id || !assignee) {{
+            if (!name || !project_id || !assignee) {
                 showToast('Please fill all required fields', 'error');
                 return;
-            }}
+            }
 
-            try {{
-                const response = await fetch(`${{API_URL}}/api/tasks`, {{
+            try {
+                const response = await fetch(`${API_URL}/api/tasks`, {
                     method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
-                    body: JSON.stringify({{
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
                         entity_name: name,
                         project_id: project_id,
                         assignee: assignee,
@@ -531,85 +531,85 @@ def generate_interactive_html(entities, vault_name, members):
                         status: status,
                         due: due || null,
                         tags: tags
-                    }})
-                }});
+                    })
+                });
 
                 const data = await response.json();
 
-                if (response.ok) {{
-                    showToast(`Task created: ${{data.task_id}}`);
+                if (response.ok) {
+                    showToast(`Task created: ${data.task_id}`);
                     closeNewTaskModal();
                     setTimeout(() => location.reload(), 1500);
-                }} else {{
+                } else {
                     showToast(data.detail || 'Failed to create task', 'error');
-                }}
-            }} catch (error) {{
+                }
+            } catch (error) {
                 console.error('Error:', error);
                 showToast('API server not running. Please start: uvicorn api.main:app --port 8081', 'error');
-            }}
-        }}
+            }
+        }
 
         // Project 생성
-        async function createProject() {{
+        async function createProject() {
             const name = document.getElementById('projectName').value;
             const owner = document.getElementById('projectOwner').value;
             const priority = document.getElementById('projectPriority').value;
 
-            if (!name || !owner) {{
+            if (!name || !owner) {
                 showToast('Please fill all required fields', 'error');
                 return;
-            }}
+            }
 
-            try {{
-                const response = await fetch(`${{API_URL}}/api/projects`, {{
+            try {
+                const response = await fetch(`${API_URL}/api/projects`, {
                     method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
-                    body: JSON.stringify({{
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
                         entity_name: name,
                         owner: owner,
                         priority: priority
-                    }})
-                }});
+                    })
+                });
 
                 const data = await response.json();
 
-                if (response.ok) {{
-                    showToast(`Project created: ${{data.project_id}}`);
+                if (response.ok) {
+                    showToast(`Project created: ${data.project_id}`);
                     closeNewProjectModal();
                     setTimeout(() => location.reload(), 1500);
-                }} else {{
+                } else {
                     showToast(data.detail || 'Failed to create project', 'error');
-                }}
-            }} catch (error) {{
+                }
+            } catch (error) {
                 console.error('Error:', error);
                 showToast('API server not running', 'error');
-            }}
-        }}
+            }
+        }
 
         // Modal 외부 클릭 시 닫기
-        window.onclick = function(event) {{
+        window.onclick = function(event) {
             const taskModal = document.getElementById('newTaskModal');
             const projectModal = document.getElementById('newProjectModal');
             const detailModal = document.getElementById('taskDetailModal');
             if (event.target == taskModal) closeNewTaskModal();
             if (event.target == projectModal) closeNewProjectModal();
             if (event.target == detailModal) closeTaskDetailModal();
-        }}
+        }
 
         // ========================================
         // Task Detail Modal
         // ========================================
         let currentTaskId = null;
 
-        async function openTaskDetail(taskId) {{
+        async function openTaskDetail(taskId) {
             currentTaskId = taskId;
 
-            try {{
-                const response = await fetch(`${{API_URL}}/api/tasks/${{taskId}}`);
-                if (!response.ok) {{
+            try {
+                const response = await fetch(`${API_URL}/api/tasks/${taskId}`);
+                if (!response.ok) {
                     showToast('Task not found', 'error');
                     return;
-                }}
+                }
 
                 const data = await response.json();
                 const task = data.task;
@@ -625,91 +625,91 @@ def generate_interactive_html(entities, vault_name, members):
 
                 // Modal 표시
                 document.getElementById('taskDetailModal').style.display = 'block';
-            }} catch (error) {{
+            } catch (error) {
                 console.error('Error:', error);
                 showToast('Failed to load task details', 'error');
-            }}
-        }}
+            }
+        }
 
-        function closeTaskDetailModal() {{
+        function closeTaskDetailModal() {
             document.getElementById('taskDetailModal').style.display = 'none';
             currentTaskId = null;
-        }}
+        }
 
-        async function updateTask() {{
+        async function updateTask() {
             if (!currentTaskId) return;
 
-            const data = {{
+            const data = {
                 entity_name: document.getElementById('detailTaskName').value,
                 assignee: document.getElementById('detailAssignee').value,
                 priority: document.getElementById('detailPriority').value,
                 status: document.getElementById('detailStatus').value,
                 due: document.getElementById('detailDue').value || null
-            }};
+            };
 
-            try {{
-                const response = await fetch(`${{API_URL}}/api/tasks/${{currentTaskId}}`, {{
+            try {
+                const response = await fetch(`${API_URL}/api/tasks/${currentTaskId}`, {
                     method: 'PUT',
-                    headers: {{ 'Content-Type': 'application/json' }},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                }});
+                });
 
-                if (response.ok) {{
+                if (response.ok) {
                     showToast('Task updated successfully');
                     closeTaskDetailModal();
                     setTimeout(() => location.reload(), 1000);
-                }} else {{
+                } else {
                     const err = await response.json();
                     showToast(err.detail || 'Failed to update task', 'error');
-                }}
-            }} catch (error) {{
+                }
+            } catch (error) {
                 console.error('Error:', error);
                 showToast('Failed to update task', 'error');
-            }}
-        }}
+            }
+        }
 
-        async function deleteTask() {{
+        async function deleteTask() {
             if (!currentTaskId) return;
 
-            if (!confirm('Are you sure you want to delete this task?')) {{
+            if (!confirm('Are you sure you want to delete this task?')) {
                 return;
-            }}
+            }
 
-            try {{
-                const response = await fetch(`${{API_URL}}/api/tasks/${{currentTaskId}}`, {{
+            try {
+                const response = await fetch(`${API_URL}/api/tasks/${currentTaskId}`, {
                     method: 'DELETE'
-                }});
+                });
 
-                if (response.ok) {{
+                if (response.ok) {
                     showToast('Task deleted successfully');
                     closeTaskDetailModal();
                     setTimeout(() => location.reload(), 1000);
-                }} else {{
+                } else {
                     const err = await response.json();
                     showToast(err.detail || 'Failed to delete task', 'error');
-                }}
-            }} catch (error) {{
+                }
+            } catch (error) {
                 console.error('Error:', error);
                 showToast('Failed to delete task', 'error');
-            }}
-        }}
+            }
+        }
 
         // ========================================
         // Task 카드 클릭 이벤트 재바인딩
         // ========================================
-        document.addEventListener('DOMContentLoaded', function() {{
-            document.querySelectorAll('.task-card').forEach(card => {{
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.task-card').forEach(card => {
                 const taskIdEl = card.querySelector('.task-id');
-                if (taskIdEl) {{
+                if (taskIdEl) {
                     const taskId = taskIdEl.textContent.trim();
-                    card.onclick = function(e) {{
+                    card.onclick = function(e) {
                         e.preventDefault();
                         openTaskDetail(taskId);
-                    }};
+                    };
                     card.style.cursor = 'pointer';
-                }}
-            }});
-        }});
+                }
+            });
+        });
     </script>
     '''
 

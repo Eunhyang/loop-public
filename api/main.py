@@ -31,9 +31,11 @@ from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
-from .routers import tasks, projects
+from .routers import tasks, projects, tracks
 from .utils.vault_utils import load_members, get_vault_dir
+from .constants import get_all_constants
 
 # ============================================
 # FastAPI App
@@ -56,9 +58,16 @@ app.add_middleware(
 # Routers 등록
 app.include_router(tasks.router)
 app.include_router(projects.router)
+app.include_router(tracks.router)
 
 # Vault 경로 (환경에 따라 자동 감지)
 VAULT_DIR = get_vault_dir()
+DASHBOARD_DIR = VAULT_DIR / "_dashboard"
+
+# 정적 파일 서빙 (CSS, JS)
+if DASHBOARD_DIR.exists():
+    app.mount("/css", StaticFiles(directory=DASHBOARD_DIR / "css"), name="css")
+    app.mount("/js", StaticFiles(directory=DASHBOARD_DIR / "js"), name="js")
 
 
 # ============================================
@@ -95,6 +104,12 @@ def api_info():
 def get_members():
     """멤버 목록 조회"""
     return {"members": load_members(VAULT_DIR)}
+
+
+@app.get("/api/constants")
+def get_constants():
+    """상수 목록 조회 (Task 상태, Priority 등)"""
+    return get_all_constants()
 
 
 @app.get("/health")
