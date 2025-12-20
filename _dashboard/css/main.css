@@ -221,6 +221,19 @@ body {
 }
 
 /* ============================================
+   View Containers
+   ============================================ */
+.kanban-view {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+}
+
+.kanban-view.active {
+    display: flex;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 768px) {

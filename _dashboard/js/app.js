@@ -51,6 +51,9 @@ async function init() {
         TaskPanel.init();
         ProjectPanel.init();
 
+        // Initialize Graph
+        Graph.init();
+
         // Setup event listeners
         setupEventListeners();
 
@@ -65,9 +68,33 @@ async function init() {
 }
 
 // ============================================
+// View Toggle
+// ============================================
+let currentView = 'kanban';
+
+function switchView(view) {
+    currentView = view;
+
+    // Update toggle buttons
+    document.getElementById('viewKanban').classList.toggle('active', view === 'kanban');
+    document.getElementById('viewGraph').classList.toggle('active', view === 'graph');
+
+    // Switch views
+    if (view === 'kanban') {
+        Graph.hide();
+    } else {
+        Graph.show();
+    }
+}
+
+// ============================================
 // Event Listeners
 // ============================================
 function setupEventListeners() {
+    // View toggle buttons
+    document.getElementById('viewKanban').addEventListener('click', () => switchView('kanban'));
+    document.getElementById('viewGraph').addEventListener('click', () => switchView('graph'));
+
     // Header buttons
     document.getElementById('btnNewTask').addEventListener('click', () => TaskPanel.openNew());
     document.getElementById('btnNewProject').addEventListener('click', () => ProjectModal.open());

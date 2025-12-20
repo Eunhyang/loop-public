@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="css/kanban.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/graph.css">
+    <!-- D3.js for Graph Visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <!-- App Layout: Sidebar + Main Content -->
@@ -66,30 +69,49 @@
                     <div class="meta" id="headerMeta">Task & Project Management</div>
                 </div>
                 <div class="header-actions">
+                    <!-- View Toggle -->
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn active" id="viewKanban" title="Kanban View">Kanban</button>
+                        <button class="view-toggle-btn" id="viewGraph" title="Graph View">Graph</button>
+                    </div>
                     <button class="btn btn-primary" id="btnNewTask">+ New Task</button>
                     <button class="btn btn-primary" id="btnNewProject">+ New Project</button>
                 </div>
             </header>
 
-            <!-- Project Tabs -->
-            <nav class="tabs" id="tabs">
-                <!-- Dynamically populated -->
-            </nav>
-
-            <!-- Assignee Filter -->
-            <div class="filter-bar" id="filterBar">
-                <span class="filter-label">Assignee:</span>
-                <div class="filter-buttons" id="assigneeFilter">
+            <!-- Kanban View (default) -->
+            <div class="kanban-view active" id="kanbanView">
+                <!-- Project Tabs -->
+                <nav class="tabs" id="tabs">
                     <!-- Dynamically populated -->
+                </nav>
+
+                <!-- Assignee Filter -->
+                <div class="filter-bar" id="filterBar">
+                    <span class="filter-label">Assignee:</span>
+                    <div class="filter-buttons" id="assigneeFilter">
+                        <!-- Dynamically populated -->
+                    </div>
                 </div>
+
+                <!-- Kanban Board -->
+                <main class="board-container">
+                    <div class="kanban-board" id="board">
+                        <!-- Dynamically populated -->
+                    </div>
+                </main>
             </div>
 
-            <!-- Kanban Board -->
-            <main class="board-container">
-                <div class="kanban-board" id="board">
-                    <!-- Dynamically populated -->
+            <!-- Graph View -->
+            <div class="graph-view" id="graphView">
+                <div class="graph-container" id="graphContainer">
+                    <!-- D3.js graph will be rendered here -->
                 </div>
-            </main>
+                <!-- Graph Detail Panel -->
+                <div class="graph-detail-panel collapsed" id="graphDetailPanel">
+                    <!-- Dynamically populated when node is selected -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -393,6 +415,8 @@
     <script src="js/components/relations.js"></script>
     <script src="js/components/task-panel.js"></script>
     <script src="js/components/project-panel.js"></script>
+    <script src="js/components/graph.js"></script>
+    <script src="js/components/graphDetailPanel.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

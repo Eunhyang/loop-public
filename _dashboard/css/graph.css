@@ -1,0 +1,591 @@
+/**
+ * Graph View Styles
+ * 전략 계층 그래프 시각화
+ */
+
+/* ============================================
+   Graph Container
+   ============================================ */
+.graph-view {
+    display: none;
+    flex: 1;
+    position: relative;
+    background: #0d1117;
+    overflow: hidden;
+}
+
+.graph-view.active {
+    display: flex;
+}
+
+.graph-container {
+    flex: 1;
+    position: relative;
+}
+
+.graph-svg {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+.graph-svg:active {
+    cursor: grabbing;
+}
+
+/* ============================================
+   View Toggle Button
+   ============================================ */
+.view-toggle {
+    display: flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.view-toggle-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: #8b949e;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.view-toggle-btn:hover {
+    color: #c9d1d9;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.view-toggle-btn.active {
+    background: #238636;
+    color: #ffffff;
+}
+
+/* ============================================
+   Graph Nodes
+   ============================================ */
+.graph-node {
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.graph-node:hover {
+    transform: scale(1.1);
+}
+
+.graph-node.selected .node-circle {
+    stroke: #58a6ff;
+    stroke-width: 3px;
+}
+
+/* Node circles by type */
+.node-circle {
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 2px;
+    transition: all 0.2s;
+}
+
+.node-circle.track {
+    fill: #238636;
+}
+
+.node-circle.condition {
+    fill: #da3633;
+}
+
+.node-circle.project {
+    fill: #1f6feb;
+}
+
+.node-circle.hypothesis {
+    fill: #a371f7;
+}
+
+.node-circle.task {
+    fill: #768390;
+}
+
+/* Node labels */
+.node-label {
+    fill: #c9d1d9;
+    font-size: 11px;
+    font-weight: 500;
+    text-anchor: middle;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.node-icon {
+    font-size: 16px;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+}
+
+/* ============================================
+   Graph Edges
+   ============================================ */
+.graph-edge {
+    stroke: rgba(139, 148, 158, 0.3);
+    stroke-width: 1.5px;
+    fill: none;
+    transition: stroke 0.2s, stroke-width 0.2s;
+}
+
+.graph-edge:hover {
+    stroke: rgba(139, 148, 158, 0.6);
+    stroke-width: 2px;
+}
+
+.graph-edge.validates {
+    stroke: #a371f7;
+    stroke-dasharray: 5, 3;
+}
+
+.graph-edge.enables {
+    stroke: #238636;
+}
+
+.graph-edge.part_of {
+    stroke: #1f6feb;
+}
+
+.graph-edge.parent {
+    stroke: #768390;
+}
+
+.graph-edge.conditions_3y {
+    stroke: #da3633;
+    stroke-dasharray: 3, 2;
+}
+
+/* Edge arrow marker */
+.edge-arrow {
+    fill: rgba(139, 148, 158, 0.5);
+}
+
+/* ============================================
+   Layer Labels
+   ============================================ */
+.layer-label {
+    fill: #484f58;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.layer-line {
+    stroke: rgba(72, 79, 88, 0.3);
+    stroke-width: 1px;
+    stroke-dasharray: 4, 4;
+}
+
+/* ============================================
+   Graph Detail Panel (Right Side)
+   ============================================ */
+.graph-detail-panel {
+    width: 320px;
+    min-width: 320px;
+    background: #161b22;
+    border-left: 1px solid #30363d;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: width 0.3s, min-width 0.3s;
+}
+
+.graph-detail-panel.collapsed {
+    width: 0;
+    min-width: 0;
+    border-left: none;
+}
+
+.graph-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #30363d;
+    background: #0d1117;
+}
+
+.graph-detail-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.graph-detail-title h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #c9d1d9;
+}
+
+.graph-detail-type {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.graph-detail-type.track {
+    background: rgba(35, 134, 54, 0.2);
+    color: #3fb950;
+}
+
+.graph-detail-type.condition {
+    background: rgba(218, 54, 51, 0.2);
+    color: #f85149;
+}
+
+.graph-detail-type.project {
+    background: rgba(31, 111, 235, 0.2);
+    color: #58a6ff;
+}
+
+.graph-detail-type.hypothesis {
+    background: rgba(163, 113, 247, 0.2);
+    color: #a371f7;
+}
+
+.graph-detail-type.task {
+    background: rgba(118, 131, 144, 0.2);
+    color: #8b949e;
+}
+
+.graph-detail-close {
+    background: none;
+    border: none;
+    color: #8b949e;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+}
+
+.graph-detail-close:hover {
+    color: #c9d1d9;
+}
+
+.graph-detail-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+/* Detail sections */
+.detail-section {
+    margin-bottom: 20px;
+}
+
+.detail-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.detail-section-content {
+    color: #c9d1d9;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Status badge in detail */
+.detail-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.detail-status.active,
+.detail-status.done,
+.detail-status.completed {
+    background: rgba(35, 134, 54, 0.2);
+    color: #3fb950;
+}
+
+.detail-status.in_progress,
+.detail-status.doing {
+    background: rgba(31, 111, 235, 0.2);
+    color: #58a6ff;
+}
+
+.detail-status.planning,
+.detail-status.todo,
+.detail-status.backlog {
+    background: rgba(118, 131, 144, 0.2);
+    color: #8b949e;
+}
+
+.detail-status.at_risk,
+.detail-status.blocked {
+    background: rgba(218, 54, 51, 0.2);
+    color: #f85149;
+}
+
+/* Progress bar in detail */
+.detail-progress {
+    margin-top: 8px;
+}
+
+.detail-progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.detail-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #238636, #3fb950);
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.detail-progress-text {
+    font-size: 12px;
+    color: #8b949e;
+    margin-top: 4px;
+}
+
+/* Related entities list */
+.detail-related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detail-related-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.detail-related-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.detail-related-icon {
+    font-size: 14px;
+}
+
+.detail-related-name {
+    flex: 1;
+    font-size: 13px;
+    color: #c9d1d9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.detail-related-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #8b949e;
+}
+
+/* Metrics in detail */
+.detail-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.detail-metric {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.detail-metric-label {
+    font-size: 11px;
+    color: #8b949e;
+    margin-bottom: 4px;
+}
+
+.detail-metric-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #c9d1d9;
+}
+
+.detail-metric-value.at-risk {
+    color: #f85149;
+}
+
+.detail-metric-value.on-track {
+    color: #3fb950;
+}
+
+/* ============================================
+   Legend
+   ============================================ */
+.graph-legend {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(22, 27, 34, 0.9);
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 10;
+}
+
+.graph-legend-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.graph-legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.graph-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #c9d1d9;
+}
+
+.graph-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.graph-legend-dot.track {
+    background: #238636;
+}
+
+.graph-legend-dot.condition {
+    background: #da3633;
+}
+
+.graph-legend-dot.project {
+    background: #1f6feb;
+}
+
+.graph-legend-dot.hypothesis {
+    background: #a371f7;
+}
+
+.graph-legend-dot.task {
+    background: #768390;
+}
+
+/* ============================================
+   Zoom Controls
+   ============================================ */
+.graph-controls {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 10;
+}
+
+.graph-control-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #30363d;
+    background: rgba(22, 27, 34, 0.9);
+    color: #c9d1d9;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.graph-control-btn:hover {
+    background: #30363d;
+    border-color: #8b949e;
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+.graph-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #8b949e;
+    text-align: center;
+    padding: 40px;
+}
+
+.graph-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.graph-empty-text {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.graph-empty-hint {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 1200px) {
+    .graph-detail-panel {
+        width: 280px;
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 900px) {
+    .graph-detail-panel {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 100;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .graph-detail-panel.collapsed {
+        display: none;
+    }
+}

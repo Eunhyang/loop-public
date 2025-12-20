@@ -1,6 +1,11 @@
 # LOOP Impact Model Configuration
-# Version: 1.0.0
-# Last Updated: 2025-12-19
+# Version: 1.1.0
+# Last Updated: 2025-12-20
+#
+# Changelog (v1.1.0):
+# - realized_status에 학습 기반 상태 추가 (succeeded, failed_but_high_signal, etc.)
+# - learning_value 정의 추가 (정보 엔트로피 감소량)
+# - Evidence 확장 필드 정의 추가 (impact_metric, learning_value)
 #
 # 이 파일은 Impact A/B 점수 계산에 사용되는 모든 상수를 정의합니다.
 # build_impact.py, API autofill 등에서 참조합니다.
@@ -103,18 +108,76 @@ realized_status:
   planned:
     description: "아직 시작 전"
     can_have_evidence: false
+    outcome_type: null
 
   in_progress:
     description: "진행 중, 부분 증거 가능"
     can_have_evidence: true
+    outcome_type: null
 
   completed:
     description: "완료, 최종 증거 필요"
     can_have_evidence: true
+    outcome_type: neutral
 
   validated:
     description: "증거 검증 완료"
     can_have_evidence: true
+    outcome_type: neutral
+
+  # === 학습 기반 상태 (v1.1 추가) ===
+  succeeded:
+    description: "목표 달성 + 가설 검증됨"
+    can_have_evidence: true
+    outcome_type: success
+
+  failed_but_high_signal:
+    description: "목표 미달 + 명확한 학습 (전략 변경 근거)"
+    can_have_evidence: true
+    outcome_type: learning_success
+    # 이 상태는 RealizedScore가 낮아도 "전략적 가치"가 있음을 표시
+
+  failed_low_signal:
+    description: "목표 미달 + 노이즈가 많아 판단 어려움"
+    can_have_evidence: true
+    outcome_type: failure
+
+  inconclusive:
+    description: "외부 요인으로 결과 판단 불가"
+    can_have_evidence: true
+    outcome_type: null
+
+# ============================================
+# Learning Value 정의 (v1.1 추가)
+# ============================================
+# 실패해도 배운 게 있는가? (정보 엔트로피 감소량)
+learning_value:
+  high:
+    description: "다음 전략 선택을 명확히 바꿈"
+    criteria:
+      - "주요 가설이 명확히 반증됨"
+      - "전략 옵션이 줄어듦"
+      - "의사결정이 쉬워짐"
+    examples:
+      - "와디즈 메시지 전략 폐기 확정"
+      - "사회적 증거 없이 전환 불가 확인"
+
+  medium:
+    description: "가설 일부 검증/반증"
+    criteria:
+      - "일부 가설만 검증됨"
+      - "추가 실험 필요"
+    examples:
+      - "가격 문제인지 메시지 문제인지 분리 안 됨"
+
+  low:
+    description: "노이즈가 많아 판단 어려움"
+    criteria:
+      - "외부 변수 영향이 큼"
+      - "데이터 품질 낮음"
+      - "실험 설계 오류"
+    examples:
+      - "코로나 영향으로 결과 해석 불가"
 
 # ============================================
 # Roll-up 설정
@@ -167,3 +230,11 @@ validation:
       - summary
       - normalized_delta
       - evidence_strength
+
+    # 확장 필드 (권장, 필수 아님)
+    extended_fields:
+      - attribution_share     # 기여 비율 (기본값: 1.0)
+      - impact_metric         # 측정 지표명
+      - learning_value        # 학습 가치 (high/medium/low)
+      - falsified_hypotheses  # 반증된 가설 목록
+      - confirmed_insights    # 확인된 인사이트 목록
