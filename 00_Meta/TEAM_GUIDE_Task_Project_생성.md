@@ -1,6 +1,10 @@
 # Task/Project 생성 가이드
 
 > 팀원용 - loop-entity-creator 스킬 사용법
+>
+> **전체 워크플로우:** [[TEAM_WORKFLOW]] 참조
+>
+> 이 문서는 전체 9단계 워크플로우 중 **1단계(Project 생성)**와 **3단계(Task 운영)**에 해당합니다.
 
 ## 🚀 빠른 시작
 

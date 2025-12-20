@@ -53,6 +53,13 @@ const Graph = {
 
         const nodeMap = new Map();
 
+        console.log('Graph prepareData:');
+        console.log('  Tracks:', State.tracks?.length || 0);
+        console.log('  Conditions:', State.conditions?.length || 0, State.conditions);
+        console.log('  Hypotheses:', State.hypotheses?.length || 0);
+        console.log('  Projects:', State.projects?.length || 0);
+        console.log('  Tasks:', State.tasks?.length || 0);
+
         // Add Tracks
         (State.tracks || []).forEach(track => {
             const node = {
@@ -241,6 +248,9 @@ const Graph = {
         // Prepare data from State
         this.prepareData();
 
+        console.log('Total nodes:', this.nodes.length);
+        console.log('Node types:', this.nodes.map(n => n.type));
+
         // Clear existing
         container.innerHTML = '';
 
@@ -292,13 +302,15 @@ const Graph = {
         this.simulation = d3.forceSimulation(this.nodes)
             .force('link', d3.forceLink(this.links)
                 .id(d => d.id)
-                .distance(100)
-                .strength(0.3))
+                .distance(120)
+                .strength(0.2))
             .force('charge', d3.forceManyBody()
-                .strength(-200))
-            .force('x', d3.forceX(width / 2).strength(0.05))
-            .force('y', d3.forceY(d => this.getLayerY(d.layer, height)).strength(0.8))
-            .force('collision', d3.forceCollide().radius(d => d.radius + 10));
+                .strength(-150))
+            .force('x', d3.forceX(width / 2).strength(0.03))
+            .force('y', d3.forceY(d => this.getLayerY(d.layer, height)).strength(0.5))
+            .force('collision', d3.forceCollide().radius(d => d.radius + 15))
+            .alphaDecay(0.05)  // Slower decay for smoother settling
+            .velocityDecay(0.4);  // Higher friction to reduce oscillation
 
         // Draw links
         const link = this.g.append('g')
@@ -310,6 +322,9 @@ const Graph = {
             .attr('class', d => `graph-edge ${d.type}`)
             .attr('marker-end', 'url(#arrowhead)');
 
+        // Track if dragging occurred
+        let isDragging = false;
+
         // Draw nodes
         const node = this.g.append('g')
             .attr('class', 'nodes')
@@ -319,10 +334,26 @@ const Graph = {
             .append('g')
             .attr('class', 'graph-node')
             .call(d3.drag()
-                .on('start', (event, d) => this.dragStarted(event, d))
-                .on('drag', (event, d) => this.dragged(event, d))
-                .on('end', (event, d) => this.dragEnded(event, d)))
-            .on('click', (event, d) => this.selectNode(d));
+                .on('start', (event, d) => {
+                    isDragging = false;
+                    this.dragStarted(event, d);
+                })
+                .on('drag', (event, d) => {
+                    isDragging = true;
+                    this.dragged(event, d);
+                })
+                .on('end', (event, d) => {
+                    this.dragEnded(event, d);
+                    // Delay reset to allow click check
+                    setTimeout(() => { isDragging = false; }, 100);
+                }))
+            .on('click', (event, d) => {
+                console.log('Node clicked:', d.id, 'isDragging:', isDragging);
+                event.stopPropagation();
+                if (!isDragging) {
+                    this.selectNode(d);
+                }
+            });
 
         // Node circles
         node.append('circle')
@@ -346,9 +377,8 @@ const Graph = {
             link.attr('d', d => this.linkPath(d));
 
             node.attr('transform', d => {
-                // Constrain to layer Y
-                const layerY = this.getLayerY(d.layer, height);
-                d.y = d.y * 0.1 + layerY * 0.9;  // Strong pull to layer
+                // Clamp X to container bounds
+                d.x = Math.max(50, Math.min(width - 50, d.x));
                 return `translate(${d.x},${d.y})`;
             });
         });
@@ -449,6 +479,8 @@ const Graph = {
     // Interaction
     // ============================================
     selectNode(node) {
+        console.log('selectNode called:', node);
+
         // Deselect previous
         this.g.selectAll('.graph-node').classed('selected', false);
 
@@ -459,16 +491,22 @@ const Graph = {
             .classed('selected', true);
 
         // Show detail panel
-        GraphDetailPanel.show(node);
+        if (typeof GraphDetailPanel !== 'undefined') {
+            GraphDetailPanel.show(node);
+        } else {
+            console.error('GraphDetailPanel is not defined');
+        }
     },
 
     dragStarted(event, d) {
-        if (!event.active) this.simulation.alphaTarget(0.3).restart();
+        // Only heat up simulation if actually dragging (not just clicking)
         d.fx = d.x;
         d.fy = d.y;
     },
 
     dragged(event, d) {
+        // Restart simulation only when actually dragging
+        if (!event.active) this.simulation.alphaTarget(0.1).restart();
         d.fx = event.x;
         d.fy = event.y;
     },

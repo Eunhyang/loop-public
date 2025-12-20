@@ -9,8 +9,10 @@ const GraphDetailPanel = {
     // Show/Hide
     // ============================================
     show(node) {
+        console.log('GraphDetailPanel.show called:', node);
         this.currentNode = node;
         const panel = document.getElementById('graphDetailPanel');
+        console.log('graphDetailPanel element:', panel);
         if (!panel) return;
 
         panel.classList.remove('collapsed');

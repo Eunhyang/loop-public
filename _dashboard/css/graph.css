@@ -71,11 +71,18 @@
    ============================================ */
 .graph-node {
     cursor: pointer;
-    transition: transform 0.1s;
+    pointer-events: all;
 }
 
-.graph-node:hover {
-    transform: scale(1.1);
+.graph-node circle {
+    cursor: pointer;
+    pointer-events: all;
+    transition: r 0.15s ease, stroke-width 0.15s ease;
+}
+
+.graph-node:hover circle {
+    stroke-width: 4px;
+    filter: brightness(1.2);
 }
 
 .graph-node.selected .node-circle {
