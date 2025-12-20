@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2025-12-20
 updated: 2025-12-20
-total_entities: 73
+total_entities: 77
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 73개
+- **총 엔티티**: 77개
 - **마지막 업데이트**: 2025-12-20
 
 ### 타입별
@@ -25,7 +25,7 @@ tags: ["meta", "graph", "index"]
 |------|-------|
 | NorthStar | 1 |
 | MetaHypothesis | 1 |
-| Condition | 1 |
+| Condition | 5 |
 | Track | 6 |
 | Project | 14 |
 | Task | 48 |
@@ -36,9 +36,9 @@ tags: ["meta", "graph", "index"]
 | active | 19 |
 | completed | 1 |
 | fixed | 1 |
-| in_progress | 9 |
+| in_progress | 12 |
 | pending | 2 |
-| planning | 38 |
+| planning | 39 |
 | unknown | 2 |
 | validating | 1 |
 
@@ -58,11 +58,15 @@ tags: ["meta", "graph", "index"]
 | `mh:3` | MH3_데이터_모델링_가능 | validating | `01_North_Star/MH3_데이터_모델링_가능.md` |
 
 
-## Condition (1개)
+## Condition (5개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
+| `cond:a` | Condition_A_PMF | in_progress | `20_Strategy/3Y_Conditions/Condition_A_PMF.md` |
 | `cond:b` | Condition_B_Loop_Dataset | in_progress | `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md` |
+| `cond:c` | Condition_C_Global_Data | planning | `20_Strategy/3Y_Conditions/Condition_C_Global_Data.md` |
+| `cond:d` | Condition_D_Runway | in_progress | `20_Strategy/3Y_Conditions/Condition_D_Runway.md` |
+| `cond:e` | Condition_E_Team | in_progress | `20_Strategy/3Y_Conditions/Condition_E_Team.md` |
 
 
 ## Track (6개)
@@ -157,11 +161,19 @@ tags: ["meta", "graph", "index"]
 
 ### Parent-Child 관계
 
+- **cond:a** (Condition_A_PMF)
+  - trk:1 (Track_1_Product)
+  - trk:3 (Track_3_Content)
 - **cond:b** (Condition_B_Loop_Dataset)
   - trk:2 (Track_2_Data)
   - trk:4 (Track_4_Coaching)
+- **cond:c** (Condition_C_Global_Data)
+  - trk:5 (Track_5_Partnership)
+- **cond:d** (Condition_D_Runway)
+  - trk:6 (Track_6_Revenue)
 - **mh:3** (MH3_데이터_모델링_가능)
   - cond:b (Condition_B_Loop_Dataset)
+  - cond:c (Condition_C_Global_Data)
 - **ns:001** (10년 비전)
   - mh:3 (MH3_데이터_모델링_가능)
 - **prj:001** (Ontology v0.1)
@@ -256,6 +268,7 @@ tags: ["meta", "graph", "index"]
 - **mh:3**: MH3_데이터_모델링_가능 (status: validating)
 - **ns:001**: 10년 비전 (status: fixed)
 - **cond:b**: Condition_B_Loop_Dataset (status: in_progress)
+- **cond:a**: Condition_A_PMF (status: in_progress)
 - **trk:6**: Track_6_Revenue (status: active)
 - **trk:2**: Track_2_Data (status: active)
 

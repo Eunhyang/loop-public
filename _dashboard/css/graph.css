@@ -102,7 +102,7 @@
 }
 
 .node-circle.condition {
-    fill: #da3633;
+    fill: #f97316;
 }
 
 .node-circle.project {
@@ -249,8 +249,8 @@
 }
 
 .graph-detail-type.condition {
-    background: rgba(218, 54, 51, 0.2);
-    color: #f85149;
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
 }
 
 .graph-detail-type.project {
@@ -494,7 +494,7 @@
 }
 
 .graph-legend-dot.condition {
-    background: #da3633;
+    background: #f97316;
 }
 
 .graph-legend-dot.project {

@@ -13,18 +13,19 @@ const Graph = {
 
     // Layer Y positions (percentage of height)
     layers: {
-        strategy: 0.15,    // Track, Condition
-        execution: 0.50,   // Project, Hypothesis
-        task: 0.85         // Task
+        condition: 0.10,   // Condition (3-year) - 최상위
+        track: 0.28,       // Track (12-month)
+        execution: 0.52,   // Project, Hypothesis
+        task: 0.80         // Task
     },
 
     // Node styling
     nodeConfig: {
-        Track: { color: '#238636', icon: '🎯', radius: 28, layer: 'strategy' },
-        Condition: { color: '#da3633', icon: '⚠️', radius: 28, layer: 'strategy' },
-        Project: { color: '#1f6feb', icon: '📁', radius: 24, layer: 'execution' },
-        Hypothesis: { color: '#a371f7', icon: '💡', radius: 24, layer: 'execution' },
-        Task: { color: '#768390', icon: '✓', radius: 18, layer: 'task' }
+        Condition: { color: '#f97316', icon: '🔑', radius: 30, layer: 'condition' },
+        Track: { color: '#238636', icon: '🎯', radius: 26, layer: 'track' },
+        Project: { color: '#1f6feb', icon: '📁', radius: 22, layer: 'execution' },
+        Hypothesis: { color: '#a371f7', icon: '💡', radius: 22, layer: 'execution' },
+        Task: { color: '#768390', icon: '✓', radius: 16, layer: 'task' }
     },
 
     // ============================================
@@ -71,6 +72,17 @@ const Graph = {
             };
             this.nodes.push(node);
             nodeMap.set(track.entity_id, node);
+        });
+
+        // Link Tracks to parent Conditions (after all nodes are created)
+        (State.tracks || []).forEach(track => {
+            if (track.parent_id && nodeMap.has(track.parent_id)) {
+                this.links.push({
+                    source: track.parent_id,  // Condition
+                    target: track.entity_id,  // Track
+                    type: 'contains'
+                });
+            }
         });
 
         // Add Conditions
@@ -165,19 +177,7 @@ const Graph = {
                 });
             }
 
-            // Link to conditions_3y
-            if (task.conditions_3y) {
-                const conditions = Array.isArray(task.conditions_3y) ? task.conditions_3y : [task.conditions_3y];
-                conditions.forEach(condId => {
-                    if (nodeMap.has(condId)) {
-                        this.links.push({
-                            source: task.entity_id,
-                            target: condId,
-                            type: 'conditions_3y'
-                        });
-                    }
-                });
-            }
+            // Note: Task → Condition direct links removed (use hierarchy: Task → Project → Track → Condition)
 
             // Check outgoing_relations
             if (task.outgoing_relations) {
@@ -208,18 +208,7 @@ const Graph = {
                 });
             }
 
-            if (proj.conditions_3y) {
-                const conditions = Array.isArray(proj.conditions_3y) ? proj.conditions_3y : [proj.conditions_3y];
-                conditions.forEach(condId => {
-                    if (nodeMap.has(condId)) {
-                        this.links.push({
-                            source: proj.entity_id,
-                            target: condId,
-                            type: 'conditions_3y'
-                        });
-                    }
-                });
-            }
+            // Note: Project → Condition direct links removed (use hierarchy: Project → Track → Condition)
         });
 
         // Track/Condition relationships
@@ -395,9 +384,10 @@ const Graph = {
 
     drawLayers(width, height) {
         const layers = [
-            { y: this.layers.strategy, label: 'Strategy Layer (Track / Condition)' },
-            { y: this.layers.execution, label: 'Execution Layer (Project / Hypothesis)' },
-            { y: this.layers.task, label: 'Task Layer' }
+            { y: this.layers.condition, label: '3-Year Conditions' },
+            { y: this.layers.track, label: '12-Month Tracks' },
+            { y: this.layers.execution, label: 'Projects / Hypotheses' },
+            { y: this.layers.task, label: 'Tasks' }
         ];
 
         layers.forEach(layer => {
@@ -526,12 +516,12 @@ const Graph = {
                 <div class="graph-legend-title">Legend</div>
                 <div class="graph-legend-items">
                     <div class="graph-legend-item">
-                        <div class="graph-legend-dot track"></div>
-                        <span>Track</span>
+                        <div class="graph-legend-dot condition"></div>
+                        <span>Condition (3Y)</span>
                     </div>
                     <div class="graph-legend-item">
-                        <div class="graph-legend-dot condition"></div>
-                        <span>Condition</span>
+                        <div class="graph-legend-dot track"></div>
+                        <span>Track (12M)</span>
                     </div>
                     <div class="graph-legend-item">
                         <div class="graph-legend-dot project"></div>
