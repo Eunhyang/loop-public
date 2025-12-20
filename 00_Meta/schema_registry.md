@@ -240,8 +240,8 @@ outcome: string | null           # positive | negative | inconclusive | null
 |-------------|-------------------|
 | NorthStar | `01_North_Star/ns-{id}_{name}.md` |
 | MetaHypothesis | `01_North_Star/mh-{id}_{name}.md` |
-| Condition | `20_Strategy/3Y_Conditions/cond-{id}_{name}.md` |
-| Track | `20_Strategy/12M_Tracks/trk-{id}_{name}.md` |
+| Condition | `20_Strategy/3Y_Conditions_{period}/cond-{id}_{name}.md` |
+| Track | `20_Strategy/12M_Tracks/{year}/trk-{id}_{name}.md` |
 | Project | `50_Projects/{year}/prj-{id}_{name}/_PROJECT.md` |
 | Task | `50_Projects/{year}/prj-{id}_{name}/Tasks/tsk-{id}_{name}.md` |
 | Hypothesis | `60_Hypotheses/hyp-{id}_{name}.md` |

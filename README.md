@@ -70,8 +70,8 @@ Inner Loop OS는 인간의 정서-섭식-습관-보상-신경계 루프를 하�
 ### 전략
 - **10년 비전**: `01_North_Star/10년 비전.md`
 - **Meta Hypothesis 3**: `01_North_Star/MH3_데이터_모델링_가능.md`
-- **Condition B**: `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md`
-- **Track 2 (Data)**: `20_Strategy/12M_Tracks/Track_2_Data.md`
+- **Condition B**: `20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md`
+- **Track 2 (Data)**: `20_Strategy/12M_Tracks/2026/Track_2_Data.md`
 
 ### 온톨로지
 - **스키마 v0.1**: `30_Ontology/Schema/v0.1/Ontology-lite v0.1.md`

@@ -51,8 +51,16 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 - Host: `100.93.242.60` (Tailscale IP)
 - Port: `22`
 - User: `Sosilab`
+- Password: `Dkssud272902*`
 - Vault 경로: `/volume1/LOOP_CORE/vault/LOOP`
 - Sync 스크립트: `/volume1/LOOP_CORE/scripts/loop-git-sync.sh`
+
+## SSH 명령 템플릿
+
+sshpass 사용 (HOME 설정 및 git config 포함):
+```bash
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'export HOME=/tmp && git config --global --add safe.directory "*" && git config --global user.email "eunhyang90218@gmail.com" && git config --global user.name "Claude Code" && cd /volume1/LOOP_CORE/vault/LOOP && git add -A && git commit --no-verify -m "커밋메시지" && git push origin main'
+```
 
 ## 대안: NAS Daemon 사용
 
