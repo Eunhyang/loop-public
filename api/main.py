@@ -33,7 +33,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from .routers import tasks, projects, tracks, hypotheses, conditions
+from .routers import tasks, projects, tracks, hypotheses, conditions, strategy
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 
@@ -61,6 +61,7 @@ app.include_router(projects.router)
 app.include_router(tracks.router)
 app.include_router(hypotheses.router)
 app.include_router(conditions.router)
+app.include_router(strategy.router)
 
 # Vault 경로 (환경에 따라 자동 감지)
 VAULT_DIR = get_vault_dir()

@@ -6,11 +6,15 @@ const State = {
     // Data
     constants: null,
     members: [],
+    northstars: [],
+    metahypotheses: [],
+    conditions: [],
+    productlines: [],
+    partnershipstages: [],
     tracks: [],
     projects: [],
     tasks: [],
     hypotheses: [],
-    conditions: [],
 
     // UI State
     currentProject: 'all',
@@ -31,23 +35,35 @@ const State = {
     async loadAll() {
         this.loading = true;
         try {
-            const [constants, members, tracks, projects, tasks, hypotheses, conditions] = await Promise.all([
+            const [
+                constants, members,
+                northstars, metahypotheses, conditions, productlines, partnershipstages,
+                tracks, projects, tasks, hypotheses
+            ] = await Promise.all([
                 API.getConstants(),
                 API.getMembers(),
+                API.getNorthStars().catch(() => []),
+                API.getMetaHypotheses().catch(() => []),
+                API.getConditions().catch(() => []),
+                API.getProductLines().catch(() => []),
+                API.getPartnershipStages().catch(() => []),
                 API.getTracks(),
                 API.getProjects(),
                 API.getTasks(),
-                API.getHypotheses().catch(() => []),
-                API.getConditions().catch(() => [])
+                API.getHypotheses().catch(() => [])
             ]);
 
             this.constants = constants;
             this.members = members;
+            this.northstars = northstars;
+            this.metahypotheses = metahypotheses;
+            this.conditions = conditions;
+            this.productlines = productlines;
+            this.partnershipstages = partnershipstages;
             this.tracks = tracks;
             this.projects = projects;
             this.tasks = tasks;
             this.hypotheses = hypotheses;
-            this.conditions = conditions;
         } finally {
             this.loading = false;
         }

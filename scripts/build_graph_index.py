@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Graph Index Builder v4.0
-_Graph_Index.md와 _build/graph.json을 자동 생성합니다.
+LOOP Vault Graph Index Builder v5.0
+_Graph_Index.md, _build/graph.json, 폴더별 _INDEX.md를 자동 생성합니다.
+
+변경사항 (v5.0):
+- 폴더별 _INDEX.md 자동 생성 추가
+- 3Y_Conditions, 12M_Tracks, Projects 등 주요 폴더 인덱스 자동화
 
 변경사항 (v4.0):
 - graph.json 생성 추가 (LLM 최적화된 JSON 형식)
@@ -37,6 +41,75 @@ ENTITY_ORDER = [
     "Hypothesis",
     "Experiment",
 ]
+
+# 폴더별 인덱스 설정
+FOLDER_INDEX_CONFIG = {
+    "20_Strategy/3Y_Conditions": {
+        "title": "3년 조건 인덱스",
+        "description": "3년 전략의 모든 Conditions를 빠르게 탐색하기 위한 인덱스",
+        "entity_types": ["Condition"],
+        "columns": ["ID", "Name", "Status", "Parent MH", "Unlock", "If Broken"],
+        "field_map": {
+            "ID": "entity_id",
+            "Name": "entity_name",
+            "Status": "status",
+            "Parent MH": "parent_id",
+            "Unlock": "unlock",
+            "If Broken": "if_broken",
+        }
+    },
+    "20_Strategy/12M_Tracks": {
+        "title": "12개월 트랙 인덱스",
+        "description": "12개월 전략 트랙 목록",
+        "entity_types": ["Track"],
+        "columns": ["ID", "Name", "Status", "Owner", "Horizon"],
+        "field_map": {
+            "ID": "entity_id",
+            "Name": "entity_name",
+            "Status": "status",
+            "Owner": "owner",
+            "Horizon": "horizon",
+        }
+    },
+    "01_North_Star": {
+        "title": "North Star 인덱스",
+        "description": "10년 비전 및 Meta Hypotheses",
+        "entity_types": ["NorthStar", "MetaHypothesis"],
+        "columns": ["ID", "Name", "Status", "Type"],
+        "field_map": {
+            "ID": "entity_id",
+            "Name": "entity_name",
+            "Status": "status",
+            "Type": "entity_type",
+        }
+    },
+    "60_Hypotheses": {
+        "title": "가설 인덱스",
+        "description": "검증 대상 가설 목록",
+        "entity_types": ["Hypothesis"],
+        "columns": ["ID", "Name", "Status", "Evidence Status", "Confidence"],
+        "field_map": {
+            "ID": "entity_id",
+            "Name": "entity_name",
+            "Status": "status",
+            "Evidence Status": "evidence_status",
+            "Confidence": "confidence",
+        }
+    },
+    "70_Experiments": {
+        "title": "실험 인덱스",
+        "description": "실험 및 검증 목록",
+        "entity_types": ["Experiment"],
+        "columns": ["ID", "Name", "Status", "Hypothesis", "Outcome"],
+        "field_map": {
+            "ID": "entity_id",
+            "Name": "entity_name",
+            "Status": "status",
+            "Hypothesis": "hypothesis_id",
+            "Outcome": "outcome",
+        }
+    },
+}
 
 
 def extract_frontmatter(content: str) -> Optional[Dict]:
@@ -331,6 +404,122 @@ def generate_json_index(entities: Dict[str, Dict], children_map: Dict, incoming_
     return graph
 
 
+def generate_folder_indexes(entities: Dict[str, Dict], vault_root: Path) -> int:
+    """폴더별 _INDEX.md 파일 생성"""
+    now = datetime.now().strftime("%Y-%m-%d")
+    generated_count = 0
+
+    for folder_path, config in FOLDER_INDEX_CONFIG.items():
+        folder_full_path = vault_root / folder_path
+        if not folder_full_path.exists():
+            continue
+
+        # 해당 폴더의 엔티티만 필터링
+        folder_entities = []
+        for entity_id, data in entities.items():
+            rel_path = data["relative_path"]
+            entity_type = data["frontmatter"].get("entity_type")
+
+            # 폴더 경로와 엔티티 타입 모두 매칭되어야 함
+            if rel_path.startswith(folder_path) and entity_type in config["entity_types"]:
+                folder_entities.append((entity_id, data))
+
+        # 엔티티가 없으면 스킵
+        if not folder_entities:
+            continue
+
+        # ID로 정렬
+        folder_entities.sort(key=lambda x: x[0])
+
+        # 인덱스 파일 생성
+        lines = [
+            "---",
+            "entity_type: Index",
+            f"entity_id: idx:{folder_path.replace('/', '-').lower()}",
+            f"entity_name: {config['title']}",
+            f"created: {now}",
+            f"updated: {now}",
+            "auto_generated: true",
+            f"purpose: LLM-optimized index for {folder_path}",
+            'tags: ["meta", "index", "auto-generated"]',
+            "---",
+            "",
+            f"# {config['title']}",
+            "",
+            f"> {config['description']}",
+            "",
+            "> **자동 생성됨** - `scripts/build_graph_index.py`에 의해 관리됨",
+            "",
+            "---",
+            "",
+            f"## 목록 ({len(folder_entities)}개)",
+            "",
+        ]
+
+        # 테이블 헤더
+        header = "| " + " | ".join(config["columns"]) + " |"
+        separator = "|" + "|".join(["---" for _ in config["columns"]]) + "|"
+        lines.append(header)
+        lines.append(separator)
+
+        # 테이블 행
+        for entity_id, data in folder_entities:
+            fm = data["frontmatter"]
+            row_values = []
+            for col in config["columns"]:
+                field_name = config["field_map"].get(col, col.lower())
+                value = fm.get(field_name, "")
+
+                # ID는 코드 형식으로
+                if col == "ID":
+                    value = f"`{value}`"
+                # 링크 가능한 필드
+                elif col == "Name":
+                    filename = Path(data["relative_path"]).stem
+                    value = f"[[{filename}|{value}]]"
+                # None 처리
+                elif value is None:
+                    value = "-"
+
+                row_values.append(str(value))
+
+            lines.append("| " + " | ".join(row_values) + " |")
+
+        # 상태 요약
+        status_count = defaultdict(int)
+        for _, data in folder_entities:
+            status = data["frontmatter"].get("status", "unknown")
+            status_count[status] += 1
+
+        lines.extend([
+            "",
+            "---",
+            "",
+            "## 상태 요약",
+            "",
+            "| Status | Count |",
+            "|--------|-------|",
+        ])
+        for status, count in sorted(status_count.items()):
+            lines.append(f"| {status} | {count} |")
+
+        lines.extend([
+            "",
+            "---",
+            "",
+            f"**Auto-generated**: {now}",
+            "**Script**: scripts/build_graph_index.py",
+        ])
+
+        # 파일 저장
+        index_path = folder_full_path / "_INDEX.md"
+        index_path.write_text("\n".join(lines), encoding="utf-8")
+        print(f"  Generated: {index_path}")
+        generated_count += 1
+
+    return generated_count
+
+
 def main(vault_path: str) -> int:
     """메인 함수"""
     vault_root = Path(vault_path).resolve()
@@ -368,8 +557,13 @@ def main(vault_path: str) -> int:
         json.dump(json_graph, f, indent=2, ensure_ascii=False)
     print(f"  Saved: {json_path}")
 
+    # 폴더별 인덱스 생성
+    print("Generating folder indexes...")
+    folder_count = generate_folder_indexes(entities, vault_root)
+
     print(f"\nTotal entities indexed: {len(entities)}")
     print(f"Conditions indexed: {len(json_graph['conditions_3y_index'])}")
+    print(f"Folder indexes generated: {folder_count}")
 
     return 0
 

@@ -56,6 +56,33 @@ const API = {
     },
 
     // ============================================
+    // Strategy (NorthStar, MetaHypotheses, ProductLines, PartnershipStages)
+    // ============================================
+    async getNorthStars() {
+        const res = await fetch(`${this.baseUrl}/api/strategy/northstar`);
+        const data = await res.json();
+        return data.northstars || [];
+    },
+
+    async getMetaHypotheses() {
+        const res = await fetch(`${this.baseUrl}/api/strategy/metahypotheses`);
+        const data = await res.json();
+        return data.metahypotheses || [];
+    },
+
+    async getProductLines() {
+        const res = await fetch(`${this.baseUrl}/api/strategy/productlines`);
+        const data = await res.json();
+        return data.productlines || [];
+    },
+
+    async getPartnershipStages() {
+        const res = await fetch(`${this.baseUrl}/api/strategy/partnershipstages`);
+        const data = await res.json();
+        return data.partnershipstages || [];
+    },
+
+    // ============================================
     // Projects
     // ============================================
     async getProjects() {

@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2025-12-20
 updated: 2025-12-20
-total_entities: 77
+total_entities: 79
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 77개
+- **총 엔티티**: 79개
 - **마지막 업데이트**: 2025-12-20
 
 ### 타입별
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | in_progress | 12 |
 | pending | 2 |
 | planning | 39 |
-| unknown | 2 |
+| unknown | 4 |
 | validating | 1 |
 
 ---

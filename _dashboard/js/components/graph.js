@@ -13,19 +13,23 @@ const Graph = {
 
     // Layer Y positions (percentage of height)
     layers: {
-        condition: 0.10,   // Condition (3-year) - 최상위
-        track: 0.28,       // Track (12-month)
-        execution: 0.52,   // Project, Hypothesis
-        task: 0.80         // Task
+        northstar: 0.05,        // North Star (10-year vision)
+        metahypothesis: 0.18,   // Meta Hypotheses (MH1-4)
+        strategy: 0.38,         // Condition, ProductLine, PartnershipStage
+        track: 0.60,            // Tracks (1-6)
+        execution: 0.82         // Project, Hypothesis
     },
 
     // Node styling
     nodeConfig: {
-        Condition: { color: '#f97316', icon: '🔑', radius: 30, layer: 'condition' },
-        Track: { color: '#238636', icon: '🎯', radius: 26, layer: 'track' },
-        Project: { color: '#1f6feb', icon: '📁', radius: 22, layer: 'execution' },
-        Hypothesis: { color: '#a371f7', icon: '💡', radius: 22, layer: 'execution' },
-        Task: { color: '#768390', icon: '✓', radius: 16, layer: 'task' }
+        NorthStar: { color: '#fbbf24', icon: '⭐', radius: 32, layer: 'northstar' },
+        MetaHypothesis: { color: '#ec4899', icon: '🧬', radius: 26, layer: 'metahypothesis' },
+        Condition: { color: '#f97316', icon: '🔑', radius: 24, layer: 'strategy' },
+        ProductLine: { color: '#06b6d4', icon: '📦', radius: 24, layer: 'strategy' },
+        PartnershipStage: { color: '#8b5cf6', icon: '🤝', radius: 24, layer: 'strategy' },
+        Track: { color: '#238636', icon: '🎯', radius: 22, layer: 'track' },
+        Project: { color: '#1f6feb', icon: '📁', radius: 20, layer: 'execution' },
+        Hypothesis: { color: '#a371f7', icon: '💡', radius: 20, layer: 'execution' }
     },
 
     // ============================================
