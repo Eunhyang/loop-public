@@ -59,37 +59,51 @@ const Graph = {
         const nodeMap = new Map();
 
         console.log('Graph prepareData:');
+        console.log('  NorthStars:', State.northstars?.length || 0);
+        console.log('  MetaHypotheses:', State.metahypotheses?.length || 0);
+        console.log('  Conditions:', State.conditions?.length || 0);
+        console.log('  ProductLines:', State.productlines?.length || 0);
+        console.log('  PartnershipStages:', State.partnershipstages?.length || 0);
         console.log('  Tracks:', State.tracks?.length || 0);
-        console.log('  Conditions:', State.conditions?.length || 0, State.conditions);
-        console.log('  Hypotheses:', State.hypotheses?.length || 0);
         console.log('  Projects:', State.projects?.length || 0);
-        console.log('  Tasks:', State.tasks?.length || 0);
+        console.log('  Hypotheses:', State.hypotheses?.length || 0);
 
-        // Add Tracks
-        (State.tracks || []).forEach(track => {
+        // ========== L0: NorthStar ==========
+        (State.northstars || []).forEach(ns => {
             const node = {
-                id: track.entity_id,
-                type: 'Track',
-                name: track.entity_name || track.entity_id,
-                data: track,
-                ...this.nodeConfig.Track
+                id: ns.entity_id,
+                type: 'NorthStar',
+                name: ns.entity_name || ns.vision || ns.entity_id,
+                data: ns,
+                ...this.nodeConfig.NorthStar
             };
             this.nodes.push(node);
-            nodeMap.set(track.entity_id, node);
+            nodeMap.set(ns.entity_id, node);
         });
 
-        // Link Tracks to parent Conditions (after all nodes are created)
-        (State.tracks || []).forEach(track => {
-            if (track.parent_id && nodeMap.has(track.parent_id)) {
+        // ========== L1: MetaHypotheses ==========
+        (State.metahypotheses || []).forEach(mh => {
+            const node = {
+                id: mh.entity_id,
+                type: 'MetaHypothesis',
+                name: mh.entity_name || mh.entity_id,
+                data: mh,
+                ...this.nodeConfig.MetaHypothesis
+            };
+            this.nodes.push(node);
+            nodeMap.set(mh.entity_id, node);
+
+            // Link MH to parent NorthStar
+            if (mh.parent_id && nodeMap.has(mh.parent_id)) {
                 this.links.push({
-                    source: track.parent_id,  // Condition
-                    target: track.entity_id,  // Track
-                    type: 'contains'
+                    source: mh.parent_id,
+                    target: mh.entity_id,
+                    type: 'validates'
                 });
             }
         });
 
-        // Add Conditions
+        // ========== L2: Conditions ==========
         (State.conditions || []).forEach(cond => {
             const node = {
                 id: cond.entity_id,
@@ -100,22 +114,110 @@ const Graph = {
             };
             this.nodes.push(node);
             nodeMap.set(cond.entity_id, node);
+
+            // Link Condition to parent MH
+            if (cond.parent_id && nodeMap.has(cond.parent_id)) {
+                this.links.push({
+                    source: cond.parent_id,
+                    target: cond.entity_id,
+                    type: 'enables'
+                });
+            }
         });
 
-        // Add Hypotheses
-        (State.hypotheses || []).forEach(hyp => {
+        // ========== L2: ProductLines ==========
+        (State.productlines || []).forEach(pl => {
             const node = {
-                id: hyp.entity_id,
-                type: 'Hypothesis',
-                name: hyp.entity_name || hyp.entity_id,
-                data: hyp,
-                ...this.nodeConfig.Hypothesis
+                id: pl.entity_id,
+                type: 'ProductLine',
+                name: pl.entity_name || pl.entity_id,
+                data: pl,
+                ...this.nodeConfig.ProductLine
             };
             this.nodes.push(node);
-            nodeMap.set(hyp.entity_id, node);
+            nodeMap.set(pl.entity_id, node);
+
+            // Link ProductLine to parent Condition
+            if (pl.parent_id && nodeMap.has(pl.parent_id)) {
+                this.links.push({
+                    source: pl.parent_id,
+                    target: pl.entity_id,
+                    type: 'enables'
+                });
+            }
+
+            // ProductLine outgoing relations (e.g., PL3 → PL5)
+            if (pl.outgoing_relations) {
+                pl.outgoing_relations.forEach(rel => {
+                    if (nodeMap.has(rel.target_id)) {
+                        this.links.push({
+                            source: pl.entity_id,
+                            target: rel.target_id,
+                            type: rel.type || 'enables'
+                        });
+                    }
+                });
+            }
         });
 
-        // Add Projects
+        // ========== L2: PartnershipStages ==========
+        (State.partnershipstages || []).forEach(ps => {
+            const node = {
+                id: ps.entity_id,
+                type: 'PartnershipStage',
+                name: ps.entity_name || ps.entity_id,
+                data: ps,
+                ...this.nodeConfig.PartnershipStage
+            };
+            this.nodes.push(node);
+            nodeMap.set(ps.entity_id, node);
+
+            // Link PartnershipStage to parent (Condition or ProductLine)
+            if (ps.parent_id && nodeMap.has(ps.parent_id)) {
+                this.links.push({
+                    source: ps.parent_id,
+                    target: ps.entity_id,
+                    type: 'enables'
+                });
+            }
+        });
+
+        // ========== L3: Tracks ==========
+        (State.tracks || []).forEach(track => {
+            const node = {
+                id: track.entity_id,
+                type: 'Track',
+                name: track.entity_name || track.entity_id,
+                data: track,
+                ...this.nodeConfig.Track
+            };
+            this.nodes.push(node);
+            nodeMap.set(track.entity_id, node);
+
+            // Link Track to parent Condition
+            if (track.parent_id && nodeMap.has(track.parent_id)) {
+                this.links.push({
+                    source: track.parent_id,
+                    target: track.entity_id,
+                    type: 'contains'
+                });
+            }
+
+            // Track outgoing relations
+            if (track.outgoing_relations) {
+                track.outgoing_relations.forEach(rel => {
+                    if (nodeMap.has(rel.target_id)) {
+                        this.links.push({
+                            source: track.entity_id,
+                            target: rel.target_id,
+                            type: rel.type || 'enables'
+                        });
+                    }
+                });
+            }
+        });
+
+        // ========== L4: Projects ==========
         (State.projects || []).forEach(proj => {
             const node = {
                 id: proj.entity_id,
@@ -136,7 +238,7 @@ const Graph = {
                 });
             }
 
-            // Link to track_id if different from parent
+            // Link to track_id if different from parent (N:N)
             if (proj.track_id && proj.track_id !== proj.parent_id && nodeMap.has(proj.track_id)) {
                 this.links.push({
                     source: proj.track_id,
@@ -144,61 +246,8 @@ const Graph = {
                     type: 'part_of'
                 });
             }
-        });
 
-        // Add Tasks
-        (State.tasks || []).forEach(task => {
-            const node = {
-                id: task.entity_id,
-                type: 'Task',
-                name: task.entity_name || task.entity_id,
-                data: task,
-                ...this.nodeConfig.Task
-            };
-            this.nodes.push(node);
-            nodeMap.set(task.entity_id, node);
-
-            // Link to Project
-            if (task.project_id && nodeMap.has(task.project_id)) {
-                this.links.push({
-                    source: task.project_id,
-                    target: task.entity_id,
-                    type: 'parent'
-                });
-            }
-
-            // Link to validates (Hypothesis)
-            if (task.validates) {
-                const validates = Array.isArray(task.validates) ? task.validates : [task.validates];
-                validates.forEach(hypId => {
-                    if (nodeMap.has(hypId)) {
-                        this.links.push({
-                            source: task.entity_id,
-                            target: hypId,
-                            type: 'validates'
-                        });
-                    }
-                });
-            }
-
-            // Note: Task → Condition direct links removed (use hierarchy: Task → Project → Track → Condition)
-
-            // Check outgoing_relations
-            if (task.outgoing_relations) {
-                task.outgoing_relations.forEach(rel => {
-                    if (nodeMap.has(rel.target_id)) {
-                        this.links.push({
-                            source: task.entity_id,
-                            target: rel.target_id,
-                            type: rel.type || 'related'
-                        });
-                    }
-                });
-            }
-        });
-
-        // Project validates/enables relationships
-        (State.projects || []).forEach(proj => {
+            // Project validates Hypothesis
             if (proj.validates) {
                 const validates = Array.isArray(proj.validates) ? proj.validates : [proj.validates];
                 validates.forEach(hypId => {
@@ -211,24 +260,22 @@ const Graph = {
                     }
                 });
             }
-
-            // Note: Project → Condition direct links removed (use hierarchy: Project → Track → Condition)
         });
 
-        // Track/Condition relationships
-        (State.tracks || []).forEach(track => {
-            if (track.outgoing_relations) {
-                track.outgoing_relations.forEach(rel => {
-                    if (nodeMap.has(rel.target_id)) {
-                        this.links.push({
-                            source: track.entity_id,
-                            target: rel.target_id,
-                            type: rel.type || 'enables'
-                        });
-                    }
-                });
-            }
+        // ========== L4: Hypotheses ==========
+        (State.hypotheses || []).forEach(hyp => {
+            const node = {
+                id: hyp.entity_id,
+                type: 'Hypothesis',
+                name: hyp.entity_name || hyp.entity_id,
+                data: hyp,
+                ...this.nodeConfig.Hypothesis
+            };
+            this.nodes.push(node);
+            nodeMap.set(hyp.entity_id, node);
         });
+
+        // Note: Task nodes are NOT added to the graph (shown in side panel only)
     },
 
     // ============================================
@@ -388,10 +435,11 @@ const Graph = {
 
     drawLayers(width, height) {
         const layers = [
-            { y: this.layers.condition, label: '3-Year Conditions' },
-            { y: this.layers.track, label: '12-Month Tracks' },
-            { y: this.layers.execution, label: 'Projects / Hypotheses' },
-            { y: this.layers.task, label: 'Tasks' }
+            { y: this.layers.northstar, label: 'North Star (10Y Vision)' },
+            { y: this.layers.metahypothesis, label: 'Meta Hypotheses (MH1-4)' },
+            { y: this.layers.strategy, label: 'Conditions / Product Lines / Partnerships' },
+            { y: this.layers.track, label: 'Tracks (12M)' },
+            { y: this.layers.execution, label: 'Projects / Hypotheses' }
         ];
 
         layers.forEach(layer => {
@@ -520,12 +568,28 @@ const Graph = {
                 <div class="graph-legend-title">Legend</div>
                 <div class="graph-legend-items">
                     <div class="graph-legend-item">
+                        <div class="graph-legend-dot northstar"></div>
+                        <span>North Star</span>
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot metahypothesis"></div>
+                        <span>Meta Hypothesis</span>
+                    </div>
+                    <div class="graph-legend-item">
                         <div class="graph-legend-dot condition"></div>
-                        <span>Condition (3Y)</span>
+                        <span>Condition</span>
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot productline"></div>
+                        <span>Product Line</span>
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-dot partnershipstage"></div>
+                        <span>Partnership</span>
                     </div>
                     <div class="graph-legend-item">
                         <div class="graph-legend-dot track"></div>
-                        <span>Track (12M)</span>
+                        <span>Track</span>
                     </div>
                     <div class="graph-legend-item">
                         <div class="graph-legend-dot project"></div>
@@ -534,10 +598,6 @@ const Graph = {
                     <div class="graph-legend-item">
                         <div class="graph-legend-dot hypothesis"></div>
                         <span>Hypothesis</span>
-                    </div>
-                    <div class="graph-legend-item">
-                        <div class="graph-legend-dot task"></div>
-                        <span>Task</span>
                     </div>
                 </div>
             </div>

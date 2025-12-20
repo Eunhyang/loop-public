@@ -23,7 +23,7 @@ def get_tracks():
     if not TRACKS_DIR.exists():
         return {"tracks": []}
 
-    for track_file in TRACKS_DIR.glob("Track_*.md"):
+    for track_file in TRACKS_DIR.rglob("Track_*.md"):
         frontmatter = extract_frontmatter(track_file)
         if frontmatter and frontmatter.get('entity_type') == 'Track':
             frontmatter['_path'] = str(track_file.relative_to(VAULT_DIR))

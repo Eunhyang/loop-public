@@ -41,6 +41,9 @@ Optional fields:
 - `parent_id` - Parent task ID if this is a subtask
 - `priority_flag` - "critical", "high", "medium", or "low"
 
+**FORBIDDEN (역할 분리):**
+- ❌ `validates` - Task는 전략 판단에 개입하지 않음. validates는 Project만 가능.
+
 **Step 2: Generate next Task ID**
 
 1. Use Glob to find all Task files:
@@ -107,9 +110,16 @@ Required fields:
 - `entity_name` - Project name (e.g., "Ontology_v0.2")
 - `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 - `parent_id` - Parent Track or Hypothesis ID (e.g., "trk:2" or "hyp:005")
+- `expected_impact` - **필수! Project = 유일한 판정 단위**
+  - `statement` - "이 프로젝트가 성공하면 X가 증명된다"
+  - `metric` - 측정 지표 (e.g., "펀딩 달성률")
+  - `target` - 목표값 (e.g., "200%")
 
 Optional fields:
 - `priority_flag` - "critical", "high", "medium", or "low"
+- `hypothesis_id` - 검증 대상 가설 ID (e.g., "hyp:003")
+
+**IMPORTANT: expected_impact 없이는 프로젝트 생성 불가!**
 
 **Step 2: Generate next Project ID**
 

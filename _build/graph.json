@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-20T15:51:13.052871",
-  "total_entities": 77,
+  "generated": "2025-12-20T16:04:14.380357",
+  "total_entities": 79,
   "nodes": [
     {
       "id": "idx:projects",
@@ -796,6 +796,13 @@
       "priority_flag": "critical"
     },
     {
+      "id": "idx:01_north_star",
+      "type": "Index",
+      "name": "North Star 인덱스",
+      "status": null,
+      "path": "01_North_Star/_INDEX.md"
+    },
+    {
       "id": "cond:b",
       "type": "Condition",
       "name": "Condition_B_Loop_Dataset",
@@ -804,9 +811,9 @@
       "priority_flag": "critical"
     },
     {
-      "id": "idx:3y-conditions",
+      "id": "idx:20_strategy-3y_conditions",
       "type": "Index",
-      "name": "3Y Conditions Index",
+      "name": "3년 조건 인덱스",
       "status": null,
       "path": "20_Strategy/3Y_Conditions/_INDEX.md"
     },
@@ -915,6 +922,13 @@
       ],
       "priority_flag": "critical",
       "owner": "Founder + Data Team"
+    },
+    {
+      "id": "idx:20_strategy-12m_tracks",
+      "type": "Index",
+      "name": "12개월 트랙 인덱스",
+      "status": null,
+      "path": "20_Strategy/12M_Tracks/_INDEX.md"
     }
   ],
   "edges": [
@@ -1555,7 +1569,9 @@
   "by_type": {
     "Index": [
       "idx:projects",
-      "idx:3y-conditions"
+      "idx:01_north_star",
+      "idx:20_strategy-3y_conditions",
+      "idx:20_strategy-12m_tracks"
     ],
     "Project": [
       "prj:003",
@@ -1648,7 +1664,9 @@
   "by_status": {
     "unknown": [
       "idx:projects",
-      "idx:3y-conditions"
+      "idx:01_north_star",
+      "idx:20_strategy-3y_conditions",
+      "idx:20_strategy-12m_tracks"
     ],
     "active": [
       "prj:003",

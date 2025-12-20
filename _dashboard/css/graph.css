@@ -97,12 +97,28 @@
     transition: all 0.2s;
 }
 
-.node-circle.track {
-    fill: #238636;
+.node-circle.northstar {
+    fill: #fbbf24;
+}
+
+.node-circle.metahypothesis {
+    fill: #ec4899;
 }
 
 .node-circle.condition {
     fill: #f97316;
+}
+
+.node-circle.productline {
+    fill: #06b6d4;
+}
+
+.node-circle.partnershipstage {
+    fill: #8b5cf6;
+}
+
+.node-circle.track {
+    fill: #238636;
 }
 
 .node-circle.project {
@@ -111,10 +127,6 @@
 
 .node-circle.hypothesis {
     fill: #a371f7;
-}
-
-.node-circle.task {
-    fill: #768390;
 }
 
 /* Node labels */
@@ -243,14 +255,34 @@
     text-transform: uppercase;
 }
 
-.graph-detail-type.track {
-    background: rgba(35, 134, 54, 0.2);
-    color: #3fb950;
+.graph-detail-type.northstar {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+}
+
+.graph-detail-type.metahypothesis {
+    background: rgba(236, 72, 153, 0.2);
+    color: #ec4899;
 }
 
 .graph-detail-type.condition {
     background: rgba(249, 115, 22, 0.2);
     color: #f97316;
+}
+
+.graph-detail-type.productline {
+    background: rgba(6, 182, 212, 0.2);
+    color: #06b6d4;
+}
+
+.graph-detail-type.partnershipstage {
+    background: rgba(139, 92, 246, 0.2);
+    color: #8b5cf6;
+}
+
+.graph-detail-type.track {
+    background: rgba(35, 134, 54, 0.2);
+    color: #3fb950;
 }
 
 .graph-detail-type.project {
@@ -261,11 +293,6 @@
 .graph-detail-type.hypothesis {
     background: rgba(163, 113, 247, 0.2);
     color: #a371f7;
-}
-
-.graph-detail-type.task {
-    background: rgba(118, 131, 144, 0.2);
-    color: #8b949e;
 }
 
 .graph-detail-close {
@@ -489,12 +516,28 @@
     border-radius: 50%;
 }
 
-.graph-legend-dot.track {
-    background: #238636;
+.graph-legend-dot.northstar {
+    background: #fbbf24;
+}
+
+.graph-legend-dot.metahypothesis {
+    background: #ec4899;
 }
 
 .graph-legend-dot.condition {
     background: #f97316;
+}
+
+.graph-legend-dot.productline {
+    background: #06b6d4;
+}
+
+.graph-legend-dot.partnershipstage {
+    background: #8b5cf6;
+}
+
+.graph-legend-dot.track {
+    background: #238636;
 }
 
 .graph-legend-dot.project {
@@ -503,10 +546,6 @@
 
 .graph-legend-dot.hypothesis {
     background: #a371f7;
-}
-
-.graph-legend-dot.task {
-    background: #768390;
 }
 
 /* ============================================

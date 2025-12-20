@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Schema Validator v4.0
+LOOP Vault Schema Validator v5.0
 모든 마크다운 파일의 frontmatter를 검증합니다.
+
+변경사항 (v5.0):
+- Hypothesis: hypothesis_question, success_criteria, failure_criteria 필수
+- Hypothesis: hypothesis_question은 "?"로 끝나야 함
+- Project: expected_impact (statement, metric, target) 필수
+- Project: realized_impact - status=done|failed일 때 필수
+- Task: validates 관계 금지 (역할 분리)
 
 변경사항 (v4.0):
 - conditions_3y 필드 검증 추가 (Task, Project, Track 필수)
@@ -61,11 +68,17 @@ REQUIRED_FIELDS = {
     "MetaHypothesis": ["if_broken"],
     "Condition": ["if_broken"],
     "Track": ["owner", "horizon", "conditions_3y"],
-    "Project": ["owner", "parent_id", "conditions_3y"],
+    "Project": ["owner", "parent_id", "conditions_3y", "expected_impact"],
     "Task": ["assignee", "project_id", "parent_id", "conditions_3y"],
-    "Hypothesis": ["hypothesis_text"],
+    # Hypothesis: hypothesis_question OR hypothesis_text (마이그레이션 기간)
+    "Hypothesis": [],  # 별도 함수에서 검증
     "Experiment": ["hypothesis_id", "metrics"],
 }
+
+# === 마이그레이션 모드 ===
+# True: hypothesis_text도 허용 (레거시)
+# False: hypothesis_question만 허용 (마이그레이션 완료 후)
+ALLOW_LEGACY_HYPOTHESIS = True
 
 # === 유효한 Condition IDs ===
 VALID_CONDITION_IDS = ["cond:a", "cond:b", "cond:c", "cond:d", "cond:e"]
@@ -139,6 +152,80 @@ def validate_conditions_3y(frontmatter: Dict, entity_type: str) -> List[str]:
     return errors
 
 
+def validate_hypothesis(frontmatter: Dict) -> List[str]:
+    """Hypothesis 엔티티 검증 (v3.3 스키마)"""
+    errors = []
+
+    has_question = frontmatter.get("hypothesis_question")
+    has_text = frontmatter.get("hypothesis_text")
+
+    # 최소 하나는 있어야 함
+    if not has_question and not has_text:
+        errors.append("Hypothesis must have hypothesis_question (or hypothesis_text for legacy)")
+        return errors
+
+    # hypothesis_question 우선 검증
+    if has_question:
+        # "?"로 끝나야 함
+        if not str(has_question).strip().endswith("?"):
+            errors.append("hypothesis_question must end with '?' (질문 형태 강제)")
+
+        # success_criteria 필수
+        if not frontmatter.get("success_criteria"):
+            errors.append("Hypothesis requires success_criteria")
+
+        # failure_criteria 필수
+        if not frontmatter.get("failure_criteria"):
+            errors.append("Hypothesis requires failure_criteria")
+
+    elif has_text and not ALLOW_LEGACY_HYPOTHESIS:
+        # 마이그레이션 기간 종료 후
+        errors.append("hypothesis_text is deprecated. Use hypothesis_question instead.")
+
+    return errors
+
+
+def validate_project_impact(frontmatter: Dict) -> List[str]:
+    """Project expected_impact/realized_impact 검증 (v3.3 스키마)"""
+    errors = []
+    status = frontmatter.get("status")
+
+    # expected_impact 필수
+    expected = frontmatter.get("expected_impact")
+    if expected is None:
+        errors.append("Project requires expected_impact (statement, metric, target)")
+    elif isinstance(expected, dict):
+        for field in ["statement", "metric", "target"]:
+            if not expected.get(field):
+                errors.append(f"expected_impact.{field} is required")
+    else:
+        errors.append("expected_impact must be an object with statement, metric, target")
+
+    # realized_impact: status=done|failed일 때 필수
+    if status in ["done", "failed"]:
+        realized = frontmatter.get("realized_impact")
+        if realized is None:
+            errors.append(f"Project with status='{status}' requires realized_impact")
+        elif isinstance(realized, dict):
+            if not realized.get("outcome"):
+                errors.append("realized_impact.outcome is required (supported|rejected|inconclusive)")
+        else:
+            errors.append("realized_impact must be an object")
+
+    return errors
+
+
+def validate_task_no_validates(frontmatter: Dict) -> List[str]:
+    """Task는 validates 관계를 가질 수 없음 (역할 분리)"""
+    errors = []
+
+    validates = frontmatter.get("validates")
+    if validates and len(validates) > 0:
+        errors.append("Task cannot have 'validates' relation (역할 분리: Task는 전략 판단에 개입하지 않음)")
+
+    return errors
+
+
 def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
     """단일 파일 검증"""
     errors = []
@@ -198,6 +285,23 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
     # conditions_3y 검증 (Task, Project, Track)
     conditions_errors = validate_conditions_3y(frontmatter, entity_type)
     errors.extend(conditions_errors)
+
+    # === v3.3 스키마 검증 ===
+
+    # Hypothesis 검증
+    if entity_type == "Hypothesis":
+        hypothesis_errors = validate_hypothesis(frontmatter)
+        errors.extend(hypothesis_errors)
+
+    # Project expected_impact/realized_impact 검증
+    if entity_type == "Project":
+        impact_errors = validate_project_impact(frontmatter)
+        errors.extend(impact_errors)
+
+    # Task validates 금지
+    if entity_type == "Task":
+        task_errors = validate_task_no_validates(frontmatter)
+        errors.extend(task_errors)
 
     return errors
 

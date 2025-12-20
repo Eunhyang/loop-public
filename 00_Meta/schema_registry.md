@@ -1,14 +1,14 @@
 ---
 entity_type: SchemaRegistry
 entity_id: meta:schema
-entity_name: LOOP Vault Schema Registry v3.2
+entity_name: LOOP Vault Schema Registry v3.3
 created: 2025-12-18
-updated: 2025-12-18
-version: "3.2"
+updated: 2025-12-20
+version: "3.3"
 tags: ["meta", "schema", "registry"]
 ---
 
-# LOOP Vault Schema Registry v3.2
+# LOOP Vault Schema Registry v3.3
 
 > LLM + GraphRAG 최적화된 Obsidian Vault 스키마 정의
 
@@ -120,8 +120,24 @@ objectives:                      # 목표 지표
 owner: string                    # 담당자
 budget: number | null            # 예산 (원)
 deadline: date | null            # 마감일
-hypothesis_text: string          # 프로젝트 가설 (텍스트)
+
+# === Impact 판정 (프로젝트 = 유일한 판정 단위) ===
+expected_impact:                 # 사전 선언 (A) - 필수
+  statement: string              # "이 프로젝트가 성공하면 X가 증명된다"
+  metric: string                 # 측정 지표
+  target: string                 # 목표값
+
+realized_impact:                 # 결과 기록 (A') - 완료 시 필수
+  outcome: string | null         # supported | rejected | inconclusive
+  evidence: string | null        # 실제 결과/근거
+  updated: date | null           # 기록일
+
+# === 가설 연결 ===
+hypothesis_id: string | null     # 검증 대상 가설 ID (hyp:xxx)
 experiments: [string]            # 연결된 실험 ID들 (참조만)
+
+# === 레거시 (deprecated) ===
+hypothesis_text: string | null   # → expected_impact.statement으로 대체
 ```
 
 ### Task (tsk:*)
@@ -136,10 +152,20 @@ actual_hours: number | null      # 실제 시간
 
 ### Hypothesis (hyp:*)
 ```yaml
-hypothesis_text: string          # 가설 전문
+# === 가설 정의 (필수) ===
+hypothesis_question: string      # 질문 형태 ("?"로 끝나야 함)
+success_criteria: string         # 성공 판정 기준 (측정 가능해야 함)
+failure_criteria: string         # 실패 판정 기준
+
+# === 상태 ===
 evidence_status: string          # planning | validating | validated | falsified | learning
 confidence: number               # 0.0 ~ 1.0
+
+# === 분류 ===
 loop_layer: [string]             # emotional | eating | habit | reward | autonomic
+
+# === 레거시 (deprecated, 마이그레이션 후 제거) ===
+hypothesis_text: string | null   # → hypothesis_question으로 대체
 ```
 
 ### Experiment (exp:*)
@@ -182,17 +208,24 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `entity_id`: required, pattern `prj:\d{3}`
 - `parent_id`: required, must reference existing Track
 - `owner`: required
+- `expected_impact`: required (statement, metric, target)
+- `realized_impact`: required when status = done | failed
+- `validates`: ❌ **Task는 validates 관계를 가질 수 없음** (Project만 가능)
 
 ### Task
 - `entity_id`: required, pattern `tsk:\d{3}-\d{2}`
 - `parent_id`: required, must reference existing Project
 - `project_id`: required, must match parent Project
 - `assignee`: required
+- `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
 
 ### Hypothesis
 - `entity_id`: required, pattern `hyp:\d{3}`
-- `hypothesis_text`: required
+- `hypothesis_question`: required, must end with "?"
+- `success_criteria`: required
+- `failure_criteria`: required
 - `parent_id`: optional (can be orphan initially)
+- `hypothesis_text`: deprecated (마이그레이션 기간만 허용)
 
 ### Experiment
 - `entity_id`: required, pattern `exp:\d{3}`
@@ -236,6 +269,40 @@ aliases:
 
 ---
 
+## 7. 역할 분리 규칙 (계층별 책임)
+
+> "레이어가 부족한 게 아니라 레이어의 책임이 흐려지는 것이 문제다"
+
+### Hypothesis (가설)
+| 허용 | 금지 |
+|------|------|
+| 질문 형태 ("?"로 끝남) | 슬로건/선언문 형태 |
+| 검증 가능한 기준 명시 | 모호한 목표 |
+| success/failure criteria | 기준 없는 희망사항 |
+
+### Project (실험 단위)
+| 허용 | 금지 |
+|------|------|
+| Expected Impact 선언 (A) | Impact 없는 작업 목록 |
+| Realized Impact 기록 (A') | 결과 없는 완료 처리 |
+| 가설 검증 (validates) | 가설 없는 프로젝트 |
+| **유일한 판정 단위** | - |
+
+### Task (실행 로그)
+| 허용 | 금지 |
+|------|------|
+| 단순 행동 기록 | 전략적 의미 기술 |
+| 완료/미완료 상태 | 점수/판정 기록 |
+| 담당자/마감일 | validates 관계 설정 |
+
+### 위험 신호 (이런 증상이 나타나면 역할이 섞인 것)
+- ❌ Task에 "이 작업이 중요한 이유"를 쓰기 시작
+- ❌ Task에 validates 관계 설정
+- ❌ Project에 가설/Impact 없이 작업만 나열
+- ❌ Hypothesis가 질문이 아니라 슬로건
+
+---
+
 ## 참고 문서
 
 - [[relation_types]] - 관계 타입 정의
@@ -244,6 +311,12 @@ aliases:
 
 ---
 
-**Version**: 3.2
-**Last Updated**: 2025-12-18
+**Version**: 3.3
+**Last Updated**: 2025-12-20
 **Validated by**: Codex (gpt-5-codex, high reasoning)
+
+**Changes (v3.3)**:
+- Hypothesis: `hypothesis_question`, `success_criteria`, `failure_criteria` 필드 추가
+- Project: `expected_impact`, `realized_impact` 필드 추가
+- Task: `validates` 관계 금지 규칙 추가
+- 역할 분리 규칙 섹션 추가 (Section 7)

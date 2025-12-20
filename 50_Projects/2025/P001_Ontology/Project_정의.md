@@ -53,6 +53,14 @@ tags:
 - track-2
 - core
 priority_flag: critical
+expected_impact:
+  statement: ""  # TODO: "이 프로젝트가 성공하면 X가 증명된다"
+  metric: ""     # TODO: 측정 지표
+  target: ""     # TODO: 목표값
+realized_impact:
+  outcome: null  # supported | rejected | inconclusive
+  evidence: null
+  updated: null
 ---
 # Project: Ontology v0.1
 

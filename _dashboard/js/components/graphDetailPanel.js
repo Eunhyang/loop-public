@@ -53,6 +53,14 @@ const GraphDetailPanel = {
 
     renderContent(node) {
         switch (node.type) {
+            case 'NorthStar':
+                return this.renderNorthStar(node);
+            case 'MetaHypothesis':
+                return this.renderMetaHypothesis(node);
+            case 'ProductLine':
+                return this.renderProductLine(node);
+            case 'PartnershipStage':
+                return this.renderPartnershipStage(node);
             case 'Track':
                 return this.renderTrack(node);
             case 'Condition':
@@ -71,6 +79,262 @@ const GraphDetailPanel = {
     // ============================================
     // Entity-specific renders
     // ============================================
+
+    renderNorthStar(node) {
+        const data = node.data;
+        const linkedMH = this.getLinkedMetaHypotheses(node.id);
+
+        return `
+            ${this.renderStatus(data.status)}
+
+            ${data.vision ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Vision</div>
+                    <div class="detail-section-content" style="font-size: 15px; font-weight: 500; line-height: 1.6;">
+                        ${data.vision}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${data.characteristics && data.characteristics.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Characteristics</div>
+                    <div class="detail-section-content">
+                        ${data.characteristics.map(c => `<div>• ${c}</div>`).join('')}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${data.immutable ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Immutability</div>
+                    <div class="detail-status active">🔒 IMMUTABLE</div>
+                </div>
+            ` : ''}
+
+            ${linkedMH.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Meta Hypotheses (${linkedMH.length})</div>
+                    <ul class="detail-related-list">
+                        ${linkedMH.map(mh => `
+                            <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${mh.entity_id}')">
+                                <span class="detail-related-icon">🧬</span>
+                                <span class="detail-related-name">${this.formatName(mh.entity_name || mh.entity_id)}</span>
+                                <span class="detail-related-badge">${mh.status || 'validating'}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        `;
+    },
+
+    renderMetaHypothesis(node) {
+        const data = node.data;
+        const linkedConditions = this.getLinkedConditions(node.id);
+        const evidence = data.evidence || {};
+
+        return `
+            ${this.renderStatus(data.status)}
+
+            ${data.hypothesis_text ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Hypothesis</div>
+                    <div class="detail-section-content" style="font-weight: 500;">
+                        "${data.hypothesis_text}"
+                    </div>
+                </div>
+            ` : ''}
+
+            ${data.confidence !== undefined ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Confidence</div>
+                    <div class="detail-progress">
+                        <div class="detail-progress-bar">
+                            <div class="detail-progress-fill" style="width: ${data.confidence * 100}%; background: ${data.confidence >= 0.7 ? '#3fb950' : data.confidence >= 0.4 ? '#f0883e' : '#f85149'};"></div>
+                        </div>
+                        <div class="detail-progress-text">${Math.round(data.confidence * 100)}% confidence</div>
+                    </div>
+                </div>
+            ` : ''}
+
+            ${data.if_broken ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">If Broken</div>
+                    <div class="detail-section-content" style="color: #f85149; font-weight: 500;">
+                        ⚠️ ${data.if_broken}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${evidence.positive && evidence.positive.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Positive Evidence (${evidence.positive.length})</div>
+                    <div class="detail-section-content" style="color: #3fb950;">
+                        ${evidence.positive.slice(0, 3).map(e => `<div>✓ ${e}</div>`).join('')}
+                        ${evidence.positive.length > 3 ? `<div style="opacity: 0.6;">... +${evidence.positive.length - 3} more</div>` : ''}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${evidence.negative && evidence.negative.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Negative Evidence (${evidence.negative.length})</div>
+                    <div class="detail-section-content" style="color: #f85149;">
+                        ${evidence.negative.slice(0, 3).map(e => `<div>✗ ${e}</div>`).join('')}
+                        ${evidence.negative.length > 3 ? `<div style="opacity: 0.6;">... +${evidence.negative.length - 3} more</div>` : ''}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${linkedConditions.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Enables Conditions (${linkedConditions.length})</div>
+                    <ul class="detail-related-list">
+                        ${linkedConditions.map(c => `
+                            <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${c.entity_id}')">
+                                <span class="detail-related-icon">🔑</span>
+                                <span class="detail-related-name">${this.formatName(c.entity_name || c.entity_id)}</span>
+                                <span class="detail-related-badge">${c.status || 'in_progress'}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+
+            ${data.validated_by && data.validated_by.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Validated By</div>
+                    <ul class="detail-related-list">
+                        ${data.validated_by.slice(0, 5).map(id => `
+                            <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${id}')">
+                                <span class="detail-related-icon">${this.getEntityIcon(id)}</span>
+                                <span class="detail-related-name">${id}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        `;
+    },
+
+    renderProductLine(node) {
+        const data = node.data;
+        const linkedTracks = this.getLinkedTracks(node.id);
+
+        return `
+            ${this.renderStatus(data.status)}
+
+            ${data.description ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Description</div>
+                    <div class="detail-section-content">${data.description}</div>
+                </div>
+            ` : ''}
+
+            ${data.target_market ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Target Market</div>
+                    <div class="detail-section-content">${data.target_market}</div>
+                </div>
+            ` : ''}
+
+            ${data.revenue_model ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Revenue Model</div>
+                    <div class="detail-section-content">${data.revenue_model}</div>
+                </div>
+            ` : ''}
+
+            ${linkedTracks.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Related Tracks (${linkedTracks.length})</div>
+                    <ul class="detail-related-list">
+                        ${linkedTracks.map(t => `
+                            <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${t.entity_id}')">
+                                <span class="detail-related-icon">🎯</span>
+                                <span class="detail-related-name">${this.formatName(t.entity_name || t.entity_id)}</span>
+                                <span class="detail-related-badge">${t.status || 'active'}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+
+            ${data.parent_id ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Parent</div>
+                    <div class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${data.parent_id}')">
+                        <span class="detail-related-icon">${this.getEntityIcon(data.parent_id)}</span>
+                        <span class="detail-related-name">${data.parent_id}</span>
+                    </div>
+                </div>
+            ` : ''}
+        `;
+    },
+
+    renderPartnershipStage(node) {
+        const data = node.data;
+        const linkedTracks = this.getLinkedTracks(node.id);
+
+        return `
+            ${this.renderStatus(data.status)}
+
+            ${data.description ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Description</div>
+                    <div class="detail-section-content">${data.description}</div>
+                </div>
+            ` : ''}
+
+            ${data.partner_type ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Partner Type</div>
+                    <div class="detail-section-content">${data.partner_type}</div>
+                </div>
+            ` : ''}
+
+            ${data.stage_goal ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Stage Goal</div>
+                    <div class="detail-section-content">${data.stage_goal}</div>
+                </div>
+            ` : ''}
+
+            ${data.timeline ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Timeline</div>
+                    <div class="detail-section-content">${data.timeline}</div>
+                </div>
+            ` : ''}
+
+            ${linkedTracks.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Related Tracks (${linkedTracks.length})</div>
+                    <ul class="detail-related-list">
+                        ${linkedTracks.map(t => `
+                            <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${t.entity_id}')">
+                                <span class="detail-related-icon">🎯</span>
+                                <span class="detail-related-name">${this.formatName(t.entity_name || t.entity_id)}</span>
+                                <span class="detail-related-badge">${t.status || 'active'}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+
+            ${data.parent_id ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Parent</div>
+                    <div class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${data.parent_id}')">
+                        <span class="detail-related-icon">${this.getEntityIcon(data.parent_id)}</span>
+                        <span class="detail-related-name">${data.parent_id}</span>
+                    </div>
+                </div>
+            ` : ''}
+        `;
+    },
+
     renderTrack(node) {
         const data = node.data;
         const progress = data.progress || 0;
@@ -460,6 +724,53 @@ const GraphDetailPanel = {
             const validates = Array.isArray(p.validates) ? p.validates : [p.validates];
             return validates.includes(hypId);
         });
+    },
+
+    getLinkedMetaHypotheses(northStarId) {
+        return (State.metahypotheses || []).filter(mh =>
+            mh.parent_id === northStarId
+        );
+    },
+
+    getLinkedConditions(mhId) {
+        // Check if condition's parent_id is this MH
+        // Or if MH.enables includes the condition
+        const mh = (State.metahypotheses || []).find(m => m.entity_id === mhId);
+        const enabledConditions = mh?.enables || [];
+
+        return (State.conditions || []).filter(c => {
+            // Direct parent link
+            if (c.parent_id === mhId) return true;
+            // Enabled by MH
+            const condNames = [c.entity_id, c.entity_name].filter(Boolean);
+            return enabledConditions.some(e => condNames.includes(e) || condNames.some(n => n.includes(e)));
+        });
+    },
+
+    getLinkedTracks(entityId) {
+        return (State.tracks || []).filter(t => {
+            // Track's parent_id matches or has outgoing relation
+            if (t.parent_id === entityId) return true;
+            if (t.outgoing_relations) {
+                return t.outgoing_relations.some(r => r.target_id === entityId);
+            }
+            return false;
+        });
+    },
+
+    getEntityIcon(entityId) {
+        if (!entityId) return '📄';
+        const id = entityId.toLowerCase();
+        if (id.startsWith('ns:')) return '⭐';
+        if (id.startsWith('mh:')) return '🧬';
+        if (id.startsWith('cond:')) return '🔑';
+        if (id.startsWith('pl:')) return '📦';
+        if (id.startsWith('ps:')) return '🤝';
+        if (id.startsWith('trk:')) return '🎯';
+        if (id.startsWith('prj:')) return '📁';
+        if (id.startsWith('hyp:')) return '💡';
+        if (id.startsWith('tsk:')) return '✅';
+        return '📄';
     },
 
     // ============================================

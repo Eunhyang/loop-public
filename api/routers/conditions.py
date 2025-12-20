@@ -12,7 +12,7 @@ router = APIRouter(prefix="/api/conditions", tags=["conditions"])
 
 # Vault 경로
 VAULT_DIR = get_vault_dir()
-CONDITIONS_DIR = VAULT_DIR / "20_Strategy/3Y_Conditions"
+CONDITIONS_DIR = VAULT_DIR / "20_Strategy/3Y_Conditions_2026-2028"
 
 
 @router.get("")

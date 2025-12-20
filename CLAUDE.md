@@ -129,8 +129,8 @@ LOOP/
 ├── 01_North_Star/                      # 10-year vision + MH1-4
 ├── 10_Study/                           # Ontology learning materials
 ├── 20_Strategy/                        # Conditions + Tracks
-│   ├── 3Y_Conditions/                  # A-E conditions
-│   └── 12M_Tracks/                     # 1-6 tracks
+│   ├── 3Y_Conditions_2026-2028/        # A-E conditions (3년 주기)
+│   └── 12M_Tracks/2026/                # 1-6 tracks (연도별)
 ├── 30_Ontology/                        # Schema development
 │   ├── Schema/v0.1/
 │   ├── Entities/
@@ -148,8 +148,8 @@ LOOP/
 **Strategy**:
 - `01_North_Star/10년 비전.md` - Immutable coordinates
 - `01_North_Star/MH3_데이터_모델링_가능.md` - ⭐ Validated by ontology
-- `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md` - ⭐ Enabled by ontology
-- `20_Strategy/12M_Tracks/Track_2_Data.md` - ⭐ Ontology belongs here
+- `20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md` - ⭐ Enabled by ontology
+- `20_Strategy/12M_Tracks/2026/Track_2_Data.md` - ⭐ Ontology belongs here
 
 **Ontology**:
 - `30_Ontology/Schema/v0.1/Ontology-lite v0.1.md` - 5 core entities + 4 rules
@@ -392,7 +392,7 @@ For more details, see:
 5. Document results in `70_Experiments/Use-cases/`
 
 ### Update Condition Status
-1. Open Condition document (`20_Strategy/3Y_Conditions/`)
+1. Open Condition document (`20_Strategy/3Y_Conditions_2026-2028/`)
 2. Update metrics current value
 3. Reassess risk_level
 4. Check break_triggers (make shutdown decision if met)
@@ -667,8 +667,8 @@ This vault manages strategy and ontology **specifications**. Actual implementati
 | Content Type | Location | Example | Status |
 |--------------|----------|---------|--------|
 | 10-year vision/Meta Hypotheses | `01_North_Star/` | MH3 document | Partial |
-| 3-year Conditions | `20_Strategy/3Y_Conditions/` | Condition B | Partial |
-| 12-month Tracks | `20_Strategy/12M_Tracks/` | Track 2 | Complete |
+| 3-year Conditions | `20_Strategy/3Y_Conditions_2026-2028/` | Condition B | Partial |
+| 12-month Tracks | `20_Strategy/12M_Tracks/2026/` | Track 2 | Complete |
 | Ontology entities | `30_Ontology/Entities/` | Event definition | Partial |
 | Ontology relations | `30_Ontology/Relations/` | contains relation | Planned |
 | Ontology rules | `30_Ontology/Rules/` | Rule A | Planned |
