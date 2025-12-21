@@ -20,14 +20,19 @@
    - 상위 Track/Hypothesis ID (parent_id)
    - 우선순위 (priority_flag) - 선택사항
 
-2. **자동 처리**
+2. **Expected Impact 설정** (통합됨)
+   - **자동 채우기** → LLM이 tier/magnitude/confidence 제안
+   - **None으로 설정** → Impact 계산 불필요한 operational 프로젝트
+   - **나중에 채우기** → 일단 null로 생성
+
+3. **자동 처리**
    - 다음 Project ID 자동 생성 (prj:NNN)
    - 프로젝트 폴더 구조 생성
-   - Project_정의.md 파일 생성
+   - Project_정의.md 파일 생성 (expected_impact 포함)
    - Schema validation 실행
    - Graph index 업데이트
 
-3. **결과 확인**
+4. **결과 확인**
    - 생성된 파일 경로 표시
    - validation 결과 표시
 
@@ -53,8 +58,8 @@
 ## 다음 단계
 
 프로젝트 생성 후:
-1. `/auto-fill-project-impact` 로 Expected(A) 채우기
-2. `/new-task` 로 세부 태스크 추가
+1. `/new-task` 로 세부 태스크 추가
+2. (선택) Impact를 "나중에"로 설정했다면 → `/auto-fill-project-impact` 실행
 
 ---
 

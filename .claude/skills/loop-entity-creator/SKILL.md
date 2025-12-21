@@ -110,16 +110,36 @@ Required fields:
 - `entity_name` - Project name (e.g., "Ontology_v0.2")
 - `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 - `parent_id` - Parent Track or Hypothesis ID (e.g., "trk:2" or "hyp:005")
-- `expected_impact` - **필수! Project = 유일한 판정 단위**
-  - `statement` - "이 프로젝트가 성공하면 X가 증명된다"
-  - `metric` - 측정 지표 (e.g., "펀딩 달성률")
-  - `target` - 목표값 (e.g., "200%")
 
 Optional fields:
 - `priority_flag` - "critical", "high", "medium", or "low"
 - `hypothesis_id` - 검증 대상 가설 ID (e.g., "hyp:003")
 
-**IMPORTANT: expected_impact 없이는 프로젝트 생성 불가!**
+**Step 1.5: Expected Impact 설정**
+
+Use AskUserQuestion to ask:
+
+```
+이 프로젝트의 Expected Impact를 어떻게 설정할까요?
+
+1. 자동 채우기 (auto-fill-project-impact 스킬 호출)
+   → LLM이 컨텍스트 분석 후 tier/magnitude/confidence 제안
+
+2. None으로 설정 (Impact 계산 불필요)
+   → Operational task, 단순 실행 프로젝트에 적합
+   → tier: "none", 나머지 필드: null
+
+3. 나중에 채우기 (일단 null로 생성)
+   → 생성 후 /auto-fill-project-impact 별도 실행
+```
+
+**Option별 처리:**
+
+| 선택 | expected_impact 값 |
+|------|---------------------|
+| 자동 채우기 | `auto-fill-project-impact` 스킬 호출 후 결과 적용 |
+| None | `tier: "none"`, `impact_magnitude: null`, `confidence: null`, `contributes: []` |
+| 나중에 | `tier: null`, `impact_magnitude: null`, `confidence: null`, `contributes: []` |
 
 **Step 2: Generate next Project ID**
 
@@ -155,6 +175,13 @@ Optional fields:
    - `{{DATE}}` → current date
    - `{{project_num}}` → extracted from ID (004)
    - Note: `aliases` will automatically include entity_id for Obsidian linking
+
+   Expected Impact 플레이스홀더 (Step 1.5 선택에 따라):
+   - `{{IMPACT_TIER}}` → "strategic" | "enabling" | "operational" | "none" | null
+   - `{{IMPACT_MAG}}` → "high" | "mid" | "low" | null
+   - `{{CONFIDENCE}}` → 0.0-1.0 | null
+   - `{{COND_ID}}` → "cond:a" 등 | 빈 값
+   - `{{WEIGHT}}` → 0.0-1.0 | 빈 값
 
 **Step 4: Create project directory structure**
 
@@ -316,12 +343,25 @@ User: "코치OS 인터페이스 설계 태스크 만들어줘"
 → Validate and index
 ```
 
-**Create a Project:**
+**Create a Project (with Impact auto-fill):**
 ```
 User: "패턴 발견 v2 프로젝트 만들어줘"
 → Collect: owner, parent_id
+→ Ask: Impact 설정 방법? → "자동 채우기" 선택
 → Generate: prj:008
+→ Call auto-fill-project-impact 스킬
 → Create: 50_Projects/P008_Pattern_Discovery_v2/
+→ Validate and index
+```
+
+**Create a Project (Impact = None):**
+```
+User: "회의록 정리 프로젝트 만들어줘"
+→ Collect: owner, parent_id
+→ Ask: Impact 설정 방법? → "None으로 설정" 선택
+→ Generate: prj:009
+→ Set: tier="none", magnitude=null, confidence=null
+→ Create: 50_Projects/P009_회의록_정리/
 → Validate and index
 ```
 

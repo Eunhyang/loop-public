@@ -200,6 +200,16 @@ const State = {
             }
         }
 
+        // Apply project status/priority filters (filter tasks by their parent project)
+        filtered = filtered.filter(t => {
+            const project = this.getProjectById(t.project_id);
+            if (!project) return true;  // Keep tasks without project
+            const projectStatus = project.status || 'active';
+            const projectPriority = project.priority || 'medium';
+            return this.filters.project.status.includes(projectStatus) &&
+                   this.filters.project.priority.includes(projectPriority);
+        });
+
         // Apply task status filter
         filtered = filtered.filter(t => {
             const status = this.normalizeStatus(t.status);
@@ -355,16 +365,16 @@ const State = {
         return this.filters[category][type].includes(value);
     },
 
-    // Reset all filters to default
+    // Reset all filters to default (use dynamic values from constants if available)
     resetFilters() {
         this.filters = {
             project: {
-                status: ['planning', 'active', 'paused', 'done', 'cancelled'],
-                priority: ['critical', 'high', 'medium', 'low']
+                status: [...this.getProjectStatuses()],
+                priority: [...this.getPriorities()]
             },
             task: {
-                status: ['todo', 'doing', 'done', 'blocked'],
-                priority: ['critical', 'high', 'medium', 'low'],
+                status: [...this.getTaskStatuses()],
+                priority: [...this.getPriorities()],
                 dueDateStart: null,
                 dueDateEnd: null
             }

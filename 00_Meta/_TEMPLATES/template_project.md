@@ -22,6 +22,16 @@ deadline: null
 hypothesis_text: "{{PROJECT_HYPOTHESIS}}"
 experiments: []
 
+# === Expected Impact (A) ===
+# null = 아직 미정 | "none" = 계산 불필요 (operational task)
+expected_impact:
+  tier: {{IMPACT_TIER}}           # strategic | enabling | operational | null | "none"
+  impact_magnitude: {{IMPACT_MAG}}  # high | mid | low | null
+  confidence: {{CONFIDENCE}}        # 0.0-1.0 | null
+  contributes:                      # 기여하는 Condition 목록
+    - condition_id: "{{COND_ID}}"
+      weight: {{WEIGHT}}
+
 # === 3Y 전략 연결 (필수) ===
 conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 

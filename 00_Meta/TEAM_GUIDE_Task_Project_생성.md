@@ -44,11 +44,15 @@
 1. ✅ **책임자** (owner, 예: `김개발`)
 2. ✅ **상위 Track/Hypothesis** (예: `trk:2`, `hyp:005`)
 3. ⚪ 우선순위 (선택, 기본값: medium)
+4. ✅ **Expected Impact 설정** (새로 추가!)
+   - 자동 채우기 → LLM이 tier/magnitude/confidence 제안
+   - None으로 설정 → 단순 실행 프로젝트 (Impact 계산 불필요)
+   - 나중에 채우기 → 일단 null로 생성
 
 **결과:**
 - ✅ 프로젝트 폴더 자동 생성: `50_Projects/P008_프로젝트명/`
 - ✅ 하위 폴더 생성: `Tasks/`, `Results/`
-- ✅ Project 정의 파일 생성: `Project_정의.md`
+- ✅ Project 정의 파일 생성: `Project_정의.md` (expected_impact 포함)
 - ✅ ID 자동 할당: `prj:008` 같은 형식
 
 ---
@@ -86,7 +90,7 @@ Claude: ✅ Task 생성 완료!
 - Graph index: ✅ 업데이트됨
 ```
 
-### 예시 2: Project 생성
+### 예시 2: Project 생성 (Impact 자동 채우기)
 
 ```
 User: "패턴 발견 v2 프로젝트 만들어줘"
@@ -103,15 +107,48 @@ User: "Founder + 코치 팀"
 
 User: "trk:2"
 
+[질문 3] Expected Impact를 어떻게 설정할까요?
+- 자동 채우기 (LLM이 분석 후 제안)
+- None으로 설정 (단순 실행, 계산 불필요)
+- 나중에 채우기
+
+User: "자동 채우기"
+
+Claude: 컨텍스트 분석 중... 제안:
+- tier: strategic (MH3 검증 + Condition B 기여)
+- impact_magnitude: high
+- confidence: 0.65
+- contributes: cond:b (weight: 0.7)
+
+User: "Accept"
+
 Claude: ✅ Project 생성 완료!
 - ID: prj:008
 - 폴더: 50_Projects/P008_Pattern_Discovery_v2/
-- 하위 구조:
-  - Project_정의.md ✅
-  - Tasks/ ✅
-  - Results/ ✅
+- expected_impact: ✅ 채워짐
 - Schema validation: ✅ 통과
 - Graph index: ✅ 업데이트됨
+```
+
+### 예시 3: Project 생성 (Impact = None)
+
+```
+User: "회의록 정리 프로젝트 만들어줘"
+
+Claude: Project를 생성하겠습니다.
+
+[질문 1] 책임자(owner)는?
+User: "미정"
+
+[질문 2] 상위 Track 또는 Hypothesis ID는?
+User: "trk:6"
+
+[질문 3] Expected Impact를 어떻게 설정할까요?
+User: "None으로 설정"
+
+Claude: ✅ Project 생성 완료!
+- ID: prj:009
+- expected_impact: tier="none" (계산 제외)
 ```
 
 ---

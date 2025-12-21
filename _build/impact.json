@@ -1,20 +1,43 @@
 {
   "model_version": "IM-2025-01",
-  "generated": "2025-12-19T22:07:21.360535",
+  "generated": "2025-12-21T19:34:01.166202",
   "script_version": "1.1.0",
   "summary": {
     "total_projects": 14,
-    "projects_with_impact": 0,
+    "projects_with_impact": 1,
     "projects_excluded": 0,
-    "total_expected": 29.4,
+    "total_expected": 33.8,
     "total_realized": 0.0,
     "total_evidence": 0
   },
   "projects": [
     {
+      "id": "prj:001",
+      "name": "Ontology v0.1",
+      "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
+      "tier": "strategic",
+      "impact_magnitude": "high",
+      "confidence": 0.65,
+      "contributes": [
+        {
+          "to": "cond:b",
+          "weight": 0.7,
+          "description": "Ontology가 Condition B(재현 패턴 10개)의 핵심 기반"
+        }
+      ],
+      "expected_score": 6.5,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "track": "",
+      "owner": "Founder + 온톨로지 팀",
+      "status": "active"
+    },
+    {
       "id": "prj:003",
       "name": "LoopOS V0 데이터 설계",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -31,7 +54,7 @@
     {
       "id": "prj:005",
       "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -48,7 +71,7 @@
     {
       "id": "prj:010",
       "name": "[펀딩·마케팅] 와디즈 펀딩",
-      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
+      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -65,7 +88,7 @@
     {
       "id": "prj:009",
       "name": "[투자/TIPS준비] 배치 프로그램 지원",
-      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
+      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -82,7 +105,7 @@
     {
       "id": "prj:007",
       "name": "외부 비서",
-      "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
+      "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -97,26 +120,9 @@
       "status": "active"
     },
     {
-      "id": "prj:001",
-      "name": "Ontology v0.1",
-      "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
-      "tier": "enabling",
-      "impact_magnitude": "mid",
-      "confidence": 0.7,
-      "contributes": [],
-      "expected_score": 2.1,
-      "realized_score": 0.0,
-      "realized_status": "planned",
-      "impact_excluded": false,
-      "evidence_count": 0,
-      "track": "",
-      "owner": "Founder + 온톨로지 팀",
-      "status": "active"
-    },
-    {
       "id": "prj:014",
       "name": "[코칭 서비스] 1:1 코칭 서비스",
-      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
+      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -133,7 +139,7 @@
     {
       "id": "prj:006",
       "name": "코치 1명 구인 & 1차 온보딩 준비",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -150,7 +156,7 @@
     {
       "id": "prj:013",
       "name": "YouTube 1주 1업로드 프로젝트",
-      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
+      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -167,7 +173,7 @@
     {
       "id": "prj:011",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
-      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -184,7 +190,7 @@
     {
       "id": "prj:004",
       "name": "(프로젝트 없음)",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -201,7 +207,7 @@
     {
       "id": "prj:002",
       "name": "[와디즈] 12주 코칭 습관팩 런칭",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
+      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -218,7 +224,7 @@
     {
       "id": "prj:012",
       "name": "[CS·운영] 고객관리/대응",
-      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -235,7 +241,7 @@
     {
       "id": "prj:008",
       "name": "파일럿 프로젝트 후보",
-      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
@@ -250,7 +256,29 @@
       "status": "active"
     }
   ],
-  "conditions": {},
+  "conditions": {
+    "cond:b": {
+      "expected_sum": 4.55,
+      "realized_sum": 0.0,
+      "project_count": 1,
+      "projects": [
+        {
+          "id": "prj:001",
+          "name": "Ontology v0.1",
+          "tier": "strategic",
+          "weight": 0.7,
+          "expected": 6.5,
+          "realized": 0.0
+        }
+      ],
+      "excluded_projects": [],
+      "tier_distribution": {
+        "strategic": 1,
+        "enabling": 0,
+        "operational": 0
+      }
+    }
+  },
   "config": {
     "magnitude_points": {
       "strategic": {

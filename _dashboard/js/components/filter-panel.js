@@ -31,10 +31,12 @@ const FilterPanel = {
         document.getElementById('filterDueDateStart')?.addEventListener('change', (e) => {
             State.setDateFilter('start', e.target.value);
             this.applyFilters();
+            this.updateFilterIndicator();
         });
         document.getElementById('filterDueDateEnd')?.addEventListener('change', (e) => {
             State.setDateFilter('end', e.target.value);
             this.applyFilters();
+            this.updateFilterIndicator();
         });
     },
 
@@ -185,7 +187,8 @@ const FilterPanel = {
     },
 
     applyFilters() {
-        // Re-render project filter tabs and kanban
+        // Re-render tabs, project filter tabs, and kanban
+        Tabs.render();
         Kanban.renderProjectFilter();
         Kanban.render();
     },
@@ -193,11 +196,16 @@ const FilterPanel = {
     updateFilterIndicator() {
         if (!this.filterBtnEl) return;
 
-        // Check if any filters are not at default
-        const hasProjectStatusFilter = State.filters.project.status.length < 5;
-        const hasProjectPriorityFilter = State.filters.project.priority.length < 4;
-        const hasTaskStatusFilter = State.filters.task.status.length < 4;
-        const hasTaskPriorityFilter = State.filters.task.priority.length < 4;
+        // Check if any filters are not at default (use dynamic lengths from State)
+        const projectStatusCount = State.getProjectStatuses().length;
+        const projectPriorityCount = State.getPriorities().length;
+        const taskStatusCount = State.getTaskStatuses().length;
+        const taskPriorityCount = State.getPriorities().length;
+
+        const hasProjectStatusFilter = State.filters.project.status.length < projectStatusCount;
+        const hasProjectPriorityFilter = State.filters.project.priority.length < projectPriorityCount;
+        const hasTaskStatusFilter = State.filters.task.status.length < taskStatusCount;
+        const hasTaskPriorityFilter = State.filters.task.priority.length < taskPriorityCount;
         const hasDateFilter = State.filters.task.dueDateStart || State.filters.task.dueDateEnd;
 
         const hasFilters = hasProjectStatusFilter || hasProjectPriorityFilter ||
