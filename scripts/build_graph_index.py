@@ -401,6 +401,30 @@ def generate_json_index(entities: Dict[str, Dict], children_map: Dict, incoming_
                         "type": rel.get("type")
                     })
 
+    # 에지 생성 (validates - Project → Hypothesis/MH)
+    for entity_id, data in entities.items():
+        validates = data["frontmatter"].get("validates", [])
+        if isinstance(validates, list):
+            for target_id in validates:
+                if target_id:  # null/빈값 무시
+                    graph["edges"].append({
+                        "source": entity_id,
+                        "target": target_id,
+                        "type": "validates"
+                    })
+
+    # 에지 생성 (validated_by - Hypothesis → Project, 역방향)
+    for entity_id, data in entities.items():
+        validated_by = data["frontmatter"].get("validated_by", [])
+        if isinstance(validated_by, list):
+            for source_id in validated_by:
+                if source_id:  # null/빈값 무시
+                    graph["edges"].append({
+                        "source": source_id,
+                        "target": entity_id,
+                        "type": "validates"
+                    })
+
     return graph
 
 

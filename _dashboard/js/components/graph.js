@@ -217,6 +217,19 @@ const Graph = {
             }
         });
 
+        // ========== L4: Hypotheses (먼저 nodeMap에 추가) ==========
+        (State.hypotheses || []).forEach(hyp => {
+            const node = {
+                id: hyp.entity_id,
+                type: 'Hypothesis',
+                name: hyp.entity_name || hyp.entity_id,
+                data: hyp,
+                ...this.nodeConfig.Hypothesis
+            };
+            this.nodes.push(node);
+            nodeMap.set(hyp.entity_id, node);
+        });
+
         // ========== L4: Projects ==========
         (State.projects || []).forEach(proj => {
             const node = {
@@ -247,7 +260,7 @@ const Graph = {
                 });
             }
 
-            // Project validates Hypothesis
+            // Project validates Hypothesis (이제 Hypothesis가 nodeMap에 있음)
             if (proj.validates) {
                 const validates = Array.isArray(proj.validates) ? proj.validates : [proj.validates];
                 validates.forEach(hypId => {
@@ -262,17 +275,15 @@ const Graph = {
             }
         });
 
-        // ========== L4: Hypotheses ==========
+        // ========== Hypothesis → Track 링크 (parent_id) ==========
         (State.hypotheses || []).forEach(hyp => {
-            const node = {
-                id: hyp.entity_id,
-                type: 'Hypothesis',
-                name: hyp.entity_name || hyp.entity_id,
-                data: hyp,
-                ...this.nodeConfig.Hypothesis
-            };
-            this.nodes.push(node);
-            nodeMap.set(hyp.entity_id, node);
+            if (hyp.parent_id && nodeMap.has(hyp.parent_id)) {
+                this.links.push({
+                    source: hyp.parent_id,
+                    target: hyp.entity_id,
+                    type: 'contains'
+                });
+            }
         });
 
         // Note: Task nodes are NOT added to the graph (shown in side panel only)

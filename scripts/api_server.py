@@ -24,7 +24,7 @@ import re
 import yaml
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Tuple
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -106,6 +106,24 @@ def extract_frontmatter(file_path: Path) -> Optional[Dict[str, Any]]:
     except Exception as e:
         print(f"Error parsing {file_path}: {e}")
         return None
+
+
+def extract_frontmatter_and_body(file_path: Path) -> Tuple[Optional[Dict[str, Any]], str]:
+    """YAML frontmatter와 본문을 함께 추출"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        match = re.match(r'^---\s*\n(.*?)\n---\s*\n?(.*)', content, re.DOTALL)
+        if not match:
+            return None, content
+
+        frontmatter = yaml.safe_load(match.group(1))
+        body = match.group(2).strip()
+        return frontmatter, body
+    except Exception as e:
+        print(f"Error parsing {file_path}: {e}")
+        return None, ""
 
 def get_next_task_id() -> str:
     """다음 Task ID 생성"""
@@ -210,12 +228,31 @@ def get_projects():
     return {"projects": sorted(projects, key=lambda x: x.get('entity_id', ''))}
 
 @app.get("/api/tasks")
-def get_tasks(project_id: Optional[str] = None, status: Optional[str] = None):
-    """Task 목록 조회"""
+def get_tasks(
+    project_id: Optional[str] = None,
+    status: Optional[str] = None,
+    include_body: bool = True
+):
+    """Task 목록 조회
+
+    Args:
+        project_id: 특정 프로젝트의 Task만 조회
+        status: 특정 상태의 Task만 조회
+        include_body: 본문(마크다운) 포함 여부 (기본: True)
+    """
     tasks = []
 
     for task_file in PROJECTS_DIR.rglob("Tasks/*.md"):
-        frontmatter = extract_frontmatter(task_file)
+        # 경로 검증: Vault 내부 파일인지 확인
+        if not task_file.is_relative_to(VAULT_DIR):
+            continue
+
+        if include_body:
+            frontmatter, body = extract_frontmatter_and_body(task_file)
+        else:
+            frontmatter = extract_frontmatter(task_file)
+            body = None
+
         if not frontmatter:
             continue
 
@@ -226,6 +263,11 @@ def get_tasks(project_id: Optional[str] = None, status: Optional[str] = None):
             continue
 
         frontmatter['_path'] = str(task_file.relative_to(VAULT_DIR))
+
+        # 본문을 _body 필드로 추가 (기존 notes 필드 보호)
+        if include_body and body:
+            frontmatter['_body'] = body
+
         tasks.append(frontmatter)
 
     return {"tasks": sorted(tasks, key=lambda x: x.get('entity_id', ''))}

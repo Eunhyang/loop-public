@@ -319,3 +319,25 @@
     border: 2px dashed #3b82f6;
     border-radius: 8px;
 }
+
+/* ============================================
+   Obsidian Link Button
+   ============================================ */
+.btn-obsidian {
+    padding: 4px 8px;
+    font-size: 0.85em;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.btn-obsidian:hover {
+    background: #6d28d9;
+    transform: scale(1.05);
+}

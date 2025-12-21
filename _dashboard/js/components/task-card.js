@@ -3,6 +3,17 @@
  * 개별 Task 카드 렌더링
  */
 const TaskCard = {
+    /**
+     * Obsidian URI 생성
+     * @param {string} vaultPath - Vault 상대 경로 (예: 50_Projects/2025/P001/Tasks/task.md)
+     * @returns {string} Obsidian URI
+     */
+    getObsidianUri(vaultPath) {
+        if (!vaultPath) return '';
+        // Obsidian은 .md 확장자 포함한 경로 사용
+        return 'obsidian://open?vault=LOOP&file=' + encodeURIComponent(vaultPath);
+    },
+
     render(task) {
         const project = State.getProjectById(task.project_id);
         const projectName = project?.entity_name || task.project_id || 'No Project';
@@ -20,6 +31,12 @@ const TaskCard = {
         const statusOptions = statuses.map(s =>
             `<option value="${s}" ${currentStatus === s ? 'selected' : ''}>${statusLabels[s]}</option>`
         ).join('');
+
+        // Obsidian 링크 생성
+        const obsidianUri = this.getObsidianUri(task._path);
+        const obsidianLink = obsidianUri
+            ? `<a href="${obsidianUri}" class="btn-small btn-obsidian" title="Open in Obsidian" onclick="event.stopPropagation()">📝</a>`
+            : '';
 
         return `
             <div class="task-card priority-${priority}" data-id="${task.entity_id}" draggable="true">
@@ -40,6 +57,7 @@ const TaskCard = {
                         <select class="status-select">${statusOptions}</select>
                     </div>
                     <div class="task-actions-right">
+                        ${obsidianLink}
                         <button class="btn-small btn-delete btn-danger">Delete</button>
                     </div>
                 </div>

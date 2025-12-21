@@ -252,7 +252,9 @@ const TaskPanel = {
         document.getElementById('panelTaskStatus').value = State.normalizeStatus(task.status);
         document.getElementById('panelTaskPriority').value = task.priority || 'medium';
         document.getElementById('panelTaskDue').value = task.due || '';
-        document.getElementById('panelTaskNotes').value = task.notes || '';
+        // notes 필드 우선, 없으면 _body (마크다운 본문) 사용
+        const notesContent = task.notes || task._body || '';
+        document.getElementById('panelTaskNotes').value = notesContent;
 
         // Relations 표시
         this.renderRelations(task);
@@ -262,7 +264,7 @@ const TaskPanel = {
 
         // Notes 프리뷰 모드로 초기화
         this.resetNotesView();
-        this.updateNotesPreview(task.notes || '');
+        this.updateNotesPreview(notesContent);
 
         this.show();
     },
