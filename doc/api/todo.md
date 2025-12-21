@@ -31,6 +31,70 @@
     - `.btn-obsidian` CSS 스타일 추가
   - 완료일: 2025-12-21
 
+### CAL-001: Calendar 뷰 기능 추가
+
+- [x] **CAL-001-1** Task 스키마에 start_date 추가
+  - 수정 파일: `00_Meta/schema_registry.md`
+  - 작업 내용: Task에 `start_date: date | null` 필드 추가
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-2** API 모델에 start_date 추가
+  - 수정 파일: `api/models/entities.py`
+  - 작업 내용: TaskCreate, TaskUpdate에 start_date 필드 추가
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-3** Task 생성/수정 API에 start_date 지원
+  - 수정 파일: `api/routers/tasks.py`
+  - 작업 내용:
+    - Task 생성 시 start_date, due 기본값 = 오늘
+    - Task 수정 시 start_date 필드 처리
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-4** FullCalendar CDN + Calendar 뷰 HTML 추가
+  - 수정 파일: `_dashboard/index.html`
+  - 작업 내용:
+    - FullCalendar v6 CDN 추가
+    - Calendar 뷰 전환 버튼 추가 (Kanban/Calendar/Graph)
+    - Calendar 뷰 HTML 영역 추가
+    - calendar.js 스크립트 로드 추가
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-5** Calendar 컴포넌트 구현
+  - 생성 파일: `_dashboard/js/components/calendar.js`
+  - 작업 내용:
+    - FullCalendar 초기화 (월별/주별 뷰)
+    - Task → Calendar 이벤트 변환
+    - 이벤트 클릭 → Task 패널 열기
+    - 드래그앤드롭으로 날짜 변경
+    - 이벤트 리사이즈로 기간 변경
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-6** Calendar CSS 추가
+  - 생성 파일: `_dashboard/css/calendar.css`
+  - 작업 내용: FullCalendar 스타일 커스터마이징
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-7** 뷰 전환 로직 추가
+  - 수정 파일: `_dashboard/js/app.js`
+  - 작업 내용: switchView() 함수에 Calendar 케이스 추가
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-8** Task 모달/패널에 start_date 필드 추가
+  - 수정 파일: `_dashboard/index.html`, `_dashboard/js/components/task-modal.js`, `_dashboard/js/components/task-panel.js`
+  - 작업 내용:
+    - Task 모달에 Start Date 입력 필드 추가
+    - Task 패널에 Start Date 입력 필드 추가
+    - 기본값: 오늘 날짜
+    - 저장/수정 시 start_date 전송
+  - 완료일: 2025-12-21
+
+- [x] **CAL-001-9** Codex 코드 리뷰 피드백 반영
+  - 수정 파일: `_dashboard/js/components/calendar.js`, `_dashboard/js/components/sidebar.js`, `_dashboard/js/components/filter-panel.js`, `_dashboard/js/components/tabs.js`
+  - 작업 내용:
+    - Calendar refresh 시 이벤트 소스 중복 방지 (removeAllEventSources)
+    - 필터 변경 시 Calendar.refresh() 호출 추가
+  - 완료일: 2025-12-21
+
 ---
 
 ## 진행 중
@@ -45,6 +109,7 @@
 
 - [ ] **API-002** Project 본문 표시
 - [ ] **API-003** 검색 기능
+- [ ] **CAL-002** Calendar에서 Task 직접 생성 (날짜 클릭)
 
 ---
 

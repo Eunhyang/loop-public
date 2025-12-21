@@ -191,6 +191,7 @@ const FilterPanel = {
         Tabs.render();
         Kanban.renderProjectFilter();
         Kanban.render();
+        Calendar.refresh();  // Codex 피드백: 필터 변경 시 Calendar도 갱신
     },
 
     updateFilterIndicator() {

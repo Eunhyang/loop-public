@@ -193,10 +193,12 @@ const Calendar = {
 
     /**
      * Calendar 새로고침
+     * Codex 피드백: removeAllEventSources()로 이전 소스 제거 후 추가
      */
     refresh() {
         if (this.instance) {
-            this.instance.removeAllEvents();
+            // 모든 이벤트 소스 제거 후 새로 추가 (중복 방지)
+            this.instance.removeAllEventSources();
             this.instance.addEventSource(this.getEvents());
         }
     },

@@ -259,6 +259,7 @@ const Sidebar = {
         // Re-render tabs and kanban
         Tabs.render();
         Kanban.render();
+        Calendar.refresh();  // Codex 피드백: 필터 변경 시 Calendar도 갱신
     },
 
     filterByHypothesis(hypId) {
@@ -269,6 +270,7 @@ const Sidebar = {
 
         Tabs.render();
         Kanban.render();
+        Calendar.refresh();  // Codex 피드백: 필터 변경 시 Calendar도 갱신
     },
 
     filterByCondition(condId) {
@@ -279,6 +281,7 @@ const Sidebar = {
 
         Tabs.render();
         Kanban.render();
+        Calendar.refresh();  // Codex 피드백: 필터 변경 시 Calendar도 갱신
     },
 
     // ============================================
