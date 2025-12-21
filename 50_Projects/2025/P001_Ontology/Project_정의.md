@@ -54,9 +54,9 @@ tags:
 - core
 priority_flag: critical
 expected_impact:
-  statement: ""  # TODO: "이 프로젝트가 성공하면 X가 증명된다"
-  metric: ""     # TODO: 측정 지표
-  target: ""     # TODO: 목표값
+  statement: "이 프로젝트가 성공하면 5개 코어 엔티티로 Loop 데이터 표현이 가능함이 증명된다"
+  metric: "스키마 안정성 + 코치 라벨링 일관성 + 재현 패턴 수"
+  target: "3개월 안정 + 70% 일관성 + 5개 패턴"
 realized_impact:
   outcome: null  # supported | rejected | inconclusive
   evidence: null

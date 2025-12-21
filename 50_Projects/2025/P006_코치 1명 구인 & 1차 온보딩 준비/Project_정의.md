@@ -18,9 +18,9 @@ budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 expected_impact:
-  statement: ""  # TODO: "이 프로젝트가 성공하면 X가 증명된다"
-  metric: ""     # TODO: 측정 지표
-  target: ""     # TODO: 목표값
+  statement: "이 프로젝트가 성공하면 코칭 서비스 Scale이 가능함이 증명된다"
+  metric: "코치 채용 및 온보딩 완료"
+  target: "코치 1명 채용 + 온보딩 완료"
 realized_impact:
   outcome: null  # supported | rejected | inconclusive
   evidence: null

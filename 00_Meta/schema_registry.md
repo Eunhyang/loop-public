@@ -32,6 +32,8 @@ tags: ["meta", "schema", "registry"]
 | Task | `tsk:{prj}-{seq}` | tsk:001-01 | 01-99 per project |
 | Hypothesis | `hyp:{trk}-{seq}` | hyp:1-01 | {trk}:1-6, {seq}:01-99 |
 | Experiment | `exp:{number}` | exp:001 | 001-999 |
+| ProductLine | `pl:{number}` | pl:1 | 1-9 |
+| PartnershipStage | `ps:{number}` | ps:1 | 1-9 |
 | Result | `res:{prj}-{seq}` | res:001-01 | 01-99 per project |
 
 ### 파일명 규칙

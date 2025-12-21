@@ -59,6 +59,8 @@ ID_PATTERNS = {
     "tsk": r"^tsk:\d{3}-\d{2}$",
     "hyp": r"^hyp:[1-6]-\d{2}$",  # Track기반: hyp:1-01, hyp:6-14
     "exp": r"^exp:\d{3}$",
+    "pl": r"^pl:[1-9]$",          # ProductLine: pl:1 ~ pl:9
+    "ps": r"^ps:[1-9]$",          # PartnershipStage: ps:1 ~ ps:9
 }
 
 # === 필수 필드 ===
