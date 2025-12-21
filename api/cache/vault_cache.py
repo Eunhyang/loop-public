@@ -180,7 +180,7 @@ class VaultCache:
         assignee: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """
-        Task 목록 조회 (필터 지원)
+        Task 목록 조회 (필터 지원, 캐시만 반환 - mtime 체크 안 함)
 
         Args:
             project_id: 프로젝트 ID로 필터
@@ -192,13 +192,7 @@ class VaultCache:
         """
         results = []
 
-        for task_id, entry in list(self.tasks.items()):
-            # mtime 체크
-            self._check_and_refresh_task(task_id, entry)
-            entry = self.tasks.get(task_id)
-            if not entry:
-                continue
-
+        for task_id, entry in self.tasks.items():
             data = entry.data
 
             # 필터 적용
@@ -238,14 +232,10 @@ class VaultCache:
         return entry.data.copy()
 
     def get_all_projects(self) -> List[Dict[str, Any]]:
-        """모든 Project 조회"""
+        """모든 Project 조회 (캐시만 반환 - mtime 체크 안 함)"""
         results = []
 
-        for project_id, entry in list(self.projects.items()):
-            self._check_and_refresh_project(project_id, entry)
-            entry = self.projects.get(project_id)
-            if not entry:
-                continue
+        for project_id, entry in self.projects.items():
             results.append(entry.data.copy())
 
         return sorted(results, key=lambda x: x.get('entity_id', ''))

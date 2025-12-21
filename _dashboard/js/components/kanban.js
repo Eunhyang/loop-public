@@ -1,120 +1,75 @@
 /**
  * Kanban Component
- * 칸반 보드 렌더링 (프로젝트별 그룹)
+ * 칸반 보드 렌더링 (2단계 탭: Assignee → Project)
  */
 const Kanban = {
-    // 프로젝트 접기/펼치기 상태 (기본: 모두 펼침)
-    collapsedProjects: new Set(),
+    /**
+     * Project 탭 렌더링 (하위 탭 - 해당 담당자의 Task가 있는 프로젝트만)
+     */
+    renderProjectFilter() {
+        const filterEl = document.getElementById('assigneeFilter');
+        if (!filterEl) return;
+
+        // 현재 담당자의 Task가 있는 프로젝트 목록
+        const projectsWithTasks = State.getProjectsForAssignee();
+
+        // 전체 Task 수 계산
+        let totalTasks = 0;
+        projectsWithTasks.forEach(p => totalTasks += p.taskCount);
+
+        // All Projects 버튼
+        let html = `
+            <button class="filter-btn ${State.currentProject === 'all' ? 'active' : ''}" data-project="all">
+                All Projects
+                <span class="filter-count">${totalTasks}</span>
+            </button>
+        `;
+
+        // 각 프로젝트 버튼
+        projectsWithTasks.forEach(p => {
+            html += `
+                <button class="filter-btn ${State.currentProject === p.entity_id ? 'active' : ''}" data-project="${p.entity_id}">
+                    ${p.entity_name || p.entity_id}
+                    <span class="filter-count">${p.taskCount}</span>
+                </button>
+            `;
+        });
+
+        filterEl.innerHTML = html;
+
+        // 이벤트 리스너
+        filterEl.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                State.currentProject = btn.dataset.project;
+                this.renderProjectFilter();
+                this.render();
+            });
+        });
+    },
 
     render() {
         const boardEl = document.getElementById('board');
-        const groupedByProject = State.getTasksGroupedByProject();
         const statuses = State.getTaskStatuses();
         const statusLabels = State.getTaskStatusLabels();
+        const grouped = State.getTasksByStatus();
 
-        // 프로젝트가 없는 경우
-        const projectIds = Object.keys(groupedByProject);
-        if (projectIds.length === 0) {
-            boardEl.innerHTML = `
-                <div class="empty-board">
-                    <div class="empty-icon">📋</div>
-                    <div class="empty-text">No tasks for this assignee</div>
+        boardEl.innerHTML = statuses.map(status => `
+            <div class="kanban-column" data-status="${status}">
+                <div class="column-header">
+                    <span class="column-title">${statusLabels[status] || status}</span>
+                    <span class="column-count">${grouped[status]?.length || 0}</span>
                 </div>
-            `;
-            return;
-        }
-
-        // 프로젝트별로 그룹 렌더링
-        let html = '';
-        projectIds.forEach(projectId => {
-            const tasks = groupedByProject[projectId];
-            const projectName = State.getProjectDisplayName(projectId);
-            const isCollapsed = this.collapsedProjects.has(projectId);
-            const project = State.getProjectById(projectId);
-
-            // 상태별로 Task 그룹핑
-            const tasksByStatus = {};
-            statuses.forEach(s => tasksByStatus[s] = []);
-            tasks.forEach(task => {
-                const status = State.normalizeStatus(task.status);
-                if (tasksByStatus[status]) {
-                    tasksByStatus[status].push(task);
-                }
-            });
-
-            html += `
-                <div class="project-group ${isCollapsed ? 'collapsed' : ''}" data-project-id="${projectId}">
-                    <div class="project-group-header" data-project-id="${projectId}">
-                        <span class="collapse-icon">${isCollapsed ? '▶' : '▼'}</span>
-                        <span class="project-name">${projectName}</span>
-                        <span class="project-task-count">${tasks.length}</span>
-                        ${project ? `<button class="project-edit-btn" data-project-id="${projectId}" title="Edit Project">⚙️</button>` : ''}
-                    </div>
-                    <div class="project-kanban" ${isCollapsed ? 'style="display:none;"' : ''}>
-                        ${statuses.map(status => `
-                            <div class="kanban-column" data-status="${status}" data-project-id="${projectId}">
-                                <div class="column-header">
-                                    <span class="column-title">${statusLabels[status] || status}</span>
-                                    <span class="column-count">${tasksByStatus[status]?.length || 0}</span>
-                                </div>
-                                <div class="column-body">
-                                    ${(tasksByStatus[status]?.length === 0)
-                                        ? '<div class="empty-column">No tasks</div>'
-                                        : tasksByStatus[status].map(task => TaskCard.render(task)).join('')
-                                    }
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
+                <div class="column-body">
+                    ${(grouped[status]?.length === 0)
+                        ? '<div class="empty-column">No tasks</div>'
+                        : grouped[status].map(task => TaskCard.render(task)).join('')
+                    }
                 </div>
-            `;
-        });
+            </div>
+        `).join('');
 
-        boardEl.innerHTML = html;
-
-        // 이벤트 리스너 추가
+        // Add event listeners for task cards
         this.attachCardListeners();
-        this.attachProjectGroupListeners();
-    },
-
-    attachProjectGroupListeners() {
-        // 프로젝트 그룹 헤더 클릭 (접기/펼치기)
-        document.querySelectorAll('.project-group-header').forEach(header => {
-            header.addEventListener('click', (e) => {
-                // Edit 버튼 클릭 시 무시
-                if (e.target.closest('.project-edit-btn')) return;
-
-                const projectId = header.dataset.projectId;
-                this.toggleProjectCollapse(projectId);
-            });
-        });
-
-        // 프로젝트 Edit 버튼
-        document.querySelectorAll('.project-edit-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const projectId = btn.dataset.projectId;
-                ProjectPanel.open(projectId);
-            });
-        });
-    },
-
-    toggleProjectCollapse(projectId) {
-        const group = document.querySelector(`.project-group[data-project-id="${projectId}"]`);
-        const kanban = group.querySelector('.project-kanban');
-        const icon = group.querySelector('.collapse-icon');
-
-        if (this.collapsedProjects.has(projectId)) {
-            this.collapsedProjects.delete(projectId);
-            group.classList.remove('collapsed');
-            kanban.style.display = '';
-            icon.textContent = '▼';
-        } else {
-            this.collapsedProjects.add(projectId);
-            group.classList.add('collapsed');
-            kanban.style.display = 'none';
-            icon.textContent = '▶';
-        }
     },
 
     attachCardListeners() {

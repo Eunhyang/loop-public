@@ -23,6 +23,8 @@ outgoing_relations:
   description: Track 2 Data의 핵심 프로젝트
 validates:
 - mh:3
+- hyp:2-01
+- hyp:2-02
 validated_by: []
 hypothesis_id: hyp:001
 objective: 5개 코어 엔티티로 Loop 데이터 표현 가능성 검증

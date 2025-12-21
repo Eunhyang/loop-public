@@ -55,7 +55,9 @@ const Tabs = {
 
     select(assigneeId) {
         State.currentAssignee = assigneeId;
+        State.currentProject = 'all';  // 담당자 변경 시 프로젝트 필터 초기화
         this.render();
+        Kanban.renderProjectFilter();
         Kanban.render();
     }
 };

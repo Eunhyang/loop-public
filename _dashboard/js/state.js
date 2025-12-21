@@ -240,51 +240,39 @@ const State = {
         return counts;
     },
 
-    // Get tasks filtered by assignee, grouped by project
-    getTasksGroupedByProject() {
-        // 1. Filter by assignee
+    // Get projects that have tasks for current assignee (for Project sub-tabs)
+    getProjectsForAssignee() {
+        // 1. Filter tasks by current assignee
         let filtered = this.tasks;
         if (this.currentAssignee !== 'all') {
-            filtered = filtered.filter(t => t.assignee === this.currentAssignee);
-        }
-
-        // 2. Apply other filters (track, hypothesis, condition)
-        if (this.filterTrack && this.filterTrack !== 'all') {
-            const trackProjects = this.projects
-                .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
-                .map(p => p.entity_id);
-            filtered = filtered.filter(t => trackProjects.includes(t.project_id));
-        }
-
-        if (this.filterHypothesis) {
-            filtered = filtered.filter(t =>
-                t.validates?.includes(this.filterHypothesis) ||
-                t.outgoing_relations?.some(r => r.target_id === this.filterHypothesis)
-            );
-        }
-
-        if (this.filterCondition) {
-            filtered = filtered.filter(t =>
-                t.conditions_3y?.includes(this.filterCondition)
-            );
-        }
-
-        // 3. Group by project_id
-        const grouped = {};
-        filtered.forEach(task => {
-            const projectId = task.project_id || 'unassigned';
-            if (!grouped[projectId]) {
-                grouped[projectId] = [];
+            if (this.currentAssignee === 'unassigned') {
+                filtered = filtered.filter(t => !t.assignee);
+            } else {
+                filtered = filtered.filter(t => t.assignee === this.currentAssignee);
             }
-            grouped[projectId].push(task);
+        }
+
+        // 2. Count tasks per project
+        const projectTaskCount = {};
+        filtered.forEach(task => {
+            const projectId = task.project_id;
+            if (projectId) {
+                projectTaskCount[projectId] = (projectTaskCount[projectId] || 0) + 1;
+            }
         });
 
-        return grouped;
-    },
+        // 3. Get project objects with task count
+        const result = [];
+        Object.keys(projectTaskCount).forEach(projectId => {
+            const project = this.getProjectById(projectId);
+            if (project) {
+                result.push({
+                    ...project,
+                    taskCount: projectTaskCount[projectId]
+                });
+            }
+        });
 
-    // Get project info for display
-    getProjectDisplayName(projectId) {
-        const project = this.getProjectById(projectId);
-        return project ? (project.entity_name || projectId) : projectId;
+        return result;
     }
 };

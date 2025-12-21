@@ -11,7 +11,10 @@ aliases:
 - LoopOS V0 데이터 설계
 - prj-003
 outgoing_relations: []
-validates: []
+validates:
+  - hyp:2-01
+  - hyp:2-02
+  - hyp:2-03
 validated_by: []
 owner: 김은향
 budget: null

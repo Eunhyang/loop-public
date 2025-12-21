@@ -11,7 +11,9 @@ aliases:
 - 코치 1명 구인 & 1차 온보딩 준비
 - prj-006
 outgoing_relations: []
-validates: []
+validates:
+  - hyp:4-06
+  - hyp:4-07
 validated_by: []
 owner: 미정
 budget: null

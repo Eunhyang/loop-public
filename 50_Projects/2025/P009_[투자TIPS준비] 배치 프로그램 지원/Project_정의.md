@@ -15,7 +15,9 @@ aliases:
 
 # === 관계 ===
 outgoing_relations: []
-validates: []
+validates:
+  - hyp:6-13
+  - hyp:6-14
 validated_by: []
 
 # === Project 전용 ===

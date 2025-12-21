@@ -40,6 +40,7 @@ async function init() {
 
         // Render UI
         Tabs.render();
+        Kanban.renderProjectFilter();
         Kanban.render();
 
         // Populate form selects
