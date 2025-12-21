@@ -2,53 +2,57 @@
 Project API Router
 
 Project 생성 및 조회 엔드포인트
+캐시 기반으로 O(1) 조회 지원
 """
 
 import re
 import yaml
+import shutil
 from pathlib import Path
 from datetime import datetime
 from fastapi import APIRouter, HTTPException
 
 from ..models.entities import ProjectCreate, ProjectUpdate, ProjectResponse
+from ..cache import get_cache
 from ..utils.vault_utils import (
-    extract_frontmatter,
-    get_next_project_id,
     sanitize_filename,
     get_vault_dir
 )
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
 
-# Vault 경로 (환경에 따라 자동 감지)
+# Vault 경로
 VAULT_DIR = get_vault_dir()
 PROJECTS_DIR = VAULT_DIR / "50_Projects/2025"
 
 
 @router.get("")
 def get_projects():
-    """프로젝트 목록 조회"""
-    projects = []
+    """프로젝트 목록 조회 (캐시 기반)"""
+    cache = get_cache()
+    projects = cache.get_all_projects()
+    return {"projects": projects}
 
-    for project_dir in PROJECTS_DIR.glob("P*"):
-        project_file = project_dir / "Project_정의.md"
-        if not project_file.exists():
-            continue
 
-        frontmatter = extract_frontmatter(project_file)
-        if frontmatter:
-            frontmatter['_path'] = str(project_dir.relative_to(VAULT_DIR))
-            projects.append(frontmatter)
+@router.get("/{project_id}")
+def get_project(project_id: str):
+    """개별 Project 조회"""
+    cache = get_cache()
+    project = cache.get_project(project_id)
 
-    return {"projects": sorted(projects, key=lambda x: x.get('entity_id', ''))}
+    if not project:
+        raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
+
+    return {"project": project}
 
 
 @router.post("", response_model=ProjectResponse)
 def create_project(project: ProjectCreate):
     """Project 생성"""
+    cache = get_cache()
 
-    # 1. Project ID 생성
-    project_id = get_next_project_id(VAULT_DIR)
+    # 1. Project ID 생성 (캐시 기반)
+    project_id = cache.get_next_project_id()
     project_num = re.match(r'prj:(\d+)', project_id).group(1)
 
     # 2. 프로젝트 디렉토리 생성
@@ -72,7 +76,7 @@ def create_project(project: ProjectCreate):
         "status": "planning",
         "owner": project.owner,
         "priority_flag": project.priority,
-        "aliases": [project_id],  # Obsidian 링크용
+        "aliases": [project_id],
         "tags": []
     }
 
@@ -98,6 +102,9 @@ def create_project(project: ProjectCreate):
     with open(project_file, 'w', encoding='utf-8') as f:
         f.write(content)
 
+    # 6. 캐시 업데이트
+    cache.set_project(project_id, frontmatter, project_file)
+
     return ProjectResponse(
         success=True,
         project_id=project_id,
@@ -109,28 +116,26 @@ def create_project(project: ProjectCreate):
 @router.put("/{project_id}", response_model=ProjectResponse)
 def update_project(project_id: str, project: ProjectUpdate):
     """Project 수정"""
+    cache = get_cache()
 
-    # 1. Project 파일 찾기
-    project_file = None
-    project_dir = None
-    for pd in PROJECTS_DIR.glob("P*"):
-        pf = pd / "Project_정의.md"
-        if not pf.exists():
-            continue
-        frontmatter = extract_frontmatter(pf)
-        if frontmatter and frontmatter.get('entity_id') == project_id:
-            project_file = pf
-            project_dir = pd
-            break
-
-    if not project_file:
+    # 1. 캐시에서 Project 조회
+    project_data = cache.get_project(project_id)
+    if not project_data:
         raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
 
-    # 2. 파일 읽기
-    with open(project_file, 'r', encoding='utf-8') as f:
-        content = f.read()
+    # 2. 파일 경로 가져오기
+    project_dir = cache.get_project_dir(project_id)
+    project_file = project_dir / "Project_정의.md"
 
-    # 3. Frontmatter 파싱
+    # 3. 파일 읽기
+    try:
+        with open(project_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        cache.remove_project(project_id)
+        raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
+
+    # 4. Frontmatter 파싱
     match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
     if not match:
         raise HTTPException(status_code=500, detail="Invalid frontmatter format")
@@ -138,7 +143,7 @@ def update_project(project_id: str, project: ProjectUpdate):
     frontmatter = yaml.safe_load(match.group(1))
     body = match.group(2)
 
-    # 4. 업데이트
+    # 5. 업데이트
     if project.entity_name is not None:
         frontmatter['entity_name'] = project.entity_name
     if project.owner is not None:
@@ -158,13 +163,16 @@ def update_project(project_id: str, project: ProjectUpdate):
 
     frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
 
-    # 5. 파일 다시 쓰기
+    # 6. 파일 다시 쓰기
     new_content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
 {body}"""
 
     with open(project_file, 'w', encoding='utf-8') as f:
         f.write(new_content)
+
+    # 7. 캐시 업데이트
+    cache.set_project(project_id, frontmatter, project_file)
 
     return ProjectResponse(
         success=True,
@@ -183,19 +191,10 @@ def delete_project(project_id: str, force: bool = False):
         project_id: 삭제할 프로젝트 ID
         force: True면 하위 Task 포함 강제 삭제, False면 Task 있을 시 거부
     """
-    import shutil
+    cache = get_cache()
 
-    # 1. Project 디렉토리 찾기
-    project_dir = None
-    for pd in PROJECTS_DIR.glob("P*"):
-        pf = pd / "Project_정의.md"
-        if not pf.exists():
-            continue
-        frontmatter = extract_frontmatter(pf)
-        if frontmatter and frontmatter.get('entity_id') == project_id:
-            project_dir = pd
-            break
-
+    # 1. 캐시에서 Project 디렉토리 찾기
+    project_dir = cache.get_project_dir(project_id)
     if not project_dir:
         raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
 
@@ -210,11 +209,21 @@ def delete_project(project_id: str, force: bool = False):
             detail=f"Project has {task_count} task(s). Use force=true to delete with tasks."
         )
 
-    # 3. 디렉토리 전체 삭제
+    # 3. 하위 Task 캐시에서 제거
+    for task_file in task_files:
+        from ..utils.vault_utils import extract_frontmatter
+        fm = extract_frontmatter(task_file)
+        if fm and fm.get('entity_id'):
+            cache.remove_task(fm['entity_id'])
+
+    # 4. 디렉토리 전체 삭제
     dir_name = project_dir.name
     shutil.rmtree(project_dir)
 
-    message = f"Project deleted successfully"
+    # 5. 캐시에서 제거
+    cache.remove_project(project_id)
+
+    message = "Project deleted successfully"
     if task_count > 0:
         message += f" (including {task_count} task(s))"
 

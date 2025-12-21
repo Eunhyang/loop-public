@@ -2,7 +2,7 @@
 LOOP Dashboard API Server
 
 Task/Project를 웹 UI에서 생성/수정/삭제할 수 있도록 REST API 제공
-루트 경로(/)에서 칸반 보드 UI 제공
+인메모리 캐시로 O(1) 조회 성능 제공
 
 Usage:
     # Development
@@ -22,6 +22,8 @@ Endpoints:
     POST /api/projects           - Project 생성
 
     GET  /api/members            - 멤버 목록
+    GET  /api/cache/stats        - 캐시 통계
+    POST /api/cache/reload       - 캐시 리로드
     GET  /api/info               - API 정보
     GET  /health                 - Health check
 """
@@ -36,6 +38,7 @@ from fastapi.staticfiles import StaticFiles
 from .routers import tasks, projects, tracks, hypotheses, conditions, strategy
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
+from .cache import get_cache
 
 # ============================================
 # FastAPI App
@@ -117,10 +120,38 @@ def get_constants():
 
 @app.get("/health")
 def health_check():
-    """헬스 체크"""
+    """헬스 체크 (캐시 기반)"""
+    cache = get_cache()
+    stats = cache.stats()
+
     return {
         "status": "healthy",
         "vault_exists": VAULT_DIR.exists(),
-        "projects_count": len(list((VAULT_DIR / "50_Projects/2025").glob("P*"))),
+        "cache": {
+            "tasks": stats["tasks"],
+            "projects": stats["projects"],
+            "load_time_seconds": stats["load_time_seconds"]
+        },
         "timestamp": datetime.now().isoformat()
+    }
+
+
+@app.get("/api/cache/stats")
+def cache_stats():
+    """캐시 통계"""
+    cache = get_cache()
+    return cache.stats()
+
+
+@app.post("/api/cache/reload")
+def cache_reload():
+    """캐시 리로드 (강제 갱신)"""
+    cache = get_cache()
+    cache.reload()
+    stats = cache.stats()
+
+    return {
+        "success": True,
+        "message": "Cache reloaded",
+        "stats": stats
     }

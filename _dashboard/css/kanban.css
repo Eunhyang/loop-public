@@ -1,60 +1,124 @@
 /* ============================================
-   Assignee Filter Bar
+   Tab Count Badge
    ============================================ */
-.filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 32px;
-    background: #f8f9fa;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.filter-label {
-    font-size: 0.85em;
-    font-weight: 500;
-    color: #666;
-}
-
-.filter-buttons {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 6px 14px;
-    font-size: 0.85em;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    background: white;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.filter-btn:hover {
-    border-color: #667eea;
-    background: #f8f8ff;
-}
-
-.filter-btn.active {
-    background: #667eea;
-    color: white;
-    border-color: #667eea;
-}
-
-.filter-btn .filter-count {
-    font-size: 0.8em;
-    padding: 2px 6px;
+.tab-count {
+    font-size: 0.75em;
+    padding: 2px 8px;
     border-radius: 10px;
     background: rgba(0,0,0,0.1);
+    margin-left: 6px;
 }
 
-.filter-btn.active .filter-count {
-    background: rgba(255,255,255,0.3);
+.tab.active .tab-count {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+/* ============================================
+   Project Group (Kanban by Assignee)
+   ============================================ */
+.project-group {
+    margin-bottom: 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.project-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.project-group-header:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+}
+
+.collapse-icon {
+    font-size: 0.8em;
+    color: #666;
+    width: 16px;
+}
+
+.project-name {
+    font-weight: 600;
+    font-size: 1em;
+    color: #333;
+    flex: 1;
+}
+
+.project-task-count {
+    font-size: 0.85em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #667eea;
+    color: white;
+    font-weight: 500;
+}
+
+.project-edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+.project-group-header:hover .project-edit-btn {
+    opacity: 0.7;
+}
+
+.project-edit-btn:hover {
+    opacity: 1 !important;
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.project-kanban {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    overflow-x: auto;
+    background: #fafbfc;
+}
+
+.project-group.collapsed .project-group-header {
+    border-bottom: none;
+}
+
+/* ============================================
+   Empty Board State
+   ============================================ */
+.empty-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-icon {
+    font-size: 3em;
+    margin-bottom: 16px;
+}
+
+.empty-text {
+    font-size: 1.1em;
+}
+
+/* ============================================
+   Filter Bar (hidden in new layout)
+   ============================================ */
+.filter-bar {
+    display: none;
 }
 
 /* ============================================
