@@ -216,5 +216,75 @@ const State = {
         });
 
         return grouped;
+    },
+
+    // ============================================
+    // Assignee-centric helpers (for Kanban by Assignee)
+    // ============================================
+
+    // Get task count per assignee (for tabs)
+    getTaskCountByAssignee() {
+        const counts = { all: this.tasks.length };
+        this.members.forEach(m => counts[m.id] = 0);
+        counts['unassigned'] = 0;
+
+        this.tasks.forEach(task => {
+            const assignee = task.assignee || 'unassigned';
+            if (counts[assignee] !== undefined) {
+                counts[assignee]++;
+            } else {
+                counts['unassigned']++;
+            }
+        });
+
+        return counts;
+    },
+
+    // Get tasks filtered by assignee, grouped by project
+    getTasksGroupedByProject() {
+        // 1. Filter by assignee
+        let filtered = this.tasks;
+        if (this.currentAssignee !== 'all') {
+            filtered = filtered.filter(t => t.assignee === this.currentAssignee);
+        }
+
+        // 2. Apply other filters (track, hypothesis, condition)
+        if (this.filterTrack && this.filterTrack !== 'all') {
+            const trackProjects = this.projects
+                .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => trackProjects.includes(t.project_id));
+        }
+
+        if (this.filterHypothesis) {
+            filtered = filtered.filter(t =>
+                t.validates?.includes(this.filterHypothesis) ||
+                t.outgoing_relations?.some(r => r.target_id === this.filterHypothesis)
+            );
+        }
+
+        if (this.filterCondition) {
+            filtered = filtered.filter(t =>
+                t.conditions_3y?.includes(this.filterCondition)
+            );
+        }
+
+        // 3. Group by project_id
+        const grouped = {};
+        filtered.forEach(task => {
+            const projectId = task.project_id || 'unassigned';
+            if (!grouped[projectId]) {
+                grouped[projectId] = [];
+            }
+            grouped[projectId].push(task);
+        });
+
+        return grouped;
+    },
+
+    // Get project info for display
+    getProjectDisplayName(projectId) {
+        const project = this.getProjectById(projectId);
+        return project ? (project.entity_name || projectId) : projectId;
     }
 };
