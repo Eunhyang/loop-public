@@ -3,7 +3,7 @@ entity_type: Track
 entity_id: trk-3
 entity_name: Track_3_Content
 created: 2024-12-18
-updated: 2024-12-18
+updated: 2025-12-22
 status: active
 parent_id: cond-a
 aliases:
@@ -204,7 +204,7 @@ Content(GLP-1 & Loop Narrative) 트랙. GLP-1 Off-phase 언어 정의, Loop Inde
 
 ## 12개월 액션 플랜
 
-### Q1 2025 (1-3월): 언어 정의 + 기반
+### Q1 2026 (1-3월): 언어 정의 + 기반
 **목표**:
 - GLP-1 언어 10개 정의
 - 콘텐츠 20개
@@ -219,7 +219,7 @@ Content(GLP-1 & Loop Narrative) 트랙. GLP-1 Off-phase 언어 정의, Loop Inde
 
 ---
 
-### Q2 2025 (4-6월): 확산
+### Q2 2026 (4-6월): 확산
 **목표**:
 - GLP-1 키워드 20개
 - 콘텐츠 35개
@@ -234,7 +234,7 @@ Content(GLP-1 & Loop Narrative) 트랙. GLP-1 Off-phase 언어 정의, Loop Inde
 
 ---
 
-### Q3-Q4 2025 (7-12월): 성숙
+### Q3-Q4 2026 (7-12월): 성숙
 **목표**:
 - GLP-1 키워드 30개
 - 콘텐츠 50개
@@ -285,5 +285,5 @@ graph TD
 
 **최초 작성**: 2024-12-18
 **마지막 업데이트**: 2024-12-18 (20% 진행)
-**다음 체크**: 2025-01 (Q1 진행 상황)
+**다음 체크**: 2026-01 (Q1 진행 상황)
 **책임자**: 콘텐츠 담당

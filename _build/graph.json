@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-21T21:14:08.652634",
-  "total_entities": 137,
+  "generated": "2025-12-22T05:05:48.000318",
+  "total_entities": 139,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -94,25 +94,11 @@
       "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
     },
     {
-      "id": "hyp-2-06",
-      "type": "Hypothesis",
-      "name": "패턴 재현율",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
-    },
-    {
       "id": "hyp-2-07",
       "type": "Hypothesis",
       "name": "효과지표 산출 자동화",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
-    },
-    {
-      "id": "hyp-2-08",
-      "type": "Hypothesis",
-      "name": "데이터로 루프 재구성",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
     },
     {
       "id": "hyp-2-09",
@@ -143,25 +129,11 @@
       "path": "60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md"
     },
     {
-      "id": "hyp-4-09",
-      "type": "Hypothesis",
-      "name": "코칭→데이터 엔진",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
-    },
-    {
       "id": "hyp-4-10",
       "type": "Hypothesis",
       "name": "코칭 포지셔닝",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md"
-    },
-    {
-      "id": "hyp-6-01",
-      "type": "Hypothesis",
-      "name": "전면 유료화 성립",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
     },
     {
       "id": "hyp-6-02",
@@ -218,27 +190,6 @@
       "name": "운영비 구조가 런웨이를 만든다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md"
-    },
-    {
-      "id": "hyp-6-12",
-      "type": "Hypothesis",
-      "name": "월매출 런웨이 최소선",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
-    },
-    {
-      "id": "hyp-2-01",
-      "type": "Hypothesis",
-      "name": "스키마 최소세트가 충분",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
-    },
-    {
-      "id": "hyp-2-02",
-      "type": "Hypothesis",
-      "name": "스키마 안정성",
-      "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
     },
     {
       "id": "hyp-2-03",
@@ -316,6 +267,55 @@
       "name": "TIPS/투자 요구조건 충족",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
+    },
+    {
+      "id": "hyp-2-06",
+      "type": "Hypothesis",
+      "name": "패턴 재현율",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
+    },
+    {
+      "id": "hyp-2-08",
+      "type": "Hypothesis",
+      "name": "데이터로 루프 재구성",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
+    },
+    {
+      "id": "hyp-4-09",
+      "type": "Hypothesis",
+      "name": "코칭→데이터 엔진",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
+    },
+    {
+      "id": "hyp-6-01",
+      "type": "Hypothesis",
+      "name": "전면 유료화 성립",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
+    },
+    {
+      "id": "hyp-6-12",
+      "type": "Hypothesis",
+      "name": "월매출 런웨이 최소선",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
+    },
+    {
+      "id": "hyp-2-01",
+      "type": "Hypothesis",
+      "name": "스키마 최소세트가 충분",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
+    },
+    {
+      "id": "hyp-2-02",
+      "type": "Hypothesis",
+      "name": "스키마 안정성",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
     },
     {
       "id": "hyp-6-14",
@@ -1102,6 +1102,13 @@
       "assignee": "임단"
     },
     {
+      "id": "idx:01_north_star",
+      "type": "Index",
+      "name": "North Star 인덱스",
+      "status": null,
+      "path": "01_North_Star/_INDEX.md"
+    },
+    {
       "id": "mh-3",
       "type": "MetaHypothesis",
       "name": "MH3_데이터_모델링_가능",
@@ -1116,13 +1123,6 @@
       "status": "fixed",
       "path": "01_North_Star/10년 비전.md",
       "priority_flag": "critical"
-    },
-    {
-      "id": "idx:01_north_star",
-      "type": "Index",
-      "name": "North Star 인덱스",
-      "status": null,
-      "path": "01_North_Star/_INDEX.md"
     },
     {
       "id": "mh-2",
@@ -1149,23 +1149,19 @@
       "priority_flag": "critical"
     },
     {
+      "id": "retro:2025-annual",
+      "type": "Retrospective",
+      "name": "소식연구소 2025년 연간 회고",
+      "status": "done",
+      "path": "70_Experiments/2025/2025_연간_회고.md",
+      "priority_flag": "critical"
+    },
+    {
       "id": "idx:20_strategy-12m_tracks",
       "type": "Index",
       "name": "12개월 트랙 인덱스",
       "status": null,
       "path": "20_Strategy/12M_Tracks/2026/_INDEX.md"
-    },
-    {
-      "id": "trk-1",
-      "type": "Track",
-      "name": "Track_1_Product",
-      "status": "active",
-      "path": "20_Strategy/12M_Tracks/2026/Track_1_Product.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
-      "priority_flag": "medium",
-      "owner": "PM 1 + 개발 1 + 노코드 지원"
     },
     {
       "id": "trk-2",
@@ -1218,6 +1214,18 @@
       "owner": "Founder + BD 담당"
     },
     {
+      "id": "trk-1",
+      "type": "Track",
+      "name": "Track_1_Product",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/2026/Track_1_Product.md",
+      "conditions_3y": [
+        "cond-a"
+      ],
+      "priority_flag": "medium",
+      "owner": "PM 1 + 개발 1 + 노코드 지원"
+    },
+    {
       "id": "trk-6",
       "type": "Track",
       "name": "Track_6_Revenue",
@@ -1230,14 +1238,6 @@
       "owner": "Founder + 전 팀"
     },
     {
-      "id": "cond-b",
-      "type": "Condition",
-      "name": "Condition_B_Loop_Dataset",
-      "status": "in_progress",
-      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md",
-      "priority_flag": "critical"
-    },
-    {
       "id": "idx:20_strategy-3y_conditions",
       "type": "Index",
       "name": "3년 조건 인덱스",
@@ -1245,11 +1245,11 @@
       "path": "20_Strategy/3Y_Conditions_2026-2028/_INDEX.md"
     },
     {
-      "id": "cond-a",
+      "id": "cond-b",
       "type": "Condition",
-      "name": "Condition_A_PMF",
+      "name": "Condition_B_Loop_Dataset",
       "status": "in_progress",
-      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_A_PMF.md",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md",
       "priority_flag": "critical"
     },
     {
@@ -1275,6 +1275,14 @@
       "status": "in_progress",
       "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_E_Team.md",
       "priority_flag": "high"
+    },
+    {
+      "id": "cond-a",
+      "type": "Condition",
+      "name": "Condition_A_PMF",
+      "status": "in_progress",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_A_PMF.md",
+      "priority_flag": "critical"
     },
     {
       "id": "pl-1",
@@ -1347,6 +1355,13 @@
       "status": "planning",
       "path": "20_Strategy/PartnershipStages/PS4_글로벌_제약_보험_API.md",
       "priority_flag": "critical"
+    },
+    {
+      "id": "concept-os-stickiness",
+      "type": "Concept",
+      "name": "OS_Stickiness",
+      "status": "active",
+      "path": "20_Strategy/Concepts/OS_Stickiness.md"
     }
   ],
   "edges": [
@@ -1412,17 +1427,7 @@
     },
     {
       "source": "trk-2",
-      "target": "hyp-2-06",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
       "target": "hyp-2-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-08",
       "type": "parent_of"
     },
     {
@@ -1437,22 +1442,32 @@
     },
     {
       "source": "trk-2",
-      "target": "hyp-2-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
       "target": "hyp-2-03",
       "type": "parent_of"
     },
     {
       "source": "trk-2",
       "target": "hyp-2-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-02",
       "type": "parent_of"
     },
     {
@@ -1483,11 +1498,6 @@
     {
       "source": "trk-4",
       "target": "hyp-4-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-09",
       "type": "parent_of"
     },
     {
@@ -1527,6 +1537,11 @@
     },
     {
       "source": "trk-4",
+      "target": "hyp-4-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
       "target": "prj-014",
       "type": "parent_of"
     },
@@ -1548,11 +1563,6 @@
     {
       "source": "trk-4",
       "target": "prj-008",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-01",
       "type": "parent_of"
     },
     {
@@ -1597,11 +1607,6 @@
     },
     {
       "source": "trk-6",
-      "target": "hyp-6-12",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
       "target": "hyp-6-09",
       "type": "parent_of"
     },
@@ -1613,6 +1618,16 @@
     {
       "source": "trk-6",
       "target": "hyp-6-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-12",
       "type": "parent_of"
     },
     {
@@ -1906,21 +1921,6 @@
       "type": "parent_of"
     },
     {
-      "source": "cond-a",
-      "target": "trk-1",
-      "type": "parent_of"
-    },
-    {
-      "source": "cond-a",
-      "target": "trk-3",
-      "type": "parent_of"
-    },
-    {
-      "source": "cond-a",
-      "target": "pl-1",
-      "type": "parent_of"
-    },
-    {
       "source": "cond-b",
       "target": "trk-2",
       "type": "parent_of"
@@ -1948,6 +1948,21 @@
     {
       "source": "cond-b",
       "target": "ps-2",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond-a",
+      "target": "trk-3",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond-a",
+      "target": "trk-1",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond-a",
+      "target": "pl-1",
       "type": "parent_of"
     },
     {
@@ -1981,11 +1996,6 @@
       "type": "parent_of"
     },
     {
-      "source": "mh-1",
-      "target": "cond-a",
-      "type": "parent_of"
-    },
-    {
       "source": "mh-4",
       "target": "cond-d",
       "type": "parent_of"
@@ -1993,6 +2003,11 @@
     {
       "source": "mh-4",
       "target": "cond-e",
+      "type": "parent_of"
+    },
+    {
+      "source": "mh-1",
+      "target": "cond-a",
       "type": "parent_of"
     },
     {
@@ -2031,21 +2046,6 @@
       "type": "supports"
     },
     {
-      "source": "trk-1",
-      "target": "trk-6",
-      "type": "enables"
-    },
-    {
-      "source": "trk-1",
-      "target": "trk-2",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk-1",
-      "target": "trk-4",
-      "type": "supports"
-    },
-    {
       "source": "trk-2",
       "target": "cond-b",
       "type": "enables"
@@ -2096,6 +2096,21 @@
       "type": "depends_on"
     },
     {
+      "source": "trk-1",
+      "target": "trk-6",
+      "type": "enables"
+    },
+    {
+      "source": "trk-1",
+      "target": "trk-2",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk-1",
+      "target": "trk-4",
+      "type": "supports"
+    },
+    {
       "source": "trk-6",
       "target": "trk-1",
       "type": "depends_on"
@@ -2126,16 +2141,6 @@
       "type": "depends_on"
     },
     {
-      "source": "cond-a",
-      "target": "action:pmf_pivot",
-      "type": "triggers_shutdown"
-    },
-    {
-      "source": "cond-a",
-      "target": "mh-2",
-      "type": "depends_on"
-    },
-    {
       "source": "cond-c",
       "target": "action:global_expansion_shutdown",
       "type": "triggers_shutdown"
@@ -2149,6 +2154,16 @@
       "source": "cond-e",
       "target": "action:lite_focus",
       "type": "triggers_shutdown"
+    },
+    {
+      "source": "cond-a",
+      "target": "action:pmf_pivot",
+      "type": "triggers_shutdown"
+    },
+    {
+      "source": "cond-a",
+      "target": "mh-2",
+      "type": "depends_on"
     },
     {
       "source": "pl-1",
@@ -2361,8 +2376,23 @@
       "type": "validates"
     },
     {
-      "source": "trk-1",
-      "target": "cond-a",
+      "source": "retro:2025-annual",
+      "target": "mh-3",
+      "type": "validates"
+    },
+    {
+      "source": "retro:2025-annual",
+      "target": "trk-1",
+      "type": "validates"
+    },
+    {
+      "source": "retro:2025-annual",
+      "target": "trk-4",
+      "type": "validates"
+    },
+    {
+      "source": "retro:2025-annual",
+      "target": "trk-6",
       "type": "validates"
     },
     {
@@ -2371,33 +2401,13 @@
       "type": "validates"
     },
     {
+      "source": "trk-1",
+      "target": "cond-a",
+      "type": "validates"
+    },
+    {
       "source": "trk-6",
       "target": "cond-d",
-      "type": "validates"
-    },
-    {
-      "source": "prj-001",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-003",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-005",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-001",
-      "target": "hyp-2-02",
-      "type": "validates"
-    },
-    {
-      "source": "prj-003",
-      "target": "hyp-2-02",
       "type": "validates"
     },
     {
@@ -2463,6 +2473,31 @@
     {
       "source": "prj-009",
       "target": "hyp-6-13",
+      "type": "validates"
+    },
+    {
+      "source": "prj-001",
+      "target": "hyp-2-01",
+      "type": "validates"
+    },
+    {
+      "source": "prj-003",
+      "target": "hyp-2-01",
+      "type": "validates"
+    },
+    {
+      "source": "prj-005",
+      "target": "hyp-2-01",
+      "type": "validates"
+    },
+    {
+      "source": "prj-001",
+      "target": "hyp-2-02",
+      "type": "validates"
+    },
+    {
+      "source": "prj-003",
+      "target": "hyp-2-02",
       "type": "validates"
     },
     {
@@ -2566,21 +2601,6 @@
       "type": "validates"
     },
     {
-      "source": "mh-1",
-      "target": "cond-a",
-      "type": "validates"
-    },
-    {
-      "source": "mh-2",
-      "target": "cond-a",
-      "type": "validates"
-    },
-    {
-      "source": "trk-1",
-      "target": "cond-a",
-      "type": "validates"
-    },
-    {
       "source": "mh-3",
       "target": "cond-c",
       "type": "validates"
@@ -2598,6 +2618,21 @@
     {
       "source": "mh-4",
       "target": "cond-e",
+      "type": "validates"
+    },
+    {
+      "source": "mh-1",
+      "target": "cond-a",
+      "type": "validates"
+    },
+    {
+      "source": "mh-2",
+      "target": "cond-a",
+      "type": "validates"
+    },
+    {
+      "source": "trk-1",
+      "target": "cond-a",
       "type": "validates"
     },
     {
@@ -2755,8 +2790,8 @@
     "cond-a": [
       "prj-013",
       "tsk-013-01",
-      "trk-1",
-      "trk-3"
+      "trk-3",
+      "trk-1"
     ],
     "cond-c": [
       "prj-011",
@@ -2785,16 +2820,12 @@
       "hyp-1-10",
       "hyp-1-11",
       "hyp-2-05",
-      "hyp-2-06",
       "hyp-2-07",
-      "hyp-2-08",
       "hyp-2-09",
       "hyp-2-10",
       "hyp-4-02",
       "hyp-4-08",
-      "hyp-4-09",
       "hyp-4-10",
-      "hyp-6-01",
       "hyp-6-02",
       "hyp-6-03",
       "hyp-6-04",
@@ -2803,9 +2834,6 @@
       "hyp-6-07",
       "hyp-6-08",
       "hyp-6-11",
-      "hyp-6-12",
-      "hyp-2-01",
-      "hyp-2-02",
       "hyp-2-03",
       "hyp-2-04",
       "hyp-4-01",
@@ -2817,6 +2845,13 @@
       "hyp-6-09",
       "hyp-6-10",
       "hyp-6-13",
+      "hyp-2-06",
+      "hyp-2-08",
+      "hyp-4-09",
+      "hyp-6-01",
+      "hyp-6-12",
+      "hyp-2-01",
+      "hyp-2-02",
       "hyp-6-14"
     ],
     "Project": [
@@ -2894,20 +2929,23 @@
     "NorthStar": [
       "ns-001"
     ],
+    "Retrospective": [
+      "retro:2025-annual"
+    ],
     "Track": [
-      "trk-1",
       "trk-2",
       "trk-3",
       "trk-4",
       "trk-5",
+      "trk-1",
       "trk-6"
     ],
     "Condition": [
       "cond-b",
-      "cond-a",
       "cond-c",
       "cond-d",
-      "cond-e"
+      "cond-e",
+      "cond-a"
     ],
     "ProductLine": [
       "pl-1",
@@ -2921,6 +2959,9 @@
       "ps-2",
       "ps-3",
       "ps-4"
+    ],
+    "Concept": [
+      "concept-os-stickiness"
     ]
   },
   "by_status": {
@@ -2944,16 +2985,12 @@
       "hyp-1-10",
       "hyp-1-11",
       "hyp-2-05",
-      "hyp-2-06",
       "hyp-2-07",
-      "hyp-2-08",
       "hyp-2-09",
       "hyp-2-10",
       "hyp-4-02",
       "hyp-4-08",
-      "hyp-4-09",
       "hyp-4-10",
-      "hyp-6-01",
       "hyp-6-02",
       "hyp-6-03",
       "hyp-6-04",
@@ -2962,9 +2999,6 @@
       "hyp-6-07",
       "hyp-6-08",
       "hyp-6-11",
-      "hyp-6-12",
-      "hyp-2-01",
-      "hyp-2-02",
       "hyp-2-03",
       "hyp-2-04",
       "hyp-4-01",
@@ -2976,6 +3010,13 @@
       "hyp-6-09",
       "hyp-6-10",
       "hyp-6-13",
+      "hyp-2-06",
+      "hyp-2-08",
+      "hyp-4-09",
+      "hyp-6-01",
+      "hyp-6-12",
+      "hyp-2-01",
+      "hyp-2-02",
       "hyp-6-14",
       "tsk-003-07",
       "tsk-003-03",
@@ -3039,12 +3080,13 @@
       "prj-002",
       "prj-012",
       "prj-008",
-      "trk-1",
       "trk-2",
       "trk-3",
       "trk-4",
+      "trk-1",
       "trk-6",
-      "pl-1"
+      "pl-1",
+      "concept-os-stickiness"
     ],
     "in_progress": [
       "tsk-005-05",
@@ -3055,16 +3097,17 @@
       "tsk-012-01",
       "tsk-008-01",
       "cond-b",
-      "cond-a",
       "cond-d",
-      "cond-e"
+      "cond-e",
+      "cond-a"
     ],
     "pending": [
       "tsk-001-01",
       "tsk-002-01"
     ],
     "done": [
-      "tsk-001-03"
+      "tsk-001-03",
+      "retro:2025-annual"
     ],
     "todo": [
       "tsk-008-03",

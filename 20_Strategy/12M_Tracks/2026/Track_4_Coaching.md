@@ -3,7 +3,7 @@ entity_type: Track
 entity_id: trk-4
 entity_name: Track_4_Coaching
 created: 2024-12-18
-updated: 2024-12-18
+updated: 2025-12-22
 status: active
 parent_id: cond-b
 aliases:
@@ -252,7 +252,7 @@ Coaching(Human-in-the-loop Labeling Engine) 트랙. 코치 교육·라벨링·QA
 
 ## 12개월 액션 플랜
 
-### Q1 2025 (1-3월): 교육 + 확장
+### Q1 2026 (1-3월): 교육 + 확장
 **목표**:
 - 코치 4명
 - 참여자 100명
@@ -267,7 +267,7 @@ Coaching(Human-in-the-loop Labeling Engine) 트랙. 코치 교육·라벨링·QA
 
 ---
 
-### Q2 2025 (4-6월): 품질 + 규모
+### Q2 2026 (4-6월): 품질 + 규모
 **목표**:
 - 코치 5명
 - 참여자 120명
@@ -282,7 +282,7 @@ Coaching(Human-in-the-loop Labeling Engine) 트랙. 코치 교육·라벨링·QA
 
 ---
 
-### Q3-Q4 2025 (7-12월): 안정화
+### Q3-Q4 2026 (7-12월): 안정화
 **목표**:
 - 코치 6명
 - 참여자 150명
@@ -338,5 +338,5 @@ graph TD
 
 **최초 작성**: 2024-12-18
 **마지막 업데이트**: 2024-12-18 (40% 진행)
-**다음 체크**: 2025-01 (Q1 진행 상황)
+**다음 체크**: 2026-01 (Q1 진행 상황)
 **책임자**: 코치 팀 리드

@@ -7,6 +7,13 @@ const ProjectPanel = {
     isExpanded: false,
     isEditingNotes: false,
 
+    // Impact Score 계산을 위한 점수 테이블
+    tierPoints: {
+        strategic: { high: 10, mid: 6, low: 3 },
+        enabling: { high: 5, mid: 3, low: 1.5 },
+        operational: { high: 2, mid: 1, low: 0.5 }
+    },
+
     /**
      * 패널 초기화 - Select 옵션 채우기
      */
@@ -155,18 +162,27 @@ const ProjectPanel = {
      * Graph 뷰에서 노드 선택
      */
     navigateToGraphNode(entityId) {
+        console.log('navigateToGraphNode called with:', entityId);
+
         // Graph 객체 존재 확인
         if (typeof Graph === 'undefined' || !Array.isArray(Graph.nodes)) {
+            console.log('Graph.nodes not available, nodes count:', Graph?.nodes?.length);
             showToast('Graph view not available', 'error');
             return;
         }
 
+        console.log('Graph.nodes count:', Graph.nodes.length);
+        console.log('Available node IDs:', Graph.nodes.map(n => n.id).slice(0, 20));
+
         // 노드 찾기
         const node = Graph.nodes.find(n => n.id === entityId);
         if (!node) {
+            console.log('Node not found for ID:', entityId);
             showToast(`Entity "${entityId}" not found in graph`, 'error');
             return;
         }
+
+        console.log('Found node:', node);
 
         // 패널 닫기
         this.close();
@@ -242,6 +258,189 @@ const ProjectPanel = {
         previewEl.innerHTML = this.renderMarkdown(text);
     },
 
+    // 허용된 tier/magnitude 값 (XSS 방지)
+    validTiers: ['strategic', 'enabling', 'operational'],
+    validMagnitudes: ['high', 'mid', 'low'],
+
+    /**
+     * Expected Score (A) 계산
+     * 공식: magnitude_points[tier][magnitude] × confidence
+     */
+    calculateExpectedScore(project) {
+        let tier = project.tier || 'operational';
+        let magnitude = project.impact_magnitude || 'low';
+        const confidence = parseFloat(project.confidence) || 0;
+
+        // XSS 방지: 허용된 값만 사용
+        if (!this.validTiers.includes(tier)) tier = 'operational';
+        if (!this.validMagnitudes.includes(magnitude)) magnitude = 'low';
+
+        const tierData = this.tierPoints[tier];
+        if (!tierData) return null;
+
+        const points = tierData[magnitude];
+        if (points === undefined) return null;
+
+        return {
+            score: (points * confidence).toFixed(1),
+            tier: tier,
+            magnitude: magnitude,
+            confidence: confidence,
+            points: points
+        };
+    },
+
+    /**
+     * Realized Score (B) 정보 추출
+     */
+    getRealizedScoreInfo(project) {
+        const realizedImpact = project.realized_impact;
+        if (!realizedImpact) return null;
+
+        return {
+            outcome: realizedImpact.outcome || null,
+            evidence: realizedImpact.evidence || null,
+            updated: realizedImpact.updated || null
+        };
+    },
+
+    /**
+     * Expected Impact 정보 추출
+     */
+    getExpectedImpactInfo(project) {
+        const expectedImpact = project.expected_impact;
+        if (!expectedImpact) return null;
+
+        return {
+            statement: expectedImpact.statement || null,
+            metric: expectedImpact.metric || null,
+            target: expectedImpact.target || null
+        };
+    },
+
+    /**
+     * Impact Score 섹션 렌더링
+     */
+    renderImpactSection(project) {
+        // Expected Score (A)
+        const expectedEl = document.getElementById('panelExpectedScore');
+        const expectedDetailsEl = document.getElementById('panelExpectedDetails');
+        const expectedData = this.calculateExpectedScore(project);
+
+        if (expectedData) {
+            expectedEl.textContent = expectedData.score;
+            expectedEl.classList.remove('empty');
+
+            // 상세 정보 (tier/magnitude/confidence)
+            expectedDetailsEl.innerHTML = `
+                <div class="impact-detail-row">
+                    <span class="impact-detail-label">Tier:</span>
+                    <span class="impact-detail-value tier-${expectedData.tier}">${expectedData.tier}</span>
+                </div>
+                <div class="impact-detail-row">
+                    <span class="impact-detail-label">Magnitude:</span>
+                    <span class="impact-detail-value">${expectedData.magnitude} (${expectedData.points}pt)</span>
+                </div>
+                <div class="impact-detail-row">
+                    <span class="impact-detail-label">Confidence:</span>
+                    <span class="impact-detail-value">${(expectedData.confidence * 100).toFixed(0)}%</span>
+                </div>
+            `;
+
+            // expected_impact statement 추가
+            const expectedImpactInfo = this.getExpectedImpactInfo(project);
+            if (expectedImpactInfo && expectedImpactInfo.statement) {
+                expectedDetailsEl.innerHTML += `
+                    <div class="impact-statement">
+                        <div class="impact-statement-label">Statement:</div>
+                        <div class="impact-statement-text">${this.escapeHtml(expectedImpactInfo.statement)}</div>
+                    </div>
+                `;
+            }
+        } else {
+            expectedEl.textContent = '-';
+            expectedEl.classList.add('empty');
+            expectedDetailsEl.innerHTML = '<span class="impact-not-set">Not configured</span>';
+        }
+
+        // Realized Score (B)
+        const realizedEl = document.getElementById('panelRealizedScore');
+        const realizedDetailsEl = document.getElementById('panelRealizedDetails');
+        const realizedData = this.getRealizedScoreInfo(project);
+
+        if (realizedData && realizedData.outcome) {
+            const outcomeLabels = {
+                'supported': '✅ Supported',
+                'rejected': '❌ Rejected',
+                'inconclusive': '❓ Inconclusive'
+            };
+            const outcomeColors = {
+                'supported': 'outcome-supported',
+                'rejected': 'outcome-rejected',
+                'inconclusive': 'outcome-inconclusive'
+            };
+
+            realizedEl.textContent = outcomeLabels[realizedData.outcome] || realizedData.outcome;
+            realizedEl.className = 'impact-score-value ' + (outcomeColors[realizedData.outcome] || '');
+
+            let detailsHtml = '';
+            if (realizedData.evidence) {
+                detailsHtml += `
+                    <div class="impact-detail-row">
+                        <span class="impact-detail-label">Evidence:</span>
+                        <span class="impact-detail-value">${this.escapeHtml(realizedData.evidence)}</span>
+                    </div>
+                `;
+            }
+            if (realizedData.updated) {
+                detailsHtml += `
+                    <div class="impact-detail-row">
+                        <span class="impact-detail-label">Updated:</span>
+                        <span class="impact-detail-value">${this.escapeHtml(realizedData.updated)}</span>
+                    </div>
+                `;
+            }
+            realizedDetailsEl.innerHTML = detailsHtml || '<span class="impact-not-set">No details</span>';
+        } else {
+            realizedEl.textContent = '-';
+            realizedEl.className = 'impact-score-value empty';
+            realizedDetailsEl.innerHTML = '<span class="impact-not-set">Not yet measured</span>';
+        }
+
+        // Contributes 정보
+        const contributesEl = document.getElementById('panelImpactContributes');
+        const contributes = project.contributes;
+
+        if (contributes && Array.isArray(contributes) && contributes.length > 0) {
+            contributesEl.innerHTML = `
+                <div class="impact-contributes-title">Contributes to:</div>
+                ${contributes.map(c => `
+                    <div class="impact-contribute-item">
+                        <span class="contribute-target">${this.escapeHtml(c.to || c.condition || '')}</span>
+                        <span class="contribute-weight">${((c.weight || 0) * 100).toFixed(0)}%</span>
+                        ${c.description ? `<span class="contribute-desc">${this.escapeHtml(c.description)}</span>` : ''}
+                    </div>
+                `).join('')}
+            `;
+        } else {
+            contributesEl.innerHTML = '';
+        }
+    },
+
+    /**
+     * Project Body 렌더링
+     */
+    renderProjectBody(project) {
+        const bodyEl = document.getElementById('panelProjectBodyPreview');
+        const body = project._body;
+
+        if (body && body.trim()) {
+            bodyEl.innerHTML = this.renderMarkdown(body);
+        } else {
+            bodyEl.innerHTML = '<div class="body-placeholder">No body content</div>';
+        }
+    },
+
     /**
      * ID 형식 정규화 (콜론 → 하이픈)
      */
@@ -278,6 +477,12 @@ const ProjectPanel = {
         document.getElementById('panelProjectStatus').value = project.status || 'planning';
         document.getElementById('panelProjectPriority').value = project.priority_flag || project.priority || 'medium';
         document.getElementById('panelProjectNotes').value = project.notes || project.description || '';
+
+        // Impact Score 표시 (A: Expected, B: Realized)
+        this.renderImpactSection(project);
+
+        // Project Body 표시 (마크다운 본문)
+        this.renderProjectBody(project);
 
         // Relations 표시
         this.renderRelations(project);

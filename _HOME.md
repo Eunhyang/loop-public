@@ -39,3 +39,24 @@
 - [[10-year direction 정리(헬스케어 섭식 도메인 레이어의 성공선)]]
 - [[(LV1 Strategic Hypotheses) 3-year strategy (조건 기반) 정리]]
 - [[12-month 실행 계획(숫자 기반) 정리]]
+
+---
+
+## Vault 연결
+
+### Exec Vault (C-Level Only)
+
+> **경로**: `/Volumes/LOOP_CLevel/vault/loop_exec`
+> **접근 권한**: C-Level only (민감 재무/인사/법무)
+
+| 이 Vault (LOOP) | Exec Vault |
+|-----------------|------------|
+| 전략 (What & Why) | 실행 (How & When) |
+| 프로젝트/태스크 | 런웨이/캐시플로우 |
+| 가설/실험 | 파이프라인 (투자/지원사업) |
+| 팀 역할 정의 | 인사/계약 (민감) |
+
+**Exec → LOOP 반영 항목**:
+- `Runway_Status`: Green/Yellow/Red → Track 우선순위 조정
+- `Hiring_Gate`: Open/Freeze → 채용 관련 Task 활성화
+- `Budget_Mode`: Lite/Normal/Aggressive → 프로젝트 예산 범위

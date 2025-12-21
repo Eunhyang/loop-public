@@ -2,8 +2,8 @@
 entity_type: Index
 entity_id: idx:20_strategy-12m_tracks
 entity_name: 12개월 트랙 인덱스
-created: 2025-12-21
-updated: 2025-12-21
+created: 2025-12-22
+updated: 2025-12-22
 auto_generated: true
 purpose: LLM-optimized index for 20_Strategy/12M_Tracks
 tags: ["meta", "index", "auto-generated"]
@@ -39,5 +39,5 @@ tags: ["meta", "index", "auto-generated"]
 
 ---
 
-**Auto-generated**: 2025-12-21
+**Auto-generated**: 2025-12-22
 **Script**: scripts/build_graph_index.py

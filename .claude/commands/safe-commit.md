@@ -1,10 +1,14 @@
 ---
-description: NAS git sync daemon과 충돌하지 않는 안전한 커밋/푸시 (SSH 사용)
+description: NAS git sync daemon과 충돌하지 않는 안전한 커밋/푸시 (SSH 사용) - 두 Vault 동시 커밋
 ---
 
 # Safe Commit (NAS Sync 충돌 방지)
 
 SMB 마운트에서는 git index 쓰기 문제가 발생할 수 있어서, NAS에 SSH로 직접 접속해서 커밋합니다.
+
+**두 Vault 동시 커밋:**
+- `LOOP` (Shared Vault) - 코어 멤버 접근
+- `loop_exec` (Exec Vault) - C-Level 전용
 
 ## 사용자 입력
 
@@ -14,26 +18,35 @@ $ARGUMENTS
 
 ## 실행 절차
 
-### 1. 변경사항 확인
+### 1. 양쪽 Vault 변경사항 확인
+
 ```bash
-git status --short
+# Shared Vault (LOOP)
+cd /Volumes/LOOP_CORE/vault/LOOP && git status --short
+
+# Exec Vault (loop_exec)
+cd /Volumes/LOOP_CLevel/vault/loop_exec && git status --short
 ```
 
 ### 2. SSH로 NAS에서 직접 커밋/푸시 실행
 
-사용자가 커밋 메시지를 제공한 경우:
+#### Shared Vault (LOOP_CORE) 커밋
 ```bash
-ssh -p 22 Sosilab@100.93.242.60 "cd /volume1/LOOP_CORE/vault/LOOP && git add -A && git commit -m '사용자_메시지' && git push origin main"
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'export HOME=/tmp && git config --global --add safe.directory "*" && git config --global user.email "eunhyang90218@gmail.com" && git config --global user.name "Claude Code" && cd /volume1/LOOP_CORE/vault/LOOP && git add -A && git commit --no-verify -m "커밋메시지" && git push origin main'
 ```
 
-메시지가 없으면 변경된 파일을 분석해서 적절한 커밋 메시지 생성 후:
+#### Exec Vault (LOOP_CLevel) 커밋
 ```bash
-ssh -p 22 Sosilab@100.93.242.60 "cd /volume1/LOOP_CORE/vault/LOOP && git add -A && git commit -m '자동생성_메시지' && git push origin main"
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'export HOME=/tmp && git config --global --add safe.directory "*" && git config --global user.email "eunhyang90218@gmail.com" && git config --global user.name "Claude Code" && cd /volume1/LOOP_CLevel/vault/loop_exec && git add -A && git commit --no-verify -m "커밋메시지" && git push origin main'
 ```
 
 ### 3. 결과 확인
 ```bash
-git log -1 --oneline
+# Shared Vault
+cd /Volumes/LOOP_CORE/vault/LOOP && git log -1 --oneline
+
+# Exec Vault
+cd /Volumes/LOOP_CLevel/vault/loop_exec && git log -1 --oneline
 ```
 
 ## 커밋 메시지 규칙
@@ -41,7 +54,7 @@ git log -1 --oneline
 - 커밋 메시지 끝에 다음 추가:
 
 ```
-🤖 Generated with [Claude Code](https-//claude.com/claude-code)
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ```
@@ -52,20 +65,45 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 - Port: `22`
 - User: `Sosilab`
 - Password: `Dkssud272902*`
-- Vault 경로: `/volume1/LOOP_CORE/vault/LOOP`
-- Sync 스크립트: `/volume1/LOOP_CORE/scripts/loop-git-sync.sh`
 
-## SSH 명령 템플릿
+### Vault 경로
 
-sshpass 사용 (HOME 설정 및 git config 포함):
+| Vault | NAS 경로 | 로컬 마운트 |
+|-------|---------|------------|
+| Shared (LOOP) | `/volume1/LOOP_CORE/vault/LOOP` | `/Volumes/LOOP_CORE/vault/LOOP` |
+| Exec (loop_exec) | `/volume1/LOOP_CLevel/vault/loop_exec` | `/Volumes/LOOP_CLevel/vault/loop_exec` |
+
+## SSH 명령 템플릿 (통합)
+
+두 vault를 한 번에 커밋하는 스크립트:
 ```bash
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'export HOME=/tmp && git config --global --add safe.directory "*" && git config --global user.email "eunhyang90218@gmail.com" && git config --global user.name "Claude Code" && cd /volume1/LOOP_CORE/vault/LOOP && git add -A && git commit --no-verify -m "커밋메시지" && git push origin main'
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 '
+export HOME=/tmp
+git config --global --add safe.directory "*"
+git config --global user.email "eunhyang90218@gmail.com"
+git config --global user.name "Claude Code"
+
+# Shared Vault
+cd /volume1/LOOP_CORE/vault/LOOP
+git add -A && git commit --no-verify -m "커밋메시지" && git push origin main || echo "LOOP: no changes"
+
+# Exec Vault
+cd /volume1/LOOP_CLevel/vault/loop_exec
+git add -A && git commit --no-verify -m "커밋메시지" && git push origin main || echo "loop_exec: no changes"
+'
 ```
+
+## 선택적 커밋
+
+특정 vault만 커밋하려면:
+- `--shared`: LOOP만 커밋
+- `--exec`: loop_exec만 커밋
+- (기본): 둘 다 커밋
 
 ## 대안: NAS Daemon 사용
 
 급하지 않으면 lock 파일 없이 두면 NAS daemon이 15분마다 자동 커밋:
 ```bash
-# daemon이 처리하도록 대기
+# Shared Vault daemon
 ssh -p 22 Sosilab@100.93.242.60 "/volume1/LOOP_CORE/scripts/loop-git-sync.sh"
 ```

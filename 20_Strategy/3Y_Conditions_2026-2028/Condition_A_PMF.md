@@ -23,26 +23,77 @@ validated_by:
 - mh-1
 - mh-2
 - trk-1
-condition: Tier1/2 사용자가 Loop 언어로 자신의 문제를 설명하거나 Loop 기반 선택을 하는가?
+condition: |
+  1차(인지/프레임): Tier1/2가 Loop 언어로 문제를 설명하거나 Loop 기반 선택을 한다
+  2차(비가역/의존): 문제 발생 시 LOOP를 찾는 것이 기본값이 되고, 중단 시 불안/회귀불가 신호가 나타난다
 unlock: Core OS 강화, GLP-1 콘텐츠 투입, 의료 제휴 검토
 if_broken: UX 재설계, 고밀도 중심 축소, '섬세한 먹기 OS' 소프트 피봇
 metrics:
-- name: DAU
-  threshold: 3,000~6,000
+# === 기준 이벤트 정의 (모든 지표의 전제) ===
+# problem_event := 폭식(자가리포트) OR 통제붕괴(충동≥7 AND problem_behavior 발생)
+# problem_behavior ∈ {폭식, 과식, 야식, 배달/간식 폭주, 음주, 쇼핑 등 보상행동}
+# trigger_event := 충동≥7 (자가리포트)
+# Cohort := problem_event ≥ 1회 + 개입 세션 ≥ 1회 사용자
+
+# === 핵심 지표 (Episode OS) ===
+- name: TTR (Time-to-Relief)
+  threshold: "(절대) p50 ≤ 10분 / (상대) Cohort 기준 4주 내 20% 개선"
   current: 측정 중
   status: 진행 중
-- name: 유지율
-  threshold: 25~30%
+  note: "결측 처리: 완화 체크 미응답 30분 이내 => censored as 30min"
+- name: Relapse Interval
+  threshold: "(절대) 주 단위 증가 / (상대) Baseline 대비 4주 내 +3일"
   current: 측정 중
   status: 진행 중
-- name: 고밀도 사용자
-  threshold: 800~1,200명
+- name: D+1 Recovery Activation
+  threshold: "60%+"
   current: 측정 중
   status: 진행 중
-- name: Loop Mapping v1
-  threshold: 완료
-  current: 진행 중
+  note: "분모: problem_event 기록된 사용자 / 분자: 다음날 회복 프로토콜 실행 시작"
+- name: LTO (Lag-to-Open)
+  threshold: "p50 ≤ 24h"
+  current: 측정 중
   status: 진행 중
+  note: "분모: problem_event 발생 사용자 / 측정: 오픈 시점만"
+- name: PUPI (Post-usage PMF Index)
+  threshold: "Tier1/2 중 50%가 PUPI=1"
+  current: 측정 중
+  status: 진행 중
+  note: "PUPI=1: survey 1개 + 행동 시그널 1개 동시 충족"
+- name: TBR-24 (Trigger-based Return)
+  threshold: "trigger_event 발생 후 24h 내 앱 실행률 40%+"
+  current: N/A
+  status: planned
+  note: "trigger_event := 충동≥7 / Micro Brake 단계에서 측정"
+
+# === Guardrail 지표 (Wedge/습관 PMF 보존) ===
+- name: Meal Session Completion Rate
+  threshold: "≥ 70%"
+  current: 측정 중
+  status: guardrail
+- name: Timer Start Rate
+  threshold: "활성 사용자 중 주 3회+ 타이머 시작률 ≥ 50%"
+  current: 측정 중
+  status: guardrail
+- name: Avg Meal Duration Distribution
+  threshold: "10~20분대 식사 비율 ≥ 60%"
+  current: 측정 중
+  status: guardrail
+- name: Session Drop-off at First 30s
+  threshold: "첫 30초 이탈률 ≤ 20%"
+  current: 측정 중
+  status: guardrail
+  note: "대시보드 홈/유료화 개편 시 코어 마찰 감지용"
+
+# === 참고 지표 (왜곡 가능) ===
+- name: DAU (Reference)
+  threshold: "3,000~6,000"
+  current: 측정 중
+  status: reference
+- name: 유지율 (Reference)
+  threshold: "25~30%"
+  current: 측정 중
+  status: reference
 risk_level: high
 confidence: 0.5
 tags:
@@ -52,8 +103,15 @@ tags:
 - pmf
 priority_flag: critical
 break_triggers:
-- 2026년 말까지 Tier1/2 사용자가 Loop 언어로 문제를 설명하지 않음
+# 1차 트리거 (프레임)
+- 2026년 말까지 Tier1/2가 Loop 언어로 문제를 설명하지 않음
 - Loop 기반 선택이 관찰되지 않음
+# 2차 트리거 (비가역)
+- 2026년 말까지 PUPI 임계치 미달 시 PMF 가설 수정
+- D+1 Recovery Activation 40% 미만 지속 시 Episode OS 가설 재검토
+# Guardrail 트리거 (Wedge 붕괴)
+- Meal Session Completion Rate 50% 미만 3개월 지속 시 타이머 코어 재설계
+- Session Drop-off at First 30s 40% 초과 시 UX 긴급 점검
 ---
 
 # Condition A: 국내 PMF
@@ -87,6 +145,80 @@ break_triggers:
 - Loop 기반 선택은 사용자가 **인지 비용을 지불했음을 의미**한다.
 - 이 변화가 없다면, 제품은 이해는 되지만 **삶을 바꾸지 못하는 도구**에 머문다.
 - 그래서 정량보다 **정서·언어·선택 기준**을 트리거로 삼았다.
+
+---
+
+## 기준 이벤트 정의 (Problem Event / Trigger Event)
+
+> ⚠️ 모든 Episode OS 지표(TTR, LTO, D+1, TBR, Relapse)는 이 정의를 전제로 한다.
+
+### Problem Event (문제행동 이벤트)
+```
+problem_event := 폭식(자가리포트) OR 통제붕괴(충동≥7 AND problem_behavior 발생)
+```
+
+### Problem Behavior (문제행동 목록)
+```
+problem_behavior ∈ {폭식, 과식, 야식, 배달/간식 폭주, 음주, 쇼핑 등 보상행동}
+```
+
+### Trigger Event (트리거 이벤트)
+```
+trigger_event := 충동≥7 (자가리포트)
+```
+> TBR-24 측정의 기준. Micro Brake 단계에서 사용.
+
+### Cohort 정의
+```
+Cohort := problem_event ≥ 1회 + 개입 세션 ≥ 1회 사용자
+```
+> TTR/Relapse의 "4주 내 개선" 측정 시 분모.
+
+| 유형 | 정의 | 소스 |
+|------|------|------|
+| 폭식 (자가리포트) | 사용자가 "폭식했다"고 직접 보고 | 식후 감정일기, 회복 프로토콜 진입 시 |
+| 통제붕괴 | 충동 레벨 ≥ 7 AND problem_behavior 발생 | Episode Logging 데이터 |
+| 트리거 | 충동 레벨 ≥ 7 (행동 발생 전) | Episode Logging 데이터 |
+
+---
+
+## OS 점착 정의 (Zero-to-One 조건)
+
+> 참고: [[OS_Stickiness]]
+
+PMF는 "많이 쓰는 앱"이 아니라 **기본값이 되는 재방문 + 없어지면 불안**으로 정의한다.
+
+### 4가지 점착 신호
+1. **기본값**: 위험 상태에서 가장 먼저 떠오르는가
+2. **완화**: 켠 뒤 빨리 내려오는가 (TTR)
+3. **간격**: 재발 간격이 늘어나는가
+4. **비가역**: "없으면 불안" 언어가 수렴하는가
+
+### 2층 PMF 구조
+| 단계 | 설명 | 측정 지표 | 현재 상태 |
+|------|------|-----------|-----------|
+| Recovery OS | 다음날 복귀 (폭식 후 회복) | D+1 Recovery, LTO | ✅ 이미 작동 |
+| Micro Brake | 당일 15~30초 초저마찰 개입 | TBR-24 | 🔜 planned |
+
+### Wedge(습관 PMF) Guardrails
+> ⚠️ OS 확장을 위해 습관 PMF를 버리는 게 아니다. 습관 PMF는 **Wedge(쐐기)**이며, 이게 망가지면 OS 확장도 같이 망한다.
+
+| 지표 | 임계치 | 역할 |
+|------|--------|------|
+| Meal Session Completion Rate | ≥ 70% | 타이머 핵심 사용성 |
+| Timer Start Rate | ≥ 50% (주 3회+) | 활성 사용자 코어 행동 |
+| Avg Meal Duration (10~20분) | ≥ 60% | 개입 효과 기본 지표 |
+| Session Drop-off at First 30s | ≤ 20% | 진입 마찰 감지 |
+
+### PUPI 측정 규칙
+> PUPI=1 조건: survey 문항 1개 + 행동 시그널 1개 이상 **동시 충족**
+
+| 유형 | 항목 |
+|------|------|
+| Survey | "이 앱 없으면 불안하다" 동의 (리커트 4점 이상) |
+| 행동 시그널 1 | 트리거 발생 시 1순위로 앱 오픈 (대체재보다 먼저) |
+| 행동 시그널 2 | 90일 내 재방문 OR 30일 내 2회 이상 복귀 |
+| 행동 시그널 3 | 유료 결제 이유가 "필요할 때 확실히" |
 
 ---
 

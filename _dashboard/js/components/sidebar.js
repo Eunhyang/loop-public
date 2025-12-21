@@ -7,7 +7,7 @@ const Sidebar = {
     sectionsCollapsed: {
         tracks: false,
         hypotheses: false,
-        conditions- false
+        conditions: false
     },
 
     // ============================================

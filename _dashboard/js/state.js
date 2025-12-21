@@ -8,7 +8,7 @@ const State = {
     members: [],
     northstars: [],
     metahypotheses: [],
-    conditions- [],
+    conditions: [],
     productlines: [],
     partnershipstages: [],
     tracks: [],

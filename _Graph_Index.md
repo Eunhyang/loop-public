@@ -2,9 +2,9 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2025-12-21
-updated: 2025-12-21
-total_entities: 137
+created: 2025-12-22
+updated: 2025-12-22
+total_entities: 139
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,8 +17,8 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 137개
-- **마지막 업데이트**: 2025-12-21
+- **총 엔티티**: 139개
+- **마지막 업데이트**: 2025-12-22
 
 ### 타입별
 | Type | Count |
@@ -34,8 +34,8 @@ tags: ["meta", "graph", "index"]
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 21 |
-| done | 1 |
+| active | 22 |
+| done | 2 |
 | fixed | 1 |
 | in_progress | 11 |
 | pending | 2 |
@@ -391,6 +391,7 @@ tags: ["meta", "graph", "index"]
 - **mh-2**: MH2_행동개입_효과 (status: validating)
 - **mh-4**: MH4_단계적_확장_가능 (status: validating)
 - **mh-1**: MH1_루프는_지속적_문제 (status: validating)
+- **retro:2025-annual**: 소식연구소 2025년 연간 회고 (status: done)
 - **trk-2**: Track_2_Data (status: active)
 - **trk-6**: Track_6_Revenue (status: active)
 - **cond-b**: Condition_B_Loop_Dataset (status: in_progress)
@@ -401,5 +402,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2025-12-21
+**Auto-generated**: 2025-12-22
 **Script**: scripts/build_graph_index.py

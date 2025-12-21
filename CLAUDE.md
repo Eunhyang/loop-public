@@ -4,36 +4,46 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Quick Reference: Common Commands
 
-This is an **Obsidian vault** for knowledge management - there is no code compilation or testing.
+This is an **Obsidian vault** for knowledge management with an API server for the web dashboard.
+
+### Installation
+```bash
+cd /Volumes/LOOP_CORE/vault/LOOP
+
+# Basic (validation scripts only)
+pip install pyyaml
+
+# Full (includes API server)
+poetry install --extras api
+```
 
 ### Validation Commands
 ```bash
-# Validate all frontmatter schemas
-python3 scripts/validate_schema.py .
-
-# Check for broken entity references
-python3 scripts/check_orphans.py .
-
-# Regenerate graph index (auto-runs on commit)
-python3 scripts/build_graph_index.py .
-
-# Build dashboard (optional, creates HTML visualization)
-python3 scripts/build_dashboard.py .
-
-# Import tasks from CSV (e.g., from Notion export)
-python3 scripts/csv_to_loop_entities.py <csv_file>
+python3 scripts/validate_schema.py .      # Validate frontmatter schemas
+python3 scripts/check_orphans.py .        # Check broken entity references
+python3 scripts/build_graph_index.py .    # Regenerate graph index (auto-runs on commit)
+python3 scripts/build_dashboard.py .      # Build static HTML dashboard
+python3 scripts/csv_to_loop_entities.py <csv_file>  # Import from Notion
 ```
 
-**Requirements**: Python 3.9+ with PyYAML (`pip install pyyaml` or use `poetry install`)
+### API Server
+```bash
+# Development (hot reload)
+poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
 
-**Note**: All Python scripts are located in `scripts/` directory. See individual script files for detailed usage and options.
+# Production
+poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
+
+# Access points
+# - Dashboard: http://localhost:8081/
+# - API Docs: http://localhost:8081/docs
+# - Health: http://localhost:8081/health
+```
 
 ### Key Entry Points
 - `_HOME.md` - Main navigation hub
 - `_Graph_Index.md` - Auto-generated entity index (do not edit manually)
-- `01_North_Star/` - 10-year vision and meta-hypotheses
-- `20_Strategy/` - Strategic layer (Conditions, Tracks)
-- `30_Ontology/` - Ontology schema development
+- `api/README.md` - API server documentation with full endpoint reference
 - `00_Meta/_TEMPLATES/` - Templates for all entity types
 
 ---
@@ -615,6 +625,42 @@ curl http://nas-ip:8080
 
 ---
 
+## API Server Architecture
+
+The `api/` module provides a FastAPI REST server for the interactive dashboard.
+
+### Structure
+```
+api/
+├── main.py              # FastAPI app entry point
+├── cache/
+│   └── vault_cache.py   # In-memory cache with O(1) lookups
+├── routers/             # REST endpoints by entity type
+│   ├── tasks.py         # Task CRUD
+│   ├── projects.py      # Project CRUD
+│   ├── hypotheses.py    # Hypothesis CRUD
+│   ├── tracks.py        # Track read-only
+│   ├── conditions.py    # Condition read-only
+│   └── strategy.py      # Strategy overview
+├── models/
+│   └── entities.py      # Pydantic schemas (TaskCreate, TaskUpdate, etc.)
+└── utils/
+    └── vault_utils.py   # Frontmatter parsing, file operations
+```
+
+### Key Design Patterns
+
+**In-memory Cache**: `VaultCache` singleton caches all entities on startup:
+- O(1) lookups by entity_id
+- TTL-based directory scanning (5s intervals) for change detection
+- Thread-safe with `threading.RLock`
+
+**File-First Pattern**: All CRUD operations write to markdown files first, then update cache.
+
+**Full API Documentation**: See `api/README.md` for complete endpoint reference, curl examples, and NAS deployment.
+
+---
+
 ## GraphRAG Questions This Vault Should Answer
 
 **Global questions** (overall context):
@@ -773,19 +819,20 @@ Located in `scripts/`, these are typically used once for data migrations-
 
 ---
 
-**Last updated**: 2025-12-21
-**Document version**: 4.7
+**Last updated**: 2025-12-22
+**Document version**: 4.8
 **Author**: Claude Code
 
+**Changes** (v4.8):
+- Restored API server documentation (api/ module exists with FastAPI + in-memory cache)
+- Added Installation section and API Server commands to Quick Reference
+- Consolidated validation commands for brevity
+- Updated Key Entry Points to include api/README.md
+
 **Changes** (v4.7):
-- Removed nonexistent API module documentation (api/ doesn't exist)
 - Added Claude Code Commands section (7 slash commands in .claude/commands/)
 - Added Claude Code Skills section (5 skills in .claude/skills/)
 - Simplified to reference existing documentation instead of duplicating
 
 **Changes** (v4.6):
 - Fixed API server command (was `scripts.api_server:app`, now `api.main:app`)
-
-**Changes** (v4.5):
-- Added Interactive Dashboard & API Server section
-- Added Utility Scripts reference table

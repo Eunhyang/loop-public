@@ -1,37 +1,32 @@
 """
 Condition API Router
 
-3-Year Conditions 조회 엔드포인트
+3-Year Conditions 조회 엔드포인트 (캐시 기반)
 """
 
-from fastapi import APIRouter
+from typing import Optional
+from fastapi import APIRouter, HTTPException
 
-from ..utils.vault_utils import extract_frontmatter, get_vault_dir
+from ..cache import get_cache
 
 router = APIRouter(prefix="/api/conditions", tags=["conditions"])
-
-# Vault 경로
-VAULT_DIR = get_vault_dir()
-CONDITIONS_DIR = VAULT_DIR / "20_Strategy/3Y_Conditions_2026-2028"
 
 
 @router.get("")
 def get_conditions():
-    """Condition 목록 조회"""
-    conditions = []
+    """Condition 목록 조회 (캐시 기반)"""
+    cache = get_cache()
+    conditions = cache.get_all_conditions()
+    return {"conditions": conditions}
 
-    if not CONDITIONS_DIR.exists():
-        return {"conditions": []}
 
-    # Search for all .md files in 3Y_Conditions
-    for cond_file in CONDITIONS_DIR.rglob("*.md"):
-        # Skip _INDEX.md and other utility files
-        if cond_file.name.startswith("_"):
-            continue
+@router.get("/{condition_id}")
+def get_condition(condition_id: str):
+    """개별 Condition 조회"""
+    cache = get_cache()
+    condition = cache.get_condition(condition_id)
 
-        frontmatter = extract_frontmatter(cond_file)
-        if frontmatter and frontmatter.get('entity_type') == 'Condition':
-            frontmatter['_path'] = str(cond_file.relative_to(VAULT_DIR))
-            conditions.append(frontmatter)
+    if not condition:
+        raise HTTPException(status_code=404, detail=f"Condition not found: {condition_id}")
 
-    return {"conditions": sorted(conditions, key=lambda x: x.get('entity_id', ''))}
+    return {"condition": condition}

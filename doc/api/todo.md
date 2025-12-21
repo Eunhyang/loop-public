@@ -103,11 +103,78 @@
 
 ---
 
+## 완료된 작업 (추가)
+
+### IMP-001: Project Impact Score 표시 기능
+
+- [x] **IMP-001-1** API 캐시에서 Project body 추출
+  - 수정 파일: `api/cache/vault_cache.py`
+  - 작업 내용: `_extract_frontmatter_and_body()` 함수 추가, `_load_project_file()`에서 `_body` 필드 캐싱
+  - 완료일: 2025-12-21
+
+- [x] **IMP-001-2** Project 수정 시 _body 캐시 유지
+  - 수정 파일: `api/routers/projects.py`
+  - 작업 내용: `update_project()`에서 `set_project` 호출 시 `_body` 포함
+  - 완료일: 2025-12-21
+
+- [x] **IMP-001-3** Dashboard에 Impact Score 섹션 추가
+  - 수정 파일: `_dashboard/index.html`
+  - 작업 내용:
+    - Impact Score 카드 (Expected A / Realized B)
+    - Project Body 섹션 추가
+  - 완료일: 2025-12-21
+
+- [x] **IMP-001-4** Impact Score 계산 및 렌더링 로직
+  - 수정 파일: `_dashboard/js/components/project-panel.js`
+  - 작업 내용:
+    - `calculateExpectedScore()`: tier × magnitude × confidence 계산
+    - `getRealizedScoreInfo()`: outcome/evidence/updated 추출
+    - `renderImpactSection()`: A/B Score 및 상세 정보 렌더링
+    - `renderProjectBody()`: 마크다운 본문 렌더링
+    - XSS 방지: validTiers/validMagnitudes 화이트리스트 적용
+  - 완료일: 2025-12-21
+
+- [x] **IMP-001-5** Impact Score CSS 스타일링
+  - 수정 파일: `_dashboard/css/panel.css`
+  - 작업 내용: `.impact-scores`, `.impact-score-card`, `.impact-detail-row` 등 스타일 추가
+  - 완료일: 2025-12-21
+
+### CACHE-001: 모든 API에 인메모리 캐싱 적용
+
+- [x] **CACHE-001-1** VaultCache 확장 - 새 엔티티 캐시 추가
+  - 수정 파일: `api/cache/vault_cache.py`
+  - 작업 내용:
+    - 7개 새 캐시 저장소: hypotheses, tracks, conditions, northstars, metahypotheses, productlines, partnershipstages
+    - threading.RLock 적용 (읽기/쓰기 모두 보호)
+    - 디렉토리별 mtime 추적 (entity_type 조합 키)
+    - TTL 기반 스캔 (5초 간격)으로 성능 최적화
+  - 완료일: 2025-12-21
+
+- [x] **CACHE-001-2** Hypotheses 라우터 캐시 기반 변경
+  - 수정 파일: `api/routers/hypotheses.py`
+  - 작업 내용:
+    - cache.get_all_hypotheses() 사용
+    - cache.set_hypothesis() / remove_hypothesis() CRUD 연동
+    - cache.get_next_hypothesis_id() ID 생성
+    - file-first 패턴 (파일 먼저 쓰고 캐시 업데이트)
+  - 완료일: 2025-12-21
+
+- [x] **CACHE-001-3** Tracks/Conditions/Strategy 라우터 캐시 기반 변경
+  - 수정 파일: `api/routers/tracks.py`, `api/routers/conditions.py`, `api/routers/strategy.py`
+  - 작업 내용: cache.get_all_*() 메서드 사용
+  - 완료일: 2025-12-21
+
+- [x] **CACHE-001-4** Codex 코드 리뷰 피드백 반영
+  - 성능 최적화: TTL 기반 디렉토리 스캔 (5초 간격)
+  - _dir_last_check 딕셔너리 추가로 매 요청 rglob 방지
+  - 완료일: 2025-12-21
+
+---
+
 ## 예정된 작업
 
 ### Phase 2: 추가 기능
 
-- [ ] **API-002** Project 본문 표시
 - [ ] **API-003** 검색 기능
 - [ ] **CAL-002** Calendar에서 Task 직접 생성 (날짜 클릭)
 

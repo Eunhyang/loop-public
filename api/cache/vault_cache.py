@@ -5,14 +5,22 @@ API 응답 속도 개선을 위한 인메모리 캐시.
 - 서버 시작 시 vault 전체 스캔하여 캐시 초기화
 - mtime 기반으로 파일 변경 감지 및 자동 갱신
 - CRUD 시 파일과 캐시 동시 업데이트
+
+지원 엔티티:
+- Task, Project (CRUD)
+- Hypothesis (CRUD)
+- Track, Condition (Read-only)
+- NorthStar, MetaHypothesis, ProductLine, PartnershipStage (Read-only)
 """
 
 import re
+import time
 import yaml
 import logging
+import threading
 from pathlib import Path
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
+from dataclasses import dataclass
+from typing import Dict, List, Any, Optional, Tuple, Set
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -40,14 +48,36 @@ class VaultCache:
         self.vault_path = vault_path
         self.projects_dir = vault_path / "50_Projects" / "2025"
 
-        # 캐시 저장소
+        # 스레드 안전성을 위한 RLock (읽기/쓰기 모두 보호)
+        self._lock = threading.RLock()
+
+        # 캐시 저장소 - 기존
         self.tasks: Dict[str, CacheEntry] = {}
         self.projects: Dict[str, CacheEntry] = {}
+
+        # 캐시 저장소 - 신규
+        self.hypotheses: Dict[str, CacheEntry] = {}
+        self.tracks: Dict[str, CacheEntry] = {}
+        self.conditions: Dict[str, CacheEntry] = {}
+        self.northstars: Dict[str, CacheEntry] = {}
+        self.metahypotheses: Dict[str, CacheEntry] = {}
+        self.productlines: Dict[str, CacheEntry] = {}
+        self.partnershipstages: Dict[str, CacheEntry] = {}
+
+        # 디렉토리 mtime 추적 (dir_path:entity_type -> mtime)
+        # Codex 피드백: 같은 디렉토리를 공유하는 엔티티 간 간섭 방지
+        self._dir_mtimes: Dict[str, float] = {}
+
+        # 디렉토리 체크 타임스탬프 (TTL 기반 체크로 성능 최적화)
+        # Codex 피드백: rglob 스캔을 매 요청마다 하지 않도록
+        self._dir_last_check: Dict[str, float] = {}
+        self._dir_check_interval: float = 5.0  # 5초 간격으로 체크
 
         # 통계
         self._load_time: float = 0
         self._task_count: int = 0
         self._project_count: int = 0
+        self._hypothesis_count: int = 0
 
         # 초기 로드
         self._initial_load()
@@ -62,19 +92,34 @@ class VaultCache:
 
         logger.info(f"VaultCache: Loading from {self.vault_path}")
 
-        # Tasks 로드
-        self._load_tasks()
+        with self._lock:
+            # 기존 엔티티
+            self._load_tasks()
+            self._load_projects()
 
-        # Projects 로드
-        self._load_projects()
+            # 신규 엔티티
+            self._load_hypotheses()
+            self._load_tracks()
+            self._load_conditions()
+            self._load_northstars()
+            self._load_metahypotheses()
+            self._load_productlines()
+            self._load_partnershipstages()
 
         elapsed = (datetime.now() - start).total_seconds()
         self._load_time = elapsed
 
         logger.info(
             f"VaultCache: Loaded {self._task_count} tasks, "
-            f"{self._project_count} projects in {elapsed:.2f}s"
+            f"{self._project_count} projects, "
+            f"{self._hypothesis_count} hypotheses, "
+            f"{len(self.tracks)} tracks, "
+            f"{len(self.conditions)} conditions in {elapsed:.2f}s"
         )
+
+    # ============================================
+    # Task 로드/조회
+    # ============================================
 
     def _load_tasks(self) -> None:
         """모든 Task 파일 로드"""
@@ -95,7 +140,6 @@ class VaultCache:
         if not entity_id:
             return None
 
-        # 상대 경로 추가
         data['_path'] = str(file_path.relative_to(self.vault_path))
 
         self.tasks[entity_id] = CacheEntry(
@@ -107,6 +151,74 @@ class VaultCache:
 
         return entity_id
 
+    def get_task(self, task_id: str) -> Optional[Dict[str, Any]]:
+        """Task 조회 (mtime 체크하여 변경 시 자동 갱신)"""
+        with self._lock:
+            entry = self.tasks.get(task_id)
+            if not entry:
+                return None
+
+            if self._check_and_refresh_task(task_id, entry):
+                entry = self.tasks.get(task_id)
+                if not entry:
+                    return None
+
+            return entry.data.copy()
+
+    def get_all_tasks(
+        self,
+        project_id: Optional[str] = None,
+        status: Optional[str] = None,
+        assignee: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """Task 목록 조회 (필터 지원)"""
+        with self._lock:
+            results = []
+
+            for task_id, entry in list(self.tasks.items()):
+                data = entry.data
+
+                if project_id and data.get('project_id') != project_id:
+                    continue
+                if status and data.get('status') != status:
+                    continue
+                if assignee and data.get('assignee') != assignee:
+                    continue
+
+                results.append(data.copy())
+
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
+    def get_task_path(self, task_id: str) -> Optional[Path]:
+        """Task 파일 경로 조회"""
+        with self._lock:
+            entry = self.tasks.get(task_id)
+            return entry.path if entry else None
+
+    def set_task(self, task_id: str, data: Dict[str, Any], path: Path) -> None:
+        """Task 캐시 업데이트 (생성/수정 후 호출)"""
+        with self._lock:
+            data['_path'] = str(path.relative_to(self.vault_path))
+            self.tasks[task_id] = CacheEntry(
+                data=data,
+                path=path,
+                mtime=path.stat().st_mtime
+            )
+            logger.debug(f"Cache updated: {task_id}")
+
+    def remove_task(self, task_id: str) -> bool:
+        """Task 캐시에서 제거 (삭제 후 호출)"""
+        with self._lock:
+            if task_id in self.tasks:
+                del self.tasks[task_id]
+                logger.debug(f"Cache removed: {task_id}")
+                return True
+            return False
+
+    # ============================================
+    # Project 로드/조회
+    # ============================================
+
     def _load_projects(self) -> None:
         """모든 Project 파일 로드"""
         if not self.projects_dir.exists():
@@ -116,7 +228,6 @@ class VaultCache:
             if not project_dir.is_dir():
                 continue
 
-            # Project_정의.md 찾기
             for pattern in ["Project_정의.md", "Project_*.md", "*.md"]:
                 project_files = list(project_dir.glob(pattern))
                 for pf in project_files:
@@ -126,8 +237,8 @@ class VaultCache:
                     break
 
     def _load_project_file(self, file_path: Path) -> Optional[str]:
-        """단일 Project 파일 로드하여 캐시에 저장"""
-        data = self._extract_frontmatter(file_path)
+        """단일 Project 파일 로드 (본문 포함)"""
+        data, body = self._extract_frontmatter_and_body(file_path)
         if not data:
             return None
 
@@ -137,6 +248,7 @@ class VaultCache:
 
         data['_path'] = str(file_path.relative_to(self.vault_path))
         data['_dir'] = str(file_path.parent.relative_to(self.vault_path))
+        data['_body'] = body
 
         self.projects[entity_id] = CacheEntry(
             data=data,
@@ -147,199 +259,561 @@ class VaultCache:
 
         return entity_id
 
-    # ============================================
-    # Task 조회
-    # ============================================
-
-    def get_task(self, task_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Task 조회 (mtime 체크하여 변경 시 자동 갱신)
-
-        Args:
-            task_id: Task entity_id (예: "tsk-001-01")
-
-        Returns-
-            Task frontmatter dict 또는 None
-        """
-        entry = self.tasks.get(task_id)
-        if not entry:
-            return None
-
-        # mtime 체크
-        if self._check_and_refresh_task(task_id, entry):
-            entry = self.tasks.get(task_id)
+    def get_project(self, project_id: str) -> Optional[Dict[str, Any]]:
+        """Project 조회"""
+        with self._lock:
+            entry = self.projects.get(project_id)
             if not entry:
                 return None
 
-        return entry.data.copy()
+            self._check_and_refresh_project(project_id, entry)
+            entry = self.projects.get(project_id)
+            if not entry:
+                return None
 
-    def get_all_tasks(
-        self,
-        project_id: Optional[str] = None,
-        status: Optional[str] = None,
-        assignee: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
-        """
-        Task 목록 조회 (필터 지원, 캐시만 반환 - mtime 체크 안 함)
-
-        Args:
-            project_id: 프로젝트 ID로 필터
-            status: 상태로 필터 (todo, doing, done, blocked)
-            assignee: 담당자로 필터
-
-        Returns-
-            Task frontmatter 리스트
-        """
-        results = []
-
-        for task_id, entry in self.tasks.items():
-            data = entry.data
-
-            # 필터 적용
-            if project_id and data.get('project_id') != project_id:
-                continue
-            if status and data.get('status') != status:
-                continue
-            if assignee and data.get('assignee') != assignee:
-                continue
-
-            results.append(data.copy())
-
-        # entity_id로 정렬
-        return sorted(results, key=lambda x: x.get('entity_id', ''))
-
-    def get_task_path(self, task_id: str) -> Optional[Path]:
-        """Task 파일 경로 조회"""
-        entry = self.tasks.get(task_id)
-        return entry.path if entry else None
-
-    # ============================================
-    # Project 조회
-    # ============================================
-
-    def get_project(self, project_id: str) -> Optional[Dict[str, Any]]:
-        """Project 조회"""
-        entry = self.projects.get(project_id)
-        if not entry:
-            return None
-
-        # mtime 체크
-        self._check_and_refresh_project(project_id, entry)
-        entry = self.projects.get(project_id)
-        if not entry:
-            return None
-
-        return entry.data.copy()
+            return entry.data.copy()
 
     def get_all_projects(self) -> List[Dict[str, Any]]:
-        """모든 Project 조회 (캐시만 반환 - mtime 체크 안 함)"""
-        results = []
-
-        for project_id, entry in self.projects.items():
-            results.append(entry.data.copy())
-
-        return sorted(results, key=lambda x: x.get('entity_id', ''))
+        """모든 Project 조회"""
+        with self._lock:
+            results = []
+            for project_id, entry in list(self.projects.items()):
+                results.append(entry.data.copy())
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
 
     def get_project_dir(self, project_id: str) -> Optional[Path]:
         """Project 디렉토리 경로 조회"""
-        entry = self.projects.get(project_id)
-        if not entry:
-            return None
-        return entry.path.parent
-
-    # ============================================
-    # 캐시 업데이트 (CRUD 후 호출)
-    # ============================================
-
-    def set_task(self, task_id: str, data: Dict[str, Any], path: Path) -> None:
-        """Task 캐시 업데이트 (생성/수정 후 호출)"""
-        data['_path'] = str(path.relative_to(self.vault_path))
-
-        self.tasks[task_id] = CacheEntry(
-            data=data,
-            path=path,
-            mtime=path.stat().st_mtime
-        )
-        logger.debug(f"Cache updated: {task_id}")
-
-    def remove_task(self, task_id: str) -> bool:
-        """Task 캐시에서 제거 (삭제 후 호출)"""
-        if task_id in self.tasks:
-            del self.tasks[task_id]
-            logger.debug(f"Cache removed: {task_id}")
-            return True
-        return False
+        with self._lock:
+            entry = self.projects.get(project_id)
+            if not entry:
+                return None
+            return entry.path.parent
 
     def set_project(self, project_id: str, data: Dict[str, Any], path: Path) -> None:
         """Project 캐시 업데이트"""
-        data['_path'] = str(path.relative_to(self.vault_path))
-        data['_dir'] = str(path.parent.relative_to(self.vault_path))
-
-        self.projects[project_id] = CacheEntry(
-            data=data,
-            path=path,
-            mtime=path.stat().st_mtime
-        )
+        with self._lock:
+            data['_path'] = str(path.relative_to(self.vault_path))
+            data['_dir'] = str(path.parent.relative_to(self.vault_path))
+            self.projects[project_id] = CacheEntry(
+                data=data,
+                path=path,
+                mtime=path.stat().st_mtime
+            )
 
     def remove_project(self, project_id: str) -> bool:
         """Project 캐시에서 제거"""
-        if project_id in self.projects:
-            del self.projects[project_id]
-            return True
-        return False
+        with self._lock:
+            if project_id in self.projects:
+                del self.projects[project_id]
+                return True
+            return False
+
+    # ============================================
+    # Hypothesis 로드/조회/CRUD
+    # ============================================
+
+    def _load_hypotheses(self) -> None:
+        """모든 Hypothesis 파일 로드"""
+        hypotheses_dir = self.vault_path / "60_Hypotheses"
+        if not hypotheses_dir.exists():
+            return
+
+        self._update_dir_mtime(hypotheses_dir, 'Hypothesis')
+
+        for hyp_file in hypotheses_dir.rglob("*.md"):
+            if hyp_file.name.startswith("_"):
+                continue
+            self._load_hypothesis_file(hyp_file)
+
+    def _load_hypothesis_file(self, file_path: Path) -> Optional[str]:
+        """단일 Hypothesis 파일 로드"""
+        data = self._extract_frontmatter(file_path)
+        if not data or data.get('entity_type') != 'Hypothesis':
+            return None
+
+        entity_id = data.get('entity_id')
+        if not entity_id:
+            return None
+
+        data['_path'] = str(file_path.relative_to(self.vault_path))
+
+        self.hypotheses[entity_id] = CacheEntry(
+            data=data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+        self._hypothesis_count += 1
+
+        return entity_id
+
+    def get_hypothesis(self, hypothesis_id: str) -> Optional[Dict[str, Any]]:
+        """Hypothesis 조회 (mtime 체크)"""
+        with self._lock:
+            entry = self.hypotheses.get(hypothesis_id)
+            if not entry:
+                return None
+
+            self._check_and_refresh_hypothesis(hypothesis_id, entry)
+            entry = self.hypotheses.get(hypothesis_id)
+            if not entry:
+                return None
+
+            return entry.data.copy()
+
+    def get_all_hypotheses(
+        self,
+        parent_id: Optional[str] = None,
+        evidence_status: Optional[str] = None,
+        horizon: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """Hypothesis 목록 조회 (디렉토리 mtime 체크 포함)"""
+        with self._lock:
+            # 디렉토리 변경 감지 시 리로드
+            hypotheses_dir = self.vault_path / "60_Hypotheses"
+            if self._should_reload_dir(hypotheses_dir, 'Hypothesis'):
+                self.hypotheses.clear()
+                self._hypothesis_count = 0
+                self._load_hypotheses()
+
+            results = []
+
+            for hyp_id, entry in list(self.hypotheses.items()):
+                data = entry.data
+
+                if parent_id and data.get('parent_id') != parent_id:
+                    continue
+                if evidence_status and data.get('evidence_status') != evidence_status:
+                    continue
+                if horizon and data.get('horizon') != horizon:
+                    continue
+
+                results.append(data.copy())
+
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
+    def get_hypothesis_path(self, hypothesis_id: str) -> Optional[Path]:
+        """Hypothesis 파일 경로 조회"""
+        with self._lock:
+            entry = self.hypotheses.get(hypothesis_id)
+            return entry.path if entry else None
+
+    def set_hypothesis(self, hypothesis_id: str, data: Dict[str, Any], path: Path) -> None:
+        """Hypothesis 캐시 업데이트 (생성/수정 후 호출)"""
+        with self._lock:
+            data['_path'] = str(path.relative_to(self.vault_path))
+            self.hypotheses[hypothesis_id] = CacheEntry(
+                data=data,
+                path=path,
+                mtime=path.stat().st_mtime
+            )
+            logger.debug(f"Hypothesis cache updated: {hypothesis_id}")
+
+    def remove_hypothesis(self, hypothesis_id: str) -> bool:
+        """Hypothesis 캐시에서 제거 (삭제 후 호출)"""
+        with self._lock:
+            if hypothesis_id in self.hypotheses:
+                del self.hypotheses[hypothesis_id]
+                logger.debug(f"Hypothesis cache removed: {hypothesis_id}")
+                return True
+            return False
+
+    def get_next_hypothesis_id(self, track_num: int) -> str:
+        """
+        다음 Hypothesis ID 생성
+
+        Codex 피드백: 캐시 + 디스크 스캔 병행으로 신뢰성 확보
+        """
+        with self._lock:
+            # 캐시에서 ID 수집
+            cached_ids: Set[str] = set()
+            prefix = f'hyp-{track_num}-'
+            for entity_id in self.hypotheses.keys():
+                if entity_id.startswith(prefix):
+                    cached_ids.add(entity_id)
+
+            # 디스크 폴백 스캔 (캐시 누락 대비)
+            disk_ids: Set[str] = set()
+            hypotheses_dir = self.vault_path / "60_Hypotheses"
+            if hypotheses_dir.exists():
+                for f in hypotheses_dir.rglob("*.md"):
+                    if f.name.startswith("_"):
+                        continue
+                    fm = self._extract_frontmatter(f)
+                    if fm:
+                        eid = fm.get('entity_id', '')
+                        if eid.startswith(prefix):
+                            disk_ids.add(eid)
+
+            all_ids = cached_ids | disk_ids
+
+            # 최대 시퀀스 번호 찾기
+            max_seq = 0
+            for eid in all_ids:
+                match = re.match(rf'hyp-{track_num}-(\d+)', eid)
+                if match:
+                    seq = int(match.group(1))
+                    max_seq = max(max_seq, seq)
+
+            return f'hyp-{track_num}-{max_seq + 1:02d}'
+
+    # ============================================
+    # Track 로드/조회 (Read-only)
+    # ============================================
+
+    def _load_tracks(self) -> None:
+        """모든 Track 파일 로드"""
+        tracks_dir = self.vault_path / "20_Strategy" / "12M_Tracks"
+        if not tracks_dir.exists():
+            return
+
+        self._update_dir_mtime(tracks_dir, 'Track')
+
+        for track_file in tracks_dir.rglob("Track_*.md"):
+            self._load_track_file(track_file)
+
+    def _load_track_file(self, file_path: Path) -> Optional[str]:
+        """단일 Track 파일 로드"""
+        data = self._extract_frontmatter(file_path)
+        if not data or data.get('entity_type') != 'Track':
+            return None
+
+        entity_id = data.get('entity_id')
+        if not entity_id:
+            return None
+
+        data['_path'] = str(file_path.relative_to(self.vault_path))
+
+        self.tracks[entity_id] = CacheEntry(
+            data=data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+        return entity_id
+
+    def get_all_tracks(self) -> List[Dict[str, Any]]:
+        """Track 목록 조회 (디렉토리 mtime 체크 포함)"""
+        with self._lock:
+            tracks_dir = self.vault_path / "20_Strategy" / "12M_Tracks"
+            if self._should_reload_dir(tracks_dir, 'Track'):
+                self.tracks.clear()
+                self._load_tracks()
+
+            results = []
+            for track_id, entry in list(self.tracks.items()):
+                results.append(entry.data.copy())
+
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
+    def get_track(self, track_id: str) -> Optional[Dict[str, Any]]:
+        """Track 조회"""
+        with self._lock:
+            entry = self.tracks.get(track_id)
+            if not entry:
+                return None
+            return entry.data.copy()
+
+    # ============================================
+    # Condition 로드/조회 (Read-only)
+    # ============================================
+
+    def _load_conditions(self) -> None:
+        """모든 Condition 파일 로드"""
+        conditions_dir = self.vault_path / "20_Strategy" / "3Y_Conditions_2026-2028"
+        if not conditions_dir.exists():
+            return
+
+        self._update_dir_mtime(conditions_dir, 'Condition')
+
+        for cond_file in conditions_dir.rglob("*.md"):
+            if cond_file.name.startswith("_"):
+                continue
+            self._load_condition_file(cond_file)
+
+    def _load_condition_file(self, file_path: Path) -> Optional[str]:
+        """단일 Condition 파일 로드"""
+        data = self._extract_frontmatter(file_path)
+        if not data or data.get('entity_type') != 'Condition':
+            return None
+
+        entity_id = data.get('entity_id')
+        if not entity_id:
+            return None
+
+        data['_path'] = str(file_path.relative_to(self.vault_path))
+
+        self.conditions[entity_id] = CacheEntry(
+            data=data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+        return entity_id
+
+    def get_all_conditions(self) -> List[Dict[str, Any]]:
+        """Condition 목록 조회 (디렉토리 mtime 체크 포함)"""
+        with self._lock:
+            conditions_dir = self.vault_path / "20_Strategy" / "3Y_Conditions_2026-2028"
+            if self._should_reload_dir(conditions_dir, 'Condition'):
+                self.conditions.clear()
+                self._load_conditions()
+
+            results = []
+            for cond_id, entry in list(self.conditions.items()):
+                results.append(entry.data.copy())
+
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
+    def get_condition(self, condition_id: str) -> Optional[Dict[str, Any]]:
+        """Condition 조회"""
+        with self._lock:
+            entry = self.conditions.get(condition_id)
+            if not entry:
+                return None
+            return entry.data.copy()
+
+    # ============================================
+    # Strategy 엔티티 로드/조회 (Read-only)
+    # ============================================
+
+    def _load_northstars(self) -> None:
+        """NorthStar 로드"""
+        ns_dir = self.vault_path / "01_North_Star"
+        if not ns_dir.exists():
+            return
+
+        self._update_dir_mtime(ns_dir, 'NorthStar')
+
+        for ns_file in ns_dir.rglob("*.md"):
+            if ns_file.name.startswith("_"):
+                continue
+            data = self._extract_frontmatter(ns_file)
+            if data and data.get('entity_type') == 'NorthStar':
+                entity_id = data.get('entity_id')
+                if entity_id:
+                    data['_path'] = str(ns_file.relative_to(self.vault_path))
+                    self.northstars[entity_id] = CacheEntry(
+                        data=data, path=ns_file, mtime=ns_file.stat().st_mtime
+                    )
+
+    def _load_metahypotheses(self) -> None:
+        """MetaHypothesis 로드"""
+        ns_dir = self.vault_path / "01_North_Star"
+        if not ns_dir.exists():
+            return
+
+        self._update_dir_mtime(ns_dir, 'MetaHypothesis')
+
+        for mh_file in ns_dir.rglob("*.md"):
+            if mh_file.name.startswith("_"):
+                continue
+            data = self._extract_frontmatter(mh_file)
+            if data and data.get('entity_type') == 'MetaHypothesis':
+                entity_id = data.get('entity_id')
+                if entity_id:
+                    data['_path'] = str(mh_file.relative_to(self.vault_path))
+                    self.metahypotheses[entity_id] = CacheEntry(
+                        data=data, path=mh_file, mtime=mh_file.stat().st_mtime
+                    )
+
+    def _load_productlines(self) -> None:
+        """ProductLine 로드"""
+        strategy_dir = self.vault_path / "20_Strategy"
+        if not strategy_dir.exists():
+            return
+
+        self._update_dir_mtime(strategy_dir, 'ProductLine')
+
+        for pl_file in strategy_dir.rglob("*.md"):
+            if pl_file.name.startswith("_"):
+                continue
+            data = self._extract_frontmatter(pl_file)
+            if data and data.get('entity_type') == 'ProductLine':
+                entity_id = data.get('entity_id')
+                if entity_id:
+                    data['_path'] = str(pl_file.relative_to(self.vault_path))
+                    self.productlines[entity_id] = CacheEntry(
+                        data=data, path=pl_file, mtime=pl_file.stat().st_mtime
+                    )
+
+    def _load_partnershipstages(self) -> None:
+        """PartnershipStage 로드"""
+        strategy_dir = self.vault_path / "20_Strategy"
+        if not strategy_dir.exists():
+            return
+
+        self._update_dir_mtime(strategy_dir, 'PartnershipStage')
+
+        for ps_file in strategy_dir.rglob("*.md"):
+            if ps_file.name.startswith("_"):
+                continue
+            data = self._extract_frontmatter(ps_file)
+            if data and data.get('entity_type') == 'PartnershipStage':
+                entity_id = data.get('entity_id')
+                if entity_id:
+                    data['_path'] = str(ps_file.relative_to(self.vault_path))
+                    self.partnershipstages[entity_id] = CacheEntry(
+                        data=data, path=ps_file, mtime=ps_file.stat().st_mtime
+                    )
+
+    def get_all_northstars(self) -> List[Dict[str, Any]]:
+        """NorthStar 목록 조회"""
+        with self._lock:
+            ns_dir = self.vault_path / "01_North_Star"
+            if self._should_reload_dir(ns_dir, 'NorthStar'):
+                self.northstars.clear()
+                self._load_northstars()
+
+            return [entry.data.copy() for entry in self.northstars.values()]
+
+    def get_all_metahypotheses(self) -> List[Dict[str, Any]]:
+        """MetaHypothesis 목록 조회"""
+        with self._lock:
+            ns_dir = self.vault_path / "01_North_Star"
+            if self._should_reload_dir(ns_dir, 'MetaHypothesis'):
+                self.metahypotheses.clear()
+                self._load_metahypotheses()
+
+            results = list(entry.data.copy() for entry in self.metahypotheses.values())
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
+    def get_all_productlines(self) -> List[Dict[str, Any]]:
+        """ProductLine 목록 조회"""
+        with self._lock:
+            strategy_dir = self.vault_path / "20_Strategy"
+            if self._should_reload_dir(strategy_dir, 'ProductLine'):
+                self.productlines.clear()
+                self._load_productlines()
+
+            results = list(entry.data.copy() for entry in self.productlines.values())
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
+    def get_all_partnershipstages(self) -> List[Dict[str, Any]]:
+        """PartnershipStage 목록 조회"""
+        with self._lock:
+            strategy_dir = self.vault_path / "20_Strategy"
+            if self._should_reload_dir(strategy_dir, 'PartnershipStage'):
+                self.partnershipstages.clear()
+                self._load_partnershipstages()
+
+            results = list(entry.data.copy() for entry in self.partnershipstages.values())
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
 
     # ============================================
     # ID 생성
     # ============================================
 
     def get_next_task_id(self) -> str:
-        """다음 Task ID 생성 (캐시 기반, O(n) 스캔 불필요)"""
-        max_id = 0
+        """다음 Task ID 생성"""
+        with self._lock:
+            max_id = 0
 
-        for entity_id in self.tasks.keys():
-            match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
-            if match:
-                main_num = int(match.group(1))
-                sub_num = int(match.group(2))
-                combined = main_num * 100 + sub_num
-                max_id = max(max_id, combined)
+            for entity_id in self.tasks.keys():
+                match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
+                if match:
+                    main_num = int(match.group(1))
+                    sub_num = int(match.group(2))
+                    combined = main_num * 100 + sub_num
+                    max_id = max(max_id, combined)
 
-        next_id = max_id + 1
-        main = next_id // 100
-        sub = next_id % 100
+            next_id = max_id + 1
+            main = next_id // 100
+            sub = next_id % 100
 
-        if main == 0:
-            main = 1
+            if main == 0:
+                main = 1
 
-        return f"tsk-{main:03d}-{sub:02d}"
+            return f"tsk-{main:03d}-{sub:02d}"
 
     def get_next_project_id(self) -> str:
         """다음 Project ID 생성"""
-        max_num = 0
+        with self._lock:
+            max_num = 0
 
-        for entity_id in self.projects.keys():
-            match = re.match(r'prj-(\d+)', entity_id)
-            if match:
-                num = int(match.group(1))
-                max_num = max(max_num, num)
+            for entity_id in self.projects.keys():
+                match = re.match(r'prj-(\d+)', entity_id)
+                if match:
+                    num = int(match.group(1))
+                    max_num = max(max_num, num)
 
-        return f"prj-{max_num + 1:03d}"
+            return f"prj-{max_num + 1:03d}"
 
     # ============================================
-    # 내부 메서드
+    # 디렉토리 mtime 관리
+    # ============================================
+
+    def _get_dir_mtime_key(self, dir_path: Path, entity_type: str) -> str:
+        """디렉토리+엔티티 타입 조합 키 생성 (Codex 피드백 반영)"""
+        return f"{dir_path}:{entity_type}"
+
+    def _update_dir_mtime(self, dir_path: Path, entity_type: str) -> None:
+        """디렉토리 mtime 기록 (로드 성공 후에만 호출)"""
+        key = self._get_dir_mtime_key(dir_path, entity_type)
+        try:
+            mtime = self._get_recursive_mtime(dir_path)
+            self._dir_mtimes[key] = mtime
+        except FileNotFoundError:
+            pass
+
+    def _should_reload_dir(self, dir_path: Path, entity_type: str) -> bool:
+        """
+        디렉토리 변경 여부 확인
+
+        Codex 피드백 반영:
+        - 디렉토리 삭제 시 캐시 정리
+        - 재귀적 mtime 체크
+        - TTL 기반 스캔으로 성능 최적화 (매 요청마다 rglob 방지)
+        """
+        key = self._get_dir_mtime_key(dir_path, entity_type)
+        now = time.time()
+
+        # TTL 체크: 마지막 체크 후 interval 미경과 시 스킵
+        last_check = self._dir_last_check.get(key, 0)
+        if now - last_check < self._dir_check_interval:
+            return False  # 최근에 체크했으므로 스킵
+
+        # TTL 경과 → 실제 mtime 체크
+        self._dir_last_check[key] = now
+
+        try:
+            current_mtime = self._get_recursive_mtime(dir_path)
+            last_mtime = self._dir_mtimes.get(key, 0)
+
+            if current_mtime > last_mtime:
+                # mtime 업데이트는 로드 성공 후에 수행
+                return True
+            return False
+
+        except FileNotFoundError:
+            # 디렉토리 삭제됨 - 캐시 정리 필요
+            if key in self._dir_mtimes:
+                del self._dir_mtimes[key]
+            return True
+
+    def _get_recursive_mtime(self, dir_path: Path) -> float:
+        """
+        디렉토리의 재귀적 mtime 계산
+
+        Codex 피드백: rglob 사용 시 하위 디렉토리 변경 감지
+        """
+        max_mtime = dir_path.stat().st_mtime
+
+        for item in dir_path.rglob("*"):
+            try:
+                item_mtime = item.stat().st_mtime
+                max_mtime = max(max_mtime, item_mtime)
+            except (FileNotFoundError, PermissionError):
+                continue
+
+        return max_mtime
+
+    # ============================================
+    # 내부 메서드 - mtime 체크 및 갱신
     # ============================================
 
     def _check_and_refresh_task(self, task_id: str, entry: CacheEntry) -> bool:
-        """
-        Task mtime 체크 후 변경 시 갱신
-
-        Returns-
-            True if refreshed or deleted, False if unchanged
-        """
+        """Task mtime 체크 후 변경 시 갱신"""
         try:
             current_mtime = entry.path.stat().st_mtime
             if current_mtime > entry.mtime:
-                # 파일 변경됨 → 다시 로드
                 new_data = self._extract_frontmatter(entry.path)
                 if new_data:
                     new_data['_path'] = str(entry.path.relative_to(self.vault_path))
@@ -351,7 +825,6 @@ class VaultCache:
                     logger.debug(f"Cache refreshed: {task_id}")
                 return True
         except FileNotFoundError:
-            # 파일 삭제됨
             del self.tasks[task_id]
             logger.debug(f"Cache removed (file deleted): {task_id}")
             return True
@@ -365,10 +838,11 @@ class VaultCache:
         try:
             current_mtime = entry.path.stat().st_mtime
             if current_mtime > entry.mtime:
-                new_data = self._extract_frontmatter(entry.path)
+                new_data, body = self._extract_frontmatter_and_body(entry.path)
                 if new_data:
                     new_data['_path'] = str(entry.path.relative_to(self.vault_path))
                     new_data['_dir'] = str(entry.path.parent.relative_to(self.vault_path))
+                    new_data['_body'] = body
                     self.projects[project_id] = CacheEntry(
                         data=new_data,
                         path=entry.path,
@@ -382,6 +856,34 @@ class VaultCache:
             logger.warning(f"Error checking mtime for {project_id}: {e}")
 
         return False
+
+    def _check_and_refresh_hypothesis(self, hypothesis_id: str, entry: CacheEntry) -> bool:
+        """Hypothesis mtime 체크 후 변경 시 갱신"""
+        try:
+            current_mtime = entry.path.stat().st_mtime
+            if current_mtime > entry.mtime:
+                new_data = self._extract_frontmatter(entry.path)
+                if new_data:
+                    new_data['_path'] = str(entry.path.relative_to(self.vault_path))
+                    self.hypotheses[hypothesis_id] = CacheEntry(
+                        data=new_data,
+                        path=entry.path,
+                        mtime=current_mtime
+                    )
+                    logger.debug(f"Hypothesis cache refreshed: {hypothesis_id}")
+                return True
+        except FileNotFoundError:
+            del self.hypotheses[hypothesis_id]
+            logger.debug(f"Hypothesis cache removed (file deleted): {hypothesis_id}")
+            return True
+        except Exception as e:
+            logger.warning(f"Error checking mtime for hypothesis {hypothesis_id}: {e}")
+
+        return False
+
+    # ============================================
+    # Frontmatter 추출
+    # ============================================
 
     def _extract_frontmatter(self, file_path: Path) -> Optional[Dict[str, Any]]:
         """YAML frontmatter 추출"""
@@ -398,23 +900,60 @@ class VaultCache:
             logger.warning(f"Error parsing {file_path}: {e}")
             return None
 
+    def _extract_frontmatter_and_body(self, file_path: Path) -> Tuple[Optional[Dict[str, Any]], str]:
+        """YAML frontmatter와 본문을 함께 추출"""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            match = re.match(r'^---\s*\n(.*?)\n---\s*\n?(.*)', content, re.DOTALL)
+            if match:
+                frontmatter = yaml.safe_load(match.group(1))
+                body = match.group(2).strip()
+                return frontmatter, body
+            return None, content.strip()
+        except Exception as e:
+            logger.warning(f"Error parsing {file_path}: {e}")
+            return None, ""
+
     # ============================================
     # 유틸리티
     # ============================================
 
     def reload(self) -> None:
         """캐시 전체 재로드 (수동 갱신용)"""
-        self.tasks.clear()
-        self.projects.clear()
-        self._task_count = 0
-        self._project_count = 0
-        self._initial_load()
+        with self._lock:
+            self.tasks.clear()
+            self.projects.clear()
+            self.hypotheses.clear()
+            self.tracks.clear()
+            self.conditions.clear()
+            self.northstars.clear()
+            self.metahypotheses.clear()
+            self.productlines.clear()
+            self.partnershipstages.clear()
+            self._dir_mtimes.clear()
+            self._dir_last_check.clear()
+
+            self._task_count = 0
+            self._project_count = 0
+            self._hypothesis_count = 0
+
+            self._initial_load()
 
     def stats(self) -> Dict[str, Any]:
         """캐시 통계"""
-        return {
-            "tasks": len(self.tasks),
-            "projects": len(self.projects),
-            "load_time_seconds": self._load_time,
-            "vault_path": str(self.vault_path)
-        }
+        with self._lock:
+            return {
+                "tasks": len(self.tasks),
+                "projects": len(self.projects),
+                "hypotheses": len(self.hypotheses),
+                "tracks": len(self.tracks),
+                "conditions": len(self.conditions),
+                "northstars": len(self.northstars),
+                "metahypotheses": len(self.metahypotheses),
+                "productlines": len(self.productlines),
+                "partnershipstages": len(self.partnershipstages),
+                "load_time_seconds": self._load_time,
+                "vault_path": str(self.vault_path)
+            }

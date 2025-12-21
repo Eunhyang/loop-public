@@ -368,6 +368,26 @@
                         </div>
                     </div>
 
+                    <!-- Impact Score -->
+                    <div class="panel-section" id="panelProjectImpactSection">
+                        <div class="panel-section-title">Impact Score</div>
+                        <div class="impact-scores">
+                            <div class="impact-score-card expected">
+                                <div class="impact-score-label">Expected (A)</div>
+                                <div class="impact-score-value" id="panelExpectedScore">-</div>
+                                <div class="impact-score-details" id="panelExpectedDetails"></div>
+                            </div>
+                            <div class="impact-score-card realized">
+                                <div class="impact-score-label">Realized (B)</div>
+                                <div class="impact-score-value" id="panelRealizedScore">-</div>
+                                <div class="impact-score-details" id="panelRealizedDetails"></div>
+                            </div>
+                        </div>
+                        <div class="impact-contributes" id="panelImpactContributes">
+                            <!-- contributes 정보 표시 -->
+                        </div>
+                    </div>
+
                     <!-- Relations -->
                     <div class="panel-section">
                         <div class="panel-section-title">Relations</div>
@@ -385,8 +405,19 @@
                     </div>
                 </div>
 
-                <!-- Right Column: Notes -->
+                <!-- Right Column: Body + Notes -->
                 <div class="panel-column-right">
+                    <!-- Project Body (Markdown) -->
+                    <div class="panel-section panel-section-body">
+                        <div class="panel-section-title">Project Body</div>
+                        <div class="panel-body-container">
+                            <div class="panel-body-preview" id="panelProjectBodyPreview">
+                                <div class="body-placeholder">No body content</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes (Editable) -->
                     <div class="panel-section panel-section-notes">
                         <div class="panel-section-title">
                             Notes

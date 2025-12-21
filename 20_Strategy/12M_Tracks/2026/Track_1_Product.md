@@ -3,7 +3,7 @@ entity_type: Track
 entity_id: trk-1
 entity_name: Track_1_Product
 created: 2024-12-18
-updated: 2024-12-18
+updated: 2025-12-22
 status: active
 parent_id: cond-a
 aliases:
@@ -62,6 +62,33 @@ priority_flag: medium
 
 ---
 
+### 제품 타입 선언
+
+| Daily habit app ❌ | Episode(전환점) OS ✅ |
+|-------------------|----------------------|
+| 매일 쓰게 만들기 | 위험 순간에 기본값 되기 |
+| DAU/스트릭 중심 | TTR/Relapse Interval 중심 |
+| 습관 형성 | 사건 꺾기 |
+
+> ⚠️ 단, **습관 PMF(타이머 코어)는 Wedge로 보존**한다. OS 확장을 위해 Wedge를 버리지 않는다.
+>
+> 참고: [[OS_Stickiness]]
+
+---
+
+### 기준 이벤트 정의 (Problem Event / Trigger Event)
+
+```
+problem_event := 폭식(자가리포트) OR 통제붕괴(충동≥7 AND problem_behavior 발생)
+problem_behavior ∈ {폭식, 과식, 야식, 배달/간식 폭주, 음주, 쇼핑 등 보상행동}
+trigger_event := 충동≥7 (자가리포트)
+Cohort := problem_event ≥ 1회 + 개입 세션 ≥ 1회 사용자
+```
+
+> 모든 Episode OS 지표(TTR, LTO, D+1, TBR, Relapse)는 이 정의를 전제로 한다.
+
+---
+
 ## 이 Track의 본질
 
 ### ❌ 기능 개발이 아니다
@@ -103,33 +130,56 @@ Product(Loop Core OS) 트랙. Loop Mapping v1, Emotion–Eating–Habit Tracking
 
 ---
 
-### Focus 2: Emotion–Eating–Habit Tracking v1
+### Focus 2: Episode Logging v1 (사건 기록)
 **현재**: 기본 기록
-**목표**: 통합 트래킹 v1
+**목표**: Episode Logging v1
 **진행률**: 40%
 
-**목표**:
-- 정서 기록 (감정 상태, 충동 레벨)
-- 섭식 기록 (식사 속도, 포만감)
-- 습관 기록 (트리거, 행동, 결과)
-- 세 영역의 상관관계 분석
+**Episode Logging이란?**
+- "매일 기록"이 아니라 **사건(problem_event) 발생 시 기록**
+- 트리거 발생 시점, 충동 레벨, 행동(폭식/보상), 개입 실행 여부, 완화 체감
+
+**기록 항목**:
+- 정서 상태 (충동 레벨 0~10)
+- 섭식 행동 (속도, 포만감)
+- 트리거 → 행동 → 결과 체인
+- **개입 실행 여부 + 완화까지 시간 (TTR)**
+
+**성공 기준**:
+- ❌ 매일 기록률
+- ✅ problem_event 발생 시 기록률, TTR 측정 가능 여부
 
 ---
 
-### Focus 3: "천천히 먹기" 기능
-**현재**: 미구현
-**목표**: 핵심 기능으로 탑재
-**진행률**: 0%
+### Focus 3: Episode Brake (천천히 먹기 = 에피소드 개입 모듈)
+**현재**: 구현됨 (타이머 플로우)
+**목표**: Episode Brake로 재포지셔닝
+**진행률**: 60%
 
-**세부 기능**:
-- **씹는 속도**: 식사 페이스 가이드
-- **포만감 타이머**: 20분 식사 유도
-- **식사 페이스 가이드**: 실시간 피드백
+**Episode Brake란?**
+- ❌ 식사 습관 교정
+- ✅ 전환점(자동폭주)에서 브레이크 거는 개입 모듈
+
+**3단 구조**:
+1. **급정지 (Prevention)**: 타이머 + 포만감 체크 + 심호흡 → 충동 낮춰서 사건 꺾기
+2. **재조절 (Regulation)**: 한입 체크 → 자동폭주 끊고 선택권 회복
+3. **회복 (Recovery)**: 식후 감정일기 + 식후 루틴 → 2차 폭식/자기비난 차단
+
+**성공 기준**:
+- ❌ 매일 실행률, 식사시간 +20%
+- ✅ TTR (p50 ≤ 10분, Cohort 기준 4주 내 20% 개선), Relapse Interval 증가
+
+**TTR 결측 처리 규칙**:
+> 완화 체크 미응답 30분 이내 => censored as 30min
+
+**Wedge Guardrails** (반드시 보존):
+- Meal Session Completion Rate ≥ 70%
+- Timer Start Rate ≥ 50% (주 3회+)
+- Session Drop-off at First 30s ≤ 20%
 
 **왜 중요한가?**
-- Track 6 유료화의 핵심 기능
-- 행동 개입의 가장 명확한 시작점
-- 측정 가능한 결과 (식사 시간, 포만감 점수)
+- Track 6 유료화의 핵심 기능 (보험형 가치)
+- **사건을 꺾는** 가장 명확한 개입점
 
 ---
 
@@ -200,6 +250,51 @@ Product(Loop Core OS) 트랙. Loop Mapping v1, Emotion–Eating–Habit Tracking
 
 ---
 
+### Objective 3: Episode OS KPI
+
+**기준 이벤트**: `problem_event := 폭식(자가리포트) OR 통제붕괴(충동≥7 AND problem_behavior 발생)`
+
+**핵심 지표**:
+| 지표 | 정의 | 분모 | 임계치 |
+|------|------|------|--------|
+| TTR | 개입 시작 → 완화까지 시간 | 개입 시작한 세션 | (절대) p50 ≤ 10분 / (상대) Cohort 기준 4주 내 20% 개선 |
+| Relapse Interval | 재발 간격 | problem_event 발생 사용자 | (절대) 주 단위 증가 / (상대) baseline +3일 |
+| D+1 Recovery | 다음날 회복 프로토콜 **실행** | problem_event 기록된 사용자 | 60%+ |
+| LTO | problem_event 후 첫 **오픈**까지 시간 | problem_event 발생 사용자 | p50 ≤ 24h |
+| TBR-24 | trigger_event 발생 후 24h 내 앱 실행률 | trigger_event 감지 사용자 | 40%+ (planned) |
+
+**결측 처리**: TTR 완화 체크 미응답 30분 이내 => censored as 30min
+
+**중단 신호**: 6개월 시점에 D+1 Recovery 40% 미만
+
+---
+
+### Objective 4: Wedge Guardrails (습관 PMF 보존)
+
+| 지표 | 임계치 | 중단 신호 |
+|------|--------|-----------|
+| Meal Session Completion Rate | ≥ 70% | 50% 미만 3개월 지속 |
+| Timer Start Rate | ≥ 50% (주 3회+) | 30% 미만 |
+| Avg Meal Duration (10~20분) | ≥ 60% | 40% 미만 |
+| Session Drop-off at First 30s | ≤ 20% | 40% 초과 |
+
+> ⚠️ Guardrail이 깨지면 OS 확장도 같이 망한다. Episode OS로 가는 것이 습관 PMF를 버리는 것이 아님.
+
+---
+
+## 2층 구조: Recovery OS → Micro Brake
+
+| 단계 | 설명 | 측정 지표 | 현재 상태 |
+|------|------|-----------|-----------|
+| Recovery OS | 다음날 복귀 (폭식 후 회복) | D+1 Recovery, LTO | ✅ 이미 작동 |
+| Micro Brake | 당일 15~30초 초저마찰 개입 | TBR-24 | 🔜 planned |
+
+**전략**:
+1. Recovery OS로 D+1 Recovery 60%+ 달성
+2. 이후 Micro Brake로 당일 개입까지 확장
+
+---
+
 ## Track 1과 다른 Track의 관계
 
 ### ← Track 2 (Data): 의존
@@ -222,14 +317,15 @@ Product(Loop Core OS) 트랙. Loop Mapping v1, Emotion–Eating–Habit Tracking
 
 ### → Track 6 (Revenue): Enable
 **Enable 내용**:
-- "천천히 먹기 + Loop Tracker" = 유료 구독 핵심
+- "Episode Brake + Recovery + Insight" = 유료 구독 핵심 (보험형 가치)
+- Quick Brake(15~30초) + 회복 시작(첫 1분) = Free
 - 제품 안정성 = 유료화 전제조건
 
 ---
 
 ## 12개월 액션 플랜
 
-### Q1 2025 (1-3월): 기반 구축
+### Q1 2026 (1-3월): 기반 구축
 **목표**:
 - Loop Mapping v0.6
 - 천천히 먹기 기본 기능
@@ -244,7 +340,7 @@ Product(Loop Core OS) 트랙. Loop Mapping v1, Emotion–Eating–Habit Tracking
 
 ---
 
-### Q2 2025 (4-6월): 핵심 기능 완성
+### Q2 2026 (4-6월): 핵심 기능 완성
 **목표**:
 - Loop Mapping v0.8
 - 천천히 먹기 정식 런칭
@@ -259,7 +355,7 @@ Product(Loop Core OS) 트랙. Loop Mapping v1, Emotion–Eating–Habit Tracking
 
 ---
 
-### Q3-Q4 2025 (7-12월): 안정화 + 확장
+### Q3-Q4 2026 (7-12월): 안정화 + 확장
 **목표**:
 - Loop Mapping v1
 - Product 안정성 95%
@@ -320,5 +416,5 @@ graph TD
 
 **최초 작성**: 2024-12-18
 **마지막 업데이트**: 2024-12-18 (40% 진행)
-**다음 체크**: 2025-01 (Q1 진행 상황)
+**다음 체크**: 2026-01 (Q1 진행 상황)
 **책임자**: PM 1 + 개발 1 + 노코드 지원

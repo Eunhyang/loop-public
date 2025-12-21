@@ -171,7 +171,8 @@ def update_project(project_id: str, project: ProjectUpdate):
     with open(project_file, 'w', encoding='utf-8') as f:
         f.write(new_content)
 
-    # 7. 캐시 업데이트
+    # 7. 캐시 업데이트 (_body 포함)
+    frontmatter['_body'] = body
     cache.set_project(project_id, frontmatter, project_file)
 
     return ProjectResponse(
