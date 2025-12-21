@@ -32,7 +32,8 @@ tags: ["2026", "trk-6", "revenue", "tips", "investment"]
 
 # === 검증 연결 ===
 validates: []
-validated_by: []
+validated_by:
+  - prj:009
 ---
 
 # TIPS/투자 요구조건 충족

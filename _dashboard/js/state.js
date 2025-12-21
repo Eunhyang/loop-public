@@ -29,6 +29,21 @@ const State = {
     editingTask: null,
     editingProject: null,
 
+    // Filter Panel State
+    filters: {
+        project: {
+            status: ['planning', 'active', 'paused', 'done', 'cancelled'],  // all checked by default
+            priority: ['critical', 'high', 'medium', 'low']
+        },
+        task: {
+            status: ['todo', 'doing', 'done', 'blocked'],
+            priority: ['critical', 'high', 'medium', 'low'],
+            dueDateStart: null,
+            dueDateEnd: null
+        }
+    },
+    filterPanelOpen: false,
+
     // ============================================
     // Data Loading
     // ============================================
@@ -144,6 +159,7 @@ const State = {
     },
 
     // Get filtered tasks by current project, assignee, and strategy filters
+    // Also applies task-level filters (status, priority, due date)
     getFilteredTasks() {
         let filtered = this.tasks;
 
@@ -177,7 +193,39 @@ const State = {
 
         // Filter by assignee
         if (this.currentAssignee !== 'all') {
-            filtered = filtered.filter(t => t.assignee === this.currentAssignee);
+            if (this.currentAssignee === 'unassigned') {
+                filtered = filtered.filter(t => !t.assignee);
+            } else {
+                filtered = filtered.filter(t => t.assignee === this.currentAssignee);
+            }
+        }
+
+        // Apply task status filter
+        filtered = filtered.filter(t => {
+            const status = this.normalizeStatus(t.status);
+            return this.filters.task.status.includes(status);
+        });
+
+        // Apply task priority filter
+        filtered = filtered.filter(t => {
+            const priority = t.priority || 'medium';
+            return this.filters.task.priority.includes(priority);
+        });
+
+        // Apply due date filter
+        if (this.filters.task.dueDateStart) {
+            const startDate = new Date(this.filters.task.dueDateStart);
+            filtered = filtered.filter(t => {
+                if (!t.due_date) return false;
+                return new Date(t.due_date) >= startDate;
+            });
+        }
+        if (this.filters.task.dueDateEnd) {
+            const endDate = new Date(this.filters.task.dueDateEnd);
+            filtered = filtered.filter(t => {
+                if (!t.due_date) return false;
+                return new Date(t.due_date) <= endDate;
+            });
         }
 
         return filtered;
@@ -241,31 +289,42 @@ const State = {
     },
 
     // Get projects that have tasks for current assignee (for Project sub-tabs)
+    // Applies project status/priority filters
     getProjectsForAssignee() {
         // 1. Filter tasks by current assignee
-        let filtered = this.tasks;
+        let filteredTasks = this.tasks;
         if (this.currentAssignee !== 'all') {
             if (this.currentAssignee === 'unassigned') {
-                filtered = filtered.filter(t => !t.assignee);
+                filteredTasks = filteredTasks.filter(t => !t.assignee);
             } else {
-                filtered = filtered.filter(t => t.assignee === this.currentAssignee);
+                filteredTasks = filteredTasks.filter(t => t.assignee === this.currentAssignee);
             }
         }
 
         // 2. Count tasks per project
         const projectTaskCount = {};
-        filtered.forEach(task => {
+        filteredTasks.forEach(task => {
             const projectId = task.project_id;
             if (projectId) {
                 projectTaskCount[projectId] = (projectTaskCount[projectId] || 0) + 1;
             }
         });
 
-        // 3. Get project objects with task count
+        // 3. Get project objects with task count, applying filters
         const result = [];
         Object.keys(projectTaskCount).forEach(projectId => {
             const project = this.getProjectById(projectId);
             if (project) {
+                // Apply project status filter
+                const projectStatus = project.status || 'active';
+                if (!this.filters.project.status.includes(projectStatus)) {
+                    return;
+                }
+                // Apply project priority filter
+                const projectPriority = project.priority || 'medium';
+                if (!this.filters.project.priority.includes(projectPriority)) {
+                    return;
+                }
                 result.push({
                     ...project,
                     taskCount: projectTaskCount[projectId]
@@ -274,5 +333,50 @@ const State = {
         });
 
         return result;
+    },
+
+    // ============================================
+    // Filter Helpers
+    // ============================================
+
+    // Toggle filter value (for checkbox click)
+    toggleFilter(category, type, value) {
+        const arr = this.filters[category][type];
+        const idx = arr.indexOf(value);
+        if (idx > -1) {
+            arr.splice(idx, 1);
+        } else {
+            arr.push(value);
+        }
+    },
+
+    // Check if filter value is active
+    isFilterActive(category, type, value) {
+        return this.filters[category][type].includes(value);
+    },
+
+    // Reset all filters to default
+    resetFilters() {
+        this.filters = {
+            project: {
+                status: ['planning', 'active', 'paused', 'done', 'cancelled'],
+                priority: ['critical', 'high', 'medium', 'low']
+            },
+            task: {
+                status: ['todo', 'doing', 'done', 'blocked'],
+                priority: ['critical', 'high', 'medium', 'low'],
+                dueDateStart: null,
+                dueDateEnd: null
+            }
+        };
+    },
+
+    // Set date filter
+    setDateFilter(startOrEnd, value) {
+        if (startOrEnd === 'start') {
+            this.filters.task.dueDateStart = value || null;
+        } else {
+            this.filters.task.dueDateEnd = value || null;
+        }
     }
 };
