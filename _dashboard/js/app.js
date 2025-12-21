@@ -50,6 +50,7 @@ async function init() {
         // Initialize Panels
         TaskPanel.init();
         ProjectPanel.init();
+        FilterPanel.init();
 
         // Initialize Graph
         Graph.init();

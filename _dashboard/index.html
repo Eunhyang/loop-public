@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/kanban.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/filter-panel.css">
     <link rel="stylesheet" href="css/graph.css">
     <!-- D3.js for Graph Visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -226,6 +227,66 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Filter Side Panel -->
+    <div class="panel-overlay" id="filterPanelOverlay"></div>
+    <aside class="side-panel filter-panel" id="filterPanel">
+        <div class="panel-header">
+            <h2>Filters</h2>
+            <button class="panel-close" id="filterPanelClose">&times;</button>
+        </div>
+        <div class="panel-body">
+            <!-- Project Filters -->
+            <div class="panel-section">
+                <div class="panel-section-title">PROJECT FILTERS</div>
+
+                <div class="filter-group">
+                    <label class="filter-group-label">Status</label>
+                    <div class="filter-checkboxes" id="projectStatusFilters">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-group-label">Priority</label>
+                    <div class="filter-checkboxes" id="projectPriorityFilters">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Filters -->
+            <div class="panel-section">
+                <div class="panel-section-title">TASK FILTERS</div>
+
+                <div class="filter-group">
+                    <label class="filter-group-label">Status</label>
+                    <div class="filter-checkboxes" id="taskStatusFilters">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-group-label">Priority</label>
+                    <div class="filter-checkboxes" id="taskPriorityFilters">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-group-label">Due Date</label>
+                    <div class="filter-date-range">
+                        <input type="date" id="filterDueDateStart" placeholder="Start">
+                        <span class="date-separator">~</span>
+                        <input type="date" id="filterDueDateEnd" placeholder="End">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-secondary" id="filterResetBtn">Reset All</button>
+        </div>
+    </aside>
+
     <!-- Project Side Panel -->
     <div class="panel-overlay" id="projectPanelOverlay"></div>
     <aside class="side-panel" id="projectPanel">
@@ -418,6 +479,7 @@
     <script src="js/components/relations.js"></script>
     <script src="js/components/task-panel.js"></script>
     <script src="js/components/project-panel.js"></script>
+    <script src="js/components/filter-panel.js"></script>
     <script src="js/components/graph.js"></script>
     <script src="js/components/graphDetailPanel.js"></script>
     <script src="js/app.js"></script>
