@@ -17,11 +17,14 @@ tags: ["meta", "index", "auto-generated"]
 
 ---
 
-## 목록 (2개)
+## 목록 (5개)
 
 | ID | Name | Status | Type |
 |---|---|---|---|
+| `mh:1` | [[MH1_루프는_지속적_문제|MH1_루프는_지속적_문제]] | validating | MetaHypothesis |
+| `mh:2` | [[MH2_행동개입_효과|MH2_행동개입_효과]] | validating | MetaHypothesis |
 | `mh:3` | [[MH3_데이터_모델링_가능|MH3_데이터_모델링_가능]] | validating | MetaHypothesis |
+| `mh:4` | [[MH4_단계적_확장_가능|MH4_단계적_확장_가능]] | validating | MetaHypothesis |
 | `ns:001` | [[10년 비전|10년 비전]] | fixed | NorthStar |
 
 ---
@@ -31,7 +34,7 @@ tags: ["meta", "index", "auto-generated"]
 | Status | Count |
 |--------|-------|
 | fixed | 1 |
-| validating | 1 |
+| validating | 4 |
 
 ---
 

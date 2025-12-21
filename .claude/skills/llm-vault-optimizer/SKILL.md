@@ -37,7 +37,7 @@ Required 6 sections:
 
 ### 2. Create Strategy Index (P0)
 
-Create `20_Strategy/3Y_Conditions/_INDEX.md`:
+Create `20_Strategy/3Y_Conditions_{period}/_INDEX.md`:
 - List all Conditions by ID (cond:a through cond:e)
 - Link to each Condition document
 - Show inter-Condition relationships

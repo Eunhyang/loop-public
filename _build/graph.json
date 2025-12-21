@@ -1,7 +1,322 @@
 {
-  "generated": "2025-12-20T16:04:14.380357",
-  "total_entities": 79,
+  "generated": "2025-12-20T18:02:19.391621",
+  "total_entities": 136,
   "nodes": [
+    {
+      "id": "hyp:1-01",
+      "type": "Hypothesis",
+      "name": "천천히 먹기: 행동 변화",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-01_천천히먹기_행동변화.md"
+    },
+    {
+      "id": "hyp:1-02",
+      "type": "Hypothesis",
+      "name": "지속사용",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-02_지속사용.md"
+    },
+    {
+      "id": "hyp:1-03",
+      "type": "Hypothesis",
+      "name": "행동 변화의 전환 연계",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-03_행동변화_전환연계.md"
+    },
+    {
+      "id": "hyp:1-04",
+      "type": "Hypothesis",
+      "name": "효과 가시화가 결제를 올림",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-04_효과_가시화_결제.md"
+    },
+    {
+      "id": "hyp:1-05",
+      "type": "Hypothesis",
+      "name": "앱 단독 vs 코칭 결합 효과",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-05_앱단독_코칭결합_효과.md"
+    },
+    {
+      "id": "hyp:1-06",
+      "type": "Hypothesis",
+      "name": "세그먼트별 효과 차이",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-06_세그먼트별_효과차이.md"
+    },
+    {
+      "id": "hyp:1-07",
+      "type": "Hypothesis",
+      "name": "온보딩이 이해→행동을 만든다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-07_온보딩_이해_행동.md"
+    },
+    {
+      "id": "hyp:1-08",
+      "type": "Hypothesis",
+      "name": "유료 기능의 사용이 유지의 원인",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-08_유료기능_사용_유지.md"
+    },
+    {
+      "id": "hyp:1-09",
+      "type": "Hypothesis",
+      "name": "행동변화 지표 3종이 안정",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-09_행동변화_지표_안정.md"
+    },
+    {
+      "id": "hyp:1-10",
+      "type": "Hypothesis",
+      "name": "결제 전 가치 인지",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-10_결제전_가치인지.md"
+    },
+    {
+      "id": "hyp:1-11",
+      "type": "Hypothesis",
+      "name": "상품 메시지 2~3개로 수렴",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-1-11_상품메시지_수렴.md"
+    },
+    {
+      "id": "hyp:2-01",
+      "type": "Hypothesis",
+      "name": "스키마 최소세트가 충분",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
+    },
+    {
+      "id": "hyp:2-02",
+      "type": "Hypothesis",
+      "name": "스키마 안정성",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
+    },
+    {
+      "id": "hyp:2-03",
+      "type": "Hypothesis",
+      "name": "데이터 누락률",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-03_데이터_누락률.md"
+    },
+    {
+      "id": "hyp:2-04",
+      "type": "Hypothesis",
+      "name": "앱+코칭 데이터 결합 가능",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md"
+    },
+    {
+      "id": "hyp:2-05",
+      "type": "Hypothesis",
+      "name": "라벨 일관성",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
+    },
+    {
+      "id": "hyp:2-06",
+      "type": "Hypothesis",
+      "name": "패턴 재현율",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
+    },
+    {
+      "id": "hyp:2-07",
+      "type": "Hypothesis",
+      "name": "효과지표 산출 자동화",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
+    },
+    {
+      "id": "hyp:2-08",
+      "type": "Hypothesis",
+      "name": "데이터로 루프 재구성",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
+    },
+    {
+      "id": "hyp:2-09",
+      "type": "Hypothesis",
+      "name": "데이터 품질 리포트가 행동을 바꿈",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md"
+    },
+    {
+      "id": "hyp:2-10",
+      "type": "Hypothesis",
+      "name": "투자/외부 설득용 신뢰도",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md"
+    },
+    {
+      "id": "hyp:4-01",
+      "type": "Hypothesis",
+      "name": "심화 과정 수요 재현",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md"
+    },
+    {
+      "id": "hyp:4-02",
+      "type": "Hypothesis",
+      "name": "GLP-1 과정 수요 재현",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md"
+    },
+    {
+      "id": "hyp:4-03",
+      "type": "Hypothesis",
+      "name": "완주율",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-03_완주율.md"
+    },
+    {
+      "id": "hyp:4-04",
+      "type": "Hypothesis",
+      "name": "만족/추천",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-04_만족_추천.md"
+    },
+    {
+      "id": "hyp:4-05",
+      "type": "Hypothesis",
+      "name": "행동변화",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-05_행동변화.md"
+    },
+    {
+      "id": "hyp:4-06",
+      "type": "Hypothesis",
+      "name": "운영 표준화",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-06_운영_표준화.md"
+    },
+    {
+      "id": "hyp:4-07",
+      "type": "Hypothesis",
+      "name": "코치 시간/단가 구조",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md"
+    },
+    {
+      "id": "hyp:4-08",
+      "type": "Hypothesis",
+      "name": "코칭 결과물의 상품성",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md"
+    },
+    {
+      "id": "hyp:4-09",
+      "type": "Hypothesis",
+      "name": "코칭→데이터 엔진",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
+    },
+    {
+      "id": "hyp:4-10",
+      "type": "Hypothesis",
+      "name": "코칭 포지셔닝",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md"
+    },
+    {
+      "id": "hyp:6-01",
+      "type": "Hypothesis",
+      "name": "전면 유료화 성립",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
+    },
+    {
+      "id": "hyp:6-02",
+      "type": "Hypothesis",
+      "name": "전환율 최소선",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-02_전환율_최소선.md"
+    },
+    {
+      "id": "hyp:6-03",
+      "type": "Hypothesis",
+      "name": "환불/클레임 통제",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md"
+    },
+    {
+      "id": "hyp:6-04",
+      "type": "Hypothesis",
+      "name": "가격·플랜 최적 조합 존재",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md"
+    },
+    {
+      "id": "hyp:6-05",
+      "type": "Hypothesis",
+      "name": "유료 유지/이탈",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-05_유료_유지_이탈.md"
+    },
+    {
+      "id": "hyp:6-06",
+      "type": "Hypothesis",
+      "name": "유료 가치 패키지",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-06_유료_가치패키지.md"
+    },
+    {
+      "id": "hyp:6-07",
+      "type": "Hypothesis",
+      "name": "코칭→앱 업셀",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-07_코칭_앱업셀.md"
+    },
+    {
+      "id": "hyp:6-08",
+      "type": "Hypothesis",
+      "name": "앱→코칭 업셀",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-08_앱_코칭업셀.md"
+    },
+    {
+      "id": "hyp:6-09",
+      "type": "Hypothesis",
+      "name": "와디즈/캠페인 효율",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md"
+    },
+    {
+      "id": "hyp:6-10",
+      "type": "Hypothesis",
+      "name": "효과 증거가 전환을 올림",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-10_효과증거_전환.md"
+    },
+    {
+      "id": "hyp:6-11",
+      "type": "Hypothesis",
+      "name": "운영비 구조가 런웨이를 만든다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md"
+    },
+    {
+      "id": "hyp:6-12",
+      "type": "Hypothesis",
+      "name": "월매출 런웨이 최소선",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
+    },
+    {
+      "id": "hyp:6-13",
+      "type": "Hypothesis",
+      "name": "TIPS/투자 요구조건 충족",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
+    },
+    {
+      "id": "hyp:6-14",
+      "type": "Hypothesis",
+      "name": "실제 자금조달 성립",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md"
+    },
     {
       "id": "idx:projects",
       "type": "Index",
@@ -310,6 +625,18 @@
       "owner": "Founder + 온톨로지 팀"
     },
     {
+      "id": "tsk:001-03",
+      "type": "Task",
+      "name": "스키마 문서화",
+      "status": "completed",
+      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md",
+      "conditions_3y": [
+        "cond:b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "임단"
+    },
+    {
       "id": "tsk:001-01",
       "type": "Task",
       "name": "Event 엔티티 검증",
@@ -332,18 +659,6 @@
       ],
       "priority_flag": "high",
       "assignee": "한명학"
-    },
-    {
-      "id": "tsk:001-03",
-      "type": "Task",
-      "name": "스키마 문서화",
-      "status": "completed",
-      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md",
-      "conditions_3y": [
-        "cond:b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "임단"
     },
     {
       "id": "prj:014",
@@ -803,58 +1118,42 @@
       "path": "01_North_Star/_INDEX.md"
     },
     {
-      "id": "cond:b",
-      "type": "Condition",
-      "name": "Condition_B_Loop_Dataset",
-      "status": "in_progress",
-      "path": "20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md",
+      "id": "mh:2",
+      "type": "MetaHypothesis",
+      "name": "MH2_행동개입_효과",
+      "status": "validating",
+      "path": "01_North_Star/MH2_행동개입_효과.md",
       "priority_flag": "critical"
     },
     {
-      "id": "idx:20_strategy-3y_conditions",
+      "id": "mh:4",
+      "type": "MetaHypothesis",
+      "name": "MH4_단계적_확장_가능",
+      "status": "validating",
+      "path": "01_North_Star/MH4_단계적_확장_가능.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "mh:1",
+      "type": "MetaHypothesis",
+      "name": "MH1_루프는_지속적_문제",
+      "status": "validating",
+      "path": "01_North_Star/MH1_루프는_지속적_문제.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "idx:20_strategy-12m_tracks",
       "type": "Index",
-      "name": "3년 조건 인덱스",
+      "name": "12개월 트랙 인덱스",
       "status": null,
-      "path": "20_Strategy/3Y_Conditions/_INDEX.md"
-    },
-    {
-      "id": "cond:a",
-      "type": "Condition",
-      "name": "Condition_A_PMF",
-      "status": "in_progress",
-      "path": "20_Strategy/3Y_Conditions/Condition_A_PMF.md",
-      "priority_flag": "critical"
-    },
-    {
-      "id": "cond:c",
-      "type": "Condition",
-      "name": "Condition_C_Global_Data",
-      "status": "planning",
-      "path": "20_Strategy/3Y_Conditions/Condition_C_Global_Data.md",
-      "priority_flag": "high"
-    },
-    {
-      "id": "cond:d",
-      "type": "Condition",
-      "name": "Condition_D_Runway",
-      "status": "in_progress",
-      "path": "20_Strategy/3Y_Conditions/Condition_D_Runway.md",
-      "priority_flag": "high"
-    },
-    {
-      "id": "cond:e",
-      "type": "Condition",
-      "name": "Condition_E_Team",
-      "status": "in_progress",
-      "path": "20_Strategy/3Y_Conditions/Condition_E_Team.md",
-      "priority_flag": "high"
+      "path": "20_Strategy/12M_Tracks/2026/_INDEX.md"
     },
     {
       "id": "trk:1",
       "type": "Track",
       "name": "Track_1_Product",
       "status": "active",
-      "path": "20_Strategy/12M_Tracks/Track_1_Product.md",
+      "path": "20_Strategy/12M_Tracks/2026/Track_1_Product.md",
       "conditions_3y": [
         "cond:a"
       ],
@@ -862,36 +1161,23 @@
       "owner": "PM 1 + 개발 1 + 노코드 지원"
     },
     {
-      "id": "trk:6",
+      "id": "trk:2",
       "type": "Track",
-      "name": "Track_6_Revenue",
+      "name": "Track_2_Data",
       "status": "active",
-      "path": "20_Strategy/12M_Tracks/Track_6_Revenue.md",
+      "path": "20_Strategy/12M_Tracks/2026/Track_2_Data.md",
       "conditions_3y": [
-        "cond:e"
+        "cond:b"
       ],
       "priority_flag": "critical",
-      "owner": "Founder + 전 팀"
-    },
-    {
-      "id": "trk:5",
-      "type": "Track",
-      "name": "Track_5_Partnership",
-      "status": "planning",
-      "path": "20_Strategy/12M_Tracks/Track_5_Partnership.md",
-      "conditions_3y": [
-        "cond:c",
-        "cond:d"
-      ],
-      "priority_flag": "medium",
-      "owner": "Founder + BD 담당"
+      "owner": "Founder + Data Team"
     },
     {
       "id": "trk:3",
       "type": "Track",
       "name": "Track_3_Content",
       "status": "active",
-      "path": "20_Strategy/12M_Tracks/Track_3_Content.md",
+      "path": "20_Strategy/12M_Tracks/2026/Track_3_Content.md",
       "conditions_3y": [
         "cond:a"
       ],
@@ -903,7 +1189,7 @@
       "type": "Track",
       "name": "Track_4_Coaching",
       "status": "active",
-      "path": "20_Strategy/12M_Tracks/Track_4_Coaching.md",
+      "path": "20_Strategy/12M_Tracks/2026/Track_4_Coaching.md",
       "conditions_3y": [
         "cond:b",
         "cond:d"
@@ -912,26 +1198,256 @@
       "owner": "코치 팀 리드"
     },
     {
-      "id": "trk:2",
+      "id": "trk:5",
       "type": "Track",
-      "name": "Track_2_Data",
-      "status": "active",
-      "path": "20_Strategy/12M_Tracks/Track_2_Data.md",
+      "name": "Track_5_Partnership",
+      "status": "planning",
+      "path": "20_Strategy/12M_Tracks/2026/Track_5_Partnership.md",
       "conditions_3y": [
-        "cond:b"
+        "cond:c",
+        "cond:d"
       ],
-      "priority_flag": "critical",
-      "owner": "Founder + Data Team"
+      "priority_flag": "medium",
+      "owner": "Founder + BD 담당"
     },
     {
-      "id": "idx:20_strategy-12m_tracks",
+      "id": "trk:6",
+      "type": "Track",
+      "name": "Track_6_Revenue",
+      "status": "active",
+      "path": "20_Strategy/12M_Tracks/2026/Track_6_Revenue.md",
+      "conditions_3y": [
+        "cond:e"
+      ],
+      "priority_flag": "critical",
+      "owner": "Founder + 전 팀"
+    },
+    {
+      "id": "cond:b",
+      "type": "Condition",
+      "name": "Condition_B_Loop_Dataset",
+      "status": "in_progress",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "idx:20_strategy-3y_conditions",
       "type": "Index",
-      "name": "12개월 트랙 인덱스",
+      "name": "3년 조건 인덱스",
       "status": null,
-      "path": "20_Strategy/12M_Tracks/_INDEX.md"
+      "path": "20_Strategy/3Y_Conditions_2026-2028/_INDEX.md"
+    },
+    {
+      "id": "cond:a",
+      "type": "Condition",
+      "name": "Condition_A_PMF",
+      "status": "in_progress",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_A_PMF.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "cond:c",
+      "type": "Condition",
+      "name": "Condition_C_Global_Data",
+      "status": "planning",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_C_Global_Data.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "cond:d",
+      "type": "Condition",
+      "name": "Condition_D_Runway",
+      "status": "in_progress",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_D_Runway.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "cond:e",
+      "type": "Condition",
+      "name": "Condition_E_Team",
+      "status": "in_progress",
+      "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_E_Team.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "pl:1",
+      "type": "ProductLine",
+      "name": "PL1_LOOP_Core_OS",
+      "status": "active",
+      "path": "20_Strategy/ProductLines/PL1_LOOP_Core_OS.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "pl:2",
+      "type": "ProductLine",
+      "name": "PL2_GLP1_Behavioral_Care_Lite",
+      "status": "planning",
+      "path": "20_Strategy/ProductLines/PL2_GLP1_Behavioral_Care_Lite.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "pl:3",
+      "type": "ProductLine",
+      "name": "PL3_Eating_Disorder_DTx",
+      "status": "planning",
+      "path": "20_Strategy/ProductLines/PL3_Eating_Disorder_DTx.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "pl:4",
+      "type": "ProductLine",
+      "name": "PL4_International_Loop_Tracker",
+      "status": "planning",
+      "path": "20_Strategy/ProductLines/PL4_International_Loop_Tracker.md",
+      "priority_flag": "medium"
+    },
+    {
+      "id": "pl:5",
+      "type": "ProductLine",
+      "name": "PL5_GLP1_Behavioral_OS",
+      "status": "planning",
+      "path": "20_Strategy/ProductLines/PL5_GLP1_Behavioral_OS.md",
+      "priority_flag": "critical"
+    },
+    {
+      "id": "ps:1",
+      "type": "PartnershipStage",
+      "name": "PS1_국내_의료기관",
+      "status": "planning",
+      "path": "20_Strategy/PartnershipStages/PS1_국내_의료기관.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "ps:2",
+      "type": "PartnershipStage",
+      "name": "PS2_제약_Exploratory",
+      "status": "planning",
+      "path": "20_Strategy/PartnershipStages/PS2_제약_Exploratory.md",
+      "priority_flag": "medium"
+    },
+    {
+      "id": "ps:3",
+      "type": "PartnershipStage",
+      "name": "PS3_해외_클리닉",
+      "status": "planning",
+      "path": "20_Strategy/PartnershipStages/PS3_해외_클리닉.md",
+      "priority_flag": "medium"
+    },
+    {
+      "id": "ps:4",
+      "type": "PartnershipStage",
+      "name": "PS4_글로벌_제약_보험_API",
+      "status": "planning",
+      "path": "20_Strategy/PartnershipStages/PS4_글로벌_제약_보험_API.md",
+      "priority_flag": "critical"
     }
   ],
   "edges": [
+    {
+      "source": "trk:1",
+      "target": "hyp:1-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:1",
+      "target": "hyp:1-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:2",
+      "target": "hyp:2-10",
+      "type": "parent_of"
+    },
     {
       "source": "trk:2",
       "target": "prj:003",
@@ -950,6 +1466,166 @@
     {
       "source": "trk:2",
       "target": "prj:004",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "hyp:4-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:014",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:006",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:002",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:012",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:4",
+      "target": "prj:008",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-12",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "hyp:6-14",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "prj:010",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "prj:009",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk:6",
+      "target": "prj:007",
       "type": "parent_of"
     },
     {
@@ -1013,21 +1689,6 @@
       "type": "parent_of"
     },
     {
-      "source": "trk:6",
-      "target": "prj:010",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:6",
-      "target": "prj:009",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:6",
-      "target": "prj:007",
-      "type": "parent_of"
-    },
-    {
       "source": "prj:010",
       "target": "tsk:010-02",
       "type": "parent_of"
@@ -1064,42 +1725,17 @@
     },
     {
       "source": "prj:001",
+      "target": "tsk:001-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj:001",
       "target": "tsk:001-01",
       "type": "parent_of"
     },
     {
       "source": "prj:001",
       "target": "tsk:001-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj:001",
-      "target": "tsk:001-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:4",
-      "target": "prj:014",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:4",
-      "target": "prj:006",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:4",
-      "target": "prj:002",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:4",
-      "target": "prj:012",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk:4",
-      "target": "prj:008",
       "type": "parent_of"
     },
     {
@@ -1248,6 +1884,86 @@
       "type": "parent_of"
     },
     {
+      "source": "ns:001",
+      "target": "mh:2",
+      "type": "parent_of"
+    },
+    {
+      "source": "ns:001",
+      "target": "mh:4",
+      "type": "parent_of"
+    },
+    {
+      "source": "ns:001",
+      "target": "mh:1",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:a",
+      "target": "trk:1",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:a",
+      "target": "trk:3",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:a",
+      "target": "pl:1",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "trk:2",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "trk:4",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "pl:2",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "pl:3",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "ps:1",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:b",
+      "target": "ps:2",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:c",
+      "target": "trk:5",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:c",
+      "target": "pl:4",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:c",
+      "target": "ps:3",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond:d",
+      "target": "trk:6",
+      "type": "parent_of"
+    },
+    {
       "source": "mh:3",
       "target": "cond:b",
       "type": "parent_of"
@@ -1273,33 +1989,13 @@
       "type": "parent_of"
     },
     {
-      "source": "cond:a",
-      "target": "trk:1",
+      "source": "pl:3",
+      "target": "pl:5",
       "type": "parent_of"
     },
     {
-      "source": "cond:a",
-      "target": "trk:3",
-      "type": "parent_of"
-    },
-    {
-      "source": "cond:d",
-      "target": "trk:6",
-      "type": "parent_of"
-    },
-    {
-      "source": "cond:c",
-      "target": "trk:5",
-      "type": "parent_of"
-    },
-    {
-      "source": "cond:b",
-      "target": "trk:4",
-      "type": "parent_of"
-    },
-    {
-      "source": "cond:b",
-      "target": "trk:2",
+      "source": "pl:5",
+      "target": "ps:4",
       "type": "parent_of"
     },
     {
@@ -1318,14 +2014,9 @@
       "type": "part_of"
     },
     {
-      "source": "tsk:001-01",
-      "target": "mh:3",
-      "type": "validates"
-    },
-    {
-      "source": "tsk:001-02",
-      "target": "mh:3",
-      "type": "validates"
+      "source": "tsk:001-03",
+      "target": "trk:2",
+      "type": "supports"
     },
     {
       "source": "tsk:001-02",
@@ -1333,9 +2024,89 @@
       "type": "depends_on"
     },
     {
-      "source": "tsk:001-03",
+      "source": "trk:1",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:1",
+      "target": "trk:2",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:1",
+      "target": "trk:4",
+      "type": "supports"
+    },
+    {
+      "source": "trk:2",
+      "target": "cond:b",
+      "type": "enables"
+    },
+    {
+      "source": "trk:2",
+      "target": "trk:4",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:2",
+      "target": "trk:5",
+      "type": "supports"
+    },
+    {
+      "source": "trk:3",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:3",
+      "target": "trk:1",
+      "type": "supports"
+    },
+    {
+      "source": "trk:4",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:4",
       "target": "trk:2",
       "type": "supports"
+    },
+    {
+      "source": "trk:4",
+      "target": "trk:1",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:5",
+      "target": "trk:6",
+      "type": "enables"
+    },
+    {
+      "source": "trk:5",
+      "target": "trk:2",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:1",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:3",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:4",
+      "type": "depends_on"
+    },
+    {
+      "source": "trk:6",
+      "target": "trk:5",
+      "type": "depends_on"
     },
     {
       "source": "cond:b",
@@ -1373,89 +2144,74 @@
       "type": "triggers_shutdown"
     },
     {
-      "source": "trk:1",
-      "target": "trk:6",
-      "type": "enables"
+      "source": "pl:1",
+      "target": "cond:a",
+      "type": "unlocked_by"
     },
     {
-      "source": "trk:1",
-      "target": "trk:2",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:1",
-      "target": "trk:4",
-      "type": "supports"
-    },
-    {
-      "source": "trk:6",
-      "target": "trk:1",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:6",
-      "target": "trk:3",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:6",
-      "target": "trk:4",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:6",
-      "target": "trk:5",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:5",
-      "target": "trk:6",
-      "type": "enables"
-    },
-    {
-      "source": "trk:5",
-      "target": "trk:2",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:3",
-      "target": "trk:6",
-      "type": "enables"
-    },
-    {
-      "source": "trk:3",
-      "target": "trk:1",
-      "type": "supports"
-    },
-    {
-      "source": "trk:4",
-      "target": "trk:6",
-      "type": "enables"
-    },
-    {
-      "source": "trk:4",
-      "target": "trk:2",
-      "type": "supports"
-    },
-    {
-      "source": "trk:4",
-      "target": "trk:1",
-      "type": "depends_on"
-    },
-    {
-      "source": "trk:2",
+      "source": "pl:2",
       "target": "cond:b",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "pl:3",
+      "target": "cond:b",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "pl:3",
+      "target": "cond:e",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "pl:3",
+      "target": "pl:5",
       "type": "enables"
     },
     {
-      "source": "trk:2",
-      "target": "trk:4",
-      "type": "depends_on"
+      "source": "pl:4",
+      "target": "cond:c",
+      "type": "unlocked_by"
     },
     {
-      "source": "trk:2",
-      "target": "trk:5",
-      "type": "supports"
+      "source": "pl:4",
+      "target": "pl:5",
+      "type": "enables"
+    },
+    {
+      "source": "pl:5",
+      "target": "pl:3",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "pl:5",
+      "target": "pl:4",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "pl:5",
+      "target": "ps:4",
+      "type": "enables"
+    },
+    {
+      "source": "ps:1",
+      "target": "cond:b",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "ps:2",
+      "target": "cond:b",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "ps:3",
+      "target": "cond:c",
+      "type": "unlocked_by"
+    },
+    {
+      "source": "ps:4",
+      "target": "pl:5",
+      "type": "unlocked_by"
     }
   ],
   "conditions_3y_index": {
@@ -1475,9 +2231,9 @@
       "tsk:005-04",
       "tsk:005-02",
       "prj:001",
+      "tsk:001-03",
       "tsk:001-01",
       "tsk:001-02",
-      "tsk:001-03",
       "prj:014",
       "tsk:014-01",
       "prj:006",
@@ -1508,8 +2264,8 @@
       "tsk:008-03",
       "tsk:008-02",
       "tsk:008-01",
-      "trk:4",
-      "trk:2"
+      "trk:2",
+      "trk:4"
     ],
     "cond:e": [
       "prj:010",
@@ -1551,8 +2307,8 @@
       "tsk:008-03",
       "tsk:008-02",
       "tsk:008-01",
-      "trk:5",
-      "trk:4"
+      "trk:4",
+      "trk:5"
     ],
     "cond:a": [
       "prj:013",
@@ -1567,11 +2323,58 @@
     ]
   },
   "by_type": {
+    "Hypothesis": [
+      "hyp:1-01",
+      "hyp:1-02",
+      "hyp:1-03",
+      "hyp:1-04",
+      "hyp:1-05",
+      "hyp:1-06",
+      "hyp:1-07",
+      "hyp:1-08",
+      "hyp:1-09",
+      "hyp:1-10",
+      "hyp:1-11",
+      "hyp:2-01",
+      "hyp:2-02",
+      "hyp:2-03",
+      "hyp:2-04",
+      "hyp:2-05",
+      "hyp:2-06",
+      "hyp:2-07",
+      "hyp:2-08",
+      "hyp:2-09",
+      "hyp:2-10",
+      "hyp:4-01",
+      "hyp:4-02",
+      "hyp:4-03",
+      "hyp:4-04",
+      "hyp:4-05",
+      "hyp:4-06",
+      "hyp:4-07",
+      "hyp:4-08",
+      "hyp:4-09",
+      "hyp:4-10",
+      "hyp:6-01",
+      "hyp:6-02",
+      "hyp:6-03",
+      "hyp:6-04",
+      "hyp:6-05",
+      "hyp:6-06",
+      "hyp:6-07",
+      "hyp:6-08",
+      "hyp:6-09",
+      "hyp:6-10",
+      "hyp:6-11",
+      "hyp:6-12",
+      "hyp:6-13",
+      "hyp:6-14"
+    ],
     "Index": [
       "idx:projects",
       "idx:01_north_star",
-      "idx:20_strategy-3y_conditions",
-      "idx:20_strategy-12m_tracks"
+      "idx:20_strategy-12m_tracks",
+      "idx:20_strategy-3y_conditions"
     ],
     "Project": [
       "prj:003",
@@ -1609,9 +2412,9 @@
       "tsk:007-01",
       "tsk:007-03",
       "tsk:007-02",
+      "tsk:001-03",
       "tsk:001-01",
       "tsk:001-02",
-      "tsk:001-03",
       "tsk:014-01",
       "tsk:006-04",
       "tsk:006-01",
@@ -1640,10 +2443,21 @@
       "tsk:008-01"
     ],
     "MetaHypothesis": [
-      "mh:3"
+      "mh:3",
+      "mh:2",
+      "mh:4",
+      "mh:1"
     ],
     "NorthStar": [
       "ns:001"
+    ],
+    "Track": [
+      "trk:1",
+      "trk:2",
+      "trk:3",
+      "trk:4",
+      "trk:5",
+      "trk:6"
     ],
     "Condition": [
       "cond:b",
@@ -1652,44 +2466,67 @@
       "cond:d",
       "cond:e"
     ],
-    "Track": [
-      "trk:1",
-      "trk:6",
-      "trk:5",
-      "trk:3",
-      "trk:4",
-      "trk:2"
+    "ProductLine": [
+      "pl:1",
+      "pl:2",
+      "pl:3",
+      "pl:4",
+      "pl:5"
+    ],
+    "PartnershipStage": [
+      "ps:1",
+      "ps:2",
+      "ps:3",
+      "ps:4"
     ]
   },
   "by_status": {
-    "unknown": [
-      "idx:projects",
-      "idx:01_north_star",
-      "idx:20_strategy-3y_conditions",
-      "idx:20_strategy-12m_tracks"
-    ],
-    "active": [
-      "prj:003",
-      "prj:005",
-      "prj:010",
-      "prj:009",
-      "prj:007",
-      "prj:001",
-      "prj:014",
-      "prj:006",
-      "prj:013",
-      "prj:011",
-      "prj:004",
-      "prj:002",
-      "prj:012",
-      "prj:008",
-      "trk:1",
-      "trk:6",
-      "trk:3",
-      "trk:4",
-      "trk:2"
-    ],
     "planning": [
+      "hyp:1-01",
+      "hyp:1-02",
+      "hyp:1-03",
+      "hyp:1-04",
+      "hyp:1-05",
+      "hyp:1-06",
+      "hyp:1-07",
+      "hyp:1-08",
+      "hyp:1-09",
+      "hyp:1-10",
+      "hyp:1-11",
+      "hyp:2-01",
+      "hyp:2-02",
+      "hyp:2-03",
+      "hyp:2-04",
+      "hyp:2-05",
+      "hyp:2-06",
+      "hyp:2-07",
+      "hyp:2-08",
+      "hyp:2-09",
+      "hyp:2-10",
+      "hyp:4-01",
+      "hyp:4-02",
+      "hyp:4-03",
+      "hyp:4-04",
+      "hyp:4-05",
+      "hyp:4-06",
+      "hyp:4-07",
+      "hyp:4-08",
+      "hyp:4-09",
+      "hyp:4-10",
+      "hyp:6-01",
+      "hyp:6-02",
+      "hyp:6-03",
+      "hyp:6-04",
+      "hyp:6-05",
+      "hyp:6-06",
+      "hyp:6-07",
+      "hyp:6-08",
+      "hyp:6-09",
+      "hyp:6-10",
+      "hyp:6-11",
+      "hyp:6-12",
+      "hyp:6-13",
+      "hyp:6-14",
       "tsk:003-07",
       "tsk:003-03",
       "tsk:003-02",
@@ -1727,8 +2564,44 @@
       "tsk:002-07",
       "tsk:008-03",
       "tsk:008-02",
+      "trk:5",
       "cond:c",
-      "trk:5"
+      "pl:2",
+      "pl:3",
+      "pl:4",
+      "pl:5",
+      "ps:1",
+      "ps:2",
+      "ps:3",
+      "ps:4"
+    ],
+    "unknown": [
+      "idx:projects",
+      "idx:01_north_star",
+      "idx:20_strategy-12m_tracks",
+      "idx:20_strategy-3y_conditions"
+    ],
+    "active": [
+      "prj:003",
+      "prj:005",
+      "prj:010",
+      "prj:009",
+      "prj:007",
+      "prj:001",
+      "prj:014",
+      "prj:006",
+      "prj:013",
+      "prj:011",
+      "prj:004",
+      "prj:002",
+      "prj:012",
+      "prj:008",
+      "trk:1",
+      "trk:2",
+      "trk:3",
+      "trk:4",
+      "trk:6",
+      "pl:1"
     ],
     "in_progress": [
       "tsk:003-01",
@@ -1744,15 +2617,18 @@
       "cond:d",
       "cond:e"
     ],
+    "completed": [
+      "tsk:001-03"
+    ],
     "pending": [
       "tsk:001-01",
       "tsk:002-01"
     ],
-    "completed": [
-      "tsk:001-03"
-    ],
     "validating": [
-      "mh:3"
+      "mh:3",
+      "mh:2",
+      "mh:4",
+      "mh:1"
     ],
     "fixed": [
       "ns:001"

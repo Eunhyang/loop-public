@@ -66,8 +66,8 @@ dv.paragraph(styles);
 // 데이터 수집
 const northStar = dv.pages('"01_North_Star"').where(p => p.entity_type === "NorthStar").first();
 const metaHypotheses = dv.pages('"01_North_Star"').where(p => p.entity_type === "MetaHypothesis").array();
-const conditions = dv.pages('"20_Strategy/3Y_Conditions"').where(p => p.entity_type === "Condition").array();
-const tracks = dv.pages('"20_Strategy/12M_Tracks"').where(p => p.entity_type === "Track").array();
+const conditions = dv.pages('"20_Strategy/3Y_Conditions_2026-2028"').where(p => p.entity_type === "Condition").array();
+const tracks = dv.pages('"20_Strategy/12M_Tracks/2026"').where(p => p.entity_type === "Track").array();
 const projects = dv.pages('"50_Projects"').where(p => p.entity_type === "Project").array();
 const tasks = dv.pages('"50_Projects"').where(p => p.entity_type === "Task").array();
 
@@ -451,8 +451,8 @@ dv.paragraph(styles);
 // 카운트 계산
 const northStarCount = dv.pages('"01_North_Star"').where(p => p.entity_type === "NorthStar").length;
 const mhCount = dv.pages('"01_North_Star"').where(p => p.entity_type === "MetaHypothesis").length;
-const condCount = dv.pages('"20_Strategy/3Y_Conditions"').where(p => p.entity_type === "Condition").length;
-const trackCount = dv.pages('"20_Strategy/12M_Tracks"').where(p => p.entity_type === "Track").length;
+const condCount = dv.pages('"20_Strategy/3Y_Conditions_2026-2028"').where(p => p.entity_type === "Condition").length;
+const trackCount = dv.pages('"20_Strategy/12M_Tracks/2026"').where(p => p.entity_type === "Track").length;
 const projectCount = dv.pages('"50_Projects"').where(p => p.entity_type === "Project").length;
 const taskCount = dv.pages('"50_Projects"').where(p => p.entity_type === "Task").length;
 
@@ -468,12 +468,12 @@ const html = `
     <div class="nav-title">Meta Hypotheses</div>
     <div class="nav-count">${mhCount}개 문서 (4개 예정)</div>
   </a>
-  <a href="20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md" class="nav-card nav-card-condition">
+  <a href="20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md" class="nav-card nav-card-condition">
     <div class="nav-icon">📋</div>
     <div class="nav-title">Conditions</div>
     <div class="nav-count">${condCount}개 문서 (5개 예정)</div>
   </a>
-  <a href="20_Strategy/12M_Tracks/" class="nav-card nav-card-track">
+  <a href="20_Strategy/12M_Tracks/2026/" class="nav-card nav-card-track">
     <div class="nav-icon">🛤️</div>
     <div class="nav-title">Tracks</div>
     <div class="nav-count">${trackCount}개 문서</div>
@@ -499,7 +499,7 @@ dv.paragraph(html);
 ## 5. Track 전체 현황
 
 ```dataviewjs
-const tracks = dv.pages('"20_Strategy/12M_Tracks"').where(p => p.entity_type === "Track").array();
+const tracks = dv.pages('"20_Strategy/12M_Tracks/2026"').where(p => p.entity_type === "Track").array();
 
 const styles = `
 <style>

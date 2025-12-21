@@ -26,14 +26,28 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 ---
 
-## 2. Entity Types & Canonical Locations
+## 2. Schema Routing (2-도메인 분기)
+
+| Schema | 경로 | 엔티티 |
+|--------|------|--------|
+| **Product Ontology (ILOS)** | `30_Ontology/Schema/v0.1/` | Event, Episode, ActionExecution, OutcomeMeasurement |
+| **Vault Document Schema** | `00_Meta/schema_registry.md` | Project, Task, Hypothesis, Experiment |
+
+### 질문별 라우팅
+- **Event/Episode/ActionExecution/specVersion** → `30_Ontology/`
+- **Project/Task/frontmatter/relations** → `00_Meta/`
+- **"온톨로지가 전략과 어떻게 연결?"** → `30_Ontology/_Strategy_Link.md`
+
+---
+
+## 3. Vault Entity Types & Locations
 
 | Type | ID Pattern | Canonical Path | Count |
 |------|------------|----------------|-------|
 | NorthStar | `ns:001` | `01_North_Star/` | 1 |
 | MetaHypothesis | `mh:1-4` | `01_North_Star/` | 1 |
-| Condition | `cond:a-e` | `20_Strategy/3Y_Conditions/` | 1 |
-| Track | `trk:1-6` | `20_Strategy/12M_Tracks/` | 6 |
+| Condition | `cond:a-e` | `20_Strategy/3Y_Conditions_{period}/` | 1 |
+| Track | `trk:1-6` | `20_Strategy/12M_Tracks/{year}/` | 6 |
 | Project | `prj:001-999` | `50_Projects/{year}/P{N}_*/` | 14 |
 | Task | `tsk:NNN-NN` | `50_Projects/{year}/P*/Tasks/` | 48+ |
 | Hypothesis | `hyp:001-999` | `60_Hypotheses/` | - |
@@ -43,7 +57,7 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 ---
 
-## 3. Mandatory Link Rules
+## 4. Mandatory Link Rules
 
 모든 실행 엔티티는 반드시 상위 전략과 연결되어야 함:
 
@@ -60,7 +74,7 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 ---
 
-## 4. Global Map
+## 5. Global Map
 
 전체 엔티티 관계 맵:
 
@@ -74,7 +88,7 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 ---
 
-## 5. Schema & Relations
+## 6. Schema & Relations
 
 스키마 정의 및 관계 타입:
 
@@ -130,12 +144,12 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 |------|-----|------|
 | [[01_North_Star/10년 비전.md]] | `ns:001` | 불변 좌표 |
 | [[01_North_Star/MH3_데이터_모델링_가능.md]] | `mh:3` | Ontology가 검증 |
-| [[20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md]] | `cond:b` | 재현 패턴 10개 조건 |
+| [[20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md]] | `cond:b` | 재현 패턴 10개 조건 |
 
 ### Index Files (인덱스)
 | 문서 | 설명 |
 |------|------|
-| [[20_Strategy/3Y_Conditions/_INDEX.md]] | 모든 Conditions 목록 |
+| [[20_Strategy/3Y_Conditions_2026-2028/_INDEX.md]] | 모든 Conditions 목록 |
 | [[50_Projects/_INDEX.md]] | 모든 Projects 목록 (conditions_3y별 그룹) |
 
 ### Meta (메타)

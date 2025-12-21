@@ -1,95 +1,101 @@
 ---
 entity_type: Hypothesis
-entity_id: "hyp:{{NUMBER}}"
+entity_id: "hyp:{{TRK}}-{{SEQ}}"
 entity_name: "{{HYPOTHESIS_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: planning
 
-# === 계층 ===
-parent_id: null
-aliases: ["hyp:{{NUMBER}}"]
+# === 계층 관계 ===
+parent_id: "trk:{{TRK}}"
+aliases:
+  - "hyp:{{TRK}}-{{SEQ}}"
+  - "{{HYPOTHESIS_NAME_SNAKE}}"
 
-# === 관계 ===
-outgoing_relations: []
-validates: []
-validated_by: []
+# === 가설 정의 (필수 4요소) ===
+hypothesis_question: "{{QUESTION}}?"
+success_criteria: "{{SUCCESS_CRITERIA}}"
+failure_criteria: "{{FAILURE_CRITERIA}}"
+measurement: "{{MEASUREMENT}}"
 
-# === Hypothesis 전용 ===
-hypothesis_text: "{{HYPOTHESIS_FULL_TEXT}}"
+# === 시간 범위 ===
+horizon: "{{YEAR}}"
+deadline: {{DEADLINE}}
+
+# === 상태 ===
 evidence_status: planning
-confidence: 0.0
-loop_layer: []
-
-# === 3Y 전략 연결 (선택) ===
-conditions_3y: []  # 관련 Conditions (선택적)
+confidence: 0.5
 
 # === 분류 ===
-tags: []
-priority_flag: medium
+loop_layer: []
+tags: ["{{YEAR}}", "trk-{{TRK}}"]
+
+# === 검증 연결 ===
+validates: []
+validated_by: []
 ---
 
 # {{HYPOTHESIS_NAME}}
 
-> Hypothesis ID: `hyp:{{NUMBER}}` | Status: planning | Confidence: 0%
+> Track: [[Track_{{TRK}}_{{TRACK_NAME}}]] | ID: `hyp:{{TRK}}-{{SEQ}}` | 상태: planning
 
 ## 가설
 
-**"{{HYPOTHESIS_FULL_TEXT}}"**
+**Q: {{QUESTION}}?**
 
 ---
 
-## 검증 방법
+## 판정 기준
 
-### 검증 기준
-**참(True)으로 판정하려면**:
-1.
+### 성공 (Success)
+{{SUCCESS_CRITERIA}}
 
-**거짓(False)으로 판정하려면**:
-1.
-
----
-
-## 검증 상태
-
-| 증거 | 방향 | 출처 | 신뢰도 |
-|------|------|------|--------|
-| | positive/negative | | |
+### 실패 (Failure)
+{{FAILURE_CRITERIA}}
 
 ---
 
-## 관련 프로젝트
+## 측정 방법
 
+**데이터 소스**: {{MEASUREMENT}}
+
+**측정 지표**:
+-
+
+---
+
+## 검증 로그
+
+| 날짜 | 상태 | 메모 |
+|------|------|------|
+| {{DATE}} | planning | 가설 정의 완료 |
+
+---
+
+## 관련 엔티티
+
+### 검증 프로젝트
 | Project | 역할 | Status |
 |---------|------|--------|
-| [[prj:{{PRJ_ID}}]] | 검증 | |
+| | | |
 
----
-
-## 관련 실험
-
+### 실험
 | Experiment | 결과 | Date |
 |------------|------|------|
-| [[exp:{{EXP_ID}}]] | | |
+| | | |
 
 ---
 
-## 만약 거짓이라면?
+## 만약 실패한다면?
 
 ### 영향
 -
 
-### 대응
--
-
----
-
-## 참고 문서
-
+### 대응 (피벗/중단)
 -
 
 ---
 
 **Created**: {{DATE}}
+**Horizon**: {{YEAR}}
 **Evidence Status**: planning
-**Confidence**: 0%

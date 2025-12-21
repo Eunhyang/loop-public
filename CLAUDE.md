@@ -646,6 +646,10 @@ curl http://nas-ip:8080
 - **No build commands**: No `npm`, `cargo`, `go build`, etc.
 - **No tests**: No unit tests or integration tests
 - **Markdown-centric**: All work focuses on creating, editing, and structuring `.md` files
+- **NAS-mounted**: Vault is on Synology NAS, mounted via SMB at `/Volumes/LOOP_CORE/vault/LOOP`
+
+### Git on Network Mount
+Due to SMB mount, direct git commands may fail with lock errors. Use `/safe-commit` command or let the NAS daemon handle commits (every 15 minutes).
 
 ### Real Implementation Projects
 This vault manages strategy and ontology **specifications**. Actual implementations:
@@ -724,55 +728,35 @@ These files define the vault's schema and automation rules:
 
 ---
 
-## Interactive Dashboard & API Server
+## Claude Code Commands (Slash Commands)
 
-For development with full CRUD capabilities, the vault includes a FastAPI server (`api/` module) and interactive dashboard.
+Available commands in `.claude/commands/`:
 
-### Running the API Server
-```bash
-# Install API dependencies
-poetry install --extras api
+| Command | Description |
+|---------|-------------|
+| `/safe-commit` | SSH-based commit to NAS (avoids SMB git conflicts) |
+| `/todo_api` | API development workflow with Codex-Claude loop |
+| `/new-project` | Create new Project entity with proper ID/schema |
+| `/new-task` | Create new Task entity with proper ID/schema |
+| `/auto-fill-project-impact` | AI-assisted expected_impact field filling |
+| `/build-impact` | Build and analyze project impact |
+| `/retro` | Convert retrospective notes to Evidence entities |
 
-# Start the API server (development mode with auto-reload)
-uvicorn api.main:app --host 0.0.0.0 --port 8081 --reload
+**Usage**: Type `/command-name` in Claude Code to invoke.
 
-# Production mode
-uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
-```
+---
 
-**Access points:**
-- Dashboard UI: http://localhost:8081/
-- Swagger docs: http://localhost:8081/docs
-- Health check: http://localhost:8081/health
+## Claude Code Skills
 
-### API Endpoints
+Available skills in `.claude/skills/`:
 
-| Resource | GET | POST | PUT | DELETE |
-|----------|-----|------|-----|--------|
-| `/api/tasks` | List tasks | Create task | - | - |
-| `/api/tasks/{id}` | - | - | Update task | Delete task |
-| `/api/projects` | List projects | Create project | - | - |
-| `/api/projects/{id}` | - | - | Update project | Delete project |
-| `/api/tracks` | List tracks | - | - | - |
-| `/api/members` | List members | - | - | - |
-| `/api/constants` | Get status/priority values | - | - | - |
-
-### API Module Structure
-```
-api/
-├── main.py              # FastAPI app entry point
-├── constants.py         # Task status, priority values
-├── routers/
-│   ├── tasks.py         # Task CRUD endpoints
-│   ├── projects.py      # Project CRUD endpoints
-│   └── tracks.py        # Track list endpoint
-├── models/
-│   └── entities.py      # Pydantic request/response schemas
-└── utils/
-    └── vault_utils.py   # Vault file operations
-```
-
-See `api/README.md` for detailed usage examples and NAS deployment instructions
+| Skill | Description |
+|-------|-------------|
+| `loop-entity-creator` | Automated Task/Project creation with ID generation |
+| `llm-vault-optimizer` | Optimize vault structure for LLM navigation |
+| `auto-fill-project-impact` | Fill expected_impact via AI analysis |
+| `retrospective-to-evidence` | Convert retro notes to structured Evidence |
+| `doc-init` | Initialize documentation structure |
 
 ---
 
@@ -789,24 +773,19 @@ Located in `scripts/`, these are typically used once for data migrations:
 
 ---
 
-**Last updated**: 2025-12-19
-**Document version**: 4.6
+**Last updated**: 2025-12-21
+**Document version**: 4.7
 **Author**: Claude Code
+
+**Changes** (v4.7):
+- Removed nonexistent API module documentation (api/ doesn't exist)
+- Added Claude Code Commands section (7 slash commands in .claude/commands/)
+- Added Claude Code Skills section (5 skills in .claude/skills/)
+- Simplified to reference existing documentation instead of duplicating
 
 **Changes** (v4.6):
 - Fixed API server command (was `scripts.api_server:app`, now `api.main:app`)
-- Added API module structure documentation (`api/` directory)
-- Added API endpoints table with all resources
-- Added Swagger docs and access points
-- Referenced `api/README.md` for detailed deployment instructions
 
 **Changes** (v4.5):
 - Added Interactive Dashboard & API Server section
-- Added API endpoints documentation
 - Added Utility Scripts reference table
-- Added Poetry extras installation for API dependencies
-
-**Changes** (v4.4):
-- Added note about Python scripts location in scripts/ directory
-- Added reference to `pyproject.toml` in Key Metadata Files section
-- Minor clarifications for script usage

@@ -129,7 +129,7 @@ LLM이 특정 Condition 관련 프로젝트를 빠르게 찾기 위한 분류.
 
 ## Related Indexes
 
-- [[20_Strategy/3Y_Conditions/_INDEX.md]] - Conditions Index
+- [[20_Strategy/3Y_Conditions_2026-2028/_INDEX.md]] - Conditions Index
 - [[_Graph_Index.md]] - Full Entity Graph
 - [[_ENTRY_POINT.md]] - LLM Entry Point
 

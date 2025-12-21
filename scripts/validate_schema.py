@@ -57,7 +57,7 @@ ID_PATTERNS = {
     "trk": r"^trk:[1-6]$",
     "prj": r"^prj:\d{3}$",
     "tsk": r"^tsk:\d{3}-\d{2}$",
-    "hyp": r"^hyp:\d{3}$",
+    "hyp": r"^hyp:[1-6]-\d{2}$",  # Track기반: hyp:1-01, hyp:6-14
     "exp": r"^exp:\d{3}$",
 }
 

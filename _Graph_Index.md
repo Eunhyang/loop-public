@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2025-12-20
 updated: 2025-12-20
-total_entities: 79
+total_entities: 136
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,30 +17,31 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 79개
+- **총 엔티티**: 136개
 - **마지막 업데이트**: 2025-12-20
 
 ### 타입별
 | Type | Count |
 |------|-------|
 | NorthStar | 1 |
-| MetaHypothesis | 1 |
+| MetaHypothesis | 4 |
 | Condition | 5 |
 | Track | 6 |
 | Project | 14 |
 | Task | 48 |
+| Hypothesis | 45 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 19 |
+| active | 20 |
 | completed | 1 |
 | fixed | 1 |
 | in_progress | 12 |
 | pending | 2 |
-| planning | 39 |
+| planning | 92 |
 | unknown | 4 |
-| validating | 1 |
+| validating | 4 |
 
 ---
 
@@ -51,34 +52,37 @@ tags: ["meta", "graph", "index"]
 | `ns:001` | 10년 비전 | fixed | `01_North_Star/10년 비전.md` |
 
 
-## MetaHypothesis (1개)
+## MetaHypothesis (4개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
+| `mh:1` | MH1_루프는_지속적_문제 | validating | `01_North_Star/MH1_루프는_지속적_문제.md` |
+| `mh:2` | MH2_행동개입_효과 | validating | `01_North_Star/MH2_행동개입_효과.md` |
 | `mh:3` | MH3_데이터_모델링_가능 | validating | `01_North_Star/MH3_데이터_모델링_가능.md` |
+| `mh:4` | MH4_단계적_확장_가능 | validating | `01_North_Star/MH4_단계적_확장_가능.md` |
 
 
 ## Condition (5개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
-| `cond:a` | Condition_A_PMF | in_progress | `20_Strategy/3Y_Conditions/Condition_A_PMF.md` |
-| `cond:b` | Condition_B_Loop_Dataset | in_progress | `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md` |
-| `cond:c` | Condition_C_Global_Data | planning | `20_Strategy/3Y_Conditions/Condition_C_Global_Data.md` |
-| `cond:d` | Condition_D_Runway | in_progress | `20_Strategy/3Y_Conditions/Condition_D_Runway.md` |
-| `cond:e` | Condition_E_Team | in_progress | `20_Strategy/3Y_Conditions/Condition_E_Team.md` |
+| `cond:a` | Condition_A_PMF | in_progress | `20_Strategy/3Y_Conditions_2026-2028/Condition_A_PMF.md` |
+| `cond:b` | Condition_B_Loop_Dataset | in_progress | `20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md` |
+| `cond:c` | Condition_C_Global_Data | planning | `20_Strategy/3Y_Conditions_2026-2028/Condition_C_Global_Data.md` |
+| `cond:d` | Condition_D_Runway | in_progress | `20_Strategy/3Y_Conditions_2026-2028/Condition_D_Runway.md` |
+| `cond:e` | Condition_E_Team | in_progress | `20_Strategy/3Y_Conditions_2026-2028/Condition_E_Team.md` |
 
 
 ## Track (6개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
-| `trk:1` | Track_1_Product | active | `20_Strategy/12M_Tracks/Track_1_Product.md` |
-| `trk:2` | Track_2_Data | active | `20_Strategy/12M_Tracks/Track_2_Data.md` |
-| `trk:3` | Track_3_Content | active | `20_Strategy/12M_Tracks/Track_3_Content.md` |
-| `trk:4` | Track_4_Coaching | active | `20_Strategy/12M_Tracks/Track_4_Coaching.md` |
-| `trk:5` | Track_5_Partnership | planning | `20_Strategy/12M_Tracks/Track_5_Partnership.md` |
-| `trk:6` | Track_6_Revenue | active | `20_Strategy/12M_Tracks/Track_6_Revenue.md` |
+| `trk:1` | Track_1_Product | active | `20_Strategy/12M_Tracks/2026/Track_1_Product.md` |
+| `trk:2` | Track_2_Data | active | `20_Strategy/12M_Tracks/2026/Track_2_Data.md` |
+| `trk:3` | Track_3_Content | active | `20_Strategy/12M_Tracks/2026/Track_3_Content.md` |
+| `trk:4` | Track_4_Coaching | active | `20_Strategy/12M_Tracks/2026/Track_4_Coaching.md` |
+| `trk:5` | Track_5_Partnership | planning | `20_Strategy/12M_Tracks/2026/Track_5_Partnership.md` |
+| `trk:6` | Track_6_Revenue | active | `20_Strategy/12M_Tracks/2026/Track_6_Revenue.md` |
 
 
 ## Project (14개)
@@ -155,6 +159,57 @@ tags: ["meta", "graph", "index"]
 | `tsk:014-01` | 꼭꼭Fit 3기 환급 검토 | in_progress | `50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md` |
 
 
+## Hypothesis (45개)
+
+| ID | Name | Status | Path |
+|----|------|--------|------|
+| `hyp:1-01` | 천천히 먹기: 행동 변화 | planning | `60_Hypotheses/2026/hyp-1-01_천천히먹기_행동변화.md` |
+| `hyp:1-02` | 지속사용 | planning | `60_Hypotheses/2026/hyp-1-02_지속사용.md` |
+| `hyp:1-03` | 행동 변화의 전환 연계 | planning | `60_Hypotheses/2026/hyp-1-03_행동변화_전환연계.md` |
+| `hyp:1-04` | 효과 가시화가 결제를 올림 | planning | `60_Hypotheses/2026/hyp-1-04_효과_가시화_결제.md` |
+| `hyp:1-05` | 앱 단독 vs 코칭 결합 효과 | planning | `60_Hypotheses/2026/hyp-1-05_앱단독_코칭결합_효과.md` |
+| `hyp:1-06` | 세그먼트별 효과 차이 | planning | `60_Hypotheses/2026/hyp-1-06_세그먼트별_효과차이.md` |
+| `hyp:1-07` | 온보딩이 이해→행동을 만든다 | planning | `60_Hypotheses/2026/hyp-1-07_온보딩_이해_행동.md` |
+| `hyp:1-08` | 유료 기능의 사용이 유지의 원인 | planning | `60_Hypotheses/2026/hyp-1-08_유료기능_사용_유지.md` |
+| `hyp:1-09` | 행동변화 지표 3종이 안정 | planning | `60_Hypotheses/2026/hyp-1-09_행동변화_지표_안정.md` |
+| `hyp:1-10` | 결제 전 가치 인지 | planning | `60_Hypotheses/2026/hyp-1-10_결제전_가치인지.md` |
+| `hyp:1-11` | 상품 메시지 2~3개로 수렴 | planning | `60_Hypotheses/2026/hyp-1-11_상품메시지_수렴.md` |
+| `hyp:2-01` | 스키마 최소세트가 충분 | planning | `60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md` |
+| `hyp:2-02` | 스키마 안정성 | planning | `60_Hypotheses/2026/hyp-2-02_스키마_안정성.md` |
+| `hyp:2-03` | 데이터 누락률 | planning | `60_Hypotheses/2026/hyp-2-03_데이터_누락률.md` |
+| `hyp:2-04` | 앱+코칭 데이터 결합 가능 | planning | `60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md` |
+| `hyp:2-05` | 라벨 일관성 | planning | `60_Hypotheses/2026/hyp-2-05_라벨_일관성.md` |
+| `hyp:2-06` | 패턴 재현율 | planning | `60_Hypotheses/2026/hyp-2-06_패턴_재현율.md` |
+| `hyp:2-07` | 효과지표 산출 자동화 | planning | `60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md` |
+| `hyp:2-08` | 데이터로 루프 재구성 | planning | `60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md` |
+| `hyp:2-09` | 데이터 품질 리포트가 행동을 바꿈 | planning | `60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md` |
+| `hyp:2-10` | 투자/외부 설득용 신뢰도 | planning | `60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md` |
+| `hyp:4-01` | 심화 과정 수요 재현 | planning | `60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md` |
+| `hyp:4-02` | GLP-1 과정 수요 재현 | planning | `60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md` |
+| `hyp:4-03` | 완주율 | planning | `60_Hypotheses/2026/hyp-4-03_완주율.md` |
+| `hyp:4-04` | 만족/추천 | planning | `60_Hypotheses/2026/hyp-4-04_만족_추천.md` |
+| `hyp:4-05` | 행동변화 | planning | `60_Hypotheses/2026/hyp-4-05_행동변화.md` |
+| `hyp:4-06` | 운영 표준화 | planning | `60_Hypotheses/2026/hyp-4-06_운영_표준화.md` |
+| `hyp:4-07` | 코치 시간/단가 구조 | planning | `60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md` |
+| `hyp:4-08` | 코칭 결과물의 상품성 | planning | `60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md` |
+| `hyp:4-09` | 코칭→데이터 엔진 | planning | `60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md` |
+| `hyp:4-10` | 코칭 포지셔닝 | planning | `60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md` |
+| `hyp:6-01` | 전면 유료화 성립 | planning | `60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md` |
+| `hyp:6-02` | 전환율 최소선 | planning | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
+| `hyp:6-03` | 환불/클레임 통제 | planning | `60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md` |
+| `hyp:6-04` | 가격·플랜 최적 조합 존재 | planning | `60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md` |
+| `hyp:6-05` | 유료 유지/이탈 | planning | `60_Hypotheses/2026/hyp-6-05_유료_유지_이탈.md` |
+| `hyp:6-06` | 유료 가치 패키지 | planning | `60_Hypotheses/2026/hyp-6-06_유료_가치패키지.md` |
+| `hyp:6-07` | 코칭→앱 업셀 | planning | `60_Hypotheses/2026/hyp-6-07_코칭_앱업셀.md` |
+| `hyp:6-08` | 앱→코칭 업셀 | planning | `60_Hypotheses/2026/hyp-6-08_앱_코칭업셀.md` |
+| `hyp:6-09` | 와디즈/캠페인 효율 | planning | `60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md` |
+| `hyp:6-10` | 효과 증거가 전환을 올림 | planning | `60_Hypotheses/2026/hyp-6-10_효과증거_전환.md` |
+| `hyp:6-11` | 운영비 구조가 런웨이를 만든다 | planning | `60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md` |
+| `hyp:6-12` | 월매출 런웨이 최소선 | planning | `60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md` |
+| `hyp:6-13` | TIPS/투자 요구조건 충족 | planning | `60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md` |
+| `hyp:6-14` | 실제 자금조달 성립 | planning | `60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md` |
+
+
 ---
 
 ## 관계 요약
@@ -162,20 +217,39 @@ tags: ["meta", "graph", "index"]
 ### Parent-Child 관계
 
 - **cond:a** (Condition_A_PMF)
+  - pl:1 (PL1_LOOP_Core_OS)
   - trk:1 (Track_1_Product)
   - trk:3 (Track_3_Content)
 - **cond:b** (Condition_B_Loop_Dataset)
+  - pl:2 (PL2_GLP1_Behavioral_Care_Lite)
+  - pl:3 (PL3_Eating_Disorder_DTx)
+  - ps:1 (PS1_국내_의료기관)
+  - ps:2 (PS2_제약_Exploratory)
   - trk:2 (Track_2_Data)
   - trk:4 (Track_4_Coaching)
 - **cond:c** (Condition_C_Global_Data)
+  - pl:4 (PL4_International_Loop_Tracker)
+  - ps:3 (PS3_해외_클리닉)
   - trk:5 (Track_5_Partnership)
 - **cond:d** (Condition_D_Runway)
   - trk:6 (Track_6_Revenue)
+- **mh:1** (MH1_루프는_지속적_문제)
+  - cond:a (Condition_A_PMF)
 - **mh:3** (MH3_데이터_모델링_가능)
   - cond:b (Condition_B_Loop_Dataset)
   - cond:c (Condition_C_Global_Data)
+- **mh:4** (MH4_단계적_확장_가능)
+  - cond:d (Condition_D_Runway)
+  - cond:e (Condition_E_Team)
 - **ns:001** (10년 비전)
+  - mh:1 (MH1_루프는_지속적_문제)
+  - mh:2 (MH2_행동개입_효과)
   - mh:3 (MH3_데이터_모델링_가능)
+  - mh:4 (MH4_단계적_확장_가능)
+- **pl:3** (PL3_Eating_Disorder_DTx)
+  - pl:5 (PL5_GLP1_Behavioral_OS)
+- **pl:5** (PL5_GLP1_Behavioral_OS)
+  - ps:4 (PS4_글로벌_제약_보험_API)
 - **prj:001** (Ontology v0.1)
   - tsk:001-01 (Event 엔티티 검증)
   - tsk:001-02 (Episode 엔티티 검증)
@@ -238,7 +312,29 @@ tags: ["meta", "graph", "index"]
   - tsk:013-01 ([콘텐츠 분석] 유튜브 w31 영상 성과 측정)
 - **prj:014** ([코칭 서비스] 1:1 코칭 서비스)
   - tsk:014-01 (꼭꼭Fit 3기 환급 검토)
+- **trk:1** (Track_1_Product)
+  - hyp:1-01 (천천히 먹기: 행동 변화)
+  - hyp:1-02 (지속사용)
+  - hyp:1-03 (행동 변화의 전환 연계)
+  - hyp:1-04 (효과 가시화가 결제를 올림)
+  - hyp:1-05 (앱 단독 vs 코칭 결합 효과)
+  - hyp:1-06 (세그먼트별 효과 차이)
+  - hyp:1-07 (온보딩이 이해→행동을 만든다)
+  - hyp:1-08 (유료 기능의 사용이 유지의 원인)
+  - hyp:1-09 (행동변화 지표 3종이 안정)
+  - hyp:1-10 (결제 전 가치 인지)
+  - hyp:1-11 (상품 메시지 2~3개로 수렴)
 - **trk:2** (Track_2_Data)
+  - hyp:2-01 (스키마 최소세트가 충분)
+  - hyp:2-02 (스키마 안정성)
+  - hyp:2-03 (데이터 누락률)
+  - hyp:2-04 (앱+코칭 데이터 결합 가능)
+  - hyp:2-05 (라벨 일관성)
+  - hyp:2-06 (패턴 재현율)
+  - hyp:2-07 (효과지표 산출 자동화)
+  - hyp:2-08 (데이터로 루프 재구성)
+  - hyp:2-09 (데이터 품질 리포트가 행동을 바꿈)
+  - hyp:2-10 (투자/외부 설득용 신뢰도)
   - prj:001 (Ontology v0.1)
   - prj:003 (LoopOS V0 데이터 설계)
   - prj:004 ((프로젝트 없음))
@@ -246,6 +342,16 @@ tags: ["meta", "graph", "index"]
 - **trk:3** (Track_3_Content)
   - prj:013 (YouTube 1주 1업로드 프로젝트)
 - **trk:4** (Track_4_Coaching)
+  - hyp:4-01 (심화 과정 수요 재현)
+  - hyp:4-02 (GLP-1 과정 수요 재현)
+  - hyp:4-03 (완주율)
+  - hyp:4-04 (만족/추천)
+  - hyp:4-05 (행동변화)
+  - hyp:4-06 (운영 표준화)
+  - hyp:4-07 (코치 시간/단가 구조)
+  - hyp:4-08 (코칭 결과물의 상품성)
+  - hyp:4-09 (코칭→데이터 엔진)
+  - hyp:4-10 (코칭 포지셔닝)
   - prj:002 ([와디즈] 12주 코칭 습관팩 런칭)
   - prj:006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj:008 (파일럿 프로젝트 후보)
@@ -254,6 +360,20 @@ tags: ["meta", "graph", "index"]
 - **trk:5** (Track_5_Partnership)
   - prj:011 (사이드프로젝트 리크루팅 사이트 제작)
 - **trk:6** (Track_6_Revenue)
+  - hyp:6-01 (전면 유료화 성립)
+  - hyp:6-02 (전환율 최소선)
+  - hyp:6-03 (환불/클레임 통제)
+  - hyp:6-04 (가격·플랜 최적 조합 존재)
+  - hyp:6-05 (유료 유지/이탈)
+  - hyp:6-06 (유료 가치 패키지)
+  - hyp:6-07 (코칭→앱 업셀)
+  - hyp:6-08 (앱→코칭 업셀)
+  - hyp:6-09 (와디즈/캠페인 효율)
+  - hyp:6-10 (효과 증거가 전환을 올림)
+  - hyp:6-11 (운영비 구조가 런웨이를 만든다)
+  - hyp:6-12 (월매출 런웨이 최소선)
+  - hyp:6-13 (TIPS/투자 요구조건 충족)
+  - hyp:6-14 (실제 자금조달 성립)
   - prj:007 (외부 비서)
   - prj:009 ([투자/TIPS준비] 배치 프로그램 지원)
   - prj:010 ([펀딩·마케팅] 와디즈 펀딩)
@@ -267,10 +387,16 @@ tags: ["meta", "graph", "index"]
 - **prj:001**: Ontology v0.1 (status: active)
 - **mh:3**: MH3_데이터_모델링_가능 (status: validating)
 - **ns:001**: 10년 비전 (status: fixed)
+- **mh:2**: MH2_행동개입_효과 (status: validating)
+- **mh:4**: MH4_단계적_확장_가능 (status: validating)
+- **mh:1**: MH1_루프는_지속적_문제 (status: validating)
+- **trk:2**: Track_2_Data (status: active)
+- **trk:6**: Track_6_Revenue (status: active)
 - **cond:b**: Condition_B_Loop_Dataset (status: in_progress)
 - **cond:a**: Condition_A_PMF (status: in_progress)
-- **trk:6**: Track_6_Revenue (status: active)
-- **trk:2**: Track_2_Data (status: active)
+- **pl:2**: PL2_GLP1_Behavioral_Care_Lite (status: planning)
+- **pl:5**: PL5_GLP1_Behavioral_OS (status: planning)
+- **ps:4**: PS4_글로벌_제약_보험_API (status: planning)
 
 ---
 

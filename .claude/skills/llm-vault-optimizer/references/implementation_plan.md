@@ -38,8 +38,8 @@ Inner Loop OS 스타트업의 전략-실행 추적 시스템
 |------|------------|----------------|
 | NorthStar | ns:001 | 01_North_Star/ |
 | MetaHypothesis | mh:1-4 | 01_North_Star/ |
-| Condition | cond:a-e | 20_Strategy/3Y_Conditions/ |
-| Track | trk:1-6 | 20_Strategy/12M_Tracks/ |
+| Condition | cond:a-e | 20_Strategy/3Y_Conditions_{period}/ |
+| Track | trk:1-6 | 20_Strategy/12M_Tracks/{year}/ |
 | Project | prj:001-999 | 50_Projects/{year}/ |
 | Task | tsk:001-01 | 50_Projects/{year}/P*/Tasks/ |
 
@@ -64,7 +64,7 @@ Inner Loop OS 스타트업의 전략-실행 추적 시스템
 
 ### 2. Create 3Y Conditions Index
 
-**File**: `20_Strategy/3Y_Conditions/_INDEX.md`
+**File**: `20_Strategy/3Y_Conditions_{period}/_INDEX.md` (e.g., `3Y_Conditions_2026-2028/_INDEX.md`)
 
 **Action**: Create index listing all Conditions
 
@@ -132,7 +132,7 @@ entity_name: LLM Query Recipes
 ## Q1: "3년 전략 전부 요약"
 
 1. `_ENTRY_POINT.md` - 구조 파악
-2. `20_Strategy/3Y_Conditions/_INDEX.md` - 모든 Condition 목록
+2. `20_Strategy/3Y_Conditions_{period}/_INDEX.md` - 모든 Condition 목록
 3. 각 `Condition_*.md` 파일 순회
 4. `_Graph_Index.md` - conditions_3y로 연결된 Project/Task 확인
 
@@ -142,7 +142,7 @@ entity_name: LLM Query Recipes
 
 ## Q2: "Condition B 관련 모든 작업"
 
-1. `20_Strategy/3Y_Conditions/Condition_B_Loop_Dataset.md` - 조건 정의
+1. `20_Strategy/3Y_Conditions_{period}/Condition_B_Loop_Dataset.md` - 조건 정의
 2. `_Graph_Index.md` - Parent-Child에서 cond:b → trk:2/4 → prj:* → tsk:*
 3. (Optional) 개별 Task 파일
 
@@ -168,7 +168,7 @@ entity_name: LLM Query Recipes
 
 ## Q5: "Track 2의 진행 상황"
 
-1. `20_Strategy/12M_Tracks/Track_2_Data.md` - Track 정의 및 metrics
+1. `20_Strategy/12M_Tracks/{year}/Track_2_Data.md` - Track 정의 및 metrics
 2. `_Graph_Index.md` - trk:2의 하위 Project/Task 상태
 
 **Expected reads**: 2
@@ -365,7 +365,7 @@ def generate_json_index(entities: Dict, output_path: str):
 | Phase | Task | Files | Status |
 |-------|------|-------|--------|
 | P0-1 | Upgrade _ENTRY_POINT.md | _ENTRY_POINT.md | ✅ Done |
-| P0-2 | Create 3Y Conditions Index | 20_Strategy/3Y_Conditions/_INDEX.md | ✅ Done |
+| P0-2 | Create 3Y Conditions Index | 20_Strategy/3Y_Conditions_{period}/_INDEX.md | ✅ Done |
 | P0-3 | Create Query Recipes | 00_Meta/query_recipes.md | ✅ Done |
 | P1-4 | Add conditions_3y to templates | 00_Meta/_TEMPLATES/*.md | ✅ Done |
 | P1-5 | Update validate_schema.py | scripts/validate_schema.py | ✅ Done |

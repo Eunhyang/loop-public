@@ -30,7 +30,7 @@ tags: ["meta", "schema", "registry"]
 | Track | `trk:{number}` | trk:2 | 1-6 |
 | Project | `prj:{number}` | prj:001 | 001-999 |
 | Task | `tsk:{prj}-{seq}` | tsk:001-01 | 01-99 per project |
-| Hypothesis | `hyp:{number}` | hyp:001 | 001-999 |
+| Hypothesis | `hyp:{trk}-{seq}` | hyp:1-01 | {trk}:1-6, {seq}:01-99 |
 | Experiment | `exp:{number}` | exp:001 | 001-999 |
 | Result | `res:{prj}-{seq}` | res:001-01 | 01-99 per project |
 
@@ -152,10 +152,15 @@ actual_hours: number | null      # 실제 시간
 
 ### Hypothesis (hyp:*)
 ```yaml
-# === 가설 정의 (필수) ===
+# === 가설 정의 (필수 4요소) ===
 hypothesis_question: string      # 질문 형태 ("?"로 끝나야 함)
-success_criteria: string         # 성공 판정 기준 (측정 가능해야 함)
-failure_criteria: string         # 실패 판정 기준
+success_criteria: string         # 성공 판정 기준 (숫자/기간/표본 포함)
+failure_criteria: string         # 실패 판정 기준 (피벗/중단 가능한 기준)
+measurement: string              # 어디서/무엇을/어떻게 측정
+
+# === 시간 범위 ===
+horizon: string                  # 검증 목표 연도 (예: "2026")
+deadline: date | null            # 판정 마감일 (success_criteria에서 추출)
 
 # === 상태 ===
 evidence_status: string          # planning | validating | validated | falsified | learning
@@ -220,11 +225,13 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
 
 ### Hypothesis
-- `entity_id`: required, pattern `hyp:\d{3}`
+- `entity_id`: required, pattern `hyp:[1-6]-\d{2}` (Track번호-순번)
 - `hypothesis_question`: required, must end with "?"
-- `success_criteria`: required
-- `failure_criteria`: required
-- `parent_id`: optional (can be orphan initially)
+- `success_criteria`: required, must include numbers/dates/samples
+- `failure_criteria`: required, must enable pivot/stop decision
+- `measurement`: required, must specify where/what/how
+- `parent_id`: required, must reference existing Track
+- `horizon`: required (예: "2026")
 - `hypothesis_text`: deprecated (마이그레이션 기간만 허용)
 
 ### Experiment
@@ -244,7 +251,7 @@ outcome: string | null           # positive | negative | inconclusive | null
 | Track | `20_Strategy/12M_Tracks/{year}/trk-{id}_{name}.md` |
 | Project | `50_Projects/{year}/prj-{id}_{name}/_PROJECT.md` |
 | Task | `50_Projects/{year}/prj-{id}_{name}/Tasks/tsk-{id}_{name}.md` |
-| Hypothesis | `60_Hypotheses/hyp-{id}_{name}.md` |
+| Hypothesis | `60_Hypotheses/{year}/hyp-{trk}-{seq}_{name}.md` |
 | Experiment | `70_Experiments/exp-{id}_{name}.md` |
 
 ---
@@ -311,9 +318,15 @@ aliases:
 
 ---
 
-**Version**: 3.3
+**Version**: 3.4
 **Last Updated**: 2025-12-20
 **Validated by**: Codex (gpt-5-codex, high reasoning)
+
+**Changes (v3.4)**:
+- Hypothesis: ID 패턴 변경 `hyp:{trk}-{seq}` (Track 기반)
+- Hypothesis: `measurement`, `horizon`, `deadline` 필드 추가
+- Hypothesis: 파일 위치 `60_Hypotheses/{year}/` (연도별 서브폴더)
+- Hypothesis: `parent_id` 필수화 (Track 연결)
 
 **Changes (v3.3)**:
 - Hypothesis: `hypothesis_question`, `success_criteria`, `failure_criteria` 필드 추가
