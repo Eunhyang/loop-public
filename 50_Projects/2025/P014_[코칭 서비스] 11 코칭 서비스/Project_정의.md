@@ -1,24 +1,24 @@
 ---
 entity_type: Project
-entity_id: "prj:014"
+entity_id: "prj-014"
 entity_name: "[코칭 서비스] 1:1 코칭 서비스"
 created: 2025-12-18
 updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:4"
+parent_id: "trk-4"
 aliases:
-  - "prj:014"
+  - "prj-014"
   - "[코칭 서비스] 1:1 코칭 서비스"
   - "prj-014"
 
 # === 관계 ===
 outgoing_relations: []
 validates:
-  - hyp:4-03
-  - hyp:4-04
-  - hyp:4-05
+  - hyp-4-03
+  - hyp-4-04
+  - hyp-4-05
 validated_by: []
 
 # === Project 전용 ===
@@ -37,14 +37,14 @@ realized_impact:
 experiments: []
 
 # === 분류 ===
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: medium
 ---
 
 # [코칭 서비스] 1:1 코칭 서비스
 
-> Project ID: `prj:014` | Track: `trk:2` | Status: active
+> Project ID: `prj-014` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

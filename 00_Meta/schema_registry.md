@@ -24,16 +24,16 @@ tags: ["meta", "schema", "registry"]
 ### 엔티티별 ID 패턴
 | Entity Type | ID Pattern | Example | Range |
 |-------------|------------|---------|-------|
-| NorthStar | `ns:{number}` | ns:001 | 001 (고정) |
-| MetaHypothesis | `mh:{number}` | mh:1 | 1-4 |
-| Condition | `cond:{letter}` | cond:a | a-e |
-| Track | `trk:{number}` | trk:2 | 1-6 |
-| Project | `prj:{number}` | prj:001 | 001-999 |
-| Task | `tsk:{prj}-{seq}` | tsk:001-01 | 01-99 per project |
-| Hypothesis | `hyp:{trk}-{seq}` | hyp:1-01 | {trk}:1-6, {seq}:01-99 |
-| Experiment | `exp:{number}` | exp:001 | 001-999 |
-| ProductLine | `pl:{number}` | pl:1 | 1-9 |
-| PartnershipStage | `ps:{number}` | ps:1 | 1-9 |
+| NorthStar | `ns-{number}` | ns-001 | 001 (고정) |
+| MetaHypothesis | `mh-{number}` | mh-1 | 1-4 |
+| Condition | `cond-{letter}` | cond-a | a-e |
+| Track | `trk-{number}` | trk-2 | 1-6 |
+| Project | `prj-{number}` | prj-001 | 001-999 |
+| Task | `tsk-{prj}-{seq}` | tsk-001-01 | 01-99 per project |
+| Hypothesis | `hyp-{trk}-{seq}` | hyp-1-01 | {trk}:1-6, {seq}:01-99 |
+| Experiment | `exp-{number}` | exp-001 | 001-999 |
+| ProductLine | `pl-{number}` | pl-1 | 1-9 |
+| PartnershipStage | `ps-{number}` | ps-1 | 1-9 |
 | Result | `res:{prj}-{seq}` | res:001-01 | 01-99 per project |
 
 ### 파일명 규칙
@@ -80,20 +80,20 @@ priority_flag: string            # low | medium | high | critical
 
 ## 3. 엔티티별 확장 스키마
 
-### NorthStar (ns:*)
+### NorthStar (ns-*)
 ```yaml
 # 추가 필드 없음 - 공통 스키마만 사용
 # status는 항상 "fixed"
 ```
 
-### MetaHypothesis (mh:*)
+### MetaHypothesis (mh-*)
 ```yaml
 if_broken: string                # 깨지면 어떤 결정이 트리거되는지
 evidence_status: string          # assumed | validating | validated | falsified
 confidence: number               # 0.0 ~ 1.0
 ```
 
-### Condition (cond:*)
+### Condition (cond-*)
 ```yaml
 unlock: string                   # 충족 시 무엇이 unlock 되는지
 if_broken: string                # 깨지면 어떤 결정이 트리거되는지
@@ -104,7 +104,7 @@ metrics:                         # 측정 지표
     status: string               # on_track | at_risk | failed
 ```
 
-### Track (trk:*)
+### Track (trk-*)
 ```yaml
 horizon: string                  # "12month" | "6month" | "3month"
 hypothesis: string               # 이 트랙의 핵심 가설 (텍스트)
@@ -117,7 +117,7 @@ objectives:                      # 목표 지표
     status: string
 ```
 
-### Project (prj:*)
+### Project (prj-*)
 ```yaml
 owner: string                    # 담당자
 budget: number | null            # 예산 (원)
@@ -135,14 +135,14 @@ realized_impact:                 # 결과 기록 (A') - 완료 시 필수
   updated: date | null           # 기록일
 
 # === 가설 연결 ===
-hypothesis_id: string | null     # 검증 대상 가설 ID (hyp:xxx)
+hypothesis_id: string | null     # 검증 대상 가설 ID (hyp-xxx)
 experiments: [string]            # 연결된 실험 ID들 (참조만)
 
 # === 레거시 (deprecated) ===
 hypothesis_text: string | null   # → expected_impact.statement으로 대체
 ```
 
-### Task (tsk:*)
+### Task (tsk-*)
 ```yaml
 project_id: string               # 소속 프로젝트 ID (필수)
 assignee: string                 # 담당자
@@ -153,7 +153,7 @@ estimated_hours: number | null   # 예상 시간
 actual_hours: number | null      # 실제 시간
 ```
 
-### Hypothesis (hyp:*)
+### Hypothesis (hyp-*)
 ```yaml
 # === 가설 정의 (필수 4요소) ===
 hypothesis_question: string      # 질문 형태 ("?"로 끝나야 함)
@@ -176,7 +176,7 @@ loop_layer: [string]             # emotional | eating | habit | reward | autonom
 hypothesis_text: string | null   # → hypothesis_question으로 대체
 ```
 
-### Experiment (exp:*)
+### Experiment (exp-*)
 ```yaml
 hypothesis_id: string            # 검증 대상 가설 ID (필수)
 protocol: string                 # 실험 프로토콜
@@ -192,28 +192,28 @@ outcome: string | null           # positive | negative | inconclusive | null
 ## 4. 검증 규칙
 
 ### NorthStar
-- `entity_id`: required, unique, pattern `ns:\d{3}`
+- `entity_id`: required, unique, pattern `ns-\d{3}`
 - `status`: must be "fixed"
 
 ### MetaHypothesis
-- `entity_id`: required, pattern `mh:[1-4]`
+- `entity_id`: required, pattern `mh-[1-4]`
 - `parent_id`: required, must reference existing NorthStar
 - `if_broken`: required
 
 ### Condition
-- `entity_id`: required, pattern `cond:[a-e]`
+- `entity_id`: required, pattern `cond-[a-e]`
 - `parent_id`: required, must reference existing MetaHypothesis
 - `if_broken`: required
 - `metrics`: at least 1 item
 
 ### Track
-- `entity_id`: required, pattern `trk:[1-6]`
+- `entity_id`: required, pattern `trk-[1-6]`
 - `parent_id`: required, must reference existing Condition
 - `owner`: required
 - `horizon`: required
 
 ### Project
-- `entity_id`: required, pattern `prj:\d{3}`
+- `entity_id`: required, pattern `prj-\d{3}`
 - `parent_id`: required, must reference existing Track
 - `owner`: required
 - `expected_impact`: required (statement, metric, target)
@@ -221,14 +221,14 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `validates`: ❌ **Task는 validates 관계를 가질 수 없음** (Project만 가능)
 
 ### Task
-- `entity_id`: required, pattern `tsk:\d{3}-\d{2}`
+- `entity_id`: required, pattern `tsk-\d{3}-\d{2}`
 - `parent_id`: required, must reference existing Project
 - `project_id`: required, must match parent Project
 - `assignee`: required
 - `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
 
 ### Hypothesis
-- `entity_id`: required, pattern `hyp:[1-6]-\d{2}` (Track번호-순번)
+- `entity_id`: required, pattern `hyp-[1-6]-\d{2}` (Track번호-순번)
 - `hypothesis_question`: required, must end with "?"
 - `success_criteria`: required, must include numbers/dates/samples
 - `failure_criteria`: required, must enable pivot/stop decision
@@ -238,7 +238,7 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `hypothesis_text`: deprecated (마이그레이션 기간만 허용)
 
 ### Experiment
-- `entity_id`: required, pattern `exp:\d{3}`
+- `entity_id`: required, pattern `exp-\d{3}`
 - `hypothesis_id`: required, must reference existing Hypothesis
 - `metrics`: required, at least 1 item
 
@@ -326,7 +326,7 @@ aliases:
 **Validated by**: Codex (gpt-5-codex, high reasoning)
 
 **Changes (v3.4)**:
-- Hypothesis: ID 패턴 변경 `hyp:{trk}-{seq}` (Track 기반)
+- Hypothesis: ID 패턴 변경 `hyp-{trk}-{seq}` (Track 기반)
 - Hypothesis: `measurement`, `horizon`, `deadline` 필드 추가
 - Hypothesis: 파일 위치 `60_Hypotheses/{year}/` (연도별 서브폴더)
 - Hypothesis: `parent_id` 필수화 (Track 연결)

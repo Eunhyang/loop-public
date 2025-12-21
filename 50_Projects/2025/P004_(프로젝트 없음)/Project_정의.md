@@ -1,13 +1,13 @@
 ---
 entity_type: Project
-entity_id: prj:004
+entity_id: prj-004
 entity_name: (프로젝트 없음)
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-parent_id: trk:2
+parent_id: trk-2
 aliases:
-- prj:004
+- prj-004
 - (프로젝트 없음)
 - prj-004
 outgoing_relations: []
@@ -26,14 +26,14 @@ realized_impact:
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: medium
 ---
 
 # (프로젝트 없음)
 
-> Project ID: `prj:004` | Track: `trk:2` | Status: active
+> Project ID: `prj-004` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

@@ -1,13 +1,13 @@
 ---
 entity_type: Project
-entity_id: prj:007
+entity_id: prj-007
 entity_name: 외부 비서
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-parent_id: trk:6
+parent_id: trk-6
 aliases:
-- prj:007
+- prj-007
 - 외부 비서
 - prj-007
 outgoing_relations: []
@@ -26,14 +26,14 @@ realized_impact:
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond:e']
+conditions_3y: ['cond-e']
 tags: []
 priority_flag: medium
 ---
 
 # 외부 비서
 
-> Project ID: `prj:007` | Track: `trk:2` | Status: active
+> Project ID: `prj-007` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

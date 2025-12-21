@@ -821,15 +821,15 @@ const GraphDetailPanel = {
     getEntityIcon(entityId) {
         if (!entityId) return '📄';
         const id = entityId.toLowerCase();
-        if (id.startsWith('ns:')) return '⭐';
-        if (id.startsWith('mh:')) return '🧬';
-        if (id.startsWith('cond:')) return '🔑';
-        if (id.startsWith('pl:')) return '📦';
-        if (id.startsWith('ps:')) return '🤝';
-        if (id.startsWith('trk:')) return '🎯';
-        if (id.startsWith('prj:')) return '📁';
-        if (id.startsWith('hyp:')) return '💡';
-        if (id.startsWith('tsk:')) return '✅';
+        if (id.startsWith('ns-')) return '⭐';
+        if (id.startsWith('mh-')) return '🧬';
+        if (id.startsWith('cond-')) return '🔑';
+        if (id.startsWith('pl-')) return '📦';
+        if (id.startsWith('ps-')) return '🤝';
+        if (id.startsWith('trk-')) return '🎯';
+        if (id.startsWith('prj-')) return '📁';
+        if (id.startsWith('hyp-')) return '💡';
+        if (id.startsWith('tsk-')) return '✅';
         return '📄';
     },
 

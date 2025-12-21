@@ -1,30 +1,30 @@
 ---
 entity_type: Track
-entity_id: trk:6
+entity_id: trk-6
 entity_name: Track_6_Revenue
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-parent_id: cond:d
+parent_id: cond-d
 aliases:
-- trk:6
+- trk-6
 - Track_6_Revenue
 - trk-6
 outgoing_relations:
 - type: depends_on
-  target_id: trk:1
+  target_id: trk-1
   description: 제품이 유료화 기반
 - type: depends_on
-  target_id: trk:3
+  target_id: trk-3
   description: 콘텐츠가 유입 견인
 - type: depends_on
-  target_id: trk:4
+  target_id: trk-4
   description: 코칭이 매출 기여
 - type: depends_on
-  target_id: trk:5
+  target_id: trk-5
   description: 의료 제휴가 B2B 기반
 validates:
-- cond:d
+- cond-d
 validated_by: []
 horizon: 12month
 hypothesis: 전면 유료화와 투자 확보로 18개월 런웨이를 확보할 수 있다
@@ -45,7 +45,7 @@ objectives:
   status: 위험
 progress: 0.35
 risk_level: high
-conditions_3y: ['cond:e']
+conditions_3y: ['cond-e']
 tags:
 - track
 - 12month

@@ -80,7 +80,7 @@ confidence:
 
 # === 권장 필드 ===
 contributes:
-  - condition: "cond:X"
+  - condition: "cond-X"
     weight: 0.0-1.0
     description: "기여 설명"
 
@@ -153,7 +153,7 @@ low:
 
 ```
 ## 프로젝트 정보
-- Project ID: prj:010
+- Project ID: prj-010
 - 이름: 와디즈 펀딩
 - 목표: 매출 1200만원, 온라인 코칭 시장 검증
 - 기간: 3개월
@@ -161,7 +161,7 @@ low:
 
 ## 전략 컨텍스트
 - Track: Track 5 (유통)
-- Condition: cond:a (시장 검증)
+- Condition: cond-a (시장 검증)
 - MH: MH2 (코칭 서비스 수요 존재)
 ```
 
@@ -190,7 +190,7 @@ confidence:
 
 # === 권장 필드 ===
 contributes:
-  - condition: "cond:a"
+  - condition: "cond-a"
     weight: 0.3
     description: "시장 수요 검증 30% 기여"
 

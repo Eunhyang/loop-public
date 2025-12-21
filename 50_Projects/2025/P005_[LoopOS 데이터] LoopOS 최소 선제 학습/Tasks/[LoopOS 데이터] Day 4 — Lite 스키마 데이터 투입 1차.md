@@ -1,16 +1,16 @@
 ---
 entity_type: Task
-entity_id: "tsk:005-01"
+entity_id: "tsk-005-01"
 entity_name: "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차"
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
 
 # === 계층 ===
-parent_id: "prj:005"
-project_id: "prj:005"
+parent_id: "prj-005"
+project_id: "prj-005"
 aliases:
-  - "tsk:005-01"
+  - "tsk-005-01"
   - "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차"
   - "tsk-005-01"
 
@@ -27,14 +27,14 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: high
 ---
 
 # [LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차
 
-> Task ID: `tsk:005-01` | Project: `prj:005` | Status: planning
+> Task ID: `tsk-005-01` | Project: `prj-005` | Status: planning
 
 ## 목표
 
@@ -66,7 +66,7 @@ priority_flag: high
 
 ## 참고 문서
 
-- [[prj:005]] - 소속 Project
+- [[prj-005]] - 소속 Project
 
 ---
 

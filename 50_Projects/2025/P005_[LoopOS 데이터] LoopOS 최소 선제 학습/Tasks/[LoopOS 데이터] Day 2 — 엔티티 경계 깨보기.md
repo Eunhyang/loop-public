@@ -1,16 +1,16 @@
 ---
 entity_type: Task
-entity_id: "tsk:005-05"
+entity_id: "tsk-005-05"
 entity_name: "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기"
 created: 2025-12-18
 updated: 2025-12-18
 status: in_progress
 
 # === 계층 ===
-parent_id: "prj:005"
-project_id: "prj:005"
+parent_id: "prj-005"
+project_id: "prj-005"
 aliases:
-  - "tsk:005-05"
+  - "tsk-005-05"
   - "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기"
   - "tsk-005-05"
 
@@ -27,14 +27,14 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: high
 ---
 
 # [LoopOS 데이터] Day 2 — 엔티티 경계 깨보기
 
-> Task ID: `tsk:005-05` | Project: `prj:005` | Status: in_progress
+> Task ID: `tsk-005-05` | Project: `prj-005` | Status: in_progress
 
 ## 목표
 
@@ -66,7 +66,7 @@ priority_flag: high
 
 ## 참고 문서
 
-- [[prj:005]] - 소속 Project
+- [[prj-005]] - 소속 Project
 
 ---
 

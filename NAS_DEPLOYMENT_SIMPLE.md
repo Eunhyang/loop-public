@@ -275,7 +275,7 @@ CHANGED=$(find "$VAULT_DIR/50_Projects/P001_Ontology" -name "*.md" -newer "$LAST
 스크립트 마지막에 추가:
 ```bash
 # Slack 알림
-curl -X POST "https://hooks.slack.com/YOUR_WEBHOOK" \
+curl -X POST "https-//hooks.slack.com/YOUR_WEBHOOK" \
   -d '{"text":"📊 Dashboard updated!"}'
 ```
 

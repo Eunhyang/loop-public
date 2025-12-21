@@ -73,8 +73,8 @@ def get_next_task_id(vault_path: Path) -> str:
             continue
 
         entity_id = frontmatter['entity_id']
-        # tsk:001-01 형식에서 숫자 추출
-        match = re.match(r'tsk:(\d+)-(\d+)', entity_id)
+        # tsk-001-01 형식에서 숫자 추출
+        match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
         if match:
             main_num = int(match.group(1))
             sub_num = int(match.group(2))
@@ -89,7 +89,7 @@ def get_next_task_id(vault_path: Path) -> str:
     if main == 0:
         main = 1
 
-    return f"tsk:{main:03d}-{sub:02d}"
+    return f"tsk-{main:03d}-{sub:02d}"
 
 
 def get_next_project_id(vault_path: Path) -> str:
@@ -104,15 +104,15 @@ def get_next_project_id(vault_path: Path) -> str:
             num = int(match.group(1))
             max_num = max(max_num, num)
 
-    return f"prj:{max_num + 1:03d}"
+    return f"prj-{max_num + 1:03d}"
 
 
 def find_project_dir(vault_path: Path, project_id: str) -> Optional[Path]:
     """Project ID로 프로젝트 디렉토리 찾기"""
     projects_dir = vault_path / "50_Projects/2025"
 
-    # project_id: "prj:001" → "P001"
-    match = re.match(r'prj:(\d+)', project_id)
+    # project_id: "prj-001" → "P001"
+    match = re.match(r'prj-(\d+)', project_id)
     if not match:
         return None
 
@@ -130,3 +130,89 @@ def sanitize_filename(name: str) -> str:
     name = re.sub(r'[^\w\s-]', '', name)
     name = re.sub(r'[-\s]+', '_', name)
     return name.strip('_')
+
+
+def get_next_hypothesis_id(vault_path: Path, track_num: int) -> str:
+    """
+    다음 Hypothesis ID 생성 (hyp-{trk}-{seq})
+
+    전체 60_Hypotheses/** 스캔하여 해당 track의 최대 seq를 찾고 +1 반환.
+    Codex 피드백: 연도별이 아닌 전체 스캔하여 중복 방지.
+
+    Args:
+        vault_path: Vault 루트 경로
+        track_num: Track 번호 (1-6)
+
+    Returns:
+        새 Hypothesis ID (예: hyp-1-12)
+    """
+    hypotheses_dir = vault_path / "60_Hypotheses"
+    max_seq = 0
+
+    if not hypotheses_dir.exists():
+        return f"hyp-{track_num}-01"
+
+    # 전체 60_Hypotheses/** 스캔 (모든 연도 폴더)
+    for hyp_file in hypotheses_dir.rglob("*.md"):
+        if hyp_file.name.startswith("_"):
+            continue
+
+        frontmatter = extract_frontmatter(hyp_file)
+        if not frontmatter or frontmatter.get('entity_type') != 'Hypothesis':
+            continue
+
+        entity_id = frontmatter.get('entity_id', '')
+        # hyp-{trk}-{seq} 패턴 매칭
+        match = re.match(r'hyp-(\d+)-(\d+)', entity_id)
+        if match:
+            trk = int(match.group(1))
+            seq = int(match.group(2))
+            if trk == track_num:
+                max_seq = max(max_seq, seq)
+
+    return f"hyp-{track_num}-{max_seq + 1:02d}"
+
+
+def validate_track_exists(vault_path: Path, track_id: str) -> bool:
+    """
+    Track ID가 실제로 존재하는지 확인
+
+    Codex 피드백: regex만으로는 불충분, 실제 Track 파일 존재 확인 필요.
+
+    Args:
+        vault_path: Vault 루트 경로
+        track_id: Track ID (예: trk-1)
+
+    Returns:
+        Track 존재 여부
+    """
+    tracks_dir = vault_path / "20_Strategy/12M_Tracks"
+
+    if not tracks_dir.exists():
+        return False
+
+    # 모든 연도 폴더 스캔
+    for track_file in tracks_dir.rglob("*.md"):
+        if track_file.name.startswith("_"):
+            continue
+
+        frontmatter = extract_frontmatter(track_file)
+        if frontmatter and frontmatter.get('entity_id') == track_id:
+            return True
+
+    return False
+
+
+def validate_horizon(horizon: str) -> bool:
+    """
+    horizon 값이 유효한 4자리 연도인지 확인
+
+    Codex 피드백: 경로 탈출 공격 방지를 위한 whitelist 검증.
+
+    Args:
+        horizon: 검증할 연도 문자열
+
+    Returns:
+        유효 여부
+    """
+    return bool(re.match(r'^\d{4}$', horizon))

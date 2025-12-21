@@ -268,7 +268,7 @@ graph LR
 **시나리오 2: Episode 컨테이너 내 Event들**
 ```
 Episode(id=ep1, startTime=18:00, endTime=21:00, type="evening_risk_window")
-  contains:
+  contains-
     - Event(18:10, meal: dinner)
     - Event(18:50, satiety_check: fullness=6)
     - Event(19:30, emotion_tag: boredom)

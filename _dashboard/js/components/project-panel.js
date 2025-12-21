@@ -13,6 +13,7 @@ const ProjectPanel = {
     init() {
         this.populateSelects();
         this.setupEventListeners();
+        this.setupRelationClickHandlers();
     },
 
     /**
@@ -89,6 +90,100 @@ const ProjectPanel = {
     },
 
     /**
+     * Relations 클릭 핸들러 설정 (이벤트 위임 방식)
+     */
+    setupRelationClickHandlers() {
+        const relationsEl = document.getElementById('panelProjectRelations');
+        if (!relationsEl) return;
+
+        // 중복 핸들러 방지: 이미 설정되었으면 스킵
+        if (relationsEl._relationClickHandlerSet) return;
+        relationsEl._relationClickHandlerSet = true;
+
+        // 이벤트 위임: 컨테이너에 단일 핸들러
+        relationsEl.addEventListener('click', (e) => {
+            const link = e.target.closest('.panel-relation-link');
+            if (!link) return;
+
+            const entityId = link.dataset.entityId;
+            const entityType = link.dataset.entityType;
+
+            if (entityId && entityType) {
+                this.navigateToEntity(entityId, entityType);
+            }
+        });
+    },
+
+    /**
+     * 엔티티 상세 페이지로 이동
+     */
+    navigateToEntity(entityId, entityType) {
+        switch (entityType) {
+            case 'Project':
+                // 다른 프로젝트로 이동
+                const project = State.getProjectById(entityId);
+                if (project) {
+                    this.close();
+                    setTimeout(() => ProjectPanel.open(entityId), 300);
+                } else {
+                    showToast('Project not found', 'error');
+                }
+                break;
+
+            case 'Task':
+                const task = State.getTaskById ? State.getTaskById(entityId) :
+                    (Array.isArray(State.tasks) ? State.tasks.find(t => t.entity_id === entityId) : null);
+                if (task) {
+                    this.close();
+                    setTimeout(() => TaskPanel.open(entityId), 300);
+                } else {
+                    showToast('Task not found', 'error');
+                }
+                break;
+
+            case 'Track':
+            case 'Condition':
+            case 'Hypothesis':
+            default:
+                // Graph 뷰로 전환 후 노드 선택
+                this.navigateToGraphNode(entityId);
+                break;
+        }
+    },
+
+    /**
+     * Graph 뷰에서 노드 선택
+     */
+    navigateToGraphNode(entityId) {
+        // Graph 객체 존재 확인
+        if (typeof Graph === 'undefined' || !Array.isArray(Graph.nodes)) {
+            showToast('Graph view not available', 'error');
+            return;
+        }
+
+        // 노드 찾기
+        const node = Graph.nodes.find(n => n.id === entityId);
+        if (!node) {
+            showToast(`Entity "${entityId}" not found in graph`, 'error');
+            return;
+        }
+
+        // 패널 닫기
+        this.close();
+
+        // Graph 뷰로 전환
+        setTimeout(() => {
+            if (typeof switchView === 'function') {
+                switchView('graph');
+            }
+            // 노드 선택
+            if (typeof Graph.selectNode === 'function') {
+                Graph.selectNode(node);
+            }
+        }, 300);
+    },
+
+    /**
      * 전체화면 토글
      */
     toggleExpand() {
@@ -148,10 +243,25 @@ const ProjectPanel = {
     },
 
     /**
+     * ID 형식 정규화 (콜론 → 하이픈)
+     */
+    normalizeId(id) {
+        if (!id) return id;
+        return String(id).replace(/:/g, '-');
+    },
+
+    /**
      * Project 상세 패널 열기
      */
     open(projectId) {
-        const project = State.getProjectById(projectId);
+        // 원본 ID로 조회, 실패하면 정규화된 ID로 재시도
+        let project = State.getProjectById(projectId);
+        if (!project) {
+            const normalizedId = this.normalizeId(projectId);
+            if (normalizedId !== projectId) {
+                project = State.getProjectById(normalizedId);
+            }
+        }
         if (!project) {
             showToast('Project not found', 'error');
             return;
@@ -199,7 +309,7 @@ const ProjectPanel = {
     },
 
     /**
-     * Relations 렌더링
+     * Relations 렌더링 (클릭 가능한 링크 포함)
      */
     renderRelations(project) {
         const relationsEl = document.getElementById('panelProjectRelations');
@@ -208,41 +318,68 @@ const ProjectPanel = {
         // Track
         const track = State.getTrackForProject(project);
         if (track) {
+            const trackId = this.escapeHtml(track.entity_id);
+            const trackName = this.escapeHtml(track.entity_name || track.entity_id);
             items.push(`
                 <div class="panel-relation-item">
                     <span class="panel-relation-label">Track</span>
-                    <span class="panel-relation-value track">${track.entity_name || track.entity_id}</span>
+                    <span class="panel-relation-value track panel-relation-link"
+                          data-entity-id="${trackId}"
+                          data-entity-type="Track"
+                          title="Click to view in Graph">${trackName}</span>
                 </div>
             `);
         }
 
-        // conditions_3y
+        // conditions_3y - 각 항목별로 개별 렌더링
         if (project.conditions_3y && project.conditions_3y.length > 0) {
+            const conditionLinks = project.conditions_3y.map(condId => {
+                const escapedId = this.escapeHtml(condId);
+                return `<span class="panel-relation-link"
+                       data-entity-id="${escapedId}"
+                       data-entity-type="Condition"
+                       title="Click to view in Graph">${escapedId}</span>`;
+            }).join(', ');
+
             items.push(`
                 <div class="panel-relation-item">
                     <span class="panel-relation-label">Conditions</span>
-                    <span class="panel-relation-value condition">${project.conditions_3y.join(', ')}</span>
+                    <span class="panel-relation-value condition">${conditionLinks}</span>
                 </div>
             `);
         }
 
-        // validates
+        // validates - 각 항목별로 개별 렌더링
         if (project.validates && project.validates.length > 0) {
+            const validateLinks = project.validates.map(hypId => {
+                const escapedId = this.escapeHtml(hypId);
+                return `<span class="panel-relation-link"
+                       data-entity-id="${escapedId}"
+                       data-entity-type="Hypothesis"
+                       title="Click to view in Graph">${escapedId}</span>`;
+            }).join(', ');
+
             items.push(`
                 <div class="panel-relation-item">
                     <span class="panel-relation-label">Validates</span>
-                    <span class="panel-relation-value validates">${project.validates.join(', ')}</span>
+                    <span class="panel-relation-value validates">${validateLinks}</span>
                 </div>
             `);
         }
 
-        // outgoing_relations
+        // outgoing_relations - 타겟 ID로 엔티티 타입 추론
         if (project.outgoing_relations && project.outgoing_relations.length > 0) {
             project.outgoing_relations.forEach(rel => {
+                const entityType = this.inferEntityTypeFromId(rel.target_id);
+                const escapedTargetId = this.escapeHtml(rel.target_id);
+                const escapedType = this.escapeHtml(rel.type);
                 items.push(`
                     <div class="panel-relation-item">
-                        <span class="panel-relation-label">${rel.type}</span>
-                        <span class="panel-relation-value">${rel.target_id}</span>
+                        <span class="panel-relation-label">${escapedType}</span>
+                        <span class="panel-relation-value panel-relation-link"
+                              data-entity-id="${escapedTargetId}"
+                              data-entity-type="${entityType}"
+                              title="Click to navigate">${escapedTargetId}</span>
                     </div>
                 `);
             });
@@ -253,6 +390,32 @@ const ProjectPanel = {
         } else {
             relationsEl.innerHTML = items.join('');
         }
+    },
+
+    /**
+     * ID 접두사로 엔티티 타입 추론
+     */
+    inferEntityTypeFromId(entityId) {
+        if (!entityId) return 'Unknown';
+        const id = entityId.toLowerCase();
+        if (id.startsWith('trk-')) return 'Track';
+        if (id.startsWith('cond-')) return 'Condition';
+        if (id.startsWith('hyp-')) return 'Hypothesis';
+        if (id.startsWith('prj-')) return 'Project';
+        if (id.startsWith('tsk-')) return 'Task';
+        if (id.startsWith('mh-')) return 'MetaHypothesis';
+        if (id.startsWith('ns-')) return 'NorthStar';
+        return 'Unknown';
+    },
+
+    /**
+     * HTML 이스케이프 (XSS 방지)
+     */
+    escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     },
 
     /**

@@ -1,21 +1,21 @@
 ---
 entity_type: MetaHypothesis
-entity_id: mh:1
+entity_id: mh-1
 entity_name: MH1_루프는_지속적_문제
 created: 2024-12-18
 updated: 2024-12-20
 status: validating
-parent_id: ns:001
+parent_id: ns-001
 aliases:
-- mh:1
+- mh-1
 - MH1_루프는_지속적_문제
 - mh-1
 outgoing_relations: []
 validates: []
 validated_by:
-- trk:1
-- trk:3
-- cond:a
+- trk-1
+- trk-3
+- cond-a
 hypothesis_text: 인간은 체중이 아니라 정서–섭식–습관 루프를 지속적 문제로 인식한다
 if_broken: B2C 전면 축소, 전문군 중심 피봇
 evidence_status: validating
@@ -52,7 +52,7 @@ supports:
 
 # MH1: 루프는 지속적 문제
 
-> 가설 ID: `mh:1` | 상태: Validating | 신뢰도: 60%
+> 가설 ID: `mh-1` | 상태: Validating | 신뢰도: 60%
 
 ## 가설 선언
 

@@ -1,6 +1,6 @@
 ---
 entity_type: Experiment
-entity_id: "exp:{{NUMBER}}"
+entity_id: "exp-{{NUMBER}}"
 entity_name: "{{EXPERIMENT_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
@@ -8,15 +8,15 @@ status: planning
 
 # === 계층 ===
 parent_id: null
-aliases: ["exp:{{NUMBER}}"]
+aliases: ["exp-{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
-validates: ["hyp:{{HYP_NUMBER}}"]
+validates: ["hyp-{{HYP_NUMBER}}"]
 validated_by: []
 
 # === Experiment 전용 ===
-hypothesis_id: "hyp:{{HYP_NUMBER}}"
+hypothesis_id: "hyp-{{HYP_NUMBER}}"
 protocol: "{{PROTOCOL}}"
 metrics: []
 start_date: null
@@ -31,11 +31,11 @@ priority_flag: medium
 
 # {{EXPERIMENT_NAME}}
 
-> Experiment ID: `exp:{{NUMBER}}` | Hypothesis: `hyp:{{HYP_NUMBER}}` | Status: planning
+> Experiment ID: `exp-{{NUMBER}}` | Hypothesis: `hyp-{{HYP_NUMBER}}` | Status: planning
 
 ## 검증 대상 가설
 
-**[[hyp:{{HYP_NUMBER}}]]**: "{{HYPOTHESIS_TEXT}}"
+**[[hyp-{{HYP_NUMBER}}]]**: "{{HYPOTHESIS_TEXT}}"
 
 ---
 
@@ -92,7 +92,7 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[hyp:{{HYP_NUMBER}}]] - 검증 대상 가설
+- [[hyp-{{HYP_NUMBER}}]] - 검증 대상 가설
 
 ---
 

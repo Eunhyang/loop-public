@@ -8,7 +8,7 @@ Usage:
     from api.cache import get_cache
 
     cache = get_cache()
-    task = cache.get_task("tsk:001-01")
+    task = cache.get_task("tsk-001-01")
     tasks = cache.get_all_tasks(status="doing")
 """
 

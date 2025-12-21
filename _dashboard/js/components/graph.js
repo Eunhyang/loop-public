@@ -61,7 +61,7 @@ const Graph = {
         console.log('Graph prepareData:');
         console.log('  NorthStars:', State.northstars?.length || 0);
         console.log('  MetaHypotheses:', State.metahypotheses?.length || 0);
-        console.log('  Conditions:', State.conditions?.length || 0);
+        console.log('  Conditions-', State.conditions?.length || 0);
         console.log('  ProductLines:', State.productlines?.length || 0);
         console.log('  PartnershipStages:', State.partnershipstages?.length || 0);
         console.log('  Tracks:', State.tracks?.length || 0);

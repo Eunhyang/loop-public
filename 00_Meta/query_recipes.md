@@ -22,7 +22,7 @@ tags: ["meta", "llm", "query", "recipes"]
 **Reading Order**:
 1. `_ENTRY_POINT.md` - 전체 구조 파악
 2. `20_Strategy/3Y_Conditions_2026-2028/_INDEX.md` - 모든 Condition 목록
-3. 각 `Condition_*.md` 파일 (현재 cond:b만 존재)
+3. 각 `Condition_*.md` 파일 (현재 cond-b만 존재)
 4. `_Graph_Index.md` - conditions_3y로 연결된 Project/Task 확인
 
 **Expected Reads**: 3-5
@@ -33,7 +33,7 @@ tags: ["meta", "llm", "query", "recipes"]
 
 **Reading Order**:
 1. `20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md` - 조건 정의
-2. `_Graph_Index.md` - Parent-Child 관계에서 `cond:b → trk:2/4 → prj:* → tsk:*`
+2. `_Graph_Index.md` - Parent-Child 관계에서 `cond-b → trk-2/4 → prj-* → tsk-*`
 3. (Optional) 개별 Task 파일
 
 **Expected Reads**: 2-3
@@ -55,7 +55,7 @@ tags: ["meta", "llm", "query", "recipes"]
 
 **Reading Order**:
 1. `20_Strategy/12M_Tracks/2026/Track_2_Data.md` - Track 정의 및 metrics
-2. `_Graph_Index.md` - `trk:2`의 하위 Project/Task 상태
+2. `_Graph_Index.md` - `trk-2`의 하위 Project/Task 상태
 
 **Expected Reads**: 2
 
@@ -82,10 +82,10 @@ tags: ["meta", "llm", "query", "recipes"]
 
 ---
 
-### Q7: "prj:002의 모든 Task"
+### Q7: "prj-002의 모든 Task"
 
 **Reading Order**:
-1. `_Graph_Index.md` - Task 테이블에서 `parent_id: prj:002` 필터
+1. `_Graph_Index.md` - Task 테이블에서 `parent_id: prj-002` 필터
 2. (Optional) `50_Projects/2025/P002_*/Project_정의.md` - 프로젝트 상세
 
 **Expected Reads**: 1-2

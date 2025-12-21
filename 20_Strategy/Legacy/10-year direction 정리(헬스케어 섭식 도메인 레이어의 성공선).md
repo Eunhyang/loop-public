@@ -268,6 +268,6 @@ LOOP는 이 영역의 OS가 된다.
 
 ---
 
-[GLP-1 시장 폭식 시장 예측](https://www.notion.so/GLP-1-2c56a363106a818b834aee3bfaa59405?pvs=21)
+[GLP-1 시장 폭식 시장 예측](https-//www.notion.so/GLP-1-2c56a363106a818b834aee3bfaa59405?pvs=21)
 
-[매출 폭발 시기 및 규모 추론 정리](https://www.notion.so/2c56a363106a813da0d9e3c30b2965b5?pvs=21)
+[매출 폭발 시기 및 규모 추론 정리](https-//www.notion.so/2c56a363106a813da0d9e3c30b2965b5?pvs=21)

@@ -1,15 +1,15 @@
 ---
 entity_type: Hypothesis
-entity_id: "hyp:{{TRK}}-{{SEQ}}"
+entity_id: "hyp-{{TRK}}-{{SEQ}}"
 entity_name: "{{HYPOTHESIS_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: planning
 
 # === 계층 관계 ===
-parent_id: "trk:{{TRK}}"
+parent_id: "trk-{{TRK}}"
 aliases:
-  - "hyp:{{TRK}}-{{SEQ}}"
+  - "hyp-{{TRK}}-{{SEQ}}"
   - "{{HYPOTHESIS_NAME_SNAKE}}"
 
 # === 가설 정의 (필수 4요소) ===
@@ -37,7 +37,7 @@ validated_by: []
 
 # {{HYPOTHESIS_NAME}}
 
-> Track: [[Track_{{TRK}}_{{TRACK_NAME}}]] | ID: `hyp:{{TRK}}-{{SEQ}}` | 상태: planning
+> Track: [[Track_{{TRK}}_{{TRACK_NAME}}]] | ID: `hyp-{{TRK}}-{{SEQ}}` | 상태: planning
 
 ## 가설
 

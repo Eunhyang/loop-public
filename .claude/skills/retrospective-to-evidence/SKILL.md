@@ -23,7 +23,7 @@
 ```
 [1. 입력 수집]
 ├── 회고 문서 경로 (또는 현재 열린 파일)
-├── Project ID (prj:NNN)
+├── Project ID (prj-NNN)
 └── 주요 지표 (목표 vs 실제)
 
 [2. 회고 분석] ← LLM
@@ -66,7 +66,7 @@
    - 경로 직접 입력
 
 2. 연결할 Project ID는 무엇인가요?
-   - 예: prj:010
+   - 예: prj-010
 
 3. 핵심 지표와 결과는?
    - 예: 매출 목표 1200만원, 실제 250만원
@@ -118,7 +118,7 @@ realized_status: succeeded|failed_but_high_signal|failed_low_signal|inconclusive
 ```
 ## Evidence Preview
 
-**Project**: prj:010 (와디즈 펀딩)
+**Project**: prj-010 (와디즈 펀딩)
 **Evidence ID**: ev:2025-NNNN (자동 생성)
 
 ### Realized Score 계산
@@ -147,7 +147,7 @@ AskUserQuestion 도구를 사용하여 확인:
 
 ```yaml
 question: "Evidence Preview를 확인했습니다. 어떻게 하시겠습니까?"
-options:
+options-
   - label: "Accept"
     description: "이대로 Evidence 파일을 생성합니다"
   - label: "Edit"
@@ -217,7 +217,7 @@ options:
 Claude: 회고 → Evidence 변환을 시작합니다.
         회고 문서 경로와 Project ID를 알려주세요.
 
-사용자: 와디즈 펀딩 회고.md, prj:010, 매출 목표 1200만 실제 250만
+사용자: 와디즈 펀딩 회고.md, prj-010, 매출 목표 1200만 실제 250만
 
 Claude: [회고 문서 분석 중...]
 
@@ -244,7 +244,7 @@ Claude: Evidence 파일을 생성했습니다.
 사용자: Y
 
 Claude: ✅ impact.json 업데이트 완료
-        prj:010 RealizedScore: 0.147
+        prj-010 RealizedScore: 0.147
 ```
 
 ## Resources

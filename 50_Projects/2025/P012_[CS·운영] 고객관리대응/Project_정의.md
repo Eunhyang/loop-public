@@ -1,15 +1,15 @@
 ---
 entity_type: Project
-entity_id: "prj:012"
+entity_id: "prj-012"
 entity_name: "[CS·운영] 고객관리/대응"
 created: 2025-12-18
 updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:4"
+parent_id: "trk-4"
 aliases:
-  - "prj:012"
+  - "prj-012"
   - "[CS·운영] 고객관리/대응"
   - "prj-012"
 
@@ -34,14 +34,14 @@ realized_impact:
 experiments: []
 
 # === 분류 ===
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: medium
 ---
 
 # [CS·운영] 고객관리/대응
 
-> Project ID: `prj:012` | Track: `trk:2` | Status: active
+> Project ID: `prj-012` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

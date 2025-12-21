@@ -1,14 +1,14 @@
 ---
 entity_type: Task
-entity_id: tsk:003-02
+entity_id: tsk-003-02
 entity_name: Loop OS V0 데이터 설계 – 4. Minimal Logging Spec
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
-parent_id: prj:003
-project_id: prj:003
+parent_id: prj-003
+project_id: prj-003
 aliases:
-- tsk:003-02
+- tsk-003-02
 - Loop OS V0 데이터 설계 – 4. Minimal Logging Spec
 - tsk-003-02
 outgoing_relations: []
@@ -19,14 +19,14 @@ due: 2025-12-19
 priority: medium
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: medium
 ---
 
 # Loop OS V0 데이터 설계 – 4. Minimal Logging Spec
 
-> Task ID: `tsk:003-02` | Project: `prj:003` | Status: planning
+> Task ID: `tsk-003-02` | Project: `prj-003` | Status: planning
 
 ## 목표
 
@@ -54,7 +54,7 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[prj:003]] - 소속 Project
+- [[prj-003]] - 소속 Project
 
 ---
 

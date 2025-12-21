@@ -217,6 +217,69 @@
     background: #fffbeb;
 }
 
+.panel-relation-value.project {
+    color: #10b981;
+    background: #ecfdf5;
+}
+
+/* Clickable relation links */
+.panel-relation-link {
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    border-radius: 4px;
+    position: relative;
+}
+
+.panel-relation-link:hover {
+    background-color: rgba(102, 126, 234, 0.15) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.panel-relation-link:active {
+    transform: translateY(0);
+}
+
+.panel-relation-link::after {
+    content: ' →';
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 0.8em;
+}
+
+.panel-relation-link:hover::after {
+    opacity: 0.7;
+}
+
+/* Clickable relation items */
+.panel-relation-item.clickable {
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    border-radius: 6px;
+    margin: 0 -8px;
+    padding: 8px;
+    position: relative;
+}
+
+.panel-relation-item.clickable:hover {
+    background-color: rgba(102, 126, 234, 0.08);
+    transform: translateX(2px);
+}
+
+.panel-relation-item.clickable::after {
+    content: '→';
+    position: absolute;
+    right: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: #667eea;
+    font-weight: 500;
+}
+
+.panel-relation-item.clickable:hover::after {
+    opacity: 1;
+}
+
 /* ============================================
    Panel Footer
    ============================================ */

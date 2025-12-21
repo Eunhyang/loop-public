@@ -1,13 +1,13 @@
 ---
 entity_type: Condition
-entity_id: cond:a
+entity_id: cond-a
 entity_name: Condition_A_PMF
 created: 2024-12-18
 updated: 2024-12-20
 status: in_progress
-parent_id: mh:1
+parent_id: mh-1
 aliases:
-- cond:a
+- cond-a
 - Condition_A_PMF
 - cond-a
 - 국내 PMF
@@ -16,13 +16,13 @@ outgoing_relations:
   target_id: action:pmf_pivot
   description: 깨지면 PMF 가설 폐기
 - type: depends_on
-  target_id: mh:2
+  target_id: mh-2
   description: MH2 Intervenability 의존
 validates: []
 validated_by:
-- mh:1
-- mh:2
-- trk:1
+- mh-1
+- mh-2
+- trk-1
 condition: Tier1/2 사용자가 Loop 언어로 자신의 문제를 설명하거나 Loop 기반 선택을 하는가?
 unlock: Core OS 강화, GLP-1 콘텐츠 투입, 의료 제휴 검토
 if_broken: UX 재설계, 고밀도 중심 축소, '섬세한 먹기 OS' 소프트 피봇
@@ -58,7 +58,7 @@ break_triggers:
 
 # Condition A: 국내 PMF
 
-> 조건 ID: `cond:a` | 상태: In Progress | 위험도: High
+> 조건 ID: `cond-a` | 상태: In Progress | 위험도: High
 
 ## 조건 선언
 

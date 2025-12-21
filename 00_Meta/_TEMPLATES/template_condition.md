@@ -1,14 +1,14 @@
 ---
 entity_type: Condition
-entity_id: "cond:{{LETTER}}"
+entity_id: "cond-{{LETTER}}"
 entity_name: "{{CONDITION_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: in_progress
 
 # === 계층 ===
-parent_id: "mh:{{MH_NUMBER}}"
-aliases: ["cond:{{LETTER}}"]
+parent_id: "mh-{{MH_NUMBER}}"
+aliases: ["cond-{{LETTER}}"]
 
 # === 관계 ===
 outgoing_relations:
@@ -34,7 +34,7 @@ priority_flag: high
 
 # Condition {{LETTER}}: {{CONDITION_NAME}}
 
-> Condition ID: `cond:{{LETTER}}` | Status: in_progress
+> Condition ID: `cond-{{LETTER}}` | Status: in_progress
 
 ## Condition 정의
 
@@ -78,13 +78,13 @@ priority_flag: high
 
 | Track | 역할 |
 |-------|------|
-| [[trk:{{TRK_NUMBER}}]] | |
+| [[trk-{{TRK_NUMBER}}]] | |
 
 ---
 
 ## 참고 문서
 
-- [[mh:{{MH_NUMBER}}]] - 상위 MetaHypothesis
+- [[mh-{{MH_NUMBER}}]] - 상위 MetaHypothesis
 
 ---
 

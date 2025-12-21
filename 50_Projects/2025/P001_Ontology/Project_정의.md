@@ -1,32 +1,32 @@
 ---
 entity_type: Project
-entity_id: prj:001
+entity_id: prj-001
 entity_name: Ontology v0.1
 created: 2025-12-18
 updated: '2025-12-19'
 status: active
-parent_id: trk:2
-track_id: trk:2
+parent_id: trk-2
+track_id: trk-2
 aliases:
-- prj:001
+- prj-001
 - Ontology v0.1
 - prj-001
 outgoing_relations:
-- type: validates
-  target_id: mh:3
-  description: MH3 데이터 모델링 가능성 검증
-- type: enables
-  target_id: cond:b
-  description: Condition B 재현 패턴 10개 enable
-- type: part_of
-  target_id: trk:2
-  description: Track 2 Data의 핵심 프로젝트
+  - type: validates
+    target_id: mh-3
+    description: MH3 데이터 모델링 가능성 검증
+  - type: enables
+    target_id: cond-b
+    description: Condition B 재현 패턴 10개 enable
+  - type: part_of
+    target_id: trk-2
+    description: Track 2 Data의 핵심 프로젝트
 validates:
-- mh:3
-- hyp:2-01
-- hyp:2-02
+- mh-3
+- hyp-2-01
+- hyp-2-02
 validated_by: []
-hypothesis_id: hyp:001
+hypothesis_id: hyp-001
 objective: 5개 코어 엔티티로 Loop 데이터 표현 가능성 검증
 success_criteria:
 - 스키마 3개월 안정 (변경 없음)
@@ -48,7 +48,7 @@ milestones:
 progress: 0.4
 risk_level: medium
 conditions_3y:
-- cond:b
+- cond-b
 tags:
 - project
 - ontology
@@ -61,7 +61,7 @@ tier: strategic
 impact_magnitude: high
 confidence: 0.65
 contributes:
-  - to: "cond:b"
+  - to: "cond-b"
     weight: 0.7
     description: "Ontology가 Condition B(재현 패턴 10개)의 핵심 기반"
 
@@ -76,7 +76,7 @@ realized_impact:
 ---
 # Project: Ontology v0.1
 
-> Project ID: `prj:001` | Track: `trk:2` Data | Status: Active (40%)
+> Project ID: `prj-001` | Track: `trk-2` Data | Status: Active (40%)
 
 ## 프로젝트 목표
 
@@ -136,11 +136,11 @@ graph TD
     MH3[MH3<br/>데이터 모델링 가능]
     Track2[Track 2<br/>Data]
 
-    PRJ001[prj:001<br/>Ontology v0.1]
+    PRJ001[prj-001<br/>Ontology v0.1]
 
-    TSK001[tsk:prj001-001<br/>Event 검증]
-    TSK002[tsk:prj001-002<br/>Episode 검증]
-    TSK003[tsk:prj001-003<br/>스키마 문서화]
+    TSK001[tsk-prj001-001<br/>Event 검증]
+    TSK002[tsk-prj001-002<br/>Episode 검증]
+    TSK003[tsk-prj001-003<br/>스키마 문서화]
 
     CondB[Condition B<br/>재현 패턴 10개]
 

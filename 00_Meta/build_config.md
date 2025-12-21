@@ -120,7 +120,7 @@ exclude_files:
 ### _Graph_Index.md 구조
 ```yaml
 graph_index:
-  sections:
+  sections-
     - name: "Strategy Layer"
       entity_types: [NorthStar, MetaHypothesis, Condition, Track]
     - name: "Project Layer"
@@ -151,15 +151,15 @@ required_fields:
 
 ### ID 패턴 검증
 ```yaml
-id_patterns:
-  ns: "^ns:\\d{3}$"
-  mh: "^mh:[1-4]$"
-  cond: "^cond:[a-e]$"
-  trk: "^trk:[1-6]$"
-  prj: "^prj:\\d{3}$"
-  tsk: "^tsk:\\d{3}-\\d{2}$"
-  hyp: "^hyp:\\d{3}$"
-  exp: "^exp:\\d{3}$"
+id_patterns-
+  ns- "^ns-\\d{3}$"
+  mh- "^mh-[1-4]$"
+  cond- "^cond-[a-e]$"
+  trk- "^trk-[1-6]$"
+  prj- "^prj-\\d{3}$"
+  tsk- "^tsk-\\d{3}-\\d{2}$"
+  hyp- "^hyp-\\d{3}$"
+  exp- "^exp-\\d{3}$"
 ```
 
 ### 관계 검증

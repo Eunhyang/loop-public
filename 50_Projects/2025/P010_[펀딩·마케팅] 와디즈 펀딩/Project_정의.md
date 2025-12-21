@@ -1,23 +1,23 @@
 ---
 entity_type: Project
-entity_id: "prj:010"
+entity_id: "prj-010"
 entity_name: "[펀딩·마케팅] 와디즈 펀딩"
 created: 2025-12-18
 updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:6"
+parent_id: "trk-6"
 aliases:
-  - "prj:010"
+  - "prj-010"
   - "[펀딩·마케팅] 와디즈 펀딩"
   - "prj-010"
 
 # === 관계 ===
 outgoing_relations: []
 validates:
-  - hyp:6-09
-  - hyp:6-10
+  - hyp-6-09
+  - hyp-6-10
 validated_by: []
 
 # === Project 전용 ===
@@ -36,14 +36,14 @@ realized_impact:
 experiments: []
 
 # === 분류 ===
-conditions_3y: ['cond:e']
+conditions_3y: ['cond-e']
 tags: []
 priority_flag: medium
 ---
 
 # [펀딩·마케팅] 와디즈 펀딩
 
-> Project ID: `prj:010` | Track: `trk:2` | Status: active
+> Project ID: `prj-010` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

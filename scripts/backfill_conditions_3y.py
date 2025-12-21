@@ -8,12 +8,12 @@ LOOP Vault conditions_3y Backfill Script v1.0
 - Track이 없으면 기본 매핑 사용
 
 Track → Condition 기본 매핑:
-- trk:1 (Product) → cond:a
-- trk:2 (Data) → cond:b
-- trk:3 (Content) → cond:a
-- trk:4 (Coaching) → cond:b, cond:d
-- trk:5 (Partnership) → cond:c, cond:d
-- trk:6 (Revenue) → cond:e
+- trk-1 (Product) → cond-a
+- trk-2 (Data) → cond-b
+- trk-3 (Content) → cond-a
+- trk-4 (Coaching) → cond-b, cond-d
+- trk-5 (Partnership) → cond-c, cond-d
+- trk-6 (Revenue) → cond-e
 """
 
 import os
@@ -25,16 +25,16 @@ from typing import Dict, List, Optional, Tuple
 
 # Track → Conditions 기본 매핑
 TRACK_TO_CONDITIONS = {
-    "trk:1": ["cond:a"],
-    "trk:2": ["cond:b"],
-    "trk:3": ["cond:a"],
-    "trk:4": ["cond:b", "cond:d"],
-    "trk:5": ["cond:c", "cond:d"],
-    "trk:6": ["cond:e"],
+    "trk-1": ["cond-a"],
+    "trk-2": ["cond-b"],
+    "trk-3": ["cond-a"],
+    "trk-4": ["cond-b", "cond-d"],
+    "trk-5": ["cond-c", "cond-d"],
+    "trk-6": ["cond-e"],
 }
 
 # 기본값 (Track을 찾을 수 없을 때)
-DEFAULT_CONDITIONS = ["cond:b"]
+DEFAULT_CONDITIONS = ["cond-b"]
 
 INCLUDE_PATHS = [
     "20_Strategy",

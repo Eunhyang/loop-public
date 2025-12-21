@@ -1,13 +1,13 @@
 ---
 entity_type: Condition
-entity_id: cond:e
+entity_id: cond-e
 entity_name: Condition_E_Team
 created: 2024-12-18
 updated: 2024-12-20
 status: in_progress
-parent_id: mh:4
+parent_id: mh-4
 aliases:
-- cond:e
+- cond-e
 - Condition_E_Team
 - cond-e
 - Team Readiness
@@ -17,7 +17,7 @@ outgoing_relations:
   description: 미충족 시 Lite 중심 전환
 validates: []
 validated_by:
-- mh:4
+- mh-4
 condition: 핵심 역할(PM/Dev/Data)이 갖춰진 팀인가?
 unlock: Global Schema, DTx 준비
 if_broken: 외주 병행, Lite 중심
@@ -43,7 +43,7 @@ break_triggers: []
 
 # Condition E: Team Readiness
 
-> 조건 ID: `cond:e` | 상태: In Progress | 위험도: Medium
+> 조건 ID: `cond-e` | 상태: In Progress | 위험도: Medium
 
 ## 조건 선언
 

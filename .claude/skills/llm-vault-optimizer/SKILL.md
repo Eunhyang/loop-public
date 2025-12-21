@@ -27,7 +27,7 @@ See `references/implementation_plan.md` for the complete P0/P1/P2 roadmap.
 
 Transform from informational document to **LLM boot protocol**.
 
-Required 6 sections:
+Required 6 sections-
 1. **Vault Goal** (1 sentence)
 2. **Entity Types + Canonical Locations** (table)
 3. **Mandatory Link Rules** (Task must link to Project/Condition)
@@ -38,7 +38,7 @@ Required 6 sections:
 ### 2. Create Strategy Index (P0)
 
 Create `20_Strategy/3Y_Conditions_{period}/_INDEX.md`:
-- List all Conditions by ID (cond:a through cond:e)
+- List all Conditions by ID (cond-a through cond-e)
 - Link to each Condition document
 - Show inter-Condition relationships
 
@@ -65,7 +65,7 @@ Add to templates:
 
 Field spec:
 ```yaml
-conditions_3y: ["cond:a", "cond:b"]  # Required, min 1 item
+conditions_3y: ["cond-a", "cond-b"]  # Required, min 1 item
 ```
 
 ### 5. Update Validation Scripts (P1)

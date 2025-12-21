@@ -49,18 +49,18 @@ EXCLUDE_FILES = [
     "_Graph_Index.md",
 ]
 
-# === ID 패턴 ===
+# === ID 패턴 (하이픈 형식) ===
 ID_PATTERNS = {
-    "ns": r"^ns:\d{3}$",
-    "mh": r"^mh:[1-4]$",
-    "cond": r"^cond:[a-e]$",
-    "trk": r"^trk:[1-6]$",
-    "prj": r"^prj:\d{3}$",
-    "tsk": r"^tsk:\d{3}-\d{2}$",
-    "hyp": r"^hyp:[1-6]-\d{2}$",  # Track기반: hyp:1-01, hyp:6-14
-    "exp": r"^exp:\d{3}$",
-    "pl": r"^pl:[1-9]$",          # ProductLine: pl:1 ~ pl:9
-    "ps": r"^ps:[1-9]$",          # PartnershipStage: ps:1 ~ ps:9
+    "ns": r"^ns-\d{3}$",
+    "mh": r"^mh-[1-4]$",
+    "cond": r"^cond-[a-e]$",
+    "trk": r"^trk-[1-6]$",
+    "prj": r"^prj-\d{3}$",
+    "tsk": r"^tsk-\d{3}-\d{2}$",
+    "hyp": r"^hyp-[1-6]-\d{2}$",  # Track기반: hyp-1-01, hyp-6-14
+    "exp": r"^exp-\d{3}$",
+    "pl": r"^pl-[1-9]$",          # ProductLine: pl-1 ~ pl-9
+    "ps": r"^ps-[1-9]$",          # PartnershipStage: ps-1 ~ ps-9
 }
 
 # === 필수 필드 ===
@@ -82,8 +82,8 @@ REQUIRED_FIELDS = {
 # False: hypothesis_question만 허용 (마이그레이션 완료 후)
 ALLOW_LEGACY_HYPOTHESIS = True
 
-# === 유효한 Condition IDs ===
-VALID_CONDITION_IDS = ["cond:a", "cond:b", "cond:c", "cond:d", "cond:e"]
+# === 유효한 Condition IDs (하이픈 형식) ===
+VALID_CONDITION_IDS = ["cond-a", "cond-b", "cond-c", "cond-d", "cond-e"]
 
 # === 유효한 상태값 ===
 VALID_STATUSES = ["planning", "active", "blocked", "done", "failed", "learning", "fixed", "assumed", "validating", "validated", "falsified", "in_progress", "pending", "completed"]
@@ -101,11 +101,12 @@ def extract_frontmatter(content: str) -> Optional[Dict]:
 
 
 def validate_id_format(entity_id: str) -> Tuple[bool, str]:
-    """ID 형식 검증"""
-    if not entity_id or ":" not in entity_id:
-        return False, "ID must be in format {type}:{number}"
+    """ID 형식 검증 (하이픈 형식: ns-001, prj-001, tsk-001-01)"""
+    if not entity_id or "-" not in entity_id:
+        return False, "ID must be in format {type}-{number} (e.g., prj-001)"
 
-    prefix = entity_id.split(":")[0]
+    # 첫 번째 하이픈 전까지가 prefix
+    prefix = entity_id.split("-")[0]
     pattern = ID_PATTERNS.get(prefix)
 
     if not pattern:
@@ -142,12 +143,12 @@ def validate_conditions_3y(frontmatter: Dict, entity_type: str) -> List[str]:
         errors.append("conditions_3y must have at least 1 condition")
         return errors
 
-    # 각 항목이 유효한 cond:* ID인지 체크
+    # 각 항목이 유효한 cond-* ID인지 체크
     for cond in conditions:
         if not isinstance(cond, str):
             errors.append(f"conditions_3y items must be strings, got: {type(cond)}")
-        elif not cond.startswith("cond:"):
-            errors.append(f"conditions_3y must reference cond:* IDs, got: {cond}")
+        elif not cond.startswith("cond-"):
+            errors.append(f"conditions_3y must reference cond-* IDs, got: {cond}")
         elif cond not in VALID_CONDITION_IDS:
             errors.append(f"conditions_3y contains invalid condition: {cond} (valid: {VALID_CONDITION_IDS})")
 

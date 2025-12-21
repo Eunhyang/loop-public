@@ -56,11 +56,11 @@ http://kkanban.sosilab.synology.me
 1. Dashboard에서 **[➕ New Task]** 클릭
 2. 정보 입력:
    - Task Name: `테스트 Task`
-   - Project: `prj:001` 선택
+   - Project: `prj-001` 선택
    - Assignee: `eunhyang` 선택
    - Priority: `Medium`
 3. **[Create Task]** 클릭
-4. 성공 메시지 확인: `Task created: tsk:XXX-XX`
+4. 성공 메시지 확인: `Task created: tsk-XXX-XX`
 5. 페이지 새로고침 → 새 Task 카드 확인
 
 ### Project 생성 테스트
@@ -88,7 +88,7 @@ ssh admin@kkanban.sosilab.synology.me
 cd /volume1/LOOP_CORE/vault/LOOP
 
 # Poetry 설치 (최초 1회)
-curl -sSL https://install.python-poetry.org | python3 -
+curl -sSL https-//install.python-poetry.org | python3 -
 
 # 의존성 설치
 poetry install --extras api
@@ -155,7 +155,7 @@ curl -X POST http://localhost:8081/api/tasks \
   -H "Content-Type: application/json" \
   -d '{
     "entity_name": "curl 테스트 Task",
-    "project_id": "prj:001",
+    "project_id": "prj-001",
     "assignee": "eunhyang",
     "priority": "high",
     "status": "todo"
@@ -166,7 +166,7 @@ curl -X POST http://localhost:8081/api/tasks \
 ```json
 {
   "success": true,
-  "task_id": "tsk:049-01",
+  "task_id": "tsk-049-01",
   "file_path": "50_Projects/2025/P001_Ontology/Tasks/curl_테스트_Task.md",
   "message": "Task created successfully"
 }

@@ -32,7 +32,7 @@ class VaultCache:
 
     사용법:
         cache = VaultCache(vault_path)
-        task = cache.get_task("tsk:001-01")
+        task = cache.get_task("tsk-001-01")
         tasks = cache.get_all_tasks(status="doing")
     """
 
@@ -156,9 +156,9 @@ class VaultCache:
         Task 조회 (mtime 체크하여 변경 시 자동 갱신)
 
         Args:
-            task_id: Task entity_id (예: "tsk:001-01")
+            task_id: Task entity_id (예: "tsk-001-01")
 
-        Returns:
+        Returns-
             Task frontmatter dict 또는 None
         """
         entry = self.tasks.get(task_id)
@@ -187,7 +187,7 @@ class VaultCache:
             status: 상태로 필터 (todo, doing, done, blocked)
             assignee: 담당자로 필터
 
-        Returns:
+        Returns-
             Task frontmatter 리스트
         """
         results = []
@@ -297,7 +297,7 @@ class VaultCache:
         max_id = 0
 
         for entity_id in self.tasks.keys():
-            match = re.match(r'tsk:(\d+)-(\d+)', entity_id)
+            match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
             if match:
                 main_num = int(match.group(1))
                 sub_num = int(match.group(2))
@@ -311,19 +311,19 @@ class VaultCache:
         if main == 0:
             main = 1
 
-        return f"tsk:{main:03d}-{sub:02d}"
+        return f"tsk-{main:03d}-{sub:02d}"
 
     def get_next_project_id(self) -> str:
         """다음 Project ID 생성"""
         max_num = 0
 
         for entity_id in self.projects.keys():
-            match = re.match(r'prj:(\d+)', entity_id)
+            match = re.match(r'prj-(\d+)', entity_id)
             if match:
                 num = int(match.group(1))
                 max_num = max(max_num, num)
 
-        return f"prj:{max_num + 1:03d}"
+        return f"prj-{max_num + 1:03d}"
 
     # ============================================
     # 내부 메서드
@@ -333,7 +333,7 @@ class VaultCache:
         """
         Task mtime 체크 후 변경 시 갱신
 
-        Returns:
+        Returns-
             True if refreshed or deleted, False if unchanged
         """
         try:

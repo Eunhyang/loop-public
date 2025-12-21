@@ -1,16 +1,16 @@
 ---
 entity_type: Task
-entity_id: "tsk:004-05"
+entity_id: "tsk-004-05"
 entity_name: "[dan2]"
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
 
 # === 계층 ===
-parent_id: "prj:004"
-project_id: "prj:004"
+parent_id: "prj-004"
+project_id: "prj-004"
 aliases:
-  - "tsk:004-05"
+  - "tsk-004-05"
   - "[dan2]"
   - "tsk-004-05"
 
@@ -27,14 +27,14 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: medium
 ---
 
 # [dan2]
 
-> Task ID: `tsk:004-05` | Project: `prj:004` | Status: planning
+> Task ID: `tsk-004-05` | Project: `prj-004` | Status: planning
 
 ## 목표
 
@@ -62,7 +62,7 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[prj:004]] - 소속 Project
+- [[prj-004]] - 소속 Project
 
 ---
 

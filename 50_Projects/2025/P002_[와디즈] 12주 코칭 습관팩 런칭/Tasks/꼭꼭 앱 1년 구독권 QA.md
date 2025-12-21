@@ -1,14 +1,14 @@
 ---
 entity_type: Task
-entity_id: tsk:002-05
+entity_id: tsk-002-05
 entity_name: 꼭꼭 앱 1년 구독권 QA
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
-parent_id: prj:002
-project_id: prj:002
+parent_id: prj-002
+project_id: prj-002
 aliases:
-- tsk:002-05
+- tsk-002-05
 - 꼭꼭 앱 1년 구독권 QA
 - tsk-002-05
 outgoing_relations: []
@@ -19,14 +19,14 @@ due: 2025-12-24
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: high
 ---
 
 # 꼭꼭 앱 1년 구독권 QA
 
-> Task ID: `tsk:002-05` | Project: `prj:002` | Status: planning
+> Task ID: `tsk-002-05` | Project: `prj-002` | Status: planning
 
 ## 목표
 
@@ -54,7 +54,7 @@ priority_flag: high
 
 ## 참고 문서
 
-- [[prj:002]] - 소속 Project
+- [[prj-002]] - 소속 Project
 
 ---
 

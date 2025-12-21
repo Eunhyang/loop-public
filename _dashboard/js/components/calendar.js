@@ -78,7 +78,7 @@ const Calendar = {
                     backgroundColor: this.getColorByPriority(task.priority),
                     borderColor: this.getColorByPriority(task.priority),
                     textColor: '#fff',
-                    extendedProps: {
+                    extendedProps- {
                         status: task.status,
                         assignee: task.assignee,
                         project_id: task.project_id,

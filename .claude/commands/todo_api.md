@@ -13,7 +13,32 @@
 
 ---
 
-## 0. /todo_api 실행 시 자동 수행
+## 0. 새 프로젝트 시작 시 (doc-init 스킬 사용)
+
+⚠️ **새로운 API 프로젝트를 시작할 때는 반드시 `doc-init` 스킬을 사용:**
+
+```
+새 프로젝트 시작
+    ↓
+1️⃣ doc-init 스킬 호출 → doc/{프로젝트}/ 폴더 자동 생성
+    ├─ techspec.md (기술 스펙 템플릿)
+    └─ todo.md (작업 목록 템플릿)
+    ↓
+2️⃣ techspec.md 작성 → 프로젝트 목표, 아키텍처, API 설계
+    ↓
+3️⃣ todo.md 작성 → 태스크 목록 정의
+    ↓
+4️⃣ 작업 시작 (아래 워크플로우 따름)
+```
+
+**doc-init 스킬 호출 방법:**
+```
+/doc-init {프로젝트명}
+```
+
+---
+
+## 0-1. /todo_api 실행 시 자동 수행
 
 ⚠️ **이 명령어 실행 시 아래 순서로 자동 확인:**
 
@@ -187,7 +212,7 @@ curl -X POST http://localhost:8081/api/tasks \
   -H "Content-Type: application/json" \
   -d '{
     "entity_name": "Test Task",
-    "project_id": "prj:001",
+    "project_id": "prj-001",
     "assignee": "eunhyang",
     "priority": "high",
     "status": "todo"
@@ -220,6 +245,48 @@ codex-claude-loop 완료 (Codex 리뷰 통과)
     - techspec.md (아키텍처 변경 시)
     ↓
 4️⃣ Git commit
+```
+
+---
+
+## 7-1. 프로젝트 완료 시 아카이브 (doc/done/ 이동)
+
+⚠️ **프로젝트의 모든 태스크가 완료되면 아카이브:**
+
+**완료 조건:**
+- todo.md 내 모든 태스크가 `[x]` 상태
+- 추가 작업 예정 없음
+- 문서화 완료
+
+**아카이브 프로세스:**
+```
+todo.md 100% 완료 확인
+    ↓
+1️⃣ 최종 문서 정리
+    - techspec.md 최종 업데이트
+    - 결과물 및 성과 기록
+    ↓
+2️⃣ 프로젝트 폴더 이동
+    doc/{프로젝트}/ → doc/done/{프로젝트}/
+    ↓
+3️⃣ Git commit (아카이브 완료)
+```
+
+**이동 명령어:**
+```bash
+mv doc/{프로젝트} doc/done/
+```
+
+**doc/done/ 폴더 구조:**
+```
+doc/
+├── {진행중 프로젝트}/     # 현재 작업중
+│   ├── techspec.md
+│   └── todo.md
+└── done/                  # 완료된 프로젝트 아카이브
+    └── {완료된 프로젝트}/
+        ├── techspec.md
+        └── todo.md
 ```
 
 ---
@@ -279,8 +346,9 @@ curl http://localhost:8081/health
 
 ### 자주 보는 문서
 
-- **작업 목록**: `doc/{프로젝트}/todo.md`
-- **기술 스펙**: `doc/{프로젝트}/techspec.md`
+- **아키텍처**: `doc/api/architecture.md` ⭐ (엔티티 계층, 캐시, 필터링 설계)
+- **작업 목록**: `doc/api/todo.md`
+- **기술 스펙**: `doc/api/techspec.md`
 - **API 문서**: `api/README.md`
 - **Quick Start**: `START_API_SERVER.md`
 - **Vault 스키마**: `00_Meta/schema_registry.md`
@@ -301,12 +369,20 @@ api/
     └── vault_utils.py   # Vault 파일 처리
 
 doc/
-└── {프로젝트}/           # 프로젝트별 문서
-    ├── techspec.md      # 기술 스펙
-    └── todo.md          # 작업 목록
+├── {진행중 프로젝트}/    # 현재 작업중인 프로젝트
+│   ├── techspec.md      # 기술 스펙
+│   └── todo.md          # 작업 목록
+└── done/                # 완료된 프로젝트 아카이브
+    └── {완료 프로젝트}/
+        ├── techspec.md
+        └── todo.md
 ```
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: 2025-12-19
+**Version**: 1.1.0
+**Last Updated**: 2025-12-21
+
+**Changes (v1.1.0):**
+- 섹션 0 추가: 새 프로젝트 시작 시 `doc-init` 스킬 사용
+- 섹션 7-1 추가: 프로젝트 완료 시 `doc/done/` 아카이브 프로세스

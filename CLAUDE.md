@@ -112,7 +112,7 @@ This Obsidian vault manages the **Inner Loop OS (ILOS)** strategy, ontology sche
 
 **Track 2 success conditions**:
 - High-density users: 50 ✅
-- Reproducible patterns: 10 ← **Ontology required**
+- Reproducible patterns- 10 ← **Ontology required**
 - Schema stability: 3 months ← **Ontology required**
 
 ---
@@ -166,14 +166,14 @@ LOOP/
 
 ### Strategy Layer
 ```yaml
-entity_type: NorthStar          # 10-year vision     | ID: ns:001
-entity_type: MetaHypothesis     # MH1-4             | ID: mh:1-4
-entity_type: Condition          # 3-year (A-E)      | ID: cond:a-e
-entity_type: Track              # 12-month (1-6)    | ID: trk:1-6
-entity_type: Project            # Experiment unit   | ID: prj:001-999
-entity_type: Task               # Execution unit    | ID: tsk:001-01
-entity_type: Hypothesis         # Validation target | ID: hyp:001-999
-entity_type: Experiment         # Validation test   | ID: exp:001-999
+entity_type: NorthStar          # 10-year vision     | ID: ns-001
+entity_type: MetaHypothesis     # MH1-4             | ID: mh-1-4
+entity_type: Condition          # 3-year (A-E)      | ID: cond-a-e
+entity_type: Track              # 12-month (1-6)    | ID: trk-1-6
+entity_type: Project            # Experiment unit   | ID: prj-001-999
+entity_type: Task               # Execution unit    | ID: tsk-001-01
+entity_type: Hypothesis         # Validation target | ID: hyp-001-999
+entity_type: Experiment         # Validation test   | ID: exp-001-999
 ```
 
 ### Ontology Layer
@@ -209,14 +209,14 @@ triggers           # Event triggers ActionExecution
 ```yaml
 ---
 entity_type: Condition
-entity_id: "cond:b"
+entity_id: "cond-b"
 entity_name: Condition_B_Loop_Dataset
 created: 2024-12-18
 updated: 2024-12-18
 status: in_progress
 
 # Hierarchy
-parent_id: "mh:3"
+parent_id: "mh-3"
 aliases: []
 
 # Relationships
@@ -225,7 +225,7 @@ outgoing_relations:
     target_id: "action:shutdown_data_strategy"
     description: "Data strategy shutdown"
 validates: []
-validated_by: ["trk:2"]
+validated_by: ["trk-2"]
 
 # Condition-specific
 unlock: "Enter 3-year strategy"
@@ -253,7 +253,7 @@ version: "0.1"
 
 # Ontology metadata
 parent: [LoopInstance]
-relations:
+relations-
   - type: contains
     source: Episode
     direction: incoming
@@ -326,13 +326,13 @@ Use this skill when:
 
 **For Tasks:**
 1. Collects required info (project_id, assignee, priority)
-2. Auto-generates next Task ID (e.g., `tsk:003-02`)
+2. Auto-generates next Task ID (e.g., `tsk-003-02`)
 3. Creates file in correct location (`50_Projects/{project}/Tasks/`)
 4. Runs validation and updates graph index
 
 **For Projects:**
 1. Collects required info (owner, parent_id)
-2. Auto-generates next Project ID (e.g., `prj:008`)
+2. Auto-generates next Project ID (e.g., `prj-008`)
 3. Creates project directory structure with `Tasks/` and `Results/` subfolders
 4. Creates `Project_정의.md` file
 5. Runs validation and updates graph index
@@ -383,7 +383,7 @@ For more details, see:
 ### Ontology-Strategy Gap Analysis
 1. Write ontology spec
 2. Check actual implementations (SoSi/KkokKkokFit)
-3. Analyze gaps:
+3. Analyze gaps-
    - In ontology only → Implementation plan
    - In implementation only → Extend ontology
 4. Reconcile:
@@ -421,14 +421,14 @@ poetry install
 #### ID Format Reference
 | Prefix | Pattern | Example | Entity Type |
 |--------|---------|---------|-------------|
-| `ns:` | `ns:NNN` | `ns:001` | NorthStar |
-| `mh:` | `mh:1-4` | `mh:3` | MetaHypothesis |
-| `cond:` | `cond:a-e` | `cond:b` | Condition |
-| `trk:` | `trk:1-6` | `trk:2` | Track |
-| `prj:` | `prj:NNN` | `prj:003` | Project |
-| `tsk:` | `tsk:NNN-NN` | `tsk:003-01` | Task |
-| `hyp:` | `hyp:NNN` | `hyp:001` | Hypothesis |
-| `exp:` | `exp:NNN` | `exp:001` | Experiment |
+| `ns-` | `ns-NNN` | `ns-001` | NorthStar |
+| `mh-` | `mh-1-4` | `mh-3` | MetaHypothesis |
+| `cond-` | `cond-a-e` | `cond-b` | Condition |
+| `trk-` | `trk-1-6` | `trk-2` | Track |
+| `prj-` | `prj-NNN` | `prj-003` | Project |
+| `tsk-` | `tsk-NNN-NN` | `tsk-003-01` | Task |
+| `hyp-` | `hyp-NNN` | `hyp-001` | Hypothesis |
+| `exp-` | `exp-NNN` | `exp-001` | Experiment |
 
 #### 1. Validate Schema
 ```bash
@@ -652,11 +652,11 @@ curl http://nas-ip:8080
 Due to SMB mount, direct git commands may fail with lock errors. Use `/safe-commit` command or let the NAS daemon handle commits (every 15 minutes).
 
 ### Real Implementation Projects
-This vault manages strategy and ontology **specifications**. Actual implementations:
+This vault manages strategy and ontology **specifications**. Actual implementations-
 - **SoSi**: `/Users/gim-eunhyang/dev/flutter/sosi`
 - **KkokKkokFit**: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
 
-**When to reference implementations:**
+**When to reference implementations-**
 - Ontology-implementation gap analysis
 - Validating that ontology entities map to real data structures
 - Checking if v0.1 spec constraints match actual usage
@@ -762,7 +762,7 @@ Available skills in `.claude/skills/`:
 
 ## Utility Scripts (One-time Migrations)
 
-Located in `scripts/`, these are typically used once for data migrations:
+Located in `scripts/`, these are typically used once for data migrations-
 
 | Script | Purpose |
 |--------|---------|

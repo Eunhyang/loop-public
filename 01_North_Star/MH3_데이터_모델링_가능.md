@@ -1,21 +1,21 @@
 ---
 entity_type: MetaHypothesis
-entity_id: mh:3
+entity_id: mh-3
 entity_name: MH3_데이터_모델링_가능
 created: 2024-12-18
 updated: 2024-12-18
 status: validating
-parent_id: ns:001
+parent_id: ns-001
 aliases:
-- mh:3
+- mh-3
 - MH3_데이터_모델링_가능
 - mh-3
 outgoing_relations: []
 validates: []
 validated_by:
-- trk:2
-- prj:001
-- cond:b
+- trk-2
+- prj-001
+- cond-b
 hypothesis_text: 정서-섭식-습관 루프는 데이터로 모델링 가능한 구조를 가진다
 if_broken: 회사 존재 이유 재검토
 evidence_status: validating

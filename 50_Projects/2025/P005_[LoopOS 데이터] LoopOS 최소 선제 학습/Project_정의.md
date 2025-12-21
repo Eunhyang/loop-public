@@ -1,23 +1,23 @@
 ---
 entity_type: Project
-entity_id: "prj:005"
+entity_id: "prj-005"
 entity_name: "[LoopOS 데이터] LoopOS 최소 선제 학습"
 created: 2025-12-18
 updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:2"
+parent_id: "trk-2"
 aliases:
-  - "prj:005"
+  - "prj-005"
   - "[LoopOS 데이터] LoopOS 최소 선제 학습"
   - "prj-005"
 
 # === 관계 ===
 outgoing_relations: []
 validates:
-  - hyp:2-01
-  - hyp:2-04
+  - hyp-2-01
+  - hyp-2-04
 validated_by: []
 
 # === Project 전용 ===
@@ -36,14 +36,14 @@ realized_impact:
 experiments: []
 
 # === 분류 ===
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: medium
 ---
 
 # [LoopOS 데이터] LoopOS 최소 선제 학습
 
-> Project ID: `prj:005` | Track: `trk:2` | Status: active
+> Project ID: `prj-005` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

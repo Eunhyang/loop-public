@@ -1,14 +1,14 @@
 ---
 entity_type: Task
-entity_id: tsk:003-03
+entity_id: tsk-003-03
 entity_name: Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
-parent_id: prj:003
-project_id: prj:003
+parent_id: prj-003
+project_id: prj-003
 aliases:
-- tsk:003-03
+- tsk-003-03
 - Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화
 - tsk-003-03
 outgoing_relations: []
@@ -19,14 +19,14 @@ due: 2025-12-19
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: high
 ---
 
 # Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화
 
-> Task ID: `tsk:003-03` | Project: `prj:003` | Status: planning
+> Task ID: `tsk-003-03` | Project: `prj-003` | Status: planning
 
 ## 목표
 
@@ -54,7 +54,7 @@ Loop OS V0 리포트 지표(식사 시간, 포만감 변화, 감정 패턴, 폭�
 
 ## 참고 문서
 
-- [[prj:003]] - 소속 Project
+- [[prj-003]] - 소속 Project
 
 ---
 

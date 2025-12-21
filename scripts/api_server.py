@@ -42,7 +42,7 @@ MEMBERS_FILE = VAULT_DIR / "00_Meta/members.yaml"
 # ============================================
 class TaskCreate(BaseModel):
     entity_name: str = Field(..., description="Task 이름")
-    project_id: str = Field(..., description="프로젝트 ID (예: prj:001)")
+    project_id: str = Field(..., description="프로젝트 ID (예: prj-001)")
     assignee: str = Field(..., description="담당자 ID (예: eunhyang)")
     priority: str = Field(default="medium", description="우선순위: low/medium/high")
     due: Optional[str] = Field(default=None, description="마감일 (YYYY-MM-DD)")
@@ -136,8 +136,8 @@ def get_next_task_id() -> str:
             continue
 
         entity_id = frontmatter['entity_id']
-        # tsk:001-01 형식에서 숫자 추출
-        match = re.match(r'tsk:(\d+)-(\d+)', entity_id)
+        # tsk-001-01 형식에서 숫자 추출
+        match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
         if match:
             main_num = int(match.group(1))
             sub_num = int(match.group(2))
@@ -152,7 +152,7 @@ def get_next_task_id() -> str:
     if main == 0:
         main = 1
 
-    return f"tsk:{main:03d}-{sub:02d}"
+    return f"tsk-{main:03d}-{sub:02d}"
 
 def get_next_project_id() -> str:
     """다음 Project ID 생성"""
@@ -165,12 +165,12 @@ def get_next_project_id() -> str:
             num = int(match.group(1))
             max_num = max(max_num, num)
 
-    return f"prj:{max_num + 1:03d}"
+    return f"prj-{max_num + 1:03d}"
 
 def find_project_dir(project_id: str) -> Optional[Path]:
     """Project ID로 프로젝트 디렉토리 찾기"""
-    # project_id: "prj:001" → "P001"
-    match = re.match(r'prj:(\d+)', project_id)
+    # project_id: "prj-001" → "P001"
+    match = re.match(r'prj-(\d+)', project_id)
     if not match:
         return None
 
@@ -428,7 +428,7 @@ def create_project(project: ProjectCreate):
 
     # 1. Project ID 생성
     project_id = get_next_project_id()
-    project_num = re.match(r'prj:(\d+)', project_id).group(1)
+    project_num = re.match(r'prj-(\d+)', project_id).group(1)
 
     # 2. 프로젝트 디렉토리 생성
     dir_name = f"P{project_num}_{sanitize_filename(project.entity_name)}"

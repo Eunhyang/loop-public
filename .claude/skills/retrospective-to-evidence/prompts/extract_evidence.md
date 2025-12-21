@@ -158,7 +158,7 @@ inconclusive: attribution_share < 0.3
 (와디즈 펀딩 회고 전문...)
 
 ## 프로젝트 정보
-- Project ID: prj:010
+- Project ID: prj-010
 - 목표: 매출 1200만원
 - 실제 결과: 매출 250만원
 ```

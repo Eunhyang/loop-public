@@ -6,12 +6,56 @@
 .calendar-view {
     display: none;
     padding: 20px;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 230px);  /* header 60px + tabs 50px + filterBar 40px + padding */
     overflow: auto;
 }
 
 .calendar-view.active {
     display: block;
+}
+
+/* Priority Legend */
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    background: var(--bg-primary, #fff);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.legend-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b7280);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-primary, #374151);
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.legend-dot.high {
+    background-color: #ef4444;
+}
+
+.legend-dot.medium {
+    background-color: #f59e0b;
+}
+
+.legend-dot.low {
+    background-color: #22c55e;
 }
 
 /* Calendar Container */

@@ -1,15 +1,15 @@
 ---
 entity_type: Task
-entity_id: "tsk:{{PRJ_NUMBER}}-{{SEQ}}"
+entity_id: "tsk-{{PRJ_NUMBER}}-{{SEQ}}"
 entity_name: "{{TASK_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: planning
 
 # === 계층 ===
-parent_id: "prj:{{PRJ_NUMBER}}"
-project_id: "prj:{{PRJ_NUMBER}}"
-aliases: ["tsk:{{PRJ_NUMBER}}-{{SEQ}}"]
+parent_id: "prj-{{PRJ_NUMBER}}"
+project_id: "prj-{{PRJ_NUMBER}}"
+aliases: ["tsk-{{PRJ_NUMBER}}-{{SEQ}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -24,7 +24,7 @@ estimated_hours: null
 actual_hours: null
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
+conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
 # === 분류 ===
 tags: []
@@ -33,7 +33,7 @@ priority_flag: medium
 
 # {{TASK_NAME}}
 
-> Task ID: `tsk:{{PRJ_NUMBER}}-{{SEQ}}` | Project: `prj:{{PRJ_NUMBER}}` | Status: planning
+> Task ID: `tsk-{{PRJ_NUMBER}}-{{SEQ}}` | Project: `prj-{{PRJ_NUMBER}}` | Status: planning
 
 ## 목표
 
@@ -67,7 +67,7 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[prj:{{PRJ_NUMBER}}]] - 소속 Project
+- [[prj-{{PRJ_NUMBER}}]] - 소속 Project
 
 ---
 

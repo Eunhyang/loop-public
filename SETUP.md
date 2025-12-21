@@ -76,7 +76,7 @@ git branch
 ### Step 2: Obsidian 설치 및 Vault 열기
 
 1. **Obsidian 다운로드**
-   - 공식 사이트: https://obsidian.md
+   - 공식 사이트: https-//obsidian.md
    - 무료 버전으로 충분합니다
 
 2. **Vault 열기**
@@ -278,7 +278,7 @@ cp 00_Meta/_TEMPLATES/template_hypothesis.md \
 ```yaml
 ---
 entity_type: Hypothesis
-entity_id: hyp:001
+entity_id: hyp-001
 entity_name: H_my_hypothesis
 created: 2025-12-18
 updated: 2025-12-18
@@ -487,14 +487,14 @@ chmod +x .git/hooks/pre-commit
 
 | Prefix | 패턴 | 예시 | Entity Type |
 |--------|------|------|-------------|
-| `ns:` | `ns:NNN` | `ns:001` | NorthStar |
-| `mh:` | `mh:1-4` | `mh:3` | MetaHypothesis |
-| `cond:` | `cond:a-e` | `cond:b` | Condition |
-| `trk:` | `trk:1-6` | `trk:2` | Track |
-| `prj:` | `prj:NNN` | `prj:003` | Project |
-| `tsk:` | `tsk:NNN-NN` | `tsk:003-01` | Task |
-| `hyp:` | `hyp:NNN` | `hyp:001` | Hypothesis |
-| `exp:` | `exp:NNN` | `exp:001` | Experiment |
+| `ns-` | `ns-NNN` | `ns-001` | NorthStar |
+| `mh-` | `mh-1-4` | `mh-3` | MetaHypothesis |
+| `cond-` | `cond-a-e` | `cond-b` | Condition |
+| `trk-` | `trk-1-6` | `trk-2` | Track |
+| `prj-` | `prj-NNN` | `prj-003` | Project |
+| `tsk-` | `tsk-NNN-NN` | `tsk-003-01` | Task |
+| `hyp-` | `hyp-NNN` | `hyp-001` | Hypothesis |
+| `exp-` | `exp-NNN` | `exp-001` | Experiment |
 
 ---
 

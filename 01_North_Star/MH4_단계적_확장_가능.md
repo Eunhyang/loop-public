@@ -1,22 +1,22 @@
 ---
 entity_type: MetaHypothesis
-entity_id: mh:4
+entity_id: mh-4
 entity_name: MH4_단계적_확장_가능
 created: 2024-12-18
 updated: 2024-12-20
 status: validating
-parent_id: ns:001
+parent_id: ns-001
 aliases:
-- mh:4
+- mh-4
 - MH4_단계적_확장_가능
 - mh-4
 outgoing_relations: []
 validates: []
 validated_by:
-- trk:5
-- trk:6
-- cond:d
-- cond:e
+- trk-5
+- trk-6
+- cond-d
+- cond-e
 hypothesis_text: 비규제 → 의료 → 글로벌로 단계적 확장 경로가 가능하다
 if_broken: 의료 우선 전략으로 전환
 evidence_status: validating
@@ -55,7 +55,7 @@ supports:
 
 # MH4: 단계적 확장 가능
 
-> 가설 ID: `mh:4` | 상태: Validating | 신뢰도: 50%
+> 가설 ID: `mh-4` | 상태: Validating | 신뢰도: 50%
 
 ## 가설 선언
 

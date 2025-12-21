@@ -53,7 +53,7 @@ def create_project(project: ProjectCreate):
 
     # 1. Project ID 생성 (캐시 기반)
     project_id = cache.get_next_project_id()
-    project_num = re.match(r'prj:(\d+)', project_id).group(1)
+    project_num = re.match(r'prj-(\d+)', project_id).group(1)
 
     # 2. 프로젝트 디렉토리 생성
     dir_name = f"P{project_num}_{sanitize_filename(project.entity_name)}"

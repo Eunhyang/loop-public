@@ -25,7 +25,7 @@ Fixed entry points + Query recipes + Redundant link paths (Palantir-style safety
 
 **File**: `_ENTRY_POINT.md`
 
-**Action**: Rewrite as LLM boot protocol with 6 required sections:
+**Action**: Rewrite as LLM boot protocol with 6 required sections-
 
 ```markdown
 # LOOP Vault LLM Entry Point
@@ -36,12 +36,12 @@ Inner Loop OS 스타트업의 전략-실행 추적 시스템
 ## 2. Entity Types & Locations
 | Type | ID Pattern | Canonical Path |
 |------|------------|----------------|
-| NorthStar | ns:001 | 01_North_Star/ |
-| MetaHypothesis | mh:1-4 | 01_North_Star/ |
-| Condition | cond:a-e | 20_Strategy/3Y_Conditions_{period}/ |
-| Track | trk:1-6 | 20_Strategy/12M_Tracks/{year}/ |
-| Project | prj:001-999 | 50_Projects/{year}/ |
-| Task | tsk:001-01 | 50_Projects/{year}/P*/Tasks/ |
+| NorthStar | ns-001 | 01_North_Star/ |
+| MetaHypothesis | mh-1-4 | 01_North_Star/ |
+| Condition | cond-a-e | 20_Strategy/3Y_Conditions_{period}/ |
+| Track | trk-1-6 | 20_Strategy/12M_Tracks/{year}/ |
+| Project | prj-001-999 | 50_Projects/{year}/ |
+| Task | tsk-001-01 | 50_Projects/{year}/P*/Tasks/ |
 
 ## 3. Mandatory Link Rules
 - Task → must have parent_id (Project)
@@ -81,20 +81,20 @@ entity_name: 3Y Conditions Index
 
 | ID | Name | Status | Parent MH |
 |----|------|--------|-----------|
-| cond:a | Condition_A_Market_PMF | planning | mh:1 |
-| cond:b | Condition_B_Loop_Dataset | in_progress | mh:3 |
-| cond:c | Condition_C_Global_Data | planning | mh:3 |
-| cond:d | Condition_D_Healthcare | planning | mh:2 |
-| cond:e | Condition_E_Revenue | planning | mh:4 |
+| cond-a | Condition_A_Market_PMF | planning | mh-1 |
+| cond-b | Condition_B_Loop_Dataset | in_progress | mh-3 |
+| cond-c | Condition_C_Global_Data | planning | mh-3 |
+| cond-d | Condition_D_Healthcare | planning | mh-2 |
+| cond-e | Condition_E_Revenue | planning | mh-4 |
 
 ## Condition Dependencies
 
 ```mermaid
 graph TD
-    A[cond:a] --> B[cond:b]
-    B --> C[cond:c]
-    A --> D[cond:d]
-    D --> E[cond:e]
+    A[cond-a] --> B[cond-b]
+    B --> C[cond-c]
+    A --> D[cond-d]
+    D --> E[cond-e]
 ```
 
 ## Documents
@@ -143,7 +143,7 @@ entity_name: LLM Query Recipes
 ## Q2: "Condition B 관련 모든 작업"
 
 1. `20_Strategy/3Y_Conditions_{period}/Condition_B_Loop_Dataset.md` - 조건 정의
-2. `_Graph_Index.md` - Parent-Child에서 cond:b → trk:2/4 → prj:* → tsk:*
+2. `_Graph_Index.md` - Parent-Child에서 cond-b → trk-2/4 → prj-* → tsk-*
 3. (Optional) 개별 Task 파일
 
 **Expected reads**: 2-3
@@ -169,7 +169,7 @@ entity_name: LLM Query Recipes
 ## Q5: "Track 2의 진행 상황"
 
 1. `20_Strategy/12M_Tracks/{year}/Track_2_Data.md` - Track 정의 및 metrics
-2. `_Graph_Index.md` - trk:2의 하위 Project/Task 상태
+2. `_Graph_Index.md` - trk-2의 하위 Project/Task 상태
 
 **Expected reads**: 2
 
@@ -197,7 +197,7 @@ entity_name: LLM Query Recipes
 **Add field**:
 ```yaml
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond:{{LETTER}}"]  # 최소 1개 필수
+conditions_3y: ["cond-{{LETTER}}"]  # 최소 1개 필수
 ```
 
 ---
@@ -231,9 +231,9 @@ def validate_conditions_3y(frontmatter: Dict) -> List[str]:
         if not isinstance(conditions, list):
             errors.append("conditions_3y must be a list")
         else:
-            for cond in conditions:
-                if not cond.startswith("cond:"):
-                    errors.append(f"conditions_3y must reference cond:* IDs, got: {cond}")
+            for cond in conditions-
+                if not cond.startswith("cond-"):
+                    errors.append(f"conditions_3y must reference cond-* IDs, got: {cond}")
 
     return errors
 ```
@@ -288,12 +288,12 @@ def check_orphans(entities: Dict[str, Dict]) -> List[str]:
 4. Report changes
 
 **Mapping** (based on current structure):
-- `trk:1 → cond:a` (Product)
-- `trk:2 → cond:b` (Data)
-- `trk:3 → cond:a` (Content)
-- `trk:4 → cond:b, cond:d` (Coaching)
-- `trk:5 → cond:c, cond:d` (Partnership)
-- `trk:6 → cond:e` (Revenue)
+- `trk-1 → cond-a` (Product)
+- `trk-2 → cond-b` (Data)
+- `trk-3 → cond-a` (Content)
+- `trk-4 → cond-b, cond-d` (Coaching)
+- `trk-5 → cond-c, cond-d` (Partnership)
+- `trk-6 → cond-e` (Revenue)
 
 ---
 
@@ -338,7 +338,7 @@ def generate_json_index(entities: Dict, output_path: str):
 
         # Build conditions_3y index
         conditions = fm.get("conditions_3y", [])
-        for cond in conditions:
+        for cond in conditions-
             if cond not in graph["conditions_3y_index"]:
                 graph["conditions_3y_index"][cond] = []
             graph["conditions_3y_index"][cond].append(entity_id)

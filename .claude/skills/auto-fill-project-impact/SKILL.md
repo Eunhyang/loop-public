@@ -71,8 +71,8 @@ Project의 Expected Impact 필드를 LLM이 제안합니다.
 
 ```
 1. 어떤 프로젝트의 Impact를 채울까요?
-   - prj:010 (와디즈 펀딩)
-   - prj:011 (CoachOS Phase2)
+   - prj-010 (와디즈 펀딩)
+   - prj-011 (CoachOS Phase2)
    - 직접 입력
 ```
 
@@ -135,7 +135,7 @@ confidence:
   reasoning: "첫 펀딩 시도로 불확실성 존재"
 
 contributes:
-  - condition: "cond:b"
+  - condition: "cond-b"
     weight: 0.4
     description: "패턴 발견 기여"
 ```
@@ -145,7 +145,7 @@ contributes:
 ```
 ## Impact Preview
 
-**Project**: prj:010 (와디즈 펀딩)
+**Project**: prj-010 (와디즈 펀딩)
 
 ### Expected Score 계산
 - tier: strategic (magnitude_points: 10/6/3)
@@ -156,7 +156,7 @@ contributes:
 
 ### 전략 연결
 contributes:
-  - cond:b (Loop Dataset) - 40%
+  - cond-b (Loop Dataset) - 40%
 
 ### 판단 근거
 - tier: 신규 시장 검증으로 비전에 직접 기여
@@ -173,7 +173,7 @@ AskUserQuestion 도구를 사용하여 확인:
 
 ```yaml
 question: "Impact Preview를 확인했습니다. 어떻게 하시겠습니까?"
-options:
+options-
   - label: "Accept"
     description: "이대로 Project frontmatter를 업데이트합니다"
   - label: "Edit"
@@ -185,7 +185,7 @@ options:
 **Edit 선택 시:**
 ```yaml
 question: "어떤 필드를 수정할까요?"
-options:
+options-
   - label: "tier"
     description: "현재: strategic"
   - label: "impact_magnitude"
@@ -208,7 +208,7 @@ tier: strategic
 impact_magnitude: high
 confidence: 0.6
 contributes:
-  - condition: "cond:b"
+  - condition: "cond-b"
     weight: 0.4
     description: "패턴 발견 기여"
 ```
@@ -252,7 +252,7 @@ build_impact.py를 실행할까요? [Y/n]
 
 ```yaml
 contributes:
-  - condition: "cond:a"    # 연결된 Condition ID
+  - condition: "cond-a"    # 연결된 Condition ID
     weight: 0.3            # 기여 비율 (0.0-1.0)
     description: "..."     # 기여 설명
 ```
@@ -282,8 +282,8 @@ tier: strategic, magnitude: high, confidence: 0.6
 사용자: 와디즈 펀딩 프로젝트 Impact 채워줘
 
 Claude: 프로젝트를 확인했습니다.
-        → prj:010 (와디즈 펀딩)
-        → parent: trk:5 (Track 5: 유통)
+        → prj-010 (와디즈 펀딩)
+        → parent: trk-5 (Track 5: 유통)
 
         [컨텍스트 수집 중...]
 

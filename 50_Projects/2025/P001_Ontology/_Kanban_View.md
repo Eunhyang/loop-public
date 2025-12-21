@@ -1,6 +1,6 @@
 # P001 Ontology v0.1 - Kanban Board
 
-> **View Type**: Kanban | **Project**: prj:001 | **Created**: 2025-12-18
+> **View Type**: Kanban | **Project**: prj-001 | **Created**: 2025-12-18
 
 > 이 뷰는 **읽기 전용**입니다. Task 상태를 변경하려면 해당 Task 파일의 frontmatter를 직접 수정하세요.
 
@@ -116,4 +116,4 @@ SORT priority DESC, due ASC
 ---
 
 **View Created**: 2025-12-18
-**Project**: [[prj:001]] Ontology v0.1
+**Project**: [[prj-001]] Ontology v0.1

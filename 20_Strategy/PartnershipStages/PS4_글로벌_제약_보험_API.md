@@ -1,22 +1,22 @@
 ---
 entity_type: PartnershipStage
-entity_id: ps:4
+entity_id: ps-4
 entity_name: PS4_글로벌_제약_보험_API
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: pl:5
+parent_id: pl-5
 aliases:
-- ps:4
+- ps-4
 - PS4_글로벌_제약_보험_API
 - Stage 4 글로벌 제약/보험 API
 outgoing_relations:
 - type: unlocked_by
-  target_id: pl:5
+  target_id: pl-5
   description: PL5 GLP-1 Behavioral OS v1 완료 필요
 validates: []
 validated_by:
-- pl:5
+- pl-5
 description: 글로벌 제약사/보험사 API 파트너십
 partner_type: 글로벌 제약사, 보험사
 unlock_condition: GLP-1 Behavioral OS v1 완료
@@ -38,7 +38,7 @@ priority_flag: critical
 
 # PS4: 글로벌 제약/보험 API
 
-> Partnership Stage ID: `ps:4` | 상태: Planning | 기간: 2028+
+> Partnership Stage ID: `ps-4` | 상태: Planning | 기간: 2028+
 
 ## 개요
 

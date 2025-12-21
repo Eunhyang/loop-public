@@ -1,21 +1,21 @@
 ---
 entity_type: Track
-entity_id: trk:5
+entity_id: trk-5
 entity_name: Track_5_Partnership
 created: 2024-12-18
 updated: 2024-12-18
 status: planning
-parent_id: cond:c
+parent_id: cond-c
 aliases:
-- trk:5
+- trk-5
 - Track_5_Partnership
 - trk-5
 outgoing_relations:
 - type: enables
-  target_id: trk:6
+  target_id: trk-6
   description: 의료 제휴가 DTx/B2B 수익 기반
 - type: depends_on
-  target_id: trk:2
+  target_id: trk-2
   description: 데이터가 의료 파트너십 근거
 validates: []
 validated_by: []
@@ -38,7 +38,7 @@ objectives:
   status: 시작 전
 progress: 0.1
 risk_level: medium
-conditions_3y: ['cond:c', 'cond:d']
+conditions_3y: ['cond-c', 'cond-d']
 tags:
 - track
 - 12month

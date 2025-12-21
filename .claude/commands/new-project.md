@@ -26,7 +26,7 @@
    - **나중에 채우기** → 일단 null로 생성
 
 3. **자동 처리**
-   - 다음 Project ID 자동 생성 (prj:NNN)
+   - 다음 Project ID 자동 생성 (prj-NNN)
    - 프로젝트 폴더 구조 생성
    - Project_정의.md 파일 생성 (expected_impact 포함)
    - Schema validation 실행

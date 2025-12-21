@@ -18,14 +18,14 @@
 ```
 
 **Claude가 물어볼 것:**
-1. ✅ **프로젝트 ID** (예: `prj:001`)
+1. ✅ **프로젝트 ID** (예: `prj-001`)
 2. ✅ **담당자** (예: `김코치`)
 3. ⚪ 상위 태스크 (선택, 없으면 Enter)
 4. ⚪ 우선순위 (선택, 기본값: medium)
 
 **결과:**
 - ✅ Task 파일 자동 생성: `50_Projects/P001_XXX/Tasks/작업명.md`
-- ✅ ID 자동 할당: `tsk:003-05` 같은 형식
+- ✅ ID 자동 할당: `tsk-003-05` 같은 형식
 - ✅ Validation 자동 실행
 - ✅ Graph Index 자동 업데이트
 
@@ -42,7 +42,7 @@
 
 **Claude가 물어볼 것:**
 1. ✅ **책임자** (owner, 예: `김개발`)
-2. ✅ **상위 Track/Hypothesis** (예: `trk:2`, `hyp:005`)
+2. ✅ **상위 Track/Hypothesis** (예: `trk-2`, `hyp-005`)
 3. ⚪ 우선순위 (선택, 기본값: medium)
 4. ✅ **Expected Impact 설정** (새로 추가!)
    - 자동 채우기 → LLM이 tier/magnitude/confidence 제안
@@ -53,7 +53,7 @@
 - ✅ 프로젝트 폴더 자동 생성: `50_Projects/P008_프로젝트명/`
 - ✅ 하위 폴더 생성: `Tasks/`, `Results/`
 - ✅ Project 정의 파일 생성: `Project_정의.md` (expected_impact 포함)
-- ✅ ID 자동 할당: `prj:008` 같은 형식
+- ✅ ID 자동 할당: `prj-008` 같은 형식
 
 ---
 
@@ -67,11 +67,11 @@ User: "Episode 엔티티 검증 태스크 만들어줘"
 Claude: Task를 생성하겠습니다. 몇 가지 정보가 필요합니다:
 
 [질문 1] 어떤 프로젝트에 속하나요?
-- prj:001 (Ontology v0.1)
-- prj:002 (CoachOS Phase1)
+- prj-001 (Ontology v0.1)
+- prj-002 (CoachOS Phase1)
 - 기타
 
-User: "prj:001"
+User: "prj-001"
 
 [질문 2] 담당자는 누구인가요?
 User: "myunghak"
@@ -84,7 +84,7 @@ User: "myunghak"
 User: "high"
 
 Claude: ✅ Task 생성 완료!
-- ID: tsk:001-02
+- ID: tsk-001-02
 - 파일: 50_Projects/P001_Ontology_v0.1/Tasks/Episode_엔티티_검증.md
 - Schema validation: ✅ 통과
 - Graph index: ✅ 업데이트됨
@@ -101,11 +101,11 @@ Claude: Project를 생성하겠습니다. 몇 가지 정보가 필요합니다:
 User: "Founder + 코치 팀"
 
 [질문 2] 상위 Track 또는 Hypothesis ID는?
-- trk:2 (Track 2: Data)
-- trk:4 (Track 4: Coaching)
+- trk-2 (Track 2: Data)
+- trk-4 (Track 4: Coaching)
 - 기타
 
-User: "trk:2"
+User: "trk-2"
 
 [질문 3] Expected Impact를 어떻게 설정할까요?
 - 자동 채우기 (LLM이 분석 후 제안)
@@ -118,12 +118,12 @@ Claude: 컨텍스트 분석 중... 제안:
 - tier: strategic (MH3 검증 + Condition B 기여)
 - impact_magnitude: high
 - confidence: 0.65
-- contributes: cond:b (weight: 0.7)
+- contributes: cond-b (weight: 0.7)
 
 User: "Accept"
 
 Claude: ✅ Project 생성 완료!
-- ID: prj:008
+- ID: prj-008
 - 폴더: 50_Projects/P008_Pattern_Discovery_v2/
 - expected_impact: ✅ 채워짐
 - Schema validation: ✅ 통과
@@ -141,13 +141,13 @@ Claude: Project를 생성하겠습니다.
 User: "미정"
 
 [질문 2] 상위 Track 또는 Hypothesis ID는?
-User: "trk:6"
+User: "trk-6"
 
 [질문 3] Expected Impact를 어떻게 설정할까요?
 User: "None으로 설정"
 
 Claude: ✅ Project 생성 완료!
-- ID: prj:009
+- ID: prj-009
 - expected_impact: tier="none" (계산 제외)
 ```
 
@@ -172,21 +172,21 @@ Claude: ✅ Project 생성 완료!
 **방법 2: Claude에게 요청**
 
 ```
-"tsk:001-02 상태를 in_progress로 변경해줘"
+"tsk-001-02 상태를 in_progress로 변경해줘"
 "Task 003-05 완료 처리해줘"
 ```
 
 ### Task 담당자 변경
 
 ```
-"tsk:003-01 담당자를 김코치로 바꿔줘"
+"tsk-003-01 담당자를 김코치로 바꿔줘"
 "이 태스크 담당자를 이코치로 변경"
 ```
 
 ### Task 우선순위 변경
 
 ```
-"tsk:002-03 우선순위를 high로 올려줘"
+"tsk-002-03 우선순위를 high로 올려줘"
 ```
 
 ---
@@ -196,7 +196,7 @@ Claude: ✅ Project 생성 완료!
 ### ❌ 절대 하지 말 것
 
 1. **Task ID 직접 입력 금지**
-   - ❌ `entity_id: tsk:999-99` 수동 작성
+   - ❌ `entity_id: tsk-999-99` 수동 작성
    - ✅ Claude가 자동으로 다음 ID 할당
 
 2. **잘못된 Status 값 사용 금지**
@@ -229,13 +229,13 @@ Claude: ✅ Project 생성 완료!
 ## 🔍 ID 형식 참고
 
 ### Task ID
-- 형식: `tsk:NNN-NN`
-- 예: `tsk:001-01`, `tsk:015-08`, `tsk:042-03`
+- 형식: `tsk-NNN-NN`
+- 예: `tsk-001-01`, `tsk-015-08`, `tsk-042-03`
 - 자동 증가: Claude가 가장 높은 ID 찾아서 +1
 
 ### Project ID
-- 형식: `prj:NNN`
-- 예: `prj:001`, `prj:015`, `prj:042`
+- 형식: `prj-NNN`
+- 예: `prj-001`, `prj-015`, `prj-042`
 - 자동 증가: Claude가 가장 높은 번호 찾아서 +1
 
 ### Status 값

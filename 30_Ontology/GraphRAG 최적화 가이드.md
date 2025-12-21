@@ -299,7 +299,7 @@ SORT importance DESC
 ---
 entity_type: RelationType
 relation_name: contains
-relation_id: rel:contains:v0.1
+relation_id: rel:contains-v0.1
 semantic: "A가 B를 시간적/의미적으로 포함"
 directionality: directed
 cardinality_pattern: "1:N"
@@ -618,9 +618,9 @@ WHERE entity_type = "CoreEntity"
 
 ## 참고 자료
 
-- [Microsoft GraphRAG](https://github.com/microsoft/graphrag)
-- [Obsidian Dataview](https://blacksmithgu.github.io/obsidian-dataview/)
-- [Knowledge Graph Construction](https://www.microsoft.com/en-us/research/project/graphrag/)
+- [Microsoft GraphRAG](https-//github.com/microsoft/graphrag)
+- [Obsidian Dataview](https-//blacksmithgu.github.io/obsidian-dataview/)
+- [Knowledge Graph Construction](https-//www.microsoft.com/en-us/research/project/graphrag/)
 
 ---
 

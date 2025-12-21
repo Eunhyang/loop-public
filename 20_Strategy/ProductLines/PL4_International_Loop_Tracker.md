@@ -1,25 +1,25 @@
 ---
 entity_type: ProductLine
-entity_id: pl:4
+entity_id: pl-4
 entity_name: PL4_International_Loop_Tracker
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: cond:c
+parent_id: cond-c
 aliases:
-- pl:4
+- pl-4
 - PL4_International_Loop_Tracker
 - International Loop Tracker
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:c
+  target_id: cond-c
   description: Condition C (Global Data) 충족 시 활성화
 - type: enables
-  target_id: pl:5
+  target_id: pl-5
   description: PL5 GLP-1 Behavioral OS의 전제
 validates: []
 validated_by:
-- cond:c
+- cond-c
 description: 미국/일본 대상 국제 루프 트래커
 target_market: 미국, 일본
 unlock_condition: Condition C (해외 스키마 검증)
@@ -42,7 +42,7 @@ priority_flag: medium
 
 # PL4: International Loop Tracker
 
-> Product Line ID: `pl:4` | 상태: Planning | 기간: 2027-2028
+> Product Line ID: `pl-4` | 상태: Planning | 기간: 2027-2028
 
 ## 개요
 

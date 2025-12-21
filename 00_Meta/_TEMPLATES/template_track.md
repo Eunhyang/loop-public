@@ -1,14 +1,14 @@
 ---
 entity_type: Track
-entity_id: "trk:{{NUMBER}}"
+entity_id: "trk-{{NUMBER}}"
 entity_name: "{{TRACK_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: active
 
 # === 계층 ===
-parent_id: "cond:{{CONDITION}}"
-aliases: ["trk:{{NUMBER}}"]
+parent_id: "cond-{{CONDITION}}"
+aliases: ["trk-{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -27,7 +27,7 @@ objectives:
     status: "진행 중"
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
+conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
 # === 분류 ===
 tags: ["track", "12month"]
@@ -36,7 +36,7 @@ priority_flag: medium
 
 # Track {{NUMBER}}: {{TRACK_NAME}}
 
-> Track ID: `trk:{{NUMBER}}` | Status: Active | Owner: {{OWNER}}
+> Track ID: `trk-{{NUMBER}}` | Status: Active | Owner: {{OWNER}}
 
 ## Track 선언
 
@@ -80,7 +80,7 @@ priority_flag: medium
 
 | ID | Name | Status | Progress |
 |----|------|--------|----------|
-| [[prj:{{PRJ_ID}}]] | | | |
+| [[prj-{{PRJ_ID}}]] | | | |
 
 ---
 
@@ -96,7 +96,7 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[cond:{{CONDITION}}]] - 상위 Condition
+- [[cond-{{CONDITION}}]] - 상위 Condition
 
 ---
 

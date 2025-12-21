@@ -43,7 +43,7 @@ poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/tasks` | Task 목록 조회 |
-| GET | `/api/tasks?project_id=prj:001` | 특정 프로젝트의 Task 목록 |
+| GET | `/api/tasks?project_id=prj-001` | 특정 프로젝트의 Task 목록 |
 | GET | `/api/tasks?status=doing` | 특정 상태의 Task 목록 |
 | POST | `/api/tasks` | Task 생성 |
 | PUT | `/api/tasks/{task_id}` | Task 수정 |
@@ -64,6 +64,19 @@ poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
 |--------|----------|-------------|
 | GET | `/api/tracks` | Track 목록 조회 |
 
+### Hypotheses
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/hypotheses` | Hypothesis 목록 조회 |
+| GET | `/api/hypotheses?parent_id=trk-1` | 특정 Track의 Hypothesis 목록 |
+| GET | `/api/hypotheses?evidence_status=planning` | 특정 상태의 Hypothesis 목록 |
+| GET | `/api/hypotheses?horizon=2026` | 특정 연도의 Hypothesis 목록 |
+| GET | `/api/hypotheses/{hypothesis_id}` | 개별 Hypothesis 조회 (body 포함) |
+| POST | `/api/hypotheses` | Hypothesis 생성 |
+| PUT | `/api/hypotheses/{hypothesis_id}` | Hypothesis 수정 |
+| DELETE | `/api/hypotheses/{hypothesis_id}` | Hypothesis 삭제 |
+
 ### Members
 
 | Method | Endpoint | Description |
@@ -81,7 +94,7 @@ curl -X POST http://localhost:8081/api/tasks \
   -H "Content-Type: application/json" \
   -d '{
     "entity_name": "API 서버 구축",
-    "project_id": "prj:001",
+    "project_id": "prj-001",
     "assignee": "eunhyang",
     "priority": "high",
     "status": "doing",
@@ -94,7 +107,7 @@ curl -X POST http://localhost:8081/api/tasks \
 ```json
 {
   "success": true,
-  "task_id": "tsk:015-01",
+  "task_id": "tsk-015-01",
   "file_path": "50_Projects/2025/P001_Ontology/Tasks/API_서버_구축.md",
   "message": "Task created successfully"
 }
@@ -103,7 +116,7 @@ curl -X POST http://localhost:8081/api/tasks \
 ### Task 수정
 
 ```bash
-curl -X PUT http://localhost:8081/api/tasks/tsk:015-01 \
+curl -X PUT http://localhost:8081/api/tasks/tsk-015-01 \
   -H "Content-Type: application/json" \
   -d '{
     "status": "done"
@@ -113,7 +126,7 @@ curl -X PUT http://localhost:8081/api/tasks/tsk:015-01 \
 ### Task 삭제
 
 ```bash
-curl -X DELETE http://localhost:8081/api/tasks/tsk:015-01
+curl -X DELETE http://localhost:8081/api/tasks/tsk-015-01
 ```
 
 ### Project 생성
@@ -131,7 +144,7 @@ curl -X POST http://localhost:8081/api/projects \
 ### Project 수정
 
 ```bash
-curl -X PUT http://localhost:8081/api/projects/prj:001 \
+curl -X PUT http://localhost:8081/api/projects/prj-001 \
   -H "Content-Type: application/json" \
   -d '{
     "status": "active",
@@ -143,10 +156,54 @@ curl -X PUT http://localhost:8081/api/projects/prj:001 \
 
 ```bash
 # 하위 Task 없는 프로젝트 삭제
-curl -X DELETE http://localhost:8081/api/projects/prj:015
+curl -X DELETE http://localhost:8081/api/projects/prj-015
 
 # 하위 Task 포함 강제 삭제
-curl -X DELETE "http://localhost:8081/api/projects/prj:015?force=true"
+curl -X DELETE "http://localhost:8081/api/projects/prj-015?force=true"
+```
+
+### Hypothesis 생성
+
+```bash
+curl -X POST http://localhost:8081/api/hypotheses \
+  -H "Content-Type: application/json" \
+  -d '{
+    "entity_name": "천천히 먹기 효과 검증",
+    "parent_id": "trk-1",
+    "hypothesis_question": "천천히 먹기가 실제 식사 행동을 바꾸는가?",
+    "success_criteria": "2주 사용 코호트에서 식사시간 +20% 개선",
+    "failure_criteria": "개선이 미미(<+5%)하거나 지속 사용이 안 됨",
+    "measurement": "기능 사용 로그 + 식사 기록",
+    "horizon": "2026",
+    "evidence_status": "planning"
+  }'
+```
+
+**응답**:
+```json
+{
+  "success": true,
+  "hypothesis_id": "hyp-1-12",
+  "file_path": "60_Hypotheses/2026/hyp-1-12_천천히_먹기_효과_검증.md",
+  "message": "Hypothesis created successfully"
+}
+```
+
+### Hypothesis 수정
+
+```bash
+curl -X PUT http://localhost:8081/api/hypotheses/hyp-1-12 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "evidence_status": "validating",
+    "confidence": 0.3
+  }'
+```
+
+### Hypothesis 삭제
+
+```bash
+curl -X DELETE http://localhost:8081/api/hypotheses/hyp-1-12
 ```
 
 ---
@@ -177,7 +234,7 @@ ssh admin@nas-ip
 cd /volume1/LOOP_CORE/vault/LOOP
 
 # Poetry 설치 (최초 1회)
-curl -sSL https://install.python-poetry.org | python3 -
+curl -sSL https-//install.python-poetry.org | python3 -
 
 # 의존성 설치
 poetry install --extras api
@@ -289,8 +346,8 @@ chmod +x /volume1/LOOP_CORE/scripts/start-api-server.sh
 
 ## 📚 참고 문서
 
-- **FastAPI 공식 문서**: https://fastapi.tiangolo.com/
-- **Uvicorn 문서**: https://www.uvicorn.org/
+- **FastAPI 공식 문서**: https-//fastapi.tiangolo.com/
+- **Uvicorn 문서**: https-//www.uvicorn.org/
 - **Dashboard 아키텍처**: `../NAS_DASHBOARD_ARCHITECTURE.md`
 
 ---

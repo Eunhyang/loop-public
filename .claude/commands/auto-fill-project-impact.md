@@ -59,7 +59,7 @@
 
 **방법 2: Project ID 지정**
 ```
-/auto-fill-project-impact prj:010
+/auto-fill-project-impact prj-010
 ```
 
 ---
@@ -71,7 +71,7 @@
 | `tier` | 전략적 위치 | strategic, enabling, operational |
 | `impact_magnitude` | 영향 크기 | high, mid, low |
 | `confidence` | 실행 가능성 | 0.0 ~ 1.0 |
-| `contributes` | 기여하는 Condition | cond:a, cond:b, ... |
+| `contributes` | 기여하는 Condition | cond-a, cond-b, ... |
 
 ---
 

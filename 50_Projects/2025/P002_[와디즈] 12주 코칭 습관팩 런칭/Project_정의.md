@@ -1,24 +1,24 @@
 ---
 entity_type: Project
-entity_id: "prj:002"
+entity_id: "prj-002"
 entity_name: "[와디즈] 12주 코칭 습관팩 런칭"
 created: 2025-12-18
 updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:4"
+parent_id: "trk-4"
 aliases:
-  - "prj:002"
+  - "prj-002"
   - "[와디즈] 12주 코칭 습관팩 런칭"
   - "prj-002"
 
 # === 관계 ===
 outgoing_relations: []
 validates:
-  - hyp:4-01
-  - hyp:4-03
-  - hyp:6-09
+  - hyp-4-01
+  - hyp-4-03
+  - hyp-6-09
 validated_by: []
 
 # === Project 전용 ===
@@ -37,14 +37,14 @@ realized_impact:
 experiments: []
 
 # === 분류 ===
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: medium
 ---
 
 # [와디즈] 12주 코칭 습관팩 런칭
 
-> Project ID: `prj:002` | Track: `trk:2` | Status: active
+> Project ID: `prj-002` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

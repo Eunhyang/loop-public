@@ -43,6 +43,7 @@ const Kanban = {
                 State.currentProject = btn.dataset.project;
                 this.renderProjectFilter();
                 this.render();
+                Calendar.refresh();  // 프로젝트 필터 변경 시 Calendar도 갱신
             });
         });
     },

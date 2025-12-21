@@ -1,16 +1,16 @@
 ---
 entity_type: Task
-entity_id: "tsk:008-01"
+entity_id: "tsk-008-01"
 entity_name: "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX"
 created: 2025-12-18
 updated: 2025-12-18
 status: in_progress
 
 # === 계층 ===
-parent_id: "prj:008"
-project_id: "prj:008"
+parent_id: "prj-008"
+project_id: "prj-008"
 aliases:
-  - "tsk:008-01"
+  - "tsk-008-01"
   - "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX"
   - "tsk-008-01"
 
@@ -27,14 +27,14 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: high
 ---
 
 # [단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX
 
-> Task ID: `tsk:008-01` | Project: `prj:008` | Status: in_progress
+> Task ID: `tsk-008-01` | Project: `prj-008` | Status: in_progress
 
 ## 목표
 
@@ -105,7 +105,7 @@ CTA: 시작하기
 
 UI: 카드 선택형 (복수 선택 가능)
 
-Options:
+Options-
 - GLP-1 계열 약 (위고비 / 삭센다 / 마운자로 등)
 - 식욕·기분·신경계 관련 약 (항우울제, ADHD 약 등)
 - 해당 없음
@@ -120,7 +120,7 @@ Micro copy:
 
 UI: 단일 선택
 
-Options:
+Options-
 - 없음
 - 당뇨 전단계
 - 제2형 당뇨
@@ -140,7 +140,7 @@ Options:
 
 UI: 체크박스
 
-Options:
+Options-
 - 멈추고 싶어도 조절이 안 되는 식사 경험
 - 스트레스 후 후회가 크게 남는 식사
 - 먹고 나서 몸이나 마음을 힘들게 했던 행동
@@ -164,7 +164,7 @@ Micro copy:
 
 UI: 토글 / 복수 선택
 
-Options:
+Options-
 - 생리 전후
 - 수면 부족할 때
 - 스트레스가 많을 때
@@ -184,7 +184,7 @@ Options:
 
 UI: 카드형 (1개 선택)
 
-Options:
+Options-
 - 식욕·폭식이 덜 흔들렸으면 해요
 - 체중 변화가 부담 없이 일어났으면 해요
 - 내 몸 감각을 다시 믿고 싶어요
@@ -205,14 +205,14 @@ Micro copy:
 
 ### Q6-1. 하루 평균 식사는?
 
-Options:
+Options-
 - 2끼 이하
 - 3끼
 - 그때그때 달라요
 
 ### Q6-2. 주로 누구와 먹나요?
 
-Options:
+Options-
 - 혼자
 - 누군가와 함께
 - 반반
@@ -273,7 +273,7 @@ Onboarding은
 
 ## 참고 문서
 
-- [[prj:008]] - 소속 Project
+- [[prj-008]] - 소속 Project
 
 ---
 

@@ -17,7 +17,7 @@
   ```
 
 - [ ] **Obsidian 설치**
-  - 다운로드: https://obsidian.md
+  - 다운로드: https-//obsidian.md
   - 버전: 최신 버전
 
 ---
@@ -204,7 +204,7 @@
 
 - [ ] **Obsidian에서 파일 편집**
   - frontmatter {{PLACEHOLDERS}} 교체
-  - entity_id: hyp:999 (테스트용)
+  - entity_id: hyp-999 (테스트용)
 
 - [ ] **로컬 검증**
   ```bash

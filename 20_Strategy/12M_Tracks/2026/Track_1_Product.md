@@ -1,27 +1,27 @@
 ---
 entity_type: Track
-entity_id: trk:1
+entity_id: trk-1
 entity_name: Track_1_Product
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-parent_id: cond:a
+parent_id: cond-a
 aliases:
-- trk:1
+- trk-1
 - Track_1_Product
 - trk-1
 outgoing_relations:
 - type: enables
-  target_id: trk:6
+  target_id: trk-6
   description: 천천히 먹기 = 유료화 핵심
 - type: depends_on
-  target_id: trk:2
+  target_id: trk-2
   description: Schema가 제품 기능 뒷받침
 - type: supports
-  target_id: trk:4
+  target_id: trk-4
   description: 제품으로 코칭 지원
 validates:
-- cond:a
+- cond-a
 validated_by: []
 horizon: 12month
 hypothesis: Loop Core OS 제품이 국내 PMF를 달성할 수 있다
@@ -43,7 +43,7 @@ objectives:
   status: 진행 중
 progress: 0.4
 risk_level: medium
-conditions_3y: ['cond:a']
+conditions_3y: ['cond-a']
 tags:
 - track
 - 12month

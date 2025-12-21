@@ -1,22 +1,22 @@
 ---
 entity_type: PartnershipStage
-entity_id: ps:1
+entity_id: ps-1
 entity_name: PS1_국내_의료기관
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: cond:b
+parent_id: cond-b
 aliases:
-- ps:1
+- ps-1
 - PS1_국내_의료기관
 - Stage 1 국내 의료기관
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:b
+  target_id: cond-b
   description: Condition B (Loop Dataset 3,000+) 충족 시 활성화
 validates: []
 validated_by:
-- cond:b
+- cond-b
 description: 국내 비만/정신건강센터 제휴 단계
 partner_type: 국내 의료기관
 unlock_condition: Loop Dataset 3,000+ 고밀도
@@ -37,7 +37,7 @@ priority_flag: high
 
 # PS1: 국내 의료기관 제휴
 
-> Partnership Stage ID: `ps:1` | 상태: Planning | 기간: 2026-2027
+> Partnership Stage ID: `ps-1` | 상태: Planning | 기간: 2026-2027
 
 ## 개요
 

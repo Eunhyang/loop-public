@@ -40,7 +40,7 @@ outgoing_relations:
 
 ```yaml
 # Project 파일에서
-parent_id: "trk:2"            # parent_of는 parent_id로 표현
+parent_id: "trk-2"            # parent_of는 parent_id로 표현
 ```
 
 | From | To | Cardinality |
@@ -61,7 +61,7 @@ parent_id: "trk:2"            # parent_of는 parent_id로 표현
 - **용도**: Project → Hypothesis, Experiment → Hypothesis
 
 ```yaml
-validates: ["hyp:001", "hyp:002"]
+validates: ["hyp-001", "hyp-002"]
 ```
 
 ### validated_by (역방향)
@@ -70,7 +70,7 @@ validates: ["hyp:001", "hyp:002"]
 - **참고**: `validates`의 역방향, 대칭 형식 사용
 
 ```yaml
-validated_by: ["prj:001", "exp:003"]
+validated_by: ["prj-001", "exp-003"]
 ```
 
 ### enables
@@ -80,7 +80,7 @@ validated_by: ["prj:001", "exp:003"]
 ```yaml
 outgoing_relations:
   - type: enables
-    target_id: "cond:b"
+    target_id: "cond-b"
     description: "스키마 안정화 → 재현 패턴 가능"
 ```
 
@@ -91,7 +91,7 @@ outgoing_relations:
 ```yaml
 outgoing_relations:
   - type: blocks
-    target_id: "prj:002"
+    target_id: "prj-002"
     description: "온톨로지 완료 전 CoachOS 시작 불가"
 ```
 
@@ -102,7 +102,7 @@ outgoing_relations:
 ```yaml
 outgoing_relations:
   - type: depends_on
-    target_id: "trk:4"
+    target_id: "trk-4"
     description: "코칭 데이터 필요"
 ```
 
@@ -113,7 +113,7 @@ outgoing_relations:
 ```yaml
 outgoing_relations:
   - type: supports
-    target_id: "trk:5"
+    target_id: "trk-5"
     description: "의료 파트너십 근거 제공"
 ```
 
@@ -177,7 +177,7 @@ outgoing_relations:
 
 ### YAML 형식 규칙
 1. **순수 문자열만**: 이모지, 특수문자 금지
-2. **배열은 문자열 배열**: `["hyp:001"]` (객체 배열 금지)
+2. **배열은 문자열 배열**: `["hyp-001"]` (객체 배열 금지)
 3. **ID 형식 일관성**: 모든 ID는 `{type}:{number}` 형식
 
 ### 관계 파싱 규칙

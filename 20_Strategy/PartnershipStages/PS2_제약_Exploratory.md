@@ -1,22 +1,22 @@
 ---
 entity_type: PartnershipStage
-entity_id: ps:2
+entity_id: ps-2
 entity_name: PS2_제약_Exploratory
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: cond:b
+parent_id: cond-b
 aliases:
-- ps:2
+- ps-2
 - PS2_제약_Exploratory
 - Stage 2 제약 Exploratory
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:b
+  target_id: cond-b
   description: GLP-1 사용자 데이터 1,000명 이상 필요
 validates: []
 validated_by:
-- cond:b
+- cond-b
 description: 제약사 탐색적 협업 단계
 partner_type: 제약사
 unlock_condition: GLP-1 사용자 데이터 >= 1,000명
@@ -36,7 +36,7 @@ priority_flag: medium
 
 # PS2: 제약사 Exploratory
 
-> Partnership Stage ID: `ps:2` | 상태: Planning | 기간: 2027
+> Partnership Stage ID: `ps-2` | 상태: Planning | 기간: 2027
 
 ## 개요
 

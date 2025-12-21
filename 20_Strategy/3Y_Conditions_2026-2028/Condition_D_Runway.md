@@ -1,13 +1,13 @@
 ---
 entity_type: Condition
-entity_id: cond:d
+entity_id: cond-d
 entity_name: Condition_D_Runway
 created: 2024-12-18
 updated: 2024-12-20
 status: in_progress
-parent_id: mh:4
+parent_id: mh-4
 aliases:
-- cond:d
+- cond-d
 - Condition_D_Runway
 - cond-d
 - Runway
@@ -17,7 +17,7 @@ outgoing_relations:
   description: 미충족 시 비용 절감 모드
 validates: []
 validated_by:
-- mh:4
+- mh-4
 condition: 월 매출 또는 런웨이가 전략 지속 가능 수준인가?
 unlock: GLP-1 OS 착수
 if_broken: 비용 절감, 비규제 매출 집중
@@ -43,7 +43,7 @@ break_triggers: []
 
 # Condition D: Runway
 
-> 조건 ID: `cond:d` | 상태: In Progress | 위험도: Medium
+> 조건 ID: `cond-d` | 상태: In Progress | 위험도: Medium
 
 ## 조건 선언
 

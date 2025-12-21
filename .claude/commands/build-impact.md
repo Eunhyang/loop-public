@@ -49,7 +49,7 @@
   "model_version": "IM-2025-01",
   "generated_at": "2025-12-20T12:00:00",
   "projects": {
-    "prj:010": {
+    "prj-010": {
       "name": "와디즈 펀딩",
       "tier": "strategic",
       "expected_score": 7.0,
@@ -57,7 +57,7 @@
       "realized_status": "failed_but_high_signal"
     }
   },
-  "projects_excluded": ["prj:015"]
+  "projects_excluded": ["prj-015"]
 }
 ```
 

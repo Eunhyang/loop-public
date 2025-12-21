@@ -1,29 +1,29 @@
 ---
 entity_type: ProductLine
-entity_id: pl:3
+entity_id: pl-3
 entity_name: PL3_Eating_Disorder_DTx
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: cond:b
+parent_id: cond-b
 aliases:
-- pl:3
+- pl-3
 - PL3_Eating_Disorder_DTx
 - Eating Disorder DTx
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:b
+  target_id: cond-b
   description: Condition B 충족 필요
 - type: unlocked_by
-  target_id: cond:e
+  target_id: cond-e
   description: Condition E (Team) 충족 필요
 - type: enables
-  target_id: pl:5
+  target_id: pl-5
   description: PL5 GLP-1 Behavioral OS의 전제
 validates: []
 validated_by:
-- cond:b
-- cond:e
+- cond-b
+- cond-e
 description: 섭식장애 디지털 치료제 (한국 중심)
 target_market: 섭식장애 환자, 비만 클리닉
 unlock_condition: Condition B + Condition E + 국내 병원 2곳 제휴
@@ -45,7 +45,7 @@ priority_flag: high
 
 # PL3: Eating Disorder DTx
 
-> Product Line ID: `pl:3` | 상태: Planning | 기간: 2027-2028
+> Product Line ID: `pl-3` | 상태: Planning | 기간: 2027-2028
 
 ## 개요
 

@@ -1,20 +1,20 @@
 ---
 entity_type: MetaHypothesis
-entity_id: mh:2
+entity_id: mh-2
 entity_name: MH2_행동개입_효과
 created: 2024-12-18
 updated: 2024-12-20
 status: validating
-parent_id: ns:001
+parent_id: ns-001
 aliases:
-- mh:2
+- mh-2
 - MH2_행동개입_효과
 - mh-2
 outgoing_relations: []
 validates: []
 validated_by:
-- trk:4
-- cond:a
+- trk-4
+- cond-a
 hypothesis_text: 이 루프는 행동·정서 개입으로 의미 있게 변한다
 if_broken: OS 개입 범위 축소
 evidence_status: validating
@@ -51,7 +51,7 @@ supports:
 
 # MH2: 행동개입 효과
 
-> 가설 ID: `mh:2` | 상태: Validating | 신뢰도: 65%
+> 가설 ID: `mh-2` | 상태: Validating | 신뢰도: 65%
 
 ## 가설 선언
 

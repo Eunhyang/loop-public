@@ -239,8 +239,14 @@ const TaskPanel = {
      * Task 상세 패널 열기 (API에서 본문 포함하여 로드)
      */
     async open(taskId) {
-        // 먼저 캐시된 기본 정보로 UI 표시
-        const cachedTask = State.getTaskById(taskId);
+        // 원본 ID로 조회, 실패하면 정규화된 ID로 재시도
+        let cachedTask = State.getTaskById(taskId);
+        if (!cachedTask) {
+            const normalizedId = this.normalizeId(taskId);
+            if (normalizedId !== taskId) {
+                cachedTask = State.getTaskById(normalizedId);
+            }
+        }
         if (!cachedTask) {
             showToast('Task not found', 'error');
             return;
@@ -311,53 +317,118 @@ const TaskPanel = {
     },
 
     /**
-     * Relations 렌더링
+     * HTML 특수문자 이스케이프 (XSS 방지)
+     */
+    escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    },
+
+    /**
+     * ID 형식 정규화 (하이픈 ↔ 콜론 변환)
+     * Schema 표준: 하이픈 형식 (prj-001)
+     */
+    normalizeId(id) {
+        if (!id) return id;
+        // 콜론을 하이픈으로 변환 (cond-b → cond-b, prj-001 → prj-001)
+        return String(id).replace(/:/g, '-');
+    },
+
+    /**
+     * Relations 렌더링 - 클릭 가능한 링크로 표시
      */
     renderRelations(task) {
         const relationsEl = document.getElementById('panelTaskRelations');
-        const project = State.getProjectById(task.project_id);
+
+        // ID 정규화하여 Project 조회 (하이픈/콜론 모두 지원)
+        const normalizedProjectId = this.normalizeId(task.project_id);
+        let project = State.getProjectById(task.project_id);
+        if (!project && normalizedProjectId !== task.project_id) {
+            project = State.getProjectById(normalizedProjectId);
+        }
+
         const items = [];
 
-        // Track
+        // Project (Task가 속한 프로젝트) - project가 null이어도 project_id가 있으면 표시
         if (project) {
+            const projId = this.escapeHtml(project.entity_id);
+            const projName = this.escapeHtml(project.entity_name || project.entity_id);
+            items.push(`
+                <div class="panel-relation-item clickable" data-entity-id="${projId}">
+                    <span class="panel-relation-label">Project</span>
+                    <span class="panel-relation-value project">${projName}</span>
+                </div>
+            `);
+
+            // Track (Project의 상위)
             const track = State.getTrackForProject(project);
             if (track) {
+                const trackId = this.escapeHtml(track.entity_id);
+                const trackName = this.escapeHtml(track.entity_name || track.entity_id);
                 items.push(`
-                    <div class="panel-relation-item">
+                    <div class="panel-relation-item clickable" data-entity-id="${trackId}">
                         <span class="panel-relation-label">Track</span>
-                        <span class="panel-relation-value track">${track.entity_name || track.entity_id}</span>
+                        <span class="panel-relation-value track">${trackName}</span>
                     </div>
                 `);
             }
+        } else if (task.project_id) {
+            // Project를 찾지 못했지만 project_id가 있으면 ID만이라도 표시
+            const projId = this.escapeHtml(task.project_id);
+            items.push(`
+                <div class="panel-relation-item clickable" data-entity-id="${projId}">
+                    <span class="panel-relation-label">Project</span>
+                    <span class="panel-relation-value project">${projId}</span>
+                </div>
+            `);
         }
 
-        // validates
+        // validates - 각각 개별 링크로
         if (task.validates && task.validates.length > 0) {
-            items.push(`
-                <div class="panel-relation-item">
-                    <span class="panel-relation-label">Validates</span>
-                    <span class="panel-relation-value validates">${task.validates.join(', ')}</span>
-                </div>
-            `);
+            task.validates.forEach(hypId => {
+                const safeId = this.escapeHtml(hypId);
+                items.push(`
+                    <div class="panel-relation-item clickable" data-entity-id="${safeId}">
+                        <span class="panel-relation-label">Validates</span>
+                        <span class="panel-relation-value validates">${safeId}</span>
+                    </div>
+                `);
+            });
         }
 
-        // conditions_3y
-        if (project?.conditions_3y && project.conditions_3y.length > 0) {
-            items.push(`
-                <div class="panel-relation-item">
-                    <span class="panel-relation-label">Condition</span>
-                    <span class="panel-relation-value condition">${project.conditions_3y.join(', ')}</span>
-                </div>
-            `);
+        // conditions_3y - Task 우선 (length > 0인 경우만), 없으면 Project에서 가져옴
+        const taskConditions = Array.isArray(task.conditions_3y) && task.conditions_3y.length > 0
+            ? task.conditions_3y
+            : null;
+        const conditions = taskConditions || project?.conditions_3y || [];
+        if (conditions.length > 0) {
+            conditions.forEach(condId => {
+                const safeId = this.escapeHtml(condId);
+                // ID 정규화 (cond-b → cond-b) - escape 적용
+                const normalizedCondId = this.escapeHtml(this.normalizeId(condId));
+                items.push(`
+                    <div class="panel-relation-item clickable" data-entity-id="${normalizedCondId}">
+                        <span class="panel-relation-label">Condition</span>
+                        <span class="panel-relation-value condition">${safeId}</span>
+                    </div>
+                `);
+            });
         }
 
-        // outgoing_relations
+        // outgoing_relations - 각각 개별 링크로
         if (task.outgoing_relations && task.outgoing_relations.length > 0) {
             task.outgoing_relations.forEach(rel => {
+                const safeTargetId = this.escapeHtml(rel.target_id);
+                const safeType = this.escapeHtml(rel.type);
                 items.push(`
-                    <div class="panel-relation-item">
-                        <span class="panel-relation-label">${rel.type}</span>
-                        <span class="panel-relation-value">${rel.target_id}</span>
+                    <div class="panel-relation-item clickable" data-entity-id="${safeTargetId}">
+                        <span class="panel-relation-label">${safeType}</span>
+                        <span class="panel-relation-value">${safeTargetId}</span>
                     </div>
                 `);
             });
@@ -367,7 +438,128 @@ const TaskPanel = {
             relationsEl.innerHTML = '<div style="color: #999; font-style: italic;">No relations</div>';
         } else {
             relationsEl.innerHTML = items.join('');
+            // 이벤트 위임으로 클릭 핸들러 등록 (XSS 방지)
+            this.bindRelationClickHandlers(relationsEl);
         }
+    },
+
+    /**
+     * Relation 클릭 핸들러 바인딩 (이벤트 위임)
+     */
+    bindRelationClickHandlers(container) {
+        container.querySelectorAll('.panel-relation-item.clickable').forEach(item => {
+            item.addEventListener('click', () => {
+                const entityId = item.dataset.entityId;
+                if (entityId) {
+                    this.navigateTo(entityId);
+                }
+            });
+        });
+    },
+
+    /**
+     * 엔티티 타입 확인 (하이픈/콜론 형식 모두 지원)
+     */
+    getEntityType(id) {
+        if (!id) return null;
+        const lowerId = id.toLowerCase();
+
+        // 하이픈 또는 콜론 형식 모두 지원
+        if (lowerId.startsWith('prj-') || lowerId.startsWith('prj-')) return 'project';
+        if (lowerId.startsWith('tsk-') || lowerId.startsWith('tsk-')) return 'task';
+        if (lowerId.startsWith('trk-') || lowerId.startsWith('trk-')) return 'track';
+        if (lowerId.startsWith('hyp-') || lowerId.startsWith('hyp-')) return 'hypothesis';
+        if (lowerId.startsWith('cond-') || lowerId.startsWith('cond-')) return 'condition';
+        if (lowerId.startsWith('mh-') || lowerId.startsWith('mh-')) return 'metahypothesis';
+        if (lowerId.startsWith('ns-') || lowerId.startsWith('ns-')) return 'northstar';
+
+        return null;
+    },
+
+    /**
+     * 연관 엔티티로 네비게이션
+     */
+    navigateTo(entityId) {
+        // 타입 안전성 보장
+        if (!entityId) return;
+        const safeId = String(entityId);
+        const entityType = this.getEntityType(safeId);
+
+        // Project → ProjectPanel 열기 (정규화된 ID 사용)
+        if (entityType === 'project') {
+            this.close();
+            const normalizedId = this.normalizeId(safeId);
+            setTimeout(() => {
+                if (typeof ProjectPanel !== 'undefined') {
+                    // 원본 ID로 먼저 시도, 실패하면 정규화된 ID로 시도
+                    ProjectPanel.open(safeId);
+                } else {
+                    showToast('ProjectPanel not available', 'error');
+                }
+            }, 100);
+            return;
+        }
+
+        // Task → TaskPanel 열기 (다른 Task로 이동)
+        if (entityType === 'task') {
+            this.close();
+            setTimeout(() => TaskPanel.open(safeId), 100);
+            return;
+        }
+
+        // Track, Hypothesis, Condition, MetaHypothesis, NorthStar → Graph 뷰로 전환 후 노드 선택
+        if (['track', 'hypothesis', 'condition', 'metahypothesis', 'northstar'].includes(entityType)) {
+            this.close();
+
+            // Graph 객체 존재 확인
+            if (typeof Graph === 'undefined') {
+                showToast('Graph view not available', 'error');
+                return;
+            }
+
+            // Graph 뷰로 전환
+            document.getElementById('viewGraph')?.click();
+
+            // Graph 로드 대기 후 노드 선택 (retry 로직)
+            let retryCount = 0;
+            const maxRetries = 10;
+            const normalizedId = this.normalizeId(safeId);  // 하이픈 형식으로 정규화
+            const trySelectNode = () => {
+                // Graph 객체 재확인
+                if (typeof Graph === 'undefined' || !Graph.nodes) {
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        setTimeout(trySelectNode, 200);
+                    } else {
+                        showToast('Graph not loaded', 'warning');
+                    }
+                    return;
+                }
+
+                // 원본 ID, 정규화된 ID, 소문자 버전으로 노드 찾기
+                const node = Graph.nodes.find(n => {
+                    const nodeId = n.id?.toLowerCase();
+                    const searchId = safeId.toLowerCase();
+                    const normalizedSearchId = normalizedId.toLowerCase();
+                    return nodeId === searchId || nodeId === normalizedSearchId;
+                });
+
+                if (node) {
+                    Graph.selectNode(node);
+                } else if (retryCount < maxRetries) {
+                    retryCount++;
+                    setTimeout(trySelectNode, 200);
+                } else {
+                    showToast(`Entity not found in graph: ${safeId}`, 'warning');
+                }
+            };
+            setTimeout(trySelectNode, 300);
+            return;
+        }
+
+        // 인식되지 않는 prefix
+        console.warn('TaskPanel.navigateTo: Unknown entity type:', safeId);
+        showToast(`Cannot navigate to: ${safeId}`, 'warning');
     },
 
     /**

@@ -1,15 +1,15 @@
 ---
 entity_type: Hypothesis
-entity_id: "hyp:4-02"
+entity_id: "hyp-4-02"
 entity_name: "GLP-1 과정 수요 재현"
 created: 2025-12-20
 updated: 2025-12-20
 status: planning
 
 # === 계층 관계 ===
-parent_id: "trk:4"
+parent_id: "trk-4"
 aliases:
-  - "hyp:4-02"
+  - "hyp-4-02"
   - "GLP1과정_수요재현"
 
 # === 가설 정의 (필수 4요소) ===
@@ -37,7 +37,7 @@ validated_by: []
 
 # GLP-1 과정 수요 재현
 
-> Track: [[Track_4_Coaching]] | ID: `hyp:4-02` | 상태: planning
+> Track: [[Track_4_Coaching]] | ID: `hyp-4-02` | 상태: planning
 
 ## 가설
 

@@ -1,16 +1,16 @@
 ---
 entity_type: Task
-entity_id: "tsk:009-02"
+entity_id: "tsk-009-02"
 entity_name: "[투자/TIPS준비] 프라이머 배치 프로그램 지원"
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
 
 # === 계층 ===
-parent_id: "prj:009"
-project_id: "prj:009"
+parent_id: "prj-009"
+project_id: "prj-009"
 aliases:
-  - "tsk:009-02"
+  - "tsk-009-02"
   - "[투자/TIPS준비] 프라이머 배치 프로그램 지원"
   - "tsk-009-02"
 
@@ -27,14 +27,14 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-conditions_3y: ['cond:e']
+conditions_3y: ['cond-e']
 tags: []
 priority_flag: high
 ---
 
 # [투자/TIPS준비] 프라이머 배치 프로그램 지원
 
-> Task ID: `tsk:009-02` | Project: `prj:009` | Status: planning
+> Task ID: `tsk-009-02` | Project: `prj-009` | Status: planning
 
 ## 목표
 
@@ -71,7 +71,7 @@ priority_flag: high
 
 ## 참고 문서
 
-- [[prj:009]] - 소속 Project
+- [[prj-009]] - 소속 Project
 
 ---
 

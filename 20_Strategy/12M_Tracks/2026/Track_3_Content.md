@@ -1,21 +1,21 @@
 ---
 entity_type: Track
-entity_id: trk:3
+entity_id: trk-3
 entity_name: Track_3_Content
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-parent_id: cond:a
+parent_id: cond-a
 aliases:
-- trk:3
+- trk-3
 - Track_3_Content
 - trk-3
 outgoing_relations:
 - type: enables
-  target_id: trk:6
+  target_id: trk-6
   description: 콘텐츠가 유입/전환 견인
 - type: supports
-  target_id: trk:1
+  target_id: trk-1
   description: 콘텐츠로 제품 인지도 확보
 validates: []
 validated_by: []
@@ -38,7 +38,7 @@ objectives:
   status: 진행 중
 progress: 0.2
 risk_level: low
-conditions_3y: ['cond:a']
+conditions_3y: ['cond-a']
 tags:
 - track
 - 12month

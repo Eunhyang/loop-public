@@ -1,15 +1,15 @@
 ---
 entity_type: Hypothesis
-entity_id: "hyp:6-13"
+entity_id: "hyp-6-13"
 entity_name: "TIPS/투자 요구조건 충족"
 created: 2025-12-20
 updated: 2025-12-20
 status: planning
 
 # === 계층 관계 ===
-parent_id: "trk:6"
+parent_id: "trk-6"
 aliases:
-  - "hyp:6-13"
+  - "hyp-6-13"
   - "TIPS_투자_요구조건"
 
 # === 가설 정의 (필수 4요소) ===
@@ -33,12 +33,12 @@ tags: ["2026", "trk-6", "revenue", "tips", "investment"]
 # === 검증 연결 ===
 validates: []
 validated_by:
-  - prj:009
+  - prj-009
 ---
 
 # TIPS/투자 요구조건 충족
 
-> Track: [[Track_6_Revenue]] | ID: `hyp:6-13` | 상태: planning
+> Track: [[Track_6_Revenue]] | ID: `hyp-6-13` | 상태: planning
 
 ## 가설
 

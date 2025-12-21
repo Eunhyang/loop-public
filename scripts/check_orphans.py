@@ -107,14 +107,14 @@ def check_orphans(entities: Dict[str, Dict]) -> List[str]:
                         if not target.startswith("action:"):
                             warnings.append(f"{entity_id}: relation target '{target}' does not exist")
 
-        # conditions_3y 검사 (cond:* ID가 존재하는지)
+        # conditions_3y 검사 (cond-* ID가 존재하는지)
         conditions_3y = fm.get("conditions_3y", [])
         if isinstance(conditions_3y, list):
             for cond_id in conditions_3y:
                 if isinstance(cond_id, str) and cond_id not in all_ids:
-                    # cond:a-e 중 아직 문서가 없는 것도 있으므로 유효한 패턴인지 체크
+                    # cond-a-e 중 아직 문서가 없는 것도 있으므로 유효한 패턴인지 체크
                     import re
-                    if not re.match(r'^cond:[a-e]$', cond_id):
+                    if not re.match(r'^cond-[a-e]$', cond_id):
                         warnings.append(f"{entity_id}: conditions_3y contains invalid ID '{cond_id}'")
 
     return warnings

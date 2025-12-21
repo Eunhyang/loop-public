@@ -1,27 +1,27 @@
 ---
 entity_type: Track
-entity_id: trk:2
+entity_id: trk-2
 entity_name: Track_2_Data
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-parent_id: cond:b
+parent_id: cond-b
 aliases:
-- trk:2
+- trk-2
 - Track_2_Data
 - trk-2
 outgoing_relations:
 - type: enables
-  target_id: cond:b
+  target_id: cond-b
   description: 재현 패턴 10개 enable
 - type: depends_on
-  target_id: trk:4
+  target_id: trk-4
   description: 코칭 데이터 필요
 - type: supports
-  target_id: trk:5
+  target_id: trk-5
   description: 의료 파트너십 근거 제공
 validates:
-- mh:3
+- mh-3
 validated_by: []
 horizon: 12month
 hypothesis: 코치+기록 기반 데이터는 패턴화 가능하다
@@ -45,7 +45,7 @@ objectives:
   status: 진행 중
 progress: 0.6
 risk_level: medium
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags:
 - track
 - 12month

@@ -86,6 +86,14 @@ function switchView(view) {
     document.getElementById('calendarView').classList.remove('active');
     document.getElementById('graphView').classList.remove('active');
 
+    // Show/hide shared filters (Kanban + Calendar use tabs, Graph doesn't)
+    const sharedFilters = document.getElementById('sharedFilters');
+    if (view === 'graph') {
+        sharedFilters.style.display = 'none';
+    } else {
+        sharedFilters.style.display = 'block';
+    }
+
     // Show selected view
     if (view === 'kanban') {
         document.getElementById('kanbanView').classList.add('active');

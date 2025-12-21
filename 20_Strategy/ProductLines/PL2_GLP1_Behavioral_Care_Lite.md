@@ -1,22 +1,22 @@
 ---
 entity_type: ProductLine
-entity_id: pl:2
+entity_id: pl-2
 entity_name: PL2_GLP1_Behavioral_Care_Lite
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: cond:b
+parent_id: cond-b
 aliases:
-- pl:2
+- pl-2
 - PL2_GLP1_Behavioral_Care_Lite
 - GLP-1 Behavioral Care Lite
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:b
+  target_id: cond-b
   description: Condition B (Loop Dataset) 충족 시 활성화
 validates: []
 validated_by:
-- cond:b
+- cond-b
 description: GLP-1 사용자를 위한 행동 케어 라이트 버전
 target_market: GLP-1 사용자
 unlock_condition: Condition B (고밀도 데이터 5~7천)
@@ -39,7 +39,7 @@ priority_flag: critical
 
 # PL2: GLP-1 Behavioral Care Lite
 
-> Product Line ID: `pl:2` | 상태: Planning | 기간: 2026-2027
+> Product Line ID: `pl-2` | 상태: Planning | 기간: 2026-2027
 
 ## 개요
 

@@ -1,6 +1,6 @@
-[Inner Loop OS 정의v1](https://www.notion.so/Inner-Loop-OS-v1-8ece71de29d9470fa44dbaa8906d1c65?pvs=21)
+[Inner Loop OS 정의v1](https-//www.notion.so/Inner-Loop-OS-v1-8ece71de29d9470fa44dbaa8906d1c65?pvs=21)
 
-[**Ontology-lite v0.1 (ILOS) — 규칙(4조건) + 최소 엔티티 스펙**](https://www.notion.so/Ontology-lite-v0-1-ILOS-4-2c76a363106a80828fa4f4f8aaf02858?pvs=21)
+[**Ontology-lite v0.1 (ILOS) — 규칙(4조건) + 최소 엔티티 스펙**](https-//www.notion.so/Ontology-lite-v0-1-ILOS-4-2c76a363106a80828fa4f4f8aaf02858?pvs=21)
 ´
 ┌────────────────────────────────────┐ │ LOOP ONTOLOGY (L2) │ │ - Event / Episode / Action / Outcome│ │ - 의미 없음, 구조만 있음 │ └───────────────┬────────────────────┘ │ (Reference only) ┌───────────────┼──────────────────────────────┐ │ Firestore │ RDB │ Logs / STT │ │ (diaries) │ (coaching) │ (events) │ └───────────────┴──────────────────────────────┘
 ´
@@ -158,4 +158,4 @@
 
 **동결 직전까지 아주 잘 왔습니다.**
 
-[LoopOS 온톨로지 레이어 계층 이해](https://www.notion.so/LoopOS-2c86a363106a800da840de06f21df69c?pvs=21)
+[LoopOS 온톨로지 레이어 계층 이해](https-//www.notion.so/LoopOS-2c86a363106a800da840de06f21df69c?pvs=21)

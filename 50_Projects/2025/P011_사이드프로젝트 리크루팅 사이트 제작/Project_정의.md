@@ -1,13 +1,13 @@
 ---
 entity_type: Project
-entity_id: prj:011
+entity_id: prj-011
 entity_name: 사이드프로젝트 리크루팅 사이트 제작
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-parent_id: trk:5
+parent_id: trk-5
 aliases:
-- prj:011
+- prj-011
 - 사이드프로젝트 리크루팅 사이트 제작
 - prj-011
 outgoing_relations: []
@@ -26,14 +26,14 @@ realized_impact:
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond:c', 'cond:d']
+conditions_3y: ['cond-c', 'cond-d']
 tags: []
 priority_flag: medium
 ---
 
 # 사이드프로젝트 리크루팅 사이트 제작
 
-> Project ID: `prj:011` | Track: `trk:2` | Status: active
+> Project ID: `prj-011` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

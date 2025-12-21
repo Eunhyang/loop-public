@@ -8,7 +8,7 @@ const State = {
     members: [],
     northstars: [],
     metahypotheses: [],
-    conditions: [],
+    conditions- [],
     productlines: [],
     partnershipstages: [],
     tracks: [],
@@ -280,13 +280,45 @@ const State = {
     // Assignee-centric helpers (for Kanban by Assignee)
     // ============================================
 
+    // Get tasks filtered by Track/Hypothesis/Condition (but not by assignee/project)
+    getStrategyFilteredTasks() {
+        let filtered = this.tasks;
+
+        // Filter by track (via project's parent_id)
+        if (this.filterTrack && this.filterTrack !== 'all') {
+            const trackProjects = this.projects
+                .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => trackProjects.includes(t.project_id));
+        }
+
+        // Filter by hypothesis (tasks that validate this hypothesis)
+        if (this.filterHypothesis) {
+            filtered = filtered.filter(t =>
+                t.validates?.includes(this.filterHypothesis) ||
+                t.outgoing_relations?.some(r => r.target_id === this.filterHypothesis)
+            );
+        }
+
+        // Filter by condition (tasks with conditions_3y containing this condition)
+        if (this.filterCondition) {
+            filtered = filtered.filter(t =>
+                t.conditions_3y?.includes(this.filterCondition)
+            );
+        }
+
+        return filtered;
+    },
+
     // Get task count per assignee (for tabs)
+    // Applies Track/Hypothesis/Condition filters
     getTaskCountByAssignee() {
-        const counts = { all: this.tasks.length };
+        const filteredTasks = this.getStrategyFilteredTasks();
+        const counts = { all: filteredTasks.length };
         this.members.forEach(m => counts[m.id] = 0);
         counts['unassigned'] = 0;
 
-        this.tasks.forEach(task => {
+        filteredTasks.forEach(task => {
             const assignee = task.assignee || 'unassigned';
             if (counts[assignee] !== undefined) {
                 counts[assignee]++;
@@ -299,10 +331,12 @@ const State = {
     },
 
     // Get projects that have tasks for current assignee (for Project sub-tabs)
-    // Applies project status/priority filters
+    // Applies Track/Hypothesis/Condition + project status/priority filters
     getProjectsForAssignee() {
-        // 1. Filter tasks by current assignee
-        let filteredTasks = this.tasks;
+        // 1. Start with strategy-filtered tasks (Track/Hypothesis/Condition)
+        let filteredTasks = this.getStrategyFilteredTasks();
+
+        // 2. Filter by current assignee
         if (this.currentAssignee !== 'all') {
             if (this.currentAssignee === 'unassigned') {
                 filteredTasks = filteredTasks.filter(t => !t.assignee);
@@ -311,7 +345,7 @@ const State = {
             }
         }
 
-        // 2. Count tasks per project
+        // 3. Count tasks per project
         const projectTaskCount = {};
         filteredTasks.forEach(task => {
             const projectId = task.project_id;

@@ -1,24 +1,24 @@
 ---
 entity_type: Track
-entity_id: trk:4
+entity_id: trk-4
 entity_name: Track_4_Coaching
 created: 2024-12-18
 updated: 2024-12-18
 status: active
-parent_id: cond:b
+parent_id: cond-b
 aliases:
-- trk:4
+- trk-4
 - Track_4_Coaching
 - trk-4
 outgoing_relations:
 - type: enables
-  target_id: trk:6
+  target_id: trk-6
   description: 코칭 매출 직접 기여
 - type: supports
-  target_id: trk:2
+  target_id: trk-2
   description: 코치 라벨링이 고품질 데이터 생성
 - type: depends_on
-  target_id: trk:1
+  target_id: trk-1
   description: 제품으로 코칭 지원
 validates: []
 validated_by: []
@@ -46,7 +46,7 @@ objectives:
   status: 위험
 progress: 0.4
 risk_level: medium
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags:
 - track
 - 12month

@@ -1,23 +1,23 @@
 ---
 entity_type: Project
-entity_id: "prj:009"
+entity_id: "prj-009"
 entity_name: "[투자/TIPS준비] 배치 프로그램 지원"
 created: 2025-12-18
 updated: 2025-12-18
 status: active
 
 # === 계층 ===
-parent_id: "trk:6"
+parent_id: "trk-6"
 aliases:
-  - "prj:009"
+  - "prj-009"
   - "[투자/TIPS준비] 배치 프로그램 지원"
   - "prj-009"
 
 # === 관계 ===
 outgoing_relations: []
 validates:
-  - hyp:6-13
-  - hyp:6-14
+  - hyp-6-13
+  - hyp-6-14
 validated_by: []
 
 # === Project 전용 ===
@@ -36,14 +36,14 @@ realized_impact:
 experiments: []
 
 # === 분류 ===
-conditions_3y: ['cond:e']
+conditions_3y: ['cond-e']
 tags: []
 priority_flag: medium
 ---
 
 # [투자/TIPS준비] 배치 프로그램 지원
 
-> Project ID: `prj:009` | Track: `trk:2` | Status: active
+> Project ID: `prj-009` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

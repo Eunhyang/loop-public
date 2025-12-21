@@ -18,7 +18,7 @@
 
 1. **입력 수집**
    - 회고 문서 경로 (또는 위 컨텍스트에서 자동 인식)
-   - Project ID (prj:NNN)
+   - Project ID (prj-NNN)
    - 핵심 지표 (목표 vs 실제)
 
 2. **회고 분석** (LLM)

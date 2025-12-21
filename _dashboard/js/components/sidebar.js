@@ -7,7 +7,7 @@ const Sidebar = {
     sectionsCollapsed: {
         tracks: false,
         hypotheses: false,
-        conditions: false
+        conditions- false
     },
 
     // ============================================
@@ -294,7 +294,7 @@ const Sidebar = {
         if (State.currentTrack && State.currentTrack !== 'all') {
             const track = State.getTrackById(State.currentTrack);
             if (track) {
-                metaEl.textContent = `Track ${track.entity_id.replace('trk:', '')}: ${track.hypothesis || track.entity_name}`;
+                metaEl.textContent = `Track ${track.entity_id.replace('trk-', '')}: ${track.hypothesis || track.entity_name}`;
                 return;
             }
         }
@@ -327,12 +327,12 @@ const Sidebar = {
 
     getTrackIcon(trackId) {
         const icons = {
-            'trk:1': '📱', // Product
-            'trk:2': '📊', // Data
-            'trk:3': '📝', // Content
-            'trk:4': '🧑‍🏫', // Coaching
-            'trk:5': '🤝', // Partnership
-            'trk:6': '💰'  // Revenue
+            'trk-1': '📱', // Product
+            'trk-2': '📊', // Data
+            'trk-3': '📝', // Content
+            'trk-4': '🧑‍🏫', // Coaching
+            'trk-5': '🤝', // Partnership
+            'trk-6': '💰'  // Revenue
         };
         return icons[trackId] || '🎯';
     },

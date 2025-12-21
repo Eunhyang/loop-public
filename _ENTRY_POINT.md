@@ -44,14 +44,14 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 | Type | ID Pattern | Canonical Path | Count |
 |------|------------|----------------|-------|
-| NorthStar | `ns:001` | `01_North_Star/` | 1 |
-| MetaHypothesis | `mh:1-4` | `01_North_Star/` | 1 |
-| Condition | `cond:a-e` | `20_Strategy/3Y_Conditions_{period}/` | 1 |
-| Track | `trk:1-6` | `20_Strategy/12M_Tracks/{year}/` | 6 |
-| Project | `prj:001-999` | `50_Projects/{year}/P{N}_*/` | 14 |
-| Task | `tsk:NNN-NN` | `50_Projects/{year}/P*/Tasks/` | 48+ |
-| Hypothesis | `hyp:001-999` | `60_Hypotheses/` | - |
-| Experiment | `exp:001-999` | `70_Experiments/` | - |
+| NorthStar | `ns-001` | `01_North_Star/` | 1 |
+| MetaHypothesis | `mh-1-4` | `01_North_Star/` | 1 |
+| Condition | `cond-a-e` | `20_Strategy/3Y_Conditions_{period}/` | 1 |
+| Track | `trk-1-6` | `20_Strategy/12M_Tracks/{year}/` | 6 |
+| Project | `prj-001-999` | `50_Projects/{year}/P{N}_*/` | 14 |
+| Task | `tsk-NNN-NN` | `50_Projects/{year}/P*/Tasks/` | 48+ |
+| Hypothesis | `hyp-001-999` | `60_Hypotheses/` | - |
+| Experiment | `exp-001-999` | `70_Experiments/` | - |
 
 **총 엔티티**: 72개 (2025-12-19 기준)
 
@@ -68,9 +68,9 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 | Track | `parent_id` → Condition, `conditions_3y` → Condition(s) |
 
 ### `conditions_3y` 필드 (핵심)
-- **형식**: `["cond:a", "cond:b"]` (최소 1개 필수)
+- **형식**: `["cond-a", "cond-b"]` (최소 1개 필수)
 - **목적**: LLM이 "Condition X 관련 작업" 쿼리를 O(1)로 해결
-- **예시**: Task가 `conditions_3y: ["cond:b"]`이면 Loop Dataset 관련 작업
+- **예시**: Task가 `conditions_3y: ["cond-b"]`이면 Loop Dataset 관련 작업
 
 ---
 
@@ -142,9 +142,9 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 ### Strategic (전략)
 | 문서 | ID | 설명 |
 |------|-----|------|
-| [[01_North_Star/10년 비전.md]] | `ns:001` | 불변 좌표 |
-| [[01_North_Star/MH3_데이터_모델링_가능.md]] | `mh:3` | Ontology가 검증 |
-| [[20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md]] | `cond:b` | 재현 패턴 10개 조건 |
+| [[01_North_Star/10년 비전.md]] | `ns-001` | 불변 좌표 |
+| [[01_North_Star/MH3_데이터_모델링_가능.md]] | `mh-3` | Ontology가 검증 |
+| [[20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md]] | `cond-b` | 재현 패턴 10개 조건 |
 
 ### Index Files (인덱스)
 | 문서 | 설명 |
@@ -164,7 +164,7 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 ### 특정 엔티티 찾기
 ```
-1. entity_id로 검색: "prj:001"
+1. entity_id로 검색: "prj-001"
 2. entity_name으로 검색: "Ontology"
 3. 폴더 경로로 탐색: 50_Projects/2024/
 ```

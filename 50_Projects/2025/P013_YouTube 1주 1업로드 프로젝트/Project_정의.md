@@ -1,13 +1,13 @@
 ---
 entity_type: Project
-entity_id: prj:013
+entity_id: prj-013
 entity_name: YouTube 1주 1업로드 프로젝트
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-parent_id: trk:3
+parent_id: trk-3
 aliases:
-- prj:013
+- prj-013
 - YouTube 1주 1업로드 프로젝트
 - prj-013
 outgoing_relations: []
@@ -26,14 +26,14 @@ realized_impact:
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond:a']
+conditions_3y: ['cond-a']
 tags: []
 priority_flag: medium
 ---
 
 # YouTube 1주 1업로드 프로젝트
 
-> Project ID: `prj:013` | Track: `trk:2` | Status: active
+> Project ID: `prj-013` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

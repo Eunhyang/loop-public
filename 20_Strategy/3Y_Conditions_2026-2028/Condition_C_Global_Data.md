@@ -1,13 +1,13 @@
 ---
 entity_type: Condition
-entity_id: cond:c
+entity_id: cond-c
 entity_name: Condition_C_Global_Data
 created: 2024-12-18
 updated: 2024-12-20
 status: planning
-parent_id: mh:3
+parent_id: mh-3
 aliases:
-- cond:c
+- cond-c
 - Condition_C_Global_Data
 - cond-c
 - Global Data
@@ -17,8 +17,8 @@ outgoing_relations:
   description: 깨지면 글로벌 확장 가설 폐기
 validates: []
 validated_by:
-- mh:3
-- trk:5
+- mh-3
+- trk-5
 condition: 문화권별 Loop 해석이 구조적으로 수렴하는가?
 unlock: International Tracker, 해외 파일럿
 if_broken: 일본 중심 전환, 해외 제품 지연
@@ -50,7 +50,7 @@ break_triggers:
 
 # Condition C: Global Data
 
-> 조건 ID: `cond:c` | 상태: Planning | 위험도: Medium
+> 조건 ID: `cond-c` | 상태: Planning | 위험도: Medium
 
 ## 조건 선언
 

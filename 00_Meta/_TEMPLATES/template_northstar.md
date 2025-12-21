@@ -1,6 +1,6 @@
 ---
 entity_type: NorthStar
-entity_id: "ns:001"
+entity_id: "ns-001"
 entity_name: "{{NORTHSTAR_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
@@ -8,7 +8,7 @@ status: fixed
 
 # === 계층 ===
 parent_id: null
-aliases: ["ns:001"]
+aliases: ["ns-001"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -22,7 +22,7 @@ priority_flag: critical
 
 # North Star: {{NORTHSTAR_NAME}}
 
-> NorthStar ID: `ns:001` | Status: **FIXED** (절대 불변)
+> NorthStar ID: `ns-001` | Status: **FIXED** (절대 불변)
 
 ## 10년 비전
 
@@ -51,10 +51,10 @@ priority_flag: critical
 
 | MH | Name | Status |
 |----|------|--------|
-| [[mh:1]] | | assumed |
-| [[mh:2]] | | assumed |
-| [[mh:3]] | | validating |
-| [[mh:4]] | | assumed |
+| [[mh-1]] | | assumed |
+| [[mh-2]] | | assumed |
+| [[mh-3]] | | validating |
+| [[mh-4]] | | assumed |
 
 ---
 

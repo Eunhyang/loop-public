@@ -1,19 +1,19 @@
 ---
 entity_type: Project
-entity_id: prj:006
+entity_id: prj-006
 entity_name: 코치 1명 구인 & 1차 온보딩 준비
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-parent_id: trk:4
+parent_id: trk-4
 aliases:
-- prj:006
+- prj-006
 - 코치 1명 구인 & 1차 온보딩 준비
 - prj-006
 outgoing_relations: []
 validates:
-  - hyp:4-06
-  - hyp:4-07
+  - hyp-4-06
+  - hyp-4-07
 validated_by: []
 owner: 미정
 budget: null
@@ -28,14 +28,14 @@ realized_impact:
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond:b', 'cond:d']
+conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: medium
 ---
 
 # 코치 1명 구인 & 1차 온보딩 준비
 
-> Project ID: `prj:006` | Track: `trk:2` | Status: active
+> Project ID: `prj-006` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

@@ -3,20 +3,20 @@
 Project parent_id 일괄 수정 스크립트
 
 프로젝트 → Track 매핑:
-- prj:001 → trk:2 (Ontology - Data)
-- prj:002 → trk:4 (와디즈 코칭 - Coaching)
-- prj:003 → trk:2 (LoopOS 데이터 설계 - Data)
-- prj:004 → trk:2 (placeholder - Data default)
-- prj:005 → trk:2 (LoopOS 선제 학습 - Data)
-- prj:006 → trk:4 (코치 구인/온보딩 - Coaching)
-- prj:007 → trk:6 (외부 비서 - Revenue/Ops)
-- prj:008 → trk:4 (파일럿 프로젝트 - Coaching)
-- prj:009 → trk:6 (투자/TIPS - Revenue)
-- prj:010 → trk:6 (펀딩/마케팅 - Revenue)
-- prj:011 → trk:5 (리크루팅 사이트 - Partnership)
-- prj:012 → trk:4 (CS/운영 - Coaching)
-- prj:013 → trk:3 (YouTube - Content)
-- prj:014 → trk:4 (1:1 코칭 - Coaching)
+- prj-001 → trk-2 (Ontology - Data)
+- prj-002 → trk-4 (와디즈 코칭 - Coaching)
+- prj-003 → trk-2 (LoopOS 데이터 설계 - Data)
+- prj-004 → trk-2 (placeholder - Data default)
+- prj-005 → trk-2 (LoopOS 선제 학습 - Data)
+- prj-006 → trk-4 (코치 구인/온보딩 - Coaching)
+- prj-007 → trk-6 (외부 비서 - Revenue/Ops)
+- prj-008 → trk-4 (파일럿 프로젝트 - Coaching)
+- prj-009 → trk-6 (투자/TIPS - Revenue)
+- prj-010 → trk-6 (펀딩/마케팅 - Revenue)
+- prj-011 → trk-5 (리크루팅 사이트 - Partnership)
+- prj-012 → trk-4 (CS/운영 - Coaching)
+- prj-013 → trk-3 (YouTube - Content)
+- prj-014 → trk-4 (1:1 코칭 - Coaching)
 """
 
 import re
@@ -25,20 +25,20 @@ from pathlib import Path
 
 # Project → Track 매핑
 PROJECT_TO_TRACK = {
-    "prj:001": "trk:2",  # Ontology - Data
-    "prj:002": "trk:4",  # 와디즈 코칭 - Coaching
-    "prj:003": "trk:2",  # LoopOS 데이터 설계 - Data
-    "prj:004": "trk:2",  # placeholder - Data default
-    "prj:005": "trk:2",  # LoopOS 선제 학습 - Data
-    "prj:006": "trk:4",  # 코치 구인/온보딩 - Coaching
-    "prj:007": "trk:6",  # 외부 비서 - Revenue/Ops
-    "prj:008": "trk:4",  # 파일럿 프로젝트 - Coaching
-    "prj:009": "trk:6",  # 투자/TIPS - Revenue
-    "prj:010": "trk:6",  # 펀딩/마케팅 - Revenue
-    "prj:011": "trk:5",  # 리크루팅 사이트 - Partnership
-    "prj:012": "trk:4",  # CS/운영 - Coaching
-    "prj:013": "trk:3",  # YouTube - Content
-    "prj:014": "trk:4",  # 1:1 코칭 - Coaching
+    "prj-001": "trk-2",  # Ontology - Data
+    "prj-002": "trk-4",  # 와디즈 코칭 - Coaching
+    "prj-003": "trk-2",  # LoopOS 데이터 설계 - Data
+    "prj-004": "trk-2",  # placeholder - Data default
+    "prj-005": "trk-2",  # LoopOS 선제 학습 - Data
+    "prj-006": "trk-4",  # 코치 구인/온보딩 - Coaching
+    "prj-007": "trk-6",  # 외부 비서 - Revenue/Ops
+    "prj-008": "trk-4",  # 파일럿 프로젝트 - Coaching
+    "prj-009": "trk-6",  # 투자/TIPS - Revenue
+    "prj-010": "trk-6",  # 펀딩/마케팅 - Revenue
+    "prj-011": "trk-5",  # 리크루팅 사이트 - Partnership
+    "prj-012": "trk-4",  # CS/운영 - Coaching
+    "prj-013": "trk-3",  # YouTube - Content
+    "prj-014": "trk-4",  # 1:1 코칭 - Coaching
 }
 
 
@@ -46,8 +46,8 @@ def fix_project_file(filepath: Path, project_id: str, new_track: str, dry_run: b
     """프로젝트 파일의 parent_id 수정"""
     content = filepath.read_text(encoding="utf-8")
 
-    # parent_id: trk:X 또는 parent_id: "trk:X" 패턴 찾기
-    pattern = r'(parent_id:\s*)"?trk:\d+"?'
+    # parent_id: trk-X 또는 parent_id: "trk-X" 패턴 찾기
+    pattern = r'(parent_id:\s*)"?trk-\d+"?'
     match = re.search(pattern, content)
 
     if not match:
@@ -73,7 +73,7 @@ def fix_project_file(filepath: Path, project_id: str, new_track: str, dry_run: b
     new_content = re.sub(pattern, new_value, content)
 
     # track_id도 함께 수정 (있는 경우)
-    track_pattern = r'(track_id:\s*)"?trk:\d+"?'
+    track_pattern = r'(track_id:\s*)"?trk-\d+"?'
     track_match = re.search(track_pattern, new_content)
     if track_match:
         track_has_quotes = '"' in track_match.group(0)
@@ -114,7 +114,7 @@ def main(vault_path: str, dry_run: bool = True) -> int:
         if not match:
             continue
 
-        project_id = f"prj:{match.group(1).zfill(3)}"
+        project_id = f"prj-{match.group(1).zfill(3)}"
 
         if project_id not in PROJECT_TO_TRACK:
             print(f"  [SKIP] {project_id}: not in mapping")

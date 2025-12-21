@@ -15,7 +15,7 @@ def clean_project_name(project_raw):
     """프로젝트 이름에서 Notion 링크 제거하고 정리"""
     if not project_raw:
         return None
-    # Notion 링크 형식 제거: "Name (https://...)"
+    # Notion 링크 형식 제거: "Name (https-//...)"
     if '(' in project_raw and ')' in project_raw:
         project_name = project_raw.split('(')[0].strip()
     else:
@@ -91,11 +91,11 @@ updated: {today}
 status: active
 
 # === 계층 ===
-parent_id: "trk:2"
+parent_id: "trk-2"
 aliases: []
 
 # === 관계 ===
-outgoing_relations: []
+outgoing_relations- []
 validates: []
 validated_by: []
 
@@ -113,7 +113,7 @@ priority_flag: medium
 
 # {project_name}
 
-> Project ID: `{project_id}` | Track: `trk:2` | Status: active
+> Project ID: `{project_id}` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 
@@ -172,7 +172,7 @@ project_id: "{project_id}"
 aliases: []
 
 # === 관계 ===
-outgoing_relations: []
+outgoing_relations- []
 validates: []
 validated_by: []
 
@@ -271,7 +271,7 @@ def main():
 
     # 각 프로젝트 처리
     for project_name, project_tasks in sorted(projects_dict.items(), key=lambda x: -len(x[1])):
-        project_id = f"prj:{next_project_num:03d}"
+        project_id = f"prj-{next_project_num:03d}"
         project_name_safe = sanitize_filename(project_name)
 
         print(f"[{project_id}] {project_name} ({len(project_tasks)}개 태스크)")
@@ -296,7 +296,7 @@ def main():
 
         # 각 태스크 처리
         for task_seq, task in enumerate(project_tasks, start=1):
-            task_id = f"tsk:{next_project_num:03d}-{task_seq:02d}"
+            task_id = f"tsk-{next_project_num:03d}-{task_seq:02d}"
             task_name = (task.get('Name', '') or '').strip() or '(이름 없음)'
             assignee = (task.get('Assigned to', '') or '').strip() or '미정'
             priority, priority_flag = map_priority(task.get('Priority', ''))

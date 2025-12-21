@@ -1,14 +1,14 @@
 ---
 entity_type: Project
-entity_id: "prj:{{NUMBER}}"
+entity_id: "prj-{{NUMBER}}"
 entity_name: "{{PROJECT_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: planning
 
 # === 계층 ===
-parent_id: "trk:{{TRACK_NUMBER}}"
-aliases: ["prj:{{NUMBER}}"]
+parent_id: "trk-{{TRACK_NUMBER}}"
+aliases: ["prj-{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -33,7 +33,7 @@ expected_impact:
       weight: {{WEIGHT}}
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond:{{CONDITION}}"]  # 최소 1개 필수 (a-e)
+conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
 # === 분류 ===
 tags: []
@@ -42,7 +42,7 @@ priority_flag: medium
 
 # {{PROJECT_NAME}}
 
-> Project ID: `prj:{{NUMBER}}` | Track: `trk:{{TRACK_NUMBER}}` | Status: planning
+> Project ID: `prj-{{NUMBER}}` | Track: `trk-{{TRACK_NUMBER}}` | Status: planning
 
 ## Project 가설
 
@@ -84,19 +84,19 @@ priority_flag: medium
 
 | ID | Name | Assignee | Status | Due |
 |----|------|----------|--------|-----|
-| tsk:{{NUMBER}}-01 | | | planning | |
+| tsk-{{NUMBER}}-01 | | | planning | |
 
 ---
 
 ## 관련 가설
 
-- [[hyp:{{HYP_ID}}]] -
+- [[hyp-{{HYP_ID}}]] -
 
 ---
 
 ## 참고 문서
 
-- [[trk:{{TRACK_NUMBER}}]] - 소속 Track
+- [[trk-{{TRACK_NUMBER}}]] - 소속 Track
 
 ---
 

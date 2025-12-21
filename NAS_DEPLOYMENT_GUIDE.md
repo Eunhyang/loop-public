@@ -82,7 +82,7 @@ cd /volume1/vault
 # Git Clone
 git clone git@github.com:Eunhyang/loop_obsidian.git LOOP
 # 또는 HTTPS
-git clone https://github.com/Eunhyang/loop_obsidian.git LOOP
+git clone https-//github.com/Eunhyang/loop_obsidian.git LOOP
 
 cd LOOP
 ```
@@ -434,7 +434,7 @@ git pull  # 한 번 인증하면 저장됨
 배포 스크립트에 추가:
 ```bash
 # Slack 알림
-SLACK_WEBHOOK="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+SLACK_WEBHOOK="https-//hooks.slack.com/services/YOUR/WEBHOOK/URL"
 
 curl -X POST "$SLACK_WEBHOOK" \
   -H 'Content-Type: application/json' \
@@ -457,7 +457,7 @@ curl -X POST "$SLACK_WEBHOOK" \
 **DSM** → **제어판** → **보안** → **인증서**
 1. Let's Encrypt 인증서 생성
 2. Web Station에 적용
-3. `http://` → `https://` 접근
+3. `http://` → `https-//` 접근
 
 ---
 
@@ -504,9 +504,9 @@ curl -X POST "$SLACK_WEBHOOK" \
 ## 🎓 참고 자료
 
 **Synology 공식 문서**:
-- [Web Station 사용 설명서](https://kb.synology.com/DSM/help/WebStation)
-- [Python Package 설치](https://kb.synology.com/DSM/tutorial/How_to_install_Python_and_run_Python_scripts)
-- [작업 스케줄러](https://kb.synology.com/DSM/help/DSM/AdminCenter/system_taskscheduler)
+- [Web Station 사용 설명서](https-//kb.synology.com/DSM/help/WebStation)
+- [Python Package 설치](https-//kb.synology.com/DSM/tutorial/How_to_install_Python_and_run_Python_scripts)
+- [작업 스케줄러](https-//kb.synology.com/DSM/help/DSM/AdminCenter/system_taskscheduler)
 
 **내부 문서**:
 - `CLAUDE.md` - Claude Code 가이드

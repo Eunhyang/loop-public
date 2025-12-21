@@ -1,22 +1,22 @@
 ---
 entity_type: ProductLine
-entity_id: pl:1
+entity_id: pl-1
 entity_name: PL1_LOOP_Core_OS
 created: 2024-12-20
 updated: 2024-12-20
 status: active
-parent_id: cond:a
+parent_id: cond-a
 aliases:
-- pl:1
+- pl-1
 - PL1_LOOP_Core_OS
 - LOOP Core OS
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:a
+  target_id: cond-a
   description: Condition A (국내 PMF) 충족 시 강화
 validates: []
 validated_by:
-- cond:a
+- cond-a
 description: 국내 PMF 확립을 위한 핵심 제품
 target_market: 국내 B2C
 unlock_condition: Condition A (국내 PMF)
@@ -40,7 +40,7 @@ priority_flag: high
 
 # PL1: LOOP Core OS
 
-> Product Line ID: `pl:1` | 상태: Active | 기간: 2026
+> Product Line ID: `pl-1` | 상태: Active | 기간: 2026
 
 ## 개요
 

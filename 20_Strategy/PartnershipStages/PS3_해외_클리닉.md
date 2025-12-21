@@ -1,22 +1,22 @@
 ---
 entity_type: PartnershipStage
-entity_id: ps:3
+entity_id: ps-3
 entity_name: PS3_해외_클리닉
 created: 2024-12-20
 updated: 2024-12-20
 status: planning
-parent_id: cond:c
+parent_id: cond-c
 aliases:
-- ps:3
+- ps-3
 - PS3_해외_클리닉
 - Stage 3 해외 클리닉
 outgoing_relations:
 - type: unlocked_by
-  target_id: cond:c
+  target_id: cond-c
   description: Condition C Phase 1 (해외 500~2,000명) 충족 시 활성화
 validates: []
 validated_by:
-- cond:c
+- cond-c
 description: 해외 클리닉 파일럿 단계
 partner_type: 해외 클리닉
 unlock_condition: Condition C Phase 1 (해외 500~2,000명)
@@ -36,7 +36,7 @@ priority_flag: medium
 
 # PS3: 해외 클리닉 파일럿
 
-> Partnership Stage ID: `ps:3` | 상태: Planning | 기간: 2027-2028
+> Partnership Stage ID: `ps-3` | 상태: Planning | 기간: 2027-2028
 
 ## 개요
 

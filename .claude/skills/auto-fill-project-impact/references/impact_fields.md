@@ -91,10 +91,10 @@
 **형식:**
 ```yaml
 contributes:
-  - condition: "cond:a"
+  - condition: "cond-a"
     weight: 0.3
     description: "패턴 10개 발견 중 3개 기여 예상"
-  - condition: "cond:b"
+  - condition: "cond-b"
     weight: 0.2
     description: "데이터셋 구축 일부 기여"
 ```
@@ -105,11 +105,11 @@ contributes:
 - `description`은 구체적 기여 내용 명시
 
 **Condition 목록:**
-- `cond:a` - Condition A
-- `cond:b` - Condition B (Loop Dataset)
-- `cond:c` - Condition C
-- `cond:d` - Condition D
-- `cond:e` - Condition E
+- `cond-a` - Condition A
+- `cond-b` - Condition B (Loop Dataset)
+- `cond-c` - Condition C
+- `cond-d` - Condition D
+- `cond-e` - Condition E
 
 ---
 

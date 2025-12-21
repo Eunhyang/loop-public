@@ -41,7 +41,7 @@ git log -1 --oneline
 - 커밋 메시지 끝에 다음 추가:
 
 ```
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+🤖 Generated with [Claude Code](https-//claude.com/claude-code)
 
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ```

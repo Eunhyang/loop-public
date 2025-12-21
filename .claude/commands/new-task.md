@@ -22,7 +22,7 @@
    - 우선순위 (priority_flag) - 선택사항
 
 2. **자동 처리**
-   - 다음 Task ID 자동 생성 (tsk:NNN-NN)
+   - 다음 Task ID 자동 생성 (tsk-NNN-NN)
    - Task 파일 생성
    - Schema validation 실행
    - Graph index 업데이트
@@ -44,7 +44,7 @@
 또는:
 
 ```
-/new-task prj:010에 광고 소재 제작 태스크 추가
+/new-task prj-010에 광고 소재 제작 태스크 추가
 ```
 
 ---

@@ -1,20 +1,20 @@
 ---
 entity_type: Project
-entity_id: prj:003
+entity_id: prj-003
 entity_name: LoopOS V0 데이터 설계
 created: 2025-12-18
 updated: 2025-12-18
 status: active
-parent_id: trk:2
+parent_id: trk-2
 aliases:
-- prj:003
+- prj-003
 - LoopOS V0 데이터 설계
 - prj-003
 outgoing_relations: []
 validates:
-  - hyp:2-01
-  - hyp:2-02
-  - hyp:2-03
+  - hyp-2-01
+  - hyp-2-02
+  - hyp-2-03
 validated_by: []
 owner: 김은향
 budget: null
@@ -29,14 +29,14 @@ realized_impact:
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: medium
 ---
 
 # LoopOS V0 데이터 설계
 
-> Project ID: `prj:003` | Track: `trk:2` | Status: active
+> Project ID: `prj-003` | Track: `trk-2` | Status: active
 
 ## 프로젝트 개요
 

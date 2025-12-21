@@ -11,7 +11,7 @@ Manage LOOP vault entities with GraphRAG pattern enforcement.
 
 This skill ensures Task and Project entities follow strict schema requirements and maintain proper relationships. It prevents orphaned entities by enforcing validation and automatic graph index updates.
 
-**Supported operations:**
+**Supported operations-**
 - **Create** - Generate new Task or Project with auto-assigned ID
 - **Edit** - Modify existing entity fields while preserving schema
 - **Delete** - Remove entity and update all references
@@ -34,7 +34,7 @@ Use AskUserQuestion to collect:
 
 Required fields:
 - `entity_name` - Task name (e.g., "CoachOS 프로토타입 개발")
-- `project_id` - Parent project ID (must exist, e.g., "prj:003")
+- `project_id` - Parent project ID (must exist, e.g., "prj-003")
 - `assignee` - Person responsible (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 
 Optional fields:
@@ -51,17 +51,17 @@ Optional fields:
    pattern: 50_Projects/**/Tasks/*.md
    ```
 
-2. Use Read to scan each file's frontmatter for `entity_id: tsk:*`
+2. Use Read to scan each file's frontmatter for `entity_id: tsk-*`
 
-3. Find the highest ID (e.g., `tsk:003-01`)
+3. Find the highest ID (e.g., `tsk-003-01`)
 
 4. Increment by 1:
    - Extract main number and sub number (003-01 → 3, 1)
    - Combined = 3 * 100 + 1 = 301
    - Next = 301 + 1 = 302
-   - Format = 302 → 3 main, 2 sub → `tsk:003-02`
+   - Format = 302 → 3 main, 2 sub → `tsk-003-02`
 
-5. If no existing Tasks found, start with `tsk:001-01`
+5. If no existing Tasks found, start with `tsk-001-01`
 
 **Step 3: Load and populate template**
 
@@ -71,7 +71,7 @@ Optional fields:
    ```
 
 2. Replace {{PLACEHOLDERS}}:
-   - `{{entity_id}}` → generated ID (e.g., `tsk:003-02`)
+   - `{{entity_id}}` → generated ID (e.g., `tsk-003-02`)
    - `{{entity_name}}` → user-provided name
    - `{{project_id}}` → user-provided project ID
    - `{{assignee}}` → user-provided assignee
@@ -109,11 +109,11 @@ Use AskUserQuestion to collect:
 Required fields:
 - `entity_name` - Project name (e.g., "Ontology_v0.2")
 - `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
-- `parent_id` - Parent Track or Hypothesis ID (e.g., "trk:2" or "hyp:005")
+- `parent_id` - Parent Track or Hypothesis ID (e.g., "trk-2" or "hyp-005")
 
 Optional fields:
 - `priority_flag` - "critical", "high", "medium", or "low"
-- `hypothesis_id` - 검증 대상 가설 ID (e.g., "hyp:003")
+- `hypothesis_id` - 검증 대상 가설 ID (e.g., "hyp-003")
 
 **Step 1.5: Expected Impact 설정**
 
@@ -148,16 +148,16 @@ Use AskUserQuestion to ask:
    pattern: 50_Projects/P**/Project_정의.md
    ```
 
-2. Use Read to scan each file's frontmatter for `entity_id: prj:*`
+2. Use Read to scan each file's frontmatter for `entity_id: prj-*`
 
-3. Find the highest number (e.g., `prj:003`)
+3. Find the highest number (e.g., `prj-003`)
 
 4. Increment by 1:
    - Extract number (003 → 3)
    - Next = 3 + 1 = 4
-   - Format = `prj:004`
+   - Format = `prj-004`
 
-5. If no existing Projects found, start with `prj:001`
+5. If no existing Projects found, start with `prj-001`
 
 **Step 3: Load and populate template**
 
@@ -167,7 +167,7 @@ Use AskUserQuestion to ask:
    ```
 
 2. Replace {{PLACEHOLDERS}}:
-   - `{{entity_id}}` → generated ID (e.g., `prj:004`)
+   - `{{entity_id}}` → generated ID (e.g., `prj-004`)
    - `{{entity_name}}` → user-provided name
    - `{{owner}}` → user-provided owner
    - `{{parent_id}}` → user-provided parent ID
@@ -180,7 +180,7 @@ Use AskUserQuestion to ask:
    - `{{IMPACT_TIER}}` → "strategic" | "enabling" | "operational" | "none" | null
    - `{{IMPACT_MAG}}` → "high" | "mid" | "low" | null
    - `{{CONFIDENCE}}` → 0.0-1.0 | null
-   - `{{COND_ID}}` → "cond:a" 등 | 빈 값
+   - `{{COND_ID}}` → "cond-a" 등 | 빈 값
    - `{{WEIGHT}}` → 0.0-1.0 | 빈 값
 
 **Step 4: Create project directory structure**
@@ -290,7 +290,7 @@ python3 scripts/build_graph_index.py .
 
 ## Validation Workflow
 
-After any create or edit operation, always run these three steps:
+After any create or edit operation, always run these three steps-
 
 **Step 1: Schema validation**
 
@@ -338,7 +338,7 @@ For ID patterns and file placement rules, see:
 ```
 User: "코치OS 인터페이스 설계 태스크 만들어줘"
 → Collect: project_id, assignee
-→ Generate: tsk:005-03
+→ Generate: tsk-005-03
 → Create: 50_Projects/CoachOS_Phase1/Tasks/코치OS_인터페이스_설계.md
 → Validate and index
 ```
@@ -348,7 +348,7 @@ User: "코치OS 인터페이스 설계 태스크 만들어줘"
 User: "패턴 발견 v2 프로젝트 만들어줘"
 → Collect: owner, parent_id
 → Ask: Impact 설정 방법? → "자동 채우기" 선택
-→ Generate: prj:008
+→ Generate: prj-008
 → Call auto-fill-project-impact 스킬
 → Create: 50_Projects/P008_Pattern_Discovery_v2/
 → Validate and index
@@ -359,7 +359,7 @@ User: "패턴 발견 v2 프로젝트 만들어줘"
 User: "회의록 정리 프로젝트 만들어줘"
 → Collect: owner, parent_id
 → Ask: Impact 설정 방법? → "None으로 설정" 선택
-→ Generate: prj:009
+→ Generate: prj-009
 → Set: tier="none", magnitude=null, confidence=null
 → Create: 50_Projects/P009_회의록_정리/
 → Validate and index
@@ -367,7 +367,7 @@ User: "회의록 정리 프로젝트 만들어줘"
 
 **Edit a Task:**
 ```
-User: "tsk:003-01 담당자를 한명학으로 바꿔줘"
+User: "tsk-003-01 담당자를 한명학으로 바꿔줘"
 → Find file
 → Read current values
 → Update assignee field (must be from members.yaml)
@@ -376,7 +376,7 @@ User: "tsk:003-01 담당자를 한명학으로 바꿔줘"
 
 **Delete a Project:**
 ```
-User: "prj:005 프로젝트 삭제해줘"
+User: "prj-005 프로젝트 삭제해줘"
 → Find project
 → Check dependencies (any Tasks?)
 → Confirm with user

@@ -1,14 +1,14 @@
 ---
 entity_type: Task
-entity_id: tsk:003-04
+entity_id: tsk-003-04
 entity_name: Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙
 created: 2025-12-18
 updated: 2025-12-18
 status: planning
-parent_id: prj:003
-project_id: prj:003
+parent_id: prj-003
+project_id: prj-003
 aliases:
-- tsk:003-04
+- tsk-003-04
 - Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙
 - tsk-003-04
 outgoing_relations: []
@@ -19,14 +19,14 @@ due: 2025-12-17
 priority: medium
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond:b']
+conditions_3y: ['cond-b']
 tags: []
 priority_flag: medium
 ---
 
 # Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙
 
-> Task ID: `tsk:003-04` | Project: `prj:003` | Status: planning
+> Task ID: `tsk-003-04` | Project: `prj-003` | Status: planning
 
 ## 목표
 
@@ -54,7 +54,7 @@ meal_start 없이 meal_end 방지, satiety/Emotion intensity 범위, daily 기�
 
 ## 참고 문서
 
-- [[prj:003]] - 소속 Project
+- [[prj-003]] - 소속 Project
 
 ---
 

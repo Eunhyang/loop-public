@@ -107,15 +107,15 @@ PL5 --> PS4
 |D|Runway|월 2~5천만 또는 18개월|GLP-1 OS 착수|비용 절감, 비규제 매출 집중|_(재정은 정량 판단이므로 별도 Trigger 불필요)_|
 |E|Team|Core 5~7, PM/Dev/Data|Global Schema, DTx 준비|외주 병행, Lite 중심|_(조직은 구조 조정으로 대응, 별도 Trigger 불필요)_|
 
-[Condition A — Notes (국내 PMF)](https://www.notion.so/Condition-A-Notes-PMF-2c86a363106a8035980ad6653003153c?pvs=21)
+[Condition A — Notes (국내 PMF)](https-//www.notion.so/Condition-A-Notes-PMF-2c86a363106a8035980ad6653003153c?pvs=21)
 
-[Condition B — Notes (Loop Dataset)](https://www.notion.so/Condition-B-Notes-Loop-Dataset-2c86a363106a80a79369f2b983e96844?pvs=21)
+[Condition B — Notes (Loop Dataset)](https-//www.notion.so/Condition-B-Notes-Loop-Dataset-2c86a363106a80a79369f2b983e96844?pvs=21)
 
-[Condition C — Notes (Global Data)](https://www.notion.so/Condition-C-Notes-Global-Data-2c86a363106a80a08aa4e2a3f9f52746?pvs=21)
+[Condition C — Notes (Global Data)](https-//www.notion.so/Condition-C-Notes-Global-Data-2c86a363106a80a08aa4e2a3f9f52746?pvs=21)
 
-[Condition D — Notes (Runway)](https://www.notion.so/Condition-D-Notes-Runway-2c86a363106a80058525c34f8d651b94?pvs=21)
+[Condition D — Notes (Runway)](https-//www.notion.so/Condition-D-Notes-Runway-2c86a363106a80058525c34f8d651b94?pvs=21)
 
-[Condition E — Notes (Team Readiness)](https://www.notion.so/Condition-E-Notes-Team-Readiness-2c86a363106a8013883aca5029d5af3e?pvs=21)
+[Condition E — Notes (Team Readiness)](https-//www.notion.so/Condition-E-Notes-Team-Readiness-2c86a363106a8013883aca5029d5af3e?pvs=21)
 
 ※ Hard Falsification Trigger에 명시된 수치/조건은 추가 해석 없이 가설을 폐기하거나 전략을 전환하는 최종 판단 기준으로 사용한다.
 

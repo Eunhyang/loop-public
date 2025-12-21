@@ -1,14 +1,14 @@
 ---
 entity_type: MetaHypothesis
-entity_id: "mh:{{NUMBER}}"
+entity_id: "mh-{{NUMBER}}"
 entity_name: "{{MH_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
 status: assumed
 
 # === 계층 ===
-parent_id: "ns:001"
-aliases: ["mh:{{NUMBER}}"]
+parent_id: "ns-001"
+aliases: ["mh-{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
@@ -27,7 +27,7 @@ priority_flag: critical
 
 # MH{{NUMBER}}: {{MH_NAME}}
 
-> MetaHypothesis ID: `mh:{{NUMBER}}` | Status: assumed | **CRITICAL**
+> MetaHypothesis ID: `mh-{{NUMBER}}` | Status: assumed | **CRITICAL**
 
 ## 가설
 
@@ -77,13 +77,13 @@ priority_flag: critical
 
 | Condition | Status |
 |-----------|--------|
-| [[cond:{{COND_LETTER}}]] | |
+| [[cond-{{COND_LETTER}}]] | |
 
 ---
 
 ## 참고 문서
 
-- [[ns:001]] - North Star
+- [[ns-001]] - North Star
 
 ---
 
