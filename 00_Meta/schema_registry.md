@@ -146,7 +146,8 @@ hypothesis_text: string | null   # → expected_impact.statement으로 대체
 ```yaml
 project_id: string               # 소속 프로젝트 ID (필수)
 assignee: string                 # 담당자
-due: date | null                 # 마감일
+start_date: date | null          # 시작일 (Calendar 뷰용)
+due: date | null                 # 마감일 (종료일)
 priority: string                 # low | medium | high
 estimated_hours: number | null   # 예상 시간
 actual_hours: number | null      # 실제 시간

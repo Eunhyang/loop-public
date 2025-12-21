@@ -201,13 +201,17 @@ const TaskPanel = {
     openNew() {
         this.currentTask = null;
 
+        // 기본값: 오늘 날짜
+        const today = new Date().toISOString().split('T')[0];
+
         document.getElementById('taskPanelTitle').textContent = 'New Task';
         document.getElementById('panelTaskId').textContent = '';
         document.getElementById('panelTaskId').style.display = 'none';
         document.getElementById('panelTaskName').value = '';
         document.getElementById('panelTaskStatus').value = 'todo';
         document.getElementById('panelTaskPriority').value = 'medium';
-        document.getElementById('panelTaskDue').value = '';
+        document.getElementById('panelTaskStartDate').value = today;
+        document.getElementById('panelTaskDue').value = today;
         document.getElementById('panelTaskNotes').value = '';
 
         // 현재 필터된 프로젝트 선택
@@ -232,41 +236,65 @@ const TaskPanel = {
     },
 
     /**
-     * Task 상세 패널 열기
+     * Task 상세 패널 열기 (API에서 본문 포함하여 로드)
      */
-    open(taskId) {
-        const task = State.getTaskById(taskId);
-        if (!task) {
+    async open(taskId) {
+        // 먼저 캐시된 기본 정보로 UI 표시
+        const cachedTask = State.getTaskById(taskId);
+        if (!cachedTask) {
             showToast('Task not found', 'error');
             return;
         }
 
-        this.currentTask = task;
-
+        // 기본 정보 먼저 표시
         document.getElementById('taskPanelTitle').textContent = 'Task Detail';
-        document.getElementById('panelTaskId').textContent = task.entity_id;
+        document.getElementById('panelTaskId').textContent = cachedTask.entity_id;
         document.getElementById('panelTaskId').style.display = 'block';
-        document.getElementById('panelTaskName').value = task.entity_name || '';
-        document.getElementById('panelTaskProject').value = task.project_id || '';
-        document.getElementById('panelTaskAssignee').value = task.assignee || '';
-        document.getElementById('panelTaskStatus').value = State.normalizeStatus(task.status);
-        document.getElementById('panelTaskPriority').value = task.priority || 'medium';
-        document.getElementById('panelTaskDue').value = task.due || '';
-        // notes 필드 우선, 없으면 _body (마크다운 본문) 사용
-        const notesContent = task.notes || task._body || '';
-        document.getElementById('panelTaskNotes').value = notesContent;
+        document.getElementById('panelTaskName').value = cachedTask.entity_name || '';
+        document.getElementById('panelTaskProject').value = cachedTask.project_id || '';
+        document.getElementById('panelTaskAssignee').value = cachedTask.assignee || '';
+        document.getElementById('panelTaskStatus').value = State.normalizeStatus(cachedTask.status);
+        document.getElementById('panelTaskPriority').value = cachedTask.priority || 'medium';
+        document.getElementById('panelTaskStartDate').value = cachedTask.start_date || cachedTask.due || '';
+        document.getElementById('panelTaskDue').value = cachedTask.due || '';
 
-        // Relations 표시
-        this.renderRelations(task);
+        // 패널 먼저 표시 (로딩 중)
+        document.getElementById('panelTaskNotes').value = 'Loading...';
+        this.resetNotesView();
+        this.updateNotesPreview('Loading...');
+        this.show();
+
+        // API에서 본문 포함한 상세 정보 로드
+        try {
+            const response = await fetch(`${API.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`);
+            if (!response.ok) {
+                throw new Error('Failed to load task');
+            }
+            const data = await response.json();
+            const task = data.task;
+
+            this.currentTask = task;
+
+            // 본문 표시
+            const notesContent = task.notes || task._body || '';
+            document.getElementById('panelTaskNotes').value = notesContent;
+            this.updateNotesPreview(notesContent);
+
+            // Relations 표시
+            this.renderRelations(task);
+
+        } catch (err) {
+            console.error('Error loading task detail:', err);
+            // 폴백: 캐시된 정보 사용
+            this.currentTask = cachedTask;
+            const notesContent = cachedTask.notes || cachedTask._body || '';
+            document.getElementById('panelTaskNotes').value = notesContent;
+            this.updateNotesPreview(notesContent);
+            this.renderRelations(cachedTask);
+        }
 
         // Delete 버튼 표시
         document.getElementById('panelTaskDelete').style.display = 'block';
-
-        // Notes 프리뷰 모드로 초기화
-        this.resetNotesView();
-        this.updateNotesPreview(notesContent);
-
-        this.show();
     },
 
     /**
@@ -382,6 +410,7 @@ const TaskPanel = {
             assignee: document.getElementById('panelTaskAssignee').value,
             status: document.getElementById('panelTaskStatus').value,
             priority: document.getElementById('panelTaskPriority').value,
+            start_date: document.getElementById('panelTaskStartDate').value || null,
             due: document.getElementById('panelTaskDue').value || null,
             notes: document.getElementById('panelTaskNotes').value || null
         };
@@ -418,6 +447,7 @@ const TaskPanel = {
                 showToast(this.currentTask ? 'Task updated' : 'Task created', 'success');
                 await State.reloadTasks();
                 Kanban.render();
+                Calendar.refresh();
                 this.close();
             } else {
                 showToast(result.message || result.detail || 'Save failed', 'error');
@@ -447,6 +477,7 @@ const TaskPanel = {
                 showToast('Task deleted', 'success');
                 await State.reloadTasks();
                 Kanban.render();
+                Calendar.refresh();
                 this.close();
             } else {
                 showToast(result.message || result.detail || 'Delete failed', 'error');

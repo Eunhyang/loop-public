@@ -46,7 +46,11 @@ const TaskModal = {
         document.getElementById('taskName').value = '';
         document.getElementById('taskPriority').value = 'medium';
         document.getElementById('taskStatus').value = 'todo';
-        document.getElementById('taskDue').value = '';
+
+        // 기본값: 오늘 날짜
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('taskStartDate').value = today;
+        document.getElementById('taskDue').value = today;
 
         // 현재 필터된 프로젝트 선택
         if (State.currentProject !== 'all') {
@@ -72,6 +76,7 @@ const TaskModal = {
         document.getElementById('taskAssignee').value = task.assignee || '';
         document.getElementById('taskPriority').value = task.priority || 'medium';
         document.getElementById('taskStatus').value = task.status || 'todo';
+        document.getElementById('taskStartDate').value = task.start_date || task.due || '';
         document.getElementById('taskDue').value = task.due || '';
 
         document.getElementById('taskModal').classList.add('active');
@@ -97,6 +102,7 @@ const TaskModal = {
             assignee: document.getElementById('taskAssignee').value,
             priority: document.getElementById('taskPriority').value,
             status: document.getElementById('taskStatus').value,
+            start_date: document.getElementById('taskStartDate').value || null,
             due: document.getElementById('taskDue').value || null
         };
 
@@ -126,6 +132,7 @@ const TaskModal = {
                 showToast(taskId ? 'Task updated' : 'Task created', 'success');
                 await State.reloadTasks();
                 Kanban.render();
+                Calendar.refresh();
                 this.close();
             } else {
                 showToast(result.message || result.detail || 'Save failed', 'error');

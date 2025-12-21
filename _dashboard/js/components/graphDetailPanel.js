@@ -508,39 +508,77 @@ const GraphDetailPanel = {
         const data = node.data;
         const validatingTasks = this.getValidatingTasks(node.id);
         const validatingProjects = this.getValidatingProjects(node.id);
+        const parentTrack = this.getParentTrack(data.parent_id);
 
         return `
             ${this.renderStatus(data.status)}
 
-            ${data.statement ? `
+            ${data.hypothesis_question ? `
                 <div class="detail-section">
-                    <div class="detail-section-title">Statement</div>
-                    <div class="detail-section-content">${data.statement}</div>
+                    <div class="detail-section-title">가설 질문</div>
+                    <div class="detail-section-content" style="font-weight: 500; font-size: 14px;">
+                        "${data.hypothesis_question}"
+                    </div>
                 </div>
             ` : ''}
 
-            ${data.evidence ? `
+            ${data.confidence !== undefined ? `
                 <div class="detail-section">
-                    <div class="detail-section-title">Evidence</div>
-                    <div class="detail-section-content">${data.evidence}</div>
+                    <div class="detail-section-title">Confidence</div>
+                    <div class="detail-progress">
+                        <div class="detail-progress-bar">
+                            <div class="detail-progress-fill" style="width: ${data.confidence * 100}%; background: ${data.confidence >= 0.7 ? '#3fb950' : data.confidence >= 0.4 ? '#f0883e' : '#f85149'};"></div>
+                        </div>
+                        <div class="detail-progress-text">${Math.round(data.confidence * 100)}%</div>
+                    </div>
                 </div>
             ` : ''}
 
-            ${data.if_false ? `
+            ${data.success_criteria ? `
                 <div class="detail-section">
-                    <div class="detail-section-title">If False</div>
-                    <div class="detail-section-content" style="color: #f85149;">${data.if_false}</div>
+                    <div class="detail-section-title">성공 기준</div>
+                    <div class="detail-section-content" style="color: #3fb950;">
+                        ✓ ${data.success_criteria}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${data.failure_criteria ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">실패 기준</div>
+                    <div class="detail-section-content" style="color: #f85149;">
+                        ✗ ${data.failure_criteria}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${data.measurement ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">측정 방법</div>
+                    <div class="detail-section-content">${data.measurement}</div>
+                </div>
+            ` : ''}
+
+            ${parentTrack ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">소속 Track</div>
+                    <div class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${parentTrack.entity_id}')">
+                        <span class="detail-related-icon">🎯</span>
+                        <span class="detail-related-name">${this.formatName(parentTrack.entity_name || parentTrack.entity_id)}</span>
+                        <span class="detail-related-badge">${parentTrack.status || 'active'}</span>
+                    </div>
                 </div>
             ` : ''}
 
             ${validatingProjects.length > 0 ? `
                 <div class="detail-section">
-                    <div class="detail-section-title">Validating Projects (${validatingProjects.length})</div>
+                    <div class="detail-section-title">검증 프로젝트 (${validatingProjects.length})</div>
                     <ul class="detail-related-list">
                         ${validatingProjects.map(p => `
                             <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${p.entity_id}')">
                                 <span class="detail-related-icon">📁</span>
                                 <span class="detail-related-name">${this.formatName(p.entity_name || p.entity_id)}</span>
+                                <span class="detail-related-badge">${p.status || 'active'}</span>
                             </li>
                         `).join('')}
                     </ul>
@@ -549,16 +587,33 @@ const GraphDetailPanel = {
 
             ${validatingTasks.length > 0 ? `
                 <div class="detail-section">
-                    <div class="detail-section-title">Validating Tasks (${validatingTasks.length})</div>
+                    <div class="detail-section-title">검증 태스크 (${validatingTasks.length})</div>
                     <ul class="detail-related-list">
                         ${validatingTasks.slice(0, 5).map(t => `
                             <li class="detail-related-item" onclick="GraphDetailPanel.navigateTo('${t.entity_id}')">
                                 <span class="detail-related-icon">${this.getStatusIcon(t.status)}</span>
                                 <span class="detail-related-name">${this.formatName(t.entity_name || t.entity_id)}</span>
+                                <span class="detail-related-badge">${t.status || 'todo'}</span>
                             </li>
                         `).join('')}
-                        ${validatingTasks.length > 5 ? `<li class="detail-related-item" style="opacity: 0.6;">... and ${validatingTasks.length - 5} more</li>` : ''}
+                        ${validatingTasks.length > 5 ? `<li class="detail-related-item" style="opacity: 0.6;">... +${validatingTasks.length - 5} more</li>` : ''}
                     </ul>
+                </div>
+            ` : ''}
+
+            ${data.horizon ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">검증 시점</div>
+                    <div class="detail-section-content">${data.horizon}</div>
+                </div>
+            ` : ''}
+
+            ${data.loop_layer && data.loop_layer.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-section-title">Loop Layer</div>
+                    <div class="detail-tags">
+                        ${data.loop_layer.map(l => `<span class="detail-tag">${l}</span>`).join('')}
+                    </div>
                 </div>
             ` : ''}
         `;
@@ -724,6 +779,11 @@ const GraphDetailPanel = {
             const validates = Array.isArray(p.validates) ? p.validates : [p.validates];
             return validates.includes(hypId);
         });
+    },
+
+    getParentTrack(trackId) {
+        if (!trackId) return null;
+        return (State.tracks || []).find(t => t.entity_id === trackId);
     },
 
     getLinkedMetaHypotheses(northStarId) {

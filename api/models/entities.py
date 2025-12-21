@@ -14,6 +14,7 @@ class TaskCreate(BaseModel):
     project_id: str = Field(..., description="프로젝트 ID (예: prj:001)")
     assignee: str = Field(..., description="담당자 ID (예: eunhyang)")
     priority: str = Field(default="medium", description="우선순위: low/medium/high")
+    start_date: Optional[str] = Field(default=None, description="시작일 (YYYY-MM-DD)")
     due: Optional[str] = Field(default=None, description="마감일 (YYYY-MM-DD)")
     status: str = Field(default="todo", description="상태: todo/doing/done/blocked")
     notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
@@ -25,6 +26,7 @@ class TaskUpdate(BaseModel):
     entity_name: Optional[str] = None
     assignee: Optional[str] = None
     priority: Optional[str] = None
+    start_date: Optional[str] = None
     due: Optional[str] = None
     status: Optional[str] = None
     notes: Optional[str] = None

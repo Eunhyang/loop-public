@@ -78,12 +78,23 @@ function switchView(view) {
 
     // Update toggle buttons
     document.getElementById('viewKanban').classList.toggle('active', view === 'kanban');
+    document.getElementById('viewCalendar').classList.toggle('active', view === 'calendar');
     document.getElementById('viewGraph').classList.toggle('active', view === 'graph');
 
-    // Switch views
+    // Hide all views
+    document.getElementById('kanbanView').classList.remove('active');
+    document.getElementById('calendarView').classList.remove('active');
+    document.getElementById('graphView').classList.remove('active');
+
+    // Show selected view
     if (view === 'kanban') {
-        Graph.hide();
-    } else {
+        document.getElementById('kanbanView').classList.add('active');
+    } else if (view === 'calendar') {
+        document.getElementById('calendarView').classList.add('active');
+        // Lazy initialization of Calendar
+        Calendar.init();
+    } else if (view === 'graph') {
+        document.getElementById('graphView').classList.add('active');
         Graph.show();
     }
 }
@@ -94,6 +105,7 @@ function switchView(view) {
 function setupEventListeners() {
     // View toggle buttons
     document.getElementById('viewKanban').addEventListener('click', () => switchView('kanban'));
+    document.getElementById('viewCalendar').addEventListener('click', () => switchView('calendar'));
     document.getElementById('viewGraph').addEventListener('click', () => switchView('graph'));
 
     // Header buttons
@@ -166,10 +178,12 @@ async function confirmDelete() {
             if (type === 'task') {
                 await State.reloadTasks();
                 Kanban.render();
+                Calendar.refresh();
             } else {
                 await State.reloadProjects();
                 Tabs.render();
                 Kanban.render();
+                Calendar.refresh();
             }
         } else {
             showToast(result.message || result.detail || 'Delete failed', 'error');

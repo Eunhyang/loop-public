@@ -120,6 +120,10 @@ def create_task(task: TaskCreate):
     # 5. Frontmatter 생성
     today = datetime.now().strftime("%Y-%m-%d")
 
+    # start_date와 due 기본값 설정 (Codex 피드백: 조건부로만 적용)
+    start_date = task.start_date if task.start_date else today
+    due_date = task.due if task.due else today
+
     frontmatter = {
         "entity_type": "Task",
         "entity_id": task_id,
@@ -131,12 +135,11 @@ def create_task(task: TaskCreate):
         "parent_id": task.project_id,
         "assignee": task.assignee,
         "priority": task.priority,
+        "start_date": start_date,
+        "due": due_date,
         "aliases": [task_id],
         "tags": task.tags if task.tags else [],
     }
-
-    if task.due:
-        frontmatter["due"] = task.due
 
     if task.notes:
         frontmatter["notes"] = task.notes
@@ -203,6 +206,8 @@ def update_task(task_id: str, task: TaskUpdate):
         frontmatter['assignee'] = task.assignee
     if task.priority:
         frontmatter['priority'] = task.priority
+    if task.start_date:
+        frontmatter['start_date'] = task.start_date
     if task.due:
         frontmatter['due'] = task.due
     if task.status:
