@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-25T02:23:56.054419",
-  "total_entities": 148,
+  "generated": "2025-12-25T05:52:15.339714",
+  "total_entities": 162,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -1040,6 +1040,174 @@
       "assignee": "김은향"
     },
     {
+      "id": "prj-015",
+      "type": "Project",
+      "name": "주니어 개발자 채용",
+      "status": "in_progress",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-015-01",
+      "type": "Task",
+      "name": "커피챗 대상자 확정 및 연락",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-02",
+      "type": "Task",
+      "name": "커피챗 일정 조율 & 진행",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-03",
+      "type": "Task",
+      "name": "주니어 개발자 커피챗 진행",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-04",
+      "type": "Task",
+      "name": "주니어 개발자 기술 과제 설계 초안 작성",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-05",
+      "type": "Task",
+      "name": "단님에게 실전 과제 제안 및 안내 발송",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-06",
+      "type": "Task",
+      "name": "실전 과제 평가기준 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-07",
+      "type": "Task",
+      "name": "주니어 개발자 과제 제출물 기술 평가",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-08",
+      "type": "Task",
+      "name": "1차 기술 평가(Flutter + Firebase)",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-08_1차_기술_평가.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-09",
+      "type": "Task",
+      "name": "주니어 개발자 기술 리뷰 1:1 면접 진행",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-10",
+      "type": "Task",
+      "name": "파일럿 프로젝트 계약서 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-11",
+      "type": "Task",
+      "name": "개발자 온보딩 문서 v1 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-12",
+      "type": "Task",
+      "name": "개발 환경 세팅 문서",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-13",
+      "type": "Task",
+      "name": "Day1 Onboarding 진행",
+      "status": "todo",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-grants",
       "type": "Program",
       "name": "정부지원사업",
@@ -1054,6 +1222,9 @@
       "name": "JEMI디딤돌 지원사업",
       "status": "planning",
       "path": "50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
       "priority_flag": "medium",
       "owner": "한명학"
     },
@@ -1124,8 +1295,11 @@
       "id": "prj-vault-gpt",
       "type": "Project",
       "name": "ChatGPT Vault MCP 연결",
-      "status": "in_progress",
+      "status": "active",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
       "priority_flag": "high",
       "owner": "한명학"
     },
@@ -1136,7 +1310,7 @@
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
       "priority_flag": "high",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "idx:01_north_star",
@@ -1549,6 +1723,11 @@
       "type": "parent_of"
     },
     {
+      "source": "trk-2",
+      "target": "prj-vault-gpt",
+      "type": "parent_of"
+    },
+    {
       "source": "trk-4",
       "target": "hyp-4-02",
       "type": "parent_of"
@@ -1706,6 +1885,16 @@
     {
       "source": "trk-6",
       "target": "prj-007",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-015",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-grants-jemi",
       "type": "parent_of"
     },
     {
@@ -1949,8 +2138,68 @@
       "type": "parent_of"
     },
     {
-      "source": "pgm-grants",
-      "target": "prj-grants-jemi",
+      "source": "prj-015",
+      "target": "tsk-015-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-12",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-13",
       "type": "parent_of"
     },
     {
@@ -1964,13 +2213,8 @@
       "type": "parent_of"
     },
     {
-      "source": "pgm-youtube-weekly",
+      "source": "trk-3",
       "target": "prj-yt-w33",
-      "type": "parent_of"
-    },
-    {
-      "source": "pgm-vault-system",
-      "target": "prj-vault-gpt",
       "type": "parent_of"
     },
     {
@@ -2825,6 +3069,7 @@
       "tsk-008-04",
       "tsk-008-05",
       "prj-014",
+      "prj-vault-gpt",
       "trk-2",
       "trk-4"
     ],
@@ -2869,6 +3114,21 @@
       "tsk-008-01",
       "tsk-008-04",
       "tsk-008-05",
+      "prj-015",
+      "tsk-015-01",
+      "tsk-015-02",
+      "tsk-015-03",
+      "tsk-015-04",
+      "tsk-015-05",
+      "tsk-015-06",
+      "tsk-015-07",
+      "tsk-015-08",
+      "tsk-015-09",
+      "tsk-015-10",
+      "tsk-015-11",
+      "tsk-015-12",
+      "tsk-015-13",
+      "prj-grants-jemi",
       "trk-4",
       "trk-5"
     ],
@@ -2951,6 +3211,7 @@
       "prj-012",
       "prj-008",
       "prj-014",
+      "prj-015",
       "prj-grants-jemi",
       "prj-yt-w33",
       "prj-vault-gpt"
@@ -3000,6 +3261,19 @@
       "tsk-008-04",
       "tsk-008-05",
       "tsk-014-01",
+      "tsk-015-01",
+      "tsk-015-02",
+      "tsk-015-03",
+      "tsk-015-04",
+      "tsk-015-05",
+      "tsk-015-06",
+      "tsk-015-07",
+      "tsk-015-08",
+      "tsk-015-09",
+      "tsk-015-10",
+      "tsk-015-11",
+      "tsk-015-12",
+      "tsk-015-13",
       "tsk-grants-jemi-01",
       "tsk-014-02",
       "tsk-014-03",
@@ -3162,6 +3436,7 @@
       "pgm-youtube-weekly",
       "prj-yt-w33",
       "pgm-vault-system",
+      "prj-vault-gpt",
       "trk-2",
       "trk-3",
       "trk-4",
@@ -3183,7 +3458,16 @@
       "tsk-008-03",
       "tsk-008-02",
       "tsk-008-05",
-      "tsk-014-01"
+      "tsk-014-01",
+      "tsk-015-05",
+      "tsk-015-06",
+      "tsk-015-07",
+      "tsk-015-08",
+      "tsk-015-09",
+      "tsk-015-10",
+      "tsk-015-11",
+      "tsk-015-12",
+      "tsk-015-13"
     ],
     "done": [
       "tsk-010-02",
@@ -3197,13 +3481,17 @@
       "tsk-002-01",
       "tsk-002-04",
       "tsk-002-03",
+      "tsk-015-01",
+      "tsk-015-02",
+      "tsk-015-03",
+      "tsk-015-04",
       "retro:2025-annual"
     ],
     "in_progress": [
       "tsk-010-01",
       "tsk-012-01",
       "tsk-008-01",
-      "prj-vault-gpt",
+      "prj-015",
       "cond-b",
       "cond-d",
       "cond-e",

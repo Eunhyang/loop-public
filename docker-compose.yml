@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  loop-api:
+    build: .
+    container_name: loop-api
+    restart: unless-stopped
+    ports:
+      - "8082:8081"  # 기존 8081과 충돌 방지, 나중에 전환
+    volumes:
+      # Vault 디렉토리 마운트 (읽기/쓰기)
+      - /volume1/LOOP_CORE/vault/LOOP:/vault:rw
+    environment:
+      - VAULT_DIR=/vault
+      - TZ=Asia/Seoul
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

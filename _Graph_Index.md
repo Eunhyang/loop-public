@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2025-12-25
 updated: 2025-12-25
-total_entities: 148
+total_entities: 162
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 148개
+- **총 엔티티**: 162개
 - **마지막 업데이트**: 2025-12-25
 
 ### 타입별
@@ -28,21 +28,21 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 3 |
-| Project | 16 |
-| Task | 49 |
+| Project | 17 |
+| Task | 62 |
 | Hypothesis | 45 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 26 |
+| active | 27 |
 | doing | 3 |
-| done | 12 |
+| done | 16 |
 | fixed | 1 |
 | in_progress | 8 |
 | pending | 4 |
 | planning | 75 |
-| todo | 10 |
+| todo | 19 |
 | unknown | 5 |
 | validating | 4 |
 
@@ -97,7 +97,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | active | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (16개)
+## Project (17개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -114,12 +114,13 @@ tags: ["meta", "graph", "index"]
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | active | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md` |
 | `prj-012` | [CS·운영] 고객관리/대응 | active | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md` |
 | `prj-014` | 코칭 서비스 운영 체계 재구축 | active | `50_Projects/2025/P014_코칭 운영 체계/Project_정의.md` |
+| `prj-015` | 주니어 개발자 채용 | in_progress | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
 | `prj-grants-jemi` | JEMI디딤돌 지원사업 | planning | `50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md` |
-| `prj-vault-gpt` | ChatGPT Vault MCP 연결 | in_progress | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
+| `prj-vault-gpt` | ChatGPT Vault MCP 연결 | active | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
 | `prj-yt-w33` | YouTube W33 | active | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md` |
 
 
-## Task (49개)
+## Task (62개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -170,6 +171,19 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-02` | W33 대본작성 | pending | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md` |
 | `tsk-014-03` | W33 촬영 | pending | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | pending | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
+| `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
+| `tsk-015-02` | 커피챗 일정 조율 & 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
+| `tsk-015-03` | 주니어 개발자 커피챗 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
+| `tsk-015-04` | 주니어 개발자 기술 과제 설계 초안 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md` |
+| `tsk-015-05` | 단님에게 실전 과제 제안 및 안내 발송 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md` |
+| `tsk-015-06` | 실전 과제 평가기준 작성 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md` |
+| `tsk-015-07` | 주니어 개발자 과제 제출물 기술 평가 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md` |
+| `tsk-015-08` | 1차 기술 평가(Flutter + Firebase) | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-08_1차_기술_평가.md` |
+| `tsk-015-09` | 주니어 개발자 기술 리뷰 1:1 면접 진행 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md` |
+| `tsk-015-10` | 파일럿 프로젝트 계약서 작성 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md` |
+| `tsk-015-11` | 개발자 온보딩 문서 v1 작성 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
+| `tsk-015-12` | 개발 환경 세팅 문서 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
+| `tsk-015-13` | Day1 Onboarding 진행 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
 | `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | doing | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 
@@ -261,12 +275,6 @@ tags: ["meta", "graph", "index"]
   - mh-2 (MH2_행동개입_효과)
   - mh-3 (MH3_데이터_모델링_가능)
   - mh-4 (MH4_단계적_확장_가능)
-- **pgm-grants** (정부지원사업)
-  - prj-grants-jemi (JEMI디딤돌 지원사업)
-- **pgm-vault-system** (Vault 시스템 체계화)
-  - prj-vault-gpt (ChatGPT Vault MCP 연결)
-- **pgm-youtube-weekly** (YouTube 1주 1업로드)
-  - prj-yt-w33 (YouTube W33)
 - **pl-3** (PL3_Eating_Disorder_DTx)
   - pl-5 (PL5_GLP1_Behavioral_OS)
 - **pl-5** (PL5_GLP1_Behavioral_OS)
@@ -325,6 +333,20 @@ tags: ["meta", "graph", "index"]
   - tsk-011-01 (리크루팅 사이트) 원택님 피드백 반영)
 - **prj-012** ([CS·운영] 고객관리/대응)
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
+- **prj-015** (주니어 개발자 채용)
+  - tsk-015-01 (커피챗 대상자 확정 및 연락)
+  - tsk-015-02 (커피챗 일정 조율 & 진행)
+  - tsk-015-03 (주니어 개발자 커피챗 진행)
+  - tsk-015-04 (주니어 개발자 기술 과제 설계 초안 작성)
+  - tsk-015-05 (단님에게 실전 과제 제안 및 안내 발송)
+  - tsk-015-06 (실전 과제 평가기준 작성)
+  - tsk-015-07 (주니어 개발자 과제 제출물 기술 평가)
+  - tsk-015-08 (1차 기술 평가(Flutter + Firebase))
+  - tsk-015-09 (주니어 개발자 기술 리뷰 1:1 면접 진행)
+  - tsk-015-10 (파일럿 프로젝트 계약서 작성)
+  - tsk-015-11 (개발자 온보딩 문서 v1 작성)
+  - tsk-015-12 (개발 환경 세팅 문서)
+  - tsk-015-13 (Day1 Onboarding 진행)
 - **prj-grants-jemi** (JEMI디딤돌 지원사업)
   - tsk-grants-jemi-01 (JEMI 디딤돌 e-나라도움 정산 증빙자료 수집)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
@@ -361,8 +383,10 @@ tags: ["meta", "graph", "index"]
   - prj-003 (LoopOS V0 데이터 설계)
   - prj-004 ((프로젝트 없음))
   - prj-005 ([LoopOS 데이터] LoopOS 최소 선제 학습)
+  - prj-vault-gpt (ChatGPT Vault MCP 연결)
 - **trk-3** (Track_3_Content)
   - pgm-youtube-weekly (YouTube 1주 1업로드)
+  - prj-yt-w33 (YouTube W33)
 - **trk-4** (Track_4_Coaching)
   - hyp-4-01 (심화 과정 수요 재현)
   - hyp-4-02 (GLP-1 과정 수요 재현)
@@ -399,6 +423,8 @@ tags: ["meta", "graph", "index"]
   - prj-007 (외부 비서)
   - prj-009 ([투자/TIPS준비] 배치 프로그램 지원)
   - prj-010 ([펀딩·마케팅] 와디즈 펀딩)
+  - prj-015 (주니어 개발자 채용)
+  - prj-grants-jemi (JEMI디딤돌 지원사업)
 
 ---
 
