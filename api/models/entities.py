@@ -30,7 +30,7 @@ class TaskUpdate(BaseModel):
     due: Optional[str] = None
     status: Optional[str] = None
     notes: Optional[str] = None
-    tags: Optional[List[str]] = None
+    tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
 
 
 class ProjectCreate(BaseModel):
@@ -50,7 +50,7 @@ class ProjectUpdate(BaseModel):
     priority_flag: Optional[str] = None
     deadline: Optional[str] = None
     hypothesis_text: Optional[str] = None
-    tags: Optional[List[str]] = None
+    tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
 
 
 class TaskResponse(BaseModel):
@@ -97,11 +97,11 @@ class HypothesisUpdate(BaseModel):
     failure_criteria: Optional[str] = None
     measurement: Optional[str] = None
     horizon: Optional[str] = None
-    loop_layer: Optional[List[str]] = None
+    loop_layer: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
     confidence: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     evidence_status: Optional[str] = None
     deadline: Optional[str] = None
-    tags: Optional[List[str]] = None
+    tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
 
 
 class HypothesisResponse(BaseModel):

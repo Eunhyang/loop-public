@@ -488,6 +488,55 @@ Team Members (Browser: http://nas-ip:8080)
 
 ---
 
+## MCP Server (ChatGPT Integration)
+
+> **MCP URL**: `https://mcp.sosilab.synology.me/mcp`
+
+LOOP API는 Docker 컨테이너(Python 3.11)로 MCP(Model Context Protocol)를 지원합니다.
+ChatGPT Developer Mode에서 Vault 데이터에 직접 접근 가능합니다.
+
+### 아키텍처
+
+```
+ChatGPT (Developer Mode)
+    ↓ SSE/HTTP
+https://mcp.sosilab.synology.me/mcp
+    ↓ Docker (loop-api:latest, port 8082)
+Synology NAS (/volume1/LOOP_CORE/vault/LOOP)
+```
+
+### 주요 파일
+
+| 파일 | 설명 |
+|-----|------|
+| `Dockerfile` | Python 3.11 + FastAPI + fastapi-mcp |
+| `docker-compose.yml` | 컨테이너 구성 (참고용) |
+| `api/main.py` | MCP 마운트 (`FastApiMCP`) |
+
+### 관리 명령어
+
+```bash
+# 상태 확인
+/mcp-server status
+
+# 코드 변경 후 재빌드
+/mcp-server rebuild
+
+# 재시작
+/mcp-server restart
+
+# 로그 확인
+/mcp-server logs
+```
+
+### ChatGPT 연결 방법
+
+1. **Settings → Connectors → Advanced → Developer mode** 켜기
+2. **Add MCP server** → URL: `https://mcp.sosilab.synology.me/mcp`
+3. 새 채팅에서 LOOP Vault MCP 선택
+
+---
+
 ## GraphRAG Questions This Vault Should Answer
 
 **Global questions** (overall context):
@@ -606,6 +655,7 @@ Available commands in `.claude/commands/`:
 | `/build-impact` | Build and analyze project impact |
 | `/retro` | Convert retrospective notes to Evidence entities |
 | `/ontology` | Explore Product Ontology (ILOS) schema |
+| `/mcp-server` | Docker MCP 서버 관리 (rebuild/restart/logs/status) |
 
 **Usage**: Type `/command-name` in Claude Code to invoke.
 
@@ -639,8 +689,13 @@ Located in `scripts/`, these are typically used once for data migrations-
 ---
 
 **Last updated**: 2025-12-25
-**Document version**: 5.4
+**Document version**: 5.5
 **Author**: Claude Code
+
+**Changes (v5.5)**:
+- Added MCP Server (ChatGPT Integration) section
+- Added `/mcp-server` command for Docker container management
+- MCP endpoint: `https://mcp.sosilab.synology.me/mcp`
 
 **Changes (v5.4)**:
 - Updated slash commands table with missing commands (/commit, /deploy, /todo, /new, /ontology)

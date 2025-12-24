@@ -8,6 +8,7 @@ status: in_progress
 
 # === 계층 ===
 parent_id: "trk-6"
+program_id: "pgm-hiring"
 aliases: ["prj-015", "주니어 개발자 채용"]
 
 # === 관계 ===

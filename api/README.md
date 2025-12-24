@@ -376,7 +376,7 @@ LOOP API는 MCP(Model Context Protocol)를 지원하여 ChatGPT에서 직접 Vau
 
 2. **MCP 서버 추가**
    - Settings → Connectors → "Add MCP server" 클릭
-   - URL: `https://kanban.sosilab.synology.me/mcp`
+   - URL: `https://mcp.sosilab.synology.me/mcp`
    - 인증: 없음 (public endpoint)
 
 3. **연결 확인**
@@ -397,11 +397,30 @@ MCP를 통해 모든 API 엔드포인트가 도구로 노출됩니다:
 | `search` | Vault 검색 |
 | `read_file` | 파일 내용 읽기 |
 
+### Docker 기반 MCP 서버
+
+MCP 서버는 Python 3.11 Docker 컨테이너로 실행됩니다 (NAS Python 3.8과 호환성 문제로 인해).
+
+```bash
+# 상태 확인
+/mcp-server status
+
+# 코드 변경 후 재빌드
+/mcp-server rebuild
+
+# 로그 확인
+/mcp-server logs
+```
+
+**관련 파일**:
+- `Dockerfile` - Python 3.11 + FastAPI + fastapi-mcp
+- `docker-compose.yml` - 컨테이너 구성
+
 ### 주의사항
 
 - MCP 엔드포인트는 인증 없이 접근 가능 (읽기 전용 권장)
 - 수정/삭제 작업은 ChatGPT에서 신중하게 수행
-- NAS 배포 후 `poetry install --extras api` 재실행 필요
+- 코드 변경 시 `/mcp-server rebuild` 실행 필요
 
 ---
 
