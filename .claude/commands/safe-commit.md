@@ -1,5 +1,5 @@
 ---
-description: NAS git sync daemon과 충돌하지 않는 안전한 커밋/푸시 (SSH 사용) - 두 Vault 동시 커밋
+description: NAS git sync daemon과 충돌하지 않는 안전한 커밋/푸시 (SSH→NAS, HTTPS→GitHub) - 두 Vault 동시 커밋
 ---
 
 # Safe Commit (NAS Sync 충돌 방지)
@@ -9,6 +9,8 @@ SMB 마운트에서는 git index 쓰기 문제가 발생할 수 있어서, NAS�
 **두 Vault 동시 커밋:**
 - `LOOP` (Shared Vault) - 코어 멤버 접근
 - `loop_exec` (Exec Vault) - C-Level 전용
+
+**GitHub 인증**: 양쪽 모두 HTTPS + PAT (Personal Access Token) 방식 사용
 
 ## 사용자 입력
 
@@ -99,6 +101,20 @@ git add -A && git commit --no-verify -m "커밋메시지" && git push origin mai
 - `--shared`: LOOP만 커밋
 - `--exec`: loop_exec만 커밋
 - (기본): 둘 다 커밋
+
+## GitHub Remote 설정
+
+양쪽 Vault 모두 HTTPS + PAT 방식 사용 (SSH 키 불필요):
+
+```bash
+# LOOP (Shared Vault)
+git remote set-url origin https://Eunhyang:ghp_TOKEN@github.com/Eunhyang/loop_obsidian.git
+
+# loop_exec (Exec Vault)
+git remote set-url origin https://Eunhyang:ghp_TOKEN@github.com/Eunhyang/loop_exec.git
+```
+
+> PAT은 GitHub Settings > Developer settings > Personal access tokens에서 발급
 
 ## 대안: NAS Daemon 사용
 

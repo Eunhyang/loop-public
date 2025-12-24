@@ -352,14 +352,69 @@ chmod +x /volume1/LOOP_CORE/scripts/start-api-server.sh
 
 ---
 
+## 🤖 ChatGPT MCP 연동 (Developer Mode)
+
+LOOP API는 MCP(Model Context Protocol)를 지원하여 ChatGPT에서 직접 Vault 데이터에 접근할 수 있습니다.
+
+### 요구사항
+
+- Python 3.10+ (fastapi-mcp 패키지 요구)
+- ChatGPT Pro, Plus, Business, Enterprise, 또는 Education 계정
+- HTTPS 접근 가능한 서버 (localhost 불가)
+
+### MCP 엔드포인트
+
+| 엔드포인트 | 설명 |
+|-----------|------|
+| `/mcp` | MCP SSE 연결 엔드포인트 |
+| `/mcp/messages/` | MCP 메시지 교환 |
+
+### ChatGPT Developer Mode 연결 방법
+
+1. **Developer Mode 활성화**
+   - ChatGPT → Settings → Connectors → Advanced → Developer mode 켜기
+
+2. **MCP 서버 추가**
+   - Settings → Connectors → "Add MCP server" 클릭
+   - URL: `https://kanban.sosilab.synology.me/mcp`
+   - 인증: 없음 (public endpoint)
+
+3. **연결 확인**
+   - 새 채팅 시작 → Developer Mode 프로필 선택
+   - "Add sources"에서 LOOP Vault MCP 선택
+   - 테스트: "LOOP vault의 현재 Task 목록을 보여줘"
+
+### 사용 가능한 MCP 도구
+
+MCP를 통해 모든 API 엔드포인트가 도구로 노출됩니다:
+
+| 도구 | 설명 |
+|-----|------|
+| `get_tasks` | Task 목록 조회 |
+| `get_projects` | Project 목록 조회 |
+| `get_hypotheses` | Hypothesis 목록 조회 |
+| `get_tracks` | Track 목록 조회 |
+| `search` | Vault 검색 |
+| `read_file` | 파일 내용 읽기 |
+
+### 주의사항
+
+- MCP 엔드포인트는 인증 없이 접근 가능 (읽기 전용 권장)
+- 수정/삭제 작업은 ChatGPT에서 신중하게 수행
+- NAS 배포 후 `poetry install --extras api` 재실행 필요
+
+---
+
 ## 📚 참고 문서
 
 - **FastAPI 공식 문서**: https-//fastapi.tiangolo.com/
 - **Uvicorn 문서**: https-//www.uvicorn.org/
 - **Dashboard 아키텍처**: `../NAS_DASHBOARD_ARCHITECTURE.md`
+- **FastAPI-MCP**: https://github.com/tadata-org/fastapi_mcp
+- **ChatGPT Developer Mode**: https://platform.openai.com/docs/guides/developer-mode
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: 2025-12-19
+**Version**: 1.1.0
+**Last Updated**: 2025-12-25
 **Author**: LOOP Team
