@@ -14,50 +14,6 @@
     display: block;
 }
 
-/* Priority Legend */
-.calendar-legend {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 20px;
-    background: var(--bg-primary, #fff);
-    border-radius: 8px;
-    margin-bottom: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.legend-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary, #6b7280);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--text-primary, #374151);
-}
-
-.legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-}
-
-.legend-dot.high {
-    background-color: #ef4444;
-}
-
-.legend-dot.medium {
-    background-color: #f59e0b;
-}
-
-.legend-dot.low {
-    background-color: #22c55e;
-}
-
 /* Calendar Container */
 .calendar-container {
     background: var(--bg-primary, #fff);
@@ -124,18 +80,7 @@
 }
 
 .fc .fc-day-today {
-    background-color: rgba(59, 130, 246, 0.05) !important;
-}
-
-.fc .fc-day-today .fc-daygrid-day-number {
-    background-color: var(--primary-color, #3b82f6);
-    color: #fff;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(139, 92, 246, 0.1) !important;
 }
 
 /* Events */
@@ -153,6 +98,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
+/* Done Events - Faded */
+.fc .fc-event.event-done {
+    opacity: 0.4;
+}
+
+.fc .fc-event.event-done:hover {
+    opacity: 0.6;
+}
+
 .fc .fc-daygrid-event {
     margin: 2px 4px;
 }
@@ -165,7 +119,7 @@
 
 /* Week View */
 .fc .fc-timegrid-slot {
-    height: 40px;
+    height: 30px;
 }
 
 .fc .fc-timegrid-slot-label {

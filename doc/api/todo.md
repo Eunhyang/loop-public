@@ -1,11 +1,31 @@
 # Dashboard API - TODO
 
 **Project**: Dashboard API
-**Last Updated**: 2025-12-21
+**Last Updated**: 2025-12-23
 
 ---
 
 ## 완료된 작업
+
+### BUG-001: Project 저장 시 Kanban 필터 함수 에러 수정
+
+- [x] **BUG-001-1** Kanban.renderAssigneeFilter is not a function 에러 수정
+  - 수정 파일: `_dashboard/js/components/project-panel.js`
+  - 작업 내용: 존재하지 않는 함수 호출 수정
+  - 변경 사항:
+    - `Kanban.renderAssigneeFilter()` → `Kanban.renderProjectFilter()` (2곳)
+    - 이전 리팩토링에서 함수명 변경 후 호출부 미갱신 문제
+  - 완료일: 2025-12-23
+
+### UX-001: Done 프로젝트 기본 필터에서 제외
+
+- [x] **UX-001-1** Project status 기본 필터에서 'done' 제외
+  - 수정 파일: `_dashboard/js/state.js`
+  - 작업 내용: 대시보드 로드 시 done 프로젝트 기본 숨김
+  - 변경 사항:
+    - `filters.project.status` 기본값에서 `'done'` 제거
+    - 사용자가 필터 패널에서 Done 체크하면 표시 가능
+  - 완료일: 2025-12-23
 
 ### API-001: Task 본문(body) 표시 기능
 
@@ -100,6 +120,131 @@
 ## 진행 중
 
 (없음)
+
+---
+
+## 완료된 작업 (2025-12-23)
+
+### CACHE-002: Task 캐시 디렉토리 변경 감지 추가
+
+- [x] **CACHE-002-1** get_all_tasks()에 디렉토리 mtime 체크 추가
+  - 수정 파일: `api/cache/vault_cache.py`
+  - 작업 내용: 새 Task 파일 생성 시 자동 감지되도록 캐시 리로드 로직 추가
+  - 변경 사항:
+    - `_load_tasks()`: rglob 완료 후 `_update_dir_mtime()` 호출 추가 (line 139)
+    - `get_all_tasks()`: `_should_reload_dir()` 체크 추가하여 디렉토리 변경 시 캐시 리로드 (lines 184-188)
+  - Codex 리뷰: 2회 통과 (계획 검증 + 코드 리뷰)
+  - 완료일: 2025-12-23
+
+### CACHE-003: Program Rounds Task 스캔 추가
+
+- [x] **CACHE-003-1** _load_tasks()에 Program Rounds 경로 스캔 추가
+  - 수정 파일: `api/cache/vault_cache.py`
+  - 작업 내용: `50_Projects/*/Rounds/*/Tasks/*.md` 경로도 스캔하도록 추가
+  - 변경 사항:
+    - `_load_tasks()`: Program Rounds 경로 glob 추가 (lines 136-139)
+    - `_load_tasks()`: `Task_Rounds` 키로 별도 mtime 업데이트 (line 143)
+    - `get_all_tasks()`: 두 디렉토리 모두 mtime 체크 (lines 188-191)
+  - Codex 리뷰: 2회 통과 (계획 검증 + 코드 리뷰)
+  - 주의: mtime 감시 범위가 넓어 성능 이슈 가능성 있음 (TTL 5초로 완화)
+  - 완료일: 2025-12-23
+
+### UX-002: Sidebar 기본 상태 collapsed로 변경
+
+- [x] **UX-002-1** Sidebar 기본 닫힘 상태 적용
+  - 수정 파일: `_dashboard/js/components/sidebar.js`
+  - 작업 내용: 대시보드 로드 시 사이드바가 기본적으로 닫혀있도록 변경
+  - 변경 사항:
+    - `collapsed: false` → `collapsed: true` (line 6)
+    - `init()`: 초기 collapsed 상태를 DOM에 반영하는 로직 추가 (lines 18-22)
+  - Codex 리뷰: 2회 통과 (계획 검증 + 코드 리뷰)
+  - 완료일: 2025-12-23
+
+### UX-003: Side Panel 너비 1/3로 확대
+
+- [x] **UX-003-1** Side Panel 너비 33vw로 변경
+  - 수정 파일: `_dashboard/css/panel.css`
+  - 작업 내용: 디테일 사이드패널 너비를 450px(~1/5)에서 33vw(~1/3)로 확대
+  - 변경 사항:
+    - `.side-panel`: `right: -450px` → `right: 0` + `transform: translateX(100%)` (lines 25, 31)
+    - `.side-panel`: `width: 450px` → `width: 33vw`, `min-width: 450px` 추가 (lines 26-27)
+    - `.side-panel`: `transition: right` → `transition: transform` (line 32)
+    - `.side-panel.active`: `right: 0` → `transform: translateX(0)` (line 39)
+    - `@media (max-width: 768px)`: `right: -100%` → `transform: translateX(100%)`, `min-width: 0` 추가 (lines 832-834)
+  - Codex 리뷰: 3회 통과 (계획 검증 2회 + 코드 리뷰)
+  - 완료일: 2025-12-23
+
+### UX-004: 프로젝트 필터에 상세 패널 버튼 추가
+
+- [x] **UX-004-1** 프로젝트 필터 버튼에 ℹ️ 아이콘 추가
+  - 수정 파일: `_dashboard/js/components/kanban.js`, `_dashboard/css/kanban.css`
+  - 작업 내용: 프로젝트 탭에서 바로 상세 패널을 열 수 있는 버튼 추가
+  - 변경 사항:
+    - `kanban.js`: 프로젝트 버튼에 `.btn-project-info` span 추가 (lines 54-56)
+    - `kanban.js`: click/keydown 핸들러 추가, `ProjectPanel.open()` 호출 (lines 85-101)
+    - `kanban.css`: `.btn-project-info` 스타일 추가 (lines 75-103)
+    - 접근성: `tabindex="0"`, `role="button"`, `aria-label`, `:focus-visible` 적용
+  - Codex 리뷰: 2회 통과 (계획 검증 + 코드 리뷰)
+  - 참고: button 내 interactive element 구조는 HTML 유효성 이슈 있으나 기능 동작함
+  - 완료일: 2025-12-23
+
+### UX-006: "Project:" 라벨 삭제
+
+- [x] **UX-006-1** 프로젝트 필터 바에서 "Project:" 라벨 제거
+  - 수정 파일: `_dashboard/index.html`, `_dashboard/css/kanban.css`
+  - 작업 내용: 필터 바에서 "Project:" 텍스트 라벨 삭제 및 미사용 CSS 정리
+  - 변경 사항:
+    - `index.html`: `<span class="filter-label">Project:</span>` 삭제 (line 99)
+    - `kanban.css`: `.filter-label` CSS 블록 삭제 (lines 28-32, dead code)
+  - Codex 리뷰: 2회 통과 (계획 검증 + 코드 리뷰)
+  - 완료일: 2025-12-23
+
+### UX-005: Program 필터 개선 (하위 프로젝트 표시 + ℹ️ 버튼)
+
+- [x] **UX-005-1** Program 선택 시 하위 프로젝트 버튼 표시
+  - 수정 파일: `_dashboard/js/components/kanban.js`, `_dashboard/css/kanban.css`
+  - 작업 내용: Program 선택 시 해당 Program의 하위 Project들을 필터 버튼으로 표시
+  - 변경 사항:
+    - `kanban.js`: Program 선택 시 separator(│) 후 하위 프로젝트 버튼 렌더링 (lines 47-77)
+    - `kanban.js`: child-all, child-project 타입 클릭 핸들러 추가 (lines 121-126)
+    - `kanban.js`: Program 토글 기능 (같은 Program 클릭 시 해제) (lines 113-120)
+    - `kanban.css`: `.filter-separator`, `.filter-btn-child` 스타일 추가 (lines 155-189)
+  - 완료일: 2025-12-23
+
+- [x] **UX-005-2** Program 버튼에 ℹ️ 상세 버튼 추가
+  - 수정 파일: `_dashboard/js/components/kanban.js`, `_dashboard/css/kanban.css`
+  - 작업 내용: Program 버튼에 상세 정보를 볼 수 있는 ℹ️ 아이콘 추가
+  - 변경 사항:
+    - `kanban.js`: Program 버튼에 `.btn-program-info` span 추가 (lines 40-42)
+    - `kanban.js`: Program info 클릭/키보드 핸들러 추가 (lines 157-173)
+    - `kanban.js`: `openProgramDetail()` 메서드 추가 (lines 176-219)
+    - `kanban.css`: `.btn-program-info` 스타일 추가 (lines 125-153)
+    - 접근성: `tabindex="0"`, `role="button"`, `aria-label` 적용
+    - 보안: XSS 방지용 `escapeHtml()` 헬퍼 추가
+  - Codex 리뷰: 2회 통과 (계획 검증 + 코드 리뷰) + XSS 보안 수정
+  - 완료일: 2025-12-23
+
+### UX-007: Task 카드 Delete 버튼 가시성 수정
+
+- [x] **UX-007-1** Delete 버튼을 휴지통 아이콘으로 변경
+  - 수정 파일: `_dashboard/js/components/task-card.js`, `_dashboard/css/kanban.css`
+  - 작업 내용: 흰 배경에 흰 글씨로 안 보이던 Delete 버튼을 🗑️ 아이콘으로 변경
+  - 변경 사항:
+    - `task-card.js`: `<button class="btn-small btn-delete btn-danger">Delete</button>` → `<button class="btn-delete" title="Delete task">🗑️</button>` (line 61)
+    - `kanban.css`: `.btn-delete` 스타일 추가 - 투명 배경, hover 시 빨간 배경, 포커스 스타일 (lines 401-423)
+  - 원인: `.btn-small`(background: white)이 `.btn-danger`(background: red) 뒤에 정의되어 CSS 우선순위로 흰 배경 적용됨
+  - 완료일: 2025-12-23
+
+### UX-008: 캘린더 주별 뷰 시간 간격 축소
+
+- [x] **UX-008-1** 시간 슬롯 높이 축소
+  - 수정 파일: `_dashboard/css/calendar.css`
+  - 작업 내용: 주별 뷰에서 시간 슬롯이 너무 넓어 스크롤이 많이 필요한 문제 해결
+  - 변경 사항:
+    - `.fc .fc-timegrid-slot`: `height: 40px` → `height: 30px` (lines 112-114)
+    - 총 높이: 960px → 720px (25% 축소)
+  - Codex 리뷰: 2회 통과 (24px는 너무 작다는 피드백 → 30px로 조정)
+  - 완료일: 2025-12-23
 
 ---
 

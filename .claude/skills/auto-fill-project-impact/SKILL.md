@@ -1,20 +1,21 @@
 ---
 name: auto-fill-project-impact
-description: Project의 Expected Impact (A) 필드를 LLM이 제안하고 사용자 확인 후 채웁니다. 프로젝트 시작 시 전략적 베팅을 선언하는 단계입니다.
+description: Project의 Expected Impact (A) 필드를 LLM이 제안하고 사용자와 대화하며 합의합니다. 프로젝트 시작 시 전략적 베팅을 선언하는 단계입니다.
 ---
 
 # Auto-fill Project Impact
 
-Project의 Expected Impact 필드를 LLM이 제안합니다.
+Project의 Expected Impact 필드를 LLM이 제안하고, **사용자와 대화형으로 협상**하여 최종 값을 결정합니다.
 
 ## Overview
 
-이 스킬은 프로젝트를 "시작하기로 결정"했을 때 실행합니다. LLM이 프로젝트 내용과 연결된 전략 컨텍스트를 분석하여 Impact 필드 값을 제안하고, 사용자가 확인 후 수락하면 Project frontmatter를 업데이트합니다.
+이 스킬은 프로젝트를 "시작하기로 결정"했을 때 실행합니다. LLM이 프로젝트 내용과 연결된 전략 컨텍스트를 분석하여 Impact 필드 값을 제안하고, **사용자가 납득할 때까지 대화를 통해 값을 조정**합니다.
 
 **핵심 원칙:**
-- LLM은 판단 재료만 제안, 점수 계산은 코드가 수행
-- 사용자는 반드시 Preview → Accept 단계를 거침
-- Accept되는 순간, 이 Project는 "전략적 베팅"이 됨
+- LLM은 **상세한 판단 근거**와 함께 값을 제안 (한 줄 요약 금지)
+- 사용자가 납득하지 못하면 **대화를 통해 값을 협상** (반복 가능)
+- 사용자가 최종 "OK"할 때까지 **절대 저장하지 않음**
+- OK되는 순간, 이 Project는 "전략적 베팅"이 됨
 
 ## When to Use
 
@@ -38,23 +39,33 @@ Project의 Expected Impact 필드를 LLM이 제안합니다.
 ├── 관련 Condition 읽기
 └── NorthStar/MH 요약
 
-[3. Impact 필드 제안] ← LLM
-├── tier 판단 (strategic/enabling/operational)
-├── impact_magnitude 제안 (high/mid/low)
-├── confidence 제안 (0.0-1.0)
-└── contributes 구조 제안
+[3. Impact 필드 제안 + 상세 근거] ← LLM
+├── tier 판단 + 상세 근거
+├── impact_magnitude 제안 + 상세 근거
+├── confidence 제안 + 상세 근거
+└── contributes 구조 제안 + 상세 근거
 
-[4. Preview 표시]
-├── 제안된 필드 값 표시
-├── 계산될 ExpectedScore 표시
-└── 판단 근거 표시
+[4. 대화형 협상 루프] ← 핵심 변경
+│
+│   ┌─────────────────────────────────────────┐
+│   │  LLM: 필드별 상세 근거 제시             │
+│   │       (Track/Condition/비전 연결)        │
+│   │       (왜 다른 값이 아닌지 설명)         │
+│   └─────────────────────────────────────────┘
+│                      ↓
+│   ┌─────────────────────────────────────────┐
+│   │  사용자 반응:                           │
+│   │  - "OK" → Step 5로 이동                 │
+│   │  - "왜 X인가?" → LLM 재설명             │
+│   │  - "Y로 바꿔" → 값 수정 + 근거 재설명   │
+│   │  - "취소" → 중단                        │
+│   └─────────────────────────────────────────┘
+│                      ↓
+│            (납득할 때까지 반복)
+│
+└── 사용자 최종 "OK" 시에만 다음 단계로
 
-[5. 사용자 확인]
-├── Accept → Project frontmatter 업데이트
-├── Edit → 필드 수정 후 재확인
-└── Cancel → 중단
-
-[6. 저장 및 빌드]
+[5. 저장] ← 사용자 OK 후에만 실행
 ├── Project 파일 업데이트
 └── build_impact.py 실행 (선택)
 ```
@@ -109,7 +120,7 @@ Project의 Expected Impact 필드를 LLM이 제안합니다.
 - Condition의 핵심 지표
 - 관련 MH (Meta Hypothesis)
 
-### Step 3: Impact 필드 제안
+### Step 3: Impact 필드 제안 + 상세 근거
 
 **LLM 프롬프트 실행**
 
@@ -120,85 +131,158 @@ Project의 Expected Impact 필드를 LLM이 제안합니다.
 - Track/Condition 요약
 - 유사 프로젝트 예시 (있는 경우)
 
-**출력:**
-```yaml
-tier:
-  value: strategic
-  reasoning: "신규 시장 검증으로 비전에 직접 기여"
+**출력 (상세 근거 필수):**
 
-impact_magnitude:
-  value: high
-  reasoning: "Condition B 검증에 핵심 역할"
+```markdown
+## tier: `strategic`
 
-confidence:
-  value: 0.6
-  reasoning: "첫 펀딩 시도로 불확실성 존재"
+### 왜 strategic인가?
 
-contributes:
-  - condition: "cond-b"
-    weight: 0.4
-    description: "패턴 발견 기여"
+**1. Track 연결 분석**
+- 이 프로젝트는 trk-4 (Product)에 속함
+- Track 4의 목표: "코칭 상품의 시장성 검증"
+- 본 프로젝트는 Track 목표에 **직접 기여** (상품 출시 및 판매)
+
+**2. Condition 기여도**
+- **cond-d (런웨이 확보)**: 펀딩 성공 시 자금 유입 → 직접 기여
+- **cond-b (데이터 수집)**: 코칭 참여자 데이터 확보 가능 → 간접 기여
+
+**3. 비전 연결**
+- 10년 비전: "Inner Loop OS가 글로벌 표준이 되는 것"
+- 본 프로젝트: B2C 채널(와디즈)을 통한 첫 시장 검증
+- 비전 실현의 **필수 전제조건** 검증
+
+**왜 다른 값이 아닌가?**
+- `tactical`이 아닌 이유: 기존 검증된 채널 확장이 아니라 **신규 채널 개척**
+- `operational`이 아닌 이유: 단순 운영/유지가 아니라 **전략적 실험**
+
+---
+
+## impact_magnitude: `high`
+
+### 왜 high인가?
+
+**1. Condition 직접 영향도**
+- cond-d: 목표 펀딩액 달성 시 런웨이 N개월 확보 (직접적 큰 영향)
+- cond-b: 참여자 50명 시 데이터 밀도 기준 충족 가능
+
+**2. 실패 시 영향**
+- 펀딩 실패 시: 와디즈 채널 유효성 falsify → 전략 재검토 필요
+- 성공/실패 모두 **중요한 전략적 신호**
+
+**왜 다른 값이 아닌가?**
+- `mid`가 아닌 이유: Condition에 간접 기여가 아니라 **직접 기여**
+- `low`가 아닌 이유: 작은 영향이 아니라 **전략 방향 결정에 영향**
+
+---
+
+## confidence: `0.55`
+
+### 왜 0.55인가?
+
+**1. 긍정 요인 (+)**
+- 와디즈 플랫폼 자체는 검증된 채널
+- 습관/건강 카테고리 펀딩 성공 사례 다수 존재
+- 팀 내 콘텐츠 제작 역량 보유
+
+**2. 불확실성 요인 (-)**
+- 첫 펀딩 시도 (학습 곡선 존재)
+- 12주 코칭 상품의 가격대 검증 필요
+- 경쟁 상품 대비 차별점 커뮤니케이션 미검증
+
+**3. 종합 판단**
+- 0.5 (반반) 보다는 약간 높음: 기본 역량은 있음
+- 0.7 이상은 아님: 첫 시도의 불확실성 존재
+
+---
+
+## contributes
+
+| Condition | Weight | 근거 |
+|-----------|--------|------|
+| cond-d | 0.6 | 펀딩 성공 시 런웨이 직접 확보 |
+| cond-b | 0.3 | 코칭 참여자 데이터 수집 가능 |
 ```
 
-### Step 4: Preview 표시
+### Step 4: 대화형 협상 루프
+
+**중요: 사용자가 "OK"라고 명시적으로 말할 때까지 저장하지 않음**
+
+**4.1 초기 제안 표시**
+
+위 Step 3의 상세 근거를 **전체 출력**합니다. 요약하지 않습니다.
 
 ```
-## Impact Preview
+## Impact 제안
 
 **Project**: prj-010 (와디즈 펀딩)
 
-### Expected Score 계산
-- tier: strategic (magnitude_points: 10/6/3)
-- impact_magnitude: high (10점)
-- confidence: 0.6
-
-**ExpectedScore = 10 × 0.6 = 6.0**
-
-### 전략 연결
-contributes:
-  - cond-b (Loop Dataset) - 40%
-
-### 판단 근거
-- tier: 신규 시장 검증으로 비전에 직접 기여
-- magnitude: Condition B 검증에 핵심 역할
-- confidence: 첫 펀딩 시도로 불확실성 존재
+[Step 3의 상세 근거 전체 출력]
 
 ---
-[Accept] [Edit] [Cancel]
+
+### 계산될 ExpectedScore
+
+| 항목 | 값 | 점수 |
+|------|-----|------|
+| tier | strategic | base 10 |
+| impact_magnitude | high | ×1.0 |
+| confidence | 0.55 | ×0.55 |
+| **ExpectedScore** | | **5.5** |
+
+---
+
+위 값들에 대해 질문이나 수정 요청이 있으시면 말씀해주세요.
+납득하셨다면 "OK"라고 입력해주세요.
 ```
 
-### Step 5: 사용자 확인
+**4.2 사용자 반응 처리**
 
-AskUserQuestion 도구를 사용하여 확인:
+| 사용자 입력 | LLM 행동 |
+|-------------|----------|
+| "OK" / "확인" / "저장해" | → Step 5로 이동 (저장) |
+| "왜 tier가 strategic이야?" | → tier 근거 재설명 (더 상세하게) |
+| "confidence 0.4로 바꿔" | → 값 수정 + 수정된 이유 설명 + 새 ExpectedScore 표시 |
+| "cond-b 기여도가 너무 높은 것 같아" | → contributes 수정 + 근거 재설명 |
+| "취소" / "그만" | → 저장 없이 종료 |
 
-```yaml
-question: "Impact Preview를 확인했습니다. 어떻게 하시겠습니까?"
-options-
-  - label: "Accept"
-    description: "이대로 Project frontmatter를 업데이트합니다"
-  - label: "Edit"
-    description: "필드 값을 수정합니다"
-  - label: "Cancel"
-    description: "채우기를 취소합니다"
+**4.3 값 수정 시 재확인**
+
+사용자가 값 수정을 요청하면:
+
+```
+## confidence 수정: 0.55 → 0.4
+
+### 수정 반영
+
+**변경 이유 (사용자 요청):**
+- 첫 펀딩 시도의 불확실성을 더 크게 반영
+
+**수정된 ExpectedScore:**
+- 이전: 10 × 0.55 = 5.5
+- 변경: 10 × 0.4 = **4.0**
+
+---
+
+다른 수정 사항이 있으시면 말씀해주세요.
+납득하셨다면 "OK"라고 입력해주세요.
 ```
 
-**Edit 선택 시:**
-```yaml
-question: "어떤 필드를 수정할까요?"
-options-
-  - label: "tier"
-    description: "현재: strategic"
-  - label: "impact_magnitude"
-    description: "현재: high"
-  - label: "confidence"
-    description: "현재: 0.6"
-  - label: "contributes"
-    description: "연결된 Condition 수정"
+**4.4 협상 원칙**
+
+- LLM은 사용자 의견을 존중하되, 전략적 일관성이 깨지면 **정중하게 재고 요청**
+- 예: "confidence를 0.9로 올리면 첫 시도 리스크가 반영되지 않는데, 0.7 정도는 어떨까요?"
+- 최종 결정권은 항상 사용자에게 있음
+
+### Step 5: 저장 (사용자 OK 후에만)
+
+**5.1 최종 확인 메시지**
+
+```
+사용자가 "OK"를 입력했습니다. 저장을 진행합니다.
 ```
 
-### Step 6: 저장 및 빌드
-
-**6.1 Project Frontmatter 업데이트**
+**5.2 Project Frontmatter 업데이트**
 
 Edit 도구를 사용하여 frontmatter에 필드 추가:
 
@@ -206,20 +290,33 @@ Edit 도구를 사용하여 frontmatter에 필드 추가:
 # 기존 frontmatter에 추가
 tier: strategic
 impact_magnitude: high
-confidence: 0.6
+confidence: 0.55
 contributes:
-  - condition: "cond-b"
-    weight: 0.4
-    description: "패턴 발견 기여"
+  - to: "cond-d"
+    weight: 0.6
+    description: "펀딩 성공 시 런웨이 직접 확보"
+  - to: "cond-b"
+    weight: 0.3
+    description: "코칭 참여자 데이터 수집 가능"
 ```
 
-**6.2 build_impact.py 실행 여부 확인**
+**5.3 저장 완료 메시지**
 
 ```
-Impact 필드를 업데이트했습니다.
-→ 50_Projects/P010_Wadiz_Funding/Project_정의.md
+## 저장 완료
 
-build_impact.py를 실행할까요? [Y/n]
+**Project**: prj-010 (와디즈 펀딩)
+**파일**: 50_Projects/P010_Wadiz_Funding/Project_정의.md
+
+### 최종 Impact 값
+| 필드 | 값 |
+|------|-----|
+| tier | strategic |
+| impact_magnitude | high |
+| confidence | 0.55 |
+| **ExpectedScore** | **5.5** |
+
+이 프로젝트는 이제 "전략적 베팅"으로 기록되었습니다.
 ```
 
 ## Impact 필드 정의
@@ -276,43 +373,117 @@ tier: strategic, magnitude: high, confidence: 0.6
 /auto-fill-project-impact
 ```
 
-### 전체 흐름 예시
+### 전체 흐름 예시 (대화형 협상)
 
 ```
 사용자: 와디즈 펀딩 프로젝트 Impact 채워줘
 
 Claude: 프로젝트를 확인했습니다.
         → prj-010 (와디즈 펀딩)
-        → parent: trk-5 (Track 5: 유통)
+        → parent: trk-6 (Track 6: 조직/재무)
 
         [컨텍스트 수집 중...]
 
-        ## Impact Preview
+        ---
 
-        **ExpectedScore = 6.0**
-        - tier: strategic
-        - impact_magnitude: high
-        - confidence: 0.6
+        ## tier: `strategic`
 
-        **판단 근거:**
-        - 신규 채널 검증으로 전략적 가치 높음
-        - 첫 펀딩 시도로 불확실성 존재
+        ### 왜 strategic인가?
 
-        [Accept] [Edit] [Cancel]
+        **1. Track 연결 분석**
+        - 이 프로젝트는 trk-6 (조직/재무)에 속함
+        - Track 6의 목표: "지속 가능한 재무 구조 확보"
+        - 본 프로젝트는 Track 목표에 직접 기여 (자금 조달)
 
-사용자: confidence를 0.5로 낮춰줘
+        **2. Condition 기여도**
+        - cond-e (런웨이 확보): 펀딩 성공 시 자금 유입 → 직접 기여
 
-Claude: confidence를 0.5로 수정했습니다.
-        **ExpectedScore = 5.0** (10 × 0.5)
+        **3. 비전 연결**
+        - 펀딩을 통한 시장 검증 + 자금 확보
+        - B2C 채널 개척의 첫 실험
 
-        [Accept] [Edit] [Cancel]
+        **왜 다른 값이 아닌가?**
+        - tactical이 아닌 이유: 검증된 채널 확장이 아닌 신규 채널
+        - operational이 아닌 이유: 단순 운영이 아닌 전략적 실험
 
-사용자: Accept
+        ---
 
-Claude: Project frontmatter를 업데이트했습니다.
-        → 50_Projects/P010_Wadiz_Funding/Project_정의.md
+        ## impact_magnitude: `high`
+        [상세 근거...]
 
-        **ExpectedScore: 5.0**
+        ---
+
+        ## confidence: `0.55`
+        [상세 근거...]
+
+        ---
+
+        ### 계산될 ExpectedScore
+        | 항목 | 값 |
+        |------|-----|
+        | tier | strategic (base 10) |
+        | impact_magnitude | high (×1.0) |
+        | confidence | 0.55 |
+        | **ExpectedScore** | **5.5** |
+
+        위 값들에 대해 질문이나 수정 요청이 있으시면 말씀해주세요.
+        납득하셨다면 "OK"라고 입력해주세요.
+
+---
+
+사용자: 왜 confidence가 0.55야? 좀 높은 것 같은데
+
+Claude: confidence 0.55 판단 근거를 다시 설명드리겠습니다.
+
+        **긍정 요인 (+):**
+        - 와디즈 플랫폼 자체는 검증된 크라우드펀딩 채널
+        - 건강/습관 카테고리 펀딩 성공 사례 다수
+        - 팀 내 콘텐츠 제작 역량 존재
+
+        **불확실성 요인 (-):**
+        - 첫 펀딩 시도 (학습 곡선)
+        - 12주 코칭 상품 가격대 미검증
+        - 경쟁 상품 대비 차별점 커뮤니케이션 미검증
+
+        만약 0.4~0.45 정도로 낮추시겠다면, "첫 시도 리스크를 더 크게 반영"하는
+        것으로 이해하겠습니다. 어떤 값이 적절할까요?
+
+---
+
+사용자: 0.4로 바꿔
+
+Claude: ## confidence 수정: 0.55 → 0.4
+
+        **변경 이유:**
+        - 첫 펀딩 시도의 불확실성을 더 크게 반영
+
+        **수정된 ExpectedScore:**
+        - 이전: 10 × 0.55 = 5.5
+        - 변경: 10 × 0.4 = **4.0**
+
+        ---
+
+        다른 수정 사항이 있으시면 말씀해주세요.
+        납득하셨다면 "OK"라고 입력해주세요.
+
+---
+
+사용자: OK
+
+Claude: 저장을 진행합니다.
+
+        ## 저장 완료
+
+        **Project**: prj-010 (와디즈 펀딩)
+        **파일**: 50_Projects/P010_.../Project_정의.md
+
+        ### 최종 Impact 값
+        | 필드 | 값 |
+        |------|-----|
+        | tier | strategic |
+        | impact_magnitude | high |
+        | confidence | 0.4 |
+        | **ExpectedScore** | **4.0** |
 
         이 프로젝트는 이제 "전략적 베팅"으로 기록되었습니다.
 ```

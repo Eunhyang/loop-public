@@ -23,6 +23,19 @@ owner: "한명학"
 budget: null
 deadline: null
 hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+
+# === Impact 점수 필드 (A) ===
+tier: operational
+impact_magnitude: mid
+confidence: 0.70
+contributes:
+  - to: "cond-b"
+    weight: 0.1
+    description: "참여자 리텐션 → 데이터 지속 수집"
+  - to: "cond-d"
+    weight: 0.1
+    description: "고객 만족 → 재등록률 → 매출"
+
 expected_impact:
   statement: "이 프로젝트가 성공하면 고객 CS 프로세스가 안정화됨이 증명된다"
   metric: "CS 응답 시간 + 해결률"

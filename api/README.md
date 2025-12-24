@@ -63,6 +63,14 @@ poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/tracks` | Track 목록 조회 |
+| GET | `/api/tracks/{track_id}` | 개별 Track 조회 |
+
+### Programs
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/programs` | Program 목록 조회 |
+| GET | `/api/programs/{program_id}` | 개별 Program 조회 |
 
 ### Hypotheses
 

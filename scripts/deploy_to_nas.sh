@@ -91,12 +91,15 @@ log "Step 4/4: Deploying to web server..."
 # Create web directory if not exists
 mkdir -p "$WEB_DIR"
 
-# Copy dashboard
-cp -f _dashboard/index.html "$WEB_DIR/index.html" || error "Failed to copy dashboard"
+# Copy entire dashboard folder (index.html + css/ + js/)
+cp -f _dashboard/index.html "$WEB_DIR/index.html" || error "Failed to copy index.html"
+cp -rf _dashboard/css "$WEB_DIR/" || error "Failed to copy css folder"
+cp -rf _dashboard/js "$WEB_DIR/" || error "Failed to copy js folder"
 
 # Set permissions
-chmod 644 "$WEB_DIR/index.html"
-chown http:http "$WEB_DIR/index.html" 2>/dev/null || true
+chmod -R 644 "$WEB_DIR"/*.html "$WEB_DIR"/css/* "$WEB_DIR"/js/* 2>/dev/null || true
+chmod 755 "$WEB_DIR" "$WEB_DIR"/css "$WEB_DIR"/js 2>/dev/null || true
+chown -R http:http "$WEB_DIR" 2>/dev/null || true
 
 # 5. Complete
 log "Deploy completed successfully!"

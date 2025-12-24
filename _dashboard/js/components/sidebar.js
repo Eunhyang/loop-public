@@ -3,7 +3,7 @@
  * 사이드바 네비게이션 (Tracks, Hypotheses, Conditions)
  */
 const Sidebar = {
-    collapsed: false,
+    collapsed: true,
     sectionsCollapsed: {
         tracks: false,
         hypotheses: false,
@@ -15,6 +15,11 @@ const Sidebar = {
     // ============================================
     init() {
         this.setupEventListeners();
+        // Apply initial collapsed state to DOM
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && this.collapsed) {
+            sidebar.classList.add('collapsed');
+        }
     },
 
     setupEventListeners() {
@@ -233,9 +238,15 @@ const Sidebar = {
     // Filtering
     // ============================================
     filterByTrack(trackId) {
+        // Reset other filters
+        State.filterProgram = null;
+        State.filterHypothesis = null;
+        State.filterCondition = null;
+
         if (trackId === 'all') {
             // Show all projects
             State.currentProject = 'all';
+            State.filterTrack = null;
         } else {
             // Filter projects by parent_id = trackId
             const track = State.getTrackById(trackId);
@@ -267,6 +278,7 @@ const Sidebar = {
         State.filterHypothesis = hypId;
         State.currentProject = 'all';
         State.filterTrack = null;
+        State.filterProgram = null;
 
         Tabs.render();
         Kanban.render();
@@ -278,10 +290,24 @@ const Sidebar = {
         State.filterCondition = condId;
         State.currentProject = 'all';
         State.filterTrack = null;
+        State.filterProgram = null;
 
         Tabs.render();
         Kanban.render();
         Calendar.refresh();  // Codex 피드백: 필터 변경 시 Calendar도 갱신
+    },
+
+    filterByProgram(progId) {
+        // Find tasks under projects belonging to this program
+        State.filterProgram = progId;
+        State.currentProject = 'all';
+        State.filterTrack = null;
+        State.filterHypothesis = null;
+        State.filterCondition = null;
+
+        Tabs.render();
+        Kanban.render();
+        Calendar.refresh();
     },
 
     // ============================================

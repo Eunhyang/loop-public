@@ -17,8 +17,15 @@
 1. **정보 수집**
    - 프로젝트 이름 (entity_name)
    - 책임자 (owner) - members.yaml에서 선택
-   - 상위 Track/Hypothesis ID (parent_id)
+   - 상위 Track ID (parent_id) - **필수**
+   - 기여 Condition (conditions_3y) - **필수** (예: ["cond-a", "cond-b"])
+   - 검증 가설 (hypothesis_id) - 선택사항
    - 우선순위 (priority_flag) - 선택사항
+   - Program ID (program_id) - Program 하위 Round인 경우
+   - 사이클 (cycle) - Program 하위인 경우 (예: "W33", "2026Q1")
+
+   > **CRITICAL**: Program 하위 Project도 반드시 Track과 Condition 연결 필수.
+   > 연결 없으면 전략 계층에서 고아 프로젝트가 됨.
 
 2. **Expected Impact 설정** (통합됨)
    - **자동 채우기** → LLM이 tier/magnitude/confidence 제안

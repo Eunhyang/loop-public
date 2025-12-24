@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-002-08
 entity_name: 꼭꼭FIT 관련 과제 내용과 AI 통합
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2025-12-23'
 status: planning
 parent_id: prj-002
 project_id: prj-002
@@ -15,15 +15,17 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: 2025-12-23
+due: '2025-12-27'
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond-b', 'cond-d']
+conditions_3y:
+- cond-b
+- cond-d
 tags: []
 priority_flag: high
+start_date: '2025-12-27'
 ---
-
 # 꼭꼭FIT 관련 과제 내용과 AI 통합
 
 > Task ID: `tsk-002-08` | Project: `prj-002` | Status: planning

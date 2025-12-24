@@ -12,12 +12,32 @@
     <link rel="stylesheet" href="css/filter-panel.css">
     <link rel="stylesheet" href="css/graph.css">
     <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/quick-search.css">
     <!-- D3.js for Graph Visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- FullCalendar for Calendar View -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 </head>
 <body>
+    <!-- Login Modal -->
+    <div class="modal-overlay login-modal" id="loginModal" style="display: none;">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h2>🔐 Dashboard Login</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" autofocus>
+                </div>
+                <p class="login-error" id="loginError" style="color: #e74c3c; display: none;">Invalid password</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="loginSubmit">Login</button>
+            </div>
+        </div>
+    </div>
+
     <!-- App Layout: Sidebar + Main Content -->
     <div class="app-layout">
         <!-- Sidebar Navigation -->
@@ -81,6 +101,9 @@
                     </div>
                     <button class="btn btn-primary" id="btnNewTask">+ New Task</button>
                     <button class="btn btn-primary" id="btnNewProject">+ New Project</button>
+                    <button class="btn btn-icon" id="btnReloadCache" title="Reload Cache">
+                        <span class="reload-icon">🔄</span>
+                    </button>
                     <button class="btn btn-icon" id="btnFilter" title="Filters">
                         <span class="filter-icon">&#9881;</span>
                     </button>
@@ -96,7 +119,6 @@
 
                 <!-- Project Filter (하위 탭) -->
                 <div class="filter-bar" id="filterBar">
-                    <span class="filter-label">Project:</span>
                     <div class="filter-buttons" id="assigneeFilter">
                         <!-- Dynamically populated -->
                     </div>
@@ -126,22 +148,6 @@
 
             <!-- Calendar View -->
             <div class="calendar-view" id="calendarView">
-                <!-- Priority Legend -->
-                <div class="calendar-legend">
-                    <span class="legend-label">Priority:</span>
-                    <div class="legend-item">
-                        <span class="legend-dot high"></span>
-                        <span>High</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot medium"></span>
-                        <span>Medium</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot low"></span>
-                        <span>Low</span>
-                    </div>
-                </div>
                 <div class="calendar-container" id="calendarContainer">
                     <!-- FullCalendar will be rendered here -->
                 </div>
@@ -260,6 +266,25 @@
         </div>
     </div>
 
+    <!-- Quick Search Modal (Cmd+K) -->
+    <div class="quick-search-overlay" id="quickSearchOverlay">
+        <div class="quick-search-modal" id="quickSearchModal">
+            <div class="quick-search-input-wrapper">
+                <span class="quick-search-icon">🔍</span>
+                <input type="text" id="quickSearchInput" placeholder="Search tasks, projects, commands..." autocomplete="off">
+                <kbd class="quick-search-esc">ESC</kbd>
+            </div>
+            <div class="quick-search-results" id="quickSearchResults">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="quick-search-footer">
+                <span><kbd>↑↓</kbd> Navigate</span>
+                <span><kbd>Enter</kbd> Select</span>
+                <span><kbd>></kbd> Commands</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
@@ -271,6 +296,14 @@
             <button class="panel-close" id="filterPanelClose">&times;</button>
         </div>
         <div class="panel-body">
+            <!-- Activate Filters (Show Inactive) -->
+            <div class="panel-section">
+                <div class="panel-section-title">VISIBILITY</div>
+                <div class="filter-toggles" id="activateFilters">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
             <!-- Project Filters -->
             <div class="panel-section">
                 <div class="panel-section-title">PROJECT FILTERS</div>
@@ -540,8 +573,44 @@
         </div>
     </aside>
 
+    <!-- Program Side Panel -->
+    <div class="panel-overlay" id="programPanelOverlay"></div>
+    <aside class="side-panel program-panel" id="programPanel">
+        <div class="panel-header">
+            <h2>Program Detail</h2>
+            <div class="panel-header-actions">
+                <button class="panel-expand" id="programPanelExpand" title="Expand">⛶</button>
+                <button class="panel-close" id="programPanelClose">&times;</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="panel-field-id" id="panelProgramId"></div>
+            <h3 class="program-name" id="panelProgramName"></h3>
+            <span class="program-status-badge" id="panelProgramStatus"></span>
+
+            <!-- Description -->
+            <div class="panel-section">
+                <div class="panel-section-title">Description</div>
+                <div class="program-description" id="panelProgramDescription"></div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="panel-section">
+                <div class="panel-section-title">Statistics</div>
+                <div class="program-stats" id="panelProgramStats"></div>
+            </div>
+
+            <!-- Child Projects -->
+            <div class="panel-section">
+                <div class="panel-section-title">Projects</div>
+                <div class="program-projects" id="panelProgramProjects"></div>
+            </div>
+        </div>
+    </aside>
+
     <!-- Scripts -->
     <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/state.js"></script>
     <script src="js/components/sidebar.js"></script>
     <script src="js/components/tabs.js"></script>
@@ -553,9 +622,11 @@
     <script src="js/components/relations.js"></script>
     <script src="js/components/task-panel.js"></script>
     <script src="js/components/project-panel.js"></script>
+    <script src="js/components/program-panel.js"></script>
     <script src="js/components/filter-panel.js"></script>
     <script src="js/components/graph.js"></script>
     <script src="js/components/graphDetailPanel.js"></script>
+    <script src="js/components/quick-search.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

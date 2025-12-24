@@ -6,6 +6,35 @@ const Calendar = {
     instance: null,
     initialized: false,
 
+    // 프로젝트별 고유 색상 팔레트 (20개 pastel)
+    PASTEL_COLORS: [
+        '#FFCDD2', '#F8BBD9', '#E1BEE7', '#D1C4E9', '#C5CAE9',
+        '#BBDEFB', '#B3E5FC', '#B2EBF2', '#B2DFDB', '#C8E6C9',
+        '#DCEDC8', '#F0F4C3', '#FFF9C4', '#FFECB3', '#FFE0B2',
+        '#FFCCBC', '#D7CCC8', '#CFD8DC', '#E0E0E0', '#B0BEC5'
+    ],
+
+    /**
+     * 문자열 해시 함수 (djb2 알고리즘)
+     */
+    hashString(str) {
+        let hash = 5381;
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) + hash) + str.charCodeAt(i);
+        }
+        return Math.abs(hash);
+    },
+
+    /**
+     * 프로젝트 ID 기반 색상 반환
+     */
+    getColorByProject(projectId) {
+        if (projectId === null || projectId === undefined) return '#E0E0E0';
+        const str = String(projectId);
+        const index = this.hashString(str) % this.PASTEL_COLORS.length;
+        return this.PASTEL_COLORS[index];
+    },
+
     /**
      * Calendar 초기화
      */
@@ -69,15 +98,17 @@ const Calendar = {
             .map(task => {
                 const startDate = task.start_date || task.due;
                 const endDate = task.due || task.start_date;
+                const projectColor = this.getColorByProject(task.project_id);
 
                 return {
                     id: task.entity_id,
                     title: task.entity_name,
                     start: startDate,
                     end: this.getEndDateForCalendar(endDate),
-                    backgroundColor: this.getColorByPriority(task.priority),
-                    borderColor: this.getColorByPriority(task.priority),
-                    textColor: '#fff',
+                    backgroundColor: projectColor,
+                    borderColor: projectColor,
+                    textColor: '#333',
+                    classNames: task.status === 'done' ? ['event-done'] : [],
                     extendedProps: {
                         status: task.status,
                         assignee: task.assignee,

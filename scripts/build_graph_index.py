@@ -36,6 +36,7 @@ ENTITY_ORDER = [
     "MetaHypothesis",
     "Condition",
     "Track",
+    "Program",
     "Project",
     "Task",
     "Hypothesis",

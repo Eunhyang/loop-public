@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-007
 entity_name: 외부 비서
 created: 2025-12-18
-updated: 2025-12-18
-status: active
+updated: '2025-12-23'
+status: done
 parent_id: trk-6
 aliases:
 - prj-007
@@ -18,19 +18,19 @@ budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 expected_impact:
-  statement: "이 프로젝트가 성공하면 외부 비서를 통한 운영 효율화가 가능함이 증명된다"
-  metric: "업무 위임 성공률"
-  target: "주 10시간 업무 위임"
+  statement: 이 프로젝트가 성공하면 외부 비서를 통한 운영 효율화가 가능함이 증명된다
+  metric: 업무 위임 성공률
+  target: 주 10시간 업무 위임
 realized_impact:
-  outcome: null  # supported | rejected | inconclusive
+  outcome: null
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond-e']
+conditions_3y:
+- cond-e
 tags: []
 priority_flag: medium
 ---
-
 # 외부 비서
 
 > Project ID: `prj-007` | Track: `trk-2` | Status: active

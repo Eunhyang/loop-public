@@ -25,12 +25,6 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-.filter-label {
-    font-size: 0.85em;
-    font-weight: 500;
-    color: #666;
-}
-
 .filter-buttons {
     display: flex;
     gap: 8px;
@@ -69,6 +63,128 @@
 }
 
 .filter-btn.active .filter-count {
+    background: rgba(255,255,255,0.3);
+}
+
+/* 프로젝트 상세 버튼 */
+.btn-project-info {
+    margin-left: 4px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s, background 0.2s;
+    font-size: 0.9em;
+}
+
+.btn-project-info:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.btn-project-info:focus-visible {
+    opacity: 1;
+    outline: 2px solid #667eea;
+    outline-offset: 1px;
+}
+
+.filter-btn.active .btn-project-info:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.filter-btn.active .btn-project-info:focus-visible {
+    outline-color: white;
+}
+
+/* Program 버튼 스타일 (Project와 구분되는 청록색) */
+.filter-btn-program {
+    background: #e0f2fe;
+    border-color: #0ea5e9;
+    color: #0369a1;
+}
+
+.filter-btn-program:hover {
+    background: #bae6fd;
+    border-color: #0284c7;
+}
+
+.filter-btn-program.active {
+    background: #0ea5e9;
+    color: white;
+    border-color: #0ea5e9;
+}
+
+.filter-btn-program .filter-count {
+    background: rgba(14, 165, 233, 0.2);
+}
+
+.filter-btn-program.active .filter-count {
+    background: rgba(255,255,255,0.3);
+}
+
+/* Program Info 버튼 (Project Info와 동일 스타일) */
+.btn-program-info {
+    margin-left: 4px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s, background 0.2s;
+    font-size: 0.9em;
+}
+
+.btn-program-info:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.btn-program-info:focus-visible {
+    opacity: 1;
+    outline: 2px solid #0ea5e9;
+    outline-offset: 1px;
+}
+
+.filter-btn-program.active .btn-program-info:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.filter-btn-program.active .btn-program-info:focus-visible {
+    outline-color: white;
+}
+
+/* Filter Separator (Program과 Child Projects 구분) */
+.filter-separator {
+    color: #ccc;
+    margin: 0 4px;
+    font-weight: normal;
+    user-select: none;
+}
+
+/* Child Project 버튼 (Program 하위 프로젝트) */
+.filter-btn-child {
+    background: #f0f9ff;
+    border-color: #7dd3fc;
+    color: #0369a1;
+    font-size: 0.85em;
+    padding: 5px 12px;
+}
+
+.filter-btn-child:hover {
+    background: #e0f2fe;
+    border-color: #38bdf8;
+}
+
+.filter-btn-child.active {
+    background: #38bdf8;
+    color: white;
+    border-color: #38bdf8;
+}
+
+.filter-btn-child .filter-count {
+    background: rgba(14, 165, 233, 0.15);
+}
+
+.filter-btn-child.active .filter-count {
     background: rgba(255,255,255,0.3);
 }
 
@@ -280,6 +396,30 @@
 .status-select:focus {
     outline: none;
     border-color: #667eea;
+}
+
+/* Delete Button */
+.btn-delete {
+    padding: 4px 6px;
+    font-size: 1em;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s, transform 0.2s;
+    border-radius: 4px;
+}
+
+.btn-delete:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.btn-delete:focus-visible {
+    opacity: 1;
+    outline: 2px solid #ef4444;
+    outline-offset: 1px;
 }
 
 /* ============================================

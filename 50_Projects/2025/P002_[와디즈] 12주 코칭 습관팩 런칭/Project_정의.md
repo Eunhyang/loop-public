@@ -25,11 +25,24 @@ validated_by: []
 owner: "김은향"
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: "12주 습관 코칭 패키지가 와디즈 크라우드펀딩에서 시장 수요를 검증할 수 있다"
+
+# === Impact 점수 필드 (A) ===
+tier: tactical
+impact_magnitude: high
+confidence: 0.55
+contributes:
+  - to: "cond-d"
+    weight: 0.6
+    description: "펀딩 성공 시 런웨이 확보 + 시장 검증"
+  - to: "cond-b"
+    weight: 0.3
+    description: "코칭 데이터 수집 기반 마련"
+
 expected_impact:
-  statement: "이 프로젝트가 성공하면 12주 코칭 습관팩이 시장에서 수요가 있음이 증명된다"
-  metric: "펀딩 달성률"
-  target: "목표 금액 100% 달성"
+  statement: "이 프로젝트가 성공하면 12주 코칭 습관팩에 대한 시장 수요가 존재하고 와디즈 채널이 유효함이 증명된다"
+  metric: "펀딩 달성률 + 서포터 수"
+  target: "목표 금액 100% 달성 + 서포터 50명 이상"
 realized_impact:
   outcome: null  # supported | rejected | inconclusive
   evidence: null

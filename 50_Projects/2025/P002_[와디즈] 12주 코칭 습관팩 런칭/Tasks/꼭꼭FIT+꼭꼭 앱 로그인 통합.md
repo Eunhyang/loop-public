@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-002-07
 entity_name: 꼭꼭FIT+꼭꼭 앱 로그인 통합
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2025-12-25'
 status: planning
 parent_id: prj-002
 project_id: prj-002
@@ -15,15 +15,17 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: 2025-12-16
+due: '2026-01-08'
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond-b', 'cond-d']
+conditions_3y:
+- cond-b
+- cond-d
 tags: []
 priority_flag: high
+start_date: '2026-01-08'
 ---
-
 # 꼭꼭FIT+꼭꼭 앱 로그인 통합
 
 > Task ID: `tsk-002-07` | Project: `prj-002` | Status: planning

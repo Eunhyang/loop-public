@@ -20,6 +20,15 @@ owner: 김은향
 budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
+# === Impact 점수 필드 (A) ===
+tier: enabling
+impact_magnitude: high
+confidence: 0.60
+contributes:
+  - to: "cond-b"
+    weight: 0.5
+    description: "패턴 저장 스키마 = cond-b 달성의 필수 기반"
+
 expected_impact:
   statement: "이 프로젝트가 성공하면 LoopOS V0 데이터 스키마가 실제 사용 가능함이 증명된다"
   metric: "스키마 정의 완료율"

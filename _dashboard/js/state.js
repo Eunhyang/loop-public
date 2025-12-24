@@ -12,6 +12,7 @@ const State = {
     productlines: [],
     partnershipstages: [],
     tracks: [],
+    programs: [],
     projects: [],
     tasks: [],
     hypotheses: [],
@@ -23,6 +24,7 @@ const State = {
     currentHypothesis: null,
     currentCondition: null,
     filterTrack: null,
+    filterProgram: null,
     filterHypothesis: null,
     filterCondition: null,
     loading: false,
@@ -32,15 +34,18 @@ const State = {
     // Filter Panel State
     filters: {
         project: {
-            status: ['planning', 'active', 'paused', 'done', 'cancelled'],  // all checked by default
-            priority: ['critical', 'high', 'medium', 'low']
+            status: ['planning', 'active', 'paused', 'cancelled'],  // done excluded by default
+            priority: ['critical', 'high', 'medium', 'low'],
+            showInactive: false  // activate: false 엔티티 숨김 (기본값)
         },
         task: {
             status: ['todo', 'doing', 'done', 'blocked'],
             priority: ['critical', 'high', 'medium', 'low'],
             dueDateStart: null,
-            dueDateEnd: null
-        }
+            dueDateEnd: null,
+            showInactive: false  // activate: false 엔티티 숨김 (기본값)
+        },
+        showInactiveMembers: false  // active: false 멤버 숨김 (기본값)
     },
     filterPanelOpen: false,
 
@@ -53,7 +58,7 @@ const State = {
             const [
                 constants, members,
                 northstars, metahypotheses, conditions, productlines, partnershipstages,
-                tracks, projects, tasks, hypotheses
+                tracks, programs, projects, tasks, hypotheses
             ] = await Promise.all([
                 API.getConstants(),
                 API.getMembers(),
@@ -63,6 +68,7 @@ const State = {
                 API.getProductLines().catch(() => []),
                 API.getPartnershipStages().catch(() => []),
                 API.getTracks(),
+                API.getPrograms().catch(() => []),
                 API.getProjects(),
                 API.getTasks(),
                 API.getHypotheses().catch(() => [])
@@ -76,6 +82,7 @@ const State = {
             this.productlines = productlines;
             this.partnershipstages = partnershipstages;
             this.tracks = tracks;
+            this.programs = programs;
             this.projects = projects;
             this.tasks = tasks;
             this.hypotheses = hypotheses;
@@ -90,6 +97,10 @@ const State = {
 
     async reloadProjects() {
         this.projects = await API.getProjects();
+    },
+
+    async reloadPrograms() {
+        this.programs = await API.getPrograms();
     },
 
     // ============================================
@@ -142,8 +153,34 @@ const State = {
         return this.tracks.find(t => t.entity_id === trackId);
     },
 
+    getProgramById(programId) {
+        return this.programs.find(p => p.entity_id === programId);
+    },
+
     getMemberById(memberId) {
         return this.members.find(m => m.id === memberId);
+    },
+
+    // Get active members (respects showInactiveMembers filter)
+    getActiveMembers() {
+        if (this.filters.showInactiveMembers) {
+            return this.members;
+        }
+        return this.members.filter(m => m.active !== false);
+    },
+
+    // Get inactive member IDs (for filtering tasks/projects)
+    getInactiveMemberIds() {
+        return this.members
+            .filter(m => m.active === false)
+            .map(m => m.id);
+    },
+
+    // Check if a member is active
+    isMemberActive(memberId) {
+        if (this.filters.showInactiveMembers) return true;
+        const member = this.getMemberById(memberId);
+        return member ? member.active !== false : true;
     },
 
     getTaskById(taskId) {
@@ -163,12 +200,31 @@ const State = {
     getFilteredTasks() {
         let filtered = this.tasks;
 
+        // Filter by activate (hide inactive by default)
+        if (!this.filters.task.showInactive) {
+            filtered = filtered.filter(t => t.activate !== false);
+        }
+
+        // Filter by inactive members (hide tasks assigned to inactive members)
+        if (!this.filters.showInactiveMembers) {
+            const inactiveIds = this.getInactiveMemberIds();
+            filtered = filtered.filter(t => !inactiveIds.includes(t.assignee));
+        }
+
         // Filter by track (via project's parent_id)
         if (this.filterTrack && this.filterTrack !== 'all') {
             const trackProjects = this.projects
                 .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
                 .map(p => p.entity_id);
             filtered = filtered.filter(t => trackProjects.includes(t.project_id));
+        }
+
+        // Filter by program (via project's program_id)
+        if (this.filterProgram) {
+            const programProjects = this.projects
+                .filter(p => p.program_id === this.filterProgram)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => programProjects.includes(t.project_id));
         }
 
         // Filter by hypothesis (tasks that validate this hypothesis)
@@ -280,9 +336,20 @@ const State = {
     // Assignee-centric helpers (for Kanban by Assignee)
     // ============================================
 
-    // Get tasks filtered by Track/Hypothesis/Condition (but not by assignee/project)
+    // Get tasks filtered by Track/Program/Hypothesis/Condition (but not by assignee/project)
     getStrategyFilteredTasks() {
         let filtered = this.tasks;
+
+        // Filter by activate (hide inactive by default)
+        if (!this.filters.task.showInactive) {
+            filtered = filtered.filter(t => t.activate !== false);
+        }
+
+        // Filter by inactive members (hide tasks assigned to inactive members)
+        if (!this.filters.showInactiveMembers) {
+            const inactiveIds = this.getInactiveMemberIds();
+            filtered = filtered.filter(t => !inactiveIds.includes(t.assignee));
+        }
 
         // Filter by track (via project's parent_id)
         if (this.filterTrack && this.filterTrack !== 'all') {
@@ -290,6 +357,14 @@ const State = {
                 .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
                 .map(p => p.entity_id);
             filtered = filtered.filter(t => trackProjects.includes(t.project_id));
+        }
+
+        // Filter by program (via project's program_id)
+        if (this.filterProgram) {
+            const programProjects = this.projects
+                .filter(p => p.program_id === this.filterProgram)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => programProjects.includes(t.project_id));
         }
 
         // Filter by hypothesis (tasks that validate this hypothesis)
@@ -369,6 +444,14 @@ const State = {
                 if (!this.filters.project.priority.includes(projectPriority)) {
                     return;
                 }
+                // Apply project activate filter (hide inactive by default)
+                if (!this.filters.project.showInactive && project.activate === false) {
+                    return;
+                }
+                // Apply inactive member filter (hide projects owned by inactive members)
+                if (!this.filters.showInactiveMembers && !this.isMemberActive(project.owner)) {
+                    return;
+                }
                 result.push({
                     ...project,
                     taskCount: projectTaskCount[projectId]
@@ -404,14 +487,17 @@ const State = {
         this.filters = {
             project: {
                 status: [...this.getProjectStatuses()],
-                priority: [...this.getPriorities()]
+                priority: [...this.getPriorities()],
+                showInactive: false
             },
             task: {
                 status: [...this.getTaskStatuses()],
                 priority: [...this.getPriorities()],
                 dueDateStart: null,
-                dueDateEnd: null
-            }
+                dueDateEnd: null,
+                showInactive: false
+            },
+            showInactiveMembers: false
         };
     },
 

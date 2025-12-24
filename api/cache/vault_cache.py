@@ -47,6 +47,7 @@ class VaultCache:
     def __init__(self, vault_path: Path):
         self.vault_path = vault_path
         self.projects_dir = vault_path / "50_Projects" / "2025"
+        self.programs_dir = vault_path / "50_Projects"  # Programs are stored as subdirs in 50_Projects/
 
         # 스레드 안전성을 위한 RLock (읽기/쓰기 모두 보호)
         self._lock = threading.RLock()
@@ -54,6 +55,7 @@ class VaultCache:
         # 캐시 저장소 - 기존
         self.tasks: Dict[str, CacheEntry] = {}
         self.projects: Dict[str, CacheEntry] = {}
+        self.programs: Dict[str, CacheEntry] = {}
 
         # 캐시 저장소 - 신규
         self.hypotheses: Dict[str, CacheEntry] = {}
@@ -77,6 +79,7 @@ class VaultCache:
         self._load_time: float = 0
         self._task_count: int = 0
         self._project_count: int = 0
+        self._program_count: int = 0
         self._hypothesis_count: int = 0
 
         # 초기 로드
@@ -96,6 +99,7 @@ class VaultCache:
             # 기존 엔티티
             self._load_tasks()
             self._load_projects()
+            self._load_programs()
 
             # 신규 엔티티
             self._load_hypotheses()
@@ -112,6 +116,7 @@ class VaultCache:
         logger.info(
             f"VaultCache: Loaded {self._task_count} tasks, "
             f"{self._project_count} projects, "
+            f"{self._program_count} programs, "
             f"{self._hypothesis_count} hypotheses, "
             f"{len(self.tracks)} tracks, "
             f"{len(self.conditions)} conditions in {elapsed:.2f}s"
@@ -122,13 +127,20 @@ class VaultCache:
     # ============================================
 
     def _load_tasks(self) -> None:
-        """모든 Task 파일 로드"""
-        if not self.projects_dir.exists():
-            logger.warning(f"Projects directory not found: {self.projects_dir}")
-            return
+        """모든 Task 파일 로드 (기존 + Program Rounds)"""
+        # 기존: 50_Projects/2025/*/Tasks/*.md
+        if self.projects_dir.exists():
+            for task_file in self.projects_dir.rglob("Tasks/*.md"):
+                self._load_task_file(task_file)
 
-        for task_file in self.projects_dir.rglob("Tasks/*.md"):
-            self._load_task_file(task_file)
+        # 추가: 50_Projects/*/Rounds/*/Tasks/*.md (Program Rounds)
+        if self.programs_dir.exists():
+            for task_file in self.programs_dir.glob("*/Rounds/*/Tasks/*.md"):
+                self._load_task_file(task_file)
+
+        # mtime 업데이트 (두 경로 모두, 로드 완료 후)
+        self._update_dir_mtime(self.projects_dir, 'Task')
+        self._update_dir_mtime(self.programs_dir, 'Task_Rounds')
 
     def _load_task_file(self, file_path: Path) -> Optional[str]:
         """단일 Task 파일 로드하여 캐시에 저장"""
@@ -171,8 +183,18 @@ class VaultCache:
         status: Optional[str] = None,
         assignee: Optional[str] = None
     ) -> List[Dict[str, Any]]:
-        """Task 목록 조회 (필터 지원)"""
+        """Task 목록 조회 (필터 지원, 디렉토리 mtime 체크 포함)"""
         with self._lock:
+            # 두 디렉토리 모두 변경 감지 (기존 + Program Rounds)
+            reload_needed = self._should_reload_dir(self.projects_dir, 'Task')
+            if self._should_reload_dir(self.programs_dir, 'Task_Rounds'):
+                reload_needed = True
+
+            if reload_needed:
+                self.tasks.clear()
+                self._task_count = 0
+                self._load_tasks()
+
             results = []
 
             for task_id, entry in list(self.tasks.items()):
@@ -220,21 +242,39 @@ class VaultCache:
     # ============================================
 
     def _load_projects(self) -> None:
-        """모든 Project 파일 로드"""
-        if not self.projects_dir.exists():
-            return
+        """모든 Project 파일 로드 (기존 + Program Rounds)"""
+        # 기존: 50_Projects/2025/P*
+        if self.projects_dir.exists():
+            for project_dir in self.projects_dir.glob("P*"):
+                if not project_dir.is_dir():
+                    continue
 
-        for project_dir in self.projects_dir.glob("P*"):
-            if not project_dir.is_dir():
-                continue
+                for pattern in ["Project_정의.md", "Project_*.md", "*.md"]:
+                    project_files = list(project_dir.glob(pattern))
+                    for pf in project_files:
+                        if pf.name.startswith("_") or "Tasks" in str(pf):
+                            continue
+                        self._load_project_file(pf)
+                        break
 
-            for pattern in ["Project_정의.md", "Project_*.md", "*.md"]:
-                project_files = list(project_dir.glob(pattern))
-                for pf in project_files:
-                    if pf.name.startswith("_") or "Tasks" in str(pf):
+        # 추가: 50_Projects/*/Rounds/prj-* (Program Rounds)
+        if self.programs_dir.exists():
+            for program_dir in self.programs_dir.iterdir():
+                if not program_dir.is_dir():
+                    continue
+                rounds_dir = program_dir / "Rounds"
+                if not rounds_dir.exists():
+                    continue
+                for round_dir in rounds_dir.glob("prj-*"):
+                    if not round_dir.is_dir():
                         continue
-                    self._load_project_file(pf)
-                    break
+                    for pattern in ["Project_정의.md", "*.md"]:
+                        project_files = list(round_dir.glob(pattern))
+                        for pf in project_files:
+                            if pf.name.startswith("_") or "Tasks" in str(pf):
+                                continue
+                            self._load_project_file(pf)
+                            break
 
     def _load_project_file(self, file_path: Path) -> Optional[str]:
         """단일 Project 파일 로드 (본문 포함)"""
@@ -307,6 +347,74 @@ class VaultCache:
                 del self.projects[project_id]
                 return True
             return False
+
+    # ============================================
+    # Program 로드/조회
+    # ============================================
+
+    def _load_programs(self) -> None:
+        """모든 Program 파일 로드
+
+        Programs are stored as subdirectories under 50_Projects/ with _PROGRAM.md file.
+        Examples:
+            - 50_Projects/Youtube_Weekly/_PROGRAM.md
+            - 50_Projects/Hiring/_PROGRAM.md
+        """
+        if not self.programs_dir.exists():
+            logger.warning(f"Programs directory not found: {self.programs_dir}")
+            return
+
+        self._update_dir_mtime(self.programs_dir, 'Program')
+
+        # Scan all subdirectories for _PROGRAM.md files
+        for program_file in self.programs_dir.glob("*/_PROGRAM.md"):
+            if program_file.is_file():
+                self._load_program_file(program_file)
+
+    def _load_program_file(self, file_path: Path) -> Optional[str]:
+        """단일 Program 파일 로드"""
+        data, body = self._extract_frontmatter_and_body(file_path)
+        if not data or data.get('entity_type') != 'Program':
+            return None
+
+        entity_id = data.get('entity_id')
+        if not entity_id:
+            return None
+
+        data['_path'] = str(file_path.relative_to(self.vault_path))
+        data['_dir'] = str(file_path.parent.relative_to(self.vault_path))
+        data['_body'] = body
+
+        self.programs[entity_id] = CacheEntry(
+            data=data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+        self._program_count += 1
+
+        return entity_id
+
+    def get_program(self, program_id: str) -> Optional[Dict[str, Any]]:
+        """Program 조회"""
+        with self._lock:
+            entry = self.programs.get(program_id)
+            if not entry:
+                return None
+            return entry.data.copy()
+
+    def get_all_programs(self) -> List[Dict[str, Any]]:
+        """Program 목록 조회 (디렉토리 mtime 체크 포함)"""
+        with self._lock:
+            if self._should_reload_dir(self.programs_dir, 'Program'):
+                self.programs.clear()
+                self._program_count = 0
+                self._load_programs()
+
+            results = []
+            for program_id, entry in list(self.programs.items()):
+                results.append(entry.data.copy())
+
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
 
     # ============================================
     # Hypothesis 로드/조회/CRUD
@@ -925,6 +1033,7 @@ class VaultCache:
         with self._lock:
             self.tasks.clear()
             self.projects.clear()
+            self.programs.clear()
             self.hypotheses.clear()
             self.tracks.clear()
             self.conditions.clear()
@@ -937,6 +1046,7 @@ class VaultCache:
 
             self._task_count = 0
             self._project_count = 0
+            self._program_count = 0
             self._hypothesis_count = 0
 
             self._initial_load()
@@ -947,6 +1057,7 @@ class VaultCache:
             return {
                 "tasks": len(self.tasks),
                 "projects": len(self.projects),
+                "programs": len(self.programs),
                 "hypotheses": len(self.hypotheses),
                 "tracks": len(self.tracks),
                 "conditions": len(self.conditions),

@@ -1,37 +1,30 @@
 ---
 entity_type: Task
-entity_id: "tsk-005-02"
-entity_name: "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기"
+entity_id: tsk-005-02
+entity_name: '[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기'
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2025-12-23'
 status: planning
-
-# === 계층 ===
-parent_id: "prj-005"
-project_id: "prj-005"
+parent_id: prj-005
+project_id: prj-005
 aliases:
-  - "tsk-005-02"
-  - "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기"
-  - "tsk-005-02"
-
-# === 관계 ===
+- tsk-005-02
+- '[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기'
+- tsk-005-02
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
-due: 2025-12-17
+assignee: 김은향
+due: '2025-12-31'
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === 분류 ===
-conditions_3y: ['cond-b']
+conditions_3y:
+- cond-b
 tags: []
 priority_flag: high
+start_date: '2025-12-31'
 ---
-
 # [LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기
 
 > Task ID: `tsk-005-02` | Project: `prj-005` | Status: planning

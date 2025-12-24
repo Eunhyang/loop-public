@@ -58,7 +58,7 @@ const TaskCard = {
                     </div>
                     <div class="task-actions-right">
                         ${obsidianLink}
-                        <button class="btn-small btn-delete btn-danger">Delete</button>
+                        <button class="btn-delete" title="Delete task">🗑️</button>
                     </div>
                 </div>
             </div>

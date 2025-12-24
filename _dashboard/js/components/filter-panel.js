@@ -71,12 +71,55 @@ const FilterPanel = {
     },
 
     render() {
+        this.renderActivateFilters();
         this.renderProjectStatusFilters();
         this.renderProjectPriorityFilters();
         this.renderTaskStatusFilters();
         this.renderTaskPriorityFilters();
         this.renderDateFilters();
         this.updateFilterIndicator();
+    },
+
+    renderActivateFilters() {
+        const container = document.getElementById('activateFilters');
+        if (!container) return;
+
+        const memberChecked = State.filters.showInactiveMembers;
+        const projectChecked = State.filters.project.showInactive;
+        const taskChecked = State.filters.task.showInactive;
+
+        container.innerHTML = `
+            <label class="filter-toggle ${memberChecked ? 'checked' : ''}" data-type="members">
+                <span class="toggle-switch"></span>
+                <span>Show inactive members</span>
+            </label>
+            <label class="filter-toggle ${projectChecked ? 'checked' : ''}" data-type="project">
+                <span class="toggle-switch"></span>
+                <span>Show inactive projects</span>
+            </label>
+            <label class="filter-toggle ${taskChecked ? 'checked' : ''}" data-type="task">
+                <span class="toggle-switch"></span>
+                <span>Show inactive tasks</span>
+            </label>
+        `;
+
+        this.attachActivateListeners(container);
+    },
+
+    attachActivateListeners(container) {
+        container.querySelectorAll('.filter-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const type = toggle.dataset.type;
+                if (type === 'members') {
+                    State.filters.showInactiveMembers = !State.filters.showInactiveMembers;
+                } else {
+                    State.filters[type].showInactive = !State.filters[type].showInactive;
+                }
+                toggle.classList.toggle('checked');
+                this.applyFilters();
+                this.updateFilterIndicator();
+            });
+        });
     },
 
     renderProjectStatusFilters() {
@@ -208,9 +251,10 @@ const FilterPanel = {
         const hasTaskStatusFilter = State.filters.task.status.length < taskStatusCount;
         const hasTaskPriorityFilter = State.filters.task.priority.length < taskPriorityCount;
         const hasDateFilter = State.filters.task.dueDateStart || State.filters.task.dueDateEnd;
+        const hasInactiveFilter = State.filters.project.showInactive || State.filters.task.showInactive || State.filters.showInactiveMembers;
 
         const hasFilters = hasProjectStatusFilter || hasProjectPriorityFilter ||
-                          hasTaskStatusFilter || hasTaskPriorityFilter || hasDateFilter;
+                          hasTaskStatusFilter || hasTaskPriorityFilter || hasDateFilter || hasInactiveFilter;
 
         if (hasFilters) {
             this.filterBtnEl.classList.add('has-filters');

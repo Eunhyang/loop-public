@@ -32,6 +32,14 @@ expected_impact:
     - condition_id: "{{COND_ID}}"
       weight: {{WEIGHT}}
 
+# === Realized Impact (B) ===
+# 프로젝트 종료 시 작성 (본문 Rollup 섹션과 동기화)
+realized_impact:
+  verdict: null                    # pending | go | no-go | pivot
+  outcome: null                    # supported | rejected | inconclusive
+  evidence_links: []               # ["[[link1]]", "[[link2]]", ...]
+  decided: null                    # 결정일 (YYYY-MM-DD)
+
 # === 3Y 전략 연결 (필수) ===
 conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 
@@ -43,6 +51,39 @@ priority_flag: medium
 # {{PROJECT_NAME}}
 
 > Project ID: `prj-{{NUMBER}}` | Track: `trk-{{TRACK_NUMBER}}` | Status: planning
+
+---
+
+## 🏁 Project Rollup
+
+> ⚠️ **프로젝트 종료 시 필수 작성** (진행 중에는 비워둠)
+
+### Conclusion
+<!-- 3줄 이내 핵심 결론 -->
+1.
+2.
+3.
+
+### Evidence
+| # | Type | 근거 요약 | 링크 |
+|---|------|----------|------|
+| 1 | | | [[]] |
+| 2 | | | [[]] |
+| 3 | | | [[]] |
+
+> Type: `task` | `meeting` | `experiment` | `decision` | `finance`
+
+### Metric Delta
+| Metric | Before | After | Δ | 판정 |
+|--------|--------|-------|---|------|
+| | | | | |
+
+### Decision
+- **Verdict**: `pending` → `go` | `no-go` | `pivot`
+- **Next Action**:
+- **Decided**:
+
+---
 
 ## Project 가설
 

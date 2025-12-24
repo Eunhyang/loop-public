@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-003-07
 entity_name: Loop OS V0 데이터 설계 – 6. 저장 전략 결정
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2025-12-23'
 status: planning
 parent_id: prj-003
 project_id: prj-003
@@ -15,15 +15,16 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: 2025-12-19
+due: '2026-01-04'
 priority: medium
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond-b']
+conditions_3y:
+- cond-b
 tags: []
 priority_flag: medium
+start_date: '2026-01-04'
 ---
-
 # Loop OS V0 데이터 설계 – 6. 저장 전략 결정
 
 > Task ID: `tsk-003-07` | Project: `prj-003` | Status: planning

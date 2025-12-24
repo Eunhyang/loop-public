@@ -4,7 +4,7 @@
  */
 const Kanban = {
     /**
-     * Project 탭 렌더링 (하위 탭 - 해당 담당자의 Task가 있는 프로젝트만)
+     * Project 탭 렌더링 (하위 탭 - Program 먼저, 그 다음 Project)
      */
     renderProjectFilter() {
         const filterEl = document.getElementById('assigneeFilter');
@@ -13,39 +13,217 @@ const Kanban = {
         // 현재 담당자의 Task가 있는 프로젝트 목록
         const projectsWithTasks = State.getProjectsForAssignee();
 
+        // Program 목록 (Task가 있는 Program만)
+        const programsWithTasks = this.getProgramsWithTasks();
+
         // 전체 Task 수 계산
         let totalTasks = 0;
         projectsWithTasks.forEach(p => totalTasks += p.taskCount);
 
         // All Projects 버튼
+        const isAllActive = State.currentProject === 'all' && !State.filterProgram;
         let html = `
-            <button class="filter-btn ${State.currentProject === 'all' ? 'active' : ''}" data-project="all">
-                All Projects
+            <button class="filter-btn ${isAllActive ? 'active' : ''}" data-project="all" data-type="all">
+                All
                 <span class="filter-count">${totalTasks}</span>
             </button>
         `;
 
-        // 각 프로젝트 버튼
-        projectsWithTasks.forEach(p => {
+        // Program 버튼들 (먼저 표시, 다른 스타일)
+        programsWithTasks.forEach(prog => {
+            const isActive = State.filterProgram === prog.entity_id;
             html += `
-                <button class="filter-btn ${State.currentProject === p.entity_id ? 'active' : ''}" data-project="${p.entity_id}">
-                    ${p.entity_name || p.entity_id}
-                    <span class="filter-count">${p.taskCount}</span>
+                <button class="filter-btn filter-btn-program ${isActive ? 'active' : ''}"
+                        data-program="${prog.entity_id}" data-type="program">
+                    ${prog.entity_name || prog.entity_id}
+                    <span class="filter-count">${prog.taskCount}</span>
+                    <span class="btn-program-info" data-program-info="${prog.entity_id}"
+                          title="프로그램 상세" tabindex="0" role="button"
+                          aria-label="프로그램 상세 열기">ℹ️</span>
                 </button>
             `;
         });
+
+        // Program이 선택된 경우, 하위 프로젝트 버튼 표시
+        if (State.filterProgram) {
+            const childProjects = projectsWithTasks.filter(p => p.program_id === State.filterProgram);
+            if (childProjects.length > 0) {
+                html += `<span class="filter-separator">│</span>`;
+
+                // "All in Program" 버튼
+                const isAllInProgram = State.currentProject === 'all';
+                html += `
+                    <button class="filter-btn filter-btn-child ${isAllInProgram ? 'active' : ''}"
+                            data-project="all" data-type="child-all">
+                        All
+                        <span class="filter-count">${childProjects.reduce((sum, p) => sum + p.taskCount, 0)}</span>
+                    </button>
+                `;
+
+                // 하위 프로젝트 버튼들
+                childProjects.forEach(p => {
+                    const isActive = State.currentProject === p.entity_id;
+                    const projectColor = Calendar.getColorByProject(p.entity_id);
+                    html += `
+                        <button class="filter-btn filter-btn-child ${isActive ? 'active' : ''}"
+                                data-project="${p.entity_id}" data-type="child-project"
+                                style="background-color: ${projectColor}; color: #333;">
+                            ${p.entity_name || p.entity_id}
+                            <span class="filter-count">${p.taskCount}</span>
+                            <span class="btn-project-info" data-project-info="${p.entity_id}"
+                                  title="프로젝트 상세" tabindex="0" role="button"
+                                  aria-label="프로젝트 상세 열기">ℹ️</span>
+                        </button>
+                    `;
+                });
+            }
+        }
+
+        // Project 버튼들 (Program에 속하지 않은 프로젝트, Program 미선택 시에만)
+        projectsWithTasks
+            .filter(p => !p.program_id)  // Program에 속하지 않은 프로젝트만
+            .forEach(p => {
+                const isActive = State.currentProject === p.entity_id && !State.filterProgram;
+                const projectColor = Calendar.getColorByProject(p.entity_id);
+                html += `
+                    <button class="filter-btn ${isActive ? 'active' : ''}"
+                            data-project="${p.entity_id}" data-type="project"
+                            style="background-color: ${projectColor}; color: #333;">
+                        ${p.entity_name || p.entity_id}
+                        <span class="filter-count">${p.taskCount}</span>
+                        <span class="btn-project-info" data-project-info="${p.entity_id}"
+                              title="프로젝트 상세" tabindex="0" role="button"
+                              aria-label="프로젝트 상세 열기">ℹ️</span>
+                    </button>
+                `;
+            });
 
         filterEl.innerHTML = html;
 
         // 이벤트 리스너
         filterEl.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                State.currentProject = btn.dataset.project;
+            btn.addEventListener('click', (e) => {
+                // info 버튼 클릭 시 필터 변경 방지
+                if (e.target.closest('.btn-project-info') || e.target.closest('.btn-program-info')) {
+                    return;
+                }
+
+                const type = btn.dataset.type;
+
+                if (type === 'all') {
+                    State.currentProject = 'all';
+                    State.filterProgram = null;
+                } else if (type === 'program') {
+                    // 같은 Program 클릭 시 토글 (선택 해제)
+                    if (State.filterProgram === btn.dataset.program) {
+                        State.filterProgram = null;
+                        State.currentProject = 'all';
+                    } else {
+                        State.filterProgram = btn.dataset.program;
+                        State.currentProject = 'all';
+                    }
+                } else if (type === 'child-all') {
+                    // Program 내 모든 프로젝트
+                    State.currentProject = 'all';
+                } else if (type === 'child-project') {
+                    // Program 내 특정 프로젝트
+                    State.currentProject = btn.dataset.project;
+                } else {
+                    // 독립 프로젝트
+                    State.currentProject = btn.dataset.project;
+                    State.filterProgram = null;
+                }
+
                 this.renderProjectFilter();
                 this.render();
-                Calendar.refresh();  // 프로젝트 필터 변경 시 Calendar도 갱신
+                Calendar.refresh();
             });
         });
+
+        // 프로젝트 상세 버튼 이벤트 리스너
+        filterEl.querySelectorAll('.btn-project-info').forEach(btn => {
+            const handler = (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                const projectId = btn.dataset.projectInfo;
+                if (projectId && typeof ProjectPanel !== 'undefined') {
+                    ProjectPanel.open(projectId);
+                }
+            };
+            btn.addEventListener('click', handler);
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    handler(e);
+                }
+            });
+        });
+
+        // 프로그램 상세 버튼 이벤트 리스너
+        filterEl.querySelectorAll('.btn-program-info').forEach(btn => {
+            const handler = (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                const programId = btn.dataset.programInfo;
+                if (programId) {
+                    this.openProgramDetail(programId);
+                }
+            };
+            btn.addEventListener('click', handler);
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    handler(e);
+                }
+            });
+        });
+    },
+
+    /**
+     * Program 상세 패널 열기
+     */
+    openProgramDetail(programId) {
+        if (typeof ProgramPanel !== 'undefined' && ProgramPanel.open) {
+            ProgramPanel.open(programId);
+        } else {
+            showToast('Program panel not available', 'error');
+        }
+    },
+
+    /**
+     * Task가 있는 Program 목록 반환
+     */
+    getProgramsWithTasks() {
+        const programs = State.programs || [];
+        const tasks = State.getStrategyFilteredTasks();
+
+        // Assignee 필터 적용
+        let filteredTasks = tasks;
+        if (State.currentAssignee !== 'all') {
+            if (State.currentAssignee === 'unassigned') {
+                filteredTasks = filteredTasks.filter(t => !t.assignee);
+            } else {
+                filteredTasks = filteredTasks.filter(t => t.assignee === State.currentAssignee);
+            }
+        }
+
+        // Program별 Task 수 계산
+        const result = [];
+        programs.forEach(prog => {
+            // 이 Program에 속한 프로젝트들
+            const programProjects = State.projects.filter(p => p.program_id === prog.entity_id);
+            const projectIds = programProjects.map(p => p.entity_id);
+
+            // 해당 프로젝트의 Task 수
+            const taskCount = filteredTasks.filter(t => projectIds.includes(t.project_id)).length;
+
+            if (taskCount > 0) {
+                result.push({
+                    ...prog,
+                    taskCount
+                });
+            }
+        });
+
+        return result;
     },
 
     render() {

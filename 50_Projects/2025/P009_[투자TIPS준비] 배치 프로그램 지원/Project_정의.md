@@ -25,6 +25,19 @@ owner: "김은향"
 budget: null
 deadline: null
 hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+
+# === Impact 점수 필드 (A) ===
+tier: strategic
+impact_magnitude: high
+confidence: 0.35
+contributes:
+  - to: "cond-d"
+    weight: 0.6
+    description: "투자 유치 시 런웨이 직접 확보"
+  - to: "cond-e"
+    weight: 0.2
+    description: "배치 멘토링으로 팀 역량 강화"
+
 expected_impact:
   statement: "이 프로젝트가 성공하면 TIPS/투자 유치 가능성이 증명된다"
   metric: "배치 프로그램 선정"

@@ -19,6 +19,19 @@ owner: 미정
 budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
+
+# === Impact 점수 필드 (A) ===
+tier: enabling
+impact_magnitude: high
+confidence: 0.55
+contributes:
+  - to: "cond-b"
+    weight: 0.3
+    description: "코치 = 라벨링 인력 = 패턴 발견 엔진"
+  - to: "cond-d"
+    weight: 0.2
+    description: "코칭 참여자 증가 → 매출 → 런웨이"
+
 expected_impact:
   statement: "이 프로젝트가 성공하면 코칭 서비스 Scale이 가능함이 증명된다"
   metric: "코치 채용 및 온보딩 완료"

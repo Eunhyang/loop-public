@@ -28,7 +28,9 @@ tags: ["meta", "schema", "registry"]
 | MetaHypothesis | `mh-{number}` | mh-1 | 1-4 |
 | Condition | `cond-{letter}` | cond-a | a-e |
 | Track | `trk-{number}` | trk-2 | 1-6 |
+| Program | `pgm-{name}` | pgm-hiring | 상시 운영 프로그램 |
 | Project | `prj-{number}` | prj-001 | 001-999 |
+| Project (Round) | `prj-{pgm}-{cycle}` | prj-yt-w33 | program abbr + cycle |
 | Task | `tsk-{prj}-{seq}` | tsk-001-01 | 01-99 per project |
 | Hypothesis | `hyp-{trk}-{seq}` | hyp-1-01 | {trk}:1-6, {seq}:01-99 |
 | Experiment | `exp-{number}` | exp-001 | 001-999 |
@@ -49,7 +51,7 @@ tags: ["meta", "schema", "registry"]
 ```yaml
 ---
 # === 필수 필드 ===
-entity_type: string              # NorthStar | MetaHypothesis | Condition | Track | Project | Task | Hypothesis | Experiment
+entity_type: string              # NorthStar | MetaHypothesis | Condition | Track | Program | Project | Task | Hypothesis | Experiment
 entity_id: string                # 형식: {type}:{number}
 entity_name: string              # 표시 이름
 created: date                    # YYYY-MM-DD
@@ -117,11 +119,39 @@ objectives:                      # 목표 지표
     status: string
 ```
 
+### Program (pgm-*)
+```yaml
+# === 상시 운영 프로그램 (닫지 않음) ===
+program_type: string             # hiring | fundraising | grants | launch | experiments
+owner: string                    # 담당자
+
+# === 원칙/프로세스 ===
+principles: [string]             # 운영 원칙
+process_steps: [string]          # 프로세스 단계
+templates: [string]              # 템플릿 링크 (JD, 평가 루브릭 등)
+
+# === 운영 KPI ===
+kpis:                            # 민감도 낮은 운영 지표
+  - name: string
+    description: string
+
+# === Cross-Vault ===
+exec_rounds_path: string | null  # loop_exec 라운드 폴더 경로 (예: "40_People/Hiring_Rounds/")
+```
+
 ### Project (prj-*)
 ```yaml
 owner: string                    # 담당자
 budget: number | null            # 예산 (원)
 deadline: date | null            # 마감일
+
+# === Program-Round 연결 (옵션, 반복 운영 시) ===
+program_id: string | null        # 소속 프로그램 ID (pgm-xxx)
+cycle: string | null             # 사이클/라운드 (예: "2026Q1")
+# Round 전용 추가 필드는 program_type에 따라 다름:
+# - hiring: role, headcount_target
+# - fundraising: round_type (seed, series-a), target_amount
+# - grants: program_name, application_deadline
 
 # === Impact 판정 (프로젝트 = 유일한 판정 단위) ===
 expected_impact:                 # 사전 선언 (A) - 필수
@@ -129,10 +159,11 @@ expected_impact:                 # 사전 선언 (A) - 필수
   metric: string                 # 측정 지표
   target: string                 # 목표값
 
-realized_impact:                 # 결과 기록 (A') - 완료 시 필수
+realized_impact:                 # 결과 기록 (B) - 완료 시 필수
+  verdict: string | null         # pending | go | no-go | pivot
   outcome: string | null         # supported | rejected | inconclusive
-  evidence: string | null        # 실제 결과/근거
-  updated: date | null           # 기록일
+  evidence_links: [string]       # ["[[link1]]", "[[link2]]", ...]
+  decided: date | null           # 결정일
 
 # === 가설 연결 ===
 hypothesis_id: string | null     # 검증 대상 가설 ID (hyp-xxx)
@@ -147,10 +178,15 @@ hypothesis_text: string | null   # → expected_impact.statement으로 대체
 project_id: string               # 소속 프로젝트 ID (필수)
 assignee: string                 # 담당자
 start_date: date | null          # 시작일 (Calendar 뷰용)
-due: date | null                 # 마감일 (종료일)
+due: date | null                 # 마감 예정일
 priority: string                 # low | medium | high
 estimated_hours: number | null   # 예상 시간
 actual_hours: number | null      # 실제 시간
+
+# === 완료/아카이브 관련 ===
+closed: date | null              # 실제 완료/종료일 (status 변경 시 기록)
+archived_at: date | null         # 아카이브 이동일 (스크립트 자동 기록)
+closed_inferred: string | null   # closed 추정 출처 (updated | git_commit_date | today)
 ```
 
 ### Hypothesis (hyp-*)
@@ -212,6 +248,14 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `owner`: required
 - `horizon`: required
 
+### Program
+- `entity_id`: required, pattern `pgm-[a-z]+`
+- `program_type`: required, one of: hiring | fundraising | grants | launch | experiments
+- `owner`: required
+- `status`: always "active" (닫지 않음)
+- `principles`: recommended, at least 1 item
+- `process_steps`: recommended, at least 1 item
+
 ### Project
 - `entity_id`: required, pattern `prj-\d{3}`
 - `parent_id`: required, must reference existing Track
@@ -226,6 +270,9 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `project_id`: required, must match parent Project
 - `assignee`: required
 - `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
+- `closed`: required when status IN (done, failed, learning)
+- `archived_at`: 스크립트 자동 기록 (수동 편집 금지)
+- `closed_inferred`: optional, 값 = `updated` | `git_commit_date` | `today`
 
 ### Hypothesis
 - `entity_id`: required, pattern `hyp-[1-6]-\d{2}` (Track번호-순번)
@@ -252,10 +299,43 @@ outcome: string | null           # positive | negative | inconclusive | null
 | MetaHypothesis | `01_North_Star/mh-{id}_{name}.md` |
 | Condition | `20_Strategy/3Y_Conditions_{period}/cond-{id}_{name}.md` |
 | Track | `20_Strategy/12M_Tracks/{year}/trk-{id}_{name}.md` |
+| Program | `50_Projects/{ProgramName}/_PROGRAM.md` |
 | Project | `50_Projects/{year}/prj-{id}_{name}/_PROJECT.md` |
-| Task | `50_Projects/{year}/prj-{id}_{name}/Tasks/tsk-{id}_{name}.md` |
+| Project (Round) | `50_Projects/{ProgramName}/Rounds/prj-{pgm}-{cycle}/` |
+| Task | `50_Projects/{...}/Tasks/tsk-{id}_{name}.md` |
 | Hypothesis | `60_Hypotheses/{year}/hyp-{trk}-{seq}_{name}.md` |
 | Experiment | `70_Experiments/exp-{id}_{name}.md` |
+
+### Program-Round 구조 (50_Projects 내)
+
+```
+50_Projects/
+├── Hiring/                              # Program 폴더
+│   ├── _PROGRAM.md                      # 원칙/프로세스/템플릿 (상시)
+│   └── Rounds/                          # 라운드들
+│       └── prj-hiring-2026q1-junior-dev/
+│           ├── _PROJECT.md              # Round 정의
+│           ├── Tasks/
+│           └── 00_Rollup.md
+├── Fundraising/
+│   ├── _PROGRAM.md
+│   └── Rounds/
+├── 2026/                                # 일반 프로젝트 (기존)
+│   └── prj-001_xxx/
+```
+
+### Cross-Vault 위치 (민감정보 분리)
+
+| Content | Location | Vault |
+|---------|----------|-------|
+| Program (원칙/프로세스) | `50_Projects/{Name}/_PROGRAM.md` | LOOP (Shared) |
+| Round Stub (요약만) | `50_Projects/{Name}/Rounds/{id}/` | LOOP (Shared) |
+| Round Detail (민감정보) | `{folder}/Rounds/prj-{pgm}-{cycle}/` | loop_exec |
+
+예시:
+- Program: `50_Projects/Hiring/_PROGRAM.md` (LOOP)
+- Round (공개): `50_Projects/Hiring/Rounds/prj-hiring-2026q1-junior-dev/` (LOOP)
+- Round (민감): `40_People/Hiring_Rounds/prj-hiring-2026q1-junior-dev/` (loop_exec)
 
 ---
 
@@ -321,9 +401,25 @@ aliases:
 
 ---
 
-**Version**: 3.4
-**Last Updated**: 2025-12-20
+**Version**: 3.7
+**Last Updated**: 2025-12-22
 **Validated by**: Codex (gpt-5-codex, high reasoning)
+
+**Changes (v3.7)**:
+- Program (pgm-*): 새 entity_type 추가 (상시 운영 프로그램)
+- Program: program_type, principles, process_steps, templates, kpis, exec_rounds_path 필드
+- Project: program_id, cycle 필드 추가 (Round 연결용)
+- Cross-Vault 위치 규칙 추가 (Program-Round 분리)
+
+**Changes (v3.6)**:
+- Project: `realized_impact` 확장 (verdict, evidence_links 배열, decided 필드 추가)
+- Project: 본문 `## 🏁 Project Rollup` 섹션 추가 (template_project.md)
+- Rollup = 종료 시 필수 (Conclusion/Evidence/Metric Delta/Decision)
+
+**Changes (v3.5)**:
+- Task: `closed`, `archived_at`, `closed_inferred` 필드 추가
+- Task: `closed` 검증 규칙 추가 (status done/failed/learning 시 필수)
+- 참고: `00_Meta/archive_policy.md` - 아카이브 운영 규칙 상세
 
 **Changes (v3.4)**:
 - Hypothesis: ID 패턴 변경 `hyp-{trk}-{seq}` (Track 기반)

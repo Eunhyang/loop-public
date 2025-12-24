@@ -24,11 +24,24 @@ validated_by: []
 owner: "한명학"
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
+hypothesis_text: "펀딩 완료 후 서포터들에게 12주 코칭 서비스를 성공적으로 제공할 수 있다"
+
+# === Impact 점수 필드 (A) ===
+tier: operational
+impact_magnitude: mid
+confidence: 0.65
+contributes:
+  - to: "cond-b"
+    weight: 0.3
+    description: "코칭 참여자 데이터 수집"
+  - to: "cond-d"
+    weight: 0.2
+    description: "고객 만족 → 재구매/추천 → 매출"
+
 expected_impact:
-  statement: "이 프로젝트가 성공하면 와디즈 채널에서 코칭 상품 수요가 있음이 증명된다"
-  metric: "펀딩 달성률"
-  target: "목표 금액 100% 달성"
+  statement: "이 프로젝트가 성공하면 와디즈 서포터들에게 약속한 서비스를 성공적으로 deliver하고 고객 만족을 확보할 수 있음이 증명된다"
+  metric: "서비스 완료율 + 고객 만족도"
+  target: "서비스 완료율 90% + NPS 50 이상"
 realized_impact:
   outcome: null  # supported | rejected | inconclusive
   evidence: null

@@ -41,6 +41,29 @@ tags: ["meta", "build", "automation"]
   2. `validates`, `validated_by` 대칭성 검사
   3. 끊어진 링크 검출
 
+### scripts/archive_task.py
+- **목적**: 단일 태스크를 90_Archive로 이동
+- **실행 시점**: 수동 (태스크 아카이브 시)
+- **동작**:
+  1. frontmatter 파싱 및 검증
+  2. `closed` 없으면 우선순위에 따라 채움
+  3. `archived_at` 자동 기록
+  4. `git mv`로 이동
+  5. stub 파일 생성
+- **사용법**: `python3 scripts/archive_task.py path/to/task.md`
+- **참고**: [[archive_policy]] 참조
+
+### scripts/build_archive_catalog.py
+- **목적**: 90_Archive 카탈로그/인덱스 전체 재생성
+- **실행 시점**: pre-commit hook, 수동 실행
+- **동작**:
+  1. `90_Archive/tasks/**/*.md` 전체 스캔
+  2. `catalog.jsonl` 재생성 (정렬: closed DESC, task_id ASC)
+  3. `by_project/*.md` 재생성
+  4. `by_time/*.md` 재생성
+- **사용법**: `python3 scripts/build_archive_catalog.py .`
+- **참고**: [[archive_policy]] 참조
+
 ---
 
 ## 2. Git Hook 설정
@@ -50,13 +73,13 @@ tags: ["meta", "build", "automation"]
 #!/bin/bash
 set -e
 
-VAULT_DIR="/Users/gim-eunhyang/Library/Mobile Documents/iCloud~md~obsidian/Documents/LOOP"
+VAULT_DIR="/Volumes/LOOP_CORE/vault/LOOP"
 SCRIPTS_DIR="$VAULT_DIR/scripts"
 
 echo "=== LOOP Vault Pre-commit Hook ==="
 
 # 1. 스키마 검증
-echo "[1/3] Validating schema..."
+echo "[1/4] Validating schema..."
 python3 "$SCRIPTS_DIR/validate_schema.py" "$VAULT_DIR"
 if [ $? -ne 0 ]; then
     echo "Schema validation failed. Commit aborted."
@@ -64,7 +87,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # 2. 고아 엔티티 검사
-echo "[2/3] Checking orphans..."
+echo "[2/4] Checking orphans..."
 python3 "$SCRIPTS_DIR/check_orphans.py" "$VAULT_DIR"
 if [ $? -ne 0 ]; then
     echo "Orphan check failed. Commit aborted."
@@ -72,9 +95,14 @@ if [ $? -ne 0 ]; then
 fi
 
 # 3. 그래프 인덱스 재생성
-echo "[3/3] Building graph index..."
+echo "[3/4] Building graph index..."
 python3 "$SCRIPTS_DIR/build_graph_index.py" "$VAULT_DIR"
 git add "$VAULT_DIR/_Graph_Index.md"
+
+# 4. 아카이브 카탈로그 재생성
+echo "[4/4] Building archive catalog..."
+python3 "$SCRIPTS_DIR/build_archive_catalog.py" "$VAULT_DIR"
+git add "$VAULT_DIR/90_Archive/00_Catalog/"
 
 echo "=== Pre-commit passed ==="
 ```
@@ -207,6 +235,14 @@ python3 scripts/check_orphans.py .
 # 그래프 인덱스 재생성만
 python3 scripts/build_graph_index.py .
 
+# 아카이브 카탈로그 재생성
+python3 scripts/build_archive_catalog.py .
+
+# 단일 태스크 아카이브
+python3 scripts/archive_task.py path/to/task.md
+python3 scripts/archive_task.py --task-id tsk-003-01
+python3 scripts/archive_task.py path/to/task.md --dry-run  # 미리보기
+
 # 전체 빌드
 python3 scripts/build_all.py .
 ```
@@ -217,9 +253,15 @@ python3 scripts/build_all.py .
 
 - [[schema_registry]] - 스키마 정의
 - [[relation_types]] - 관계 타입 정의
+- [[archive_policy]] - 아카이브 운영 규칙
 - [[_ENTRY_POINT]] - LLM 진입점
 
 ---
 
-**Version**: 3.2
-**Last Updated**: 2025-12-18
+**Version**: 3.3
+**Last Updated**: 2025-12-22
+
+**Changes (v3.3)**:
+- 추가: `archive_task.py`, `build_archive_catalog.py` 스크립트 문서화
+- pre-commit hook에 아카이브 카탈로그 재생성 단계 추가 (4/4)
+- VAULT_DIR 경로 업데이트 (/Volumes/LOOP_CORE/vault/LOOP)

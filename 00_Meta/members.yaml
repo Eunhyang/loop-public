@@ -17,6 +17,7 @@ members:
     name: "임단"
     icon: "🧑‍🎨"
     role: "Member"
+    active: false
 
   - id: "미정"
     name: "미정"

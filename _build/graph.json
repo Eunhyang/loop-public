@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-22T05:05:48.000318",
-  "total_entities": 139,
+  "generated": "2025-12-25T02:23:56.054419",
+  "total_entities": 148,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -347,7 +347,7 @@
       "id": "tsk-003-01",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기",
-      "status": "active",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
       "conditions_3y": [
         "cond-b"
@@ -455,7 +455,7 @@
       "id": "tsk-005-05",
       "type": "Task",
       "name": "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기",
-      "status": "in_progress",
+      "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
       "conditions_3y": [
         "cond-b"
@@ -515,7 +515,7 @@
       "id": "tsk-010-02",
       "type": "Task",
       "name": "와디즈 새소식 초안 작성 - 브랜드 방향성 위주",
-      "status": "in_progress",
+      "status": "done",
       "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
       "conditions_3y": [
         "cond-e"
@@ -575,7 +575,7 @@
       "id": "prj-007",
       "type": "Project",
       "name": "외부 비서",
-      "status": "active",
+      "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Project_정의.md",
       "conditions_3y": [
         "cond-e"
@@ -587,31 +587,31 @@
       "id": "tsk-007-01",
       "type": "Task",
       "name": "외부 비서 채용 – 3. 공고용 업무·요건 문단 작성",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
       "conditions_3y": [
         "cond-e"
       ],
       "priority_flag": "high",
-      "assignee": "김은향"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-007-03",
       "type": "Task",
       "name": "외부 비서 채용 – 1. 역할·권한 정책 문서 고정",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
       "conditions_3y": [
         "cond-e"
       ],
       "priority_flag": "high",
-      "assignee": "김은향"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-007-02",
       "type": "Task",
       "name": "외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
       "conditions_3y": [
         "cond-e"
@@ -647,13 +647,13 @@
       "id": "tsk-001-02",
       "type": "Task",
       "name": "Episode 엔티티 검증",
-      "status": "in_progress",
+      "status": "todo",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md",
       "conditions_3y": [
         "cond-b"
       ],
       "priority_flag": "high",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "tsk-001-03",
@@ -666,32 +666,6 @@
       ],
       "priority_flag": "medium",
       "assignee": "김은향"
-    },
-    {
-      "id": "prj-014",
-      "type": "Project",
-      "name": "[코칭 서비스] 1:1 코칭 서비스",
-      "status": "active",
-      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Project_정의.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "owner": "한명학"
-    },
-    {
-      "id": "tsk-014-01",
-      "type": "Task",
-      "name": "꼭꼭Fit 3기 환급 검토",
-      "status": "in_progress",
-      "path": "50_Projects/2025/P014_[코칭 서비스] 11 코칭 서비스/Tasks/꼭꼭Fit 3기 환급 검토.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "assignee": "한명학"
     },
     {
       "id": "prj-006",
@@ -710,74 +684,50 @@
       "id": "tsk-006-04",
       "type": "Task",
       "name": "기본 프로토콜 및 교육 프로세스 정하기",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "미정"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-006-01",
       "type": "Task",
       "name": "코치 규칙 정하기",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/코치 규칙 정하기.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "미정"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-006-02",
       "type": "Task",
       "name": "채용 및 계약서 작성",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "미정"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-006-03",
       "type": "Task",
       "name": "혜영 코치에게 인수인계 받기",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
-      ],
-      "priority_flag": "medium",
-      "assignee": "미정"
-    },
-    {
-      "id": "prj-013",
-      "type": "Project",
-      "name": "YouTube 1주 1업로드 프로젝트",
-      "status": "active",
-      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Project_정의.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
-      "priority_flag": "medium",
-      "owner": "한명학"
-    },
-    {
-      "id": "tsk-013-01",
-      "type": "Task",
-      "name": "[콘텐츠 분석] 유튜브 w31 영상 성과 측정",
-      "status": "planning",
-      "path": "50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/Tasks/[콘텐츠 분석] 유튜브 w31 영상 성과 측정.md",
-      "conditions_3y": [
-        "cond-a"
       ],
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -821,66 +771,6 @@
       "owner": "김은향"
     },
     {
-      "id": "tsk-004-01",
-      "type": "Task",
-      "name": "New Task",
-      "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/New Task.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-004-05",
-      "type": "Task",
-      "name": "[dan2]",
-      "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[dan2].md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "미정"
-    },
-    {
-      "id": "tsk-004-02",
-      "type": "Task",
-      "name": "(이름 없음)",
-      "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/(이름 없음).md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "미정"
-    },
-    {
-      "id": "tsk-004-04",
-      "type": "Task",
-      "name": "[YouTube/W32] 영상 업로드",
-      "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 영상 업로드.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-004-03",
-      "type": "Task",
-      "name": "[YouTube/W32] 썸네일 제작",
-      "status": "planning",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/[YouTubeW32] 썸네일 제작.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
       "id": "prj-002",
       "type": "Project",
       "name": "[와디즈] 12주 코칭 습관팩 런칭",
@@ -897,7 +787,7 @@
       "id": "tsk-002-01",
       "type": "Task",
       "name": "12/17: 본펀딩 공개",
-      "status": "pending",
+      "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md",
       "conditions_3y": [
         "cond-b",
@@ -962,27 +852,27 @@
       "id": "tsk-002-04",
       "type": "Task",
       "name": "11/22: 심사 통과, 광고 소재 제작 (크)",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "미정"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-002-02",
       "type": "Task",
       "name": "12/31: 펀딩 종료",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "미정"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-002-06",
@@ -1001,14 +891,14 @@
       "id": "tsk-002-03",
       "type": "Task",
       "name": "11/25: 오픈예정 공개",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "미정"
+      "assignee": "한명학"
     },
     {
       "id": "tsk-002-07",
@@ -1100,6 +990,153 @@
       ],
       "priority_flag": "high",
       "assignee": "임단"
+    },
+    {
+      "id": "tsk-008-04",
+      "type": "Task",
+      "name": "꼭꼭 앱 Onboarding UI/UX 리뷰",
+      "status": "doing",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 Onboarding 리뷰.md",
+      "conditions_3y": [
+        "cond-b",
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-008-05",
+      "type": "Task",
+      "name": "꼭꼭 앱 iOS/Android 배포",
+      "status": "todo",
+      "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 iOS Android 배포.md",
+      "conditions_3y": [
+        "cond-b",
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-014",
+      "type": "Project",
+      "name": "코칭 서비스 운영 체계 재구축",
+      "status": "active",
+      "path": "50_Projects/2025/P014_코칭 운영 체계/Project_정의.md",
+      "conditions_3y": [
+        "cond-b",
+        "cond-e"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-014-01",
+      "type": "Task",
+      "name": "W33 기획",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-01_기획.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "pgm-grants",
+      "type": "Program",
+      "name": "정부지원사업",
+      "status": "active",
+      "path": "50_Projects/Grants/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-grants-jemi",
+      "type": "Project",
+      "name": "JEMI디딤돌 지원사업",
+      "status": "planning",
+      "path": "50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-grants-jemi-01",
+      "type": "Task",
+      "name": "JEMI 디딤돌 e-나라도움 정산 증빙자료 수집",
+      "status": "doing",
+      "path": "50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "pgm-youtube-weekly",
+      "type": "Program",
+      "name": "YouTube 1주 1업로드",
+      "status": "active",
+      "path": "50_Projects/Youtube_Weekly/_PROGRAM.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-yt-w33",
+      "type": "Project",
+      "name": "YouTube W33",
+      "status": "active",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-014-02",
+      "type": "Task",
+      "name": "W33 대본작성",
+      "status": "pending",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-03",
+      "type": "Task",
+      "name": "W33 촬영",
+      "status": "pending",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-04",
+      "type": "Task",
+      "name": "W33 업로드",
+      "status": "pending",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "pgm-vault-system",
+      "type": "Program",
+      "name": "Vault 시스템 체계화",
+      "status": "active",
+      "path": "50_Projects/Vault_System/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-vault-gpt",
+      "type": "Project",
+      "name": "ChatGPT Vault MCP 연결",
+      "status": "in_progress",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md",
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-vault-gpt-01",
+      "type": "Task",
+      "name": "v1 HTTP MCP 설정",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
+      "priority_flag": "high",
+      "assignee": "한명학"
     },
     {
       "id": "idx:01_north_star",
@@ -1362,6 +1399,27 @@
       "name": "OS_Stickiness",
       "status": "active",
       "path": "20_Strategy/Concepts/OS_Stickiness.md"
+    },
+    {
+      "id": "status-budget",
+      "type": "StatusStub",
+      "name": "Budget_Mode",
+      "status": "active",
+      "path": "20_Strategy/Status/Budget_Mode.md"
+    },
+    {
+      "id": "status-runway",
+      "type": "StatusStub",
+      "name": "Runway_Status",
+      "status": "active",
+      "path": "20_Strategy/Status/Runway_Status.md"
+    },
+    {
+      "id": "status-team",
+      "type": "StatusStub",
+      "name": "Team_Status",
+      "status": "active",
+      "path": "20_Strategy/Status/Team_Status.md"
     }
   ],
   "edges": [
@@ -1542,11 +1600,6 @@
     },
     {
       "source": "trk-4",
-      "target": "prj-014",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
       "target": "prj-006",
       "type": "parent_of"
     },
@@ -1563,6 +1616,11 @@
     {
       "source": "trk-4",
       "target": "prj-008",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "prj-014",
       "type": "parent_of"
     },
     {
@@ -1761,11 +1819,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-014",
-      "target": "tsk-014-01",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-006",
       "target": "tsk-006-04",
       "type": "parent_of"
@@ -1786,16 +1839,6 @@
       "type": "parent_of"
     },
     {
-      "source": "trk-3",
-      "target": "prj-013",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-013",
-      "target": "tsk-013-01",
-      "type": "parent_of"
-    },
-    {
       "source": "trk-5",
       "target": "prj-011",
       "type": "parent_of"
@@ -1803,31 +1846,6 @@
     {
       "source": "prj-011",
       "target": "tsk-011-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-004",
-      "target": "tsk-004-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-004",
-      "target": "tsk-004-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-004",
-      "target": "tsk-004-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-004",
-      "target": "tsk-004-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-004",
-      "target": "tsk-004-03",
       "type": "parent_of"
     },
     {
@@ -1898,6 +1916,66 @@
     {
       "source": "prj-008",
       "target": "tsk-008-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-grants",
+      "target": "prj-grants-jemi",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-grants-jemi",
+      "target": "tsk-grants-jemi-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "pgm-youtube-weekly",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-youtube-weekly",
+      "target": "prj-yt-w33",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-vault-system",
+      "target": "prj-vault-gpt",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-vault-gpt",
+      "target": "tsk-vault-gpt-01",
       "type": "parent_of"
     },
     {
@@ -2044,6 +2122,16 @@
       "source": "tsk-001-03",
       "target": "trk-2",
       "type": "supports"
+    },
+    {
+      "source": "tsk-008-04",
+      "target": "tsk-008-01",
+      "type": "depends_on"
+    },
+    {
+      "source": "tsk-008-05",
+      "target": "tsk-008-04",
+      "type": "depends_on"
     },
     {
       "source": "trk-2",
@@ -2336,21 +2424,6 @@
       "type": "validates"
     },
     {
-      "source": "prj-014",
-      "target": "hyp-4-03",
-      "type": "validates"
-    },
-    {
-      "source": "prj-014",
-      "target": "hyp-4-04",
-      "type": "validates"
-    },
-    {
-      "source": "prj-014",
-      "target": "hyp-4-05",
-      "type": "validates"
-    },
-    {
       "source": "prj-006",
       "target": "hyp-4-06",
       "type": "validates"
@@ -2373,6 +2446,21 @@
     {
       "source": "prj-002",
       "target": "hyp-6-09",
+      "type": "validates"
+    },
+    {
+      "source": "prj-014",
+      "target": "hyp-4-03",
+      "type": "validates"
+    },
+    {
+      "source": "prj-014",
+      "target": "hyp-4-04",
+      "type": "validates"
+    },
+    {
+      "source": "prj-014",
+      "target": "hyp-4-05",
       "type": "validates"
     },
     {
@@ -2711,19 +2799,12 @@
       "tsk-001-01",
       "tsk-001-02",
       "tsk-001-03",
-      "prj-014",
-      "tsk-014-01",
       "prj-006",
       "tsk-006-04",
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-03",
       "prj-004",
-      "tsk-004-01",
-      "tsk-004-05",
-      "tsk-004-02",
-      "tsk-004-04",
-      "tsk-004-03",
       "prj-002",
       "tsk-002-01",
       "tsk-002-05",
@@ -2741,6 +2822,9 @@
       "tsk-008-03",
       "tsk-008-02",
       "tsk-008-01",
+      "tsk-008-04",
+      "tsk-008-05",
+      "prj-014",
       "trk-2",
       "trk-4"
     ],
@@ -2755,11 +2839,10 @@
       "tsk-007-01",
       "tsk-007-03",
       "tsk-007-02",
+      "prj-014",
       "trk-6"
     ],
     "cond-d": [
-      "prj-014",
-      "tsk-014-01",
       "prj-006",
       "tsk-006-04",
       "tsk-006-01",
@@ -2784,19 +2867,19 @@
       "tsk-008-03",
       "tsk-008-02",
       "tsk-008-01",
+      "tsk-008-04",
+      "tsk-008-05",
       "trk-4",
       "trk-5"
-    ],
-    "cond-a": [
-      "prj-013",
-      "tsk-013-01",
-      "trk-3",
-      "trk-1"
     ],
     "cond-c": [
       "prj-011",
       "tsk-011-01",
       "trk-5"
+    ],
+    "cond-a": [
+      "trk-3",
+      "trk-1"
     ]
   },
   "by_type": {
@@ -2861,14 +2944,16 @@
       "prj-009",
       "prj-007",
       "prj-001",
-      "prj-014",
       "prj-006",
-      "prj-013",
       "prj-011",
       "prj-004",
       "prj-002",
       "prj-012",
-      "prj-008"
+      "prj-008",
+      "prj-014",
+      "prj-grants-jemi",
+      "prj-yt-w33",
+      "prj-vault-gpt"
     ],
     "Task": [
       "tsk-003-01",
@@ -2893,18 +2978,11 @@
       "tsk-001-01",
       "tsk-001-02",
       "tsk-001-03",
-      "tsk-014-01",
       "tsk-006-04",
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-03",
-      "tsk-013-01",
       "tsk-011-01",
-      "tsk-004-01",
-      "tsk-004-05",
-      "tsk-004-02",
-      "tsk-004-04",
-      "tsk-004-03",
       "tsk-002-01",
       "tsk-002-05",
       "tsk-002-09",
@@ -2918,7 +2996,20 @@
       "tsk-012-01",
       "tsk-008-03",
       "tsk-008-02",
-      "tsk-008-01"
+      "tsk-008-01",
+      "tsk-008-04",
+      "tsk-008-05",
+      "tsk-014-01",
+      "tsk-grants-jemi-01",
+      "tsk-014-02",
+      "tsk-014-03",
+      "tsk-014-04",
+      "tsk-vault-gpt-01"
+    ],
+    "Program": [
+      "pgm-grants",
+      "pgm-youtube-weekly",
+      "pgm-vault-system"
     ],
     "MetaHypothesis": [
       "mh-3",
@@ -2962,6 +3053,11 @@
     ],
     "Concept": [
       "concept-os-stickiness"
+    ],
+    "StatusStub": [
+      "status-budget",
+      "status-runway",
+      "status-team"
     ]
   },
   "by_status": {
@@ -3030,29 +3126,14 @@
       "tsk-005-02",
       "tsk-009-02",
       "tsk-009-01",
-      "tsk-007-01",
-      "tsk-007-03",
-      "tsk-007-02",
-      "tsk-006-04",
-      "tsk-006-01",
-      "tsk-006-02",
-      "tsk-006-03",
-      "tsk-013-01",
       "tsk-011-01",
-      "tsk-004-01",
-      "tsk-004-05",
-      "tsk-004-02",
-      "tsk-004-04",
-      "tsk-004-03",
       "tsk-002-05",
       "tsk-002-09",
       "tsk-002-08",
       "tsk-002-10",
-      "tsk-002-04",
-      "tsk-002-02",
       "tsk-002-06",
-      "tsk-002-03",
       "tsk-002-07",
+      "prj-grants-jemi",
       "trk-5",
       "cond-c",
       "pl-2",
@@ -3066,36 +3147,63 @@
     ],
     "active": [
       "prj-003",
-      "tsk-003-01",
       "prj-005",
       "prj-010",
       "prj-009",
-      "prj-007",
       "prj-001",
-      "prj-014",
       "prj-006",
-      "prj-013",
       "prj-011",
       "prj-004",
       "prj-002",
       "prj-012",
       "prj-008",
+      "prj-014",
+      "pgm-grants",
+      "pgm-youtube-weekly",
+      "prj-yt-w33",
+      "pgm-vault-system",
       "trk-2",
       "trk-3",
       "trk-4",
       "trk-1",
       "trk-6",
       "pl-1",
-      "concept-os-stickiness"
+      "concept-os-stickiness",
+      "status-budget",
+      "status-runway",
+      "status-team"
+    ],
+    "todo": [
+      "tsk-003-01",
+      "tsk-005-05",
+      "tsk-001-02",
+      "tsk-006-02",
+      "tsk-006-03",
+      "tsk-002-02",
+      "tsk-008-03",
+      "tsk-008-02",
+      "tsk-008-05",
+      "tsk-014-01"
+    ],
+    "done": [
+      "tsk-010-02",
+      "prj-007",
+      "tsk-007-01",
+      "tsk-007-03",
+      "tsk-007-02",
+      "tsk-001-03",
+      "tsk-006-04",
+      "tsk-006-01",
+      "tsk-002-01",
+      "tsk-002-04",
+      "tsk-002-03",
+      "retro:2025-annual"
     ],
     "in_progress": [
-      "tsk-005-05",
-      "tsk-010-02",
       "tsk-010-01",
-      "tsk-001-02",
-      "tsk-014-01",
       "tsk-012-01",
       "tsk-008-01",
+      "prj-vault-gpt",
       "cond-b",
       "cond-d",
       "cond-e",
@@ -3103,15 +3211,14 @@
     ],
     "pending": [
       "tsk-001-01",
-      "tsk-002-01"
+      "tsk-014-02",
+      "tsk-014-03",
+      "tsk-014-04"
     ],
-    "done": [
-      "tsk-001-03",
-      "retro:2025-annual"
-    ],
-    "todo": [
-      "tsk-008-03",
-      "tsk-008-02"
+    "doing": [
+      "tsk-008-04",
+      "tsk-grants-jemi-01",
+      "tsk-vault-gpt-01"
     ],
     "validating": [
       "mh-3",

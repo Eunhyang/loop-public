@@ -722,7 +722,7 @@ const ProjectPanel = {
                 showToast('Project updated', 'success');
                 await State.reloadProjects();
                 Tabs.render();
-                Kanban.renderAssigneeFilter();
+                Kanban.renderProjectFilter();
                 Kanban.render();
                 this.close();
             } else {
@@ -763,7 +763,7 @@ const ProjectPanel = {
                 showToast('Project deleted', 'success');
                 await Promise.all([State.reloadProjects(), State.reloadTasks()]);
                 Tabs.render();
-                Kanban.renderAssigneeFilter();
+                Kanban.renderProjectFilter();
                 Kanban.render();
                 this.close();
             } else {

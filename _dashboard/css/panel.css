@@ -22,19 +22,21 @@
 .side-panel {
     position: fixed;
     top: 0;
-    right: -450px;
-    width: 450px;
+    right: 0;
+    width: 33vw;
+    min-width: 450px;
     height: 100%;
     background: white;
     box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-    transition: right 0.3s ease;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
     z-index: 100;
     display: flex;
     flex-direction: column;
 }
 
 .side-panel.active {
-    right: 0;
+    transform: translateX(0);
 }
 
 /* ============================================
@@ -823,12 +825,159 @@
 }
 
 /* ============================================
+   Program Panel
+   ============================================ */
+.program-panel .panel-header {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.program-name {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin: 8px 0 12px;
+    color: #1f2937;
+}
+
+.program-status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.program-status-badge.status-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.program-status-badge.status-planning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.program-status-badge.status-paused {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.program-description {
+    color: #374151;
+    line-height: 1.6;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
+
+.program-description.empty {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Program Statistics */
+.program-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.program-stat-item {
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.program-stat-item.completion {
+    grid-column: 1 / -1;
+}
+
+.program-stat-label {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.program-stat-value {
+    display: block;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.program-completion-bar {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.program-completion-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Program Projects List */
+.program-projects {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.program-project-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.program-project-item:hover {
+    background: #f3f4f6;
+    transform: translateX(4px);
+}
+
+.program-project-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.program-project-name {
+    flex: 1;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.program-project-status-label {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.empty-message {
+    color: #9ca3af;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 768px) {
     .side-panel {
         width: 100%;
-        right: -100%;
+        min-width: 0;
+        transform: translateX(100%);
     }
 
     .panel-field-row {
@@ -838,5 +987,9 @@
 
     .impact-scores {
         flex-direction: column;
+    }
+
+    .program-stats {
+        grid-template-columns: 1fr;
     }
 }

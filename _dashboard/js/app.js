@@ -50,6 +50,7 @@ async function init() {
         // Initialize Panels
         TaskPanel.init();
         ProjectPanel.init();
+        ProgramPanel.init();
         FilterPanel.init();
 
         // Initialize Graph
@@ -119,6 +120,48 @@ function setupEventListeners() {
     // Header buttons
     document.getElementById('btnNewTask').addEventListener('click', () => TaskPanel.openNew());
     document.getElementById('btnNewProject').addEventListener('click', () => ProjectModal.open());
+    document.getElementById('btnReloadCache').addEventListener('click', async () => {
+        const btn = document.getElementById('btnReloadCache');
+        const icon = btn.querySelector('.reload-icon');
+        const originalText = icon.textContent;
+
+        try {
+            // Show loading state
+            icon.textContent = '⏳';
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+
+            // Reload cache
+            const result = await API.reloadCache();
+
+            // Show success briefly
+            icon.textContent = '✅';
+
+            // Reload all data
+            await State.loadAll();
+            Sidebar.render();
+            Tabs.render();
+            Kanban.renderProjectFilter();
+            Kanban.render();
+
+            // Show stats in console
+            console.log('Cache reloaded:', result.stats);
+
+            // Reset icon after delay
+            setTimeout(() => {
+                icon.textContent = originalText;
+            }, 1500);
+        } catch (err) {
+            console.error('Cache reload failed:', err);
+            icon.textContent = '❌';
+            setTimeout(() => {
+                icon.textContent = originalText;
+            }, 2000);
+        } finally {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+    });
 
     // Task Modal
     document.getElementById('taskModalClose').addEventListener('click', () => TaskModal.close());
@@ -207,4 +250,11 @@ async function confirmDelete() {
 // ============================================
 // Start App
 // ============================================
-document.addEventListener('DOMContentLoaded', init);
+// App 객체로 노출 (auth.js에서 호출)
+window.App = {
+    init: init,
+    initialized: false
+};
+
+// DOMContentLoaded에서 직접 init 호출하지 않음
+// Auth.checkAuth()가 성공하면 App.init() 호출됨

@@ -16,8 +16,8 @@ const Tabs = {
             </div>
         `;
 
-        // Add tab for each member
-        State.members.forEach(member => {
+        // Add tab for each active member (respects showInactiveMembers filter)
+        State.getActiveMembers().forEach(member => {
             const count = counts[member.id] || 0;
             const isActive = State.currentAssignee === member.id;
             html += `

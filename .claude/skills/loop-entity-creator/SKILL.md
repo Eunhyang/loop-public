@@ -109,11 +109,21 @@ Use AskUserQuestion to collect:
 Required fields:
 - `entity_name` - Project name (e.g., "Ontology_v0.2")
 - `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
-- `parent_id` - Parent Track or Hypothesis ID (e.g., "trk-2" or "hyp-005")
+- `parent_id` - Parent Track ID (e.g., "trk-2") - **필수, Program 하위 Project도 반드시 Track 연결 필요**
+- `conditions_3y` - 기여하는 3년 Condition 목록 (e.g., ["cond-a", "cond-b"]) - **필수**
 
 Optional fields:
+- `program_id` - 소속 Program ID (e.g., "pgm-youtube") - Program 하위 Round Project인 경우
+- `cycle` - 사이클/라운드 (e.g., "W33", "2026Q1") - program_id가 있을 경우 권장
+- `hypothesis_id` - 검증 대상 가설 ID (e.g., "hyp-2-01")
 - `priority_flag` - "critical", "high", "medium", or "low"
-- `hypothesis_id` - 검증 대상 가설 ID (e.g., "hyp-003")
+
+**CRITICAL: Program 하위 Project도 전략 연결 필수**
+Program에 속한 Project라도 반드시:
+- `parent_id` → Track 연결 (어떤 전략 방향의 실행인가?)
+- `conditions_3y` → Condition 연결 (어떤 3년 조건에 기여하는가?)
+
+이 연결이 없으면 전략 계층에서 고아(orphan) 프로젝트가 됨.
 
 **Step 1.5: Expected Impact 설정**
 
@@ -170,7 +180,11 @@ Use AskUserQuestion to ask:
    - `{{entity_id}}` → generated ID (e.g., `prj-004`)
    - `{{entity_name}}` → user-provided name
    - `{{owner}}` → user-provided owner
-   - `{{parent_id}}` → user-provided parent ID
+   - `{{parent_id}}` → user-provided Track ID (e.g., `trk-2`)
+   - `{{conditions_3y}}` → user-provided conditions (e.g., `["cond-a", "cond-b"]`)
+   - `{{program_id}}` → user-provided program ID (if any, e.g., `pgm-youtube`)
+   - `{{cycle}}` → user-provided cycle (if any, e.g., `W33`)
+   - `{{hypothesis_id}}` → user-provided hypothesis ID (if any)
    - `{{priority_flag}}` → user-provided priority (if any)
    - `{{DATE}}` → current date
    - `{{project_num}}` → extracted from ID (004)

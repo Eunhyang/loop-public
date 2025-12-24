@@ -5,11 +5,46 @@
 const API = {
     baseUrl: '',
 
+    // 토큰 관리
+    getToken() {
+        return localStorage.getItem('api_token');
+    },
+
+    setToken(token) {
+        localStorage.setItem('api_token', token);
+    },
+
+    clearToken() {
+        localStorage.removeItem('api_token');
+    },
+
+    // 인증 헤더 포함 fetch
+    async authFetch(url, options = {}) {
+        const token = this.getToken();
+        const headers = {
+            ...options.headers,
+            'x-api-token': token || ''
+        };
+
+        const res = await fetch(url, { ...options, headers });
+
+        // 401이면 로그인 모달 표시
+        if (res.status === 401) {
+            this.clearToken();
+            if (window.showLoginModal) {
+                window.showLoginModal();
+            }
+            throw new Error('Unauthorized');
+        }
+
+        return res;
+    },
+
     // ============================================
     // Constants
     // ============================================
     async getConstants() {
-        const res = await fetch(`${this.baseUrl}/api/constants`);
+        const res = await this.authFetch(`${this.baseUrl}/api/constants`);
         return res.json();
     },
 
@@ -17,7 +52,7 @@ const API = {
     // Members
     // ============================================
     async getMembers() {
-        const res = await fetch(`${this.baseUrl}/api/members`);
+        const res = await this.authFetch(`${this.baseUrl}/api/members`);
         const data = await res.json();
         // members가 객체인 경우 배열로 변환
         const members = data.members;
@@ -32,7 +67,7 @@ const API = {
     // Tracks
     // ============================================
     async getTracks() {
-        const res = await fetch(`${this.baseUrl}/api/tracks`);
+        const res = await this.authFetch(`${this.baseUrl}/api/tracks`);
         const data = await res.json();
         return data.tracks || [];
     },
@@ -41,7 +76,7 @@ const API = {
     // Hypotheses
     // ============================================
     async getHypotheses() {
-        const res = await fetch(`${this.baseUrl}/api/hypotheses`);
+        const res = await this.authFetch(`${this.baseUrl}/api/hypotheses`);
         const data = await res.json();
         return data.hypotheses || [];
     },
@@ -50,7 +85,7 @@ const API = {
     // Conditions
     // ============================================
     async getConditions() {
-        const res = await fetch(`${this.baseUrl}/api/conditions`);
+        const res = await this.authFetch(`${this.baseUrl}/api/conditions`);
         const data = await res.json();
         return data.conditions || [];
     },
@@ -59,40 +94,49 @@ const API = {
     // Strategy (NorthStar, MetaHypotheses, ProductLines, PartnershipStages)
     // ============================================
     async getNorthStars() {
-        const res = await fetch(`${this.baseUrl}/api/strategy/northstar`);
+        const res = await this.authFetch(`${this.baseUrl}/api/strategy/northstar`);
         const data = await res.json();
         return data.northstars || [];
     },
 
     async getMetaHypotheses() {
-        const res = await fetch(`${this.baseUrl}/api/strategy/metahypotheses`);
+        const res = await this.authFetch(`${this.baseUrl}/api/strategy/metahypotheses`);
         const data = await res.json();
         return data.metahypotheses || [];
     },
 
     async getProductLines() {
-        const res = await fetch(`${this.baseUrl}/api/strategy/productlines`);
+        const res = await this.authFetch(`${this.baseUrl}/api/strategy/productlines`);
         const data = await res.json();
         return data.productlines || [];
     },
 
     async getPartnershipStages() {
-        const res = await fetch(`${this.baseUrl}/api/strategy/partnershipstages`);
+        const res = await this.authFetch(`${this.baseUrl}/api/strategy/partnershipstages`);
         const data = await res.json();
         return data.partnershipstages || [];
+    },
+
+    // ============================================
+    // Programs
+    // ============================================
+    async getPrograms() {
+        const res = await this.authFetch(`${this.baseUrl}/api/programs`);
+        const data = await res.json();
+        return data.programs || [];
     },
 
     // ============================================
     // Projects
     // ============================================
     async getProjects() {
-        const res = await fetch(`${this.baseUrl}/api/projects`);
+        const res = await this.authFetch(`${this.baseUrl}/api/projects`);
         const data = await res.json();
         return data.projects || [];
     },
 
     async createProject(project) {
-        const res = await fetch(`${this.baseUrl}/api/projects`, {
+        const res = await this.authFetch(`${this.baseUrl}/api/projects`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(project)
@@ -101,7 +145,7 @@ const API = {
     },
 
     async updateProject(projectId, project) {
-        const res = await fetch(`${this.baseUrl}/api/projects/${encodeURIComponent(projectId)}`, {
+        const res = await this.authFetch(`${this.baseUrl}/api/projects/${encodeURIComponent(projectId)}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(project)
@@ -113,7 +157,7 @@ const API = {
         const url = force
             ? `${this.baseUrl}/api/projects/${encodeURIComponent(projectId)}?force=true`
             : `${this.baseUrl}/api/projects/${encodeURIComponent(projectId)}`;
-        const res = await fetch(url, { method: 'DELETE' });
+        const res = await this.authFetch(url, { method: 'DELETE' });
         return res.json();
     },
 
@@ -124,13 +168,13 @@ const API = {
         const url = projectId && projectId !== 'all'
             ? `${this.baseUrl}/api/tasks?project_id=${encodeURIComponent(projectId)}`
             : `${this.baseUrl}/api/tasks`;
-        const res = await fetch(url);
+        const res = await this.authFetch(url);
         const data = await res.json();
         return data.tasks || [];
     },
 
     async createTask(task) {
-        const res = await fetch(`${this.baseUrl}/api/tasks`, {
+        const res = await this.authFetch(`${this.baseUrl}/api/tasks`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task)
@@ -139,7 +183,7 @@ const API = {
     },
 
     async updateTask(taskId, task) {
-        const res = await fetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`, {
+        const res = await this.authFetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task)
@@ -148,9 +192,24 @@ const API = {
     },
 
     async deleteTask(taskId) {
-        const res = await fetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`, {
+        const res = await this.authFetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`, {
             method: 'DELETE'
         });
+        return res.json();
+    },
+
+    // ============================================
+    // Cache Management
+    // ============================================
+    async reloadCache() {
+        const res = await this.authFetch(`${this.baseUrl}/api/cache/reload`, {
+            method: 'POST'
+        });
+        return res.json();
+    },
+
+    async getCacheStats() {
+        const res = await this.authFetch(`${this.baseUrl}/api/cache/stats`);
         return res.json();
     }
 };

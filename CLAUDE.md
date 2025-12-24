@@ -2,49 +2,58 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Quick Reference: Common Commands
+## Critical Context: Dual-Vault System
 
-This is an **Obsidian vault** for knowledge management with an API server for the web dashboard.
+> **This is the Shared Vault (LOOP)**. Sensitive C-level data (runway, cashflow, salaries) lives in **loop_exec** vault.
+
+| Question Type | Vault | Entry Point |
+|--------------|-------|-------------|
+| Projects, Tasks, Strategy, Ontology | LOOP | This vault |
+| Runway, Budget, Hiring, Cashflow | loop_exec | `/Volumes/LOOP_CLevel/vault/loop_exec` |
+
+**First Action**: Check `00_Meta/_VAULT_REGISTRY.md` for cross-vault routing rules.
+
+---
+
+## Quick Reference
+
+**This is an Obsidian vault** for knowledge management with Python validation scripts and FastAPI server.
+
+### Essential Commands
+```bash
+# Validation (pre-commit hook runs these automatically)
+python3 scripts/validate_schema.py .      # Schema validation (blocks commit)
+python3 scripts/check_orphans.py .        # Orphan check (warnings only)
+python3 scripts/build_graph_index.py .    # Rebuild _Graph_Index.md (auto-staged)
+
+# Archive management
+python3 scripts/archive_task.py <task_id> # Archive completed tasks
+python3 scripts/build_archive_catalog.py  # Rebuild archive catalog
+
+# API Server (for dashboard)
+poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
+# Dashboard: open _dashboard/index.html in browser (requires API server)
+```
 
 ### Installation
 ```bash
-cd /Volumes/LOOP_CORE/vault/LOOP
-
-# Basic (validation scripts only)
-pip install pyyaml
-
-# Full (includes API server)
-poetry install --extras api
-```
-
-### Validation Commands
-```bash
-python3 scripts/validate_schema.py .      # Validate frontmatter schemas
-python3 scripts/check_orphans.py .        # Check broken entity references
-python3 scripts/build_graph_index.py .    # Regenerate graph index (auto-runs on commit)
-python3 scripts/build_dashboard.py .      # Build static HTML dashboard
-python3 scripts/csv_to_loop_entities.py <csv_file>  # Import from Notion
-```
-
-### API Server
-```bash
-# Development (hot reload)
-poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
-
-# Production
-poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
-
-# Access points
-# - Dashboard: http://localhost:8081/
-# - API Docs: http://localhost:8081/docs
-# - Health: http://localhost:8081/health
+pip install pyyaml                    # Basic (validation only)
+poetry install --extras api           # Full (includes API server)
 ```
 
 ### Key Entry Points
-- `_HOME.md` - Main navigation hub
-- `_Graph_Index.md` - Auto-generated entity index (do not edit manually)
-- `api/README.md` - API server documentation with full endpoint reference
-- `00_Meta/_TEMPLATES/` - Templates for all entity types
+| Purpose | Location |
+|---------|----------|
+| Schema definitions | `00_Meta/schema_registry.md` **(authoritative source for all entity schemas)** |
+| Vault ecosystem | `00_Meta/_VAULT_REGISTRY.md` **(cross-vault routing)** |
+| Archive access | `90_Archive/00_Catalog/_ARCHIVE_ENTRY.md` **(mandatory before archive access)** |
+| Navigation hub | `_HOME.md` |
+| Entity graph | `_Graph_Index.md` (auto-generated, do not edit) |
+| Templates | `00_Meta/_TEMPLATES/` |
+| API docs | `api/README.md` |
+
+### Git on Network Mount
+Due to SMB mount, direct git commands may fail with lock errors. Use `/safe-commit` command or let the NAS daemon handle commits (every 15 minutes).
 
 ---
 
@@ -149,9 +158,37 @@ LOOP/
 ├── 50_Projects/                        # Experiment units
 ├── 60_Hypotheses/                      # Hypothesis validation logs
 ├── 70_Experiments/                     # Experiments and validation
-├── 90_Archive/                         # Archive
+├── 90_Archive/                         # Archive (catalog-gated access)
 └── scripts/                            # Python automation scripts
 ```
+
+### 90_Archive Access Rules (CRITICAL for LLM)
+
+> **기본 동작**: 90_Archive는 접근하지 않음. Hot 영역만 탐색.
+
+**When to Access Archive** (다음 경우에**만** 접근):
+- 사용자가 **명시적으로 과거 근거/원문**을 요청할 때
+- **특정 ID**(task_id, project_id)가 주어질 때
+- **특정 기간**(예: "2025년 9월")이 명시될 때
+
+**Access Sequence (MANDATORY)**:
+```
+Step 1: 90_Archive/00_Catalog/catalog.jsonl 검색 (필수 선행)
+        → task_id, project_id, 키워드로 경로 확정
+
+Step 2: 확정된 원문 파일 1~2개만 Read
+        → 절대로 tasks/ 전체 스캔 금지
+
+Step 3: 추가 필요 시 by_project/ 또는 by_time/ 인덱스 참조
+        → 관련 파일 1~2개 추가 확인
+```
+
+**Prohibited Actions**:
+- `90_Archive/tasks/` 전체 glob/grep 스캔
+- catalog 없이 원문 직접 접근
+- 10개 이상 파일 동시 열기
+
+**Entry Point**: `90_Archive/00_Catalog/_ARCHIVE_ENTRY.md` - 상세 규칙 및 스키마
 
 ### Key Documents (Quick Reference)
 
@@ -174,25 +211,28 @@ LOOP/
 
 ## Entity Types & ID Formats
 
+> **Authoritative source**: `00_Meta/schema_registry.md` (v3.7)
+
 ### Strategy Layer
-```yaml
-entity_type: NorthStar          # 10-year vision     | ID: ns-001
-entity_type: MetaHypothesis     # MH1-4             | ID: mh-1-4
-entity_type: Condition          # 3-year (A-E)      | ID: cond-a-e
-entity_type: Track              # 12-month (1-6)    | ID: trk-1-6
-entity_type: Project            # Experiment unit   | ID: prj-001-999
-entity_type: Task               # Execution unit    | ID: tsk-001-01
-entity_type: Hypothesis         # Validation target | ID: hyp-001-999
-entity_type: Experiment         # Validation test   | ID: exp-001-999
-```
+| Entity Type | ID Pattern | Example | Notes |
+|-------------|------------|---------|-------|
+| NorthStar | `ns-NNN` | ns-001 | Fixed (1 only) |
+| MetaHypothesis | `mh-N` | mh-3 | 1-4 |
+| Condition | `cond-X` | cond-b | a-e |
+| Track | `trk-N` | trk-2 | 1-6 |
+| Program | `pgm-name` | pgm-hiring | Always active (never closed) |
+| Project | `prj-NNN` | prj-003 | 001-999, can link to Program via `program_id` |
+| Task | `tsk-NNN-NN` | tsk-003-01 | Per project |
+| Hypothesis | `hyp-N-NN` | hyp-2-01 | Track-based: `{trk}-{seq}` |
+| Experiment | `exp-NNN` | exp-001 | 001-999 |
 
 ### Ontology Layer
-```yaml
-entity_type: CoreEntity         # Event, Episode, etc. (v0.1 frozen)
-entity_type: Relation           # Relationship definitions
-entity_type: Rule               # Constraints
-entity_type: Community          # GraphRAG communities
-```
+| Entity Type | Description |
+|-------------|-------------|
+| CoreEntity | Event, Episode, LoopStateWindow, ActionExecution, OutcomeMeasurement (v0.1 frozen) |
+| Relation | Relationship definitions |
+| Rule | Constraints (Rule A-D) |
+| Community | GraphRAG communities |
 
 ### Key Relationships
 ```yaml
@@ -411,253 +451,40 @@ For more details, see:
 
 ---
 
-## Validation & Automation
+## Validation & Pre-commit Hook
 
-### Python Scripts
+**Pre-commit hook is installed** and runs automatically on every commit:
+- **Validates schema** (blocks commit on error)
+- **Checks orphans** (warns only)
+- **Rebuilds graph index** (auto-stages `_Graph_Index.md`)
 
-**Requirements**: Python 3.9+ with PyYAML
-
-**Installation options**:
-```bash
-# Option 1: Direct install
-pip install pyyaml
-
-# Option 2: Using Poetry (recommended)
-poetry install
-```
-
-**Project configuration**: See `pyproject.toml` for exact dependency versions.
-
-#### ID Format Reference
-| Prefix | Pattern | Example | Entity Type |
-|--------|---------|---------|-------------|
-| `ns-` | `ns-NNN` | `ns-001` | NorthStar |
-| `mh-` | `mh-1-4` | `mh-3` | MetaHypothesis |
-| `cond-` | `cond-a-e` | `cond-b` | Condition |
-| `trk-` | `trk-1-6` | `trk-2` | Track |
-| `prj-` | `prj-NNN` | `prj-003` | Project |
-| `tsk-` | `tsk-NNN-NN` | `tsk-003-01` | Task |
-| `hyp-` | `hyp-NNN` | `hyp-001` | Hypothesis |
-| `exp-` | `exp-NNN` | `exp-001` | Experiment |
-
-#### 1. Validate Schema
-```bash
-python3 scripts/validate_schema.py .
-```
-- Checks required fields for each entity type
-- Validates ID format patterns
-- Verifies status values
-- Ensures parent_id references are valid
-
-**Scans**: `01_North_Star/`, `20_Strategy/`, `50_Projects/`, `60_Hypotheses/`, `70_Experiments/`
-**Excludes**: `00_Meta/_TEMPLATES/`, `10_Study/`, `30_Ontology/`, `40_LOOP_OS/`, `90_Archive/`
-
-#### 2. Check Orphans
-```bash
-python3 scripts/check_orphans.py .
-```
-- Finds parent_id references to non-existent entities
-- Checks project_id and hypothesis_id validity
-- Verifies validates/validated_by symmetry
-- Reports broken outgoing_relations
-
-**Note**: Currently reports warnings but doesn't block commits
-
-#### 3. Build Graph Index
-```bash
-python3 scripts/build_graph_index.py .
-```
-- Scans all entities with frontmatter
-- Derives children_ids from parent_id
-- Derives incoming_relations from outgoing_relations
-- Creates summary tables and relationship maps
-- Flags critical entities
-
-**Auto-runs**: On every commit via pre-commit hook
-
-### Setting Up Pre-commit Hook
-
-**Note**: The pre-commit hook is already installed in this repository. If you need to reinstall it:
-
-```bash
-# Create the hook file
-cat > .git/hooks/pre-commit << 'EOF'
-#!/bin/bash
-echo "🔍 Running schema validation..."
-python3 scripts/validate_schema.py . || {
-  echo "❌ Schema validation failed. Commit blocked."
-  exit 1
-}
-
-echo "🔗 Checking for orphans..."
-python3 scripts/check_orphans.py . || {
-  echo "⚠️  Orphan check warnings (not blocking)"
-}
-
-echo "📊 Rebuilding graph index..."
-python3 scripts/build_graph_index.py . || {
-  echo "❌ Graph index build failed. Commit blocked."
-  exit 1
-}
-
-# Stage the updated index if it changed
-if [ -f "_Graph_Index.md" ]; then
-  git add _Graph_Index.md
-  echo "✅ _Graph_Index.md updated and staged"
-fi
-
-echo "✅ All pre-commit checks passed!"
-EOF
-
-# Make it executable
-chmod +x .git/hooks/pre-commit
-```
-
-**What the hook does**:
-- ✅ **Validates schema** (blocks commit on error)
-- ⚠️ **Checks orphans** (warns only, doesn't block)
-- ✅ **Rebuilds graph index** (blocks commit on error, auto-stages `_Graph_Index.md`)
-
-#### 4. Import Tasks from CSV
-```bash
-python3 scripts/csv_to_loop_entities.py <csv_file>
-```
-- Converts CSV task exports (e.g., from Notion) to Project/Task entities
-- Automatically creates Project and Task frontmatter
-- Maps priority levels (high/medium/low)
-- Sanitizes file names
-- Creates folder structure under `50_Projects/`
-
-**Input CSV format**: Should include columns for project name, task name, status, priority, assignee
-
-#### 5. Build Dashboard (Optional)
-```bash
-python3 scripts/build_dashboard.py .
-```
-- Generates an HTML dashboard at `_dashboard/index.html`
-- Provides visual overview of Projects and Tasks
-- Shows status distribution, priority breakdown, and progress tracking
-- Useful for project management and team coordination
-
-**Output location**: `_dashboard/index.html` (can be opened in any browser)
-
-**Complete architecture**: See `NAS_DASHBOARD_ARCHITECTURE.md` for detailed component breakdown, deployment flow, and troubleshooting
-
-#### 6. Deploy to Synology NAS (Production)
-```bash
-# On NAS (via SSH)
-/volume1/scripts/deploy-kanban.sh
-```
-- Detects file changes (since last build)
-- Validates schema
-- Rebuilds dashboard
-- Deploys to Web Station (http://nas-ip:8080)
-- Logs to `/volume1/logs/kanban-deploy.log`
-
-**Automated**: Runs every 15 minutes via Task Scheduler
-
-**Note**: No git pull needed - vault is already on NAS and synced in real-time
-
-For complete NAS deployment guide, see: `NAS_DEPLOYMENT_SIMPLE.md`
+**Validation script scan locations**:
+- Scans: `01_North_Star/`, `20_Strategy/`, `50_Projects/`, `60_Hypotheses/`, `70_Experiments/`
+- Excludes: `00_Meta/_TEMPLATES/`, `10_Study/`, `30_Ontology/`, `40_LOOP_OS/`, `90_Archive/`
 
 ---
 
-## NAS Dashboard Deployment
+## Dashboard + API Architecture
 
-This vault includes a complete automated deployment system for Synology NAS.
+> **Production Dashboard**: https://kanban.sosilab.synology.me/ (항상 여기서 확인)
 
-**📖 완전한 아키텍처 문서**: `NAS_DASHBOARD_ARCHITECTURE.md` - 전체 시스템 구조, 컴포넌트, 트러블슈팅 포함
-
-### Quick Start (NAS Admin)
-
-**Prerequisites**: Synology NAS with Web Station and Python 3.9 installed
-
-**Setup** (one-time):
-1. Clone vault to NAS: `/volume1/vault/LOOP`
-2. Install PyYAML: `python3 -m pip install pyyaml`
-3. Copy deploy script to NAS: `scripts/deploy_to_nas.sh` → `/volume1/scripts/deploy-kanban.sh`
-4. Create web directory: `/volume1/web/kanban`
-5. Configure Web Station virtual host (port 8080)
-6. Set up Task Scheduler to run script every 15 minutes
-
-**Result**: Team dashboard auto-updates at `http://nas-ip:8080` whenever vault is pushed to GitHub
-
-### Deployment Flow
+**Dashboard** (`_dashboard/index.html`): SPA with Kanban, Calendar, Strategy Graph views
+**API Server**: FastAPI on port 8081 with in-memory cache (see `api/README.md`)
 
 ```
 Developer (MacBook Obsidian)
     ↓ SMB/NFS mount (real-time sync)
 Synology NAS (/volume1/vault/LOOP)
-    ↓ detect changes (every 15min)
-    ↓ build_dashboard.py
-Dashboard HTML (/volume1/web/kanban/)
-    ↓ Web Station
+    ↓ API server (uvicorn, port 8081)
+    ↓ _dashboard/ → Web Station (port 8080)
 Team Members (Browser: http://nas-ip:8080)
 ```
 
-**Key Point**: Vault is already on NAS - MacBook mounts it via SMB/NFS. Files sync in real-time, no git pull needed!
+**Key API design patterns**:
+- `VaultCache` singleton with O(1) lookups, TTL-based change detection
+- File-First Pattern: CRUD writes to markdown files first, then updates cache
 
-### Monitoring
-
-```bash
-# Check deployment logs
-tail -50 /volume1/logs/kanban-deploy.log
-
-# Manual deployment (if urgent)
-ssh admin@nas-ip
-sudo /volume1/scripts/deploy-kanban.sh
-
-# Verify web access
-curl http://nas-ip:8080
-```
-
-### Documentation
-
-**완전한 아키텍처**: `NAS_DASHBOARD_ARCHITECTURE.md` ⭐ (전체 시스템 구조, 스크립트 상세, 트러블슈팅)
-
-**빠른 시작**: `NAS_DEPLOYMENT_SIMPLE.md` (10분 설정, 실시간 동기화 아키텍처)
-
-**Advanced features**: `NAS_DEPLOYMENT_GUIDE.md` (Slack 알림, HTTPS, 다중 대시보드)
-
-**Architecture comparison**: `nas-setup-comparison.md` (Vault on NAS vs Local+Clone vs Hybrid)
-
-**Alternative solutions**: `nas-kanban-setup.md` (MkDocs, Next.js, Focalboard 옵션)
-
----
-
-## API Server Architecture
-
-The `api/` module provides a FastAPI REST server for the interactive dashboard.
-
-### Structure
-```
-api/
-├── main.py              # FastAPI app entry point
-├── cache/
-│   └── vault_cache.py   # In-memory cache with O(1) lookups
-├── routers/             # REST endpoints by entity type
-│   ├── tasks.py         # Task CRUD
-│   ├── projects.py      # Project CRUD
-│   ├── hypotheses.py    # Hypothesis CRUD
-│   ├── tracks.py        # Track read-only
-│   ├── conditions.py    # Condition read-only
-│   └── strategy.py      # Strategy overview
-├── models/
-│   └── entities.py      # Pydantic schemas (TaskCreate, TaskUpdate, etc.)
-└── utils/
-    └── vault_utils.py   # Frontmatter parsing, file operations
-```
-
-### Key Design Patterns
-
-**In-memory Cache**: `VaultCache` singleton caches all entities on startup:
-- O(1) lookups by entity_id
-- TTL-based directory scanning (5s intervals) for change detection
-- Thread-safe with `threading.RLock`
-
-**File-First Pattern**: All CRUD operations write to markdown files first, then update cache.
-
-**Full API Documentation**: See `api/README.md` for complete endpoint reference, curl examples, and NAS deployment.
+**Docs**: `api/README.md` (endpoints), `NAS_DASHBOARD_ARCHITECTURE.md` (deployment)
 
 ---
 
@@ -687,28 +514,15 @@ api/
 
 ## Important Notes
 
-### Obsidian Vault Characteristics
-- **No code execution**: This is a knowledge management vault, not a software project
-- **No build commands**: No `npm`, `cargo`, `go build`, etc.
-- **No tests**: No unit tests or integration tests
-- **Markdown-centric**: All work focuses on creating, editing, and structuring `.md` files
-- **NAS-mounted**: Vault is on Synology NAS, mounted via SMB at `/Volumes/LOOP_CORE/vault/LOOP`
-
-### Git on Network Mount
-Due to SMB mount, direct git commands may fail with lock errors. Use `/safe-commit` command or let the NAS daemon handle commits (every 15 minutes).
+### Vault Characteristics
+- **Markdown-centric**: This is an Obsidian knowledge vault, not a software project
+- **No code execution**: No `npm`, `cargo`, `go build`, etc.
+- **NAS-mounted**: Mounted via SMB (use `/safe-commit` for git operations)
 
 ### Real Implementation Projects
-This vault manages strategy and ontology **specifications**. Actual implementations-
+This vault manages strategy and ontology **specifications**. Do NOT modify implementation code from here.
 - **SoSi**: `/Users/gim-eunhyang/dev/flutter/sosi`
 - **KkokKkokFit**: `/Users/gim-eunhyang/dev/flutter/kkokkkokfit_web`
-
-**When to reference implementations-**
-- Ontology-implementation gap analysis
-- Validating that ontology entities map to real data structures
-- Checking if v0.1 spec constraints match actual usage
-- Gathering evidence for hypothesis validation (e.g., MH3)
-
-**Important**: Do NOT make changes to implementation code from this vault. This vault is for specification and strategy only.
 
 ---
 
@@ -781,12 +595,17 @@ Available commands in `.claude/commands/`:
 | Command | Description |
 |---------|-------------|
 | `/safe-commit` | SSH-based commit to NAS (avoids SMB git conflicts) |
+| `/commit` | Standard commit process |
+| `/deploy` | Deployment process |
+| `/todo` | Check tasks before starting work |
 | `/todo_api` | API development workflow with Codex-Claude loop |
 | `/new-project` | Create new Project entity with proper ID/schema |
 | `/new-task` | Create new Task entity with proper ID/schema |
+| `/new` | What's New version changelog with emoji |
 | `/auto-fill-project-impact` | AI-assisted expected_impact field filling |
 | `/build-impact` | Build and analyze project impact |
 | `/retro` | Convert retrospective notes to Evidence entities |
+| `/ontology` | Explore Product Ontology (ILOS) schema |
 
 **Usage**: Type `/command-name` in Claude Code to invoke.
 
@@ -819,20 +638,16 @@ Located in `scripts/`, these are typically used once for data migrations-
 
 ---
 
-**Last updated**: 2025-12-22
-**Document version**: 4.8
+**Last updated**: 2025-12-25
+**Document version**: 5.4
 **Author**: Claude Code
 
-**Changes** (v4.8):
-- Restored API server documentation (api/ module exists with FastAPI + in-memory cache)
-- Added Installation section and API Server commands to Quick Reference
-- Consolidated validation commands for brevity
-- Updated Key Entry Points to include api/README.md
+**Changes (v5.4)**:
+- Updated slash commands table with missing commands (/commit, /deploy, /todo, /new, /ontology)
+- Synced with schema_registry.md v3.7
 
-**Changes** (v4.7):
-- Added Claude Code Commands section (7 slash commands in .claude/commands/)
-- Added Claude Code Skills section (5 skills in .claude/skills/)
-- Simplified to reference existing documentation instead of duplicating
-
-**Changes** (v4.6):
-- Fixed API server command (was `scripts.api_server:app`, now `api.main:app`)
+**Changes (v5.3)**:
+- Consolidated duplicate sections (Git on Network Mount, Validation, Dashboard)
+- Moved Git warning to Quick Reference section
+- Reduced document length by ~100 lines while preserving all key information
+- Fixed section numbering inconsistencies

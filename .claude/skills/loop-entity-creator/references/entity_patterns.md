@@ -45,6 +45,64 @@ ID patterns and file placement rules for LOOP vault entities.
 3. Increment: 15 + 1 = 16
 4. Format: `prj-016`
 
+---
+
+## Naming Convention (MANDATORY)
+
+### entity_name Format
+
+**Format**: `[Category] - [Detail]`
+
+**Structure**:
+- Category: 대문자 키워드 (LOOPOS, Ontology, API, Dashboard, etc.)
+- Separator: ` - ` (공백-하이픈-공백)
+- Detail: 구체적인 작업/프로젝트 내용
+
+### Project Naming Examples
+
+| ✅ Good | ❌ Bad |
+|---------|--------|
+| `LOOPOS - Phase1 MVP` | `Phase1 MVP` |
+| `Ontology - v0.2 스키마 확장` | `온톨로지 v0.2` |
+| `API - Task CRUD 구현` | `태스크 API 만들기` |
+| `Dashboard - Kanban 뷰 개선` | `칸반 대시보드` |
+
+### Task Naming Examples
+
+| ✅ Good | ❌ Bad |
+|---------|--------|
+| `LOOPOS - 인터페이스 설계` | `인터페이스 설계` |
+| `API - 캐시 레이어 추가` | `캐시 추가` |
+| `Docs - CLAUDE.md 업데이트` | `문서 업데이트` |
+| `Bugfix - 날짜 파싱 오류 수정` | `버그 수정` |
+
+### Common Categories
+
+| Category | 용도 |
+|----------|------|
+| `LOOPOS` | Inner Loop OS 코어 기능 |
+| `Ontology` | 온톨로지 스키마/엔티티 관련 |
+| `API` | API 서버 개발 |
+| `Dashboard` | 대시보드 UI/UX |
+| `Docs` | 문서화 작업 |
+| `Infra` | 인프라/배포/스크립트 |
+| `Bugfix` | 버그 수정 |
+| `Refactor` | 리팩토링 |
+| `Test` | 테스트 관련 |
+
+### Validation Rule
+
+스킬 실행 시 entity_name이 ` - ` 구분자를 포함하지 않으면:
+1. 사용자에게 카테고리 선택 요청
+2. 또는 올바른 형식으로 재입력 요청
+
+```
+❌ "프로토타입 개발" → 형식 오류
+✅ "LOOPOS - 프로토타입 개발" → 통과
+```
+
+---
+
 ## File Placement Rules
 
 ### Task Files
@@ -148,7 +206,7 @@ priority_flag: high
 ---
 ```
 
-### Project Frontmatter Example
+### Project Frontmatter Example (일반 Project)
 
 ```yaml
 ---
@@ -160,7 +218,11 @@ updated: 2025-12-18
 status: planning
 
 # Hierarchy
-parent_id: trk-2
+parent_id: trk-2                    # 필수: Track 연결
+conditions_3y: ["cond-a", "cond-b"] # 필수: Condition 연결
+
+# 가설 연결
+hypothesis_id: hyp-2-01             # 선택: 검증 대상 가설
 
 # Assignment
 owner: 김개발
@@ -170,6 +232,37 @@ tags: [project, ontology]
 priority_flag: critical
 ---
 ```
+
+### Project Frontmatter Example (Program Round Project)
+
+```yaml
+---
+entity_type: Project
+entity_id: prj-yt-w33
+entity_name: YouTube W33 영상 제작
+created: 2025-12-18
+updated: 2025-12-18
+status: in_progress
+
+# Hierarchy (CRITICAL: Program 하위도 전략 연결 필수!)
+parent_id: trk-3                    # 필수: Track 연결 (Content Track)
+conditions_3y: ["cond-c"]           # 필수: Condition 연결
+
+# Program 연결
+program_id: pgm-youtube             # Program ID
+cycle: W33                          # 사이클/라운드
+
+# Assignment
+owner: 김은향
+
+# Classification
+tags: [project, youtube, weekly]
+priority_flag: medium
+---
+```
+
+**CRITICAL**: Program 하위 Project라도 반드시 `parent_id`(Track)와 `conditions_3y` 연결 필요.
+이 연결이 없으면 전략 계층에서 고아(orphan) 프로젝트가 됨.
 
 ## Schema Validation Rules
 
