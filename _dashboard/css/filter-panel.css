@@ -261,10 +261,104 @@
     font-weight: 500;
 }
 
+/* ============================================
+   Quick Date Filter Styles
+   ============================================ */
+
+.quick-date-filter {
+    margin-top: 16px;
+}
+
+/* Week/Month Tabs */
+.quick-date-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.quick-date-tab {
+    flex: 1;
+    padding: 6px 12px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #6b7280;
+    transition: all 0.2s;
+}
+
+.quick-date-tab:hover {
+    color: #374151;
+}
+
+.quick-date-tab.active {
+    background: white;
+    color: #667eea;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Quick Date Buttons Container */
+.quick-date-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* Quick Date Button */
+.quick-date-btn {
+    padding: 6px 12px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.quick-date-btn:hover {
+    border-color: #667eea;
+    background: #f0f0ff;
+}
+
+/* Current week/month indicator */
+.quick-date-btn.current {
+    border-color: #667eea;
+    background: #eef2ff;
+}
+
+.quick-date-btn.current::after {
+    content: " *";
+    color: #667eea;
+}
+
+/* Selected state */
+.quick-date-btn.selected {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
+.quick-date-btn.selected.current::after {
+    color: white;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .filter-panel {
         width: 100%;
         right: -100%;
+    }
+
+    .quick-date-btn {
+        padding: 8px 14px;
+        font-size: 0.85em;
     }
 }

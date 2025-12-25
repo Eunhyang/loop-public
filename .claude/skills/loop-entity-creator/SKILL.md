@@ -40,6 +40,8 @@ Required fields:
 Optional fields:
 - `parent_id` - Parent task ID if this is a subtask
 - `priority_flag` - "critical", "high", "medium", or "low"
+- `type` - Task 유형: "dev" | "strategy" | "research" | "ops" | null
+- `target_project` - type=dev일 때만: "sosi" | "kkokkkok" | "loop-api"
 
 **FORBIDDEN (역할 분리):**
 - ❌ `validates` - Task는 전략 판단에 개입하지 않음. validates는 Project만 가능.
@@ -77,6 +79,8 @@ Optional fields:
    - `{{assignee}}` → user-provided assignee
    - `{{parent_id}}` → user-provided parent ID (if any)
    - `{{priority_flag}}` → user-provided priority (if any)
+   - `{{TYPE}}` → user-provided type (dev | strategy | research | ops | null)
+   - `{{TARGET_PROJECT}}` → user-provided target_project (sosi | kkokkkok | loop-api | null)
    - `{{DATE}}` → current date (YYYY-MM-DD format)
    - Note: `aliases` will automatically include entity_id for Obsidian linking
 
@@ -354,6 +358,16 @@ User: "코치OS 인터페이스 설계 태스크 만들어줘"
 → Collect: project_id, assignee
 → Generate: tsk-005-03
 → Create: 50_Projects/CoachOS_Phase1/Tasks/코치OS_인터페이스_설계.md
+→ Validate and index
+```
+
+**Create a Dev Task (외부 프로젝트 연동):**
+```
+User: "sosi 로그인 버그 수정 dev task 만들어줘"
+→ Collect: project_id, assignee, type=dev, target_project=sosi
+→ Generate: tsk-005-04
+→ Create: 50_Projects/.../Tasks/로그인_버그_수정.md
+→ Output: "Git 브랜치 생성: git checkout -b tsk-005-04"
 → Validate and index
 ```
 

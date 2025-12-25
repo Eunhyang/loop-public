@@ -1,0 +1,84 @@
+---
+entity_type: Project
+entity_id: prj-016
+entity_name: 법인 전환 설립(주) 루프
+created: 2025-12-25
+updated: 2025-12-25
+status: planning
+
+# === 프로젝트 정보 ===
+owner: 한명학
+budget: null
+deadline: null
+
+# === Impact 판정 ===
+expected_impact:
+  statement: null
+  metric: null
+  target: null
+
+realized_impact:
+  verdict: null
+  outcome: null
+  evidence_links: []
+  decided: null
+
+# === 가설 연결 ===
+hypothesis_id: null
+experiments: []
+
+# === 계층 (전략 연결) ===
+parent_id: trk-6
+conditions_3y: ["cond-d"]
+aliases:
+  - prj-016
+  - 법인 전환 설립(주) 루프
+  - 법인전환
+  - 주식회사 루프
+
+outgoing_relations: []
+validates: []
+validated_by: []
+tags: ["project", "법인", "설립", "운영"]
+priority_flag: high
+---
+
+# 법인 전환 설립(주) 루프
+
+> Project ID: `prj-016` | Track: [[trk-6]] | Status: planning
+
+## 프로젝트 개요
+
+개인사업자에서 주식회사 루프로 법인 전환하는 프로젝트.
+
+---
+
+## Expected Impact
+
+> `/auto-fill-project-impact` 실행하여 채우기
+
+| 항목 | 값 |
+|------|-----|
+| Statement | (미정) |
+| Metric | (미정) |
+| Target | (미정) |
+
+---
+
+## Tasks
+
+| Task ID | Task Name | Assignee | Status |
+|---------|-----------|----------|--------|
+| - | - | - | - |
+
+---
+
+## 참조
+
+- **Track**: [[trk-6|Scale/Infra]]
+- **Condition**: [[cond-d]]
+
+---
+
+**Created**: 2025-12-25
+**Owner**: 한명학

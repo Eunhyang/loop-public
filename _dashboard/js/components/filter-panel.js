@@ -12,6 +12,9 @@ const FilterPanel = {
         this.overlayEl = document.getElementById('filterPanelOverlay');
         this.filterBtnEl = document.getElementById('btnFilter');
 
+        // Initialize quick date filter with current week selected
+        State.initQuickDateFilter();
+
         this.setupEventListeners();
         this.render();
     },
@@ -77,6 +80,7 @@ const FilterPanel = {
         this.renderTaskStatusFilters();
         this.renderTaskPriorityFilters();
         this.renderDateFilters();
+        this.renderQuickDateFilter();
         this.updateFilterIndicator();
     },
 
@@ -252,14 +256,119 @@ const FilterPanel = {
         const hasTaskPriorityFilter = State.filters.task.priority.length < taskPriorityCount;
         const hasDateFilter = State.filters.task.dueDateStart || State.filters.task.dueDateEnd;
         const hasInactiveFilter = State.filters.project.showInactive || State.filters.task.showInactive || State.filters.showInactiveMembers;
+        const hasQuickDateFilter = State.filters.task.selectedWeeks.length > 0 || State.filters.task.selectedMonths.length > 0;
 
         const hasFilters = hasProjectStatusFilter || hasProjectPriorityFilter ||
-                          hasTaskStatusFilter || hasTaskPriorityFilter || hasDateFilter || hasInactiveFilter;
+                          hasTaskStatusFilter || hasTaskPriorityFilter || hasDateFilter || hasInactiveFilter || hasQuickDateFilter;
 
         if (hasFilters) {
             this.filterBtnEl.classList.add('has-filters');
         } else {
             this.filterBtnEl.classList.remove('has-filters');
         }
+    },
+
+    // ============================================
+    // Quick Date Filter
+    // ============================================
+
+    renderQuickDateFilter() {
+        const container = document.getElementById('quickDateButtons');
+        const tabContainer = document.querySelector('.quick-date-tabs');
+        if (!container || !tabContainer) return;
+
+        const mode = State.filters.task.quickDateMode;
+
+        // Update tab active state
+        tabContainer.querySelectorAll('.quick-date-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tab === mode);
+        });
+
+        // Render buttons based on mode
+        if (mode === 'week') {
+            this.renderWeekButtons(container);
+        } else {
+            this.renderMonthButtons(container);
+        }
+
+        // Attach tab listeners
+        this.attachQuickDateTabListeners(tabContainer);
+    },
+
+    renderWeekButtons(container) {
+        const weeks = State.getWeekRange(2, 2);  // 2 weeks before, 2 weeks after
+        const selectedWeeks = State.filters.task.selectedWeeks;
+
+        container.innerHTML = weeks.map(week => {
+            const isSelected = selectedWeeks.includes(week.key);
+            const currentClass = week.isCurrent ? 'current' : '';
+            const selectedClass = isSelected ? 'selected' : '';
+            return `
+                <button class="quick-date-btn ${currentClass} ${selectedClass}"
+                        data-type="week"
+                        data-key="${week.key}"
+                        title="${week.key}">
+                    ${week.label}
+                </button>
+            `;
+        }).join('');
+
+        this.attachQuickDateButtonListeners(container);
+    },
+
+    renderMonthButtons(container) {
+        const months = State.getMonthRange(1, 1);  // 1 month before, 1 month after
+        const selectedMonths = State.filters.task.selectedMonths;
+
+        container.innerHTML = months.map(month => {
+            const isSelected = selectedMonths.includes(month.key);
+            const currentClass = month.isCurrent ? 'current' : '';
+            const selectedClass = isSelected ? 'selected' : '';
+            return `
+                <button class="quick-date-btn ${currentClass} ${selectedClass}"
+                        data-type="month"
+                        data-key="${month.key}"
+                        title="${month.key}">
+                    ${month.label}
+                </button>
+            `;
+        }).join('');
+
+        this.attachQuickDateButtonListeners(container);
+    },
+
+    attachQuickDateTabListeners(tabContainer) {
+        tabContainer.querySelectorAll('.quick-date-tab').forEach(tab => {
+            // Remove old listener by cloning
+            const newTab = tab.cloneNode(true);
+            tab.parentNode.replaceChild(newTab, tab);
+
+            newTab.addEventListener('click', () => {
+                const mode = newTab.dataset.tab;
+                State.setQuickDateMode(mode);
+                this.renderQuickDateFilter();
+                this.applyFilters();
+                this.updateFilterIndicator();
+            });
+        });
+    },
+
+    attachQuickDateButtonListeners(container) {
+        container.querySelectorAll('.quick-date-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.type;
+                const key = btn.dataset.key;
+
+                if (type === 'week') {
+                    State.toggleWeek(key);
+                } else {
+                    State.toggleMonth(key);
+                }
+
+                btn.classList.toggle('selected');
+                this.applyFilters();
+                this.updateFilterIndicator();
+            });
+        });
     }
 };

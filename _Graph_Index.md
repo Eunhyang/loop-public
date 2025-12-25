@@ -2,9 +2,9 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2025-12-25
-updated: 2025-12-25
-total_entities: 162
+created: 2025-12-26
+updated: 2025-12-26
+total_entities: 167
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,8 +17,8 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 162개
-- **마지막 업데이트**: 2025-12-25
+- **총 엔티티**: 167개
+- **마지막 업데이트**: 2025-12-26
 
 ### 타입별
 | Type | Count |
@@ -27,22 +27,22 @@ tags: ["meta", "graph", "index"]
 | MetaHypothesis | 4 |
 | Condition | 5 |
 | Track | 6 |
-| Program | 3 |
-| Project | 17 |
-| Task | 62 |
+| Program | 4 |
+| Project | 19 |
+| Task | 64 |
 | Hypothesis | 45 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 27 |
+| active | 29 |
 | doing | 3 |
-| done | 16 |
+| done | 27 |
 | fixed | 1 |
-| in_progress | 8 |
+| in_progress | 6 |
 | pending | 4 |
-| planning | 75 |
-| todo | 19 |
+| planning | 78 |
+| todo | 10 |
 | unknown | 5 |
 | validating | 4 |
 
@@ -88,16 +88,17 @@ tags: ["meta", "graph", "index"]
 | `trk-6` | Track_6_Revenue | active | `20_Strategy/12M_Tracks/2026/Track_6_Revenue.md` |
 
 
-## Program (3개)
+## Program (4개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `pgm-grants` | 정부지원사업 | active | `50_Projects/Grants/_PROGRAM.md` |
+| `pgm-hiring` | 채용 | active | `50_Projects/Hiring/_PROGRAM.md` |
 | `pgm-vault-system` | Vault 시스템 체계화 | active | `50_Projects/Vault_System/_PROGRAM.md` |
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | active | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (17개)
+## Project (19개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -114,13 +115,15 @@ tags: ["meta", "graph", "index"]
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | active | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md` |
 | `prj-012` | [CS·운영] 고객관리/대응 | active | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md` |
 | `prj-014` | 코칭 서비스 운영 체계 재구축 | active | `50_Projects/2025/P014_코칭 운영 체계/Project_정의.md` |
-| `prj-015` | 주니어 개발자 채용 | in_progress | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
+| `prj-015` | Hiring - 주니어 개발자 채용 | active | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
+| `prj-016` | 법인 전환 설립(주) 루프 | planning | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md` |
+| `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
 | `prj-grants-jemi` | JEMI디딤돌 지원사업 | planning | `50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md` |
 | `prj-vault-gpt` | ChatGPT Vault MCP 연결 | active | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
 | `prj-yt-w33` | YouTube W33 | active | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md` |
 
 
-## Task (62개)
+## Task (64개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -159,11 +162,11 @@ tags: ["meta", "graph", "index"]
 | `tsk-008-01` | [단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX | in_progress | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md` |
 | `tsk-008-02` | [단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안 | todo | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md` |
 | `tsk-008-03` | [단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계 | todo | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md` |
-| `tsk-008-04` | 꼭꼭 앱 Onboarding UI/UX 리뷰 | doing | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 Onboarding 리뷰.md` |
+| `tsk-008-04` | 꼭꼭 앱 Onboarding UI/UX 리뷰 | done | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 Onboarding 리뷰.md` |
 | `tsk-008-05` | 꼭꼭 앱 iOS/Android 배포 | todo | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 iOS Android 배포.md` |
 | `tsk-009-01` | [투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원 | planning | `50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 아이디어파트너스 배치 프로그램 지원.md` |
 | `tsk-009-02` | [투자/TIPS준비] 프라이머 배치 프로그램 지원 | planning | `50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 프라이머 배치 프로그램 지원.md` |
-| `tsk-010-01` | 와디즈 오픈 후 고객 대응 | in_progress | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md` |
+| `tsk-010-01` | 와디즈 오픈 후 고객 대응 | doing | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md` |
 | `tsk-010-02` | 와디즈 새소식 초안 작성 - 브랜드 방향성 위주 | done | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md` |
 | `tsk-011-01` | 리크루팅 사이트) 원택님 피드백 반영 | planning | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md` |
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | in_progress | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
@@ -172,20 +175,22 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-03` | W33 촬영 | pending | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | pending | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
-| `tsk-015-02` | 커피챗 일정 조율 & 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
-| `tsk-015-03` | 주니어 개발자 커피챗 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
-| `tsk-015-04` | 주니어 개발자 기술 과제 설계 초안 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md` |
-| `tsk-015-05` | 단님에게 실전 과제 제안 및 안내 발송 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md` |
-| `tsk-015-06` | 실전 과제 평가기준 작성 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md` |
-| `tsk-015-07` | 주니어 개발자 과제 제출물 기술 평가 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md` |
-| `tsk-015-08` | 1차 기술 평가(Flutter + Firebase) | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-08_1차_기술_평가.md` |
-| `tsk-015-09` | 주니어 개발자 기술 리뷰 1:1 면접 진행 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md` |
-| `tsk-015-10` | 파일럿 프로젝트 계약서 작성 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md` |
-| `tsk-015-11` | 개발자 온보딩 문서 v1 작성 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
-| `tsk-015-12` | 개발 환경 세팅 문서 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
-| `tsk-015-13` | Day1 Onboarding 진행 | todo | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
+| `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
+| `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
+| `tsk-015-04` | Hiring - 주니어 개발자 기술 과제 설계 초안 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md` |
+| `tsk-015-05` | Hiring - 실전 과제 제안 및 안내 발송 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md` |
+| `tsk-015-06` | Hiring - 실전 과제 평가기준 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md` |
+| `tsk-015-07` | Hiring - 주니어 개발자 과제 제출물 기술 평가 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md` |
+| `tsk-015-09` | Hiring - 기술 리뷰 1:1 면접 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md` |
+| `tsk-015-10` | Hiring - 파일럿 프로젝트 계약서 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md` |
+| `tsk-015-11` | Hiring - 개발자 온보딩 문서 v1 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
+| `tsk-015-12` | Hiring - 개발 환경 세팅 문서 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
+| `tsk-015-13` | Hiring - Day1 Onboarding 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
+| `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
+| `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
+| `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
 | `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | doing | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
-| `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
+| `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 
 
 ## Hypothesis (45개)
@@ -333,20 +338,23 @@ tags: ["meta", "graph", "index"]
   - tsk-011-01 (리크루팅 사이트) 원택님 피드백 반영)
 - **prj-012** ([CS·운영] 고객관리/대응)
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
-- **prj-015** (주니어 개발자 채용)
+- **prj-015** (Hiring - 주니어 개발자 채용)
   - tsk-015-01 (커피챗 대상자 확정 및 연락)
-  - tsk-015-02 (커피챗 일정 조율 & 진행)
-  - tsk-015-03 (주니어 개발자 커피챗 진행)
-  - tsk-015-04 (주니어 개발자 기술 과제 설계 초안 작성)
-  - tsk-015-05 (단님에게 실전 과제 제안 및 안내 발송)
-  - tsk-015-06 (실전 과제 평가기준 작성)
-  - tsk-015-07 (주니어 개발자 과제 제출물 기술 평가)
-  - tsk-015-08 (1차 기술 평가(Flutter + Firebase))
-  - tsk-015-09 (주니어 개발자 기술 리뷰 1:1 면접 진행)
-  - tsk-015-10 (파일럿 프로젝트 계약서 작성)
-  - tsk-015-11 (개발자 온보딩 문서 v1 작성)
-  - tsk-015-12 (개발 환경 세팅 문서)
-  - tsk-015-13 (Day1 Onboarding 진행)
+  - tsk-015-02 (Hiring - 커피챗 일정 조율 & 진행)
+  - tsk-015-03 (Hiring - 주니어 개발자 커피챗 진행)
+  - tsk-015-04 (Hiring - 주니어 개발자 기술 과제 설계 초안 작성)
+  - tsk-015-05 (Hiring - 실전 과제 제안 및 안내 발송)
+  - tsk-015-06 (Hiring - 실전 과제 평가기준 작성)
+  - tsk-015-07 (Hiring - 주니어 개발자 과제 제출물 기술 평가)
+  - tsk-015-09 (Hiring - 기술 리뷰 1:1 면접 진행)
+  - tsk-015-10 (Hiring - 파일럿 프로젝트 계약서 작성)
+  - tsk-015-11 (Hiring - 개발자 온보딩 문서 v1 작성)
+  - tsk-015-12 (Hiring - 개발 환경 세팅 문서)
+  - tsk-015-13 (Hiring - Day1 Onboarding 진행)
+- **prj-dashboard-ux-v1** (대시보드 UX 개선 v1)
+  - tsk-dashboard-ux-v1-01 (뷰 전환 단축키 (1/2/3))
+  - tsk-dashboard-ux-v1-02 (대시보드 키보드 단축키)
+  - tsk-dashboard-ux-v1-03 (사이드바 엔티티 상세 패널 구현)
 - **prj-grants-jemi** (JEMI디딤돌 지원사업)
   - tsk-grants-jemi-01 (JEMI 디딤돌 e-나라도움 정산 증빙자료 수집)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
@@ -423,7 +431,9 @@ tags: ["meta", "graph", "index"]
   - prj-007 (외부 비서)
   - prj-009 ([투자/TIPS준비] 배치 프로그램 지원)
   - prj-010 ([펀딩·마케팅] 와디즈 펀딩)
-  - prj-015 (주니어 개발자 채용)
+  - prj-015 (Hiring - 주니어 개발자 채용)
+  - prj-016 (법인 전환 설립(주) 루프)
+  - prj-dashboard-ux-v1 (대시보드 UX 개선 v1)
   - prj-grants-jemi (JEMI디딤돌 지원사업)
 
 ---
@@ -449,5 +459,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2025-12-25
+**Auto-generated**: 2025-12-26
 **Script**: scripts/build_graph_index.py

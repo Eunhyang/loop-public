@@ -202,6 +202,11 @@ const Sidebar = {
         // Filter projects by track
         this.filterByTrack(trackId);
 
+        // Open entity detail panel (except for 'all')
+        if (trackId !== 'all' && typeof EntityDetailPanel !== 'undefined') {
+            EntityDetailPanel.open('Track', trackId);
+        }
+
         // Re-render sidebar to show active state
         this.render();
     },
@@ -214,8 +219,13 @@ const Sidebar = {
         // Update header and show hypothesis details
         this.updateHeaderMeta();
 
-        // TODO: Show hypothesis validation tasks
+        // Filter by hypothesis
         this.filterByHypothesis(hypId);
+
+        // Open entity detail panel
+        if (typeof EntityDetailPanel !== 'undefined') {
+            EntityDetailPanel.open('Hypothesis', hypId);
+        }
 
         this.render();
     },
@@ -230,6 +240,11 @@ const Sidebar = {
 
         // Filter by condition
         this.filterByCondition(condId);
+
+        // Open entity detail panel
+        if (typeof EntityDetailPanel !== 'undefined') {
+            EntityDetailPanel.open('Condition', condId);
+        }
 
         this.render();
     },

@@ -971,6 +971,226 @@
 }
 
 /* ============================================
+   Entity Detail Panel
+   ============================================ */
+.entity-panel .panel-header {
+    background: linear-gradient(135deg, #059669 0%, #0891b2 100%);
+}
+
+.entity-type-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 8px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.entity-type-badge.track {
+    background: rgba(139, 92, 246, 0.3);
+}
+
+.entity-type-badge.condition {
+    background: rgba(245, 158, 11, 0.3);
+}
+
+.entity-type-badge.hypothesis {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+/* Entity Section */
+.entity-section {
+    margin-bottom: 20px;
+}
+
+.entity-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.entity-section-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.entity-unlock {
+    color: #059669;
+    font-weight: 500;
+}
+
+.entity-if-broken {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+.entity-hypothesis-question {
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.entity-success {
+    color: #059669;
+}
+
+.entity-failure {
+    color: #dc2626;
+}
+
+/* Entity Progress */
+.entity-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.entity-progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.entity-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.entity-progress-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    min-width: 80px;
+}
+
+/* Entity Status Badge */
+.entity-status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.entity-status-badge.active,
+.entity-status-badge.in_progress {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.entity-status-badge.planning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.entity-status-badge.at_risk {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.entity-status-badge.blocked {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Entity Metrics */
+.entity-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.entity-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
+
+.entity-metric-label {
+    font-size: 13px;
+    color: #374151;
+}
+
+.entity-metric-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.entity-metric-value.at-risk {
+    color: #dc2626;
+}
+
+.entity-metric-value.on-track {
+    color: #059669;
+}
+
+/* Entity Related List */
+.entity-related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.entity-related-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.entity-related-item:hover {
+    background: #f3f4f6;
+    transform: translateX(4px);
+}
+
+.entity-related-icon {
+    font-size: 16px;
+}
+
+.entity-related-name {
+    flex: 1;
+    font-size: 13px;
+    color: #1f2937;
+}
+
+.entity-related-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    background: #e5e7eb;
+    color: #6b7280;
+    border-radius: 10px;
+}
+
+.entity-related-more {
+    font-size: 12px;
+    color: #9ca3af;
+    padding: 8px 12px;
+    font-style: italic;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 768px) {

@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-25T05:52:15.339714",
-  "total_entities": 162,
+  "generated": "2025-12-26T06:44:10.286930",
+  "total_entities": 167,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -527,7 +527,7 @@
       "id": "tsk-010-01",
       "type": "Task",
       "name": "와디즈 오픈 후 고객 대응",
-      "status": "in_progress",
+      "status": "doing",
       "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md",
       "conditions_3y": [
         "cond-e"
@@ -995,7 +995,7 @@
       "id": "tsk-008-04",
       "type": "Task",
       "name": "꼭꼭 앱 Onboarding UI/UX 리뷰",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 Onboarding 리뷰.md",
       "conditions_3y": [
         "cond-b",
@@ -1042,8 +1042,8 @@
     {
       "id": "prj-015",
       "type": "Project",
-      "name": "주니어 개발자 채용",
-      "status": "in_progress",
+      "name": "Hiring - 주니어 개발자 채용",
+      "status": "active",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md",
       "conditions_3y": [
         "cond-d"
@@ -1061,12 +1061,12 @@
         "cond-d"
       ],
       "priority_flag": "medium",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "tsk-015-02",
       "type": "Task",
-      "name": "커피챗 일정 조율 & 진행",
+      "name": "Hiring - 커피챗 일정 조율 & 진행",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md",
       "conditions_3y": [
@@ -1078,7 +1078,7 @@
     {
       "id": "tsk-015-03",
       "type": "Task",
-      "name": "주니어 개발자 커피챗 진행",
+      "name": "Hiring - 주니어 개발자 커피챗 진행",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md",
       "conditions_3y": [
@@ -1090,7 +1090,7 @@
     {
       "id": "tsk-015-04",
       "type": "Task",
-      "name": "주니어 개발자 기술 과제 설계 초안 작성",
+      "name": "Hiring - 주니어 개발자 기술 과제 설계 초안 작성",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md",
       "conditions_3y": [
@@ -1100,22 +1100,10 @@
       "assignee": "한명학"
     },
     {
-      "id": "tsk-015-05",
-      "type": "Task",
-      "name": "단님에게 실전 과제 제안 및 안내 발송",
-      "status": "todo",
-      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "high",
-      "assignee": "한명학"
-    },
-    {
       "id": "tsk-015-06",
       "type": "Task",
-      "name": "실전 과제 평가기준 작성",
-      "status": "todo",
+      "name": "Hiring - 실전 과제 평가기준 작성",
+      "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md",
       "conditions_3y": [
         "cond-d"
@@ -1126,45 +1114,9 @@
     {
       "id": "tsk-015-07",
       "type": "Task",
-      "name": "주니어 개발자 과제 제출물 기술 평가",
-      "status": "todo",
+      "name": "Hiring - 주니어 개발자 과제 제출물 기술 평가",
+      "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-015-08",
-      "type": "Task",
-      "name": "1차 기술 평가(Flutter + Firebase)",
-      "status": "todo",
-      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-08_1차_기술_평가.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-015-09",
-      "type": "Task",
-      "name": "주니어 개발자 기술 리뷰 1:1 면접 진행",
-      "status": "todo",
-      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-015-10",
-      "type": "Task",
-      "name": "파일럿 프로젝트 계약서 작성",
-      "status": "todo",
-      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md",
       "conditions_3y": [
         "cond-d"
       ],
@@ -1174,8 +1126,8 @@
     {
       "id": "tsk-015-11",
       "type": "Task",
-      "name": "개발자 온보딩 문서 v1 작성",
-      "status": "todo",
+      "name": "Hiring - 개발자 온보딩 문서 v1 작성",
+      "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md",
       "conditions_3y": [
         "cond-d"
@@ -1186,8 +1138,8 @@
     {
       "id": "tsk-015-12",
       "type": "Task",
-      "name": "개발 환경 세팅 문서",
-      "status": "todo",
+      "name": "Hiring - 개발 환경 세팅 문서",
+      "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md",
       "conditions_3y": [
         "cond-d"
@@ -1198,14 +1150,71 @@
     {
       "id": "tsk-015-13",
       "type": "Task",
-      "name": "Day1 Onboarding 진행",
-      "status": "todo",
+      "name": "Hiring - Day1 Onboarding 진행",
+      "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md",
       "conditions_3y": [
         "cond-d"
       ],
       "priority_flag": "medium",
       "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-05",
+      "type": "Task",
+      "name": "Hiring - 실전 과제 제안 및 안내 발송",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-015-09",
+      "type": "Task",
+      "name": "Hiring - 기술 리뷰 1:1 면접 진행",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-015-10",
+      "type": "Task",
+      "name": "Hiring - 파일럿 프로젝트 계약서 작성",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj-016",
+      "type": "Project",
+      "name": "법인 전환 설립(주) 루프",
+      "status": "planning",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "pgm-hiring",
+      "type": "Program",
+      "name": "채용",
+      "status": "active",
+      "path": "50_Projects/Hiring/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "한명학"
     },
     {
       "id": "pgm-grants",
@@ -1307,8 +1316,56 @@
       "id": "tsk-vault-gpt-01",
       "type": "Task",
       "name": "v1 HTTP MCP 설정",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-dashboard-ux-v1",
+      "type": "Project",
+      "name": "대시보드 UX 개선 v1",
+      "status": "planning",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-01",
+      "type": "Task",
+      "name": "뷰 전환 단축키 (1/2/3)",
+      "status": "planning",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-02",
+      "type": "Task",
+      "name": "대시보드 키보드 단축키",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-03",
+      "type": "Task",
+      "name": "사이드바 엔티티 상세 패널 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1894,7 +1951,17 @@
     },
     {
       "source": "trk-6",
+      "target": "prj-016",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
       "target": "prj-grants-jemi",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-dashboard-ux-v1",
       "type": "parent_of"
     },
     {
@@ -2159,32 +2226,12 @@
     },
     {
       "source": "prj-015",
-      "target": "tsk-015-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-015",
       "target": "tsk-015-06",
       "type": "parent_of"
     },
     {
       "source": "prj-015",
       "target": "tsk-015-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-015",
-      "target": "tsk-015-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-015",
-      "target": "tsk-015-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-015",
-      "target": "tsk-015-10",
       "type": "parent_of"
     },
     {
@@ -2200,6 +2247,21 @@
     {
       "source": "prj-015",
       "target": "tsk-015-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
+      "target": "tsk-015-10",
       "type": "parent_of"
     },
     {
@@ -2220,6 +2282,21 @@
     {
       "source": "prj-vault-gpt",
       "target": "tsk-vault-gpt-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-03",
       "type": "parent_of"
     },
     {
@@ -3085,6 +3162,10 @@
       "tsk-007-03",
       "tsk-007-02",
       "prj-014",
+      "prj-dashboard-ux-v1",
+      "tsk-dashboard-ux-v1-01",
+      "tsk-dashboard-ux-v1-02",
+      "tsk-dashboard-ux-v1-03",
       "trk-6"
     ],
     "cond-d": [
@@ -3119,15 +3200,15 @@
       "tsk-015-02",
       "tsk-015-03",
       "tsk-015-04",
-      "tsk-015-05",
       "tsk-015-06",
       "tsk-015-07",
-      "tsk-015-08",
-      "tsk-015-09",
-      "tsk-015-10",
       "tsk-015-11",
       "tsk-015-12",
       "tsk-015-13",
+      "tsk-015-05",
+      "tsk-015-09",
+      "tsk-015-10",
+      "prj-016",
       "prj-grants-jemi",
       "trk-4",
       "trk-5"
@@ -3212,9 +3293,11 @@
       "prj-008",
       "prj-014",
       "prj-015",
+      "prj-016",
       "prj-grants-jemi",
       "prj-yt-w33",
-      "prj-vault-gpt"
+      "prj-vault-gpt",
+      "prj-dashboard-ux-v1"
     ],
     "Task": [
       "tsk-003-01",
@@ -3265,22 +3348,25 @@
       "tsk-015-02",
       "tsk-015-03",
       "tsk-015-04",
-      "tsk-015-05",
       "tsk-015-06",
       "tsk-015-07",
-      "tsk-015-08",
-      "tsk-015-09",
-      "tsk-015-10",
       "tsk-015-11",
       "tsk-015-12",
       "tsk-015-13",
+      "tsk-015-05",
+      "tsk-015-09",
+      "tsk-015-10",
       "tsk-grants-jemi-01",
       "tsk-014-02",
       "tsk-014-03",
       "tsk-014-04",
-      "tsk-vault-gpt-01"
+      "tsk-vault-gpt-01",
+      "tsk-dashboard-ux-v1-01",
+      "tsk-dashboard-ux-v1-02",
+      "tsk-dashboard-ux-v1-03"
     ],
     "Program": [
+      "pgm-hiring",
       "pgm-grants",
       "pgm-youtube-weekly",
       "pgm-vault-system"
@@ -3407,7 +3493,10 @@
       "tsk-002-10",
       "tsk-002-06",
       "tsk-002-07",
+      "prj-016",
       "prj-grants-jemi",
+      "prj-dashboard-ux-v1",
+      "tsk-dashboard-ux-v1-01",
       "trk-5",
       "cond-c",
       "pl-2",
@@ -3432,6 +3521,8 @@
       "prj-012",
       "prj-008",
       "prj-014",
+      "prj-015",
+      "pgm-hiring",
       "pgm-grants",
       "pgm-youtube-weekly",
       "prj-yt-w33",
@@ -3458,16 +3549,7 @@
       "tsk-008-03",
       "tsk-008-02",
       "tsk-008-05",
-      "tsk-014-01",
-      "tsk-015-05",
-      "tsk-015-06",
-      "tsk-015-07",
-      "tsk-015-08",
-      "tsk-015-09",
-      "tsk-015-10",
-      "tsk-015-11",
-      "tsk-015-12",
-      "tsk-015-13"
+      "tsk-014-01"
     ],
     "done": [
       "tsk-010-02",
@@ -3481,21 +3563,27 @@
       "tsk-002-01",
       "tsk-002-04",
       "tsk-002-03",
+      "tsk-008-04",
       "tsk-015-01",
       "tsk-015-02",
       "tsk-015-03",
       "tsk-015-04",
+      "tsk-015-06",
+      "tsk-015-07",
+      "tsk-015-11",
+      "tsk-015-12",
+      "tsk-015-13",
+      "tsk-015-05",
+      "tsk-015-09",
+      "tsk-015-10",
+      "tsk-vault-gpt-01",
+      "tsk-dashboard-ux-v1-03",
       "retro:2025-annual"
     ],
-    "in_progress": [
+    "doing": [
       "tsk-010-01",
-      "tsk-012-01",
-      "tsk-008-01",
-      "prj-015",
-      "cond-b",
-      "cond-d",
-      "cond-e",
-      "cond-a"
+      "tsk-grants-jemi-01",
+      "tsk-dashboard-ux-v1-02"
     ],
     "pending": [
       "tsk-001-01",
@@ -3503,10 +3591,13 @@
       "tsk-014-03",
       "tsk-014-04"
     ],
-    "doing": [
-      "tsk-008-04",
-      "tsk-grants-jemi-01",
-      "tsk-vault-gpt-01"
+    "in_progress": [
+      "tsk-012-01",
+      "tsk-008-01",
+      "cond-b",
+      "cond-d",
+      "cond-e",
+      "cond-a"
     ],
     "validating": [
       "mh-3",

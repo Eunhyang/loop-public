@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: tsk-008-04
 entity_name: 꼭꼭 앱 Onboarding UI/UX 리뷰
 created: 2025-12-23
-updated: '2025-12-25'
-status: doing
+updated: '2025-12-26'
+status: done
 parent_id: prj-008
 project_id: prj-008
 aliases:

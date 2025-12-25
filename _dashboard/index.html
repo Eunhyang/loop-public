@@ -266,6 +266,46 @@
         </div>
     </div>
 
+    <!-- Keyboard Shortcuts Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h2>Keyboard Shortcuts</h2>
+                <button class="modal-close" id="helpModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="shortcuts-list">
+                    <div class="shortcut-section">
+                        <h4>Views</h4>
+                        <div class="shortcut-item"><kbd>1</kbd> Kanban View</div>
+                        <div class="shortcut-item"><kbd>2</kbd> Calendar View</div>
+                        <div class="shortcut-item"><kbd>3</kbd> Graph View</div>
+                    </div>
+                    <div class="shortcut-section">
+                        <h4>Filters</h4>
+                        <div class="shortcut-item"><kbd>F</kbd> Toggle Filter Panel</div>
+                        <div class="shortcut-item"><kbd>R</kbd> Reset All Filters</div>
+                    </div>
+                    <div class="shortcut-section">
+                        <h4>Members</h4>
+                        <div class="shortcut-item"><kbd>Shift</kbd>+<kbd>E</kbd> 김은향</div>
+                        <div class="shortcut-item"><kbd>Shift</kbd>+<kbd>M</kbd> 한명학</div>
+                        <div class="shortcut-item"><kbd>Shift</kbd>+<kbd>A</kbd> All Members</div>
+                    </div>
+                    <div class="shortcut-section">
+                        <h4>Navigation</h4>
+                        <div class="shortcut-item"><kbd>Cmd/Ctrl</kbd>+<kbd>K</kbd> Quick Search</div>
+                        <div class="shortcut-item"><kbd>Esc</kbd> Close Modal/Panel</div>
+                        <div class="shortcut-item"><kbd>?</kbd> Show This Help</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="helpModalClose2">Got it!</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Quick Search Modal (Cmd+K) -->
     <div class="quick-search-overlay" id="quickSearchOverlay">
         <div class="quick-search-modal" id="quickSearchModal">
@@ -347,6 +387,16 @@
                         <input type="date" id="filterDueDateStart" placeholder="Start">
                         <span class="date-separator">~</span>
                         <input type="date" id="filterDueDateEnd" placeholder="End">
+                    </div>
+                    <!-- Quick Date Filter Buttons -->
+                    <div class="quick-date-filter" id="quickDateFilter">
+                        <div class="quick-date-tabs">
+                            <button class="quick-date-tab active" data-tab="week">Week</button>
+                            <button class="quick-date-tab" data-tab="month">Month</button>
+                        </div>
+                        <div class="quick-date-buttons" id="quickDateButtons">
+                            <!-- Dynamically populated -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -608,6 +658,20 @@
         </div>
     </aside>
 
+    <!-- Entity Detail Side Panel (Track, Condition, Hypothesis) -->
+    <div class="panel-overlay" id="entityPanelOverlay"></div>
+    <aside class="side-panel entity-panel" id="entityPanel">
+        <div class="panel-header">
+            <h2 id="entityPanelTitle">Entity Detail</h2>
+            <div class="panel-header-actions">
+                <button class="panel-close" id="entityPanelClose">&times;</button>
+            </div>
+        </div>
+        <div class="panel-body" id="entityPanelBody">
+            <!-- Dynamically populated by EntityDetailPanel -->
+        </div>
+    </aside>
+
     <!-- Scripts -->
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
@@ -623,6 +687,7 @@
     <script src="js/components/task-panel.js"></script>
     <script src="js/components/project-panel.js"></script>
     <script src="js/components/program-panel.js"></script>
+    <script src="js/components/entity-panel.js"></script>
     <script src="js/components/filter-panel.js"></script>
     <script src="js/components/graph.js"></script>
     <script src="js/components/graphDetailPanel.js"></script>

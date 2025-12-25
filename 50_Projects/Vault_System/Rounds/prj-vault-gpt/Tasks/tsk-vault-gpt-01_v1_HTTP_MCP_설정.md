@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: tsk-vault-gpt-01
 entity_name: v1 HTTP MCP 설정
 created: 2025-12-25
-updated: '2025-12-25'
-status: doing
+updated: '2025-12-26'
+status: done
 project_id: prj-vault-gpt
 assignee: 김은향
 start_date: '2025-12-25'

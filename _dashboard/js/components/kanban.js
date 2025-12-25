@@ -257,8 +257,33 @@ const Kanban = {
             card.addEventListener('click', (e) => {
                 // Don't open panel if clicking on buttons or select
                 if (e.target.closest('.task-actions')) return;
+                // Don't open task panel if clicking on clickable entity links
+                if (e.target.closest('.clickable')) return;
                 const taskId = card.dataset.id;
                 TaskPanel.open(taskId);
+            });
+        });
+
+        // Clickable entity links (Project, Track, Condition, Hypothesis)
+        document.querySelectorAll('.task-card .clickable').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const entityType = el.dataset.entityType;
+                const entityId = el.dataset.entityId;
+                if (!entityType || !entityId) return;
+
+                switch (entityType) {
+                    case 'Project':
+                        ProjectPanel.open(entityId);
+                        break;
+                    case 'Track':
+                    case 'Condition':
+                    case 'Hypothesis':
+                        if (typeof EntityDetailPanel !== 'undefined') {
+                            EntityDetailPanel.open(entityType, entityId);
+                        }
+                        break;
+                }
             });
         });
 

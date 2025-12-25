@@ -23,6 +23,10 @@ priority: medium
 estimated_hours: null
 actual_hours: null
 
+# === Task 유형 (dev Task 연동용) ===
+type: {{TYPE}}                   # dev | strategy | research | ops | null
+target_project: {{TARGET_PROJECT}}  # type=dev일 때만: sosi | kkokkkok | loop-api | null
+
 # === 3Y 전략 연결 (필수) ===
 conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 

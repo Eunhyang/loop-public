@@ -51,6 +51,7 @@ async function init() {
         TaskPanel.init();
         ProjectPanel.init();
         ProgramPanel.init();
+        EntityDetailPanel.init();
         FilterPanel.init();
 
         // Initialize Graph
@@ -189,12 +190,90 @@ function setupEventListeners() {
 
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
+        // Escape: Close modals/panels
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
             TaskPanel.close();
             ProjectPanel.close();
+            return;
+        }
+
+        // Skip shortcuts when typing in input/textarea or modal is open
+        const isTyping = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+        const modalOpen = document.querySelector('.modal-overlay.active');
+        const panelOpen = document.querySelector('.side-panel.active');
+        if (isTyping || modalOpen || panelOpen) return;
+
+        // View switching: 1=Kanban, 2=Calendar, 3=Graph
+        if (e.key === '1') { switchView('kanban'); return; }
+        if (e.key === '2') { switchView('calendar'); return; }
+        if (e.key === '3') { switchView('graph'); return; }
+
+        // Filter shortcuts: F=Toggle, R=Reset
+        if (e.key === 'f' || e.key === 'F') {
+            FilterPanel.toggle();
+            return;
+        }
+        if (e.key === 'r' || e.key === 'R') {
+            FilterPanel.reset();
+            showToast('Filters reset', 'info');
+            return;
+        }
+
+        // Help modal: ?
+        if (e.key === '?') {
+            openHelpModal();
+            return;
+        }
+
+        // Member filter shortcuts: Shift+E/M/A
+        if (e.shiftKey) {
+            if (e.key === 'E') {
+                setMemberFilter('김은향');
+                return;
+            }
+            if (e.key === 'M') {
+                setMemberFilter('한명학');
+                return;
+            }
+            if (e.key === 'A') {
+                setMemberFilter('all');
+                return;
+            }
         }
     });
+
+    // Help Modal event listeners
+    document.getElementById('helpModalClose')?.addEventListener('click', closeHelpModal);
+    document.getElementById('helpModalClose2')?.addEventListener('click', closeHelpModal);
+}
+
+// ============================================
+// Help Modal
+// ============================================
+function openHelpModal() {
+    document.getElementById('helpModal').classList.add('active');
+}
+
+function closeHelpModal() {
+    document.getElementById('helpModal').classList.remove('active');
+}
+
+// ============================================
+// Member Filter
+// ============================================
+function setMemberFilter(memberId) {
+    State.currentAssignee = memberId;
+
+    // Re-render UI
+    Tabs.render();
+    Kanban.renderProjectFilter();
+    Kanban.render();
+    Calendar.refresh();
+
+    // Show toast
+    const label = memberId === 'all' ? 'All Members' : memberId;
+    showToast(`Filter: ${label}`, 'info');
 }
 
 // ============================================

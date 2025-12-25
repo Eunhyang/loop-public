@@ -286,6 +286,12 @@
 .task-card.priority-medium { border-left-color: #eab308; }
 .task-card.priority-low { border-left-color: #22c55e; }
 
+/* Task Type Background Colors (베이지/누드톤) */
+.task-card.type-dev { background: #F5F0E8; }
+.task-card.type-strategy { background: #F0EBE3; }
+.task-card.type-research { background: #EDE8E0; }
+.task-card.type-ops { background: #F8F4EF; }
+
 .task-name {
     font-weight: 600;
     margin-bottom: 6px;
@@ -346,6 +352,32 @@
 .relation-value.track { color: #8b5cf6; }
 .relation-value.validates { color: #06b6d4; }
 .relation-value.condition { color: #f59e0b; }
+
+/* Clickable entity links */
+.clickable {
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    border-radius: 4px;
+}
+
+.clickable:hover {
+    background: rgba(102, 126, 234, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-project.clickable {
+    display: inline-block;
+}
+
+.task-project.clickable:hover {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+.relation-value.clickable:hover {
+    padding: 1px 4px;
+    margin: -1px -4px;
+}
 
 /* ============================================
    Task Meta & Actions

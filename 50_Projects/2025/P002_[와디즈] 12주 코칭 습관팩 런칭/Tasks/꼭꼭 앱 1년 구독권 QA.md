@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-002-05
 entity_name: 꼭꼭 앱 1년 구독권 QA
 created: 2025-12-18
-updated: '2025-12-25'
+updated: '2025-12-26'
 status: planning
 parent_id: prj-002
 project_id: prj-002
@@ -15,7 +15,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2025-12-25'
+due: '2025-12-26'
 priority: high
 estimated_hours: null
 actual_hours: null
@@ -24,7 +24,7 @@ conditions_3y:
 - cond-d
 tags: []
 priority_flag: high
-start_date: '2025-12-25'
+start_date: '2025-12-26'
 ---
 # 꼭꼭 앱 1년 구독권 QA
 

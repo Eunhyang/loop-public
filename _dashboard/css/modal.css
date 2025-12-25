@@ -149,3 +149,46 @@
         padding: 16px;
     }
 }
+
+/* ============================================
+   Keyboard Shortcuts Help
+   ============================================ */
+.shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.shortcut-section h4 {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    font-size: 0.95em;
+    color: #444;
+}
+
+.shortcut-item kbd {
+    display: inline-block;
+    padding: 4px 8px;
+    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    font-size: 0.85em;
+    color: #333;
+    background: #f4f4f4;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    min-width: 24px;
+    text-align: center;
+}

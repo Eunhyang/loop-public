@@ -9,9 +9,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Python 의존성 설치
 COPY pyproject.toml ./
-RUN pip install --no-cache-dir pyyaml fastapi uvicorn python-multipart fastapi-mcp
+RUN pip install --no-cache-dir \
+    pyyaml \
+    fastapi \
+    uvicorn \
+    python-multipart \
+    fastapi-mcp \
+    # OAuth dependencies
+    bcrypt \
+    python-jose[cryptography] \
+    jinja2 \
+    sqlalchemy
 
-# API 코드 복사
+# API 코드 및 템플릿 복사
 COPY api/ ./api/
 
 # 포트 노출

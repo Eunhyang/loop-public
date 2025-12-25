@@ -360,13 +360,35 @@ tags: [ontology/entity, version/v0-1, core]
 
 ---
 
+## Entity Creation Rules (MANDATORY)
+
+> **Task/Project 생성 시 반드시 `loop-entity-creator` 스킬 사용**
+
+### 금지 사항 (NEVER DO)
+- ❌ Write tool로 Task/Project 파일 직접 생성
+- ❌ 템플릿 없이 frontmatter 수동 작성
+- ❌ entity_id 수동 지정
+- ❌ Naming convention 무시 (`[Category] - [Detail]` 형식 필수)
+
+### 필수 사항 (ALWAYS DO)
+- ✅ `/new-task` 또는 `/new-project` 명령 사용
+- ✅ 또는 `loop-entity-creator` 스킬 직접 호출
+- ✅ Naming convention 준수: `Hiring - 주니어 개발자`, `API - 캐시 구현` 등
+- ✅ 생성 후 validation 스크립트 실행
+
+### Valid Project Status
+`planning` | `active` | `paused` | `done` | `cancelled`
+- ❌ `in_progress` 사용 금지
+
+---
+
 ## Using the loop-entity-creator Skill
 
 The `loop-entity-creator` skill is a managed skill that automates Task and Project creation with proper ID generation, schema validation, and graph index updates.
 
 ### When to Use This Skill
 
-Use this skill when:
+**MANDATORY** - Always use this skill when:
 - User asks to "create a new task" or "create a new project"
 - User wants to add a task to an existing project
 - User needs to edit or delete Tasks/Projects
@@ -467,9 +489,10 @@ For more details, see:
 ## Dashboard + API Architecture
 
 > **Production Dashboard**: https://kanban.sosilab.synology.me/ (항상 여기서 확인)
+> **API Server**: https://mcp.sosilab.synology.me/ (Dashboard/MCP 통합 엔드포인트)
 
 **Dashboard** (`_dashboard/index.html`): SPA with Kanban, Calendar, Strategy Graph views
-**API Server**: FastAPI on port 8081 with in-memory cache (see `api/README.md`)
+**API Server**: FastAPI via Docker with in-memory cache (see `api/README.md`)
 
 ```
 Developer (MacBook Obsidian)
@@ -479,6 +502,28 @@ Synology NAS (/volume1/vault/LOOP)
     ↓ _dashboard/ → Web Station (port 8080)
 Team Members (Browser: http://nas-ip:8080)
 ```
+
+### API Endpoints Reference
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/tasks` | GET/POST | Task 목록/생성 |
+| `/api/tasks/{id}` | PUT/DELETE | Task 수정/삭제 |
+| `/api/projects` | GET/POST | Project 목록/생성 |
+| `/api/projects/{id}` | GET | Project 상세 |
+| `/api/programs` | GET | Program 목록 |
+| `/api/tracks` | GET | Track 목록 |
+| `/api/hypotheses` | GET | Hypothesis 목록 |
+| `/api/conditions` | GET | Condition 목록 |
+| `/api/strategy/northstar` | GET | North Star 정보 |
+| `/api/strategy/metahypotheses` | GET | Meta Hypotheses 목록 |
+| `/api/files/` | GET | 디렉토리 목록 |
+| `/api/files/{path}` | GET | 파일 내용 읽기 |
+| `/api/search?q=` | GET | Vault 전체 검색 |
+| `/api/members` | GET | 멤버 목록 |
+| `/api/cache/stats` | GET | 캐시 통계 |
+| `/api/cache/reload` | POST | 캐시 강제 갱신 |
+| `/health` | GET | Health check |
 
 **Key API design patterns**:
 - `VaultCache` singleton with O(1) lookups, TTL-based change detection
@@ -511,7 +556,8 @@ Synology NAS (/volume1/LOOP_CORE/vault/LOOP)
 |-----|------|
 | `Dockerfile` | Python 3.11 + FastAPI + fastapi-mcp |
 | `docker-compose.yml` | 컨테이너 구성 (참고용) |
-| `api/main.py` | MCP 마운트 (`FastApiMCP`) |
+| `api/main.py` | MCP 마운트 (`FastApiMCP`) + OAuth endpoints |
+| `api/oauth/` | OAuth 2.0 models (Dynamic Client Registration) |
 
 ### 관리 명령어
 
@@ -671,7 +717,7 @@ Available skills in `.claude/skills/`:
 | `llm-vault-optimizer` | Optimize vault structure for LLM navigation |
 | `auto-fill-project-impact` | Fill expected_impact via AI analysis |
 | `retrospective-to-evidence` | Convert retro notes to structured Evidence |
-| `doc-init` | Initialize documentation structure |
+| `doc-init` | 범용 프로젝트 문서 초기화 (doc/{프로젝트}/todo.md, techspec.md) |
 
 ---
 
@@ -689,8 +735,13 @@ Located in `scripts/`, these are typically used once for data migrations-
 ---
 
 **Last updated**: 2025-12-25
-**Document version**: 5.5
+**Document version**: 5.6
 **Author**: Claude Code
+
+**Changes (v5.6)**:
+- Added API Endpoints Reference table with all REST endpoints
+- Added `/api/files` and `/api/search` endpoints documentation
+- Noted OAuth directory (`api/oauth/`) for ChatGPT MCP integration
 
 **Changes (v5.5)**:
 - Added MCP Server (ChatGPT Integration) section

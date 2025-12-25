@@ -38,11 +38,14 @@ const TaskCard = {
             ? `<a href="${obsidianUri}" class="btn-small btn-obsidian" title="Open in Obsidian" onclick="event.stopPropagation()">📝</a>`
             : '';
 
+        const taskType = task.type || '';
+        const typeClass = taskType ? `type-${taskType}` : '';
+
         return `
-            <div class="task-card priority-${priority}" data-id="${task.entity_id}" draggable="true">
+            <div class="task-card priority-${priority} ${typeClass}" data-id="${task.entity_id}" draggable="true">
                 <div class="task-name">${task.entity_name || 'Untitled'}</div>
                 <div class="task-id">${task.entity_id}</div>
-                <div class="task-project">${projectName}</div>
+                <div class="task-project clickable" data-entity-type="Project" data-entity-id="${task.project_id || ''}">${projectName}</div>
 
                 ${relations ? `<div class="task-relations">${relations}</div>` : ''}
 

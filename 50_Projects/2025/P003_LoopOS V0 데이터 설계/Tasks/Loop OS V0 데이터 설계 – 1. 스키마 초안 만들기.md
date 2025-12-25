@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-003-01
 entity_name: Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기
 created: 2025-12-18
-updated: '2025-12-25'
+updated: '2025-12-26'
 status: todo
 parent_id: prj-003
 project_id: prj-003
@@ -15,7 +15,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2025-12-24'
+due: '2025-12-26'
 priority: high
 estimated_hours: null
 actual_hours: null
@@ -23,7 +23,7 @@ conditions_3y:
 - cond-b
 tags: []
 priority_flag: high
-start_date: '2025-12-24'
+start_date: '2025-12-26'
 notes: '# Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기
 
 

@@ -43,7 +43,11 @@ const State = {
             priority: ['critical', 'high', 'medium', 'low'],
             dueDateStart: null,
             dueDateEnd: null,
-            showInactive: false  // activate: false 엔티티 숨김 (기본값)
+            showInactive: false,  // activate: false 엔티티 숨김 (기본값)
+            // Quick Date Filter
+            quickDateMode: 'week',  // 'week' or 'month'
+            selectedWeeks: [],      // e.g., ['2024-W52', '2025-W01']
+            selectedMonths: []      // e.g., ['2024-11', '2024-12', '2025-01']
         },
         showInactiveMembers: false  // active: false 멤버 숨김 (기본값)
     },
@@ -278,7 +282,7 @@ const State = {
             return this.filters.task.priority.includes(priority);
         });
 
-        // Apply due date filter
+        // Apply due date filter (manual date range)
         if (this.filters.task.dueDateStart) {
             const startDate = new Date(this.filters.task.dueDateStart);
             filtered = filtered.filter(t => {
@@ -293,6 +297,9 @@ const State = {
                 return new Date(t.due_date) <= endDate;
             });
         }
+
+        // Apply quick date filter (week/month buttons)
+        filtered = filtered.filter(t => this.passesQuickDateFilter(t));
 
         return filtered;
     },
@@ -495,7 +502,11 @@ const State = {
                 priority: [...this.getPriorities()],
                 dueDateStart: null,
                 dueDateEnd: null,
-                showInactive: false
+                showInactive: false,
+                // Reset quick date filter
+                quickDateMode: 'week',
+                selectedWeeks: [],
+                selectedMonths: []
             },
             showInactiveMembers: false
         };
@@ -508,5 +519,167 @@ const State = {
         } else {
             this.filters.task.dueDateEnd = value || null;
         }
+    },
+
+    // ============================================
+    // Quick Date Filter Helpers
+    // ============================================
+
+    // Get ISO week number for a date (ISO 8601)
+    getISOWeek(date) {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0);
+        d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+        const yearStart = new Date(d.getFullYear(), 0, 1);
+        const weekNum = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        return { year: d.getFullYear(), week: weekNum };
+    },
+
+    // Get week key string (e.g., "2024-W52")
+    getWeekKey(date) {
+        const { year, week } = this.getISOWeek(date);
+        return `${year}-W${String(week).padStart(2, '0')}`;
+    },
+
+    // Get month key string (e.g., "2024-12")
+    getMonthKey(date) {
+        const d = new Date(date);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    },
+
+    // Get current week key
+    getCurrentWeek() {
+        return this.getWeekKey(new Date());
+    },
+
+    // Get current month key
+    getCurrentMonth() {
+        return this.getMonthKey(new Date());
+    },
+
+    // Get week range (current week +/- offset weeks)
+    getWeekRange(offsetBefore = 2, offsetAfter = 2) {
+        const weeks = [];
+        const today = new Date();
+
+        for (let i = -offsetBefore; i <= offsetAfter; i++) {
+            const d = new Date(today);
+            d.setDate(d.getDate() + (i * 7));
+            const key = this.getWeekKey(d);
+            const { year, week } = this.getISOWeek(d);
+
+            // Display format: M12W1 (Month 12, Week 1 of month)
+            const monthWeek = this.getMonthWeekDisplay(d);
+
+            if (!weeks.find(w => w.key === key)) {
+                weeks.push({
+                    key,
+                    label: monthWeek,
+                    isCurrent: i === 0
+                });
+            }
+        }
+        return weeks;
+    },
+
+    // Get display format for week: M12W1
+    getMonthWeekDisplay(date) {
+        const d = new Date(date);
+        const month = d.getMonth() + 1;
+        // Get week number within month
+        const firstDay = new Date(d.getFullYear(), d.getMonth(), 1);
+        const weekOfMonth = Math.ceil((d.getDate() + firstDay.getDay()) / 7);
+        return `M${month}W${weekOfMonth}`;
+    },
+
+    // Get month range (current month +/- offset months)
+    getMonthRange(offsetBefore = 1, offsetAfter = 1) {
+        const months = [];
+        const today = new Date();
+
+        for (let i = -offsetBefore; i <= offsetAfter; i++) {
+            const d = new Date(today.getFullYear(), today.getMonth() + i, 1);
+            const key = this.getMonthKey(d);
+            const month = d.getMonth() + 1;
+
+            months.push({
+                key,
+                label: String(month),  // Just the month number
+                isCurrent: i === 0
+            });
+        }
+        return months;
+    },
+
+    // Check if a date falls within a week key
+    isDateInWeek(dateStr, weekKey) {
+        if (!dateStr) return false;
+        const taskWeek = this.getWeekKey(new Date(dateStr));
+        return taskWeek === weekKey;
+    },
+
+    // Check if a date falls within a month key
+    isDateInMonth(dateStr, monthKey) {
+        if (!dateStr) return false;
+        const taskMonth = this.getMonthKey(new Date(dateStr));
+        return taskMonth === monthKey;
+    },
+
+    // Set quick date mode (week or month)
+    setQuickDateMode(mode) {
+        this.filters.task.quickDateMode = mode;
+    },
+
+    // Toggle week selection
+    toggleWeek(weekKey) {
+        const idx = this.filters.task.selectedWeeks.indexOf(weekKey);
+        if (idx > -1) {
+            this.filters.task.selectedWeeks.splice(idx, 1);
+        } else {
+            this.filters.task.selectedWeeks.push(weekKey);
+        }
+    },
+
+    // Toggle month selection
+    toggleMonth(monthKey) {
+        const idx = this.filters.task.selectedMonths.indexOf(monthKey);
+        if (idx > -1) {
+            this.filters.task.selectedMonths.splice(idx, 1);
+        } else {
+            this.filters.task.selectedMonths.push(monthKey);
+        }
+    },
+
+    // Check if task passes quick date filter
+    passesQuickDateFilter(task) {
+        const mode = this.filters.task.quickDateMode;
+        const selectedWeeks = this.filters.task.selectedWeeks;
+        const selectedMonths = this.filters.task.selectedMonths;
+
+        // If no quick filters selected, pass all
+        if (mode === 'week' && selectedWeeks.length === 0) return true;
+        if (mode === 'month' && selectedMonths.length === 0) return true;
+
+        const dueDate = task.due_date || task.due;
+        if (!dueDate) return false;  // No due date = doesn't match
+
+        if (mode === 'week') {
+            return selectedWeeks.some(wk => this.isDateInWeek(dueDate, wk));
+        } else {
+            return selectedMonths.some(mk => this.isDateInMonth(dueDate, mk));
+        }
+    },
+
+    // Initialize with current week selected by default
+    initQuickDateFilter() {
+        const currentWeek = this.getCurrentWeek();
+        this.filters.task.selectedWeeks = [currentWeek];
+        this.filters.task.selectedMonths = [];
+    },
+
+    // Clear quick date filter
+    clearQuickDateFilter() {
+        this.filters.task.selectedWeeks = [];
+        this.filters.task.selectedMonths = [];
     }
 };

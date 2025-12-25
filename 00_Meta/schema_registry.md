@@ -183,6 +183,10 @@ priority: string                 # low | medium | high
 estimated_hours: number | null   # 예상 시간
 actual_hours: number | null      # 실제 시간
 
+# === Task 유형 (dev Task 연동용) ===
+type: string | null              # dev | strategy | research | ops (기본: null)
+target_project: string | null    # type=dev일 때만: sosi | kkokkkok | loop-api
+
 # === 완료/아카이브 관련 ===
 closed: date | null              # 실제 완료/종료일 (status 변경 시 기록)
 archived_at: date | null         # 아카이브 이동일 (스크립트 자동 기록)
@@ -270,6 +274,8 @@ outcome: string | null           # positive | negative | inconclusive | null
 - `project_id`: required, must match parent Project
 - `assignee`: required
 - `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
+- `type`: optional, one of: dev | strategy | research | ops
+- `target_project`: optional, required when type=dev, one of: sosi | kkokkkok | loop-api
 - `closed`: required when status IN (done, failed, learning)
 - `archived_at`: 스크립트 자동 기록 (수동 편집 금지)
 - `closed_inferred`: optional, 값 = `updated` | `git_commit_date` | `today`
@@ -401,9 +407,14 @@ aliases:
 
 ---
 
-**Version**: 3.7
-**Last Updated**: 2025-12-22
-**Validated by**: Codex (gpt-5-codex, high reasoning)
+**Version**: 3.8
+**Last Updated**: 2025-12-26
+**Validated by**: Claude Opus 4.5
+
+**Changes (v3.8)**:
+- Task: `type` 필드 추가 (dev | strategy | research | ops)
+- Task: `target_project` 필드 추가 (sosi | kkokkkok | loop-api)
+- Dev Task 연동: 외부 Flutter 프로젝트 Git 브랜치와 LOOP Task 연결 지원
 
 **Changes (v3.7)**:
 - Program (pgm-*): 새 entity_type 추가 (상시 운영 프로그램)

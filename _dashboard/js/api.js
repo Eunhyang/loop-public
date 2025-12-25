@@ -3,7 +3,7 @@
  * 모든 API 호출을 담당
  */
 const API = {
-    baseUrl: '',
+    baseUrl: 'https://mcp.sosilab.synology.me',
 
     // 토큰 관리
     getToken() {

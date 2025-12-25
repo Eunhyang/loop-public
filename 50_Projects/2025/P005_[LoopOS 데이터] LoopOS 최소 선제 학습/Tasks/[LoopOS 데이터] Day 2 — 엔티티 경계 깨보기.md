@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-005-05
 entity_name: '[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기'
 created: 2025-12-18
-updated: '2025-12-23'
+updated: '2025-12-26'
 status: todo
 parent_id: prj-005
 project_id: prj-005
@@ -15,7 +15,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: 2025-12-14
+due: '2026-01-03'
 priority: high
 estimated_hours: null
 actual_hours: null
@@ -23,6 +23,7 @@ conditions_3y:
 - cond-b
 tags: []
 priority_flag: high
+start_date: '2026-01-03'
 ---
 # [LoopOS 데이터] Day 2 — 엔티티 경계 깨보기
 

@@ -2,8 +2,8 @@
 entity_type: Index
 entity_id: idx:60_hypotheses
 entity_name: 가설 인덱스
-created: 2025-12-25
-updated: 2025-12-25
+created: 2025-12-26
+updated: 2025-12-26
 auto_generated: true
 purpose: LLM-optimized index for 60_Hypotheses
 tags: ["meta", "index", "auto-generated"]
@@ -77,5 +77,5 @@ tags: ["meta", "index", "auto-generated"]
 
 ---
 
-**Auto-generated**: 2025-12-25
+**Auto-generated**: 2025-12-26
 **Script**: scripts/build_graph_index.py

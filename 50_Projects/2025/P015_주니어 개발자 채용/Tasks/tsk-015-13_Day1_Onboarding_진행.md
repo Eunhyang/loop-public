@@ -1,36 +1,28 @@
 ---
 entity_type: Task
-entity_id: "tsk-015-13"
-entity_name: "Day1 Onboarding 진행"
+entity_id: tsk-015-13
+entity_name: Hiring - Day1 Onboarding 진행
 created: 2025-12-25
-updated: 2025-12-25
-status: todo
-
-# === 계층 ===
-parent_id: "prj-015"
-project_id: "prj-015"
-aliases: ["tsk-015-13"]
-
-# === 관계 ===
+updated: '2025-12-25'
+status: done
+parent_id: prj-015
+project_id: prj-015
+aliases:
+- tsk-015-13
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "한명학"
+assignee: 한명학
 due: null
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-d"]
-
-# === 분류 ===
-tags: ["imported/notion"]
+conditions_3y:
+- cond-d
+tags:
+- imported/notion
 priority_flag: medium
 ---
-
 # Day1 Onboarding 진행
 
 > Task ID: `tsk-015-13` | Project: `prj-015` | Status: todo

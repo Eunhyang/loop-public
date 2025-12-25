@@ -48,7 +48,7 @@ cd /volume1/LOOP_CORE/vault/LOOP
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
 /var/packages/ContainerManager/target/usr/bin/docker stop loop-api
 /var/packages/ContainerManager/target/usr/bin/docker rm loop-api
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -e VAULT_DIR=/vault -e TZ=Asia/Seoul loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -e VAULT_DIR=/vault -e OAUTH_DB_PATH=/vault/api/oauth/oauth.db -e TZ=Asia/Seoul loop-api:latest
 " 2>&1'
 ```
 

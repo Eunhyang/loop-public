@@ -34,11 +34,17 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from typing import Optional
 
 from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, files, search
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
+
+# OAuth 2.0 Module (Production)
+from .oauth.routes import router as oauth_router, init_oauth
+from .oauth.jwks import verify_jwt
+from .oauth.security import log_oauth_access
 
 # MCP (Model Context Protocol) 지원
 try:
@@ -74,11 +80,19 @@ app.add_middleware(
 API_TOKEN = "loop_2024_kanban_secret"
 
 # 인증 제외 경로
-PUBLIC_PATHS = ["/", "/health", "/docs", "/openapi.json", "/redoc"]
+PUBLIC_PATHS = [
+    "/", "/health", "/docs", "/openapi.json", "/redoc",
+    # OAuth endpoints (handled by oauth router)
+    "/.well-known/oauth-authorization-server", "/.well-known/jwks.json",
+    "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout"
+]
 PUBLIC_PREFIXES = ["/css", "/js", "/mcp"]  # /mcp: ChatGPT MCP 연동용
 
-# SSE 스트리밍 경로 (BaseHTTPMiddleware 호환성 문제로 별도 처리)
+# SSE 스트리밍 경로 (BaseHTTPMiddleware와 SSE 호환성 문제로 별도 처리)
 SSE_PREFIXES = ["/mcp"]
+
+# MCP 내부 호출 허용 IP (Docker 컨테이너 내부 루프백)
+MCP_TRUSTED_IPS = ["127.0.0.1", "localhost", "::1"]
 
 @app.middleware("http")
 async def auth_middleware(request: Request, call_next):
@@ -89,9 +103,14 @@ async def auth_middleware(request: Request, call_next):
         if path.startswith(prefix):
             return await call_next(request)
 
-    # IP 로깅
+    # IP 확인 (X-Forwarded-For가 없으면 직접 연결 IP 사용)
     client_ip = request.headers.get("x-forwarded-for") or request.client.host
     print(f"CLIENT_IP: {client_ip} | PATH: {path}")
+
+    # MCP 내부 호출은 인증 우회 (127.0.0.1에서 오는 요청)
+    # Docker가 localhost에만 바인딩되어 있으므로 안전
+    if client_ip in MCP_TRUSTED_IPS:
+        return await call_next(request)
 
     # 공개 경로는 인증 제외
     if path in PUBLIC_PATHS:
@@ -104,12 +123,33 @@ async def auth_middleware(request: Request, call_next):
 
     # /api/* 경로는 토큰 검증
     if path.startswith("/api"):
-        token = request.headers.get("x-api-token")
-        if token != API_TOKEN:
-            return JSONResponse(
-                status_code=401,
-                content={"detail": "Unauthorized"}
-            )
+        # 1. OAuth Bearer 토큰 확인 (RS256 JWT)
+        auth_header = request.headers.get("authorization")
+        if auth_header and auth_header.startswith("Bearer "):
+            bearer_token = auth_header[7:]  # "Bearer " 제거
+            jwt_payload = verify_jwt(bearer_token)
+            if jwt_payload:
+                # JWT 유효 - 로그 기록
+                log_oauth_access(
+                    "api",
+                    client_ip,
+                    user_id=jwt_payload.get("sub"),
+                    success=True,
+                    details=f"scope={jwt_payload.get('scope')}"
+                )
+                return await call_next(request)
+
+        # 2. 기존 API 토큰 확인 (대시보드용)
+        api_token = request.headers.get("x-api-token")
+        if api_token == API_TOKEN:
+            return await call_next(request)
+
+        # 인증 실패
+        log_oauth_access("api", client_ip, success=False, details=f"path={path}")
+        return JSONResponse(
+            status_code=401,
+            content={"detail": "Unauthorized", "hint": "Use Bearer token or x-api-token header"}
+        )
 
     return await call_next(request)
 
@@ -123,6 +163,9 @@ app.include_router(conditions.router)
 app.include_router(strategy.router)
 app.include_router(files.router)
 app.include_router(search.router)
+
+# OAuth 2.0 Router (Production - RS256 + PKCE + Login)
+app.include_router(oauth_router)
 
 # ============================================
 # MCP Server (ChatGPT Developer Mode 연동용)
@@ -267,3 +310,13 @@ def openapi_lite():
     }
 
     return lite_spec
+
+
+# ============================================
+# Startup Event
+# ============================================
+@app.on_event("startup")
+async def startup_event():
+    """Initialize OAuth module on startup"""
+    init_oauth()
+    print("LOOP Dashboard API started with Production OAuth 2.0")
