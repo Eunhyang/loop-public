@@ -4,7 +4,7 @@ entity_id: tsk-002-09
 entity_name: 꼭꼭FIT 페이지 UI 업데이트
 created: 2025-12-18
 updated: '2025-12-26'
-status: planning
+status: todo
 parent_id: prj-002
 project_id: prj-002
 aliases:

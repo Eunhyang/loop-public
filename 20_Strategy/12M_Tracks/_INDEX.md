@@ -21,12 +21,12 @@ tags: ["meta", "index", "auto-generated"]
 
 | ID | Name | Status | Owner | Horizon |
 |---|---|---|---|---|
-| `trk-1` | [[Track_1_Product|Track_1_Product]] | active | PM 1 + 개발 1 + 노코드 지원 | 12month |
-| `trk-2` | [[Track_2_Data|Track_2_Data]] | active | Founder + Data Team | 12month |
-| `trk-3` | [[Track_3_Content|Track_3_Content]] | active | 콘텐츠 담당 | 12month |
-| `trk-4` | [[Track_4_Coaching|Track_4_Coaching]] | active | 코치 팀 리드 | 12month |
-| `trk-5` | [[Track_5_Partnership|Track_5_Partnership]] | planning | Founder + BD 담당 | 12month |
-| `trk-6` | [[Track_6_Revenue|Track_6_Revenue]] | active | Founder + 전 팀 | 12month |
+| `trk-1` | [[Track_1_Product|Track_1_Product]] | doing | PM 1 + 개발 1 + 노코드 지원 | 12month |
+| `trk-2` | [[Track_2_Data|Track_2_Data]] | doing | Founder + Data Team | 12month |
+| `trk-3` | [[Track_3_Content|Track_3_Content]] | doing | 콘텐츠 담당 | 12month |
+| `trk-4` | [[Track_4_Coaching|Track_4_Coaching]] | doing | 코치 팀 리드 | 12month |
+| `trk-5` | [[Track_5_Partnership|Track_5_Partnership]] | todo | Founder + BD 담당 | 12month |
+| `trk-6` | [[Track_6_Revenue|Track_6_Revenue]] | doing | Founder + 전 팀 | 12month |
 
 ---
 
@@ -34,8 +34,8 @@ tags: ["meta", "index", "auto-generated"]
 
 | Status | Count |
 |--------|-------|
-| active | 5 |
-| planning | 1 |
+| doing | 5 |
+| todo | 1 |
 
 ---
 

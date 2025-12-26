@@ -4,7 +4,7 @@ entity_id: tsk-002-10
 entity_name: 꼭꼭FIT 강의 페이지 + 과제 페이지 만들기
 created: 2025-12-18
 updated: '2025-12-25'
-status: planning
+status: todo
 parent_id: prj-002
 project_id: prj-002
 aliases:

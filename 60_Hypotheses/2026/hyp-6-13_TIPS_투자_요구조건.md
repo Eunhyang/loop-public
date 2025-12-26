@@ -4,7 +4,7 @@ entity_id: "hyp-6-13"
 entity_name: "TIPS/투자 요구조건 충족"
 created: 2025-12-20
 updated: 2025-12-20
-status: planning
+status: todo
 
 # === 계층 관계 ===
 parent_id: "trk-6"

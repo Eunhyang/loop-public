@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-26T07:35:47.722681",
-  "total_entities": 171,
+  "generated": "2025-12-26T19:50:36.324424",
+  "total_entities": 182,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -13,315 +13,315 @@
       "id": "hyp-1-01",
       "type": "Hypothesis",
       "name": "천천히 먹기: 행동 변화",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-01_천천히먹기_행동변화.md"
     },
     {
       "id": "hyp-1-02",
       "type": "Hypothesis",
       "name": "지속사용",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-02_지속사용.md"
     },
     {
       "id": "hyp-1-03",
       "type": "Hypothesis",
       "name": "행동 변화의 전환 연계",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-03_행동변화_전환연계.md"
     },
     {
       "id": "hyp-1-04",
       "type": "Hypothesis",
       "name": "효과 가시화가 결제를 올림",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-04_효과_가시화_결제.md"
     },
     {
       "id": "hyp-1-05",
       "type": "Hypothesis",
       "name": "앱 단독 vs 코칭 결합 효과",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-05_앱단독_코칭결합_효과.md"
     },
     {
       "id": "hyp-1-06",
       "type": "Hypothesis",
       "name": "세그먼트별 효과 차이",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-06_세그먼트별_효과차이.md"
     },
     {
       "id": "hyp-1-07",
       "type": "Hypothesis",
       "name": "온보딩이 이해→행동을 만든다",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-07_온보딩_이해_행동.md"
     },
     {
       "id": "hyp-1-08",
       "type": "Hypothesis",
       "name": "유료 기능의 사용이 유지의 원인",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-08_유료기능_사용_유지.md"
     },
     {
       "id": "hyp-1-09",
       "type": "Hypothesis",
       "name": "행동변화 지표 3종이 안정",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-09_행동변화_지표_안정.md"
     },
     {
       "id": "hyp-1-10",
       "type": "Hypothesis",
       "name": "결제 전 가치 인지",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-10_결제전_가치인지.md"
     },
     {
       "id": "hyp-1-11",
       "type": "Hypothesis",
       "name": "상품 메시지 2~3개로 수렴",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-1-11_상품메시지_수렴.md"
     },
     {
       "id": "hyp-2-05",
       "type": "Hypothesis",
       "name": "라벨 일관성",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
     },
     {
       "id": "hyp-2-07",
       "type": "Hypothesis",
       "name": "효과지표 산출 자동화",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
     },
     {
       "id": "hyp-2-09",
       "type": "Hypothesis",
       "name": "데이터 품질 리포트가 행동을 바꿈",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md"
     },
     {
       "id": "hyp-2-10",
       "type": "Hypothesis",
       "name": "투자/외부 설득용 신뢰도",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md"
     },
     {
       "id": "hyp-4-02",
       "type": "Hypothesis",
       "name": "GLP-1 과정 수요 재현",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md"
     },
     {
       "id": "hyp-4-08",
       "type": "Hypothesis",
       "name": "코칭 결과물의 상품성",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md"
     },
     {
       "id": "hyp-4-10",
       "type": "Hypothesis",
       "name": "코칭 포지셔닝",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md"
     },
     {
       "id": "hyp-6-02",
       "type": "Hypothesis",
       "name": "전환율 최소선",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-02_전환율_최소선.md"
     },
     {
       "id": "hyp-6-03",
       "type": "Hypothesis",
       "name": "환불/클레임 통제",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md"
     },
     {
       "id": "hyp-6-04",
       "type": "Hypothesis",
       "name": "가격·플랜 최적 조합 존재",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md"
     },
     {
       "id": "hyp-6-05",
       "type": "Hypothesis",
       "name": "유료 유지/이탈",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-05_유료_유지_이탈.md"
     },
     {
       "id": "hyp-6-06",
       "type": "Hypothesis",
       "name": "유료 가치 패키지",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-06_유료_가치패키지.md"
     },
     {
       "id": "hyp-6-07",
       "type": "Hypothesis",
       "name": "코칭→앱 업셀",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-07_코칭_앱업셀.md"
     },
     {
       "id": "hyp-6-08",
       "type": "Hypothesis",
       "name": "앱→코칭 업셀",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-08_앱_코칭업셀.md"
     },
     {
       "id": "hyp-6-11",
       "type": "Hypothesis",
       "name": "운영비 구조가 런웨이를 만든다",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md"
     },
     {
       "id": "hyp-2-03",
       "type": "Hypothesis",
       "name": "데이터 누락률",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-03_데이터_누락률.md"
     },
     {
       "id": "hyp-2-04",
       "type": "Hypothesis",
       "name": "앱+코칭 데이터 결합 가능",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md"
     },
     {
       "id": "hyp-4-01",
       "type": "Hypothesis",
       "name": "심화 과정 수요 재현",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md"
     },
     {
       "id": "hyp-4-03",
       "type": "Hypothesis",
       "name": "완주율",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-03_완주율.md"
     },
     {
       "id": "hyp-4-04",
       "type": "Hypothesis",
       "name": "만족/추천",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-04_만족_추천.md"
     },
     {
       "id": "hyp-4-05",
       "type": "Hypothesis",
       "name": "행동변화",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-05_행동변화.md"
     },
     {
       "id": "hyp-4-06",
       "type": "Hypothesis",
       "name": "운영 표준화",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-06_운영_표준화.md"
     },
     {
       "id": "hyp-4-07",
       "type": "Hypothesis",
       "name": "코치 시간/단가 구조",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md"
     },
     {
       "id": "hyp-6-09",
       "type": "Hypothesis",
       "name": "와디즈/캠페인 효율",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md"
     },
     {
       "id": "hyp-6-10",
       "type": "Hypothesis",
       "name": "효과 증거가 전환을 올림",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-10_효과증거_전환.md"
     },
     {
       "id": "hyp-6-13",
       "type": "Hypothesis",
       "name": "TIPS/투자 요구조건 충족",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
     },
     {
       "id": "hyp-2-06",
       "type": "Hypothesis",
       "name": "패턴 재현율",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
     },
     {
       "id": "hyp-2-08",
       "type": "Hypothesis",
       "name": "데이터로 루프 재구성",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
     },
     {
       "id": "hyp-4-09",
       "type": "Hypothesis",
       "name": "코칭→데이터 엔진",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
     },
     {
       "id": "hyp-6-01",
       "type": "Hypothesis",
       "name": "전면 유료화 성립",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
     },
     {
       "id": "hyp-6-12",
       "type": "Hypothesis",
       "name": "월매출 런웨이 최소선",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
     },
     {
       "id": "hyp-2-01",
       "type": "Hypothesis",
       "name": "스키마 최소세트가 충분",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
     },
     {
       "id": "hyp-2-02",
       "type": "Hypothesis",
       "name": "스키마 안정성",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
     },
     {
       "id": "hyp-6-14",
       "type": "Hypothesis",
       "name": "실제 자금조달 성립",
-      "status": "planning",
+      "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md"
     },
     {
@@ -335,7 +335,7 @@
       "id": "prj-003",
       "type": "Project",
       "name": "LoopOS V0 데이터 설계",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md",
       "conditions_3y": [
         "cond-b"
@@ -359,7 +359,7 @@
       "id": "tsk-003-07",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 6. 저장 전략 결정",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
       "conditions_3y": [
         "cond-b"
@@ -371,7 +371,7 @@
       "id": "tsk-003-03",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
       "conditions_3y": [
         "cond-b"
@@ -383,7 +383,7 @@
       "id": "tsk-003-02",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
       "conditions_3y": [
         "cond-b"
@@ -395,7 +395,7 @@
       "id": "tsk-003-04",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
       "conditions_3y": [
         "cond-b"
@@ -407,7 +407,7 @@
       "id": "tsk-003-05",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
       "conditions_3y": [
         "cond-b"
@@ -419,7 +419,7 @@
       "id": "tsk-003-06",
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
       "conditions_3y": [
         "cond-b"
@@ -431,7 +431,7 @@
       "id": "prj-005",
       "type": "Project",
       "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
       "conditions_3y": [
         "cond-b"
@@ -443,7 +443,7 @@
       "id": "tsk-005-03",
       "type": "Task",
       "name": "[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
       "conditions_3y": [
         "cond-b"
@@ -467,7 +467,7 @@
       "id": "tsk-005-01",
       "type": "Task",
       "name": "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
       "conditions_3y": [
         "cond-b"
@@ -479,7 +479,7 @@
       "id": "tsk-005-04",
       "type": "Task",
       "name": "[LoopOS 데이터] Day 6 — 최소 구현 시작",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
       "conditions_3y": [
         "cond-b"
@@ -491,7 +491,7 @@
       "id": "tsk-005-02",
       "type": "Task",
       "name": "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
       "conditions_3y": [
         "cond-b"
@@ -503,7 +503,7 @@
       "id": "prj-010",
       "type": "Project",
       "name": "[펀딩·마케팅] 와디즈 펀딩",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
       "conditions_3y": [
         "cond-e"
@@ -539,7 +539,7 @@
       "id": "prj-009",
       "type": "Project",
       "name": "[투자/TIPS준비] 배치 프로그램 지원",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
       "conditions_3y": [
         "cond-e"
@@ -551,7 +551,7 @@
       "id": "tsk-009-02",
       "type": "Task",
       "name": "[투자/TIPS준비] 프라이머 배치 프로그램 지원",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 프라이머 배치 프로그램 지원.md",
       "conditions_3y": [
         "cond-e"
@@ -563,7 +563,7 @@
       "id": "tsk-009-01",
       "type": "Task",
       "name": "[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Tasks/[투자TIPS준비] 아이디어파트너스 배치 프로그램 지원.md",
       "conditions_3y": [
         "cond-e"
@@ -623,7 +623,7 @@
       "id": "prj-001",
       "type": "Project",
       "name": "Ontology v0.1",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P001_Ontology/Project_정의.md",
       "conditions_3y": [
         "cond-b"
@@ -635,7 +635,7 @@
       "id": "tsk-001-01",
       "type": "Task",
       "name": "Event 엔티티 검증",
-      "status": "pending",
+      "status": "todo",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md",
       "conditions_3y": [
         "cond-b"
@@ -671,7 +671,7 @@
       "id": "prj-006",
       "type": "Project",
       "name": "코치 1명 구인 & 1차 온보딩 준비",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -736,7 +736,7 @@
       "id": "prj-011",
       "type": "Project",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md",
       "conditions_3y": [
         "cond-c",
@@ -749,7 +749,7 @@
       "id": "tsk-011-01",
       "type": "Task",
       "name": "리크루팅 사이트) 원택님 피드백 반영",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
       "conditions_3y": [
         "cond-c",
@@ -762,7 +762,7 @@
       "id": "prj-004",
       "type": "Project",
       "name": "(프로젝트 없음)",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
       "conditions_3y": [
         "cond-b"
@@ -774,7 +774,7 @@
       "id": "prj-002",
       "type": "Project",
       "name": "[와디즈] 12주 코칭 습관팩 런칭",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -800,7 +800,7 @@
       "id": "tsk-002-05",
       "type": "Task",
       "name": "꼭꼭 앱 1년 구독권 QA",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭 앱 1년 구독권 QA.md",
       "conditions_3y": [
         "cond-b",
@@ -813,7 +813,7 @@
       "id": "tsk-002-09",
       "type": "Task",
       "name": "꼭꼭FIT 페이지 UI 업데이트",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
       "conditions_3y": [
         "cond-b",
@@ -826,7 +826,7 @@
       "id": "tsk-002-08",
       "type": "Task",
       "name": "꼭꼭FIT 관련 과제 내용과 AI 통합",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
       "conditions_3y": [
         "cond-b",
@@ -839,7 +839,7 @@
       "id": "tsk-002-10",
       "type": "Task",
       "name": "꼭꼭FIT 강의 페이지 + 과제 페이지 만들기",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
       "conditions_3y": [
         "cond-b",
@@ -878,7 +878,7 @@
       "id": "tsk-002-06",
       "type": "Task",
       "name": "꼭꼭FIT 음식편향테스트 특정 주차에 노출",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
       "conditions_3y": [
         "cond-b",
@@ -904,7 +904,7 @@
       "id": "tsk-002-07",
       "type": "Task",
       "name": "꼭꼭FIT+꼭꼭 앱 로그인 통합",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
       "conditions_3y": [
         "cond-b",
@@ -917,7 +917,7 @@
       "id": "prj-012",
       "type": "Project",
       "name": "[CS·운영] 고객관리/대응",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -930,7 +930,7 @@
       "id": "tsk-012-01",
       "type": "Task",
       "name": "[고객 관리] 카카오톡 채널 활성화 방안 기획",
-      "status": "in_progress",
+      "status": "doing",
       "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
       "conditions_3y": [
         "cond-b",
@@ -943,7 +943,7 @@
       "id": "prj-008",
       "type": "Project",
       "name": "파일럿 프로젝트 후보",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -982,7 +982,7 @@
       "id": "tsk-008-01",
       "type": "Task",
       "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
-      "status": "in_progress",
+      "status": "doing",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
       "conditions_3y": [
         "cond-b",
@@ -1021,7 +1021,7 @@
       "id": "prj-014",
       "type": "Project",
       "name": "코칭 서비스 운영 체계 재구축",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P014_코칭 운영 체계/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -1043,7 +1043,7 @@
       "id": "prj-015",
       "type": "Project",
       "name": "Hiring - 주니어 개발자 채용",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md",
       "conditions_3y": [
         "cond-d"
@@ -1199,7 +1199,7 @@
       "id": "prj-016",
       "type": "Project",
       "name": "법인 전환 설립(주) 루프",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md",
       "conditions_3y": [
         "cond-d"
@@ -1208,10 +1208,28 @@
       "owner": "한명학"
     },
     {
+      "id": "tsk-016-01",
+      "type": "Task",
+      "name": "법인 정관 작성 후 최종 검토",
+      "status": "todo",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md",
+      "priority_flag": "high",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-016-02",
+      "type": "Task",
+      "name": "법인 신청 및 결제/추후 보완사항 대응",
+      "status": "todo",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-hiring",
       "type": "Program",
       "name": "채용",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Hiring/_PROGRAM.md",
       "priority_flag": "high",
       "owner": "한명학"
@@ -1220,7 +1238,7 @@
       "id": "pgm-grants",
       "type": "Program",
       "name": "정부지원사업",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Grants/_PROGRAM.md",
       "priority_flag": "high",
       "owner": "한명학"
@@ -1229,7 +1247,7 @@
       "id": "prj-grants-jemi",
       "type": "Project",
       "name": "JEMI디딤돌 지원사업",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md",
       "conditions_3y": [
         "cond-d"
@@ -1247,10 +1265,31 @@
       "assignee": "한명학"
     },
     {
+      "id": "prj-grants-youth",
+      "type": "Project",
+      "name": "청년창업사관학교",
+      "status": "doing",
+      "path": "50_Projects/Grants/Rounds/prj-grants-youth/Project_정의.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-grants-youth-01",
+      "type": "Task",
+      "name": "이인벤션 선납 비용 처리 논의",
+      "status": "todo",
+      "path": "50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-youtube-weekly",
       "type": "Program",
       "name": "YouTube 1주 1업로드",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Youtube_Weekly/_PROGRAM.md",
       "priority_flag": "medium",
       "owner": "한명학"
@@ -1259,7 +1298,7 @@
       "id": "prj-yt-w33",
       "type": "Project",
       "name": "YouTube W33",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md",
       "priority_flag": "medium",
       "owner": "한명학"
@@ -1268,7 +1307,7 @@
       "id": "tsk-014-02",
       "type": "Task",
       "name": "W33 대본작성",
-      "status": "pending",
+      "status": "todo",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1277,7 +1316,7 @@
       "id": "tsk-014-03",
       "type": "Task",
       "name": "W33 촬영",
-      "status": "pending",
+      "status": "todo",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1286,7 +1325,7 @@
       "id": "tsk-014-04",
       "type": "Task",
       "name": "W33 업로드",
-      "status": "pending",
+      "status": "todo",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1295,7 +1334,7 @@
       "id": "pgm-vault-system",
       "type": "Program",
       "name": "Vault 시스템 체계화",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Vault_System/_PROGRAM.md",
       "priority_flag": "high",
       "owner": "한명학"
@@ -1304,22 +1343,13 @@
       "id": "prj-vault-gpt",
       "type": "Project",
       "name": "ChatGPT Vault MCP 연결",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md",
       "conditions_3y": [
         "cond-b"
       ],
       "priority_flag": "high",
       "owner": "한명학"
-    },
-    {
-      "id": "tsk-vault-gpt-01",
-      "type": "Task",
-      "name": "v1 HTTP MCP 설정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
     },
     {
       "id": "tsk-vault-gpt-02",
@@ -1334,10 +1364,46 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-vault-gpt-01",
+      "type": "Task",
+      "name": "v1 HTTP MCP 설정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-vault-gpt-04",
+      "type": "Task",
+      "name": "MCP Bearer Token 인증 추가",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-vault-gpt-03",
+      "type": "Task",
+      "name": "API - Tree + Batch 엔드포인트 추가",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-dashboard-ux-v1",
       "type": "Project",
       "name": "대시보드 UX 개선 v1",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md",
       "conditions_3y": [
         "cond-e"
@@ -1349,7 +1415,7 @@
       "id": "tsk-dashboard-ux-v1-01",
       "type": "Task",
       "name": "뷰 전환 단축키 (1/2/3)",
-      "status": "planning",
+      "status": "todo",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md",
       "conditions_3y": [
         "cond-e"
@@ -1385,7 +1451,7 @@
       "id": "tsk-dashboard-ux-v1-04",
       "type": "Task",
       "name": "Quick Date Filter 초기화 버그 수정",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md",
       "conditions_3y": [
         "cond-e"
@@ -1397,7 +1463,7 @@
       "id": "prj-mcp-dual-vault-rbac",
       "type": "Project",
       "name": "MCP Dual-Vault RBAC",
-      "status": "active",
+      "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md",
       "conditions_3y": [
         "cond-b"
@@ -1416,6 +1482,57 @@
       ],
       "priority_flag": "high",
       "assignee": "김은향"
+    },
+    {
+      "id": "tsk-mcp-rbac-02",
+      "type": "Task",
+      "name": "대시보드 OAuth 로그인 통합",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "pgm-coaching",
+      "type": "Program",
+      "name": "코칭서비스",
+      "status": "doing",
+      "path": "50_Projects/Coaching/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-coaching-1on1",
+      "type": "Project",
+      "name": "1:1 코칭",
+      "status": "doing",
+      "path": "50_Projects/Coaching/Rounds/prj-coaching-1on1/Project_정의.md",
+      "conditions_3y": [
+        "cond-a"
+      ],
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-coaching-1on1-01",
+      "type": "Task",
+      "name": "1:1 코칭 진행",
+      "status": "todo",
+      "path": "50_Projects/Coaching/Rounds/prj-coaching-1on1/Tasks/tsk-coaching-1on1-01_1대1코칭진행.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-coaching-1on1-02",
+      "type": "Task",
+      "name": "시뮬레이션 코칭(보윤님)",
+      "status": "todo",
+      "path": "50_Projects/Coaching/Rounds/prj-coaching-1on1/Tasks/tsk-coaching-1on1-02_시뮬레이션코칭보윤.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
     },
     {
       "id": "idx:01_north_star",
@@ -1483,7 +1600,7 @@
       "id": "trk-2",
       "type": "Track",
       "name": "Track_2_Data",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/12M_Tracks/2026/Track_2_Data.md",
       "conditions_3y": [
         "cond-b"
@@ -1495,7 +1612,7 @@
       "id": "trk-3",
       "type": "Track",
       "name": "Track_3_Content",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/12M_Tracks/2026/Track_3_Content.md",
       "conditions_3y": [
         "cond-a"
@@ -1507,7 +1624,7 @@
       "id": "trk-4",
       "type": "Track",
       "name": "Track_4_Coaching",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/12M_Tracks/2026/Track_4_Coaching.md",
       "conditions_3y": [
         "cond-b",
@@ -1520,7 +1637,7 @@
       "id": "trk-5",
       "type": "Track",
       "name": "Track_5_Partnership",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/12M_Tracks/2026/Track_5_Partnership.md",
       "conditions_3y": [
         "cond-c",
@@ -1533,7 +1650,7 @@
       "id": "trk-1",
       "type": "Track",
       "name": "Track_1_Product",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/12M_Tracks/2026/Track_1_Product.md",
       "conditions_3y": [
         "cond-a"
@@ -1545,7 +1662,7 @@
       "id": "trk-6",
       "type": "Track",
       "name": "Track_6_Revenue",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/12M_Tracks/2026/Track_6_Revenue.md",
       "conditions_3y": [
         "cond-e"
@@ -1564,7 +1681,7 @@
       "id": "cond-b",
       "type": "Condition",
       "name": "Condition_B_Loop_Dataset",
-      "status": "in_progress",
+      "status": "doing",
       "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md",
       "priority_flag": "critical"
     },
@@ -1572,7 +1689,7 @@
       "id": "cond-c",
       "type": "Condition",
       "name": "Condition_C_Global_Data",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_C_Global_Data.md",
       "priority_flag": "high"
     },
@@ -1580,7 +1697,7 @@
       "id": "cond-d",
       "type": "Condition",
       "name": "Condition_D_Runway",
-      "status": "in_progress",
+      "status": "doing",
       "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_D_Runway.md",
       "priority_flag": "high"
     },
@@ -1588,7 +1705,7 @@
       "id": "cond-e",
       "type": "Condition",
       "name": "Condition_E_Team",
-      "status": "in_progress",
+      "status": "doing",
       "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_E_Team.md",
       "priority_flag": "high"
     },
@@ -1596,7 +1713,7 @@
       "id": "cond-a",
       "type": "Condition",
       "name": "Condition_A_PMF",
-      "status": "in_progress",
+      "status": "doing",
       "path": "20_Strategy/3Y_Conditions_2026-2028/Condition_A_PMF.md",
       "priority_flag": "critical"
     },
@@ -1604,7 +1721,7 @@
       "id": "pl-1",
       "type": "ProductLine",
       "name": "PL1_LOOP_Core_OS",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/ProductLines/PL1_LOOP_Core_OS.md",
       "priority_flag": "high"
     },
@@ -1612,7 +1729,7 @@
       "id": "pl-2",
       "type": "ProductLine",
       "name": "PL2_GLP1_Behavioral_Care_Lite",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/ProductLines/PL2_GLP1_Behavioral_Care_Lite.md",
       "priority_flag": "critical"
     },
@@ -1620,7 +1737,7 @@
       "id": "pl-3",
       "type": "ProductLine",
       "name": "PL3_Eating_Disorder_DTx",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/ProductLines/PL3_Eating_Disorder_DTx.md",
       "priority_flag": "high"
     },
@@ -1628,7 +1745,7 @@
       "id": "pl-4",
       "type": "ProductLine",
       "name": "PL4_International_Loop_Tracker",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/ProductLines/PL4_International_Loop_Tracker.md",
       "priority_flag": "medium"
     },
@@ -1636,7 +1753,7 @@
       "id": "pl-5",
       "type": "ProductLine",
       "name": "PL5_GLP1_Behavioral_OS",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/ProductLines/PL5_GLP1_Behavioral_OS.md",
       "priority_flag": "critical"
     },
@@ -1644,7 +1761,7 @@
       "id": "ps-1",
       "type": "PartnershipStage",
       "name": "PS1_국내_의료기관",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/PartnershipStages/PS1_국내_의료기관.md",
       "priority_flag": "high"
     },
@@ -1652,7 +1769,7 @@
       "id": "ps-2",
       "type": "PartnershipStage",
       "name": "PS2_제약_Exploratory",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/PartnershipStages/PS2_제약_Exploratory.md",
       "priority_flag": "medium"
     },
@@ -1660,7 +1777,7 @@
       "id": "ps-3",
       "type": "PartnershipStage",
       "name": "PS3_해외_클리닉",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/PartnershipStages/PS3_해외_클리닉.md",
       "priority_flag": "medium"
     },
@@ -1668,7 +1785,7 @@
       "id": "ps-4",
       "type": "PartnershipStage",
       "name": "PS4_글로벌_제약_보험_API",
-      "status": "planning",
+      "status": "todo",
       "path": "20_Strategy/PartnershipStages/PS4_글로벌_제약_보험_API.md",
       "priority_flag": "critical"
     },
@@ -1676,28 +1793,28 @@
       "id": "concept-os-stickiness",
       "type": "Concept",
       "name": "OS_Stickiness",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/Concepts/OS_Stickiness.md"
     },
     {
       "id": "status-budget",
       "type": "StatusStub",
       "name": "Budget_Mode",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/Status/Budget_Mode.md"
     },
     {
       "id": "status-runway",
       "type": "StatusStub",
       "name": "Runway_Status",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/Status/Runway_Status.md"
     },
     {
       "id": "status-team",
       "type": "StatusStub",
       "name": "Team_Status",
-      "status": "active",
+      "status": "doing",
       "path": "20_Strategy/Status/Team_Status.md"
     }
   ],
@@ -1755,6 +1872,11 @@
     {
       "source": "trk-1",
       "target": "hyp-1-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-1",
+      "target": "pgm-coaching",
       "type": "parent_of"
     },
     {
@@ -2318,8 +2440,28 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-016",
+      "target": "tsk-016-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-016",
+      "target": "tsk-016-02",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-grants-jemi",
       "target": "tsk-grants-jemi-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-grants",
+      "target": "prj-grants-youth",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-grants-youth",
+      "target": "tsk-grants-youth-01",
       "type": "parent_of"
     },
     {
@@ -2334,12 +2476,22 @@
     },
     {
       "source": "prj-vault-gpt",
+      "target": "tsk-vault-gpt-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-vault-gpt",
       "target": "tsk-vault-gpt-01",
       "type": "parent_of"
     },
     {
       "source": "prj-vault-gpt",
-      "target": "tsk-vault-gpt-02",
+      "target": "tsk-vault-gpt-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-vault-gpt",
+      "target": "tsk-vault-gpt-03",
       "type": "parent_of"
     },
     {
@@ -2365,6 +2517,26 @@
     {
       "source": "prj-mcp-dual-vault-rbac",
       "target": "tsk-mcp-rbac-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-mcp-dual-vault-rbac",
+      "target": "tsk-mcp-rbac-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-coaching",
+      "target": "prj-coaching-1on1",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-coaching-1on1",
+      "target": "tsk-coaching-1on1-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-coaching-1on1",
+      "target": "tsk-coaching-1on1-02",
       "type": "parent_of"
     },
     {
@@ -2526,6 +2698,11 @@
       "source": "prj-mcp-dual-vault-rbac",
       "target": "prj-vault-gpt",
       "type": "extends"
+    },
+    {
+      "source": "tsk-mcp-rbac-02",
+      "target": "tsk-mcp-rbac-01",
+      "type": "depends_on"
     },
     {
       "source": "trk-2",
@@ -3220,8 +3397,11 @@
       "tsk-008-05",
       "prj-014",
       "prj-vault-gpt",
+      "tsk-vault-gpt-01",
+      "tsk-vault-gpt-03",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-01",
+      "tsk-mcp-rbac-02",
       "trk-2",
       "trk-4"
     ],
@@ -3238,6 +3418,7 @@
       "tsk-007-02",
       "prj-014",
       "tsk-vault-gpt-02",
+      "tsk-vault-gpt-04",
       "prj-dashboard-ux-v1",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-02",
@@ -3287,6 +3468,7 @@
       "tsk-015-10",
       "prj-016",
       "prj-grants-jemi",
+      "prj-grants-youth",
       "trk-4",
       "trk-5"
     ],
@@ -3296,6 +3478,7 @@
       "trk-5"
     ],
     "cond-a": [
+      "prj-coaching-1on1",
       "trk-3",
       "trk-1"
     ]
@@ -3372,10 +3555,12 @@
       "prj-015",
       "prj-016",
       "prj-grants-jemi",
+      "prj-grants-youth",
       "prj-yt-w33",
       "prj-vault-gpt",
       "prj-dashboard-ux-v1",
-      "prj-mcp-dual-vault-rbac"
+      "prj-mcp-dual-vault-rbac",
+      "prj-coaching-1on1"
     ],
     "Task": [
       "tsk-003-01",
@@ -3434,23 +3619,32 @@
       "tsk-015-05",
       "tsk-015-09",
       "tsk-015-10",
+      "tsk-016-01",
+      "tsk-016-02",
       "tsk-grants-jemi-01",
+      "tsk-grants-youth-01",
       "tsk-014-02",
       "tsk-014-03",
       "tsk-014-04",
-      "tsk-vault-gpt-01",
       "tsk-vault-gpt-02",
+      "tsk-vault-gpt-01",
+      "tsk-vault-gpt-04",
+      "tsk-vault-gpt-03",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-03",
       "tsk-dashboard-ux-v1-04",
-      "tsk-mcp-rbac-01"
+      "tsk-mcp-rbac-01",
+      "tsk-mcp-rbac-02",
+      "tsk-coaching-1on1-01",
+      "tsk-coaching-1on1-02"
     ],
     "Program": [
       "pgm-hiring",
       "pgm-grants",
       "pgm-youtube-weekly",
-      "pgm-vault-system"
+      "pgm-vault-system",
+      "pgm-coaching"
     ],
     "MetaHypothesis": [
       "mh-3",
@@ -3509,7 +3703,7 @@
       "idx:20_strategy-12m_tracks",
       "idx:20_strategy-3y_conditions"
     ],
-    "planning": [
+    "todo": [
       "hyp-1-01",
       "hyp-1-02",
       "hyp-1-03",
@@ -3555,6 +3749,7 @@
       "hyp-2-01",
       "hyp-2-02",
       "hyp-6-14",
+      "tsk-003-01",
       "tsk-003-07",
       "tsk-003-03",
       "tsk-003-02",
@@ -3562,21 +3757,39 @@
       "tsk-003-05",
       "tsk-003-06",
       "tsk-005-03",
+      "tsk-005-05",
       "tsk-005-01",
       "tsk-005-04",
       "tsk-005-02",
       "tsk-009-02",
       "tsk-009-01",
+      "tsk-001-01",
+      "tsk-001-02",
+      "tsk-006-02",
+      "tsk-006-03",
       "tsk-011-01",
       "tsk-002-05",
       "tsk-002-09",
       "tsk-002-08",
       "tsk-002-10",
+      "tsk-002-02",
       "tsk-002-06",
       "tsk-002-07",
+      "tsk-008-03",
+      "tsk-008-02",
+      "tsk-008-05",
+      "tsk-014-01",
       "prj-016",
+      "tsk-016-01",
+      "tsk-016-02",
       "prj-grants-jemi",
+      "tsk-grants-youth-01",
+      "tsk-014-02",
+      "tsk-014-03",
+      "tsk-014-04",
       "tsk-dashboard-ux-v1-01",
+      "tsk-coaching-1on1-01",
+      "tsk-coaching-1on1-02",
       "trk-5",
       "cond-c",
       "pl-2",
@@ -3588,10 +3801,11 @@
       "ps-3",
       "ps-4"
     ],
-    "active": [
+    "doing": [
       "prj-003",
       "prj-005",
       "prj-010",
+      "tsk-010-01",
       "prj-009",
       "prj-001",
       "prj-006",
@@ -3599,39 +3813,38 @@
       "prj-004",
       "prj-002",
       "prj-012",
+      "tsk-012-01",
       "prj-008",
+      "tsk-008-01",
       "prj-014",
       "prj-015",
       "pgm-hiring",
       "pgm-grants",
+      "tsk-grants-jemi-01",
+      "prj-grants-youth",
       "pgm-youtube-weekly",
       "prj-yt-w33",
       "pgm-vault-system",
       "prj-vault-gpt",
+      "tsk-vault-gpt-02",
       "prj-dashboard-ux-v1",
       "prj-mcp-dual-vault-rbac",
+      "pgm-coaching",
+      "prj-coaching-1on1",
       "trk-2",
       "trk-3",
       "trk-4",
       "trk-1",
       "trk-6",
+      "cond-b",
+      "cond-d",
+      "cond-e",
+      "cond-a",
       "pl-1",
       "concept-os-stickiness",
       "status-budget",
       "status-runway",
       "status-team"
-    ],
-    "todo": [
-      "tsk-003-01",
-      "tsk-005-05",
-      "tsk-001-02",
-      "tsk-006-02",
-      "tsk-006-03",
-      "tsk-002-02",
-      "tsk-008-03",
-      "tsk-008-02",
-      "tsk-008-05",
-      "tsk-014-01"
     ],
     "done": [
       "tsk-010-02",
@@ -3659,30 +3872,14 @@
       "tsk-015-09",
       "tsk-015-10",
       "tsk-vault-gpt-01",
+      "tsk-vault-gpt-04",
+      "tsk-vault-gpt-03",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-03",
+      "tsk-dashboard-ux-v1-04",
       "tsk-mcp-rbac-01",
+      "tsk-mcp-rbac-02",
       "retro:2025-annual"
-    ],
-    "doing": [
-      "tsk-010-01",
-      "tsk-grants-jemi-01",
-      "tsk-vault-gpt-02",
-      "tsk-dashboard-ux-v1-04"
-    ],
-    "pending": [
-      "tsk-001-01",
-      "tsk-014-02",
-      "tsk-014-03",
-      "tsk-014-04"
-    ],
-    "in_progress": [
-      "tsk-012-01",
-      "tsk-008-01",
-      "cond-b",
-      "cond-d",
-      "cond-e",
-      "cond-a"
     ],
     "validating": [
       "mh-3",

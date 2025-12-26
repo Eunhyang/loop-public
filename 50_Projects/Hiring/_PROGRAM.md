@@ -4,7 +4,7 @@ entity_id: pgm-hiring
 entity_name: 채용
 created: 2025-12-25
 updated: 2025-12-25
-status: active
+status: doing
 
 # === Program 정의 ===
 program_type: hiring

@@ -4,7 +4,7 @@ entity_id: "prj-012"
 entity_name: "[CS·운영] 고객관리/대응"
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-4"

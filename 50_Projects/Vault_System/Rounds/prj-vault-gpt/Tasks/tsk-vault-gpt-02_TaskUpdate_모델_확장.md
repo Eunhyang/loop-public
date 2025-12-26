@@ -3,43 +3,30 @@ entity_type: Task
 entity_id: tsk-vault-gpt-02
 entity_name: MCP API TaskUpdate 모델 확장
 created: 2025-12-26
-updated: 2025-12-26
-status: active
-
-# === 계층 ===
+updated: '2025-12-26'
+status: doing
 parent_id: prj-vault-gpt
 project_id: prj-vault-gpt
 aliases:
 - tsk-vault-gpt-02
-
-# === 관계 ===
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
 assignee: 김은향
 due: 2025-12-26
 priority: high
 estimated_hours: 2
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 ===
 conditions_3y:
 - cond-e
-
-# === 분류 ===
 tags:
 - mcp
 - api
 - agent-builder
 priority_flag: high
 ---
-
 # MCP API TaskUpdate 모델 확장
 
 > Task ID: `tsk-vault-gpt-02` | Project: `prj-vault-gpt` | Status: doing

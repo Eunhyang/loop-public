@@ -34,7 +34,7 @@ const State = {
     // Filter Panel State
     filters: {
         project: {
-            status: ['planning', 'active', 'paused', 'cancelled'],  // done excluded by default
+            status: ['todo', 'doing', 'blocked'],  // done excluded by default
             priority: ['critical', 'high', 'medium', 'low'],
             showInactive: false  // activate: false 엔티티 숨김 (기본값)
         },
@@ -137,12 +137,12 @@ const State = {
     },
 
     getProjectStatuses() {
-        return this.constants?.project?.status || ['planning', 'active', 'paused', 'done', 'cancelled'];
+        return this.constants?.project?.status || ['todo', 'doing', 'done', 'blocked'];
     },
 
     getProjectStatusLabels() {
         return this.constants?.project?.status_labels || {
-            planning: 'Planning', active: 'Active', paused: 'Paused', done: 'Done', cancelled: 'Cancelled'
+            todo: 'To Do', doing: 'Doing', done: 'Done', blocked: 'Blocked'
         };
     },
 
@@ -266,7 +266,7 @@ const State = {
         filtered = filtered.filter(t => {
             const project = this.getProjectById(t.project_id);
             if (!project) return true;  // Keep tasks without project
-            const projectStatus = project.status || 'active';
+            const projectStatus = project.status || 'doing';
             const projectPriority = project.priority || 'medium';
             return this.filters.project.status.includes(projectStatus) &&
                    this.filters.project.priority.includes(projectPriority);
@@ -311,11 +311,16 @@ const State = {
     // Status 매핑 (다양한 상태값을 표준 상태로 변환)
     normalizeStatus(status) {
         const statusMap = {
-            // 표준 상태
+            // 표준 상태 (Dashboard UI)
             'todo': 'todo',
             'doing': 'doing',
             'done': 'done',
             'blocked': 'blocked',
+            // Schema 값 (schema_registry.md 기준)
+            'planning': 'todo',
+            'active': 'doing',
+            'failed': 'blocked',
+            'learning': 'done',
             // 레거시/대체 상태
             'pending': 'todo',
             'in_progress': 'doing',
@@ -400,7 +405,7 @@ const State = {
         filtered = filtered.filter(t => {
             const project = this.getProjectById(t.project_id);
             if (!project) return true;
-            const projectStatus = project.status || 'active';
+            const projectStatus = project.status || 'doing';
             const projectPriority = project.priority || 'medium';
             return this.filters.project.status.includes(projectStatus) &&
                    this.filters.project.priority.includes(projectPriority);
@@ -527,7 +532,7 @@ const State = {
             const project = this.getProjectById(projectId);
             if (project) {
                 // Apply project status filter
-                const projectStatus = project.status || 'active';
+                const projectStatus = project.status || 'doing';
                 if (!this.filters.project.status.includes(projectStatus)) {
                     return;
                 }

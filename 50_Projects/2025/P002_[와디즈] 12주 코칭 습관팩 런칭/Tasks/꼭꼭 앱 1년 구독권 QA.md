@@ -4,7 +4,7 @@ entity_id: tsk-002-05
 entity_name: 꼭꼭 앱 1년 구독권 QA
 created: 2025-12-18
 updated: '2025-12-26'
-status: planning
+status: todo
 parent_id: prj-002
 project_id: prj-002
 aliases:

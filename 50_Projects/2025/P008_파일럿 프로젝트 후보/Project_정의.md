@@ -4,7 +4,7 @@ entity_id: prj-008
 entity_name: 파일럿 프로젝트 후보
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 parent_id: trk-4
 aliases:
 - prj-008

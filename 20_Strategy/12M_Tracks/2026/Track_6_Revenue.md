@@ -4,7 +4,7 @@ entity_id: trk-6
 entity_name: Track_6_Revenue
 created: 2024-12-18
 updated: 2025-12-22
-status: active
+status: doing
 parent_id: cond-d
 aliases:
 - trk-6

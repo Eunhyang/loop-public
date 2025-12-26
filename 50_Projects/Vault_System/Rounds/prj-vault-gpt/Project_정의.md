@@ -4,7 +4,7 @@ entity_id: prj-vault-gpt
 entity_name: ChatGPT Vault MCP 연결
 created: 2025-12-25
 updated: 2025-12-25
-status: active
+status: doing
 
 # === 소속 Program ===
 program_id: pgm-vault-system
@@ -104,6 +104,86 @@ ChatGPT (gpt.com)에서 LOOP Obsidian vault를 MCP로 직접 접근할 수 있�
 
 - **Program**: [[_PROGRAM|Vault 시스템 체계화]]
 - **ChatGPT 대화 로그**: (별도 보관)
+
+---
+
+## Notes
+
+### PRD (Product Requirements Document)
+
+#### 📋 프로젝트 컨텍스트
+- **Framework**: FastAPI (Python 3.11)
+- **Architecture**: REST API + MCP (Model Context Protocol)
+- **Deployment**: Docker on Synology NAS
+- **Client**: ChatGPT Developer Mode
+
+#### 🎯 문제 정의
+
+**현재 상황**:
+ChatGPT가 MCP로 LOOP Vault에 연결 시, 간단한 폴더 탐색 요청에도 과도한 함수 호출 발생
+
+```
+사용자: "exec/ 폴더 확인해봐"
+ChatGPT 동작:
+1. list_files("") → 권한 확인 팝업
+2. list_files("exec") → 권한 확인 팝업
+3. list_files("exec/00_Meta") → 권한 확인 팝업
+... (10회 이상 반복)
+```
+
+**문제점**:
+- 매 호출마다 권한 확인 팝업 → UX 최악
+- 단순 작업에 10+ 함수 호출 → 비효율
+
+#### 🎯 목표
+
+| 작업 유형 | Before | After |
+|----------|--------|-------|
+| 폴더 구조 확인 | 10+ 호출 | **1 호출** |
+| 여러 파일 읽기 | N 호출 | **1 호출** |
+
+#### 📝 핵심 요구사항
+
+**1. Tree API** (`GET /api/tree/{path}`)
+- 재귀적으로 전체 폴더 구조 반환
+- `exclude` 파라미터: `.git`, `__pycache__` 등 제외
+- `max_depth` 파라미터: 깊이 제한 (선택)
+- 반환 형식: JSON 트리 구조
+
+**2. Batch Read API** (`GET /api/files/batch`)
+- 여러 파일 경로를 한 번에 받아 내용 반환
+- `paths` 파라미터: 쉼표 구분 파일 경로 목록
+- 반환 형식: `{path: content}` 맵
+
+#### 🔧 기술 스펙
+
+```python
+# Tree API
+@app.get("/api/tree/{path:path}")
+def get_tree(
+    path: str = "",
+    exclude: str = ".git,__pycache__",
+    max_depth: int = 10
+) -> dict:
+    """재귀 폴더 구조 반환"""
+
+# Batch Read API
+@app.get("/api/files/batch")
+def get_files_batch(
+    paths: str  # 쉼표 구분
+) -> dict[str, str]:
+    """여러 파일 한 번에 읽기"""
+```
+
+#### ✅ 성공 기준
+- [ ] Tree API: 한 번 호출로 전체 폴더 구조 반환
+- [ ] Batch API: 한 번 호출로 여러 파일 내용 반환
+- [ ] MCP 도구로 자동 노출 (fastapi-mcp)
+- [ ] ChatGPT에서 테스트 성공
+
+#### 📚 참조
+- [GitHub MCP Server](https://github.com/github/github-mcp-server) - `get_repository_tree`
+- [Filesystem MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem) - `directory_tree`
 
 ---
 

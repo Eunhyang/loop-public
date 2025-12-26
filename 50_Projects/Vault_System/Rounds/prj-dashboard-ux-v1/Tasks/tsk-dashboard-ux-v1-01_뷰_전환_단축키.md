@@ -4,7 +4,7 @@ entity_id: tsk-dashboard-ux-v1-01
 entity_name: 뷰 전환 단축키 (1/2/3)
 created: 2025-12-26
 updated: 2025-12-26
-status: planning
+status: todo
 
 # === 계층 ===
 parent_id: prj-dashboard-ux-v1

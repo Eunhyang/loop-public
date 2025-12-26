@@ -4,7 +4,7 @@ entity_id: tsk-003-03
 entity_name: Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화
 created: 2025-12-18
 updated: '2025-12-23'
-status: planning
+status: todo
 parent_id: prj-003
 project_id: prj-003
 aliases:

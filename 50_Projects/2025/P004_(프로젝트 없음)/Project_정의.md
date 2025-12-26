@@ -4,7 +4,7 @@ entity_id: prj-004
 entity_name: (프로젝트 없음)
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 parent_id: trk-2
 aliases:
 - prj-004

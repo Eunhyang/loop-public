@@ -4,7 +4,7 @@ entity_id: pgm-youtube-weekly
 entity_name: YouTube 1주 1업로드
 created: 2025-12-23
 updated: 2025-12-23
-status: active
+status: doing
 
 # === Program 정의 ===
 program_type: launch

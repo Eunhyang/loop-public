@@ -4,7 +4,7 @@ entity_id: prj-003
 entity_name: LoopOS V0 데이터 설계
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 parent_id: trk-2
 aliases:
 - prj-003

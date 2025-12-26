@@ -4,7 +4,7 @@ entity_id: status-team
 entity_name: Team_Status
 created: 2025-12-22
 updated: 2025-12-22
-status: active
+status: doing
 source: "[[loop_exec::40_People/Hiring_Gate]]"
 aliases:
 - 팀 상태

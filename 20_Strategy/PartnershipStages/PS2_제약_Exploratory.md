@@ -4,7 +4,7 @@ entity_id: ps-2
 entity_name: PS2_제약_Exploratory
 created: 2024-12-20
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: cond-b
 aliases:
 - ps-2

@@ -4,7 +4,7 @@ entity_id: trk-4
 entity_name: Track_4_Coaching
 created: 2024-12-18
 updated: 2025-12-22
-status: active
+status: doing
 parent_id: cond-b
 aliases:
 - trk-4

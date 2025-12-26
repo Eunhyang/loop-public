@@ -4,7 +4,7 @@ entity_id: "tsk-{{PRJ_NUMBER}}-{{SEQ}}"
 entity_name: "{{TASK_NAME}}"
 created: {{DATE}}
 updated: {{DATE}}
-status: planning
+status: todo
 
 # === 계층 ===
 parent_id: "prj-{{PRJ_NUMBER}}"
@@ -37,7 +37,7 @@ priority_flag: medium
 
 # {{TASK_NAME}}
 
-> Task ID: `tsk-{{PRJ_NUMBER}}-{{SEQ}}` | Project: `prj-{{PRJ_NUMBER}}` | Status: planning
+> Task ID: `tsk-{{PRJ_NUMBER}}-{{SEQ}}` | Project: `prj-{{PRJ_NUMBER}}` | Status: todo
 
 ## 목표
 
@@ -72,7 +72,23 @@ priority_flag: medium
 - [ ]
 
 ### 작업 로그
-<!-- 작업 진행 시 여기에 기록 -->
+<!--
+작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
+
+#### YYYY-MM-DD HH:MM
+**개요**: 2-3문장 요약
+
+**변경사항**:
+- 개발:
+- 수정:
+- 개선:
+
+**핵심 코드**: (필요시)
+
+**결과**: ✅ 빌드 성공 / ❌ 실패
+
+**다음 단계**:
+-->
 
 
 ---

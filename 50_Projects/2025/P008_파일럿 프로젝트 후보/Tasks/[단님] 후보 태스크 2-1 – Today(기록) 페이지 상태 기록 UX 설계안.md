@@ -4,7 +4,7 @@ entity_id: tsk-008-02
 entity_name: '[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안'
 created: 2025-12-18
 updated: '2025-12-21'
-status: planning
+status: todo
 parent_id: prj-008
 project_id: prj-008
 aliases:

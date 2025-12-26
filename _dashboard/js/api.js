@@ -5,31 +5,77 @@
 const API = {
     baseUrl: 'https://mcp.sosilab.synology.me',
 
-    // 토큰 관리
+    // JWT 토큰 관리
     getToken() {
-        return localStorage.getItem('api_token');
+        return localStorage.getItem('jwt_token');
     },
 
     setToken(token) {
-        localStorage.setItem('api_token', token);
+        localStorage.setItem('jwt_token', token);
     },
 
     clearToken() {
-        localStorage.removeItem('api_token');
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('user_role');
     },
 
-    // 인증 헤더 포함 fetch
+    // User role 관리
+    getRole() {
+        return localStorage.getItem('user_role') || 'member';
+    },
+
+    setRole(role) {
+        localStorage.setItem('user_role', role);
+    },
+
+    // JWT에서 payload 추출
+    parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''));
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            return null;
+        }
+    },
+
+    // 토큰 만료 체크
+    isTokenExpired() {
+        const token = this.getToken();
+        if (!token) return true;
+
+        const payload = this.parseJwt(token);
+        if (!payload || !payload.exp) return true;
+
+        // 만료 5분 전부터 만료로 처리
+        return Date.now() >= (payload.exp * 1000) - (5 * 60 * 1000);
+    },
+
+    // 인증 헤더 포함 fetch (Authorization: Bearer)
     async authFetch(url, options = {}) {
         const token = this.getToken();
+
+        // 토큰 만료 체크
+        if (this.isTokenExpired()) {
+            this.clearToken();
+            if (window.showLoginModal) {
+                window.showLoginModal();
+            }
+            throw new Error('Token expired');
+        }
+
         const headers = {
             ...options.headers,
-            'x-api-token': token || ''
+            'Authorization': token ? `Bearer ${token}` : ''
         };
 
         const res = await fetch(url, { ...options, headers });
 
-        // 401이면 로그인 모달 표시
-        if (res.status === 401) {
+        // 401/403이면 로그인 모달 표시
+        if (res.status === 401 || res.status === 403) {
             this.clearToken();
             if (window.showLoginModal) {
                 window.showLoginModal();
@@ -38,6 +84,36 @@ const API = {
         }
 
         return res;
+    },
+
+    // 대시보드 로그인 API
+    async login(email, password) {
+        const res = await fetch(`${this.baseUrl}/oauth/dashboard-login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        if (!res.ok) {
+            const error = await res.json().catch(() => ({}));
+            throw new Error(error.error_description || 'Login failed');
+        }
+
+        const data = await res.json();
+
+        // JWT 토큰과 role 저장
+        this.setToken(data.access_token);
+        this.setRole(data.role);
+
+        return data;
+    },
+
+    // 로그아웃
+    logout() {
+        this.clearToken();
+        if (window.showLoginModal) {
+            window.showLoginModal();
+        }
     },
 
     // ============================================

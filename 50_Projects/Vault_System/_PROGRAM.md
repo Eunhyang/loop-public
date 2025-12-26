@@ -4,7 +4,7 @@ entity_id: pgm-vault-system
 entity_name: Vault 시스템 체계화
 created: 2025-12-25
 updated: 2025-12-25
-status: active
+status: doing
 
 # === Program 정의 ===
 program_type: infrastructure

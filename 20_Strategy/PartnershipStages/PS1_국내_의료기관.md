@@ -4,7 +4,7 @@ entity_id: ps-1
 entity_name: PS1_국내_의료기관
 created: 2024-12-20
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: cond-b
 aliases:
 - ps-1

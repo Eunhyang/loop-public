@@ -4,7 +4,7 @@ entity_id: prj-grants-youth
 entity_name: 청년창업사관학교
 created: 2025-12-26
 updated: 2025-12-26
-status: active
+status: doing
 
 # === 소속 Program ===
 program_id: pgm-grants

@@ -4,7 +4,7 @@ entity_id: pl-5
 entity_name: PL5_GLP1_Behavioral_OS
 created: 2024-12-20
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: pl-3
 aliases:
 - pl-5

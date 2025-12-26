@@ -4,7 +4,7 @@ entity_id: trk-5
 entity_name: Track_5_Partnership
 created: 2024-12-18
 updated: 2025-12-22
-status: planning
+status: todo
 parent_id: cond-c
 aliases:
 - trk-5

@@ -27,10 +27,14 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter password" autofocus>
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter email" autofocus>
                 </div>
-                <p class="login-error" id="loginError" style="color: #e74c3c; display: none;">Invalid password</p>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password">
+                </div>
+                <p class="login-error" id="loginError" style="color: #e74c3c; display: none;">Invalid credentials</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="loginSubmit">Login</button>
@@ -107,6 +111,11 @@
                     <button class="btn btn-icon" id="btnFilter" title="Filters">
                         <span class="filter-icon">&#9881;</span>
                     </button>
+                    <!-- User Info & Logout -->
+                    <div class="user-info" id="userInfo">
+                        <span class="user-role" id="userRole"></span>
+                        <button class="btn btn-secondary btn-small" id="btnLogout" title="Logout">Logout</button>
+                    </div>
                 </div>
             </header>
 

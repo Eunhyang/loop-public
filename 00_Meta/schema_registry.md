@@ -59,7 +59,7 @@ entity_id: string                # 형식: {type}:{number}
 entity_name: string              # 표시 이름
 created: date                    # YYYY-MM-DD
 updated: date                    # YYYY-MM-DD
-status: string                   # planning | active | blocked | done | failed | learning
+status: string                   # todo | doing | done | blocked
 
 # === 계층 관계 ===
 parent_id: string | null         # 상위 엔티티 ID
@@ -313,7 +313,7 @@ system_updates: [string]         # 시스템 개선 항목
 - `entity_id`: required, pattern `pgm-[a-z]+`
 - `program_type`: required, one of: hiring | fundraising | grants | launch | experiments
 - `owner`: required
-- `status`: always "active" (닫지 않음)
+- `status`: always "doing" (닫지 않음)
 - `principles`: recommended, at least 1 item
 - `process_steps`: recommended, at least 1 item
 
@@ -333,7 +333,7 @@ system_updates: [string]         # 시스템 개선 항목
 - `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
 - `type`: optional, one of: dev | strategy | research | ops
 - `target_project`: optional, required when type=dev, one of: sosi | kkokkkok | loop-api
-- `closed`: required when status IN (done, failed, learning)
+- `closed`: required when status = done
 - `archived_at`: 스크립트 자동 기록 (수동 편집 금지)
 - `closed_inferred`: optional, 값 = `updated` | `git_commit_date` | `today`
 

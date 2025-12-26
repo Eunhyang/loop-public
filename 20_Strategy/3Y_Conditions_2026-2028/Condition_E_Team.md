@@ -4,7 +4,7 @@ entity_id: cond-e
 entity_name: Condition_E_Team
 created: 2024-12-18
 updated: 2024-12-20
-status: in_progress
+status: doing
 parent_id: mh-4
 aliases:
 - cond-e

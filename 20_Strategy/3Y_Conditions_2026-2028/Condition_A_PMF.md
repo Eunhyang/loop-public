@@ -4,7 +4,7 @@ entity_id: cond-a
 entity_name: Condition_A_PMF
 created: 2024-12-18
 updated: 2024-12-20
-status: in_progress
+status: doing
 parent_id: mh-1
 aliases:
 - cond-a

@@ -4,7 +4,7 @@ entity_id: tsk-003-07
 entity_name: Loop OS V0 데이터 설계 – 6. 저장 전략 결정
 created: 2025-12-18
 updated: '2025-12-23'
-status: planning
+status: todo
 parent_id: prj-003
 project_id: prj-003
 aliases:

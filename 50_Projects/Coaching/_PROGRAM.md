@@ -4,7 +4,7 @@ entity_id: pgm-coaching
 entity_name: 코칭서비스
 created: 2025-12-26
 updated: 2025-12-26
-status: active
+status: doing
 
 # === Program 정의 ===
 program_type: launch

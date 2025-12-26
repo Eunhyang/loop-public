@@ -4,7 +4,7 @@ entity_id: prj-yt-w33
 entity_name: YouTube W33
 created: 2025-12-23
 updated: 2025-12-23
-status: active
+status: doing
 
 # === Program-Round 연결 ===
 program_id: pgm-youtube-weekly

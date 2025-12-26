@@ -4,7 +4,7 @@ entity_id: "prj-005"
 entity_name: "[LoopOS 데이터] LoopOS 최소 선제 학습"
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-2"

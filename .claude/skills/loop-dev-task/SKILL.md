@@ -108,21 +108,39 @@ python3 scripts/build_graph_index.py .
 
 Project Notes에 PRD가 비어있을 때:
 
-1. 컨텍스트 수집:
+1. **컨텍스트 수집**:
    - Project 이름, 가설, 목표
    - Task 이름
    - 관련 Track/Condition
+   - 기술 스택 (target_project 기반)
 
-2. prompt-enhancer 호출:
+2. **prompt-enhancer 스킬 호출**:
+
+   prompt-enhancer 스킬은 `~/.claude/plugins/marketplaces/suji-father-marketplace/skills/prompt-enhancer/`에 설치됨.
+
+   호출 방법:
    ```
-   prompt-enhancer를 사용해 다음 프로젝트의 PRD를 생성해주세요:
+   {task_name} 기능을 구현하려고 합니다.
 
-   프로젝트: {project_name}
-   Task: {task_name}
-   가설: {hypothesis_text}
+   프로젝트 컨텍스트:
+   - 프로젝트: {project_name}
+   - 가설: {hypothesis_text}
+   - 기술 스택: {detected_stack}
+
+   이 요청에 대한 상세 요구사항을 정리해주세요.
    ```
 
-3. 생성된 PRD를 Project 파일 Notes 섹션에 삽입
+3. **prompt-enhancer 출력 형식**:
+   - 프로젝트 컨텍스트 분석
+   - 구현 범위 (주요 기능, 파일 구조)
+   - 상세 요구사항 (레이어별)
+   - 성공 기준
+   - 확인 사항
+
+4. **PRD를 Project Notes에 삽입**:
+   - Project_정의.md 파일의 `## Notes` 섹션 찾기
+   - `### PRD` 하위에 생성된 내용 삽입
+   - Edit 도구로 업데이트
 
 ## 완료 메시지 형식
 

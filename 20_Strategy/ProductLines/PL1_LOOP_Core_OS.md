@@ -4,7 +4,7 @@ entity_id: pl-1
 entity_name: PL1_LOOP_Core_OS
 created: 2024-12-20
 updated: 2024-12-20
-status: active
+status: doing
 parent_id: cond-a
 aliases:
 - pl-1

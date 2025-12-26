@@ -4,7 +4,7 @@ entity_id: pgm-grants
 entity_name: 정부지원사업
 created: 2025-12-23
 updated: 2025-12-23
-status: active
+status: doing
 
 # === Program 정의 ===
 program_type: grants

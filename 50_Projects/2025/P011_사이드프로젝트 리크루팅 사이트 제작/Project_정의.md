@@ -4,7 +4,7 @@ entity_id: prj-011
 entity_name: 사이드프로젝트 리크루팅 사이트 제작
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 parent_id: trk-5
 aliases:
 - prj-011

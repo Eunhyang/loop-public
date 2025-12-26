@@ -4,7 +4,7 @@ entity_id: ps-4
 entity_name: PS4_글로벌_제약_보험_API
 created: 2024-12-20
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: pl-5
 aliases:
 - ps-4

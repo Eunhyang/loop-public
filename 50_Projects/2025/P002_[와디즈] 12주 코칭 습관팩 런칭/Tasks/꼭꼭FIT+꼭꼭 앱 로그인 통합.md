@@ -4,7 +4,7 @@ entity_id: tsk-002-07
 entity_name: 꼭꼭FIT+꼭꼭 앱 로그인 통합
 created: 2025-12-18
 updated: '2025-12-25'
-status: planning
+status: todo
 parent_id: prj-002
 project_id: prj-002
 aliases:

@@ -4,7 +4,7 @@ entity_id: status-runway
 entity_name: Runway_Status
 created: 2025-12-22
 updated: 2025-12-22
-status: active
+status: doing
 source: "[[loop_exec::10_Runway/Current_Status]]"
 aliases:
 - Runway 상태

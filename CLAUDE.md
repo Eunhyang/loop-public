@@ -22,13 +22,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Essential Commands
 ```bash
 # Validation (pre-commit hook runs these automatically)
-python3 scripts/validate_schema.py .      # Schema validation (blocks commit)
-python3 scripts/check_orphans.py .        # Orphan check (warnings only)
-python3 scripts/build_graph_index.py .    # Rebuild _Graph_Index.md (auto-staged)
+python3 scripts/validate_schema.py .                    # Full validation + freshness check
+python3 scripts/validate_schema.py . --file <path>      # Single file validation
+python3 scripts/validate_schema.py . --no-freshness     # Skip freshness check
+python3 scripts/check_orphans.py .                      # Orphan check (warnings only)
+python3 scripts/build_graph_index.py .                  # Rebuild _Graph_Index.md (auto-staged)
+python3 scripts/auto_fix_schema.py <path>               # Auto-fix common schema issues
 
 # Archive management
-python3 scripts/archive_task.py <task_id> # Archive completed tasks
-python3 scripts/build_archive_catalog.py  # Rebuild archive catalog
+python3 scripts/archive_task.py <task_id>               # Archive completed tasks
+python3 scripts/build_archive_catalog.py                # Rebuild archive catalog
 
 # API Server (for dashboard)
 poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
@@ -44,7 +47,7 @@ poetry install --extras api           # Full (includes API server)
 ### Key Entry Points
 | Purpose | Location |
 |---------|----------|
-| Schema definitions | `00_Meta/schema_registry.md` **(authoritative source for all entity schemas)** |
+| Schema definitions | `00_Meta/schema_registry.md` **(Single Source of Truth - 모든 스킬/스크립트가 참조)** |
 | Vault ecosystem | `00_Meta/_VAULT_REGISTRY.md` **(cross-vault routing)** |
 | Archive access | `90_Archive/00_Catalog/_ARCHIVE_ENTRY.md` **(mandatory before archive access)** |
 | Navigation hub | `_HOME.md` |
@@ -211,7 +214,7 @@ Step 3: 추가 필요 시 by_project/ 또는 by_time/ 인덱스 참조
 
 ## Entity Types & ID Formats
 
-> **Authoritative source**: `00_Meta/schema_registry.md` (v3.7)
+> **Authoritative source**: `00_Meta/schema_registry.md` (v3.3)
 
 ### Strategy Layer
 | Entity Type | ID Pattern | Example | Notes |
@@ -263,7 +266,7 @@ entity_id: "cond-b"
 entity_name: Condition_B_Loop_Dataset
 created: 2024-12-18
 updated: 2024-12-18
-status: in_progress
+status: doing
 
 # Hierarchy
 parent_id: "mh-3"
@@ -488,7 +491,7 @@ For more details, see:
 
 ## Dashboard + API Architecture
 
-> **Production Dashboard**: https://kanban.sosilab.synology.me/ (항상 여기서 확인)
+> **Production Dashboard**: https://mcp.sosilab.synology.me/ (항상 여기서 확인)
 > **API Server**: https://mcp.sosilab.synology.me/ (Dashboard/MCP 통합 엔드포인트)
 
 **Dashboard** (`_dashboard/index.html`): SPA with Kanban, Calendar, Strategy Graph views
@@ -671,7 +674,7 @@ These files define the vault's schema and automation rules:
 
 **Skill Documentation**:
 - `.claude/skills/loop-entity-creator/SKILL.md` - Task/Project creation skill
-- `.claude/skills/loop-entity-creator/references/` - Field requirements and entity patterns
+  - 스키마는 `00_Meta/schema_registry.md` 참조 (Single Source of Truth)
 
 **Entry Points**:
 - `_HOME.md` - Main navigation hub for users
@@ -690,17 +693,12 @@ Available commands in `.claude/commands/`:
 | Command | Description |
 |---------|-------------|
 | `/safe-commit` | SSH-based commit to NAS (avoids SMB git conflicts) |
-| `/commit` | Standard commit process |
-| `/deploy` | Deployment process |
-| `/todo` | Check tasks before starting work |
 | `/todo_api` | API development workflow with Codex-Claude loop |
 | `/new-project` | Create new Project entity with proper ID/schema |
 | `/new-task` | Create new Task entity with proper ID/schema |
-| `/new` | What's New version changelog with emoji |
 | `/auto-fill-project-impact` | AI-assisted expected_impact field filling |
 | `/build-impact` | Build and analyze project impact |
 | `/retro` | Convert retrospective notes to Evidence entities |
-| `/ontology` | Explore Product Ontology (ILOS) schema |
 | `/mcp-server` | Docker MCP 서버 관리 (rebuild/restart/logs/status) |
 
 **Usage**: Type `/command-name` in Claude Code to invoke.
@@ -714,29 +712,61 @@ Available skills in `.claude/skills/`:
 | Skill | Description |
 |-------|-------------|
 | `loop-entity-creator` | Automated Task/Project creation with ID generation |
+| `loop-dev-task` | Dev Task 생성 (Git 브랜치 자동 생성 포함) |
 | `llm-vault-optimizer` | Optimize vault structure for LLM navigation |
 | `auto-fill-project-impact` | Fill expected_impact via AI analysis |
 | `retrospective-to-evidence` | Convert retro notes to structured Evidence |
 | `doc-init` | 범용 프로젝트 문서 초기화 (doc/{프로젝트}/todo.md, techspec.md) |
+| `oauth-admin` | OAuth 클라이언트 관리 |
+| `workthrough` | 개발 작업 자동 문서화 |
 
 ---
 
-## Utility Scripts (One-time Migrations)
+## Utility Scripts
 
-Located in `scripts/`, these are typically used once for data migrations-
+Located in `scripts/`:
 
+**Core automation** (run automatically via pre-commit hook):
+| Script | Purpose |
+|--------|---------|
+| `validate_schema.py` | Schema validation + freshness check |
+| `check_orphans.py` | Find orphaned entities (warnings only) |
+| `build_graph_index.py` | Rebuild `_Graph_Index.md` |
+| `auto_fix_schema.py` | Auto-fix common schema issues |
+| `archive_task.py` | Archive completed tasks |
+| `build_archive_catalog.py` | Rebuild archive catalog |
+| `build_impact.py` | Build project impact analysis |
+
+**Migration scripts** (one-time use):
 | Script | Purpose |
 |--------|---------|
 | `backfill_conditions_3y.py` | Add `conditions_3y` field to entities |
 | `fix_project_parent_ids.py` | Fix malformed parent_id references |
-| `add_entity_id_aliases.py` | Add entity_id to aliases for Obsidian linking |
 | `csv_to_loop_entities.py` | Import tasks from Notion CSV exports |
+| `migrate_id_format.py` | Migrate to new ID format |
+| `migrate_role.py` | Migrate role field changes |
 
 ---
 
-**Last updated**: 2025-12-25
-**Document version**: 5.6
+**Last updated**: 2025-12-26
+**Document version**: 5.9
 **Author**: Claude Code
+
+**Changes (v5.9)**:
+- Fixed schema_registry.md version reference (v3.9 → v3.3)
+- Removed non-existent `/validate` and `/new-dev-task` from commands table (user-level commands only)
+- Removed non-existent `schema-validator` from skills table
+- Reorganized Utility Scripts section: separated core automation vs migration scripts
+- Added missing scripts: `auto_fix_schema.py`, `build_impact.py`, `migrate_id_format.py`, `migrate_role.py`
+
+**Changes (v5.8)**:
+- Schema Single Source of Truth: `00_Meta/schema_registry.md`만 참조 (references/ 폴더 삭제)
+- validate_schema.py v7.0: mtime 체크, 단일 파일 검증, --file/--no-freshness 옵션
+
+**Changes (v5.7)**:
+- Fixed schema_registry.md version reference (v3.7 → v3.3)
+- Removed non-existent slash commands from table (kept only actual files in .claude/commands/)
+- Added missing skills: loop-dev-task, oauth-admin, workthrough
 
 **Changes (v5.6)**:
 - Added API Endpoints Reference table with all REST endpoints
@@ -747,13 +777,3 @@ Located in `scripts/`, these are typically used once for data migrations-
 - Added MCP Server (ChatGPT Integration) section
 - Added `/mcp-server` command for Docker container management
 - MCP endpoint: `https://mcp.sosilab.synology.me/mcp`
-
-**Changes (v5.4)**:
-- Updated slash commands table with missing commands (/commit, /deploy, /todo, /new, /ontology)
-- Synced with schema_registry.md v3.7
-
-**Changes (v5.3)**:
-- Consolidated duplicate sections (Git on Network Mount, Validation, Dashboard)
-- Moved Git warning to Quick Reference section
-- Reduced document length by ~100 lines while preserving all key information
-- Fixed section numbering inconsistencies

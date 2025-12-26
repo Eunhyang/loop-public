@@ -4,7 +4,7 @@ entity_id: status-budget
 entity_name: Budget_Mode
 created: 2025-12-22
 updated: 2025-12-22
-status: active
+status: doing
 source: "[[loop_exec::20_Cashflow/Budget_Mode]]"
 aliases:
 - 예산 모드

@@ -4,7 +4,7 @@ entity_id: tsk-002-08
 entity_name: 꼭꼭FIT 관련 과제 내용과 AI 통합
 created: 2025-12-18
 updated: '2025-12-23'
-status: planning
+status: todo
 parent_id: prj-002
 project_id: prj-002
 aliases:

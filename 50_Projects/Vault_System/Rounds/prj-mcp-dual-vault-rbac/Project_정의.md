@@ -4,7 +4,7 @@ entity_id: "prj-mcp-dual-vault-rbac"
 entity_name: "MCP Dual-Vault RBAC"
 created: 2025-12-26
 updated: 2025-12-26
-status: active
+status: doing
 
 # === 계층 (전략 연결) ===
 parent_id: "trk-2"

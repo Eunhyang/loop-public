@@ -275,7 +275,7 @@ time_scale: [micro, meso, macro]
 
 # 메타
 version: "0.1"
-status: active
+status: doing
 importance: critical
 ---
 ```
@@ -308,7 +308,7 @@ domain_range:
   - source: [Episode, LoopInstance]
     target: [Event, LoopStateWindow, ActionExecution]
 version: "0.1"
-status: active
+status: doing
 ---
 
 # Relation Type: contains
@@ -506,7 +506,7 @@ domain: [eating-loop, emotional-loop, habit-loop]
 layer: data-model
 
 version: "0.1"
-status: active
+status: doing
 importance: critical
 centrality: 0.95
 

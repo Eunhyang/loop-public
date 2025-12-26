@@ -95,10 +95,10 @@ BLOCKED_PATHS = [
 ]
 
 ALLOWED_PATH_PREFIXES = [
-    "50_Projects/",
-    "60_Hypotheses/",
-    "70_Experiments/",
-    "_dashboard/",
+    "50_Projects",
+    "60_Hypotheses",
+    "70_Experiments",
+    "_dashboard",
 ]
 
 # Exec vault path prefix (requires exec role)

@@ -355,6 +355,72 @@ async def oauth_token(
 
 
 # ============================================
+# Dashboard Login (Direct JWT)
+# ============================================
+
+@router.post("/oauth/dashboard-login")
+async def dashboard_login(
+    request: Request,
+    db: SQLSession = Depends(get_db)
+):
+    """
+    Dashboard용 직접 로그인 - JWT 토큰 즉시 반환
+    MCP OAuth 플로우와 별개로, 대시보드에서 직접 사용
+    """
+    client_ip = get_client_ip(request)
+
+    # Rate limiting
+    if not check_rate_limit(client_ip, "login"):
+        log_oauth_access("dashboard_login", client_ip, success=False, details="rate_limited")
+        raise HTTPException(429, {"error": "too_many_requests", "error_description": "Rate limit exceeded"})
+
+    # Parse JSON body
+    try:
+        data = await request.json()
+        email = data.get("email", "").strip()
+        password = data.get("password", "")
+    except:
+        raise HTTPException(400, {"error": "invalid_request", "error_description": "Invalid JSON body"})
+
+    if not email or not password:
+        raise HTTPException(400, {"error": "invalid_request", "error_description": "Email and password required"})
+
+    # Authenticate user
+    user = authenticate_user(db, email, password)
+
+    if not user:
+        log_oauth_access("dashboard_login", client_ip, success=False, details="invalid_credentials")
+        raise HTTPException(401, {"error": "invalid_credentials", "error_description": "Invalid email or password"})
+
+    # Get user role
+    user_role = getattr(user, 'role', 'member') or 'member'
+
+    # Determine scope based on role
+    base_scope = "mcp:read"
+    if user_role in ("exec", "admin"):
+        final_scope = f"{base_scope} mcp:exec"
+    else:
+        final_scope = base_scope
+
+    # Generate JWT
+    access_token = create_jwt(
+        sub=str(user.id),
+        scope=final_scope,
+        additional_claims={"role": user_role, "email": user.email}
+    )
+
+    log_oauth_access("dashboard_login", client_ip, user_id=str(user.id), success=True)
+
+    return {
+        "access_token": access_token,
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "scope": final_scope,
+        "role": user_role
+    }
+
+
+# ============================================
 # Logout
 # ============================================
 

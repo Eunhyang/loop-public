@@ -4,7 +4,7 @@ entity_id: "hyp-4-02"
 entity_name: "GLP-1 과정 수요 재현"
 created: 2025-12-20
 updated: 2025-12-20
-status: planning
+status: todo
 
 # === 계층 관계 ===
 parent_id: "trk-4"

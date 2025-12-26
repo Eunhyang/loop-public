@@ -4,7 +4,7 @@ entity_id: "prj-015"
 entity_name: "Hiring - 주니어 개발자 채용"
 created: 2025-12-25
 updated: 2025-12-25
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-6"

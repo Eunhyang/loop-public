@@ -4,7 +4,7 @@ entity_id: "prj-002"
 entity_name: "[와디즈] 12주 코칭 습관팩 런칭"
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-4"

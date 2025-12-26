@@ -4,7 +4,7 @@ entity_id: "prj-010"
 entity_name: "[펀딩·마케팅] 와디즈 펀딩"
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-6"

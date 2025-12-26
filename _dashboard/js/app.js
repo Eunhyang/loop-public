@@ -63,6 +63,9 @@ async function init() {
         // Setup event listeners
         setupEventListeners();
 
+        // Display user info
+        displayUserInfo();
+
     } catch (err) {
         console.error('Init error:', err);
         boardEl.innerHTML = `
@@ -113,6 +116,28 @@ function switchView(view) {
 }
 
 // ============================================
+// User Info Display
+// ============================================
+function displayUserInfo() {
+    const userRoleEl = document.getElementById('userRole');
+    const role = Auth.getRole();
+
+    if (userRoleEl) {
+        const roleLabels = {
+            'admin': '👑 Admin',
+            'exec': '🔐 Exec',
+            'member': '👤 Member'
+        };
+        userRoleEl.textContent = roleLabels[role] || role;
+
+        // exec/admin인 경우 특별 스타일
+        if (role === 'exec' || role === 'admin') {
+            userRoleEl.classList.add('role-privileged');
+        }
+    }
+}
+
+// ============================================
 // Event Listeners
 // ============================================
 function setupEventListeners() {
@@ -120,6 +145,13 @@ function setupEventListeners() {
     document.getElementById('viewKanban').addEventListener('click', () => switchView('kanban'));
     document.getElementById('viewCalendar').addEventListener('click', () => switchView('calendar'));
     document.getElementById('viewGraph').addEventListener('click', () => switchView('graph'));
+
+    // Logout button
+    document.getElementById('btnLogout')?.addEventListener('click', () => {
+        if (confirm('Are you sure you want to logout?')) {
+            Auth.logout();
+        }
+    });
 
     // Header buttons
     document.getElementById('btnNewTask').addEventListener('click', () => TaskPanel.openNew());

@@ -86,7 +86,7 @@ PUBLIC_PATHS = [
     "/.well-known/oauth-authorization-server", "/.well-known/jwks.json",
     "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout"
 ]
-PUBLIC_PREFIXES = ["/css", "/js", "/mcp"]  # /mcp: ChatGPT MCP 연동용
+PUBLIC_PREFIXES = ["/css", "/js"]  # 정적 파일만 공개
 
 # SSE 스트리밍 경로 (BaseHTTPMiddleware와 SSE 호환성 문제로 별도 처리)
 SSE_PREFIXES = ["/mcp"]
@@ -98,10 +98,25 @@ MCP_TRUSTED_IPS = ["127.0.0.1", "localhost", "::1"]
 async def auth_middleware(request: Request, call_next):
     path = request.url.path
 
-    # SSE 경로는 미들웨어 우회 (BaseHTTPMiddleware와 SSE 호환성 문제)
+    # SSE 경로 (MCP) - Bearer 토큰 인증 후 우회
     for prefix in SSE_PREFIXES:
         if path.startswith(prefix):
-            return await call_next(request)
+            # MCP 경로도 Bearer 토큰 인증 필요 (Agent Builder 연동용)
+            auth_header = request.headers.get("authorization")
+            if auth_header and auth_header.startswith("Bearer "):
+                bearer_token = auth_header[7:]
+                # 1. 정적 API 토큰 확인
+                if bearer_token == API_TOKEN:
+                    return await call_next(request)
+                # 2. JWT 토큰 확인
+                jwt_payload = verify_jwt(bearer_token)
+                if jwt_payload:
+                    return await call_next(request)
+            # 인증 없으면 차단
+            return JSONResponse(
+                status_code=401,
+                content={"detail": "Unauthorized", "hint": "Use Bearer token with loop_2024_kanban_secret or JWT"}
+            )
 
     # IP 확인 (X-Forwarded-For가 없으면 직접 연결 IP 사용)
     client_ip = request.headers.get("x-forwarded-for") or request.client.host
@@ -123,10 +138,16 @@ async def auth_middleware(request: Request, call_next):
 
     # /api/* 경로는 토큰 검증
     if path.startswith("/api"):
-        # 1. OAuth Bearer 토큰 확인 (RS256 JWT)
         auth_header = request.headers.get("authorization")
         if auth_header and auth_header.startswith("Bearer "):
             bearer_token = auth_header[7:]  # "Bearer " 제거
+
+            # 1. 정적 API 토큰 확인 (Agent Builder 연동용)
+            if bearer_token == API_TOKEN:
+                log_oauth_access("api", client_ip, success=True, details="static_token")
+                return await call_next(request)
+
+            # 2. OAuth Bearer 토큰 확인 (RS256 JWT)
             jwt_payload = verify_jwt(bearer_token)
             if jwt_payload:
                 # JWT 유효 - request.state에 저장 (downstream에서 사용)
@@ -144,7 +165,7 @@ async def auth_middleware(request: Request, call_next):
                 )
                 return await call_next(request)
 
-        # 2. 기존 API 토큰 확인 (대시보드용)
+        # 3. x-api-token 헤더 확인 (대시보드용)
         api_token = request.headers.get("x-api-token")
         if api_token == API_TOKEN:
             return await call_next(request)

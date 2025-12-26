@@ -4,7 +4,7 @@ entity_id: prj-001
 entity_name: Ontology v0.1
 created: 2025-12-18
 updated: '2025-12-19'
-status: active
+status: doing
 parent_id: trk-2
 track_id: trk-2
 aliases:

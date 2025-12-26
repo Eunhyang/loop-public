@@ -4,7 +4,7 @@ entity_id: ps-3
 entity_name: PS3_해외_클리닉
 created: 2024-12-20
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: cond-c
 aliases:
 - ps-3

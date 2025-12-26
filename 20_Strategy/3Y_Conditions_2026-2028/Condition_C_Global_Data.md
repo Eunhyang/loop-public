@@ -4,7 +4,7 @@ entity_id: cond-c
 entity_name: Condition_C_Global_Data
 created: 2024-12-18
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: mh-3
 aliases:
 - cond-c

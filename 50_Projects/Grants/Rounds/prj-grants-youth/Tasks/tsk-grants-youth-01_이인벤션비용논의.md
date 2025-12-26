@@ -4,7 +4,7 @@ entity_id: tsk-grants-youth-01
 entity_name: 이인벤션 선납 비용 처리 논의
 created: 2025-12-26
 updated: 2025-12-26
-status: planning
+status: todo
 
 # === Task 정보 ===
 project_id: prj-grants-youth

@@ -4,7 +4,7 @@ entity_id: tsk-003-02
 entity_name: Loop OS V0 데이터 설계 – 4. Minimal Logging Spec
 created: 2025-12-18
 updated: '2025-12-23'
-status: planning
+status: todo
 parent_id: prj-003
 project_id: prj-003
 aliases:

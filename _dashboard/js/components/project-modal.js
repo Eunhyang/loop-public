@@ -35,7 +35,7 @@ const ProjectModal = {
         const statuses = State.getProjectStatuses();
         const statusLabels = State.getProjectStatusLabels();
         statusEl.innerHTML = statuses.map(s =>
-            `<option value="${s}" ${s === 'planning' ? 'selected' : ''}>${statusLabels[s]}</option>`
+            `<option value="${s}" ${s === 'todo' ? 'selected' : ''}>${statusLabels[s]}</option>`
         ).join('');
     },
 
@@ -49,7 +49,7 @@ const ProjectModal = {
         document.getElementById('projectName').value = '';
         document.getElementById('projectTrack').value = '';
         document.getElementById('projectPriority').value = 'medium';
-        document.getElementById('projectStatus').value = 'planning';
+        document.getElementById('projectStatus').value = 'todo';
 
         document.getElementById('projectModal').classList.add('active');
         document.getElementById('projectName').focus();
@@ -69,7 +69,7 @@ const ProjectModal = {
         document.getElementById('projectOwner').value = project.owner || '';
         document.getElementById('projectTrack').value = project.parent_id || project.track_id || '';
         document.getElementById('projectPriority').value = project.priority_flag || 'medium';
-        document.getElementById('projectStatus').value = project.status || 'planning';
+        document.getElementById('projectStatus').value = project.status || 'todo';
 
         document.getElementById('projectModal').classList.add('active');
         document.getElementById('projectName').focus();

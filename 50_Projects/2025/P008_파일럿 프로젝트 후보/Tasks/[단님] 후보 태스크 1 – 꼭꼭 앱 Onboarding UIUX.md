@@ -4,7 +4,7 @@ entity_id: "tsk-008-01"
 entity_name: "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX"
 created: 2025-12-18
 updated: 2025-12-18
-status: in_progress
+status: doing
 
 # === 계층 ===
 parent_id: "prj-008"

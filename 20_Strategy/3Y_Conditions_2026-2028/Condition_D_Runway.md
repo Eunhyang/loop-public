@@ -4,7 +4,7 @@ entity_id: cond-d
 entity_name: Condition_D_Runway
 created: 2024-12-18
 updated: 2024-12-20
-status: in_progress
+status: doing
 parent_id: mh-4
 aliases:
 - cond-d

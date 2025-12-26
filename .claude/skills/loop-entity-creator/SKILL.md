@@ -37,11 +37,17 @@ Required fields:
 - `project_id` - Parent project ID (must exist, e.g., "prj-003")
 - `assignee` - Person responsible (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 
+Default fields (자동 설정):
+- `status` - 기본값: "todo" (유효값: todo | doing | done | blocked)
+  - 일반 Task: "todo"
+  - Dev Task (type=dev): "doing" (바로 시작)
+
 Optional fields:
 - `parent_id` - Parent task ID if this is a subtask
 - `priority_flag` - "critical", "high", "medium", or "low"
 - `type` - Task 유형: "dev" | "strategy" | "research" | "ops" | null
 - `target_project` - type=dev일 때만: "sosi" | "kkokkkok" | "loop-api"
+- `status` - 기본값 오버라이드 시: "todo" | "doing" | "done" | "blocked"
 
 **FORBIDDEN (역할 분리):**
 - ❌ `validates` - Task는 전략 판단에 개입하지 않음. validates는 Project만 가능.
@@ -115,6 +121,10 @@ Required fields:
 - `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
 - `parent_id` - Parent Track ID (e.g., "trk-2") - **필수, Program 하위 Project도 반드시 Track 연결 필요**
 - `conditions_3y` - 기여하는 3년 Condition 목록 (e.g., ["cond-a", "cond-b"]) - **필수**
+
+Default fields (자동 설정):
+- `status` - 기본값: "doing" (유효값: todo | doing | done | blocked)
+  - 프로젝트는 생성 시 바로 진행 상태로 시작
 
 Optional fields:
 - `program_id` - 소속 Program ID (e.g., "pgm-youtube") - Program 하위 Round Project인 경우

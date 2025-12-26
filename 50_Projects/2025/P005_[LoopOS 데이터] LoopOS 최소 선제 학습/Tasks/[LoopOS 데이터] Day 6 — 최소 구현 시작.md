@@ -4,7 +4,7 @@ entity_id: tsk-005-04
 entity_name: '[LoopOS 데이터] Day 6 — 최소 구현 시작'
 created: 2025-12-18
 updated: '2025-12-23'
-status: planning
+status: todo
 parent_id: prj-005
 project_id: prj-005
 aliases:

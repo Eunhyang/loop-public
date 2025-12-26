@@ -4,7 +4,7 @@ entity_id: trk-1
 entity_name: Track_1_Product
 created: 2024-12-18
 updated: 2025-12-22
-status: active
+status: doing
 parent_id: cond-a
 aliases:
 - trk-1

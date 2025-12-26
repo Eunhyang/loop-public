@@ -4,7 +4,7 @@ entity_id: prj-dashboard-ux-v1
 entity_name: 대시보드 UX 개선 v1
 created: 2025-12-26
 updated: '2025-12-26'
-status: active
+status: doing
 program_id: pgm-vault-system
 cycle: '2025'
 owner: 한명학

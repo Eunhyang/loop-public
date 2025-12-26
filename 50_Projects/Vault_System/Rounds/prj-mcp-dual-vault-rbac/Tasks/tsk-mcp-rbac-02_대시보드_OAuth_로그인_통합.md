@@ -1,44 +1,37 @@
 ---
 entity_type: Task
-entity_id: "tsk-mcp-rbac-02"
-entity_name: "대시보드 OAuth 로그인 통합"
+entity_id: tsk-mcp-rbac-02
+entity_name: 대시보드 OAuth 로그인 통합
 created: 2025-12-26
-updated: 2025-12-26
-status: planning
-
-# === 계층 ===
-parent_id: "prj-mcp-dual-vault-rbac"
-project_id: "prj-mcp-dual-vault-rbac"
-program_id: "pgm-vault-system"
-aliases: ["tsk-mcp-rbac-02"]
-
-# === 관계 ===
+updated: '2025-12-26'
+status: done
+parent_id: prj-mcp-dual-vault-rbac
+project_id: prj-mcp-dual-vault-rbac
+program_id: pgm-vault-system
+aliases:
+- tsk-mcp-rbac-02
 outgoing_relations:
-  - type: depends_on
-    target_id: "tsk-mcp-rbac-01"
-    description: "User 모델 + role 필드 필요"
+- type: depends_on
+  target_id: tsk-mcp-rbac-01
+  description: User 모델 + role 필드 필요
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 due: 2025-12-26
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-b"]
-
-# === 분류 ===
-tags: ["oauth", "dashboard", "rbac", "security"]
+conditions_3y:
+- cond-b
+tags:
+- oauth
+- dashboard
+- rbac
+- security
 priority_flag: high
 ---
-
 # 대시보드 OAuth 로그인 통합
 
 > Task ID: `tsk-mcp-rbac-02` | Project: `prj-mcp-dual-vault-rbac` | Status: planning

@@ -44,7 +44,7 @@ time_scale: [micro, meso]
 
 # 버전 & 상태
 version: "0.1"
-status: active
+status: doing
 lifecycle: stable
 spec_version: "0.1"
 

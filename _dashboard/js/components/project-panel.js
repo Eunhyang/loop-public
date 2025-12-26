@@ -474,7 +474,7 @@ const ProjectPanel = {
         document.getElementById('panelProjectName').value = project.entity_name || '';
         document.getElementById('panelProjectOwner').value = project.owner || '';
         document.getElementById('panelProjectTrack').value = project.parent_id || project.track_id || '';
-        document.getElementById('panelProjectStatus').value = project.status || 'planning';
+        document.getElementById('panelProjectStatus').value = project.status || 'todo';
         document.getElementById('panelProjectPriority').value = project.priority_flag || project.priority || 'medium';
         document.getElementById('panelProjectNotes').value = project.notes || project.description || '';
 

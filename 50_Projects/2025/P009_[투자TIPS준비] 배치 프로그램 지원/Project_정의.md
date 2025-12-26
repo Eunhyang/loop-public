@@ -4,7 +4,7 @@ entity_id: "prj-009"
 entity_name: "[투자/TIPS준비] 배치 프로그램 지원"
 created: 2025-12-18
 updated: 2025-12-18
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-6"

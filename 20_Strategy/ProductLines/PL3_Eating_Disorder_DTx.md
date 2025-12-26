@@ -4,7 +4,7 @@ entity_id: pl-3
 entity_name: PL3_Eating_Disorder_DTx
 created: 2024-12-20
 updated: 2024-12-20
-status: planning
+status: todo
 parent_id: cond-b
 aliases:
 - pl-3

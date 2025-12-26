@@ -4,7 +4,7 @@ entity_id: "prj-014"
 entity_name: "코칭 서비스 운영 체계 재구축"
 created: 2025-12-18
 updated: 2025-12-23
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: "trk-4"

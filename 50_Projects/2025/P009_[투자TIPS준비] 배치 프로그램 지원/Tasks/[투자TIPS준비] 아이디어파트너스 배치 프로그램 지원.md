@@ -4,7 +4,7 @@ entity_id: "tsk-009-01"
 entity_name: "[투자/TIPS준비] 아이디어파트너스 배치 프로그램 지원"
 created: 2025-12-18
 updated: 2025-12-18
-status: planning
+status: todo
 
 # === 계층 ===
 parent_id: "prj-009"

@@ -4,7 +4,7 @@ entity_id: concept-os-stickiness
 entity_name: OS_Stickiness
 created: 2025-12-22
 updated: 2025-12-22
-status: active
+status: doing
 aliases:
 - OS 점착
 - Zero-to-One 조건

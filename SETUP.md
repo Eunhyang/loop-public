@@ -282,7 +282,7 @@ entity_id: hyp-001
 entity_name: H_my_hypothesis
 created: 2025-12-18
 updated: 2025-12-18
-status: planning
+status: todo
 
 hypothesis_text: "루프 데이터는 패턴화 가능하다"
 

@@ -4,7 +4,7 @@ entity_id: prj-grants-jemi
 entity_name: JEMI디딤돌 지원사업
 created: 2025-12-23
 updated: 2025-12-23
-status: planning
+status: todo
 
 # === 소속 Program ===
 program_id: pgm-grants

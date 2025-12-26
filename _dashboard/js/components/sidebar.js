@@ -380,12 +380,16 @@ const Sidebar = {
 
     getStatusClass(status) {
         const statusMap = {
+            // New schema values
+            'todo': 'planning',
+            'doing': 'active',
+            'done': 'active',
+            'blocked': 'blocked',
+            // Legacy values (backward compat)
             'active': 'active',
             'in_progress': 'active',
             'planning': 'planning',
             'at_risk': 'at_risk',
-            'blocked': 'blocked',
-            'done': 'active',
             'completed': 'active'
         };
         return statusMap[status] || 'planning';

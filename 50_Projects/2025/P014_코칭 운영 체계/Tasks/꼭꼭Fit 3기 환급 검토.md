@@ -4,7 +4,7 @@ entity_id: tsk-014-01
 entity_name: 꼭꼭Fit 3기 환급 검토
 created: 2025-12-18
 updated: 2025-12-18
-status: in_progress
+status: doing
 parent_id: prj-014
 project_id: prj-014
 aliases:

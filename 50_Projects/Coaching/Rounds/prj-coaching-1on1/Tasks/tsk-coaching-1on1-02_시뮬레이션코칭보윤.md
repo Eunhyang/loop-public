@@ -4,7 +4,7 @@ entity_id: tsk-coaching-1on1-02
 entity_name: 시뮬레이션 코칭(보윤님)
 created: 2025-12-26
 updated: 2025-12-26
-status: planning
+status: todo
 
 # === Task 정보 ===
 project_id: prj-coaching-1on1
