@@ -6,6 +6,7 @@ const ProjectPanel = {
     currentProject: null,
     isExpanded: false,
     isEditingNotes: false,
+    editableLinks: [], // 편집 중인 링크 목록 (Save 시 저장)
 
     // Impact Score 계산을 위한 점수 테이블
     tierPoints: {
@@ -93,6 +94,27 @@ const ProjectPanel = {
         // Live preview on notes input
         document.getElementById('panelProjectNotes')?.addEventListener('input', (e) => {
             this.updateNotesPreview(e.target.value);
+        });
+
+        // ID 클릭 시 복사
+        const idEl = document.getElementById('panelProjectId');
+        if (idEl) {
+            idEl.style.cursor = 'pointer';
+            idEl.title = 'Click to copy ID';
+            idEl.addEventListener('click', () => this.copyId(idEl.textContent));
+        }
+    },
+
+    /**
+     * ID를 클립보드에 복사
+     */
+    copyId(id) {
+        if (!id) return;
+        navigator.clipboard.writeText(id).then(() => {
+            showToast(`Copied: ${id}`, 'success');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            showToast('Copy failed', 'error');
         });
     },
 
@@ -487,6 +509,9 @@ const ProjectPanel = {
         // Relations 표시
         this.renderRelations(project);
 
+        // Links 표시
+        this.renderLinks(project);
+
         // 하위 Tasks 표시
         this.renderProjectTasks(project);
 
@@ -624,6 +649,188 @@ const ProjectPanel = {
     },
 
     /**
+     * URL이 안전한지 확인 (javascript: 등 차단)
+     */
+    isSafeUrl(url) {
+        if (!url) return false;
+        const lower = url.toLowerCase().trim();
+        return lower.startsWith('https://') || lower.startsWith('http://');
+    },
+
+    /**
+     * Links 렌더링 - 외부 링크 목록 표시 (편집 가능)
+     */
+    renderLinks(project) {
+        const sectionEl = document.getElementById('panelProjectLinksSection');
+        const linksEl = document.getElementById('panelProjectLinks');
+
+        // editableLinks 초기화 (project.links 복사)
+        this.editableLinks = Array.isArray(project.links) ? [...project.links] : [];
+
+        // 섹션 항상 표시 (추가 버튼 필요)
+        sectionEl.style.display = 'block';
+
+        this.renderLinksUI();
+    },
+
+    /**
+     * Links UI 렌더링 (editableLinks 기반)
+     */
+    renderLinksUI() {
+        const linksEl = document.getElementById('panelProjectLinks');
+
+        // 링크 목록 렌더링
+        const items = this.editableLinks.map((link, index) => {
+            const label = this.escapeHtml(link.label || 'Link');
+            const url = link.url || '';
+
+            // 안전한 URL만 허용
+            if (!this.isSafeUrl(url)) {
+                return `
+                    <div class="panel-link-item invalid">
+                        <span class="panel-link-label">${label}</span>
+                        <span class="panel-link-url invalid">(invalid URL)</span>
+                        <button type="button" class="panel-link-delete-btn" data-index="${index}" title="Delete">🗑</button>
+                    </div>
+                `;
+            }
+
+            const escapedUrl = this.escapeHtml(url);
+            return `
+                <div class="panel-link-item">
+                    <span class="panel-link-label">${label}:</span>
+                    <a href="${escapedUrl}" target="_blank" rel="noopener noreferrer" class="panel-link-url">${escapedUrl}</a>
+                    <button type="button" class="panel-link-delete-btn" data-index="${index}" title="Delete">🗑</button>
+                </div>
+            `;
+        });
+
+        // Add Link 버튼 + 입력 폼
+        const addFormHtml = `
+            <div class="panel-link-add-form" id="projectLinkAddForm" style="display: none;">
+                <div class="panel-link-input-row">
+                    <input type="text" id="projectLinkLabelInput" class="panel-link-input" placeholder="Label (예: 기획문서)">
+                    <input type="url" id="projectLinkUrlInput" class="panel-link-input" placeholder="URL (https://...)">
+                </div>
+                <div class="panel-link-form-buttons">
+                    <button type="button" class="btn btn-sm btn-primary" id="projectLinkSaveBtn">Add</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="projectLinkCancelBtn">Cancel</button>
+                </div>
+            </div>
+            <button type="button" class="panel-link-add-btn" id="projectLinkAddBtn">+ Add Link</button>
+        `;
+
+        linksEl.innerHTML = items.join('') + addFormHtml;
+
+        // 이벤트 바인딩
+        this.bindLinkEventHandlers();
+    },
+
+    /**
+     * Link 이벤트 핸들러 바인딩
+     */
+    bindLinkEventHandlers() {
+        // Delete 버튼들
+        document.querySelectorAll('#panelProjectLinks .panel-link-delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const index = parseInt(btn.dataset.index, 10);
+                this.deleteLink(index);
+            });
+        });
+
+        // Add 버튼
+        document.getElementById('projectLinkAddBtn')?.addEventListener('click', () => {
+            this.showAddLinkForm();
+        });
+
+        // Save 버튼 (폼 내)
+        document.getElementById('projectLinkSaveBtn')?.addEventListener('click', () => {
+            this.addNewLink();
+        });
+
+        // Cancel 버튼
+        document.getElementById('projectLinkCancelBtn')?.addEventListener('click', () => {
+            this.hideAddLinkForm();
+        });
+
+        // Enter 키로 추가
+        document.getElementById('projectLinkUrlInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.addNewLink();
+            }
+        });
+    },
+
+    /**
+     * Add Link 폼 표시
+     */
+    showAddLinkForm() {
+        const form = document.getElementById('projectLinkAddForm');
+        const addBtn = document.getElementById('projectLinkAddBtn');
+        if (form) form.style.display = 'block';
+        if (addBtn) addBtn.style.display = 'none';
+        document.getElementById('projectLinkLabelInput')?.focus();
+    },
+
+    /**
+     * Add Link 폼 숨김
+     */
+    hideAddLinkForm() {
+        const form = document.getElementById('projectLinkAddForm');
+        const addBtn = document.getElementById('projectLinkAddBtn');
+        if (form) form.style.display = 'none';
+        if (addBtn) addBtn.style.display = 'inline-block';
+        // 입력값 초기화
+        const labelInput = document.getElementById('projectLinkLabelInput');
+        const urlInput = document.getElementById('projectLinkUrlInput');
+        if (labelInput) labelInput.value = '';
+        if (urlInput) urlInput.value = '';
+    },
+
+    /**
+     * 새 링크 추가 (로컬 배열에)
+     */
+    addNewLink() {
+        const labelInput = document.getElementById('projectLinkLabelInput');
+        const urlInput = document.getElementById('projectLinkUrlInput');
+        const label = labelInput?.value?.trim() || '';
+        const url = urlInput?.value?.trim() || '';
+
+        // 유효성 검사
+        if (!label) {
+            showToast('Please enter a label', 'error');
+            labelInput?.focus();
+            return;
+        }
+        if (!this.isSafeUrl(url)) {
+            showToast('Please enter a valid URL (https:// or http://)', 'error');
+            urlInput?.focus();
+            return;
+        }
+
+        // 배열에 추가
+        this.editableLinks.push({ label, url });
+
+        // UI 갱신
+        this.renderLinksUI();
+
+        showToast('Link added (click Save to persist)', 'info');
+    },
+
+    /**
+     * 링크 삭제 (로컬 배열에서)
+     */
+    deleteLink(index) {
+        if (index >= 0 && index < this.editableLinks.length) {
+            this.editableLinks.splice(index, 1);
+            this.renderLinksUI();
+            showToast('Link removed (click Save to persist)', 'info');
+        }
+    },
+
+    /**
      * 프로젝트 내 Tasks 렌더링
      */
     renderProjectTasks(project) {
@@ -698,7 +905,11 @@ const ProjectPanel = {
             parent_id: document.getElementById('panelProjectTrack').value || null,
             status: document.getElementById('panelProjectStatus').value,
             priority_flag: document.getElementById('panelProjectPriority').value,
-            notes: document.getElementById('panelProjectNotes').value || null
+            notes: document.getElementById('panelProjectNotes').value || null,
+            // 유효한 URL만 저장 (invalid 링크 필터링)
+            links: this.editableLinks.filter(link => this.isSafeUrl(link.url)).length > 0
+                ? this.editableLinks.filter(link => this.isSafeUrl(link.url))
+                : null
         };
 
         // Validation
@@ -730,7 +941,9 @@ const ProjectPanel = {
             }
         } catch (err) {
             console.error('Save project error:', err);
-            showToast('Error saving project', 'error');
+            showToast('Error saving project: ' + err.message, 'error');
+            // 에러 시에도 패널 닫기 (오버레이 stuck 방지)
+            this.close();
         } finally {
             // Restore button state
             saveBtn.disabled = false;

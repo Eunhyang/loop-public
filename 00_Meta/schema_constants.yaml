@@ -1,0 +1,380 @@
+# ============================================
+# LOOP Schema Constants (Single Source of Truth)
+# ============================================
+# 이 파일을 수정하면 API 서버 rebuild 필요:
+#   /mcp-server rebuild
+#
+# 참조하는 파일들:
+#   - api/constants.py (Python)
+#   - _dashboard/js/state.js (via API)
+#   - 00_Meta/schema_registry.md (문서)
+
+# ============================================
+# Task
+# ============================================
+task:
+  status:
+    - todo      # 시작 전
+    - doing     # 진행 중
+    - hold      # 보류 (외부 의존성 대기 등)
+    - done      # 완료
+    - blocked   # 차단됨 (문제 발생)
+  status_default: todo
+  status_labels:
+    todo: "To Do"
+    doing: "Doing"
+    hold: "Hold"
+    done: "Done"
+    blocked: "Blocked"
+  status_colors:
+    todo: "#6b7280"      # gray
+    doing: "#3b82f6"     # blue
+    hold: "#f59e0b"      # amber
+    done: "#10b981"      # green
+    blocked: "#ef4444"   # red
+  # Task 유형 (dev Task 연동용)
+  types:
+    - dev        # 개발 작업
+    - strategy   # 전략 작업
+    - research   # 리서치
+    - ops        # 운영
+  # 외부 프로젝트 (type=dev일 때)
+  target_projects:
+    - sosi       # SoSi 앱
+    - kkokkkok   # 꼭꼭 앱
+    - loop-api   # LOOP API 서버
+    - loop       # LOOP Vault 자체
+
+# ============================================
+# Project
+# ============================================
+project:
+  status:
+    - planning   # 기획 중
+    - active     # 진행 중
+    - paused     # 일시 중단
+    - done       # 완료
+    - cancelled  # 취소
+  status_default: planning
+  status_labels:
+    planning: "Planning"
+    active: "Active"
+    paused: "Paused"
+    done: "Done"
+    cancelled: "Cancelled"
+  status_colors:
+    planning: "#6b7280"   # gray
+    active: "#3b82f6"     # blue
+    paused: "#f59e0b"     # amber
+    done: "#10b981"       # green
+    cancelled: "#ef4444"  # red
+
+# ============================================
+# Priority
+# ============================================
+priority:
+  values:
+    - critical  # 긴급
+    - high      # 높음
+    - medium    # 보통
+    - low       # 낮음
+  default: medium
+  labels:
+    critical: "Critical"
+    high: "High"
+    medium: "Medium"
+    low: "Low"
+  colors:
+    critical: "#dc2626"  # red-600
+    high: "#f97316"      # orange-500
+    medium: "#eab308"    # yellow-500
+    low: "#22c55e"       # green-500
+
+# ============================================
+# Entity Types
+# ============================================
+entity_types:
+  - NorthStar
+  - MetaHypothesis
+  - Condition
+  - Track
+  - Program
+  - Project
+  - Task
+  - Hypothesis
+  - Experiment
+
+# ============================================
+# Condition IDs (3Y 전략 조건)
+# ============================================
+condition_ids:
+  - cond-a
+  - cond-b
+  - cond-c
+  - cond-d
+  - cond-e
+
+# ============================================
+# Program Types (상시 운영 프로그램)
+# ============================================
+program_types:
+  - hiring         # 채용
+  - fundraising    # 투자 유치
+  - grants         # 지원사업
+  - launch         # 런칭
+  - experiments    # 실험
+  - infrastructure # 인프라
+
+# ============================================
+# Risk Level
+# ============================================
+risk_level:
+  values:
+    - low
+    - medium
+    - high
+    - critical
+  default: medium
+
+# ============================================
+# Hypothesis (가설 상태)
+# ============================================
+hypothesis:
+  evidence_status:
+    - assumed      # 가정됨
+    - validating   # 검증 중
+    - validated    # 검증됨
+    - falsified    # 반증됨
+    - learning     # 학습 중
+
+# ============================================
+# NorthStar (북극성)
+# ============================================
+northstar:
+  status:
+    - fixed        # 고정됨 (변경 불가)
+
+# ============================================
+# Paths (검증/인덱싱 대상 경로)
+# ============================================
+paths:
+  # 검증 대상 폴더 (validate_schema.py, build_graph_index.py)
+  include:
+    - "01_North_Star"
+    - "20_Strategy"
+    - "50_Projects"
+    - "60_Hypotheses"
+    - "70_Experiments"
+  # 제외 폴더
+  exclude:
+    - "00_Meta/_TEMPLATES"
+    - "10_Study"
+    - "30_Ontology"
+    - "40_LOOP_OS"
+    - "90_Archive"
+    - "00_Inbox"
+  # 제외 파일
+  exclude_files:
+    - "_INDEX.md"
+    - "_ENTRY_POINT.md"
+    - "CLAUDE.md"
+    - "README.md"
+    - "_HOME.md"
+    - "_Graph_Index.md"
+
+# ============================================
+# ID Patterns (엔티티별 ID 정규식)
+# ============================================
+id_patterns:
+  ns: "^ns-\\d{3}$"                                    # ns-001
+  mh: "^mh-[1-4]$"                                     # mh-1 ~ mh-4
+  cond: "^cond-[a-e]$"                                 # cond-a ~ cond-e
+  trk: "^trk-[1-6]$"                                   # trk-1 ~ trk-6
+  prj: "^prj-(\\d{3}|[a-z][a-z0-9-]+)$"               # prj-001 또는 prj-vault-gpt
+  tsk: "^tsk-(\\d{3}-\\d{2}|[a-z][a-z0-9-]+-\\d{2})$" # tsk-001-01 또는 tsk-vault-gpt-01
+  hyp: "^hyp-[1-6]-\\d{2}$"                            # hyp-1-01 (Track기반)
+  exp: "^exp-\\d{3}$"                                  # exp-001
+  pl: "^pl-[1-9]$"                                     # pl-1 ~ pl-9
+  ps: "^ps-[1-9]$"                                     # ps-1 ~ ps-9
+  pgm: "^pgm-[a-z][a-z0-9-]*$"                         # pgm-hiring
+  retro: "^retro-\\d{3}-\\d{2}$"                       # retro-015-01
+  status: "^status-[a-z-]+$"                           # status documents
+  concept: "^concept-[a-z-]+$"                         # concept documents
+
+# ============================================
+# Required Fields (엔티티별 필수 필드)
+# ============================================
+required_fields:
+  # 모든 엔티티 공통
+  all:
+    - entity_type
+    - entity_id
+    - entity_name
+    - created
+    - updated
+    - status
+  # 엔티티별 추가 필수 필드
+  NorthStar: []
+  MetaHypothesis:
+    - if_broken
+  Condition:
+    - if_broken
+  Track:
+    - owner
+    - horizon
+    - conditions_3y
+  Program:
+    - program_type
+    - owner
+  Project:
+    - owner
+    - parent_id
+    - conditions_3y
+    - expected_impact
+  Task:
+    - assignee
+    - project_id
+    - parent_id
+    - conditions_3y
+  Hypothesis: []   # hypothesis_question OR hypothesis_text 별도 검증
+  Experiment:
+    - hypothesis_id
+    - metrics
+
+# ============================================
+# Known Fields (freshness check용 - 스키마에 정의된 필드)
+# ============================================
+known_fields:
+  # 모든 엔티티 공통
+  all:
+    - entity_type
+    - entity_id
+    - entity_name
+    - created
+    - updated
+    - status
+    - parent_id
+    - aliases
+    - outgoing_relations
+    - validates
+    - validated_by
+    - tags
+    - priority_flag
+    - conditions_3y
+  # 엔티티별 추가 필드
+  NorthStar: []
+  MetaHypothesis:
+    - if_broken
+    - evidence_status
+    - confidence
+  Condition:
+    - unlock
+    - if_broken
+    - metrics
+  Track:
+    - horizon
+    - hypothesis
+    - focus
+    - owner
+    - objectives
+  Program:
+    - program_type
+    - owner
+    - principles
+    - process_steps
+    - templates
+    - kpis
+    - exec_rounds_path
+  Project:
+    - owner
+    - budget
+    - deadline
+    - program_id
+    - cycle
+    - expected_impact
+    - realized_impact
+    - hypothesis_id
+    - experiments
+    - hypothesis_text
+    - links
+  Task:
+    - project_id
+    - assignee
+    - start_date
+    - due
+    - priority
+    - estimated_hours
+    - actual_hours
+    - type
+    - target_project
+    - candidate_id
+    - has_exec_details
+    - closed
+    - archived_at
+    - closed_inferred
+    - notes
+    - links
+  Hypothesis:
+    - hypothesis_question
+    - success_criteria
+    - failure_criteria
+    - measurement
+    - horizon
+    - deadline
+    - evidence_status
+    - confidence
+    - loop_layer
+    - hypothesis_text
+  Experiment:
+    - hypothesis_id
+    - protocol
+    - metrics
+    - start_date
+    - end_date
+    - result_summary
+    - outcome
+
+# ============================================
+# Entity Order (정렬 순서 - Graph Index용)
+# ============================================
+entity_order:
+  - NorthStar
+  - MetaHypothesis
+  - Condition
+  - Track
+  - Program
+  - Project
+  - Task
+  - Hypothesis
+  - Experiment
+
+# ============================================
+# Status Mapping (Dashboard용 - Project/Legacy → Task 상태 매핑)
+# ============================================
+status_mapping:
+  # Project status → Task status (Dashboard 표준화용)
+  planning: todo
+  active: doing
+  paused: hold
+  cancelled: blocked
+  # Legacy/Alternative status
+  pending: todo
+  in_progress: doing
+  completed: done
+  complete: done
+  failed: blocked
+  learning: done
+
+# ============================================
+# Impact (Project expected_impact용)
+# ============================================
+impact:
+  tiers:
+    - strategic     # 전략적
+    - enabling      # 지원
+    - operational   # 운영
+    - none          # 영향 없음
+  magnitudes:
+    - high
+    - mid
+    - low

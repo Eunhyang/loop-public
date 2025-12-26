@@ -287,5 +287,41 @@ const API = {
     async getCacheStats() {
         const res = await this.authFetch(`${this.baseUrl}/api/cache/stats`);
         return res.json();
+    },
+
+    // ============================================
+    // Pending Reviews (n8n 자동화)
+    // ============================================
+    async getPendingReviews(status = null) {
+        const url = status
+            ? `${this.baseUrl}/api/pending?status=${encodeURIComponent(status)}`
+            : `${this.baseUrl}/api/pending`;
+        const res = await this.authFetch(url);
+        const data = await res.json();
+        return data.reviews || [];
+    },
+
+    async approvePendingReview(reviewId, modifiedFields = null) {
+        const body = modifiedFields ? { modified_fields: modifiedFields } : {};
+        const res = await this.authFetch(`${this.baseUrl}/api/pending/${encodeURIComponent(reviewId)}/approve`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        return res.json();
+    },
+
+    async rejectPendingReview(reviewId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/pending/${encodeURIComponent(reviewId)}/reject`, {
+            method: 'POST'
+        });
+        return res.json();
+    },
+
+    async deletePendingReview(reviewId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/pending/${encodeURIComponent(reviewId)}`, {
+            method: 'DELETE'
+        });
+        return res.json();
     }
 };

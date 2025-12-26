@@ -1,13 +1,13 @@
 ---
 entity_type: Project
-entity_id: prj-coaching-1on1
-entity_name: 1:1 코칭
+entity_id: prj-yt-wegovy
+entity_name: 위고비 유튜브 콘텐츠 기획
 created: 2025-12-26
 updated: 2025-12-26
-status: doing
+status: active
 
 # === 소속 Program ===
-program_id: pgm-coaching
+program_id: pgm-youtube-weekly
 cycle: "2025"
 
 # === 프로젝트 정보 ===
@@ -32,27 +32,27 @@ hypothesis_id: null
 experiments: []
 
 # === 계층 (전략 연결) ===
-parent_id: pgm-coaching
+parent_id: pgm-youtube-weekly
 conditions_3y: ["cond-a"]
 aliases:
-  - prj-coaching-1on1
-  - 1:1 코칭
-  - 일대일코칭
+  - prj-yt-wegovy
+  - 위고비 유튜브 콘텐츠 기획
+  - 위고비콘텐츠
 
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "coaching", "1on1"]
-priority_flag: high
+tags: ["project", "youtube", "위고비", "콘텐츠"]
+priority_flag: medium
 ---
 
-# 1:1 코칭
+# 위고비 유튜브 콘텐츠 기획
 
-> Project ID: `prj-coaching-1on1` | Program: [[pgm-coaching]] | Status: active
+> Project ID: `prj-yt-wegovy` | Program: [[pgm-youtube-weekly]] | Status: active
 
 ## 프로젝트 개요
 
-1:1 개인 코칭 세션 운영 프로젝트.
+위고비 관련 유튜브 콘텐츠 기획 및 제작 프로젝트.
 
 ---
 
@@ -72,14 +72,13 @@ priority_flag: high
 
 | Task ID | Task Name | Assignee | Status |
 |---------|-----------|----------|--------|
-| tsk-coaching-1on1-01 | 1:1 코칭 진행 | 한명학 | planning |
-| tsk-coaching-1on1-02 | 시뮬레이션 코칭(보윤님) | 한명학 | planning |
+| tsk-yt-wegovy-01 | 위고비 처방 및 구매 | 한명학 | planning |
 
 ---
 
 ## 참조
 
-- **Program**: [[_PROGRAM|코칭서비스]]
+- **Program**: [[_PROGRAM|YouTube 1주 1업로드]]
 
 ---
 

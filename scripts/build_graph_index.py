@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Graph Index Builder v5.0
+LOOP Vault Graph Index Builder v6.0
 _Graph_Index.md, _build/graph.json, 폴더별 _INDEX.md를 자동 생성합니다.
+
+변경사항 (v6.0):
+- INCLUDE_PATHS, ENTITY_ORDER를 00_Meta/schema_constants.yaml에서 로드
+- Single Source of Truth 적용
 
 변경사항 (v5.0):
 - 폴더별 _INDEX.md 자동 생성 추가
@@ -22,26 +26,49 @@ from typing import Dict, List, Optional, Set
 from datetime import datetime
 from collections import defaultdict
 
-# === 설정 ===
-INCLUDE_PATHS = [
-    "01_North_Star",
-    "20_Strategy",
-    "50_Projects",
-    "60_Hypotheses",
-    "70_Experiments",
-]
+# ============================================
+# Constants - loaded from 00_Meta/schema_constants.yaml at runtime
+# ============================================
+_SCHEMA_CONSTANTS = {}
+INCLUDE_PATHS = []
+ENTITY_ORDER = []
 
-ENTITY_ORDER = [
-    "NorthStar",
-    "MetaHypothesis",
-    "Condition",
-    "Track",
-    "Program",
-    "Project",
-    "Task",
-    "Hypothesis",
-    "Experiment",
-]
+
+def _load_schema_constants(vault_root: Path) -> dict:
+    """Load constants from 00_Meta/schema_constants.yaml"""
+    yaml_path = vault_root / "00_Meta" / "schema_constants.yaml"
+    if yaml_path.exists():
+        with open(yaml_path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f)
+    return {}
+
+
+def _init_constants(vault_root: Path) -> None:
+    """Initialize constants from YAML"""
+    global _SCHEMA_CONSTANTS, INCLUDE_PATHS, ENTITY_ORDER
+    _SCHEMA_CONSTANTS = _load_schema_constants(vault_root)
+
+    # Load from YAML with fallbacks
+    paths = _SCHEMA_CONSTANTS.get("paths", {})
+    INCLUDE_PATHS = paths.get("include", [
+        "01_North_Star",
+        "20_Strategy",
+        "50_Projects",
+        "60_Hypotheses",
+        "70_Experiments",
+    ])
+
+    ENTITY_ORDER = _SCHEMA_CONSTANTS.get("entity_order", [
+        "NorthStar",
+        "MetaHypothesis",
+        "Condition",
+        "Track",
+        "Program",
+        "Project",
+        "Task",
+        "Hypothesis",
+        "Experiment",
+    ])
 
 # 폴더별 인덱스 설정
 FOLDER_INDEX_CONFIG = {
@@ -552,6 +579,9 @@ def main(vault_path: str) -> int:
     if not vault_root.exists():
         print(f"Error: Vault path does not exist: {vault_root}")
         return 1
+
+    # Initialize constants from YAML (Single Source of Truth)
+    _init_constants(vault_root)
 
     print("Collecting entities...")
     entities = collect_entities(vault_root)

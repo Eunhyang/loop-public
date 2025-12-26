@@ -18,7 +18,8 @@ validated_by: []
 
 # === Task 전용 ===
 assignee: "{{ASSIGNEE}}"
-due: null
+start_date: {{DATE}}
+due: {{DATE}}
 priority: medium
 estimated_hours: null
 actual_hours: null

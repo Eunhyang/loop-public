@@ -15,7 +15,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2025-12-26'
+due: '2025-12-31'
 priority: high
 estimated_hours: null
 actual_hours: null
@@ -24,7 +24,7 @@ conditions_3y:
 - cond-d
 tags: []
 priority_flag: high
-start_date: '2025-12-26'
+start_date: '2025-12-31'
 ---
 # 꼭꼭 앱 1년 구독권 QA
 

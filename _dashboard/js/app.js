@@ -41,6 +41,9 @@ async function init() {
         Sidebar.init();
         Sidebar.render();
 
+        // Initialize Quick Date Toggle (sync with existing filter state)
+        QuickDateToggle.init();
+
         // Render UI
         Tabs.render();
         Kanban.renderProjectFilter();
@@ -56,6 +59,10 @@ async function init() {
         ProgramPanel.init();
         EntityDetailPanel.init();
         FilterPanel.init();
+        PendingPanel.init();
+
+        // Update pending review badge
+        PendingPanel.updateBadge();
 
         // Initialize Graph
         Graph.init();
@@ -156,6 +163,7 @@ function setupEventListeners() {
     // Header buttons
     document.getElementById('btnNewTask').addEventListener('click', () => TaskPanel.openNew());
     document.getElementById('btnNewProject').addEventListener('click', () => ProjectModal.open());
+    document.getElementById('btnPendingReviews')?.addEventListener('click', () => PendingPanel.open());
     document.getElementById('btnReloadCache').addEventListener('click', async () => {
         const btn = document.getElementById('btnReloadCache');
         const icon = btn.querySelector('.reload-icon');
@@ -244,12 +252,12 @@ function setupEventListeners() {
         if (e.code === 'Digit2') { switchView('calendar'); return; }
         if (e.code === 'Digit3') { switchView('graph'); return; }
 
-        // Filter shortcuts: F=Toggle, R=Reset (use e.code for IME compatibility)
+        // Filter shortcuts: F=Toggle, Shift+R=Reset (use e.code for IME compatibility)
         if (e.code === 'KeyF') {
             FilterPanel.toggle();
             return;
         }
-        if (e.code === 'KeyR') {
+        if (e.code === 'KeyR' && e.shiftKey) {
             FilterPanel.reset();
             showToast('Filters reset', 'info');
             return;

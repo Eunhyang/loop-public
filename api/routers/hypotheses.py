@@ -17,6 +17,7 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 
 from ..cache import get_cache
+from ..constants import HYPOTHESIS_EVIDENCE_STATUS
 from ..models.entities import HypothesisCreate, HypothesisUpdate, HypothesisResponse
 from ..utils.vault_utils import (
     get_vault_dir,
@@ -43,7 +44,7 @@ def get_hypotheses(
 
     Query Parameters:
         parent_id: Track ID로 필터 (예: trk-1)
-        evidence_status: 상태로 필터 (planning, validating, validated, falsified, learning)
+        evidence_status: 상태로 필터 (schema_constants.yaml 참조)
         horizon: 검증 목표 연도로 필터 (예: 2026)
     """
     cache = get_cache()
@@ -133,11 +134,11 @@ def create_hypothesis(hypothesis: HypothesisCreate):
             detail="horizon must be a 4-digit year (e.g., 2026)"
         )
 
-    valid_statuses = ['planning', 'validating', 'validated', 'falsified', 'learning']
-    if hypothesis.evidence_status not in valid_statuses:
+    # SSOT: schema_constants.yaml → api/constants.py
+    if hypothesis.evidence_status not in HYPOTHESIS_EVIDENCE_STATUS:
         raise HTTPException(
             status_code=400,
-            detail=f"evidence_status must be one of: {valid_statuses}"
+            detail=f"evidence_status must be one of: {HYPOTHESIS_EVIDENCE_STATUS}"
         )
 
     # 2. Hypothesis ID 생성 (캐시 기반 + 디스크 폴백)
@@ -280,11 +281,11 @@ def update_hypothesis(hypothesis_id: str, hypothesis: HypothesisUpdate):
         frontmatter['horizon'] = hypothesis.horizon
 
     if hypothesis.evidence_status is not None:
-        valid_statuses = ['planning', 'validating', 'validated', 'falsified', 'learning']
-        if hypothesis.evidence_status not in valid_statuses:
+        # SSOT: schema_constants.yaml → api/constants.py
+        if hypothesis.evidence_status not in HYPOTHESIS_EVIDENCE_STATUS:
             raise HTTPException(
                 status_code=400,
-                detail=f"evidence_status must be one of: {valid_statuses}"
+                detail=f"evidence_status must be one of: {HYPOTHESIS_EVIDENCE_STATUS}"
             )
         frontmatter['evidence_status'] = hypothesis.evidence_status
         frontmatter['status'] = hypothesis.evidence_status

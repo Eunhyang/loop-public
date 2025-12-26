@@ -8,15 +8,21 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 
+class Link(BaseModel):
+    """외부 링크 (Google Drive, Figma 등)"""
+    label: str = Field(..., description="표시 이름")
+    url: str = Field(..., description="전체 URL (https:// 또는 http://)")
+
+
 class TaskCreate(BaseModel):
     """Task 생성 요청"""
     entity_name: str = Field(..., description="Task 이름")
     project_id: str = Field(..., description="프로젝트 ID (예: prj-001)")
     assignee: str = Field(..., description="담당자 ID (예: eunhyang)")
-    priority: str = Field(default="medium", description="우선순위: low/medium/high")
+    priority: str = Field(default="medium", description="schema_constants.yaml 참조")
     start_date: Optional[str] = Field(default=None, description="시작일 (YYYY-MM-DD)")
     due: Optional[str] = Field(default=None, description="마감일 (YYYY-MM-DD)")
-    status: str = Field(default="todo", description="상태: todo/doing/done/blocked")
+    status: str = Field(default="todo", description="schema_constants.yaml 참조")
     notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
     tags: List[str] = Field(default_factory=list, description="태그")
 
@@ -36,6 +42,8 @@ class TaskUpdate(BaseModel):
     closed: Optional[str] = Field(default=None, description="완료일 (YYYY-MM-DD)")
     closed_inferred: Optional[str] = Field(default=None, description="closed 추론 출처: updated | git_commit_date | today")
     project_id: Optional[str] = Field(default=None, description="프로젝트 ID")
+    # 외부 링크
+    links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
 
 
 class ProjectCreate(BaseModel):
@@ -56,6 +64,8 @@ class ProjectUpdate(BaseModel):
     deadline: Optional[str] = None
     hypothesis_text: Optional[str] = None
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
+    # 외부 링크
+    links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
 
 
 class TaskResponse(BaseModel):
@@ -89,7 +99,7 @@ class HypothesisCreate(BaseModel):
     horizon: str = Field(default="2026", description="검증 목표 연도 (4자리)")
     loop_layer: List[str] = Field(default_factory=list, description="emotional | eating | habit | reward | autonomic")
     confidence: float = Field(default=0.0, ge=0.0, le=1.0, description="신뢰도 (0.0~1.0)")
-    evidence_status: str = Field(default="planning", description="planning | validating | validated | falsified | learning")
+    evidence_status: str = Field(default="assumed", description="schema_constants.yaml 참조")
     deadline: Optional[str] = Field(default=None, description="판정 마감일 (YYYY-MM-DD)")
     tags: List[str] = Field(default_factory=list, description="태그")
 

@@ -160,6 +160,9 @@ def update_project(project_id: str, project: ProjectUpdate):
         frontmatter['hypothesis_text'] = project.hypothesis_text
     if project.tags is not None:
         frontmatter['tags'] = project.tags
+    # 외부 링크
+    if project.links is not None:
+        frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in project.links]
 
     frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
 

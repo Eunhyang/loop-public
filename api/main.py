@@ -36,7 +36,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, files, search
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, files, search, pending
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -189,6 +189,7 @@ app.include_router(conditions.router)
 app.include_router(strategy.router)
 app.include_router(files.router)
 app.include_router(search.router)
+app.include_router(pending.router)
 
 # OAuth 2.0 Router (Production - RS256 + PKCE + Login)
 app.include_router(oauth_router)

@@ -301,6 +301,14 @@ const Kanban = {
             });
         });
 
+        // Task ID copy to clipboard
+        document.querySelectorAll('.task-card .task-id').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(el.textContent.trim());
+            });
+        });
+
         // Clickable entity links (Project, Track, Condition, Hypothesis)
         document.querySelectorAll('.task-card .clickable').forEach(el => {
             el.addEventListener('click', (e) => {

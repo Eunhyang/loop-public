@@ -95,15 +95,41 @@ const EntityDetailPanel = {
 
         if (!titleEl || !bodyEl || !this.currentEntity) return;
 
-        // Set title
+        // Set title with clickable ID
         const name = this.currentEntity.entity_name || this.currentEntity.entity_id;
+        const entityId = this.currentEntity.entity_id;
         titleEl.innerHTML = `
             <span class="entity-type-badge ${this.currentType.toLowerCase()}">${this.currentType}</span>
             ${this.formatName(name)}
+            <span class="entity-id-badge" style="cursor: pointer; margin-left: 8px; font-size: 12px; color: #888; background: #f0f0f0; padding: 2px 6px; border-radius: 4px;"
+                  title="Click to copy ID"
+                  data-entity-id="${entityId}">${entityId}</span>
         `;
+
+        // ID 클릭 시 복사 이벤트
+        const idBadge = titleEl.querySelector('.entity-id-badge');
+        if (idBadge) {
+            idBadge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.copyId(idBadge.dataset.entityId);
+            });
+        }
 
         // Render content based on type
         bodyEl.innerHTML = this.renderContent();
+    },
+
+    /**
+     * ID를 클립보드에 복사
+     */
+    copyId(id) {
+        if (!id) return;
+        navigator.clipboard.writeText(id).then(() => {
+            showToast(`Copied: ${id}`, 'success');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            showToast('Copy failed', 'error');
+        });
     },
 
     renderContent() {

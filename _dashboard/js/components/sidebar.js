@@ -383,6 +383,7 @@ const Sidebar = {
             // New schema values
             'todo': 'planning',
             'doing': 'active',
+            'hold': 'at_risk',
             'done': 'active',
             'blocked': 'blocked',
             // Legacy values (backward compat)

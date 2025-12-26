@@ -29,7 +29,7 @@ const TaskCard = {
         const statusLabels = State.getTaskStatusLabels();
         const currentStatus = State.normalizeStatus(task.status);
         const statusOptions = statuses.map(s =>
-            `<option value="${s}" ${currentStatus === s ? 'selected' : ''}>${statusLabels[s]}</option>`
+            `<option value="${s}" ${currentStatus === s ? 'selected' : ''}>${statusLabels[s] || s}</option>`
         ).join('');
 
         // Obsidian 링크 생성

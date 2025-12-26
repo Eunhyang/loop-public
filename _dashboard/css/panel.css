@@ -1213,3 +1213,537 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   External Links
+   ============================================ */
+.panel-links {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.panel-link-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.panel-link-item:last-child {
+    border-bottom: none;
+}
+
+.panel-link-label {
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #555;
+}
+
+.panel-link-url {
+    font-size: 0.8em;
+    color: #667eea;
+    word-break: break-all;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.panel-link-url:hover {
+    color: #4c5fd5;
+    text-decoration: underline;
+}
+
+.panel-link-url.invalid {
+    color: #999;
+    font-style: italic;
+}
+
+.panel-link-item.invalid {
+    opacity: 0.6;
+}
+
+/* Link Delete Button */
+.panel-link-delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 0.85em;
+    opacity: 0.4;
+    transition: opacity 0.2s, transform 0.1s;
+    border-radius: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.panel-link-delete-btn:hover {
+    opacity: 1;
+    background: #fee2e2;
+    transform: scale(1.1);
+}
+
+.panel-link-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Link Add Button */
+.panel-link-add-btn {
+    display: inline-block;
+    background: #f0f0ff;
+    border: 1px dashed #667eea;
+    color: #667eea;
+    font-size: 0.85em;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    margin-top: 12px;
+    width: 100%;
+    text-align: center;
+}
+
+.panel-link-add-btn:hover {
+    background: #e8e8ff;
+    border-color: #4c5fd5;
+}
+
+/* Link Add Form */
+.panel-link-add-form {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+.panel-link-input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.panel-link-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.panel-link-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.panel-link-form-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.panel-link-form-buttons .btn {
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.panel-link-form-buttons .btn-primary {
+    background: #667eea;
+    color: white;
+    border: none;
+}
+
+.panel-link-form-buttons .btn-primary:hover {
+    background: #4c5fd5;
+}
+
+.panel-link-form-buttons .btn-secondary {
+    background: #e0e0e0;
+    color: #555;
+    border: none;
+}
+
+.panel-link-form-buttons .btn-secondary:hover {
+    background: #d0d0d0;
+}
+
+/* ============================================
+   Pending Review Panel
+   ============================================ */
+.pending-panel .panel-header {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.pending-panel .panel-header h3 {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.panel-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.panel-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.panel-btn.spinning svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* Pending Filter Tabs */
+.pending-filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.pending-tab {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pending-tab:hover {
+    background: #e5e7eb;
+}
+
+.pending-tab.active {
+    background: #f59e0b;
+    color: white;
+}
+
+/* Pending Reviews List */
+.pending-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Pending Review Card */
+.pending-review-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pending-review-card:hover {
+    border-color: #f59e0b;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+    transform: translateY(-2px);
+}
+
+.pending-review-card.review-status-approved {
+    border-left: 4px solid #22c55e;
+}
+
+.pending-review-card.review-status-rejected {
+    border-left: 4px solid #ef4444;
+    opacity: 0.7;
+}
+
+.pending-review-card.review-status-pending {
+    border-left: 4px solid #f59e0b;
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.review-entity-type {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.review-date {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.review-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.review-card-id {
+    font-size: 12px;
+    color: #6b7280;
+    font-family: monospace;
+    margin-bottom: 10px;
+}
+
+.review-card-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.review-field-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 10px;
+}
+
+/* Review Detail Modal */
+.review-detail-modal {
+    max-width: 600px;
+    width: 90%;
+}
+
+.review-detail-section {
+    margin-bottom: 24px;
+}
+
+.review-detail-section h4 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.review-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.review-detail-row .label {
+    color: #6b7280;
+}
+
+.review-detail-row .value {
+    color: #1f2937;
+    font-weight: 500;
+}
+
+/* Review Field Item */
+.review-field-item {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.review-field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.field-name {
+    font-weight: 600;
+    color: #374151;
+}
+
+.review-field-value {
+    margin-bottom: 8px;
+}
+
+.review-field-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.review-field-input:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.review-field-reasoning {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.5;
+    padding: 8px 10px;
+    background: #f3f4f6;
+    border-radius: 4px;
+}
+
+.reasoning-label {
+    font-weight: 600;
+    color: #9ca3af;
+    margin-right: 4px;
+}
+
+/* Pending Review Modal (scoped to avoid conflict with login modal) */
+.pending-review-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.pending-review-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #374151;
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Pending Review Modal Buttons (scoped to avoid global override) */
+.pending-panel .btn,
+.pending-review-modal .btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pending-panel .btn-primary,
+.pending-review-modal .btn-primary {
+    background: #f59e0b;
+    color: white;
+    border: none;
+}
+
+.pending-panel .btn-primary:hover,
+.pending-review-modal .btn-primary:hover {
+    background: #d97706;
+}
+
+.pending-panel .btn-secondary,
+.pending-review-modal .btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.pending-panel .btn-secondary:hover,
+.pending-review-modal .btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+/* Pending Review Badge (for sidebar) */
+.pending-review-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 6px;
+    background: #f59e0b;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 9px;
+    margin-left: 8px;
+}

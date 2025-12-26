@@ -14,6 +14,84 @@
 }
 
 /* ============================================
+   Tabs Row (담당자 탭 + Quick Date Toggle)
+   ============================================ */
+.tabs-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 32px;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs-row .tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   Quick Date Toggle ([W][M] + 하위 필터)
+   ============================================ */
+.quick-date-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;  /* 오른쪽 정렬 */
+}
+
+.qd-mode-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.qd-toggle-btn {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85em;
+    transition: all 0.2s;
+    min-width: 32px;
+    text-align: center;
+}
+
+.qd-toggle-btn:hover {
+    border-color: #667eea;
+    background: #f8f8ff;
+}
+
+.qd-toggle-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.qd-buttons {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;  /* 좁은 화면에서 줄바꿈 */
+}
+
+/* 반응형: 좁은 화면에서 Quick Date Toggle */
+@media (max-width: 768px) {
+    .tabs-row {
+        flex-wrap: wrap;
+    }
+
+    .quick-date-toggle {
+        margin-left: 0;
+        margin-top: 8px;
+        width: 100%;
+    }
+}
+
+/* 기존 quick-date-btn 스타일 재사용 (filter-panel.css에서 정의됨) */
+
+/* ============================================
    Project Filter Bar (하위 탭)
    ============================================ */
 .filter-bar {
@@ -241,6 +319,7 @@
 
 .kanban-column[data-status="todo"] .column-count { background: #6b7280; }
 .kanban-column[data-status="doing"] .column-count { background: #3b82f6; }
+.kanban-column[data-status="hold"] .column-count { background: #f59e0b; }
 .kanban-column[data-status="done"] .column-count { background: #10b981; }
 .kanban-column[data-status="blocked"] .column-count { background: #ef4444; }
 
@@ -288,7 +367,6 @@
     border-radius: 8px;
     padding: 14px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-    border-left: 4px solid #eab308;
     transition: box-shadow 0.2s, transform 0.2s;
     cursor: pointer;
 }
@@ -298,17 +376,11 @@
     transform: translateY(-2px);
 }
 
-/* Priority Colors */
-.task-card.priority-critical { border-left-color: #dc2626; }
-.task-card.priority-high { border-left-color: #f97316; }
-.task-card.priority-medium { border-left-color: #eab308; }
-.task-card.priority-low { border-left-color: #22c55e; }
-
-/* Task Type Background Colors (베이지/누드톤) */
-.task-card.type-dev { background: #F5F0E8; }
-.task-card.type-strategy { background: #F0EBE3; }
-.task-card.type-research { background: #EDE8E0; }
-.task-card.type-ops { background: #F8F4EF; }
+/* Task Type Background Colors (웜톤 - 연하고 구별되게) */
+.task-card.type-dev { background: #FFFBF5; }       /* 아이보리 (개발) */
+.task-card.type-strategy { background: #FFF5EC; }  /* 연피치 (전략) */
+.task-card.type-research { background: #FDF5F8; }  /* 연로즈 (리서치) */
+.task-card.type-ops { background: #FEFAEF; }       /* 연머스타드 (운영) */
 
 .task-name {
     font-weight: 600;
@@ -322,6 +394,7 @@
     color: #999;
     margin-bottom: 8px;
     font-family: monospace;
+    cursor: pointer;
 }
 
 .task-project {

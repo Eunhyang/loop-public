@@ -1,16 +1,34 @@
 ---
 entity_type: SchemaRegistry
 entity_id: meta:schema
-entity_name: LOOP Vault Schema Registry v3.3
+entity_name: LOOP Vault Schema Registry v4.1
 created: 2025-12-18
-updated: 2025-12-20
-version: "3.3"
+updated: 2025-12-27
+version: "4.1"
 tags: ["meta", "schema", "registry"]
 ---
 
-# LOOP Vault Schema Registry v3.3
+# LOOP Vault Schema Registry v4.1
 
 > LLM + GraphRAG 최적화된 Obsidian Vault 스키마 정의
+
+---
+
+## 🔗 상수 정의 (Single Source of Truth)
+
+> **모든 상수 값은 YAML 파일에서 관리됩니다:**
+>
+> **📄 `00_Meta/schema_constants.yaml`**
+>
+> 포함 내용:
+> - Status/Priority 값 및 색상
+> - ID 패턴 (정규식)
+> - 필수/허용 필드 목록
+> - 경로 설정 (include/exclude)
+> - Entity 순서
+> - Status 매핑 (Dashboard용)
+>
+> **변경 시 `/mcp-server rebuild` 필요**
 
 ---
 
@@ -59,7 +77,7 @@ entity_id: string                # 형식: {type}:{number}
 entity_name: string              # 표시 이름
 created: date                    # YYYY-MM-DD
 updated: date                    # YYYY-MM-DD
-status: string                   # todo | doing | done | blocked
+status: string                   # → schema_constants.yaml 참조
 
 # === 계층 관계 ===
 parent_id: string | null         # 상위 엔티티 ID
@@ -77,7 +95,7 @@ validated_by: [string]           # 이 엔티티를 검증하는 엔티티 ID들
 
 # === 분류 ===
 tags: [string]                   # 순수 문자열만
-priority_flag: string            # low | medium | high | critical
+priority_flag: string            # → schema_constants.yaml 참조
 ---
 ```
 
@@ -94,7 +112,7 @@ priority_flag: string            # low | medium | high | critical
 ### MetaHypothesis (mh-*)
 ```yaml
 if_broken: string                # 깨지면 어떤 결정이 트리거되는지
-evidence_status: string          # assumed | validating | validated | falsified
+evidence_status: string          # → schema_constants.yaml hypothesis.evidence_status 참조
 confidence: number               # 0.0 ~ 1.0
 ```
 
@@ -125,7 +143,7 @@ objectives:                      # 목표 지표
 ### Program (pgm-*)
 ```yaml
 # === 상시 운영 프로그램 (닫지 않음) ===
-program_type: string             # hiring | fundraising | grants | launch | experiments
+program_type: string             # → schema_constants.yaml program_types 참조
 owner: string                    # 담당자
 
 # === 원칙/프로세스 ===
@@ -174,6 +192,11 @@ experiments: [string]            # 연결된 실험 ID들 (참조만)
 
 # === 레거시 (deprecated) ===
 hypothesis_text: string | null   # → expected_impact.statement으로 대체
+
+# === 외부 링크 ===
+links:                           # 외부 링크 목록 (Google Drive, Figma 등)
+  - label: string               # 표시 이름 (예: "기획문서")
+    url: string                 # 전체 URL (https:// 또는 http://)
 ```
 
 ### Task (tsk-*)
@@ -182,13 +205,13 @@ project_id: string               # 소속 프로젝트 ID (필수)
 assignee: string                 # 담당자
 start_date: date | null          # 시작일 (Calendar 뷰용)
 due: date | null                 # 마감 예정일
-priority: string                 # low | medium | high
+priority: string                 # → schema_constants.yaml 참조
 estimated_hours: number | null   # 예상 시간
 actual_hours: number | null      # 실제 시간
 
 # === Task 유형 (dev Task 연동용) ===
-type: string | null              # dev | strategy | research | ops (기본: null)
-target_project: string | null    # type=dev일 때만: sosi | kkokkkok | loop-api
+type: string | null              # → schema_constants.yaml task.types 참조
+target_project: string | null    # → schema_constants.yaml task.target_projects 참조 (type=dev일 때)
 
 # === 채용 관련 (Hiring Task용) ===
 candidate_id: string | null      # 관련 후보자 ID (cand-xxx, loop_exec)
@@ -198,6 +221,11 @@ has_exec_details: boolean        # loop_exec에 민감 세부정보 존재 여�
 closed: date | null              # 실제 완료/종료일 (status 변경 시 기록)
 archived_at: date | null         # 아카이브 이동일 (스크립트 자동 기록)
 closed_inferred: string | null   # closed 추정 출처 (updated | git_commit_date | today)
+
+# === 외부 링크 ===
+links:                           # 외부 링크 목록 (Google Drive, Figma 등)
+  - label: string               # 표시 이름 (예: "기획문서")
+    url: string                 # 전체 URL (https:// 또는 http://)
 ```
 
 ### Hypothesis (hyp-*)
@@ -213,7 +241,7 @@ horizon: string                  # 검증 목표 연도 (예: "2026")
 deadline: date | null            # 판정 마감일 (success_criteria에서 추출)
 
 # === 상태 ===
-evidence_status: string          # planning | validating | validated | falsified | learning
+evidence_status: string          # → schema_constants.yaml hypothesis.evidence_status 참조
 confidence: number               # 0.0 ~ 1.0
 
 # === 분류 ===
@@ -289,36 +317,36 @@ system_updates: [string]         # 시스템 개선 항목
 ## 4. 검증 규칙
 
 ### NorthStar
-- `entity_id`: required, unique, pattern `ns-\d{3}`
-- `status`: must be "fixed"
+- `entity_id`: required, unique, pattern → `schema_constants.yaml id_patterns.ns`
+- `status`: must be "fixed" → `schema_constants.yaml northstar.status`
 
 ### MetaHypothesis
-- `entity_id`: required, pattern `mh-[1-4]`
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.mh`
 - `parent_id`: required, must reference existing NorthStar
 - `if_broken`: required
 
 ### Condition
-- `entity_id`: required, pattern `cond-[a-e]`
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.cond`
 - `parent_id`: required, must reference existing MetaHypothesis
 - `if_broken`: required
 - `metrics`: at least 1 item
 
 ### Track
-- `entity_id`: required, pattern `trk-[1-6]`
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.trk`
 - `parent_id`: required, must reference existing Condition
 - `owner`: required
 - `horizon`: required
 
 ### Program
-- `entity_id`: required, pattern `pgm-[a-z]+`
-- `program_type`: required, one of: hiring | fundraising | grants | launch | experiments
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.pgm`
+- `program_type`: required, one of → `schema_constants.yaml program_types`
 - `owner`: required
 - `status`: always "doing" (닫지 않음)
 - `principles`: recommended, at least 1 item
 - `process_steps`: recommended, at least 1 item
 
 ### Project
-- `entity_id`: required, pattern `prj-\d{3}`
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.prj`
 - `parent_id`: required, must reference existing Track
 - `owner`: required
 - `expected_impact`: required (statement, metric, target)
@@ -326,19 +354,19 @@ system_updates: [string]         # 시스템 개선 항목
 - `validates`: ❌ **Task는 validates 관계를 가질 수 없음** (Project만 가능)
 
 ### Task
-- `entity_id`: required, pattern `tsk-\d{3}-\d{2}`
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.tsk`
 - `parent_id`: required, must reference existing Project
 - `project_id`: required, must match parent Project
 - `assignee`: required
 - `validates`: ❌ **금지** - Task는 전략 판단에 개입하지 않음
-- `type`: optional, one of: dev | strategy | research | ops
-- `target_project`: optional, required when type=dev, one of: sosi | kkokkkok | loop-api
-- `closed`: required when status = done
+- `type`: optional, one of → `schema_constants.yaml task.types`
+- `target_project`: optional (type=dev 시 필수) → `schema_constants.yaml task.target_projects`
+- `closed`: required when status = done → `schema_constants.yaml task.status`
 - `archived_at`: 스크립트 자동 기록 (수동 편집 금지)
 - `closed_inferred`: optional, 값 = `updated` | `git_commit_date` | `today`
 
 ### Hypothesis
-- `entity_id`: required, pattern `hyp-[1-6]-\d{2}` (Track번호-순번)
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.hyp`
 - `hypothesis_question`: required, must end with "?"
 - `success_criteria`: required, must include numbers/dates/samples
 - `failure_criteria`: required, must enable pivot/stop decision
@@ -346,9 +374,10 @@ system_updates: [string]         # 시스템 개선 항목
 - `parent_id`: required, must reference existing Track
 - `horizon`: required (예: "2026")
 - `hypothesis_text`: deprecated (마이그레이션 기간만 허용)
+- `evidence_status`: optional → `schema_constants.yaml hypothesis.evidence_status`
 
 ### Experiment
-- `entity_id`: required, pattern `exp-\d{3}`
+- `entity_id`: required, pattern → `schema_constants.yaml id_patterns.exp`
 - `hypothesis_id`: required, must reference existing Hypothesis
 - `metrics`: required, at least 1 item
 
@@ -464,9 +493,18 @@ aliases:
 
 ---
 
-**Version**: 3.9
-**Last Updated**: 2025-12-26
+**Version**: 4.1
+**Last Updated**: 2025-12-27
 **Validated by**: Claude Opus 4.5
+
+**Changes (v4.1)**:
+- 검증 규칙 섹션 (Section 4) 완전 정리: 모든 ID 패턴 YAML 참조 확인
+- 버전 정보 일관성 수정 (frontmatter와 footer 동기화)
+
+**Changes (v4.0)**:
+- 상수 값 하드코딩 제거 → `schema_constants.yaml` 참조로 통일
+- status, priority, type, target_project, program_type, evidence_status 등
+- ID 패턴도 YAML 참조로 변경 (검증 규칙 섹션)
 
 **Changes (v3.9)**:
 - Candidate (cand-*): 새 엔티티 추가 (loop_exec 전용, 채용 후보자)

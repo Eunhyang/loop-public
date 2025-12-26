@@ -1,0 +1,287 @@
+{
+  "name": "LOOP Entity Schema Validator",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-all-tasks",
+      "name": "Get All Tasks",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// LOOP Entity Schema Validator\n// Validates Task entities against schema_constants.yaml\n\nconst tasks = $input.all().map(item => item.json.tasks || []).flat();\nconst results = [];\n\n// Valid values from schema_constants.yaml\nconst VALID_STATUS = ['todo', 'doing', 'done', 'blocked'];\nconst VALID_PRIORITY = ['critical', 'high', 'medium', 'low'];\nconst VALID_TYPES = ['dev', 'strategy', 'research', 'ops', null];\nconst VALID_TARGET_PROJECTS = ['sosi', 'kkokkkok', 'loop-api', 'loop', null];\nconst VALID_CONDITIONS = ['cond-a', 'cond-b', 'cond-c', 'cond-d', 'cond-e'];\n\nfor (const task of tasks) {\n  const issues = [];\n  const suggestions = {};\n  const reasoning = {};\n\n  // Required field checks\n  if (!task.entity_id) {\n    issues.push('missing_entity_id');\n  }\n  if (!task.entity_name) {\n    issues.push('missing_entity_name');\n  }\n  if (!task.project_id) {\n    issues.push('missing_project_id');\n  }\n\n  // Status validation\n  if (task.status && !VALID_STATUS.includes(task.status)) {\n    issues.push('invalid_status');\n    suggestions.status = 'todo';\n    reasoning.status = `Invalid status \"${task.status}\". Defaulting to \"todo\".`;\n  }\n\n  // Priority validation\n  if (task.priority && !VALID_PRIORITY.includes(task.priority)) {\n    issues.push('invalid_priority');\n    suggestions.priority = 'medium';\n    reasoning.priority = `Invalid priority \"${task.priority}\". Defaulting to \"medium\".`;\n  }\n\n  // Type validation\n  if (task.type && !VALID_TYPES.includes(task.type)) {\n    issues.push('invalid_type');\n    suggestions.type = null;\n    reasoning.type = `Invalid type \"${task.type}\". Setting to null.`;\n  }\n\n  // conditions_3y validation (required for Tasks)\n  if (!task.conditions_3y || task.conditions_3y.length === 0) {\n    issues.push('missing_conditions_3y');\n    // This needs LLM to infer - mark for pending review\n  }\n\n  // assignee check\n  if (!task.assignee) {\n    issues.push('missing_assignee');\n  }\n\n  // due date check\n  if (!task.due && !task.due_date) {\n    issues.push('missing_due_date');\n  }\n\n  if (issues.length > 0) {\n    results.push({\n      entity_id: task.entity_id,\n      entity_name: task.entity_name,\n      entity_type: 'Task',\n      issues: issues,\n      deterministic_fixes: suggestions,\n      needs_llm: issues.includes('missing_conditions_3y'),\n      reasoning: reasoning,\n      original_task: task\n    });\n  }\n}\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "id": "validate-schema",
+      "name": "Validate Schema",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needs_llm }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "needs-llm-check",
+      "name": "Needs LLM?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "entity_id",
+              "value": "={{ $json.entity_id }}"
+            },
+            {
+              "name": "entity_type",
+              "value": "={{ $json.entity_type }}"
+            },
+            {
+              "name": "entity_name",
+              "value": "={{ $json.entity_name }}"
+            },
+            {
+              "name": "suggested_fields",
+              "value": "={{ $json.deterministic_fixes }}"
+            },
+            {
+              "name": "reasoning",
+              "value": "={{ $json.reasoning }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-pending-deterministic",
+      "name": "Create Pending (Deterministic)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1050, 200],
+      "notes": "For issues that can be fixed without LLM"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "You are a LOOP Vault schema expert. Given the following Task entity, suggest appropriate values for missing or invalid fields.\n\nTask:\n```json\n{{ JSON.stringify($json.original_task, null, 2) }}\n```\n\nThe issues detected are: {{ $json.issues.join(', ') }}\n\nFor conditions_3y, choose from: cond-a (Product-Market Fit), cond-b (Revenue Model), cond-c (Scalability), cond-d (Team), cond-e (Tech/Infrastructure)\n\nRespond with ONLY a JSON object with these fields:\n- suggested_fields: object with field names and suggested values\n- reasoning: object with field names and brief explanation for each suggestion"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "llm-inference",
+      "name": "LLM Inference",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [1050, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response and prepare pending review\nconst input = $input.first().json;\nconst llmResponse = input.message?.content || input.text || '';\n\nlet parsed;\ntry {\n  // Extract JSON from response (handle markdown code blocks)\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/) || \n                   llmResponse.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    parsed = JSON.parse(jsonMatch[1] || jsonMatch[0]);\n  }\n} catch (e) {\n  parsed = { suggested_fields: {}, reasoning: { error: 'Failed to parse LLM response' } };\n}\n\nreturn [{\n  json: {\n    entity_id: $('Validate Schema').first().json.entity_id,\n    entity_type: 'Task',\n    entity_name: $('Validate Schema').first().json.entity_name,\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-llm-response",
+      "name": "Parse LLM Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "entity_id",
+              "value": "={{ $json.entity_id }}"
+            },
+            {
+              "name": "entity_type",
+              "value": "={{ $json.entity_type }}"
+            },
+            {
+              "name": "entity_name",
+              "value": "={{ $json.entity_name }}"
+            },
+            {
+              "name": "suggested_fields",
+              "value": "={{ $json.suggested_fields }}"
+            },
+            {
+              "name": "reasoning",
+              "value": "={{ $json.reasoning }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-pending-llm",
+      "name": "Create Pending (LLM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 400]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get All Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Tasks": {
+      "main": [
+        [
+          {
+            "node": "Validate Schema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Schema": {
+      "main": [
+        [
+          {
+            "node": "Needs LLM?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs LLM?": {
+      "main": [
+        [
+          {
+            "node": "Create Pending (Deterministic)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "LLM Inference",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Inference": {
+      "main": [
+        [
+          {
+            "node": "Parse LLM Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse LLM Response": {
+      "main": [
+        [
+          {
+            "node": "Create Pending (LLM)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "loop-entity-validator",
+    "created": "2025-12-27",
+    "description": "Validates LOOP vault entities against schema and creates pending reviews for issues"
+  }
+}

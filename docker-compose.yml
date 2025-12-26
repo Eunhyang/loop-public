@@ -19,3 +19,34 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    user: "1000:1000"  # NAS 사용자 UID:GID (권한 문제 방지)
+    ports:
+      - "5678:5678"
+    volumes:
+      # n8n 영구 저장 (워크플로우, credentials 등)
+      - /volume1/docker/n8n:/home/node/.n8n
+    environment:
+      - TZ=Asia/Seoul
+      - GENERIC_TIMEZONE=Asia/Seoul
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      # Basic Auth (필수 - .env에서 설정)
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD}
+      # Credential 암호화 키 (필수 - .env에서 설정)
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      # 실행 기록 저장
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=all
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5678/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s

@@ -15,7 +15,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2025-12-26'
+due: '2025-12-25'
 priority: medium
 estimated_hours: 2
 actual_hours: null
@@ -28,6 +28,7 @@ tags:
 - keyboard
 - ux
 priority_flag: medium
+start_date: '2025-12-25'
 ---
 # 대시보드 키보드 단축키
 

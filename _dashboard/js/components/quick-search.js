@@ -157,6 +157,9 @@ const QuickSearch = {
             case 'project':
                 ProjectPanel.open(item.data.entity_id);
                 break;
+            case 'program':
+                ProgramPanel.open(item.data.entity_id);
+                break;
             case 'track':
             case 'condition':
             case 'hypothesis':

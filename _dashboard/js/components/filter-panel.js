@@ -71,6 +71,17 @@ const FilterPanel = {
         this.render();
         this.applyFilters();
         this.updateFilterIndicator();
+
+        // Re-render Tabs and Sidebar to reflect cleared filters
+        Tabs.render();
+        Sidebar.render();
+        Sidebar.updateHeaderMeta();  // Reset header meta text
+
+        // Reset Quick Date Toggle state
+        if (typeof QuickDateToggle !== 'undefined') {
+            QuickDateToggle.activeMode = null;
+            QuickDateToggle.render();
+        }
     },
 
     render() {
@@ -80,7 +91,7 @@ const FilterPanel = {
         this.renderTaskStatusFilters();
         this.renderTaskPriorityFilters();
         this.renderDateFilters();
-        this.renderQuickDateFilter();
+        // Quick Date Filter moved to QuickDateToggle (tabs.js)
         this.updateFilterIndicator();
     },
 

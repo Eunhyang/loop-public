@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: tsk-vault-gpt-02
 entity_name: MCP API TaskUpdate 모델 확장
 created: 2025-12-26
-updated: '2025-12-26'
-status: doing
+updated: '2025-12-27'
+status: hold
 parent_id: prj-vault-gpt
 project_id: prj-vault-gpt
 aliases:
@@ -13,7 +13,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: 2025-12-26
+due: '2025-12-27'
 priority: high
 estimated_hours: 2
 actual_hours: null
@@ -26,6 +26,7 @@ tags:
 - api
 - agent-builder
 priority_flag: high
+start_date: '2025-12-27'
 ---
 # MCP API TaskUpdate 모델 확장
 

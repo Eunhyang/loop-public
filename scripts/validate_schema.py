@@ -36,84 +36,74 @@ import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Set
 
-# === 설정 ===
-INCLUDE_PATHS = [
-    "01_North_Star",
-    "20_Strategy",
-    "50_Projects",
-    "60_Hypotheses",
-    "70_Experiments",
-]
+# ============================================
+# Load constants from YAML (Single Source of Truth)
+# ============================================
+def _load_schema_constants(vault_root: Path) -> dict:
+    """Load constants from 00_Meta/schema_constants.yaml"""
+    yaml_path = vault_root / "00_Meta" / "schema_constants.yaml"
+    if yaml_path.exists():
+        with open(yaml_path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f)
+    return {}
 
-EXCLUDE_PATHS = [
-    "00_Meta/_TEMPLATES",
-    "10_Study",
-    "30_Ontology",
-    "40_LOOP_OS",
-    "90_Archive",
-    "00_Inbox",
-]
+# Will be initialized in main() with actual vault root
+_SCHEMA_CONSTANTS = {}
 
-EXCLUDE_FILES = [
-    "_INDEX.md",
-    "_ENTRY_POINT.md",
-    "CLAUDE.md",
-    "README.md",
-    "_HOME.md",
-    "_Graph_Index.md",
-]
-
-# === ID 패턴 (하이픈 형식) ===
-ID_PATTERNS = {
-    "ns": r"^ns-\d{3}$",
-    "mh": r"^mh-[1-4]$",
-    "cond": r"^cond-[a-e]$",
-    "trk": r"^trk-[1-6]$",
-    "prj": r"^prj-(\d{3}|[a-z][a-z0-9-]+)$",  # prj-001 또는 prj-vault-gpt (Round)
-    "tsk": r"^tsk-(\d{3}-\d{2}|[a-z][a-z0-9-]+-\d{2})$",  # tsk-001-01 또는 tsk-vault-gpt-01 (Round)
-    "hyp": r"^hyp-[1-6]-\d{2}$",  # Track기반: hyp-1-01, hyp-6-14
-    "exp": r"^exp-\d{3}$",
-    "pl": r"^pl-[1-9]$",          # ProductLine: pl-1 ~ pl-9
-    "ps": r"^ps-[1-9]$",          # PartnershipStage: ps-1 ~ ps-9
-    "pgm": r"^pgm-[a-z][a-z0-9-]*$",  # Program: pgm-hiring, pgm-vault-system
-    "retro": r"^retro-\d{3}-\d{2}$",  # Retrospective: retro-015-01
-    "status": r"^status-[a-z-]+$",    # Status documents
-    "concept": r"^concept-[a-z-]+$",  # Concept documents
-}
-
-# === 필수 필드 ===
-REQUIRED_FIELDS = {
-    "all": ["entity_type", "entity_id", "entity_name", "created", "updated", "status"],
-    "NorthStar": [],
-    "MetaHypothesis": ["if_broken"],
-    "Condition": ["if_broken"],
-    "Track": ["owner", "horizon", "conditions_3y"],
-    "Project": ["owner", "parent_id", "conditions_3y", "expected_impact"],
-    "Task": ["assignee", "project_id", "parent_id", "conditions_3y"],
-    # Hypothesis: hypothesis_question OR hypothesis_text (마이그레이션 기간)
-    "Hypothesis": [],  # 별도 함수에서 검증
-    "Experiment": ["hypothesis_id", "metrics"],
-}
+# ============================================
+# Constants - loaded from 00_Meta/schema_constants.yaml at runtime
+# These are initialized in main() - DO NOT hardcode here
+# ============================================
+INCLUDE_PATHS = []
+EXCLUDE_PATHS = []
+EXCLUDE_FILES = []
+ID_PATTERNS = {}
+REQUIRED_FIELDS = {}
 
 # === 마이그레이션 모드 ===
 # True: hypothesis_text도 허용 (레거시)
 # False: hypothesis_question만 허용 (마이그레이션 완료 후)
 ALLOW_LEGACY_HYPOTHESIS = True
 
-# === 유효한 Condition IDs (하이픈 형식) ===
-VALID_CONDITION_IDS = ["cond-a", "cond-b", "cond-c", "cond-d", "cond-e"]
+# ============================================
+# Constants - loaded from 00_Meta/schema_constants.yaml at runtime
+# Fallback values used if YAML not available
+# ============================================
 
-# === 유효한 상태값 ===
-VALID_STATUSES = ["planning", "active", "blocked", "done", "failed", "learning", "fixed", "assumed", "validating", "validated", "falsified", "in_progress", "pending", "completed"]
+def _get_valid_condition_ids():
+    return _SCHEMA_CONSTANTS.get('condition_ids', ["cond-a", "cond-b", "cond-c", "cond-d", "cond-e"])
 
-# === Task type 유효값 (v3.8) ===
-VALID_TASK_TYPES = ["dev", "strategy", "research", "ops"]
+def _get_valid_statuses():
+    """Combine all valid statuses from YAML"""
+    c = _SCHEMA_CONSTANTS
+    statuses = []
+    # Task status
+    statuses.extend(c.get('task', {}).get('status', ["todo", "doing", "hold", "done", "blocked"]))
+    # Project status
+    statuses.extend(c.get('project', {}).get('status', ["planning", "active", "paused", "done", "cancelled"]))
+    # Hypothesis status
+    statuses.extend(c.get('hypothesis', {}).get('evidence_status', ["assumed", "validating", "validated", "falsified", "learning"]))
+    # NorthStar status
+    statuses.extend(c.get('northstar', {}).get('status', ["fixed"]))
+    # Legacy (deprecated)
+    statuses.extend(["failed", "in_progress", "pending", "completed"])
+    return list(set(statuses))  # Remove duplicates
 
-# === Task target_project 유효값 (v3.8) ===
-VALID_TARGET_PROJECTS = ["sosi", "kkokkkok", "loop-api", "loop"]
+def _get_valid_task_types():
+    return _SCHEMA_CONSTANTS.get('task', {}).get('types', ["dev", "strategy", "research", "ops"])
 
-# === Program type 유효값 (v3.7) ===
-VALID_PROGRAM_TYPES = ["hiring", "fundraising", "grants", "launch", "experiments", "infrastructure"]
+def _get_valid_target_projects():
+    return _SCHEMA_CONSTANTS.get('task', {}).get('target_projects', ["sosi", "kkokkkok", "loop-api", "loop"])
+
+def _get_valid_program_types():
+    return _SCHEMA_CONSTANTS.get('program_types', ["hiring", "fundraising", "grants", "launch", "experiments", "infrastructure"])
+
+# Legacy aliases (for backward compatibility in code)
+VALID_CONDITION_IDS = None  # Initialized in main()
+VALID_STATUSES = None
+VALID_TASK_TYPES = None
+VALID_TARGET_PROJECTS = None
+VALID_PROGRAM_TYPES = None
 
 
 def extract_frontmatter(content: str) -> Optional[Dict]:
@@ -315,33 +305,8 @@ def validate_program(frontmatter: Dict) -> List[str]:
 
 # === 스키마 최신성 체크 (v7.0) ===
 
-# schema_registry.md에 정의된 알려진 필드들
-KNOWN_FIELDS = {
-    "all": {
-        "entity_type", "entity_id", "entity_name", "created", "updated", "status",
-        "parent_id", "aliases", "outgoing_relations", "validates", "validated_by",
-        "tags", "priority_flag", "conditions_3y"
-    },
-    "NorthStar": set(),
-    "MetaHypothesis": {"if_broken", "evidence_status", "confidence"},
-    "Condition": {"unlock", "if_broken", "metrics"},
-    "Track": {"horizon", "hypothesis", "focus", "owner", "objectives"},
-    "Program": {"program_type", "owner", "principles", "process_steps", "templates", "kpis", "exec_rounds_path"},
-    "Project": {
-        "owner", "budget", "deadline", "program_id", "cycle",
-        "expected_impact", "realized_impact", "hypothesis_id", "experiments", "hypothesis_text"
-    },
-    "Task": {
-        "project_id", "assignee", "start_date", "due", "priority",
-        "estimated_hours", "actual_hours", "type", "target_project",
-        "candidate_id", "has_exec_details", "closed", "archived_at", "closed_inferred", "notes"
-    },
-    "Hypothesis": {
-        "hypothesis_question", "success_criteria", "failure_criteria", "measurement",
-        "horizon", "deadline", "evidence_status", "confidence", "loop_layer", "hypothesis_text"
-    },
-    "Experiment": {"hypothesis_id", "protocol", "metrics", "start_date", "end_date", "result_summary", "outcome"},
-}
+# Known fields - loaded from 00_Meta/schema_constants.yaml at runtime
+KNOWN_FIELDS = {}
 
 SCHEMA_REGISTRY_PATH = "00_Meta/schema_registry.md"
 FRESHNESS_DAYS = 7
@@ -569,13 +534,112 @@ def should_validate(filepath: Path, vault_root: Path) -> bool:
     return False
 
 
+def _load_paths_from_yaml() -> None:
+    """Load paths from YAML constants"""
+    global INCLUDE_PATHS, EXCLUDE_PATHS, EXCLUDE_FILES
+    paths = _SCHEMA_CONSTANTS.get("paths", {})
+    INCLUDE_PATHS = paths.get("include", ["01_North_Star", "20_Strategy", "50_Projects", "60_Hypotheses", "70_Experiments"])
+    EXCLUDE_PATHS = paths.get("exclude", ["00_Meta/_TEMPLATES", "10_Study", "30_Ontology", "40_LOOP_OS", "90_Archive", "00_Inbox"])
+    EXCLUDE_FILES = paths.get("exclude_files", ["_INDEX.md", "_ENTRY_POINT.md", "CLAUDE.md", "README.md", "_HOME.md", "_Graph_Index.md"])
+
+
+def _load_id_patterns_from_yaml() -> None:
+    """Load ID patterns from YAML constants"""
+    global ID_PATTERNS
+    patterns = _SCHEMA_CONSTANTS.get("id_patterns", {})
+    # Convert YAML patterns to compiled regex-ready format
+    ID_PATTERNS = {k: v for k, v in patterns.items()} if patterns else {
+        "ns": r"^ns-\d{3}$",
+        "mh": r"^mh-[1-4]$",
+        "cond": r"^cond-[a-e]$",
+        "trk": r"^trk-[1-6]$",
+        "prj": r"^prj-(\d{3}|[a-z][a-z0-9-]+)$",
+        "tsk": r"^tsk-(\d{3}-\d{2}|[a-z][a-z0-9-]+-\d{2})$",
+        "hyp": r"^hyp-[1-6]-\d{2}$",
+        "exp": r"^exp-\d{3}$",
+        "pl": r"^pl-[1-9]$",
+        "ps": r"^ps-[1-9]$",
+        "pgm": r"^pgm-[a-z][a-z0-9-]*$",
+        "retro": r"^retro-\d{3}-\d{2}$",
+        "status": r"^status-[a-z-]+$",
+        "concept": r"^concept-[a-z-]+$",
+    }
+
+
+def _load_required_fields_from_yaml() -> None:
+    """Load required fields from YAML constants"""
+    global REQUIRED_FIELDS
+    fields = _SCHEMA_CONSTANTS.get("required_fields", {})
+    if fields:
+        REQUIRED_FIELDS = fields
+    else:
+        # Fallback
+        REQUIRED_FIELDS = {
+            "all": ["entity_type", "entity_id", "entity_name", "created", "updated", "status"],
+            "NorthStar": [],
+            "MetaHypothesis": ["if_broken"],
+            "Condition": ["if_broken"],
+            "Track": ["owner", "horizon", "conditions_3y"],
+            "Project": ["owner", "parent_id", "conditions_3y", "expected_impact"],
+            "Task": ["assignee", "project_id", "parent_id", "conditions_3y"],
+            "Hypothesis": [],
+            "Experiment": ["hypothesis_id", "metrics"],
+        }
+
+
+def _load_known_fields_from_yaml() -> None:
+    """Load known fields from YAML constants"""
+    global KNOWN_FIELDS
+    fields = _SCHEMA_CONSTANTS.get("known_fields", {})
+    if fields:
+        # Convert lists to sets for faster lookup
+        KNOWN_FIELDS = {k: set(v) if isinstance(v, list) else v for k, v in fields.items()}
+    else:
+        # Fallback
+        KNOWN_FIELDS = {
+            "all": {"entity_type", "entity_id", "entity_name", "created", "updated", "status",
+                    "parent_id", "aliases", "outgoing_relations", "validates", "validated_by",
+                    "tags", "priority_flag", "conditions_3y"},
+            "NorthStar": set(),
+            "MetaHypothesis": {"if_broken", "evidence_status", "confidence"},
+            "Condition": {"unlock", "if_broken", "metrics"},
+            "Track": {"horizon", "hypothesis", "focus", "owner", "objectives"},
+            "Program": {"program_type", "owner", "principles", "process_steps", "templates", "kpis", "exec_rounds_path"},
+            "Project": {"owner", "budget", "deadline", "program_id", "cycle",
+                        "expected_impact", "realized_impact", "hypothesis_id", "experiments", "hypothesis_text"},
+            "Task": {"project_id", "assignee", "start_date", "due", "priority",
+                     "estimated_hours", "actual_hours", "type", "target_project",
+                     "candidate_id", "has_exec_details", "closed", "archived_at", "closed_inferred", "notes"},
+            "Hypothesis": {"hypothesis_question", "success_criteria", "failure_criteria", "measurement",
+                           "horizon", "deadline", "evidence_status", "confidence", "loop_layer", "hypothesis_text"},
+            "Experiment": {"hypothesis_id", "protocol", "metrics", "start_date", "end_date", "result_summary", "outcome"},
+        }
+
+
 def main(vault_path: str, check_freshness: bool = True, single_file: Optional[str] = None) -> int:
     """메인 검증 함수"""
+    global _SCHEMA_CONSTANTS, VALID_CONDITION_IDS, VALID_STATUSES, VALID_TASK_TYPES, VALID_TARGET_PROJECTS, VALID_PROGRAM_TYPES
+
     vault_root = Path(vault_path).resolve()
 
     if not vault_root.exists():
         print(f"Error: Vault path does not exist: {vault_root}")
         return 1
+
+    # Load constants from YAML (Single Source of Truth)
+    _SCHEMA_CONSTANTS = _load_schema_constants(vault_root)
+
+    # Load all constants from YAML
+    _load_paths_from_yaml()
+    _load_id_patterns_from_yaml()
+    _load_required_fields_from_yaml()
+    _load_known_fields_from_yaml()
+
+    VALID_CONDITION_IDS = _get_valid_condition_ids()
+    VALID_STATUSES = _get_valid_statuses()
+    VALID_TASK_TYPES = _get_valid_task_types()
+    VALID_TARGET_PROJECTS = _get_valid_target_projects()
+    VALID_PROGRAM_TYPES = _get_valid_program_types()
 
     # 단일 파일 검증 모드
     if single_file:

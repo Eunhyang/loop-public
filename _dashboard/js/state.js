@@ -2,6 +2,42 @@
  * State Module
  * 전역 상태 관리
  */
+
+// ============================================
+// FALLBACK_CONSTANTS (API 로드 실패 시 사용)
+// Source: 00_Meta/schema_constants.yaml 미러링
+// ============================================
+const FALLBACK_CONSTANTS = {
+    task: {
+        status: ['todo', 'doing', 'hold', 'done', 'blocked'],
+        status_labels: {
+            todo: 'To Do', doing: 'Doing', hold: 'Hold', done: 'Done', blocked: 'Blocked'
+        },
+        status_colors: {
+            todo: '#6b7280', doing: '#3b82f6', hold: '#f59e0b', done: '#10b981', blocked: '#ef4444'
+        }
+    },
+    project: {
+        status: ['planning', 'active', 'paused', 'done', 'cancelled'],
+        status_labels: {
+            planning: 'Planning', active: 'Active', paused: 'Paused', done: 'Done', cancelled: 'Cancelled'
+        }
+    },
+    priority: {
+        values: ['critical', 'high', 'medium', 'low'],
+        labels: {
+            critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low'
+        }
+    },
+    status_mapping: {
+        // Project → Task
+        planning: 'todo', active: 'doing', paused: 'hold', cancelled: 'blocked',
+        // Legacy
+        pending: 'todo', in_progress: 'doing', completed: 'done', complete: 'done',
+        failed: 'blocked', learning: 'done'
+    }
+};
+
 const State = {
     // Data
     constants: null,
@@ -16,6 +52,7 @@ const State = {
     projects: [],
     tasks: [],
     hypotheses: [],
+    pendingReviews: [],
 
     // UI State
     currentProject: 'all',
@@ -32,9 +69,10 @@ const State = {
     editingProject: null,
 
     // Filter Panel State
+    // Source: 00_Meta/schema_constants.yaml
     filters: {
         project: {
-            status: ['todo', 'doing', 'blocked'],  // done excluded by default
+            status: ['planning', 'active', 'paused', 'cancelled'],  // done excluded by default
             priority: ['critical', 'high', 'medium', 'low'],
             showInactive: false  // activate: false 엔티티 숨김 (기본값)
         },
@@ -90,6 +128,14 @@ const State = {
             this.projects = projects;
             this.tasks = tasks;
             this.hypotheses = hypotheses;
+
+            // Load pending reviews (awaited for badge update)
+            await this.loadPendingReviews();
+
+            // API constants 로드 후 필터 초기화 (YAML SSOT 적용)
+            this.resetFilters();
+            // Project 필터에서 done 제외 (기본값: 완료된 프로젝트 숨김)
+            this.filters.project.status = this.filters.project.status.filter(s => s !== 'done');
         } finally {
             this.loading = false;
         }
@@ -108,42 +154,78 @@ const State = {
     },
 
     // ============================================
+    // Pending Reviews (n8n 자동화)
+    // ============================================
+    async loadPendingReviews() {
+        try {
+            this.pendingReviews = await API.getPendingReviews();
+        } catch (e) {
+            console.warn('Failed to load pending reviews:', e);
+            this.pendingReviews = [];
+        }
+    },
+
+    async reloadPendingReviews() {
+        await this.loadPendingReviews();
+    },
+
+    getPendingReviewCount() {
+        return this.pendingReviews.filter(r => r.status === 'pending').length;
+    },
+
+    getPendingReviewsByStatus(status = 'pending') {
+        return this.pendingReviews.filter(r => r.status === status);
+    },
+
+    async approvePendingReview(reviewId, modifiedFields = null) {
+        const result = await API.approvePendingReview(reviewId, modifiedFields);
+        await this.loadPendingReviews();
+        // Reload tasks/projects to reflect changes
+        await Promise.all([this.reloadTasks(), this.reloadProjects()]);
+        return result;
+    },
+
+    async rejectPendingReview(reviewId) {
+        const result = await API.rejectPendingReview(reviewId);
+        await this.loadPendingReviews();
+        return result;
+    },
+
+    async deletePendingReview(reviewId) {
+        const result = await API.deletePendingReview(reviewId);
+        await this.loadPendingReviews();
+        return result;
+    },
+
+    // ============================================
     // Helpers
     // ============================================
     getTaskStatuses() {
-        return this.constants?.task?.status || ['todo', 'doing', 'done', 'blocked'];
+        return this.constants?.task?.status || FALLBACK_CONSTANTS.task.status;
     },
 
     getTaskStatusLabels() {
-        return this.constants?.task?.status_labels || {
-            todo: 'To Do', doing: 'Doing', done: 'Done', blocked: 'Blocked'
-        };
+        return this.constants?.task?.status_labels || FALLBACK_CONSTANTS.task.status_labels;
     },
 
     getTaskStatusColors() {
-        return this.constants?.task?.status_colors || {
-            todo: '#6b7280', doing: '#3b82f6', done: '#10b981', blocked: '#ef4444'
-        };
+        return this.constants?.task?.status_colors || FALLBACK_CONSTANTS.task.status_colors;
     },
 
     getPriorities() {
-        return this.constants?.priority?.values || ['critical', 'high', 'medium', 'low'];
+        return this.constants?.priority?.values || FALLBACK_CONSTANTS.priority.values;
     },
 
     getPriorityLabels() {
-        return this.constants?.priority?.labels || {
-            critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low'
-        };
+        return this.constants?.priority?.labels || FALLBACK_CONSTANTS.priority.labels;
     },
 
     getProjectStatuses() {
-        return this.constants?.project?.status || ['todo', 'doing', 'done', 'blocked'];
+        return this.constants?.project?.status || FALLBACK_CONSTANTS.project.status;
     },
 
     getProjectStatusLabels() {
-        return this.constants?.project?.status_labels || {
-            todo: 'To Do', doing: 'Doing', done: 'Done', blocked: 'Blocked'
-        };
+        return this.constants?.project?.status_labels || FALLBACK_CONSTANTS.project.status_labels;
     },
 
     // ============================================
@@ -266,7 +348,7 @@ const State = {
         filtered = filtered.filter(t => {
             const project = this.getProjectById(t.project_id);
             if (!project) return true;  // Keep tasks without project
-            const projectStatus = project.status || 'doing';
+            const projectStatus = this.normalizeProjectStatus(project.status || 'doing');
             const projectPriority = project.priority || 'medium';
             return this.filters.project.status.includes(projectStatus) &&
                    this.filters.project.priority.includes(projectPriority);
@@ -308,28 +390,37 @@ const State = {
         return filtered;
     },
 
-    // Status 매핑 (다양한 상태값을 표준 상태로 변환)
+    // Project Status 매핑 (구 상태값을 새 Project 상태로 변환)
+    // Source: 00_Meta/schema_constants.yaml > project.status (API에서 로드)
+    normalizeProjectStatus(status) {
+        // 표준 Project 상태는 그대로 반환
+        const standardStatuses = this.constants?.project?.status || FALLBACK_CONSTANTS.project.status;
+        if (standardStatuses.includes(status)) {
+            return status;
+        }
+
+        // status_mapping의 역매핑 생성 (Task→Project 상태 변환)
+        const mapping = this.constants?.status_mapping || FALLBACK_CONSTANTS.status_mapping;
+        const reverseMapping = {};
+        Object.entries(mapping).forEach(([projectStatus, taskStatus]) => {
+            if (!reverseMapping[taskStatus]) {
+                reverseMapping[taskStatus] = projectStatus;
+            }
+        });
+        return reverseMapping[status] || 'active';
+    },
+
+    // Status 매핑 (다양한 상태값을 표준 Task 상태로 변환)
     normalizeStatus(status) {
-        const statusMap = {
-            // 표준 상태 (Dashboard UI)
-            'todo': 'todo',
-            'doing': 'doing',
-            'done': 'done',
-            'blocked': 'blocked',
-            // Schema 값 (schema_registry.md 기준)
-            'planning': 'todo',
-            'active': 'doing',
-            'failed': 'blocked',
-            'learning': 'done',
-            // 레거시/대체 상태
-            'pending': 'todo',
-            'in_progress': 'doing',
-            'completed': 'done',
-            'complete': 'done',
-            'on_hold': 'blocked',
-            'cancelled': 'blocked'
-        };
-        return statusMap[status] || 'todo';
+        // 표준 Task 상태는 그대로 반환
+        const standardStatuses = this.constants?.task?.status || FALLBACK_CONSTANTS.task.status;
+        if (standardStatuses.includes(status)) {
+            return status;
+        }
+
+        // status_mapping 사용 (SSOT: schema_constants.yaml)
+        const mapping = this.constants?.status_mapping || FALLBACK_CONSTANTS.status_mapping;
+        return mapping[status] || 'todo';
     },
 
     // Get tasks grouped by status
@@ -405,7 +496,7 @@ const State = {
         filtered = filtered.filter(t => {
             const project = this.getProjectById(t.project_id);
             if (!project) return true;
-            const projectStatus = project.status || 'doing';
+            const projectStatus = this.normalizeProjectStatus(project.status || 'doing');
             const projectPriority = project.priority || 'medium';
             return this.filters.project.status.includes(projectStatus) &&
                    this.filters.project.priority.includes(projectPriority);
@@ -531,8 +622,8 @@ const State = {
         Object.keys(projectTaskCount).forEach(projectId => {
             const project = this.getProjectById(projectId);
             if (project) {
-                // Apply project status filter
-                const projectStatus = project.status || 'doing';
+                // Apply project status filter (normalize to handle legacy statuses)
+                const projectStatus = this.normalizeProjectStatus(project.status || 'doing');
                 if (!this.filters.project.status.includes(projectStatus)) {
                     return;
                 }

@@ -225,6 +225,9 @@ def update_task(task_id: str, task: TaskUpdate):
         frontmatter['closed_inferred'] = task.closed_inferred
     if task.project_id is not None:
         frontmatter['project_id'] = task.project_id
+    # 외부 링크
+    if task.links is not None:
+        frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in task.links]
 
     frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
 

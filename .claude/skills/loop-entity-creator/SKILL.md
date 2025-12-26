@@ -35,19 +35,21 @@ Use AskUserQuestion to collect:
 Required fields:
 - `entity_name` - Task name (e.g., "CoachOS 프로토타입 개발")
 - `project_id` - Parent project ID (must exist, e.g., "prj-003")
-- `assignee` - Person responsible (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
+- `assignee` - Person responsible (MUST be from `00_Meta/members.yaml`)
 
 Default fields (자동 설정):
-- `status` - 기본값: "todo" (유효값: todo | doing | done | blocked)
+- `status` - 기본값: "todo" (유효값: → `00_Meta/schema_constants.yaml` > `task.status` 참조)
   - 일반 Task: "todo"
   - Dev Task (type=dev): "doing" (바로 시작)
+- `start_date` - 기본값: 오늘 날짜 (YYYY-MM-DD)
+- `due` - 기본값: 오늘 날짜 (YYYY-MM-DD)
 
 Optional fields:
 - `parent_id` - Parent task ID if this is a subtask
-- `priority_flag` - "critical", "high", "medium", or "low"
-- `type` - Task 유형: "dev" | "strategy" | "research" | "ops" | null
-- `target_project` - type=dev일 때만: "sosi" | "kkokkkok" | "loop-api"
-- `status` - 기본값 오버라이드 시: "todo" | "doing" | "done" | "blocked"
+- `priority_flag` - → `00_Meta/schema_constants.yaml` > `priority.values` 참조
+- `type` - Task 유형: → `00_Meta/schema_constants.yaml` > `task.types` 참조
+- `target_project` - type=dev일 때만: → `00_Meta/schema_constants.yaml` > `task.target_projects` 참조
+- `status` - 기본값 오버라이드 시: → `00_Meta/schema_constants.yaml` > `task.status` 참조
 
 **FORBIDDEN (역할 분리):**
 - ❌ `validates` - Task는 전략 판단에 개입하지 않음. validates는 Project만 가능.
@@ -118,12 +120,12 @@ Use AskUserQuestion to collect:
 
 Required fields:
 - `entity_name` - Project name (e.g., "Ontology_v0.2")
-- `owner` - Project owner (MUST be from members.yaml: "김은향", "한명학", "임단", "미정")
+- `owner` - Project owner (MUST be from `00_Meta/members.yaml`)
 - `parent_id` - Parent Track ID (e.g., "trk-2") - **필수, Program 하위 Project도 반드시 Track 연결 필요**
-- `conditions_3y` - 기여하는 3년 Condition 목록 (e.g., ["cond-a", "cond-b"]) - **필수**
+- `conditions_3y` - 기여하는 3년 Condition 목록 (→ `00_Meta/schema_constants.yaml` > `condition_ids` 참조) - **필수**
 
 Default fields (자동 설정):
-- `status` - 기본값: "doing" (유효값: todo | doing | done | blocked)
+- `status` - 기본값: "doing" (유효값: → `00_Meta/schema_constants.yaml` > `project.status` 참조)
   - 프로젝트는 생성 시 바로 진행 상태로 시작
 
 Optional fields:
@@ -352,17 +354,34 @@ This regenerates `_Graph_Index.md` with latest entity relationships.
 
 ## Schema Reference
 
-All schema definitions are maintained in a single authoritative source:
+All schema definitions are maintained in authoritative sources:
+
+### Single Source of Truth (상수 값)
+
+```
+00_Meta/schema_constants.yaml
+```
+
+**이 파일에서 로드하는 값들:**
+- `task.status`, `project.status` - 상태 유효값
+- `task.types` - Task 유형 (dev, strategy, research, ops)
+- `task.target_projects` - 외부 프로젝트 (sosi, kkokkkok, loop-api, loop)
+- `priority.values` - 우선순위 (critical, high, medium, low)
+- `condition_ids` - 3년 조건 ID (cond-a ~ cond-e)
+- `id_patterns` - 엔티티별 ID 정규식
+- `required_fields` - 엔티티별 필수 필드
+
+### Schema Documentation
 
 ```
 00_Meta/schema_registry.md
 ```
 
-**Before creating/editing entities, always read this file to ensure:**
+**Before creating/editing entities, read these files to ensure:**
 - Correct field requirements per entity type
 - Valid ID patterns and formats
 - File placement rules
-- Current schema version (check `version:` in frontmatter)
+- Current schema version
 
 **Key sections in schema_registry.md:**
 - Section 1: ID 형식 규칙 - ID patterns
@@ -395,7 +414,7 @@ User: "sosi 로그인 버그 수정 dev task 만들어줘"
 **Create a Project (with Impact auto-fill):**
 ```
 User: "패턴 발견 v2 프로젝트 만들어줘"
-→ Collect: owner, parent_id
+→ Collect: owner, parent_id, conditions_3y
 → Ask: Impact 설정 방법? → "자동 채우기" 선택
 → Generate: prj-008
 → Call auto-fill-project-impact 스킬
@@ -406,7 +425,7 @@ User: "패턴 발견 v2 프로젝트 만들어줘"
 **Create a Project (Impact = None):**
 ```
 User: "회의록 정리 프로젝트 만들어줘"
-→ Collect: owner, parent_id
+→ Collect: owner, parent_id, conditions_3y
 → Ask: Impact 설정 방법? → "None으로 설정" 선택
 → Generate: prj-009
 → Set: tier="none", magnitude=null, confidence=null

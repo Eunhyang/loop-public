@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-008
 entity_name: 파일럿 프로젝트 후보
 created: 2025-12-18
-updated: 2025-12-18
-status: doing
+updated: '2025-12-27'
+status: ''
 parent_id: trk-4
 aliases:
 - prj-008
@@ -13,37 +13,35 @@ aliases:
 outgoing_relations: []
 validates: []
 validated_by: []
-owner: 임단
+owner: 김은향
 budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
-
-# === Impact 점수 필드 (A) ===
 tier: tactical
 impact_magnitude: mid
-confidence: 0.50
+confidence: 0.5
 contributes:
-  - to: "cond-b"
-    weight: 0.2
-    description: "파일럿 참여자 데이터 수집"
-  - to: "cond-d"
-    weight: 0.1
-    description: "소규모 매출 기여 가능"
-
+- to: cond-b
+  weight: 0.2
+  description: 파일럿 참여자 데이터 수집
+- to: cond-d
+  weight: 0.1
+  description: 소규모 매출 기여 가능
 expected_impact:
-  statement: "이 프로젝트가 성공하면 코칭 파일럿의 시장 적합성이 증명된다"
-  metric: "파일럿 참여자 만족도"
-  target: "NPS 50 이상"
+  statement: 이 프로젝트가 성공하면 코칭 파일럿의 시장 적합성이 증명된다
+  metric: 파일럿 참여자 만족도
+  target: NPS 50 이상
 realized_impact:
-  outcome: null  # supported | rejected | inconclusive
+  outcome: null
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond-b', 'cond-d']
+conditions_3y:
+- cond-b
+- cond-d
 tags: []
 priority_flag: medium
 ---
-
 # 파일럿 프로젝트 후보
 
 > Project ID: `prj-008` | Track: `trk-2` | Status: active
