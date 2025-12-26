@@ -7,11 +7,37 @@ Endpoints:
 """
 
 from pathlib import Path
-from typing import Optional, List
-from fastapi import APIRouter, HTTPException, Query
+from typing import Optional, List, Tuple
+from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel
 
 from ..utils.vault_utils import get_vault_dir
+from ..oauth.security import check_path_access
+from ..oauth.jwks import verify_jwt
+
+
+def get_role_and_scope(request: Request) -> Tuple[str, str]:
+    """
+    request.state에서 role/scope 가져오거나, 없으면 Authorization 헤더에서 JWT 직접 확인.
+    MCP 내부 호출이 미들웨어를 우회하는 경우를 위한 fallback.
+    """
+    # 1. 먼저 request.state 확인 (미들웨어가 설정한 경우)
+    role = getattr(request.state, "role", None)
+    scope = getattr(request.state, "scope", None)
+
+    if role and scope:
+        return role, scope
+
+    # 2. Authorization 헤더에서 직접 JWT 확인 (MCP 내부 호출용)
+    auth_header = request.headers.get("authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+        payload = verify_jwt(token)
+        if payload:
+            return payload.get("role", "member"), payload.get("scope", "mcp:read")
+
+    # 3. 기본값
+    return "member", "mcp:read"
 
 
 router = APIRouter(prefix="/api/files", tags=["files"])
@@ -41,7 +67,10 @@ class DirectoryListing(BaseModel):
 # Endpoints
 # ============================================
 @router.get("/", response_model=DirectoryListing)
-async def list_directory(path: str = Query("", description="디렉토리 경로 (빈 문자열 = 루트)")):
+async def list_directory(
+    request: Request,
+    path: str = Query("", description="디렉토리 경로 (빈 문자열 = 루트)")
+):
     """
     디렉토리 목록 조회
 
@@ -49,6 +78,12 @@ async def list_directory(path: str = Query("", description="디렉토리 경로 
         GET /api/files/?path=50_Projects
         GET /api/files/?path=30_Ontology/Schema
     """
+    # RBAC: role 기반 경로 접근 제어 (MCP 내부 호출도 지원)
+    role, scope = get_role_and_scope(request)
+
+    if path and not check_path_access(path, scope, role):
+        raise HTTPException(status_code=403, detail=f"Access denied: insufficient permissions for path '{path}' (role={role})")
+
     vault_dir = get_vault_dir()
     target = vault_dir / path if path else vault_dir
 
@@ -85,7 +120,7 @@ async def list_directory(path: str = Query("", description="디렉토리 경로 
 
 
 @router.get("/{file_path:path}", response_model=FileContent)
-async def read_file(file_path: str):
+async def read_file(request: Request, file_path: str):
     """
     파일 내용 읽기
 
@@ -94,6 +129,12 @@ async def read_file(file_path: str):
         GET /api/files/CLAUDE.md
         GET /api/files/50_Projects/2025/P001_Ontology/Project_정의.md
     """
+    # RBAC: role 기반 경로 접근 제어 (MCP 내부 호출도 지원)
+    role, scope = get_role_and_scope(request)
+
+    if not check_path_access(file_path, scope, role):
+        raise HTTPException(status_code=403, detail=f"Access denied: insufficient permissions for path '{file_path}' (role={role})")
+
     vault_dir = get_vault_dir()
     full_path = vault_dir / file_path
 

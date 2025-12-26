@@ -37,6 +37,9 @@ tags: ["meta", "schema", "registry"]
 | ProductLine | `pl-{number}` | pl-1 | 1-9 |
 | PartnershipStage | `ps-{number}` | ps-1 | 1-9 |
 | Result | `res:{prj}-{seq}` | res:001-01 | 01-99 per project |
+| Candidate | `cand-{number}` | cand-001 | 001-999 (loop_exec only) |
+| TaskExecDetail | `(source task id)` | tsk-015-05 | loop_exec only |
+| Retrospective | `retro-{prj}-{seq}` | retro-015-01 | loop_exec only |
 
 ### 파일명 규칙
 ```
@@ -187,6 +190,10 @@ actual_hours: number | null      # 실제 시간
 type: string | null              # dev | strategy | research | ops (기본: null)
 target_project: string | null    # type=dev일 때만: sosi | kkokkkok | loop-api
 
+# === 채용 관련 (Hiring Task용) ===
+candidate_id: string | null      # 관련 후보자 ID (cand-xxx, loop_exec)
+has_exec_details: boolean        # loop_exec에 민감 세부정보 존재 여부
+
 # === 완료/아카이브 관련 ===
 closed: date | null              # 실제 완료/종료일 (status 변경 시 기록)
 archived_at: date | null         # 아카이브 이동일 (스크립트 자동 기록)
@@ -225,6 +232,56 @@ start_date: date | null
 end_date: date | null
 result_summary: string | null    # 결과 요약
 outcome: string | null           # positive | negative | inconclusive | null
+```
+
+### Candidate (cand-*) — loop_exec 전용
+```yaml
+# === 기본 정보 ===
+name: string                     # 후보자 이름/닉네임
+github: string | null            # GitHub username
+position: string | null          # 지원 포지션
+
+# === 상태 ===
+status: string                   # screening | pilot | offer | hired | rejected
+
+# === 채용 프로세스 연결 ===
+hiring_project: string           # 채용 프로젝트 ID (prj-xxx)
+pilot_project: string | null     # 파일럿 프로젝트 ID (prj-xxx)
+
+# === 관련 문서 ===
+related_tasks: [string]          # 관련 Task ID 목록
+retrospective: string | null     # 회고 문서 ID
+
+# === 평가 ===
+verdict: string | null           # filtering_success | hired | offer_declined
+verdict_date: date | null        # 최종 판정일
+```
+
+### TaskExecDetail — loop_exec 전용
+```yaml
+# === 연결 정보 (필수) ===
+source_task: string              # 원본 Task ID (LOOP vault)
+source_project: string           # 원본 Project ID
+source_vault: string             # "LOOP" (고정)
+
+# === 민감 정보 ===
+# (본문에 자유 형식으로 작성)
+# - 후보자 정보, 평가 내용, 계약 조건 등
+```
+
+### Retrospective (retro-*) — loop_exec 전용
+```yaml
+# === 연결 정보 ===
+source_project: string           # 관련 프로젝트 ID
+candidate_id: string | null      # 관련 후보자 ID (cand-xxx)
+
+# === 판정 ===
+verdict: string                  # filtering_success | hired | failed
+verdict_date: date | null        # 판정일
+
+# === 학습 ===
+signals: [string]                # 핵심 판별 신호
+system_updates: [string]         # 시스템 개선 항목
 ```
 
 ---
@@ -407,9 +464,16 @@ aliases:
 
 ---
 
-**Version**: 3.8
+**Version**: 3.9
 **Last Updated**: 2025-12-26
 **Validated by**: Claude Opus 4.5
+
+**Changes (v3.9)**:
+- Candidate (cand-*): 새 엔티티 추가 (loop_exec 전용, 채용 후보자)
+- TaskExecDetail: 새 엔티티 추가 (loop_exec 전용, Task 민감 정보)
+- Retrospective (retro-*): 새 엔티티 추가 (loop_exec 전용, 채용 회고)
+- Task: `candidate_id`, `has_exec_details` 필드 추가 (Hiring Task용)
+- Dual-Vault 연결: LOOP Task ↔ loop_exec Candidate/TaskExecDetail 연결 구조
 
 **Changes (v3.8)**:
 - Task: `type` 필드 추가 (dev | strategy | research | ops)

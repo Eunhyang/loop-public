@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-26T06:44:10.286930",
-  "total_entities": 167,
+  "generated": "2025-12-26T07:35:47.722681",
+  "total_entities": 171,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -1322,10 +1322,22 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-vault-gpt-02",
+      "type": "Task",
+      "name": "MCP API TaskUpdate 모델 확장",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-dashboard-ux-v1",
       "type": "Project",
       "name": "대시보드 UX 개선 v1",
-      "status": "planning",
+      "status": "active",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md",
       "conditions_3y": [
         "cond-e"
@@ -1349,7 +1361,7 @@
       "id": "tsk-dashboard-ux-v1-02",
       "type": "Task",
       "name": "대시보드 키보드 단축키",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md",
       "conditions_3y": [
         "cond-e"
@@ -1365,6 +1377,42 @@
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md",
       "conditions_3y": [
         "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-04",
+      "type": "Task",
+      "name": "Quick Date Filter 초기화 버그 수정",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "은향"
+    },
+    {
+      "id": "prj-mcp-dual-vault-rbac",
+      "type": "Project",
+      "name": "MCP Dual-Vault RBAC",
+      "status": "active",
+      "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-mcp-rbac-01",
+      "type": "Task",
+      "name": "User 모델 role 필드 + CLI",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md",
+      "conditions_3y": [
+        "cond-b"
       ],
       "priority_flag": "high",
       "assignee": "김은향"
@@ -1782,6 +1830,11 @@
     {
       "source": "trk-2",
       "target": "prj-vault-gpt",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-mcp-dual-vault-rbac",
       "type": "parent_of"
     },
     {
@@ -2285,6 +2338,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-vault-gpt",
+      "target": "tsk-vault-gpt-02",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-01",
       "type": "parent_of"
@@ -2297,6 +2355,16 @@
     {
       "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-mcp-dual-vault-rbac",
+      "target": "tsk-mcp-rbac-01",
       "type": "parent_of"
     },
     {
@@ -2453,6 +2521,11 @@
       "source": "tsk-008-05",
       "target": "tsk-008-04",
       "type": "depends_on"
+    },
+    {
+      "source": "prj-mcp-dual-vault-rbac",
+      "target": "prj-vault-gpt",
+      "type": "extends"
     },
     {
       "source": "trk-2",
@@ -3147,6 +3220,8 @@
       "tsk-008-05",
       "prj-014",
       "prj-vault-gpt",
+      "prj-mcp-dual-vault-rbac",
+      "tsk-mcp-rbac-01",
       "trk-2",
       "trk-4"
     ],
@@ -3162,10 +3237,12 @@
       "tsk-007-03",
       "tsk-007-02",
       "prj-014",
+      "tsk-vault-gpt-02",
       "prj-dashboard-ux-v1",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-03",
+      "tsk-dashboard-ux-v1-04",
       "trk-6"
     ],
     "cond-d": [
@@ -3297,7 +3374,8 @@
       "prj-grants-jemi",
       "prj-yt-w33",
       "prj-vault-gpt",
-      "prj-dashboard-ux-v1"
+      "prj-dashboard-ux-v1",
+      "prj-mcp-dual-vault-rbac"
     ],
     "Task": [
       "tsk-003-01",
@@ -3361,9 +3439,12 @@
       "tsk-014-03",
       "tsk-014-04",
       "tsk-vault-gpt-01",
+      "tsk-vault-gpt-02",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-02",
-      "tsk-dashboard-ux-v1-03"
+      "tsk-dashboard-ux-v1-03",
+      "tsk-dashboard-ux-v1-04",
+      "tsk-mcp-rbac-01"
     ],
     "Program": [
       "pgm-hiring",
@@ -3495,7 +3576,6 @@
       "tsk-002-07",
       "prj-016",
       "prj-grants-jemi",
-      "prj-dashboard-ux-v1",
       "tsk-dashboard-ux-v1-01",
       "trk-5",
       "cond-c",
@@ -3528,6 +3608,8 @@
       "prj-yt-w33",
       "pgm-vault-system",
       "prj-vault-gpt",
+      "prj-dashboard-ux-v1",
+      "prj-mcp-dual-vault-rbac",
       "trk-2",
       "trk-3",
       "trk-4",
@@ -3577,13 +3659,16 @@
       "tsk-015-09",
       "tsk-015-10",
       "tsk-vault-gpt-01",
+      "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-03",
+      "tsk-mcp-rbac-01",
       "retro:2025-annual"
     ],
     "doing": [
       "tsk-010-01",
       "tsk-grants-jemi-01",
-      "tsk-dashboard-ux-v1-02"
+      "tsk-vault-gpt-02",
+      "tsk-dashboard-ux-v1-04"
     ],
     "pending": [
       "tsk-001-01",

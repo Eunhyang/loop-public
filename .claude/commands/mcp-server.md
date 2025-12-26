@@ -48,9 +48,13 @@ cd /volume1/LOOP_CORE/vault/LOOP
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
 /var/packages/ContainerManager/target/usr/bin/docker stop loop-api
 /var/packages/ContainerManager/target/usr/bin/docker rm loop-api
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -e VAULT_DIR=/vault -e OAUTH_DB_PATH=/vault/api/oauth/oauth.db -e TZ=Asia/Seoul loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_DB_PATH=/vault/api/oauth/oauth.db -e TZ=Asia/Seoul loop-api:latest
 " 2>&1'
 ```
+
+> **볼륨 마운트 설명**:
+> - `/volume1/LOOP_CORE/vault/LOOP:/vault:rw` - LOOP vault (읽기/쓰기)
+> - `/volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro` - loop_exec vault (읽기 전용, RBAC 보호)
 
 ### 중지 (stop)
 ```bash

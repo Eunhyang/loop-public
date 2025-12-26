@@ -201,7 +201,9 @@ const State = {
 
     // Get filtered tasks by current project, assignee, and strategy filters
     // Also applies task-level filters (status, priority, due date)
-    getFilteredTasks() {
+    // Options: { skipQuickDateFilter: boolean } - skip quick date filter for calendar view
+    getFilteredTasks(options = {}) {
+        const { skipQuickDateFilter = false } = options;
         let filtered = this.tasks;
 
         // Filter by activate (hide inactive by default)
@@ -298,8 +300,10 @@ const State = {
             });
         }
 
-        // Apply quick date filter (week/month buttons)
-        filtered = filtered.filter(t => this.passesQuickDateFilter(t));
+        // Apply quick date filter (week/month buttons) - skip for calendar view
+        if (!skipQuickDateFilter) {
+            filtered = filtered.filter(t => this.passesQuickDateFilter(t));
+        }
 
         return filtered;
     },
@@ -337,6 +341,87 @@ const State = {
         });
 
         return grouped;
+    },
+
+    // Get all Done tasks (ignoring assignee filter, for member-split Done columns)
+    getAllDoneTasks() {
+        let filtered = this.tasks;
+
+        // Filter by activate (hide inactive by default)
+        if (!this.filters.task.showInactive) {
+            filtered = filtered.filter(t => t.activate !== false);
+        }
+
+        // Filter by inactive members (hide tasks assigned to inactive members)
+        if (!this.filters.showInactiveMembers) {
+            const inactiveIds = this.getInactiveMemberIds();
+            filtered = filtered.filter(t => !inactiveIds.includes(t.assignee));
+        }
+
+        // Filter by track (via project's parent_id)
+        if (this.filterTrack && this.filterTrack !== 'all') {
+            const trackProjects = this.projects
+                .filter(p => p.parent_id === this.filterTrack || p.track_id === this.filterTrack)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => trackProjects.includes(t.project_id));
+        }
+
+        // Filter by program (via project's program_id)
+        if (this.filterProgram) {
+            const programProjects = this.projects
+                .filter(p => p.program_id === this.filterProgram)
+                .map(p => p.entity_id);
+            filtered = filtered.filter(t => programProjects.includes(t.project_id));
+        }
+
+        // Filter by hypothesis
+        if (this.filterHypothesis) {
+            filtered = filtered.filter(t =>
+                t.validates?.includes(this.filterHypothesis) ||
+                t.outgoing_relations?.some(r => r.target_id === this.filterHypothesis)
+            );
+        }
+
+        // Filter by condition
+        if (this.filterCondition) {
+            filtered = filtered.filter(t =>
+                t.conditions_3y?.includes(this.filterCondition)
+            );
+        }
+
+        // Filter by project
+        if (this.currentProject !== 'all') {
+            filtered = filtered.filter(t => t.project_id === this.currentProject);
+        }
+
+        // NOTE: Assignee filter is intentionally SKIPPED here
+
+        // Apply project status/priority filters
+        filtered = filtered.filter(t => {
+            const project = this.getProjectById(t.project_id);
+            if (!project) return true;
+            const projectStatus = project.status || 'active';
+            const projectPriority = project.priority || 'medium';
+            return this.filters.project.status.includes(projectStatus) &&
+                   this.filters.project.priority.includes(projectPriority);
+        });
+
+        // Only return done tasks
+        filtered = filtered.filter(t => {
+            const status = this.normalizeStatus(t.status);
+            return status === 'done' && this.filters.task.status.includes('done');
+        });
+
+        // Apply task priority filter
+        filtered = filtered.filter(t => {
+            const priority = t.priority || 'medium';
+            return this.filters.task.priority.includes(priority);
+        });
+
+        // Apply quick date filter
+        filtered = filtered.filter(t => this.passesQuickDateFilter(t));
+
+        return filtered;
     },
 
     // ============================================

@@ -21,7 +21,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session as SQLSession
 
-from .models import get_db, create_tables
+from .models import get_db, create_tables, User
 from .jwks import get_jwks, create_jwt, init_keys, OAUTH_ISSUER
 from .security import (
     authenticate_user,
@@ -325,10 +325,23 @@ async def oauth_token(
             log_oauth_access("token", client_ip, client_id=client_id, success=False, details="pkce_failed")
             raise HTTPException(400, {"error": "invalid_grant", "error_description": "PKCE verification failed"})
 
-    # Generate JWT
+    # Get user role for RBAC
+    user = db.query(User).filter(User.id == int(auth_code["user_id"])).first()
+    user_role = getattr(user, 'role', 'member') or 'member' if user else 'member'
+
+    # Determine scope based on role
+    base_scope = auth_code.get("scope") or "mcp:read"
+    if user_role in ("exec", "admin"):
+        # Add exec scope for privileged users
+        final_scope = f"{base_scope} mcp:exec" if "mcp:exec" not in base_scope else base_scope
+    else:
+        final_scope = base_scope
+
+    # Generate JWT with role
     access_token = create_jwt(
         sub=auth_code["user_id"],
-        scope=auth_code.get("scope") or "mcp:read"
+        scope=final_scope,
+        additional_claims={"role": user_role}
     )
 
     log_oauth_access("token", client_ip, client_id=client_id, user_id=auth_code["user_id"], success=True)
@@ -337,7 +350,7 @@ async def oauth_token(
         "access_token": access_token,
         "token_type": "Bearer",
         "expires_in": 3600,  # 1 hour
-        "scope": auth_code.get("scope") or "mcp:read"
+        "scope": final_scope
     }
 
 

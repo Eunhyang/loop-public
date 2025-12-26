@@ -129,13 +129,18 @@ async def auth_middleware(request: Request, call_next):
             bearer_token = auth_header[7:]  # "Bearer " 제거
             jwt_payload = verify_jwt(bearer_token)
             if jwt_payload:
-                # JWT 유효 - 로그 기록
+                # JWT 유효 - request.state에 저장 (downstream에서 사용)
+                request.state.user_id = jwt_payload.get("sub")
+                request.state.role = jwt_payload.get("role", "member")
+                request.state.scope = jwt_payload.get("scope", "mcp:read")
+
+                # 로그 기록
                 log_oauth_access(
                     "api",
                     client_ip,
                     user_id=jwt_payload.get("sub"),
                     success=True,
-                    details=f"scope={jwt_payload.get('scope')}"
+                    details=f"scope={jwt_payload.get('scope')}, role={jwt_payload.get('role')}"
                 )
                 return await call_next(request)
 

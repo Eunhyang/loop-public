@@ -31,6 +31,11 @@ class TaskUpdate(BaseModel):
     status: Optional[str] = None
     notes: Optional[str] = None
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
+    # Agent Builder 파이프라인용 추가 필드
+    conditions_3y: Optional[List[str]] = Field(default=None, description="3년 전략 연결 (cond-a ~ cond-e)", json_schema_extra={"items": {"type": "string"}})
+    closed: Optional[str] = Field(default=None, description="완료일 (YYYY-MM-DD)")
+    closed_inferred: Optional[str] = Field(default=None, description="closed 추론 출처: updated | git_commit_date | today")
+    project_id: Optional[str] = Field(default=None, description="프로젝트 ID")
 
 
 class ProjectCreate(BaseModel):

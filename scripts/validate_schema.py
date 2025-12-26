@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Schema Validator v5.0
+LOOP Vault Schema Validator v7.0
 모든 마크다운 파일의 frontmatter를 검증합니다.
+
+변경사항 (v7.0):
+- mtime 기반 스키마 최신성 체크 추가
+- 최근 7일 내 entity 스캔하여 새 필드 감지
+- --check-freshness 옵션 추가
+- 단일 파일 검증 모드 지원
+
+변경사항 (v6.0):
+- Task: type 필드 유효값 검증 (dev | strategy | research | ops | null)
+- Task: target_project 필드 유효값 검증 (sosi | kkokkkok | loop-api | loop | null)
+- Task: type=dev일 때 target_project 필수
+- Task: closed 필드 검증 (status=done|failed|learning 시 필수)
+- Program 엔티티 기본 검증 추가
 
 변경사항 (v5.0):
 - Hypothesis: hypothesis_question, success_criteria, failure_criteria 필수
@@ -19,8 +32,9 @@ import os
 import re
 import sys
 import yaml
+import time
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Set
 
 # === 설정 ===
 INCLUDE_PATHS = [
@@ -55,12 +69,16 @@ ID_PATTERNS = {
     "mh": r"^mh-[1-4]$",
     "cond": r"^cond-[a-e]$",
     "trk": r"^trk-[1-6]$",
-    "prj": r"^prj-\d{3}$",
-    "tsk": r"^tsk-\d{3}-\d{2}$",
+    "prj": r"^prj-(\d{3}|[a-z][a-z0-9-]+)$",  # prj-001 또는 prj-vault-gpt (Round)
+    "tsk": r"^tsk-(\d{3}-\d{2}|[a-z][a-z0-9-]+-\d{2})$",  # tsk-001-01 또는 tsk-vault-gpt-01 (Round)
     "hyp": r"^hyp-[1-6]-\d{2}$",  # Track기반: hyp-1-01, hyp-6-14
     "exp": r"^exp-\d{3}$",
     "pl": r"^pl-[1-9]$",          # ProductLine: pl-1 ~ pl-9
     "ps": r"^ps-[1-9]$",          # PartnershipStage: ps-1 ~ ps-9
+    "pgm": r"^pgm-[a-z][a-z0-9-]*$",  # Program: pgm-hiring, pgm-vault-system
+    "retro": r"^retro-\d{3}-\d{2}$",  # Retrospective: retro-015-01
+    "status": r"^status-[a-z-]+$",    # Status documents
+    "concept": r"^concept-[a-z-]+$",  # Concept documents
 }
 
 # === 필수 필드 ===
@@ -87,6 +105,15 @@ VALID_CONDITION_IDS = ["cond-a", "cond-b", "cond-c", "cond-d", "cond-e"]
 
 # === 유효한 상태값 ===
 VALID_STATUSES = ["planning", "active", "blocked", "done", "failed", "learning", "fixed", "assumed", "validating", "validated", "falsified", "in_progress", "pending", "completed"]
+
+# === Task type 유효값 (v3.8) ===
+VALID_TASK_TYPES = ["dev", "strategy", "research", "ops"]
+
+# === Task target_project 유효값 (v3.8) ===
+VALID_TARGET_PROJECTS = ["sosi", "kkokkkok", "loop-api", "loop"]
+
+# === Program type 유효값 (v3.7) ===
+VALID_PROGRAM_TYPES = ["hiring", "fundraising", "grants", "launch", "experiments", "infrastructure"]
 
 
 def extract_frontmatter(content: str) -> Optional[Dict]:
@@ -229,6 +256,205 @@ def validate_task_no_validates(frontmatter: Dict) -> List[str]:
     return errors
 
 
+def validate_task_type_target(frontmatter: Dict) -> List[str]:
+    """Task type과 target_project 필드 검증 (v3.8 스키마)"""
+    errors = []
+
+    task_type = frontmatter.get("type")
+    target_project = frontmatter.get("target_project")
+
+    # type이 있으면 유효값 체크
+    if task_type is not None:
+        if task_type not in VALID_TASK_TYPES:
+            errors.append(f"Task type '{task_type}' is invalid. Valid: {VALID_TASK_TYPES}")
+
+        # type=dev일 때 target_project 필수
+        if task_type == "dev" and not target_project:
+            errors.append("Task with type='dev' requires target_project (sosi | kkokkkok | loop-api | loop)")
+
+    # target_project가 있으면 유효값 체크
+    if target_project is not None:
+        if target_project not in VALID_TARGET_PROJECTS:
+            errors.append(f"Task target_project '{target_project}' is invalid. Valid: {VALID_TARGET_PROJECTS}")
+
+    return errors
+
+
+def validate_task_closed(frontmatter: Dict) -> List[str]:
+    """Task closed 필드 검증 (v3.5 스키마) - status=done|failed|learning 시 필수"""
+    errors = []
+
+    status = frontmatter.get("status")
+    closed = frontmatter.get("closed")
+
+    # status가 done, failed, learning이면 closed 필수
+    if status in ["done", "failed", "learning"]:
+        if not closed:
+            errors.append(f"Task with status='{status}' requires 'closed' date field")
+
+    return errors
+
+
+def validate_program(frontmatter: Dict) -> List[str]:
+    """Program 엔티티 검증 (v3.7 스키마)"""
+    errors = []
+
+    # program_type 필수
+    program_type = frontmatter.get("program_type")
+    if not program_type:
+        errors.append("Program requires 'program_type' field")
+    elif program_type not in VALID_PROGRAM_TYPES:
+        errors.append(f"Program type '{program_type}' is invalid. Valid: {VALID_PROGRAM_TYPES}")
+
+    # owner 필수
+    if not frontmatter.get("owner"):
+        errors.append("Program requires 'owner' field")
+
+    return errors
+
+
+# === 스키마 최신성 체크 (v7.0) ===
+
+# schema_registry.md에 정의된 알려진 필드들
+KNOWN_FIELDS = {
+    "all": {
+        "entity_type", "entity_id", "entity_name", "created", "updated", "status",
+        "parent_id", "aliases", "outgoing_relations", "validates", "validated_by",
+        "tags", "priority_flag", "conditions_3y"
+    },
+    "NorthStar": set(),
+    "MetaHypothesis": {"if_broken", "evidence_status", "confidence"},
+    "Condition": {"unlock", "if_broken", "metrics"},
+    "Track": {"horizon", "hypothesis", "focus", "owner", "objectives"},
+    "Program": {"program_type", "owner", "principles", "process_steps", "templates", "kpis", "exec_rounds_path"},
+    "Project": {
+        "owner", "budget", "deadline", "program_id", "cycle",
+        "expected_impact", "realized_impact", "hypothesis_id", "experiments", "hypothesis_text"
+    },
+    "Task": {
+        "project_id", "assignee", "start_date", "due", "priority",
+        "estimated_hours", "actual_hours", "type", "target_project",
+        "candidate_id", "has_exec_details", "closed", "archived_at", "closed_inferred", "notes"
+    },
+    "Hypothesis": {
+        "hypothesis_question", "success_criteria", "failure_criteria", "measurement",
+        "horizon", "deadline", "evidence_status", "confidence", "loop_layer", "hypothesis_text"
+    },
+    "Experiment": {"hypothesis_id", "protocol", "metrics", "start_date", "end_date", "result_summary", "outcome"},
+}
+
+SCHEMA_REGISTRY_PATH = "00_Meta/schema_registry.md"
+FRESHNESS_DAYS = 7
+
+
+def check_schema_freshness(vault_root: Path) -> Tuple[bool, List[str]]:
+    """
+    스키마 최신성 체크.
+
+    Returns:
+        (is_fresh, messages): 스키마가 최신인지 여부와 관련 메시지들
+    """
+    messages = []
+    schema_path = vault_root / SCHEMA_REGISTRY_PATH
+
+    if not schema_path.exists():
+        messages.append(f"⚠️  schema_registry.md not found at {SCHEMA_REGISTRY_PATH}")
+        return False, messages
+
+    # schema_registry.md의 mtime 확인
+    schema_mtime = schema_path.stat().st_mtime
+    schema_age_days = (time.time() - schema_mtime) / (24 * 60 * 60)
+
+    if schema_age_days <= FRESHNESS_DAYS:
+        messages.append(f"✅ schema_registry.md is fresh ({schema_age_days:.1f} days old)")
+        return True, messages
+
+    messages.append(f"⚠️  schema_registry.md is {schema_age_days:.1f} days old (> {FRESHNESS_DAYS} days)")
+    messages.append("   Scanning recent entities for new fields...")
+
+    # 최근 7일 내 수정된 entity 파일들 스캔
+    cutoff_time = time.time() - (FRESHNESS_DAYS * 24 * 60 * 60)
+    new_fields_found: Dict[str, Set[str]] = {}
+    recent_files_count = 0
+
+    for filepath in vault_root.rglob("*.md"):
+        if not should_validate(filepath, vault_root):
+            continue
+
+        file_mtime = filepath.stat().st_mtime
+        if file_mtime < cutoff_time:
+            continue
+
+        recent_files_count += 1
+
+        try:
+            content = filepath.read_text(encoding="utf-8")
+            frontmatter = extract_frontmatter(content)
+            if not frontmatter:
+                continue
+
+            entity_type = frontmatter.get("entity_type")
+            if not entity_type:
+                continue
+
+            # 알려진 필드와 비교
+            known = KNOWN_FIELDS.get("all", set()) | KNOWN_FIELDS.get(entity_type, set())
+            current_fields = set(frontmatter.keys())
+            unknown = current_fields - known - {"_parse_error"}
+
+            if unknown:
+                if entity_type not in new_fields_found:
+                    new_fields_found[entity_type] = set()
+                new_fields_found[entity_type].update(unknown)
+
+        except Exception:
+            continue
+
+    messages.append(f"   Scanned {recent_files_count} files modified in last {FRESHNESS_DAYS} days")
+
+    if new_fields_found:
+        messages.append("\n🔔 New fields detected (not in schema_registry.md):")
+        for entity_type, fields in sorted(new_fields_found.items()):
+            messages.append(f"   {entity_type}: {', '.join(sorted(fields))}")
+        messages.append("\n   Consider updating 00_Meta/schema_registry.md and this script!")
+        return False, messages
+
+    messages.append("   No new fields detected. Schema appears up-to-date.")
+    return True, messages
+
+
+def validate_single_file(filepath: Path, vault_root: Path) -> int:
+    """단일 파일 검증 모드"""
+    if not filepath.exists():
+        print(f"Error: File does not exist: {filepath}")
+        return 1
+
+    try:
+        content = filepath.read_text(encoding="utf-8")
+    except Exception as e:
+        print(f"Error reading file: {e}")
+        return 1
+
+    frontmatter = extract_frontmatter(content)
+    if frontmatter is None:
+        print(f"No frontmatter found in: {filepath}")
+        return 1
+
+    errors = validate_file(filepath, frontmatter)
+
+    print(f"\n=== Single File Validation ===")
+    print(f"File: {filepath}")
+
+    if errors:
+        print(f"\n❌ Errors ({len(errors)}):")
+        for error in errors:
+            print(f"  - {error}")
+        return 1
+
+    print("\n✅ Validation passed!")
+    return 0
+
+
 def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
     """단일 파일 검증"""
     errors = []
@@ -306,6 +532,19 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
         task_errors = validate_task_no_validates(frontmatter)
         errors.extend(task_errors)
 
+        # Task type/target_project 검증 (v3.8)
+        type_errors = validate_task_type_target(frontmatter)
+        errors.extend(type_errors)
+
+        # Task closed 검증 (v3.5)
+        closed_errors = validate_task_closed(frontmatter)
+        errors.extend(closed_errors)
+
+    # Program 검증 (v3.7)
+    if entity_type == "Program":
+        program_errors = validate_program(frontmatter)
+        errors.extend(program_errors)
+
     return errors
 
 
@@ -330,13 +569,30 @@ def should_validate(filepath: Path, vault_root: Path) -> bool:
     return False
 
 
-def main(vault_path: str) -> int:
+def main(vault_path: str, check_freshness: bool = True, single_file: Optional[str] = None) -> int:
     """메인 검증 함수"""
     vault_root = Path(vault_path).resolve()
 
     if not vault_root.exists():
         print(f"Error: Vault path does not exist: {vault_root}")
         return 1
+
+    # 단일 파일 검증 모드
+    if single_file:
+        file_path = Path(single_file)
+        if not file_path.is_absolute():
+            file_path = vault_root / file_path
+        return validate_single_file(file_path, vault_root)
+
+    # 스키마 최신성 체크
+    if check_freshness:
+        print("\n=== Schema Freshness Check ===")
+        is_fresh, messages = check_schema_freshness(vault_root)
+        for msg in messages:
+            print(msg)
+
+        if not is_fresh:
+            print("\n⚠️  Schema may need updates. Continuing with validation...\n")
 
     errors_found = []
     files_checked = 0
@@ -375,10 +631,60 @@ def main(vault_path: str) -> int:
                 print(f"  - {error}")
         return 1
 
-    print("\nAll files passed validation!")
+    print("\n✅ All files passed validation!")
     return 0
 
 
+def print_usage():
+    """사용법 출력"""
+    print("""
+LOOP Vault Schema Validator v7.0
+
+Usage:
+    python3 validate_schema.py [vault_path]           # Full validation with freshness check
+    python3 validate_schema.py [vault_path] --file <path>    # Single file validation
+    python3 validate_schema.py [vault_path] --no-freshness   # Skip freshness check
+    python3 validate_schema.py --help                 # Show this help
+
+Options:
+    --file <path>     Validate a single file only
+    --no-freshness    Skip schema freshness check
+    --help            Show this help message
+
+Examples:
+    python3 validate_schema.py .
+    python3 validate_schema.py . --file 50_Projects/P001/Tasks/task.md
+    python3 validate_schema.py /path/to/vault --no-freshness
+""")
+
+
 if __name__ == "__main__":
-    vault_path = sys.argv[1] if len(sys.argv) > 1 else "."
-    sys.exit(main(vault_path))
+    args = sys.argv[1:]
+
+    # Help
+    if "--help" in args or "-h" in args:
+        print_usage()
+        sys.exit(0)
+
+    # Parse arguments
+    vault_path = "."
+    single_file = None
+    check_freshness = True
+
+    i = 0
+    while i < len(args):
+        if args[i] == "--file" and i + 1 < len(args):
+            single_file = args[i + 1]
+            i += 2
+        elif args[i] == "--no-freshness":
+            check_freshness = False
+            i += 1
+        elif not args[i].startswith("-"):
+            vault_path = args[i]
+            i += 1
+        else:
+            print(f"Unknown option: {args[i]}")
+            print_usage()
+            sys.exit(1)
+
+    sys.exit(main(vault_path, check_freshness, single_file))

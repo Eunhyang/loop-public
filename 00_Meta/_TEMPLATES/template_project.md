@@ -135,6 +135,33 @@ priority_flag: medium
 
 ---
 
+## Notes
+
+### PRD (Product Requirements Document)
+<!-- prompt-enhancer 스킬로 자동 생성 또는 수동 작성 -->
+
+**문제 정의**:
+
+
+**목표**:
+
+
+**핵심 요구사항**:
+1.
+2.
+3.
+
+**기술 스펙**:
+
+
+**제약 조건**:
+
+
+**성공 지표**:
+
+
+---
+
 ## 참고 문서
 
 - [[trk-{{TRACK_NUMBER}}]] - 소속 Track

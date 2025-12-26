@@ -6,8 +6,8 @@ created: 2025-12-26
 updated: 2025-12-26
 status: active
 
-# === 계층 ===
-parent_id: "pgm-vault-system"
+# === 계층 (전략 연결) ===
+parent_id: "trk-2"
 program_id: "pgm-vault-system"
 aliases: ["prj-mcp-dual-vault-rbac", "MCP RBAC", "Dual Vault RBAC"]
 
@@ -20,7 +20,7 @@ validates: []
 validated_by: []
 
 # === Project 전용 ===
-owner: "한명학"
+owner: "김은향"
 budget: null
 deadline: null
 hypothesis_text: "역할 기반 접근 제어로 loop_exec 민감 데이터를 코어팀으로부터 보호할 수 있다"
@@ -41,7 +41,7 @@ realized_impact:
   decided: null
 
 # === 3Y 전략 연결 ===
-conditions_3y: []
+conditions_3y: ["cond-b"]
 
 # === 분류 ===
 tags: ["vault", "mcp", "oauth", "rbac", "security"]
@@ -117,9 +117,8 @@ ChatGPT MCP를 통해 코어팀 멤버가 접근할 수 있으면 안 됨.
 
 | ID | Name | Assignee | Status | Due |
 |----|------|----------|--------|-----|
-| tsk-mcp-rbac-01 | User 모델 role 필드 + CLI | 한명학 | planning | |
-| tsk-mcp-rbac-02 | JWT role/scope + 접근 제어 | 한명학 | planning | |
-| tsk-mcp-rbac-03 | Docker 배포 + 테스트 | 한명학 | planning | |
+| tsk-mcp-rbac-01 | User 모델 role 필드 + CLI | 김은향 | done | |
+| tsk-mcp-rbac-02 | 대시보드 OAuth 로그인 통합 | 김은향 | planning | 2025-12-26 |
 
 ---
 
@@ -137,4 +136,4 @@ ChatGPT MCP를 통해 코어팀 멤버가 접근할 수 있으면 안 됨.
 ---
 
 **Created**: 2025-12-26
-**Owner**: 한명학
+**Owner**: 김은향

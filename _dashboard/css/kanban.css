@@ -96,26 +96,26 @@
     outline-color: white;
 }
 
-/* Program 버튼 스타일 (Project와 구분되는 청록색) */
+/* Program 버튼 스타일 (메인 보라색) */
 .filter-btn-program {
-    background: #e0f2fe;
-    border-color: #0ea5e9;
-    color: #0369a1;
+    background: rgba(102, 126, 234, 0.1);
+    border-color: #667eea;
+    color: #4a5abe;
 }
 
 .filter-btn-program:hover {
-    background: #bae6fd;
-    border-color: #0284c7;
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #5a6fd6;
 }
 
 .filter-btn-program.active {
-    background: #0ea5e9;
+    background: #667eea;
     color: white;
-    border-color: #0ea5e9;
+    border-color: #667eea;
 }
 
 .filter-btn-program .filter-count {
-    background: rgba(14, 165, 233, 0.2);
+    background: rgba(102, 126, 234, 0.2);
 }
 
 .filter-btn-program.active .filter-count {
@@ -140,7 +140,7 @@
 
 .btn-program-info:focus-visible {
     opacity: 1;
-    outline: 2px solid #0ea5e9;
+    outline: 2px solid #667eea;
     outline-offset: 1px;
 }
 
@@ -211,19 +211,16 @@
     max-width: 350px;
     background: #f8f9fa;
     border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
-.kanban-column[data-status="todo"] { border-top: 4px solid #6b7280; }
-.kanban-column[data-status="doing"] { border-top: 4px solid #3b82f6; }
-.kanban-column[data-status="done"] { border-top: 4px solid #10b981; }
-.kanban-column[data-status="blocked"] { border-top: 4px solid #ef4444; }
 
 .column-header {
     padding: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
+    background: rgba(248, 249, 250, 0.6);
 }
 
 .column-title {
@@ -246,6 +243,27 @@
 .kanban-column[data-status="doing"] .column-count { background: #3b82f6; }
 .kanban-column[data-status="done"] .column-count { background: #10b981; }
 .kanban-column[data-status="blocked"] .column-count { background: #ef4444; }
+
+/* ============================================
+   Member-specific Done Columns (Assignee=All)
+   ============================================ */
+.kanban-column-done-member {
+    min-width: 280px;
+    max-width: 320px;
+    background: #f8f9fa;
+}
+
+.column-header-done-member {
+    background: rgba(248, 249, 250, 0.6);
+}
+
+.column-header-done-member .column-title {
+    font-size: 0.9em;
+}
+
+.kanban-column-done-member .column-count {
+    background: #10b981;
+}
 
 .column-body {
     padding: 12px;

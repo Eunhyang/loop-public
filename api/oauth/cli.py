@@ -296,10 +296,13 @@ Examples:
             if password != confirm:
                 print("Error: Passwords do not match")
                 sys.exit(1)
-        create_user(args.email, password)
+        create_user(args.email, password, args.role)
 
     elif args.command == "list-users":
         list_users()
+
+    elif args.command == "set-role":
+        set_role(args.email, args.role)
 
     elif args.command == "create-client":
         create_client(args.name, args.redirect_uri)

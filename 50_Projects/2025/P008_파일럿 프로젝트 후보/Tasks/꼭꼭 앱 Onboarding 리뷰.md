@@ -5,6 +5,7 @@ entity_name: 꼭꼭 앱 Onboarding UI/UX 리뷰
 created: 2025-12-23
 updated: '2025-12-26'
 status: done
+closed: 2025-12-26
 parent_id: prj-008
 project_id: prj-008
 aliases:

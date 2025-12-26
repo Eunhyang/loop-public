@@ -4,7 +4,7 @@ entity_id: tsk-grants-jemi-01
 entity_name: JEMI 디딤돌 e-나라도움 정산 증빙자료 수집
 created: 2025-12-23
 updated: '2025-12-23'
-status: doing
+status: active
 project_id: prj-grants-jemi
 assignee: 한명학
 start_date: null

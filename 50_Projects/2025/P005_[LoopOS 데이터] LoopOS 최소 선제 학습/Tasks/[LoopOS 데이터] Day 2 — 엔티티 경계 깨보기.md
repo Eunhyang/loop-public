@@ -4,7 +4,7 @@ entity_id: tsk-005-05
 entity_name: '[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기'
 created: 2025-12-18
 updated: '2025-12-26'
-status: todo
+status: planning
 parent_id: prj-005
 project_id: prj-005
 aliases:

@@ -4,7 +4,8 @@ entity_id: tsk-dashboard-ux-v1-02
 entity_name: 대시보드 키보드 단축키
 created: 2025-12-26
 updated: '2025-12-26'
-status: doing
+status: done
+closed: 2025-12-26
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
 aliases:

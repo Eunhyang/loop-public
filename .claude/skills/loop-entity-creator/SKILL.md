@@ -340,15 +340,26 @@ python3 scripts/build_graph_index.py .
 
 This regenerates `_Graph_Index.md` with latest entity relationships.
 
-## Field Requirements Reference
+## Schema Reference
 
-For detailed field requirements per entity type, see:
-- `references/field_requirements.md` - Required/optional fields, descriptions, examples
+All schema definitions are maintained in a single authoritative source:
 
-## Entity Patterns Reference
+```
+00_Meta/schema_registry.md
+```
 
-For ID patterns and file placement rules, see:
-- `references/entity_patterns.md` - ID format rules, file path patterns
+**Before creating/editing entities, always read this file to ensure:**
+- Correct field requirements per entity type
+- Valid ID patterns and formats
+- File placement rules
+- Current schema version (check `version:` in frontmatter)
+
+**Key sections in schema_registry.md:**
+- Section 1: ID 형식 규칙 - ID patterns
+- Section 2: 공통 스키마 - Common fields
+- Section 3: 엔티티별 확장 스키마 - Entity-specific fields
+- Section 4: 검증 규칙 - Validation rules
+- Section 5: 파일 위치 규칙 - File location rules
 
 ## Quick Examples
 

@@ -216,6 +216,15 @@ def update_task(task_id: str, task: TaskUpdate):
         frontmatter['notes'] = task.notes if task.notes else None
     if task.tags is not None:
         frontmatter['tags'] = task.tags
+    # Agent Builder 파이프라인용 추가 필드
+    if task.conditions_3y is not None:
+        frontmatter['conditions_3y'] = task.conditions_3y
+    if task.closed is not None:
+        frontmatter['closed'] = task.closed
+    if task.closed_inferred is not None:
+        frontmatter['closed_inferred'] = task.closed_inferred
+    if task.project_id is not None:
+        frontmatter['project_id'] = task.project_id
 
     frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
 

@@ -36,9 +36,9 @@ const QuickSearch = {
     },
 
     bindEvents() {
-        // Global keyboard shortcut (Cmd+K or Cmd+P)
+        // Global keyboard shortcut (Cmd+K or Cmd+P) - use e.code for IME compatibility
         document.addEventListener('keydown', (e) => {
-            if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'p')) {
+            if ((e.metaKey || e.ctrlKey) && (e.code === 'KeyK' || e.code === 'KeyP')) {
                 e.preventDefault();
                 this.open();
             }

@@ -2,7 +2,7 @@
 
 > loop_exec Vault 추가 및 역할 기반 접근 제어 구현
 
-## Current Status: Planning
+## Current Status: Deployed
 
 ---
 
@@ -10,46 +10,58 @@
 
 ### Phase 1: User Model & Database
 
-- [ ] **RBAC-001** User 모델에 role 필드 추가
+- [x] **RBAC-001** User 모델에 role 필드 추가
   - 파일: `api/oauth/models.py`
   - 작업: `role = Column(String, default="member")` 추가
-  - 마이그레이션: 기존 DB에 컬럼 추가
+  - 마이그레이션: `scripts/migrate_role.py` 실행
+  - 완료일: 2025-12-26
 
-- [ ] **RBAC-002** CLI에 role 관련 명령어 추가
+- [x] **RBAC-002** CLI에 role 관련 명령어 추가
   - 파일: `api/oauth/cli.py`
   - 작업:
     - `create-user --role` 옵션 추가
     - `set-role` 명령어 추가
     - `list-users`에 role 표시
+  - 완료일: 2025-12-26
 
 ### Phase 2: JWT & Access Control
 
-- [ ] **RBAC-003** JWT 발급 시 role/scope 포함
-  - 파일: `api/oauth/jwks.py`
-  - 작업: `create_access_token()`에 role, scope 추가
+- [x] **RBAC-003** JWT 발급 시 role/scope 포함
+  - 파일: `api/oauth/routes.py`
+  - 작업: `create_jwt()`에 `additional_claims={"role": user_role}` 추가
+  - exec/admin은 scope에 `mcp:exec` 자동 추가
+  - 완료일: 2025-12-26
 
-- [ ] **RBAC-004** 경로 접근 제어 강화
+- [x] **RBAC-004** 경로 접근 제어 강화
   - 파일: `api/oauth/security.py`
   - 작업:
     - `EXEC_PATH_PREFIX = "exec/"` 상수 추가
-    - `check_path_access()`에 role 파라미터 추가
+    - `check_path_access(path, scope, role)` 시그니처 변경
     - exec/ 경로는 exec, admin만 접근 가능
+  - 완료일: 2025-12-26
 
-- [ ] **RBAC-005** API 미들웨어에서 role 체크
-  - 파일: `api/main.py`
-  - 작업: JWT에서 role 추출, 경로 체크 시 전달
+- [x] **RBAC-005** API 미들웨어에서 role 체크
+  - 파일: `api/main.py`, `api/routers/files.py`
+  - 작업:
+    - JWT에서 role, scope 추출하여 `request.state`에 저장
+    - files 라우터에서 `check_path_access()` 호출
+  - 완료일: 2025-12-26
 
 ### Phase 3: Docker & Deployment
 
-- [ ] **RBAC-006** Docker 볼륨 마운트 추가
+- [x] **RBAC-006** Docker 볼륨 마운트 추가
   - 파일: `.claude/commands/mcp-server.md`
-  - 작업: `/volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro` 추가
+  - 작업: `-v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro` 추가
+  - 완료일: 2025-12-26
 
-- [ ] **RBAC-007** 환경변수 추가
-  - 작업: `EXEC_VAULT_DIR=/vault/exec` 환경변수
+- [x] **RBAC-007** 환경변수 추가
+  - 작업: `-e EXEC_VAULT_DIR=/vault/exec` 환경변수
+  - 완료일: 2025-12-26
 
-- [ ] **RBAC-008** Docker 재빌드 및 배포
-  - 작업: `/mcp-server rebuild`
+- [x] **RBAC-008** Docker 재빌드 및 배포
+  - 작업: `/mcp-server rebuild` 실행
+  - admin@sosilab.com 사용자 role='admin' 설정
+  - 완료일: 2025-12-26
 
 ### Phase 4: Testing & Verification
 
@@ -82,12 +94,27 @@
 
 | Item | Status |
 |------|--------|
-| exec vault read-only mount | ⏳ |
-| Role-based path access | ⏳ |
-| JWT contains role claim | ⏳ |
-| Exec access logging | ⏳ |
-| Blocked access logging | ⏳ |
+| exec vault read-only mount | ✅ |
+| Role-based path access | ✅ |
+| JWT contains role claim | ✅ |
+| Exec access logging | ✅ |
+| Blocked access logging | ✅ |
 
 ---
 
-**Last Updated**: 2025-12-25
+## 변경된 파일 목록
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| `api/oauth/models.py` | User 모델에 `role` 필드 추가 |
+| `api/oauth/cli.py` | `--role` 옵션, `set-role` 명령어 추가 |
+| `api/oauth/routes.py` | JWT 발급 시 role/scope 포함 |
+| `api/oauth/security.py` | `check_path_access(path, scope, role)` 수정 |
+| `api/main.py` | request.state에 role/scope 저장 |
+| `api/routers/files.py` | RBAC 체크 추가 |
+| `.claude/commands/mcp-server.md` | exec vault 볼륨 마운트 추가 |
+| `scripts/migrate_role.py` | DB 마이그레이션 스크립트 |
+
+---
+
+**Last Updated**: 2025-12-26

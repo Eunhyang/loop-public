@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2025-12-26
 updated: 2025-12-26
-total_entities: 167
+total_entities: 171
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 167개
+- **총 엔티티**: 171개
 - **마지막 업데이트**: 2025-12-26
 
 ### 타입별
@@ -28,20 +28,20 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 4 |
-| Project | 19 |
-| Task | 64 |
+| Project | 20 |
+| Task | 67 |
 | Hypothesis | 45 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 29 |
-| doing | 3 |
-| done | 27 |
+| active | 31 |
+| doing | 4 |
+| done | 29 |
 | fixed | 1 |
 | in_progress | 6 |
 | pending | 4 |
-| planning | 78 |
+| planning | 77 |
 | todo | 10 |
 | unknown | 5 |
 | validating | 4 |
@@ -98,7 +98,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | active | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (19개)
+## Project (20개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -117,13 +117,14 @@ tags: ["meta", "graph", "index"]
 | `prj-014` | 코칭 서비스 운영 체계 재구축 | active | `50_Projects/2025/P014_코칭 운영 체계/Project_정의.md` |
 | `prj-015` | Hiring - 주니어 개발자 채용 | active | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | planning | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md` |
-| `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
+| `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | active | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
 | `prj-grants-jemi` | JEMI디딤돌 지원사업 | planning | `50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md` |
+| `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | active | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md` |
 | `prj-vault-gpt` | ChatGPT Vault MCP 연결 | active | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
 | `prj-yt-w33` | YouTube W33 | active | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md` |
 
 
-## Task (64개)
+## Task (67개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -187,10 +188,13 @@ tags: ["meta", "graph", "index"]
 | `tsk-015-12` | Hiring - 개발 환경 세팅 문서 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
 | `tsk-015-13` | Hiring - Day1 Onboarding 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
 | `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
-| `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
+| `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
 | `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
+| `tsk-dashboard-ux-v1-04` | Quick Date Filter 초기화 버그 수정 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md` |
 | `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | doing | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
+| `tsk-mcp-rbac-01` | User 모델 role 필드 + CLI | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
+| `tsk-vault-gpt-02` | MCP API TaskUpdate 모델 확장 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md` |
 
 
 ## Hypothesis (45개)
@@ -355,10 +359,14 @@ tags: ["meta", "graph", "index"]
   - tsk-dashboard-ux-v1-01 (뷰 전환 단축키 (1/2/3))
   - tsk-dashboard-ux-v1-02 (대시보드 키보드 단축키)
   - tsk-dashboard-ux-v1-03 (사이드바 엔티티 상세 패널 구현)
+  - tsk-dashboard-ux-v1-04 (Quick Date Filter 초기화 버그 수정)
 - **prj-grants-jemi** (JEMI디딤돌 지원사업)
   - tsk-grants-jemi-01 (JEMI 디딤돌 e-나라도움 정산 증빙자료 수집)
+- **prj-mcp-dual-vault-rbac** (MCP Dual-Vault RBAC)
+  - tsk-mcp-rbac-01 (User 모델 role 필드 + CLI)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-vault-gpt-01 (v1 HTTP MCP 설정)
+  - tsk-vault-gpt-02 (MCP API TaskUpdate 모델 확장)
 - **prj-yt-w33** (YouTube W33)
   - tsk-014-01 (W33 기획)
   - tsk-014-02 (W33 대본작성)
@@ -391,6 +399,7 @@ tags: ["meta", "graph", "index"]
   - prj-003 (LoopOS V0 데이터 설계)
   - prj-004 ((프로젝트 없음))
   - prj-005 ([LoopOS 데이터] LoopOS 최소 선제 학습)
+  - prj-mcp-dual-vault-rbac (MCP Dual-Vault RBAC)
   - prj-vault-gpt (ChatGPT Vault MCP 연결)
 - **trk-3** (Track_3_Content)
   - pgm-youtube-weekly (YouTube 1주 1업로드)

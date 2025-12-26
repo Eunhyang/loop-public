@@ -34,6 +34,9 @@ async function init() {
         // Load all data
         await State.loadAll();
 
+        // Initialize quick date filter (default: current week)
+        State.initQuickDateFilter();
+
         // Initialize and Render Sidebar
         Sidebar.init();
         Sidebar.render();
@@ -204,39 +207,40 @@ function setupEventListeners() {
         const panelOpen = document.querySelector('.side-panel.active');
         if (isTyping || modalOpen || panelOpen) return;
 
-        // View switching: 1=Kanban, 2=Calendar, 3=Graph
-        if (e.key === '1') { switchView('kanban'); return; }
-        if (e.key === '2') { switchView('calendar'); return; }
-        if (e.key === '3') { switchView('graph'); return; }
+        // View switching: 1=Kanban, 2=Calendar, 3=Graph (use e.code for IME compatibility)
+        if (e.code === 'Digit1') { switchView('kanban'); return; }
+        if (e.code === 'Digit2') { switchView('calendar'); return; }
+        if (e.code === 'Digit3') { switchView('graph'); return; }
 
-        // Filter shortcuts: F=Toggle, R=Reset
-        if (e.key === 'f' || e.key === 'F') {
+        // Filter shortcuts: F=Toggle, R=Reset (use e.code for IME compatibility)
+        if (e.code === 'KeyF') {
             FilterPanel.toggle();
             return;
         }
-        if (e.key === 'r' || e.key === 'R') {
+        if (e.code === 'KeyR') {
             FilterPanel.reset();
             showToast('Filters reset', 'info');
             return;
         }
 
-        // Help modal: ?
-        if (e.key === '?') {
+        // Help modal: ? (Shift + /) - use e.code for IME compatibility
+        if (e.code === 'Slash' && e.shiftKey) {
             openHelpModal();
             return;
         }
 
         // Member filter shortcuts: Shift+E/M/A
+        // Use e.code instead of e.key to work regardless of IME (Korean input) state
         if (e.shiftKey) {
-            if (e.key === 'E') {
+            if (e.code === 'KeyE') {
                 setMemberFilter('김은향');
                 return;
             }
-            if (e.key === 'M') {
+            if (e.code === 'KeyM') {
                 setMemberFilter('한명학');
                 return;
             }
-            if (e.key === 'A') {
+            if (e.code === 'KeyA') {
                 setMemberFilter('all');
                 return;
             }

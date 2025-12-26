@@ -6,12 +6,12 @@ const Calendar = {
     instance: null,
     initialized: false,
 
-    // 프로젝트별 고유 색상 팔레트 (20개 pastel)
+    // 프로젝트별 고유 색상 팔레트 (20개 light pastel - 50 level)
     PASTEL_COLORS: [
-        '#FFCDD2', '#F8BBD9', '#E1BEE7', '#D1C4E9', '#C5CAE9',
-        '#BBDEFB', '#B3E5FC', '#B2EBF2', '#B2DFDB', '#C8E6C9',
-        '#DCEDC8', '#F0F4C3', '#FFF9C4', '#FFECB3', '#FFE0B2',
-        '#FFCCBC', '#D7CCC8', '#CFD8DC', '#E0E0E0', '#B0BEC5'
+        '#FFEBEE', '#FCE4EC', '#F3E5F5', '#EDE7F6', '#E8EAF6',
+        '#E3F2FD', '#E1F5FE', '#E0F7FA', '#E0F2F1', '#E8F5E9',
+        '#F1F8E9', '#F9FBE7', '#FFFDE7', '#FFF8E1', '#FFF3E0',
+        '#FBE9E7', '#EFEBE9', '#ECEFF1', '#F5F5F5', '#FAFAFA'
     ],
 
     /**
@@ -87,7 +87,8 @@ const Calendar = {
      * Codex 피드백: 날짜 없는 Task 필터링
      */
     getEvents() {
-        const tasks = State.getFilteredTasks();
+        // Skip quick date filter for calendar view - show all tasks
+        const tasks = State.getFilteredTasks({ skipQuickDateFilter: true });
 
         return tasks
             .filter(task => {

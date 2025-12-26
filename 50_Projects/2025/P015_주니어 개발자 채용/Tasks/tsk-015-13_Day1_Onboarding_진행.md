@@ -5,6 +5,7 @@ entity_name: Hiring - Day1 Onboarding 진행
 created: 2025-12-25
 updated: '2025-12-25'
 status: done
+closed: 2025-12-25
 parent_id: prj-015
 project_id: prj-015
 aliases:

@@ -101,13 +101,17 @@ ALLOWED_PATH_PREFIXES = [
     "_dashboard/",
 ]
 
+# Exec vault path prefix (requires exec role)
+EXEC_PATH_PREFIX = "exec/"
 
-def check_path_access(path: str, scope: str = "mcp:read") -> bool:
+
+def check_path_access(path: str, scope: str = "mcp:read", role: str = "member") -> bool:
     """Check if path is allowed for MCP access
 
     Args:
         path: Requested file path
         scope: OAuth scope
+        role: User role (member, exec, admin)
 
     Returns:
         True if allowed, False if blocked
@@ -120,6 +124,17 @@ def check_path_access(path: str, scope: str = "mcp:read") -> bool:
         if blocked in path:
             logger.warning(f"Blocked sensitive path access: {path}")
             return False
+
+    # RBAC: exec/ path requires exec or admin role
+    if path.startswith(EXEC_PATH_PREFIX):
+        if role not in ("exec", "admin"):
+            logger.warning(f"Blocked exec path access: role={role}, path={path}")
+            return False
+        if "mcp:exec" not in scope:
+            logger.warning(f"Blocked exec path access: scope missing mcp:exec, path={path}")
+            return False
+        # exec path access granted - skip allowlist check
+        return True
 
     # For mcp:read, check allowlist
     if "mcp:admin" not in scope:

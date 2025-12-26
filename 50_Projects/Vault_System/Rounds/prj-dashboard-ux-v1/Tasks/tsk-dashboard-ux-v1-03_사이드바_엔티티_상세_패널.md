@@ -5,6 +5,7 @@ entity_name: 사이드바 엔티티 상세 패널 구현
 created: 2025-12-26
 updated: '2025-12-26'
 status: done
+closed: 2025-12-26
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
 aliases:

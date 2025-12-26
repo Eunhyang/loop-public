@@ -232,20 +232,57 @@ const Kanban = {
         const statusLabels = State.getTaskStatusLabels();
         const grouped = State.getTasksByStatus();
 
-        boardEl.innerHTML = statuses.map(status => `
-            <div class="kanban-column" data-status="${status}">
-                <div class="column-header">
-                    <span class="column-title">${statusLabels[status] || status}</span>
-                    <span class="column-count">${grouped[status]?.length || 0}</span>
-                </div>
-                <div class="column-body">
-                    ${(grouped[status]?.length === 0)
-                        ? '<div class="empty-column">No tasks</div>'
-                        : grouped[status].map(task => TaskCard.render(task)).join('')
-                    }
-                </div>
-            </div>
-        `).join('');
+        // Assignee가 'all'일 때 Done 컬럼을 멤버별로 분리
+        const isAllAssignee = State.currentAssignee === 'all';
+
+        let columnsHtml = '';
+
+        statuses.forEach(status => {
+            if (status === 'done' && isAllAssignee) {
+                // Done 컬럼을 멤버별로 분리 - assignee 필터 무시하고 전체 Done task 사용
+                const doneTasks = State.getAllDoneTasks();
+                const activeMembers = State.getActiveMembers();
+
+                // 멤버별로 Done task 그룹화 (빈 리스트도 표시)
+                activeMembers.forEach(member => {
+                    const memberDoneTasks = doneTasks.filter(t => t.assignee === member.id);
+                    columnsHtml += `
+                        <div class="kanban-column kanban-column-done-member" data-status="done" data-assignee="${member.id}">
+                            <div class="column-header column-header-done-member">
+                                <span class="column-title">Done ${member.name || member.id}</span>
+                                <span class="column-count">${memberDoneTasks.length}</span>
+                            </div>
+                            <div class="column-body">
+                                ${memberDoneTasks.length === 0
+                                    ? '<div class="empty-column">No tasks</div>'
+                                    : memberDoneTasks.map(task => TaskCard.render(task)).join('')
+                                }
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // 담당자 미지정 Done tasks는 표시하지 않음
+            } else {
+                // 기존 방식으로 렌더링
+                columnsHtml += `
+                    <div class="kanban-column" data-status="${status}">
+                        <div class="column-header">
+                            <span class="column-title">${statusLabels[status] || status}</span>
+                            <span class="column-count">${grouped[status]?.length || 0}</span>
+                        </div>
+                        <div class="column-body">
+                            ${(grouped[status]?.length === 0)
+                                ? '<div class="empty-column">No tasks</div>'
+                                : grouped[status].map(task => TaskCard.render(task)).join('')
+                            }
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        boardEl.innerHTML = columnsHtml;
 
         // Add event listeners for task cards
         this.attachCardListeners();

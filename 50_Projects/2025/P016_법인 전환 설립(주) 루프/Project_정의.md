@@ -69,7 +69,8 @@ priority_flag: high
 
 | Task ID | Task Name | Assignee | Status |
 |---------|-----------|----------|--------|
-| - | - | - | - |
+| tsk-016-01 | 법인 정관 작성 후 최종 검토 | 한명학 | planning |
+| tsk-016-02 | 법인 신청 및 결제/추후 보완사항 대응 | 한명학 | planning |
 
 ---
 

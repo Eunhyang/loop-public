@@ -4,10 +4,13 @@ entity_id: "tsk-mcp-rbac-01"
 entity_name: "User 모델 role 필드 + CLI"
 created: 2025-12-26
 updated: 2025-12-26
-status: in_progress
+status: done
 
+closed: 2025-12-26
 # === 계층 ===
 parent_id: "prj-mcp-dual-vault-rbac"
+project_id: "prj-mcp-dual-vault-rbac"
+program_id: "pgm-vault-system"
 aliases: ["tsk-mcp-rbac-01"]
 
 # === 관계 ===
@@ -17,14 +20,14 @@ validated_by: []
 
 # === Task 전용 ===
 type: dev
-assignee: "한명학"
+assignee: "김은향"
 priority: high
 due: null
 estimate: null
-target_project: "LOOP"
+target_project: "loop"
 
 # === 3Y 전략 연결 ===
-conditions_3y: []
+conditions_3y: ["cond-b"]
 
 # === 분류 ===
 tags: ["oauth", "rbac", "user-model", "cli"]
@@ -72,4 +75,4 @@ User 모델에 role 필드를 추가하고 CLI에서 role 관리 가능하도록
 ---
 
 **Created**: 2025-12-26
-**Assignee**: 한명학
+**Assignee**: 김은향

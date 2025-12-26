@@ -3,51 +3,43 @@ entity_type: Project
 entity_id: prj-dashboard-ux-v1
 entity_name: 대시보드 UX 개선 v1
 created: 2025-12-26
-updated: 2025-12-26
-status: planning
-
-# === 소속 Program ===
+updated: '2025-12-26'
+status: active
 program_id: pgm-vault-system
-cycle: "2025"
-
-# === 프로젝트 정보 ===
+cycle: '2025'
 owner: 한명학
 budget: null
 deadline: null
-
-# === Expected Impact ===
 expected_impact:
-  tier: "none"
+  tier: none
   impact_magnitude: null
   confidence: null
   contributes: []
-
-# === Realized Impact ===
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: trk-6
-conditions_3y: ["cond-e"]
+conditions_3y:
+- cond-e
 aliases:
-  - prj-dashboard-ux-v1
-  - 대시보드 UX 개선 v1
-  - Dashboard UX v1
-
+- prj-dashboard-ux-v1
+- 대시보드 UX 개선 v1
+- Dashboard UX v1
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "vault-system", "dashboard", "ux", "keyboard"]
+tags:
+- project
+- vault-system
+- dashboard
+- ux
+- keyboard
 priority_flag: medium
 ---
-
 # 대시보드 UX 개선 v1
 
 > Project ID: `prj-dashboard-ux-v1` | Program: [[pgm-vault-system]] | Status: planning
