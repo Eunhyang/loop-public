@@ -6,11 +6,12 @@ const Tabs = {
     render() {
         const tabsEl = document.getElementById('tabs');
         const counts = State.getTaskCountByAssignee();
+        const isAllSelected = State.currentAssignees.length === 0;
 
-        // Build assignee tabs: All + members + unassigned
+        // Build assignee tabs: All + members + unassigned (다중 선택 지원)
         let html = `
-            <div class="tab ${State.currentAssignee === 'all' ? 'active' : ''}"
-                 data-assignee="all" role="tab" aria-selected="${State.currentAssignee === 'all'}">
+            <div class="tab ${isAllSelected ? 'active' : ''}"
+                 data-assignee="all" role="tab" aria-selected="${isAllSelected}">
                 All
                 <span class="tab-count">${counts.all || 0}</span>
             </div>
@@ -19,7 +20,7 @@ const Tabs = {
         // Add tab for each active member (respects showInactiveMembers filter)
         State.getActiveMembers().forEach(member => {
             const count = counts[member.id] || 0;
-            const isActive = State.currentAssignee === member.id;
+            const isActive = State.currentAssignees.includes(member.id);
             html += `
                 <div class="tab ${isActive ? 'active' : ''}"
                      data-assignee="${member.id}" role="tab" aria-selected="${isActive}">
@@ -31,7 +32,7 @@ const Tabs = {
 
         // Add unassigned tab if there are unassigned tasks
         if (counts['unassigned'] > 0) {
-            const isActive = State.currentAssignee === 'unassigned';
+            const isActive = State.currentAssignees.includes('unassigned');
             html += `
                 <div class="tab ${isActive ? 'active' : ''}"
                      data-assignee="unassigned" role="tab" aria-selected="${isActive}">
@@ -44,11 +45,11 @@ const Tabs = {
         tabsEl.innerHTML = html;
         tabsEl.setAttribute('role', 'tablist');
 
-        // Add click handlers
+        // Add click handlers (다중 선택: 토글 방식)
         tabsEl.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 const assigneeId = tab.dataset.assignee;
-                this.select(assigneeId);
+                this.toggle(assigneeId);
             });
         });
 
@@ -56,13 +57,26 @@ const Tabs = {
         QuickDateToggle.render();
     },
 
-    select(assigneeId) {
-        State.currentAssignee = assigneeId;
-        State.currentProject = 'all';  // 담당자 변경 시 프로젝트 필터 초기화
+    // 다중 선택 토글
+    toggle(assigneeId) {
+        if (assigneeId === 'all') {
+            // All 클릭: 모든 선택 해제 (= 전체 표시)
+            State.currentAssignees = [];
+        } else {
+            const idx = State.currentAssignees.indexOf(assigneeId);
+            if (idx > -1) {
+                // 이미 선택됨 → 제거
+                State.currentAssignees.splice(idx, 1);
+            } else {
+                // 선택 안됨 → 추가
+                State.currentAssignees.push(assigneeId);
+            }
+        }
+        State.currentProjects = [];  // 담당자 변경 시 프로젝트 필터 초기화
         this.render();
         Kanban.renderProjectFilter();
         Kanban.render();
-        Calendar.refresh();  // Codex 피드백: 필터 변경 시 Calendar도 갱신
+        Calendar.refresh();
     }
 };
 

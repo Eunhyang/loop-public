@@ -20,8 +20,8 @@ const Kanban = {
         let totalTasks = 0;
         projectsWithTasks.forEach(p => totalTasks += p.taskCount);
 
-        // All Projects 버튼
-        const isAllActive = State.currentProject === 'all' && !State.filterProgram;
+        // All Projects 버튼 (다중 선택: 빈 배열 = 전체)
+        const isAllActive = State.currentProjects.length === 0 && !State.filterProgram;
         let html = `
             <button class="filter-btn ${isAllActive ? 'active' : ''}" data-project="all" data-type="all">
                 All
@@ -50,8 +50,8 @@ const Kanban = {
             if (childProjects.length > 0) {
                 html += `<span class="filter-separator">│</span>`;
 
-                // "All in Program" 버튼
-                const isAllInProgram = State.currentProject === 'all';
+                // "All in Program" 버튼 (다중 선택: 빈 배열 = 전체)
+                const isAllInProgram = State.currentProjects.length === 0;
                 html += `
                     <button class="filter-btn filter-btn-child ${isAllInProgram ? 'active' : ''}"
                             data-project="all" data-type="child-all">
@@ -60,9 +60,9 @@ const Kanban = {
                     </button>
                 `;
 
-                // 하위 프로젝트 버튼들
+                // 하위 프로젝트 버튼들 (다중 선택 지원)
                 childProjects.forEach(p => {
-                    const isActive = State.currentProject === p.entity_id;
+                    const isActive = State.currentProjects.includes(p.entity_id);
                     const projectColor = Calendar.getColorByProject(p.entity_id);
                     html += `
                         <button class="filter-btn filter-btn-child ${isActive ? 'active' : ''}"
@@ -79,11 +79,11 @@ const Kanban = {
             }
         }
 
-        // Project 버튼들 (Program에 속하지 않은 프로젝트, Program 미선택 시에만)
+        // Project 버튼들 (Program에 속하지 않은 프로젝트, Program 미선택 시에만) - 다중 선택 지원
         projectsWithTasks
             .filter(p => !p.program_id)  // Program에 속하지 않은 프로젝트만
             .forEach(p => {
-                const isActive = State.currentProject === p.entity_id && !State.filterProgram;
+                const isActive = State.currentProjects.includes(p.entity_id) && !State.filterProgram;
                 const projectColor = Calendar.getColorByProject(p.entity_id);
                 html += `
                     <button class="filter-btn ${isActive ? 'active' : ''}"
@@ -100,7 +100,7 @@ const Kanban = {
 
         filterEl.innerHTML = html;
 
-        // 이벤트 리스너
+        // 이벤트 리스너 (다중 선택: 토글 방식)
         filterEl.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 // info 버튼 클릭 시 필터 변경 방지
@@ -109,29 +109,38 @@ const Kanban = {
                 }
 
                 const type = btn.dataset.type;
+                const projectId = btn.dataset.project;
 
                 if (type === 'all') {
-                    State.currentProject = 'all';
+                    // All 클릭: 모든 선택 해제 (= 전체 표시)
+                    State.currentProjects = [];
                     State.filterProgram = null;
                 } else if (type === 'program') {
                     // 같은 Program 클릭 시 토글 (선택 해제)
                     if (State.filterProgram === btn.dataset.program) {
                         State.filterProgram = null;
-                        State.currentProject = 'all';
+                        State.currentProjects = [];
                     } else {
                         State.filterProgram = btn.dataset.program;
-                        State.currentProject = 'all';
+                        State.currentProjects = [];
                     }
                 } else if (type === 'child-all') {
                     // Program 내 모든 프로젝트
-                    State.currentProject = 'all';
-                } else if (type === 'child-project') {
-                    // Program 내 특정 프로젝트
-                    State.currentProject = btn.dataset.project;
-                } else {
-                    // 독립 프로젝트
-                    State.currentProject = btn.dataset.project;
-                    State.filterProgram = null;
+                    State.currentProjects = [];
+                } else if (type === 'child-project' || type === 'project') {
+                    // 프로젝트 토글 (다중 선택)
+                    const idx = State.currentProjects.indexOf(projectId);
+                    if (idx > -1) {
+                        // 이미 선택됨 → 제거
+                        State.currentProjects.splice(idx, 1);
+                    } else {
+                        // 선택 안됨 → 추가
+                        State.currentProjects.push(projectId);
+                    }
+                    // 독립 프로젝트 선택 시 Program 해제
+                    if (type === 'project') {
+                        State.filterProgram = null;
+                    }
                 }
 
                 this.renderProjectFilter();
@@ -195,14 +204,16 @@ const Kanban = {
         const programs = State.programs || [];
         const tasks = State.getStrategyFilteredTasks();
 
-        // Assignee 필터 적용
+        // Assignee 필터 적용 (다중 선택 지원)
         let filteredTasks = tasks;
-        if (State.currentAssignee !== 'all') {
-            if (State.currentAssignee === 'unassigned') {
-                filteredTasks = filteredTasks.filter(t => !t.assignee);
-            } else {
-                filteredTasks = filteredTasks.filter(t => t.assignee === State.currentAssignee);
-            }
+        if (State.currentAssignees.length > 0) {
+            filteredTasks = filteredTasks.filter(t => {
+                if (State.currentAssignees.includes('unassigned')) {
+                    const otherAssignees = State.currentAssignees.filter(a => a !== 'unassigned');
+                    return !t.assignee || otherAssignees.includes(t.assignee);
+                }
+                return State.currentAssignees.includes(t.assignee);
+            });
         }
 
         // Program별 Task 수 계산
@@ -232,8 +243,8 @@ const Kanban = {
         const statusLabels = State.getTaskStatusLabels();
         const grouped = State.getTasksByStatus();
 
-        // Assignee가 'all'일 때 Done 컬럼을 멤버별로 분리
-        const isAllAssignee = State.currentAssignee === 'all';
+        // Assignee가 전체(빈 배열)일 때 Done 컬럼을 멤버별로 분리
+        const isAllAssignee = State.currentAssignees.length === 0;
 
         let columnsHtml = '';
 

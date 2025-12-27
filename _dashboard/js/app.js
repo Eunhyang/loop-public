@@ -109,6 +109,16 @@ function switchView(view) {
         sharedFilters.style.display = 'block';
     }
 
+    // Show/hide Quick Date Toggle (hide in calendar view - calendar has its own date navigation)
+    const quickDateToggle = document.getElementById('quickDateToggle');
+    if (quickDateToggle) {
+        if (view === 'calendar') {
+            quickDateToggle.classList.add('hidden');
+        } else {
+            quickDateToggle.classList.remove('hidden');
+        }
+    }
+
     // Show selected view
     if (view === 'kanban') {
         document.getElementById('kanbanView').classList.add('active');
@@ -304,10 +314,14 @@ function closeHelpModal() {
 }
 
 // ============================================
-// Member Filter
+// Member Filter (키보드 단축키용 - 단일 선택)
 // ============================================
 function setMemberFilter(memberId) {
-    State.currentAssignee = memberId;
+    if (memberId === 'all') {
+        State.currentAssignees = [];
+    } else {
+        State.currentAssignees = [memberId];
+    }
 
     // Re-render UI
     Tabs.render();

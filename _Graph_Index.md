@@ -28,17 +28,17 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 6 |
-| Project | 24 |
-| Task | 89 |
+| Project | 23 |
+| Task | 90 |
 | Hypothesis | 45 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-|  | 3 |
+|  | 6 |
 | active | 1 |
-| doing | 46 |
-| done | 42 |
+| doing | 41 |
+| done | 44 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 1 |
@@ -100,21 +100,20 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (24개)
+## Project (23개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `prj-001` | Ontology v0.1 | doing | `50_Projects/2025/P001_Ontology/Project_정의.md` |
-| `prj-002` | [와디즈] 12주 코칭 습관팩 런칭 | doing | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md` |
+| `prj-002` | 와디즈 - 12주 코칭 습관팩 런칭 |  | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md` |
 | `prj-003` | LoopOS V0 데이터 설계 | doing | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md` |
 | `prj-004` | (프로젝트 없음) | doing | `50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md` |
-| `prj-005` | [LoopOS 데이터] LoopOS 최소 선제 학습 | doing | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md` |
+| `prj-005` | LoopOS - 최소 선제 학습 |  | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md` |
 | `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md` |
 | `prj-007` | 외부 비서 | done | `50_Projects/2025/P007_외부 비서/Project_정의.md` |
 | `prj-008` | 파일럿 프로젝트 후보 |  | `50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md` |
-| `prj-010` | [펀딩·마케팅] 와디즈 펀딩 | doing | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md` |
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | doing | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md` |
-| `prj-012` | [CS·운영] 고객관리/대응 | doing | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md` |
+| `prj-012` | CS·운영 - 고객관리/대응 |  | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md` |
 | `prj-014` | 코칭 서비스 운영 체계 재구축 | doing | `50_Projects/2025/P014_코칭 운영 체계/Project_정의.md` |
 | `prj-015` | Hiring - 주니어 개발자 채용 | doing | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md` |
@@ -130,7 +129,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (89개)
+## Task (90개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -147,6 +146,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-002-08` | 꼭꼭FIT 관련 과제 내용과 AI 통합 | todo | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md` |
 | `tsk-002-09` | 꼭꼭FIT 페이지 UI 업데이트 | todo | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md` |
 | `tsk-002-10` | 꼭꼭FIT 강의 페이지 + 과제 페이지 만들기 | todo | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md` |
+| `tsk-002-11` | 와디즈 오픈 후 고객 대응 | doing | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/와디즈 오픈 후 고객 대응.md` |
+| `tsk-002-12` | 와디즈 새소식 초안 작성 - 브랜드 방향성 위주 | done | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md` |
 | `tsk-003-01` | Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기 | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md` |
 | `tsk-003-02` | Loop OS V0 데이터 설계 – 4. Minimal Logging Spec | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md` |
 | `tsk-003-03` | Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화 | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md` |
@@ -171,8 +172,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-008-03` | [단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계 | todo | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md` |
 | `tsk-008-04` | 꼭꼭 앱 Onboarding UI/UX 리뷰 | done | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 Onboarding 리뷰.md` |
 | `tsk-008-05` | 꼭꼭 앱 iOS/Android 배포 | todo | `50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 iOS Android 배포.md` |
-| `tsk-010-01` | 와디즈 오픈 후 고객 대응 | doing | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 오픈 후 고객 대응.md` |
-| `tsk-010-02` | 와디즈 새소식 초안 작성 - 브랜드 방향성 위주 | done | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md` |
 | `tsk-011-01` | 리크루팅 사이트) 원택님 피드백 반영 | todo | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md` |
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | doing | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
 | `tsk-014-01` | 꼭꼭Fit 3기 환급 검토 | doing | `50_Projects/2025/P014_코칭 운영 체계/Tasks/꼭꼭Fit 3기 환급 검토.md` |
@@ -209,9 +208,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-10` | api/constants.py 응답 확장 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md` |
 | `tsk-dashboard-ux-v1-11` | schema_registry.md 상수 분리 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-11_schema_registry.md_상수_분리.md` |
 | `tsk-dashboard-ux-v1-12` | state.js YAML 일원화 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-12_state.js_YAML_일원화.md` |
-| `tsk-dashboard-ux-v1-13` | Dashboard Links Field - Task/Project에 외부 링크 필드 추가 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-13_Dashboard_Links_Field.md` |
+| `tsk-dashboard-ux-v1-13` | Dashboard Links Field - Task/Project에 외부 링크 필드 추가 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-13_Dashboard_Links_Field.md` |
 | `tsk-dashboard-ux-v1-14` | Week/Month 필터 담당자 탭 이동 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md` |
-| `tsk-dashboard-ux-v1-15` | Schema 상수 하드코딩 제거 및 일원화 강제 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md` |
+| `tsk-dashboard-ux-v1-15` | Schema 상수 하드코딩 제거 및 일원화 강제 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md` |
+| `tsk-dashboard-ux-v1-16` | 캘린더뷰 Task Type 필터링 UI 구현 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md` |
 | `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | doing | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
 | `tsk-grants-youth-01` | 이인벤션 선납 비용 처리 논의 | todo | `50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md` |
 | `tsk-mcp-rbac-01` | User 모델 role 필드 + CLI | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md` |
@@ -324,7 +324,7 @@ tags: ["meta", "graph", "index"]
   - tsk-001-01 (Event 엔티티 검증)
   - tsk-001-02 (Episode 엔티티 검증)
   - tsk-001-03 (스키마 문서화)
-- **prj-002** ([와디즈] 12주 코칭 습관팩 런칭)
+- **prj-002** (와디즈 - 12주 코칭 습관팩 런칭)
   - tsk-002-01 (12/17: 본펀딩 공개)
   - tsk-002-02 (12/31: 펀딩 종료)
   - tsk-002-03 (11/25: 오픈예정 공개)
@@ -335,6 +335,8 @@ tags: ["meta", "graph", "index"]
   - tsk-002-08 (꼭꼭FIT 관련 과제 내용과 AI 통합)
   - tsk-002-09 (꼭꼭FIT 페이지 UI 업데이트)
   - tsk-002-10 (꼭꼭FIT 강의 페이지 + 과제 페이지 만들기)
+  - tsk-002-11 (와디즈 오픈 후 고객 대응)
+  - tsk-002-12 (와디즈 새소식 초안 작성 - 브랜드 방향성 위주)
 - **prj-003** (LoopOS V0 데이터 설계)
   - tsk-003-01 (Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기)
   - tsk-003-02 (Loop OS V0 데이터 설계 – 4. Minimal Logging Spec)
@@ -343,7 +345,7 @@ tags: ["meta", "graph", "index"]
   - tsk-003-05 (Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의)
   - tsk-003-06 (Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계)
   - tsk-003-07 (Loop OS V0 데이터 설계 – 6. 저장 전략 결정)
-- **prj-005** ([LoopOS 데이터] LoopOS 최소 선제 학습)
+- **prj-005** (LoopOS - 최소 선제 학습)
   - tsk-005-01 ([LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차)
   - tsk-005-02 ([LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기)
   - tsk-005-03 ([LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결)
@@ -364,12 +366,9 @@ tags: ["meta", "graph", "index"]
   - tsk-008-03 ([단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계)
   - tsk-008-04 (꼭꼭 앱 Onboarding UI/UX 리뷰)
   - tsk-008-05 (꼭꼭 앱 iOS/Android 배포)
-- **prj-010** ([펀딩·마케팅] 와디즈 펀딩)
-  - tsk-010-01 (와디즈 오픈 후 고객 대응)
-  - tsk-010-02 (와디즈 새소식 초안 작성 - 브랜드 방향성 위주)
 - **prj-011** (사이드프로젝트 리크루팅 사이트 제작)
   - tsk-011-01 (리크루팅 사이트) 원택님 피드백 반영)
-- **prj-012** ([CS·운영] 고객관리/대응)
+- **prj-012** (CS·운영 - 고객관리/대응)
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
 - **prj-014** (코칭 서비스 운영 체계 재구축)
   - tsk-014-01 (꼭꼭Fit 3기 환급 검토)
@@ -410,6 +409,7 @@ tags: ["meta", "graph", "index"]
   - tsk-dashboard-ux-v1-13 (Dashboard Links Field - Task/Project에 외부 링크 필드 추가)
   - tsk-dashboard-ux-v1-14 (Week/Month 필터 담당자 탭 이동)
   - tsk-dashboard-ux-v1-15 (Schema 상수 하드코딩 제거 및 일원화 강제)
+  - tsk-dashboard-ux-v1-16 (캘린더뷰 Task Type 필터링 UI 구현)
 - **prj-grants-jemi** (JEMI디딤돌 지원사업)
   - tsk-grants-jemi-01 (JEMI 디딤돌 e-나라도움 정산 증빙자료 수집)
 - **prj-grants-youth** (청년창업사관학교)
@@ -458,7 +458,7 @@ tags: ["meta", "graph", "index"]
   - prj-001 (Ontology v0.1)
   - prj-003 (LoopOS V0 데이터 설계)
   - prj-004 ((프로젝트 없음))
-  - prj-005 ([LoopOS 데이터] LoopOS 최소 선제 학습)
+  - prj-005 (LoopOS - 최소 선제 학습)
   - prj-dashboard-ux-v1 (대시보드 UX 개선 v1)
   - prj-mcp-dual-vault-rbac (MCP Dual-Vault RBAC)
   - prj-vault-gpt (ChatGPT Vault MCP 연결)
@@ -476,10 +476,10 @@ tags: ["meta", "graph", "index"]
   - hyp-4-08 (코칭 결과물의 상품성)
   - hyp-4-09 (코칭→데이터 엔진)
   - hyp-4-10 (코칭 포지셔닝)
-  - prj-002 ([와디즈] 12주 코칭 습관팩 런칭)
+  - prj-002 (와디즈 - 12주 코칭 습관팩 런칭)
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (파일럿 프로젝트 후보)
-  - prj-012 ([CS·운영] 고객관리/대응)
+  - prj-012 (CS·운영 - 고객관리/대응)
   - prj-014 (코칭 서비스 운영 체계 재구축)
 - **trk-5** (Track_5_Partnership)
   - prj-011 (사이드프로젝트 리크루팅 사이트 제작)
@@ -499,7 +499,6 @@ tags: ["meta", "graph", "index"]
   - hyp-6-13 (TIPS/투자 요구조건 충족)
   - hyp-6-14 (실제 자금조달 성립)
   - prj-007 (외부 비서)
-  - prj-010 ([펀딩·마케팅] 와디즈 펀딩)
   - prj-015 (Hiring - 주니어 개발자 채용)
   - prj-016 (법인 전환 설립(주) 루프)
   - prj-017 (아이디어파트너스 배치 프로그램 지원)

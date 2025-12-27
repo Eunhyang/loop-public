@@ -260,7 +260,7 @@ const Sidebar = {
 
         if (trackId === 'all') {
             // Show all projects
-            State.currentProject = 'all';
+            State.currentProjects = [];
             State.filterTrack = null;
         } else {
             // Filter projects by parent_id = trackId
@@ -272,11 +272,11 @@ const Sidebar = {
                 );
                 if (trackProjects.length > 0) {
                     // Select first project or show all under track
-                    State.currentProject = 'all';
+                    State.currentProjects = [];
                     // Store track filter for Kanban
                     State.filterTrack = trackId;
                 } else {
-                    State.currentProject = 'all';
+                    State.currentProjects = [];
                     State.filterTrack = trackId;
                 }
             }
@@ -291,7 +291,7 @@ const Sidebar = {
     filterByHypothesis(hypId) {
         // Find tasks that validate this hypothesis
         State.filterHypothesis = hypId;
-        State.currentProject = 'all';
+        State.currentProjects = [];
         State.filterTrack = null;
         State.filterProgram = null;
 
@@ -303,7 +303,7 @@ const Sidebar = {
     filterByCondition(condId) {
         // Find tasks with conditions_3y containing this condition
         State.filterCondition = condId;
-        State.currentProject = 'all';
+        State.currentProjects = [];
         State.filterTrack = null;
         State.filterProgram = null;
 
@@ -315,7 +315,7 @@ const Sidebar = {
     filterByProgram(progId) {
         // Find tasks under projects belonging to this program
         State.filterProgram = progId;
-        State.currentProject = 'all';
+        State.currentProjects = [];
         State.filterTrack = null;
         State.filterHypothesis = null;
         State.filterCondition = null;

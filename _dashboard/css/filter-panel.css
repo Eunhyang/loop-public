@@ -141,8 +141,15 @@
 .filter-checkbox[data-value="medium"] .priority-dot { background: #eab308; }
 .filter-checkbox[data-value="low"] .priority-dot { background: #22c55e; }
 
+/* Task Type colors */
+.filter-checkbox[data-value="dev"] .type-dot { background: #3b82f6; }      /* blue - development */
+.filter-checkbox[data-value="strategy"] .type-dot { background: #8b5cf6; } /* purple - strategy */
+.filter-checkbox[data-value="research"] .type-dot { background: #06b6d4; } /* cyan - research */
+.filter-checkbox[data-value="ops"] .type-dot { background: #f59e0b; }      /* amber - operations */
+
 .status-dot,
-.priority-dot {
+.priority-dot,
+.type-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -150,7 +157,8 @@
 }
 
 .filter-checkbox.checked .status-dot,
-.filter-checkbox.checked .priority-dot {
+.filter-checkbox.checked .priority-dot,
+.filter-checkbox.checked .type-dot {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 

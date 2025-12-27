@@ -15,6 +15,10 @@ const FALLBACK_CONSTANTS = {
         },
         status_colors: {
             todo: '#6b7280', doing: '#3b82f6', hold: '#f59e0b', done: '#10b981', blocked: '#ef4444'
+        },
+        types: ['dev', 'strategy', 'research', 'ops'],
+        type_labels: {
+            dev: 'Dev', strategy: 'Strategy', research: 'Research', ops: 'Ops'
         }
     },
     project: {
@@ -54,9 +58,9 @@ const State = {
     hypotheses: [],
     pendingReviews: [],
 
-    // UI State
-    currentProject: 'all',
-    currentAssignee: 'all',
+    // UI State (다중 선택 지원: 배열)
+    currentProjects: [],      // 빈 배열 = 전체, ['prj-001', 'prj-002'] = 다중 선택
+    currentAssignees: [],     // 빈 배열 = 전체, ['김은향', '한명학'] = 다중 선택
     currentTrack: 'all',
     currentHypothesis: null,
     currentCondition: null,
@@ -79,6 +83,7 @@ const State = {
         task: {
             status: ['todo', 'doing', 'done', 'blocked'],
             priority: ['critical', 'high', 'medium', 'low'],
+            types: ['dev', 'strategy', 'research', 'ops'],  // Task type filter
             dueDateStart: null,
             dueDateEnd: null,
             showInactive: false,  // activate: false 엔티티 숨김 (기본값)
@@ -228,6 +233,14 @@ const State = {
         return this.constants?.project?.status_labels || FALLBACK_CONSTANTS.project.status_labels;
     },
 
+    getTaskTypes() {
+        return this.constants?.task?.types || FALLBACK_CONSTANTS.task.types;
+    },
+
+    getTaskTypeLabels() {
+        return this.constants?.task?.type_labels || FALLBACK_CONSTANTS.task.type_labels;
+    },
+
     // ============================================
     // Lookups
     // ============================================
@@ -330,18 +343,21 @@ const State = {
             );
         }
 
-        // Filter by project
-        if (this.currentProject !== 'all') {
-            filtered = filtered.filter(t => t.project_id === this.currentProject);
+        // Filter by project (다중 선택 지원)
+        if (this.currentProjects.length > 0) {
+            filtered = filtered.filter(t => this.currentProjects.includes(t.project_id));
         }
 
-        // Filter by assignee
-        if (this.currentAssignee !== 'all') {
-            if (this.currentAssignee === 'unassigned') {
-                filtered = filtered.filter(t => !t.assignee);
-            } else {
-                filtered = filtered.filter(t => t.assignee === this.currentAssignee);
-            }
+        // Filter by assignee (다중 선택 지원)
+        if (this.currentAssignees.length > 0) {
+            filtered = filtered.filter(t => {
+                if (this.currentAssignees.includes('unassigned')) {
+                    // 'unassigned'가 포함된 경우: 미지정 또는 선택된 담당자
+                    const otherAssignees = this.currentAssignees.filter(a => a !== 'unassigned');
+                    return !t.assignee || otherAssignees.includes(t.assignee);
+                }
+                return this.currentAssignees.includes(t.assignee);
+            });
         }
 
         // Apply project status/priority filters (filter tasks by their parent project)
@@ -364,6 +380,14 @@ const State = {
         filtered = filtered.filter(t => {
             const priority = t.priority || 'medium';
             return this.filters.task.priority.includes(priority);
+        });
+
+        // Apply task type filter
+        filtered = filtered.filter(t => {
+            const taskType = t.type;
+            // Tasks without type pass through (null/undefined = show always)
+            if (!taskType) return true;
+            return this.filters.task.types.includes(taskType);
         });
 
         // Apply due date filter (manual date range)
@@ -485,9 +509,9 @@ const State = {
             );
         }
 
-        // Filter by project
-        if (this.currentProject !== 'all') {
-            filtered = filtered.filter(t => t.project_id === this.currentProject);
+        // Filter by project (다중 선택 지원)
+        if (this.currentProjects.length > 0) {
+            filtered = filtered.filter(t => this.currentProjects.includes(t.project_id));
         }
 
         // NOTE: Assignee filter is intentionally SKIPPED here
@@ -512,6 +536,13 @@ const State = {
         filtered = filtered.filter(t => {
             const priority = t.priority || 'medium';
             return this.filters.task.priority.includes(priority);
+        });
+
+        // Apply task type filter
+        filtered = filtered.filter(t => {
+            const taskType = t.type;
+            if (!taskType) return true;
+            return this.filters.task.types.includes(taskType);
         });
 
         // Apply quick date filter
@@ -570,6 +601,13 @@ const State = {
             );
         }
 
+        // Apply task type filter
+        filtered = filtered.filter(t => {
+            const taskType = t.type;
+            if (!taskType) return true;
+            return this.filters.task.types.includes(taskType);
+        });
+
         return filtered;
     },
 
@@ -599,13 +637,15 @@ const State = {
         // 1. Start with strategy-filtered tasks (Track/Hypothesis/Condition)
         let filteredTasks = this.getStrategyFilteredTasks();
 
-        // 2. Filter by current assignee
-        if (this.currentAssignee !== 'all') {
-            if (this.currentAssignee === 'unassigned') {
-                filteredTasks = filteredTasks.filter(t => !t.assignee);
-            } else {
-                filteredTasks = filteredTasks.filter(t => t.assignee === this.currentAssignee);
-            }
+        // 2. Filter by current assignees (다중 선택 지원)
+        if (this.currentAssignees.length > 0) {
+            filteredTasks = filteredTasks.filter(t => {
+                if (this.currentAssignees.includes('unassigned')) {
+                    const otherAssignees = this.currentAssignees.filter(a => a !== 'unassigned');
+                    return !t.assignee || otherAssignees.includes(t.assignee);
+                }
+                return this.currentAssignees.includes(t.assignee);
+            });
         }
 
         // 3. Count tasks per project
@@ -681,6 +721,7 @@ const State = {
             task: {
                 status: [...this.getTaskStatuses()],
                 priority: [...this.getPriorities()],
+                types: [...this.getTaskTypes()],
                 dueDateStart: null,
                 dueDateEnd: null,
                 showInactive: false,

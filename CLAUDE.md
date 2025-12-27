@@ -59,7 +59,6 @@ docker compose down                                     # Stop all services
 | Navigation hub | `_HOME.md` |
 | Entity graph | `_Graph_Index.md` (auto-generated) |
 | Templates | `00_Meta/_TEMPLATES/` |
-| Claude Code config | `.claude/commands/`, `.claude/skills/` |
 
 ### Git on Network Mount
 SMB mount causes git lock errors:
@@ -270,6 +269,9 @@ Fetches data from API endpoints; works offline via `file://` protocol.
 | `/mcp-server` | Docker MCP management |
 | `/validate` | Schema validation |
 | `/code-review` | Git diff analysis |
+| `/build-impact` | Build impact metrics |
+| `/retro` | Retrospective to evidence |
+| `/auto-fill-project-impact` | Auto-fill Project expected_impact |
 
 ### Skills
 | Skill | Purpose |
@@ -280,6 +282,8 @@ Fetches data from API endpoints; works offline via `file://` protocol.
 | `codex-claude-loop` | Plan-validate-implement-review |
 | `workthrough` | Development documentation |
 | `api-client` | LOOP API curl 조회 (LOOP_API_TOKEN) |
+| `oauth-admin` | OAuth 2.0 token/client management |
+| `llm-vault-optimizer` | Vault structure optimization for LLM navigation |
 
 ---
 
@@ -339,4 +343,4 @@ API cache reload → Dashboard update
 
 ---
 
-**Last updated**: 2025-12-27 | **Version**: 7.2
+**Last updated**: 2025-12-27 | **Version**: 7.3

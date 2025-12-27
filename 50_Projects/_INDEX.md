@@ -53,7 +53,6 @@ LLM이 특정 Condition 관련 프로젝트를 빠르게 찾기 위한 분류.
 | ID | Name | Status | Track |
 |----|------|--------|-------|
 | `prj-009` | [투자/TIPS준비] 배치 프로그램 지원 | active | trk-6 |
-| `prj-010` | [펀딩·마케팅] 와디즈 펀딩 | active | trk-6 |
 
 ---
 
@@ -80,7 +79,6 @@ LLM이 특정 Condition 관련 프로젝트를 빠르게 찾기 위한 분류.
 
 ### Track 6 (Revenue) → cond-e
 - [[50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md|prj-009]] - 배치 프로그램 지원 (active)
-- [[50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md|prj-010]] - 와디즈 펀딩 (active)
 
 ### Unassigned / Misc
 - [[50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md|prj-004]] - (프로젝트 없음)
@@ -103,7 +101,6 @@ LLM이 특정 Condition 관련 프로젝트를 빠르게 찾기 위한 분류.
 | `prj-007` | 외부 비서 | - | active | `50_Projects/2025/P007_외부 비서/` |
 | `prj-008` | 파일럿 프로젝트 후보 | - | active | `50_Projects/2025/P008_파일럿 프로젝트 후보/` |
 | `prj-009` | [투자/TIPS준비] 배치 프로그램 지원 | trk-6 | active | `50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/` |
-| `prj-010` | [펀딩·마케팅] 와디즈 펀딩 | trk-6 | active | `50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/` |
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | trk-5 | active | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/` |
 | `prj-012` | [CS·운영] 고객관리/대응 | - | active | `50_Projects/2025/P012_[CS·운영] 고객관리대응/` |
 | `prj-013` | YouTube 1주 1업로드 프로젝트 | trk-3 | active | `50_Projects/2025/P013_YouTube 1주 1업로드 프로젝트/` |

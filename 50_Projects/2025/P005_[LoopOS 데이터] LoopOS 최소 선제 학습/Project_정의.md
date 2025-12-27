@@ -1,56 +1,45 @@
 ---
 entity_type: Project
-entity_id: "prj-005"
-entity_name: "[LoopOS 데이터] LoopOS 최소 선제 학습"
+entity_id: prj-005
+entity_name: LoopOS - 최소 선제 학습
 created: 2025-12-18
-updated: 2025-12-18
-status: doing
-
-# === 계층 ===
-parent_id: "trk-2"
+updated: '2025-12-27'
+status: ''
+parent_id: trk-2
 aliases:
-  - "prj-005"
-  - "[LoopOS 데이터] LoopOS 최소 선제 학습"
-  - "prj-005"
-
-# === 관계 ===
+- prj-005
+- '[LoopOS 데이터] LoopOS 최소 선제 학습'
+- prj-005
 outgoing_relations: []
 validates:
-  - hyp-2-01
-  - hyp-2-04
+- hyp-2-01
+- hyp-2-04
 validated_by: []
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
-
-# === Impact 점수 필드 (A) ===
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: enabling
 impact_magnitude: mid
 confidence: 0.75
 contributes:
-  - to: "cond-b"
-    weight: 0.2
-    description: "데이터 역량이 cond-b 달성 가속 (간접)"
-
+- to: cond-b
+  weight: 0.2
+  description: 데이터 역량이 cond-b 달성 가속 (간접)
 expected_impact:
-  statement: "이 프로젝트가 성공하면 LoopOS 데이터 파이프라인 구축 역량이 확보됨이 증명된다"
-  metric: "학습 완료율"
-  target: "필수 기술 스택 학습 100%"
+  statement: 이 프로젝트가 성공하면 LoopOS 데이터 파이프라인 구축 역량이 확보됨이 증명된다
+  metric: 학습 완료율
+  target: 필수 기술 스택 학습 100%
 realized_impact:
-  outcome: null  # supported | rejected | inconclusive
+  outcome: null
   evidence: null
   updated: null
 experiments: []
-
-# === 분류 ===
-conditions_3y: ['cond-b']
+conditions_3y:
+- cond-b
 tags: []
 priority_flag: medium
 ---
-
 # [LoopOS 데이터] LoopOS 최소 선제 학습
 
 > Project ID: `prj-005` | Track: `trk-2` | Status: active

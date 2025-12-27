@@ -33,7 +33,12 @@ First, read `00_Meta/members.yaml` to get valid assignee options.
 Use AskUserQuestion to collect:
 
 Required fields:
-- `entity_name` - Task name (e.g., "CoachOS 프로토타입 개발")
+- `entity_name` - Task name in **'주제 - 내용'** format (e.g., "CoachOS - 프로토타입 개발")
+  - **형식 필수**: 반드시 ' - ' (공백-하이픈-공백)로 구분
+  - 주제: 프로젝트/기능/영역 (짧게)
+  - 내용: 구체적 작업 설명
+  - ❌ 잘못된 예: "프로토타입 개발", "CoachOS프로토타입", "CoachOS-개발"
+  - ✅ 올바른 예: "CoachOS - 프로토타입 개발", "Dashboard - 필터 기능 추가"
 - `project_id` - Parent project ID (must exist, e.g., "prj-003")
 - `assignee` - Person responsible (MUST be from `00_Meta/members.yaml`)
 
@@ -119,7 +124,12 @@ First, read `00_Meta/members.yaml` to get valid owner options.
 Use AskUserQuestion to collect:
 
 Required fields:
-- `entity_name` - Project name (e.g., "Ontology_v0.2")
+- `entity_name` - Project name in **'주제 - 내용'** format (e.g., "Ontology - v0.2 스키마 설계")
+  - **형식 필수**: 반드시 ' - ' (공백-하이픈-공백)로 구분
+  - 주제: 프로젝트/제품/영역 (짧게)
+  - 내용: 구체적 목표/버전 설명
+  - ❌ 잘못된 예: "Ontology_v0.2", "온톨로지스키마", "Ontology-설계"
+  - ✅ 올바른 예: "Ontology - v0.2 스키마 설계", "Dashboard - UX 개선"
 - `owner` - Project owner (MUST be from `00_Meta/members.yaml`)
 - `parent_id` - Parent Track ID (e.g., "trk-2") - **필수, Program 하위 Project도 반드시 Track 연결 필요**
 - `conditions_3y` - 기여하는 3년 Condition 목록 (→ `00_Meta/schema_constants.yaml` > `condition_ids` 참조) - **필수**
@@ -395,18 +405,20 @@ All schema definitions are maintained in authoritative sources:
 **Create a Task:**
 ```
 User: "코치OS 인터페이스 설계 태스크 만들어줘"
+→ Ask entity_name: "CoachOS - 인터페이스 설계" (형식 확인)
 → Collect: project_id, assignee
 → Generate: tsk-005-03
-→ Create: 50_Projects/CoachOS_Phase1/Tasks/코치OS_인터페이스_설계.md
+→ Create: 50_Projects/CoachOS_Phase1/Tasks/CoachOS - 인터페이스 설계.md
 → Validate and index
 ```
 
 **Create a Dev Task (외부 프로젝트 연동):**
 ```
 User: "sosi 로그인 버그 수정 dev task 만들어줘"
+→ Ask entity_name: "SoSi - 로그인 버그 수정" (형식 확인)
 → Collect: project_id, assignee, type=dev, target_project=sosi
 → Generate: tsk-005-04
-→ Create: 50_Projects/.../Tasks/로그인_버그_수정.md
+→ Create: 50_Projects/.../Tasks/SoSi - 로그인 버그 수정.md
 → Output: "Git 브랜치 생성: git checkout -b tsk-005-04"
 → Validate and index
 ```
@@ -414,22 +426,24 @@ User: "sosi 로그인 버그 수정 dev task 만들어줘"
 **Create a Project (with Impact auto-fill):**
 ```
 User: "패턴 발견 v2 프로젝트 만들어줘"
+→ Ask entity_name: "Pattern - Discovery v2 개발" (형식 확인)
 → Collect: owner, parent_id, conditions_3y
 → Ask: Impact 설정 방법? → "자동 채우기" 선택
 → Generate: prj-008
 → Call auto-fill-project-impact 스킬
-→ Create: 50_Projects/P008_Pattern_Discovery_v2/
+→ Create: 50_Projects/P008_Pattern - Discovery v2 개발/
 → Validate and index
 ```
 
 **Create a Project (Impact = None):**
 ```
 User: "회의록 정리 프로젝트 만들어줘"
+→ Ask entity_name: "Ops - 회의록 정리" (형식 확인)
 → Collect: owner, parent_id, conditions_3y
 → Ask: Impact 설정 방법? → "None으로 설정" 선택
 → Generate: prj-009
 → Set: tier="none", magnitude=null, confidence=null
-→ Create: 50_Projects/P009_회의록_정리/
+→ Create: 50_Projects/P009_Ops - 회의록 정리/
 → Validate and index
 ```
 

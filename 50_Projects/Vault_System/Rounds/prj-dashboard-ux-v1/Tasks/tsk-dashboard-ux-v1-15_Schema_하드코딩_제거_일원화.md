@@ -4,7 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-15"
 entity_name: "Schema 상수 하드코딩 제거 및 일원화 강제"
 created: 2025-12-27
 updated: 2025-12-27
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -91,23 +91,29 @@ priority_flag: high
 - [ ]
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2025-12-27 15:30
+**개요**: schema_constants.yaml을 SSOT로 강제하기 위해 API/Dashboard/Pre-commit에서 하드코딩된 상수를 제거하고 중앙화된 참조로 변경. CLAUDE.md에 LLM용 SSOT 규칙 섹션 추가.
 
 **변경사항**:
-- 개발:
-- 수정:
-- 개선:
+- 수정: `api/routers/hypotheses.py` - `HYPOTHESIS_EVIDENCE_STATUS` import 추가, 하드코딩된 valid_statuses 제거 (라인 137, 285)
+- 수정: `api/models/entities.py` - description을 "schema_constants.yaml 참조"로 변경, default를 `assumed`로 수정 (라인 22, 25, 102)
+- 개발: `_dashboard/js/state.js` - `FALLBACK_CONSTANTS` 객체 추가 (라인 6-39), getter 함수들이 중앙 Fallback 참조
+- 개발: `.git/hooks/pre-commit` - 하드코딩 패턴 검출 로직 추가 (라인 3-29, warning only)
+- 개발: `CLAUDE.md` - "Schema Constants SSOT (MANDATORY)" 섹션 추가 (라인 135-174)
 
-**핵심 코드**: (필요시)
+**파일 변경**:
+- `api/routers/hypotheses.py` - import 추가 + 2곳 하드코딩 제거
+- `api/models/entities.py` - 3곳 description/default 수정
+- `_dashboard/js/state.js` - FALLBACK_CONSTANTS 추가 + 8개 getter 함수 수정 + normalizeStatus/normalizeProjectStatus 수정
+- `.git/hooks/pre-commit` - 하드코딩 검출 섹션 추가
+- `CLAUDE.md` - SSOT 강제 규칙 섹션 추가
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ API 서버 정상 동작 (Python import 테스트 통과)
 
 **다음 단계**:
--->
+- Dashboard 정상 동작 수동 확인
+- Codex 추가 권장사항(Pydantic default 동적화) 선택적 적용
 
 
 ---

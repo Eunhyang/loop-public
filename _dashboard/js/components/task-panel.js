@@ -236,9 +236,9 @@ const TaskPanel = {
         document.getElementById('panelTaskDue').value = today;
         document.getElementById('panelTaskNotes').value = '';
 
-        // 현재 필터된 프로젝트 선택
-        if (State.currentProject !== 'all') {
-            document.getElementById('panelTaskProject').value = State.currentProject;
+        // 현재 필터된 프로젝트 선택 (단일 선택인 경우에만)
+        if (State.currentProjects.length === 1) {
+            document.getElementById('panelTaskProject').value = State.currentProjects[0];
         }
 
         // Relations 숨기기 (새 Task는 관계 없음)

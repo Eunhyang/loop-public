@@ -52,9 +52,9 @@ const TaskModal = {
         document.getElementById('taskStartDate').value = today;
         document.getElementById('taskDue').value = today;
 
-        // 현재 필터된 프로젝트 선택
-        if (State.currentProject !== 'all') {
-            document.getElementById('taskProject').value = State.currentProject;
+        // 현재 필터된 프로젝트 선택 (단일 선택인 경우에만)
+        if (State.currentProjects.length === 1) {
+            document.getElementById('taskProject').value = State.currentProjects[0];
         }
 
         document.getElementById('taskModal').classList.add('active');

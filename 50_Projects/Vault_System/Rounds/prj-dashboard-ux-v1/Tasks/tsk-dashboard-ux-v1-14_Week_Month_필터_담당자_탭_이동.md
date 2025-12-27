@@ -1,41 +1,33 @@
 ---
 entity_type: Task
-entity_id: "tsk-dashboard-ux-v1-14"
-entity_name: "Week/Month 필터 담당자 탭 이동"
+entity_id: tsk-dashboard-ux-v1-14
+entity_name: Week/Month 필터 담당자 탭 이동
 created: 2025-12-27
-updated: 2025-12-27
-status: doing
-
-# === 계층 ===
-parent_id: "prj-dashboard-ux-v1"
-project_id: "prj-dashboard-ux-v1"
-aliases: ["tsk-dashboard-ux-v1-14"]
-
-# === 관계 ===
+updated: '2025-12-27'
+status: done
+parent_id: prj-dashboard-ux-v1
+project_id: prj-dashboard-ux-v1
+aliases:
+- tsk-dashboard-ux-v1-14
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: 2025-12-27
 due: 2025-12-27
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-e"]
-
-# === 분류 ===
-tags: ["dashboard", "ux", "filter"]
+conditions_3y:
+- cond-e
+tags:
+- dashboard
+- ux
+- filter
 priority_flag: medium
 ---
-
 # Week/Month 필터 담당자 탭 이동
 
 > Task ID: `tsk-dashboard-ux-v1-14` | Project: `prj-dashboard-ux-v1` | Status: doing
@@ -93,23 +85,34 @@ priority_flag: medium
 - [ ]
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2025-12-27 06:15
+**개요**: W/M 필터 모드 전환 시 독립성 버그 수정. 모드 전환 시 이전 선택값이 남아있어 다시 돌아오면 예전 선택이 유지되는 문제 해결.
 
 **변경사항**:
-- 개발:
-- 수정:
-- 개선:
+- 수정: `_dashboard/js/components/tabs.js` - `toggleMode()` 함수 로직 변경
+- 개선: W→M 또는 M→W 전환 시 `selectedWeeks`, `selectedMonths` 양쪽 모두 클리어하도록 수정
 
-**핵심 코드**: (필요시)
+**핵심 코드**:
+```javascript
+toggleMode(mode) {
+    if (this.activeMode === mode) {
+        this.activeMode = null;
+    } else {
+        this.activeMode = mode;
+        State.setQuickDateMode(mode);
+    }
+    // 모드 변경 시 양쪽 선택값 모두 클리어 (W/M 독립성 보장)
+    State.filters.task.selectedWeeks = [];
+    State.filters.task.selectedMonths = [];
+    ...
+}
+```
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 수정 완료
 
 **다음 단계**:
--->
+- 대시보드에서 W/M 전환 테스트 확인 필요
 
 
 ---

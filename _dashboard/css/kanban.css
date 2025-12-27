@@ -41,6 +41,10 @@
     margin-left: auto;  /* 오른쪽 정렬 */
 }
 
+.quick-date-toggle.hidden {
+    display: none !important;
+}
+
 .qd-mode-buttons {
     display: flex;
     gap: 4px;

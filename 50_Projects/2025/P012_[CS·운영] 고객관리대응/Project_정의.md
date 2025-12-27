@@ -1,57 +1,47 @@
 ---
 entity_type: Project
-entity_id: "prj-012"
-entity_name: "[CS·운영] 고객관리/대응"
+entity_id: prj-012
+entity_name: CS·운영 - 고객관리/대응
 created: 2025-12-18
-updated: 2025-12-18
-status: doing
-
-# === 계층 ===
-parent_id: "trk-4"
+updated: '2025-12-27'
+status: ''
+parent_id: trk-4
 aliases:
-  - "prj-012"
-  - "[CS·운영] 고객관리/대응"
-  - "prj-012"
-
-# === 관계 ===
+- prj-012
+- '[CS·운영] 고객관리/대응'
+- prj-012
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "한명학"
+owner: 한명학
 budget: null
 deadline: null
-hypothesis_text: "Notion CSV에서 마이그레이션된 프로젝트"
-
-# === Impact 점수 필드 (A) ===
+hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: operational
 impact_magnitude: mid
-confidence: 0.70
+confidence: 0.7
 contributes:
-  - to: "cond-b"
-    weight: 0.1
-    description: "참여자 리텐션 → 데이터 지속 수집"
-  - to: "cond-d"
-    weight: 0.1
-    description: "고객 만족 → 재등록률 → 매출"
-
+- to: cond-b
+  weight: 0.1
+  description: 참여자 리텐션 → 데이터 지속 수집
+- to: cond-d
+  weight: 0.1
+  description: 고객 만족 → 재등록률 → 매출
 expected_impact:
-  statement: "이 프로젝트가 성공하면 고객 CS 프로세스가 안정화됨이 증명된다"
-  metric: "CS 응답 시간 + 해결률"
-  target: "24시간 내 응답 + 90% 해결"
+  statement: 이 프로젝트가 성공하면 고객 CS 프로세스가 안정화됨이 증명된다
+  metric: CS 응답 시간 + 해결률
+  target: 24시간 내 응답 + 90% 해결
 realized_impact:
-  outcome: null  # supported | rejected | inconclusive
+  outcome: null
   evidence: null
   updated: null
 experiments: []
-
-# === 분류 ===
-conditions_3y: ['cond-b', 'cond-d']
+conditions_3y:
+- cond-b
+- cond-d
 tags: []
 priority_flag: medium
 ---
-
 # [CS·운영] 고객관리/대응
 
 > Project ID: `prj-012` | Track: `trk-2` | Status: active

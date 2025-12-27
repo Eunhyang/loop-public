@@ -90,6 +90,7 @@ const FilterPanel = {
         this.renderProjectPriorityFilters();
         this.renderTaskStatusFilters();
         this.renderTaskPriorityFilters();
+        this.renderTaskTypeFilters();
         this.renderDateFilters();
         // Quick Date Filter moved to QuickDateToggle (tabs.js)
         this.updateFilterIndicator();
@@ -217,6 +218,26 @@ const FilterPanel = {
         this.attachCheckboxListeners(container);
     },
 
+    renderTaskTypeFilters() {
+        const container = document.getElementById('taskTypeFilters');
+        if (!container) return;
+
+        const types = State.getTaskTypes();
+        const labels = State.getTaskTypeLabels();
+
+        container.innerHTML = types.map(type => {
+            const checked = State.isFilterActive('task', 'types', type);
+            return `
+                <label class="filter-checkbox ${checked ? 'checked' : ''}" data-category="task" data-type="types" data-value="${type}">
+                    <span class="type-dot"></span>
+                    <span>${labels[type] || type}</span>
+                </label>
+            `;
+        }).join('');
+
+        this.attachCheckboxListeners(container);
+    },
+
     renderDateFilters() {
         const startInput = document.getElementById('filterDueDateStart');
         const endInput = document.getElementById('filterDueDateEnd');
@@ -260,17 +281,19 @@ const FilterPanel = {
         const projectPriorityCount = State.getPriorities().length;
         const taskStatusCount = State.getTaskStatuses().length;
         const taskPriorityCount = State.getPriorities().length;
+        const taskTypeCount = State.getTaskTypes().length;
 
         const hasProjectStatusFilter = State.filters.project.status.length < projectStatusCount;
         const hasProjectPriorityFilter = State.filters.project.priority.length < projectPriorityCount;
         const hasTaskStatusFilter = State.filters.task.status.length < taskStatusCount;
         const hasTaskPriorityFilter = State.filters.task.priority.length < taskPriorityCount;
+        const hasTaskTypeFilter = State.filters.task.types.length < taskTypeCount;
         const hasDateFilter = State.filters.task.dueDateStart || State.filters.task.dueDateEnd;
         const hasInactiveFilter = State.filters.project.showInactive || State.filters.task.showInactive || State.filters.showInactiveMembers;
         const hasQuickDateFilter = State.filters.task.selectedWeeks.length > 0 || State.filters.task.selectedMonths.length > 0;
 
         const hasFilters = hasProjectStatusFilter || hasProjectPriorityFilter ||
-                          hasTaskStatusFilter || hasTaskPriorityFilter || hasDateFilter || hasInactiveFilter || hasQuickDateFilter;
+                          hasTaskStatusFilter || hasTaskPriorityFilter || hasTaskTypeFilter || hasDateFilter || hasInactiveFilter || hasQuickDateFilter;
 
         if (hasFilters) {
             this.filterBtnEl.classList.add('has-filters');
