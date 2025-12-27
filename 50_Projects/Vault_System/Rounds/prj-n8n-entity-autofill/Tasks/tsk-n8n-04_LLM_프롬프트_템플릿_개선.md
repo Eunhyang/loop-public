@@ -3,44 +3,31 @@ entity_type: Task
 entity_id: tsk-n8n-04
 entity_name: n8n LLM 프롬프트 템플릿 개선
 created: 2025-12-27
-updated: 2025-12-27
-status: doing
-
-# === 계층 ===
+updated: '2025-12-27'
+status: done
 parent_id: prj-n8n-entity-autofill
 project_id: prj-n8n-entity-autofill
 aliases:
 - tsk-n8n-04
-
-# === 관계 ===
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
 assignee: 김은향
 start_date: 2025-12-27
 due: 2025-12-27
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
 conditions_3y:
 - cond-e
-
-# === 분류 ===
 tags:
 - n8n
 - llm
 - automation
 priority_flag: high
 ---
-
 # n8n LLM 프롬프트 템플릿 개선
 
 > Task ID: `tsk-n8n-04` | Project: `prj-n8n-entity-autofill` | Status: doing
@@ -91,10 +78,10 @@ tsk-n8n-02에서 발견된 이슈:
 
 ## 체크리스트
 
-- [ ] n8n LLM Inference 노드 프롬프트 분석
-- [ ] 프롬프트 템플릿 수정 (original_task 데이터 포함)
-- [ ] n8n 워크플로우 재배포
-- [ ] E2E 테스트 (LLM이 Task별 맥락 응답 확인)
+- [x] n8n LLM Inference 노드 프롬프트 분석
+- [x] 프롬프트 템플릿 수정 (original_task 데이터 포함)
+- [x] n8n 워크플로우 재배포
+- [x] E2E 테스트 (LLM이 Task별 맥락 응답 확인)
 
 ---
 
@@ -112,6 +99,25 @@ tsk-n8n-02에서 발견된 이슈:
 - n8n 템플릿 문법: `{{ expression }}`
 
 ### 작업 로그
+
+#### 2025-12-27 21:00 (완료)
+**개요**: n8n Entity Schema Validator 워크플로우 LLM 프롬프트 전달 문제 해결. v2→v3→v4로 3단계 개선 완료. Dashboard 모달 버그도 함께 수정.
+
+**변경사항**:
+- 개발: `buildLlmPrompt()` 함수 추가 (Validate Schema 노드)
+- 수정: OpenAI sub-node → HTTP Request 노드 교체 (v3)
+- 수정: bodyParameters → specifyBody:json + jsonBody (v4)
+- 수정: Dashboard pending-panel.js 모달 CSS class 수정
+
+**파일 변경**:
+- `_build/n8n_workflows/entity_schema_validator.json` - v4로 업그레이드
+- `_dashboard/js/components/pending-panel.js` - 모달 class 수정
+
+**결과**: ✅ 12/12 LLM 응답 성공, Task별 맥락 참조 확인
+
+**다음 단계**:
+- n8n에 v4 워크플로우 재import
+- conditions_3y 배열 직렬화 최종 확인
 
 ---
 

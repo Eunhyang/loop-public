@@ -1,0 +1,503 @@
+{
+  "name": "LOOP Entity Validator & Auto-filler",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [100, 500],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/strategy/context",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-strategy-context",
+      "name": "Get Strategy Context",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [300, 500],
+      "notes": "한 번의 API 호출로 전체 전략 계층 (NorthStar, MH, Conditions, Tracks, Hypotheses) 조회"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build Strategy Context Text for LLM prompts\n// 전략 계층을 LLM이 이해할 수 있는 텍스트로 변환\n\nconst input = $input.first().json;\n\nconst northstars = input.northstars || [];\nconst metahypotheses = input.metahypotheses || [];\nconst conditions = input.conditions || [];\nconst tracks = input.tracks || [];\nconst hypotheses = input.hypotheses || [];\n\n// Format as human-readable for LLM prompt\nconst strategyContextText = `\n## 전략 계층 (Strategy Hierarchy)\n\n### 10-year Vision (North Star)\n${northstars.map(ns => `- ${ns.entity_id}: ${ns.entity_name}`).join('\\n')}\n\n### Meta Hypotheses (MH1-4)\n${metahypotheses.map(mh => `- ${mh.entity_id}: ${mh.entity_name}\\n  - if_broken: ${mh.if_broken || 'N/A'}`).join('\\n')}\n\n### 3-year Conditions (cond-a ~ cond-e)\n${conditions.map(c => `- ${c.entity_id}: ${c.entity_name}\\n  - unlock: ${c.unlock || 'N/A'}\\n  - if_broken: ${c.if_broken || 'N/A'}`).join('\\n')}\n\n### 12-month Tracks (trk-1 ~ trk-6)\n${tracks.map(t => `- ${t.entity_id}: ${t.entity_name}\\n  - hypothesis: ${t.hypothesis || 'N/A'}\\n  - focus: ${(t.focus || []).join(', ')}\\n  - conditions_3y: ${(t.conditions_3y || []).join(', ')}`).join('\\n')}\n\n### Hypotheses (hyp-*)\n${hypotheses.slice(0, 15).map(h => `- ${h.entity_id}: ${h.entity_name}\\n  - question: ${h.hypothesis_question || h.hypothesis_text || 'N/A'}`).join('\\n')}\n${hypotheses.length > 15 ? `\\n... (${hypotheses.length - 15} more hypotheses)` : ''}\n`;\n\nreturn [{\n  json: {\n    strategyContext: {\n      northstars: northstars,\n      metahypotheses: metahypotheses,\n      conditions: conditions,\n      tracks: tracks,\n      hypotheses: hypotheses\n    },\n    strategyContextText: strategyContextText\n  }\n}];"
+      },
+      "id": "build-context",
+      "name": "Build Strategy Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 500]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-tasks",
+      "name": "Get Tasks",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Phase 1: Task Schema Validation\n// - done/blocked 상태는 due_date 체크 스킵\n// - missing_due_date, missing_assignee, missing_conditions_3y는 LLM으로\n// - v2: 전략 컨텍스트를 프롬프트에 포함\n\nconst tasksInput = $input.first().json;\nconst contextInput = $('Build Strategy Context').first().json;\n\nconst tasks = tasksInput.tasks || [];\nconst strategyContextText = contextInput.strategyContextText || '';\nconst strategyContext = contextInput.strategyContext || {};\n\nconst results = [];\n\n// Valid values from schema_constants.yaml\nconst VALID_STATUS = ['todo', 'doing', 'hold', 'done', 'blocked'];\nconst VALID_PRIORITY = ['critical', 'high', 'medium', 'low'];\nconst VALID_TYPES = ['dev', 'strategy', 'research', 'ops', null];\nconst VALID_ASSIGNEES = ['김은향', '소상민'];\n\n// LLM이 필요한 이슈 목록\nconst LLM_REQUIRED_ISSUES = ['missing_conditions_3y', 'missing_due_date', 'missing_assignee'];\n\n// LLM 프롬프트 빌더 함수\nfunction buildLlmPrompt(task, issues) {\n  const taskJson = JSON.stringify(task, null, 2);\n  const issueList = Array.isArray(issues) && issues.length > 0 ? issues.join(', ') : 'none';\n  \n  return `You are a LOOP Vault schema expert. Given the following Task entity and strategy context, suggest appropriate values for missing or invalid fields.\n\n${strategyContextText}\n\n---\n\n## Task to Validate\n\\`\\`\\`json\n${taskJson}\n\\`\\`\\`\n\n## Issues Detected\n${issueList}\n\n## Instructions\n\nFor conditions_3y, choose from:\n- cond-a: Product-Market Fit (제품-시장 적합성)\n- cond-b: Revenue Model (수익 모델)\n- cond-c: Scalability (확장성)\n- cond-d: Team (팀)\n- cond-e: Tech/Infrastructure (기술/인프라)\n\nFor assignee, choose from: ${VALID_ASSIGNEES.join(', ')}\n\nFor due, suggest a reasonable date in YYYY-MM-DD format based on task complexity and current date (today is ${new Date().toISOString().split('T')[0]}).\n\nIMPORTANT: Analyze the task name (entity_name), notes, project_id, and tags to understand the task context. Match conditions_3y to the strategic area that this task contributes to.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks) with these fields:\n- suggested_fields: object with field names and suggested values\n- reasoning: object with field names and brief Korean explanation for each suggestion`;\n}\n\nfor (const task of tasks) {\n  const issues = [];\n  const suggestions = {};\n  const reasoning = {};\n\n  // Required field checks\n  if (!task.entity_id) {\n    issues.push('missing_entity_id');\n  }\n  if (!task.entity_name) {\n    issues.push('missing_entity_name');\n  }\n  if (!task.project_id) {\n    issues.push('missing_project_id');\n  }\n\n  // Status validation\n  if (task.status && !VALID_STATUS.includes(task.status)) {\n    issues.push('invalid_status');\n    suggestions.status = 'todo';\n    reasoning.status = `Invalid status \"${task.status}\". Defaulting to \"todo\".`;\n  }\n\n  // Priority validation\n  if (task.priority && !VALID_PRIORITY.includes(task.priority)) {\n    issues.push('invalid_priority');\n    suggestions.priority = 'medium';\n    reasoning.priority = `Invalid priority \"${task.priority}\". Defaulting to \"medium\".`;\n  }\n\n  // Type validation\n  if (task.type && !VALID_TYPES.includes(task.type)) {\n    issues.push('invalid_type');\n    suggestions.type = null;\n    reasoning.type = `Invalid type \"${task.type}\". Setting to null.`;\n  }\n\n  // conditions_3y validation (required for Tasks)\n  if (!task.conditions_3y || task.conditions_3y.length === 0) {\n    issues.push('missing_conditions_3y');\n    reasoning.conditions_3y = 'Task는 3Y Condition 연결 필수. LLM 추론 필요.';\n  }\n\n  // assignee check\n  if (!task.assignee) {\n    issues.push('missing_assignee');\n    reasoning.assignee = 'assignee 미지정. 맥락 기반 추론 필요.';\n  }\n\n  // due date check - todo/doing 상태만 체크 (done/blocked는 스킵)\n  const needsDueDate = ['todo', 'doing'].includes(task.status);\n  if (needsDueDate && !task.due && !task.due_date) {\n    issues.push('missing_due_date');\n    reasoning.due = 'due_date 미지정. 맥락 기반 추론 필요.';\n  }\n\n  // 이슈가 있는 경우만 결과에 추가\n  if (issues.length > 0) {\n    // LLM 필요 여부 판단\n    const needsLlm = issues.some(issue => LLM_REQUIRED_ISSUES.includes(issue));\n    \n    // deterministic_fixes가 비어있고 LLM도 필요없으면 스킵\n    const hasDeterministicFixes = Object.keys(suggestions).length > 0;\n    if (!needsLlm && !hasDeterministicFixes) {\n      continue; // 의미없는 pending 생성 방지\n    }\n\n    const result = {\n      entity_id: task.entity_id,\n      entity_name: task.entity_name,\n      entity_type: 'Task',\n      phase: 'task_schema',\n      issues: issues,\n      deterministic_fixes: suggestions,\n      needs_llm: needsLlm,\n      has_deterministic_fixes: hasDeterministicFixes,\n      reasoning: reasoning,\n      original_entity: task\n    };\n    \n    // LLM이 필요한 경우에만 프롬프트 생성\n    if (needsLlm) {\n      result.llm_prompt = buildLlmPrompt(task, issues);\n    }\n    \n    results.push(result);\n  }\n}\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "id": "validate-tasks",
+      "name": "Validate Tasks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needs_llm }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "tasks-need-llm",
+      "name": "Tasks Need LLM?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}",
+        "options": {}
+      },
+      "id": "call-openai-tasks",
+      "name": "Call OpenAI (Tasks)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1300, 200],
+      "notes": "HTTP Request node - expressions work correctly per item"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Tasks\nconst input = $input.first().json;\nconst validateData = $('Validate Tasks').first().json;\n\n// OpenAI API 응답 구조: choices[0].message.content\nconst llmResponse = input.choices?.[0]?.message?.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  if (!llmResponse) {\n    throw new Error('Empty LLM response');\n  }\n  \n  // Extract JSON from response (handle markdown code blocks)\n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: validateData.entity_id,\n    entity_type: 'Task',\n    entity_name: validateData.entity_name,\n    phase: 'task_schema',\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-tasks-response",
+      "name": "Parse Tasks Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"entity_id\": $json.entity_id, \"entity_type\": $json.entity_type, \"entity_name\": $json.entity_name, \"phase\": $json.phase, \"suggested_fields\": $json.suggested_fields, \"reasoning\": $json.reasoning } }}",
+        "options": {}
+      },
+      "id": "create-pending-tasks",
+      "name": "Create Pending (Tasks)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1700, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/projects",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-projects",
+      "name": "Get Projects",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 700]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Phase 2: Project Schema Validation (v5.2)\n// - owner, parent_id (Track), conditions_3y 필수\n// - primary_hypothesis_id, validates, condition_contributes, track_contributes LLM 추론\n// - validated_by는 derived 필드 → 제안하지 않음\n// - v3: Schema v5.2 반영 (prj-impact-schema-v2)\n\nconst projectsInput = $input.first().json;\nconst contextInput = $('Build Strategy Context').first().json;\n\nconst projects = projectsInput.projects || [];\nconst strategyContextText = contextInput.strategyContextText || '';\nconst strategyContext = contextInput.strategyContext || {};\n\nconst results = [];\n\n// Valid values\nconst VALID_STATUS = ['planning', 'active', 'paused', 'done', 'cancelled'];\nconst VALID_PRIORITY = ['critical', 'high', 'medium', 'low'];\nconst VALID_OWNERS = ['김은향', '소상민'];\nconst VALID_CONDITION_IDS = ['cond-a', 'cond-b', 'cond-c', 'cond-d', 'cond-e'];\nconst VALID_TRACK_IDS = ['trk-1', 'trk-2', 'trk-3', 'trk-4', 'trk-5', 'trk-6'];\n\n// LLM이 필요한 이슈 목록 (v5.2: hypothesis_id → primary_hypothesis_id, validates 추가)\nconst LLM_REQUIRED_ISSUES = [\n  'missing_owner', 'missing_parent_id', 'missing_conditions_3y',\n  'missing_primary_hypothesis_id', 'missing_validates',\n  'missing_condition_contributes', 'missing_track_contributes'\n];\n\n// LLM 프롬프트 빌더 함수 (v5.2)\nfunction buildLlmPrompt(project, issues) {\n  const projectJson = JSON.stringify(project, null, 2);\n  const issueList = Array.isArray(issues) && issues.length > 0 ? issues.join(', ') : 'none';\n  \n  // Hypothesis 목록 (LLM이 선택할 수 있도록)\n  const hypothesesList = (strategyContext.hypotheses || []).map(h => \n    `- ${h.entity_id}: ${h.entity_name}`\n  ).join('\\n');\n  \n  return `You are a LOOP Vault schema expert (Schema v5.2). Given the following Project entity and strategy context, suggest appropriate values for missing or invalid fields.\n\n${strategyContextText}\n\n---\n\n## Project to Validate\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Issues Detected\n${issueList}\n\n## Instructions\n\n### For owner\nChoose from: ${VALID_OWNERS.join(', ')}\n\n### For parent_id (Track)\nChoose the primary Track this project belongs to:\n${VALID_TRACK_IDS.map(t => `- ${t}`).join('\\n')}\n\n### For conditions_3y\nList of 3Y Conditions this project contributes to (array):\n- cond-a: Product-Market Fit (제품-시장 적합성)\n- cond-b: Revenue Model (수익 모델)\n- cond-c: Scalability (확장성)\n- cond-d: Team (팀)\n- cond-e: Tech/Infrastructure (기술/인프라)\n\n### For validates (optional but recommended) - v5.2\nArray of Hypothesis IDs this project validates.\nSelect from 60_Hypotheses:\n${hypothesesList}\nExample: [\"hyp-2-01\", \"hyp-2-03\"]\nIf no hypotheses to validate, set to empty array [].\n\n### For primary_hypothesis_id (optional) - v5.2\nThe MAIN hypothesis this project was created to validate.\nMust be one of the values in validates array, or null.\n⚠️ DEPRECATED: hypothesis_id - Use primary_hypothesis_id instead.\n\n### For condition_contributes (required) - v5.1\nArray of Condition contribution weights. Example:\n[\n  { \"to\": \"cond-a\", \"weight\": 0.6, \"description\": \"PMF 검증에 60% 기여\" },\n  { \"to\": \"cond-e\", \"weight\": 0.4, \"description\": \"기술 인프라 구축에 40% 기여\" }\n]\n- Weights should sum to ≤ 1.0\n- Choose conditions based on what this project actually contributes to\n\n### For track_contributes (optional) - v5.1\nIf this project contributes to secondary Tracks (beyond parent_id), specify:\n[\n  { \"to\": \"trk-2\", \"weight\": 0.3, \"description\": \"데이터 파이프라인에 부분 기여\" }\n]\n- Only include if the project genuinely contributes to other Tracks\n- Leave empty array [] if only primary Track\n\n### ⛔ NEVER suggest these derived fields (v5.2):\n- validated_by: computed from Evidence (역인덱스 계산)\n- realized_sum: computed from child Projects (하위 집계)\n\nIMPORTANT: Analyze the project name (entity_name), notes, and context to understand what this project is about. Match strategic elements based on actual project purpose.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks) with these fields:\n- suggested_fields: object with field names and suggested values\n- reasoning: object with field names and brief Korean explanation for each suggestion`;\n}\n\nfor (const project of projects) {\n  const issues = [];\n  const suggestions = {};\n  const reasoning = {};\n\n  // Required field checks\n  if (!project.entity_id) {\n    issues.push('missing_entity_id');\n  }\n  if (!project.entity_name) {\n    issues.push('missing_entity_name');\n  }\n\n  // Status validation\n  if (project.status && !VALID_STATUS.includes(project.status)) {\n    issues.push('invalid_status');\n    suggestions.status = 'planning';\n    reasoning.status = `Invalid status \"${project.status}\". Defaulting to \"planning\".`;\n  }\n\n  // owner check\n  if (!project.owner) {\n    issues.push('missing_owner');\n    reasoning.owner = 'owner 미지정. 맥락 기반 추론 필요.';\n  }\n\n  // parent_id check (Track)\n  if (!project.parent_id) {\n    issues.push('missing_parent_id');\n    reasoning.parent_id = 'parent_id (Track) 미지정. 맥락 기반 추론 필요.';\n  }\n\n  // conditions_3y validation\n  if (!project.conditions_3y || project.conditions_3y.length === 0) {\n    issues.push('missing_conditions_3y');\n    reasoning.conditions_3y = 'Project는 3Y Condition 연결 필수. LLM 추론 필요.';\n  }\n\n  // validates check (v5.2 - optional but recommended)\n  if (!project.validates || project.validates.length === 0) {\n    issues.push('missing_validates');\n    reasoning.validates = 'validates 미지정. 검증하려는 가설이 있다면 연결 권장.';\n  }\n\n  // primary_hypothesis_id check (v5.2 - replaces hypothesis_id)\n  if (!project.primary_hypothesis_id && !project.hypothesis_id) {\n    issues.push('missing_primary_hypothesis_id');\n    reasoning.primary_hypothesis_id = 'primary_hypothesis_id 미지정. validates 중 핵심 가설 1개 연결 권장.';\n  }\n\n  // condition_contributes check (required for impact calculation)\n  if (!project.condition_contributes || project.condition_contributes.length === 0) {\n    issues.push('missing_condition_contributes');\n    reasoning.condition_contributes = 'condition_contributes 미지정. 각 Condition에 대한 기여도 필요.';\n  }\n\n  // 이슈가 있는 경우만 결과에 추가\n  if (issues.length > 0) {\n    const needsLlm = issues.some(issue => LLM_REQUIRED_ISSUES.includes(issue));\n    const hasDeterministicFixes = Object.keys(suggestions).length > 0;\n    \n    if (!needsLlm && !hasDeterministicFixes) {\n      continue;\n    }\n\n    const result = {\n      entity_id: project.entity_id,\n      entity_name: project.entity_name,\n      entity_type: 'Project',\n      phase: 'project_schema',\n      issues: issues,\n      deterministic_fixes: suggestions,\n      needs_llm: needsLlm,\n      has_deterministic_fixes: hasDeterministicFixes,\n      reasoning: reasoning,\n      original_entity: project\n    };\n    \n    if (needsLlm) {\n      result.llm_prompt = buildLlmPrompt(project, issues);\n    }\n    \n    results.push(result);\n  }\n}\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "id": "validate-projects",
+      "name": "Validate Projects",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 700]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needs_llm }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "projects-need-llm",
+      "name": "Projects Need LLM?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1100, 700]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}",
+        "options": {}
+      },
+      "id": "call-openai-projects",
+      "name": "Call OpenAI (Projects)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1300, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Projects\nconst input = $input.first().json;\nconst validateData = $('Validate Projects').first().json;\n\nconst llmResponse = input.choices?.[0]?.message?.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  if (!llmResponse) {\n    throw new Error('Empty LLM response');\n  }\n  \n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: validateData.entity_id,\n    entity_type: 'Project',\n    entity_name: validateData.entity_name,\n    phase: 'project_schema',\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-projects-response",
+      "name": "Parse Projects Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 600]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"entity_id\": $json.entity_id, \"entity_type\": $json.entity_type, \"entity_name\": $json.entity_name, \"phase\": $json.phase, \"suggested_fields\": $json.suggested_fields, \"reasoning\": $json.reasoning } }}",
+        "options": {}
+      },
+      "id": "create-pending-projects",
+      "name": "Create Pending (Projects)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1700, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Phase 3: Project Impact Auto-fill\n// Filter projects that need expected_impact OR realized_impact\n// - expected_impact: 없거나 tier가 null인 경우\n// - realized_impact: done/cancelled 상태인데 없는 경우\n\nconst projectsInput = $('Get Projects').first().json;\nconst contextInput = $('Build Strategy Context').first().json;\n\nconst projects = projectsInput.projects || [];\nconst strategyContextText = contextInput.strategyContextText || '';\nconst strategyContext = contextInput.strategyContext || {};\n\nconst results = [];\n\nfunction buildExpectedImpactPrompt(project) {\n  const projectJson = JSON.stringify(project, null, 2);\n  \n  return `You are a LOOP Vault strategy expert. Given the following Project and strategy context, determine its expected strategic impact.\n\n${strategyContextText}\n\n---\n\n## Project to Analyze\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Instructions\n\nAnalyze this project and determine its expected_impact:\n\n### tier (required)\nChoose one:\n- strategic: 전략적 영향 - 핵심 가설 검증, 중요 비즈니스 결정에 영향\n- enabling: 지원 영향 - 전략적 프로젝트를 가능하게 함\n- operational: 운영 영향 - 일상 운영에 필요\n- none: 영향 없음 - 실험적이거나 학습 목적\n\n### impact_magnitude (required if tier != none)\nChoose one:\n- high: 높은 임팩트\n- mid: 중간 임팩트\n- low: 낮은 임팩트\n\n### confidence (required)\nA number between 0.0 and 1.0 representing confidence in the impact assessment.\n\n### contributes (required)\nArray of Condition contributions. Example:\n[\n  { \"to\": \"cond-a\", \"weight\": 0.6, \"description\": \"PMF 검증에 기여\" }\n]\n\nBased on the project name, context, and strategic alignment, provide your assessment.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks):\n{\n  \"suggested_fields\": {\n    \"expected_impact\": {\n      \"tier\": \"...\",\n      \"impact_magnitude\": \"...\",\n      \"confidence\": 0.X,\n      \"contributes\": [...]\n    }\n  },\n  \"reasoning\": {\n    \"tier\": \"...\",\n    \"impact_magnitude\": \"...\",\n    \"confidence\": \"...\",\n    \"contributes\": \"...\"\n  }\n}`;\n}\n\nfunction buildRealizedImpactPrompt(project) {\n  const projectJson = JSON.stringify(project, null, 2);\n  \n  return `You are a LOOP Vault strategy expert. This Project is completed (${project.status}). Analyze its realized impact.\n\n${strategyContextText}\n\n---\n\n## Completed Project\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Instructions\n\nAnalyze this completed project and determine its realized_impact:\n\n### verdict (required)\nChoose one:\n- go: 성공적으로 완료, 다음 단계 진행\n- no-go: 실패 또는 중단 결정\n- pivot: 방향 전환 필요\n- pending: 아직 평가 중\n\n### outcome (required)\nChoose one:\n- supported: 가설이 지지됨\n- rejected: 가설이 반증됨\n- inconclusive: 결론 불가\n\n### evidence_strength (0.0-1.0)\nHow strong is the evidence for this outcome?\n\n### normalized_delta\nChange from expected impact (-1.0 to +1.0):\n- Negative: worse than expected\n- Zero: as expected\n- Positive: better than expected\n\nBased on the project status, expected_impact (if any), and context, provide your assessment.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks):\n{\n  \"suggested_fields\": {\n    \"realized_impact\": {\n      \"verdict\": \"...\",\n      \"outcome\": \"...\",\n      \"evidence_strength\": 0.X,\n      \"normalized_delta\": 0.X,\n      \"decided\": \"YYYY-MM-DD\",\n      \"evidence_links\": []\n    }\n  },\n  \"reasoning\": {\n    \"verdict\": \"...\",\n    \"outcome\": \"...\"\n  }\n}`;\n}\n\nfor (const project of projects) {\n  // Check if expected_impact is missing or incomplete\n  const needsExpectedImpact = !project.expected_impact || \n    !project.expected_impact.tier ||\n    project.expected_impact.tier === null;\n  \n  // Check if realized_impact is needed (done/cancelled projects)\n  const isCompleted = ['done', 'cancelled'].includes(project.status);\n  const needsRealizedImpact = isCompleted && (!project.realized_impact || !project.realized_impact.verdict);\n  \n  if (needsExpectedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'expected_impact',\n        needs_llm: true,\n        llm_prompt: buildExpectedImpactPrompt(project),\n        original_entity: project\n      }\n    });\n  }\n  \n  if (needsRealizedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'realized_impact',\n        needs_llm: true,\n        llm_prompt: buildRealizedImpactPrompt(project),\n        original_entity: project\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "id": "filter-impact-needed",
+      "name": "Filter Impact Needed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 1000]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}",
+        "options": {}
+      },
+      "id": "call-openai-impact",
+      "name": "Call OpenAI (Impact)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, 1000]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Impact\nconst input = $input.first().json;\nconst filterData = $('Filter Impact Needed').first().json;\n\nconst llmResponse = input.choices?.[0]?.message?.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  if (!llmResponse) {\n    throw new Error('Empty LLM response');\n  }\n  \n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: filterData.entity_id,\n    entity_type: 'Project',\n    entity_name: filterData.entity_name,\n    phase: filterData.phase,\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-impact-response",
+      "name": "Parse Impact Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 1000]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"entity_id\": $json.entity_id, \"entity_type\": $json.entity_type, \"entity_name\": $json.entity_name, \"phase\": $json.phase, \"suggested_fields\": $json.suggested_fields, \"reasoning\": $json.reasoning } }}",
+        "options": {}
+      },
+      "id": "create-pending-impact",
+      "name": "Create Pending (Impact)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1500, 1000]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          { "node": "Get Strategy Context", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Strategy Context": {
+      "main": [
+        [
+          { "node": "Build Strategy Context", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Build Strategy Context": {
+      "main": [
+        [
+          { "node": "Get Tasks", "type": "main", "index": 0 },
+          { "node": "Get Projects", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Tasks": {
+      "main": [
+        [
+          { "node": "Validate Tasks", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Validate Tasks": {
+      "main": [
+        [
+          { "node": "Tasks Need LLM?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Tasks Need LLM?": {
+      "main": [
+        [
+          { "node": "Call OpenAI (Tasks)", "type": "main", "index": 0 }
+        ],
+        []
+      ]
+    },
+    "Call OpenAI (Tasks)": {
+      "main": [
+        [
+          { "node": "Parse Tasks Response", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Parse Tasks Response": {
+      "main": [
+        [
+          { "node": "Create Pending (Tasks)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Projects": {
+      "main": [
+        [
+          { "node": "Validate Projects", "type": "main", "index": 0 },
+          { "node": "Filter Impact Needed", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Validate Projects": {
+      "main": [
+        [
+          { "node": "Projects Need LLM?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Projects Need LLM?": {
+      "main": [
+        [
+          { "node": "Call OpenAI (Projects)", "type": "main", "index": 0 }
+        ],
+        []
+      ]
+    },
+    "Call OpenAI (Projects)": {
+      "main": [
+        [
+          { "node": "Parse Projects Response", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Parse Projects Response": {
+      "main": [
+        [
+          { "node": "Create Pending (Projects)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Filter Impact Needed": {
+      "main": [
+        [
+          { "node": "Call OpenAI (Impact)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Call OpenAI (Impact)": {
+      "main": [
+        [
+          { "node": "Parse Impact Response", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Parse Impact Response": {
+      "main": [
+        [
+          { "node": "Create Pending (Impact)", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "entity-validator-autofiller-v2",
+    "created": "2025-12-27",
+    "updated": "2025-12-27",
+    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v2: Single API call for strategy context (/api/strategy/context). Combines Task schema validation, Project schema validation (including hypothesis_id, condition_contributes, track_contributes), and Project Impact auto-fill (expected/realized)."
+  }
+}

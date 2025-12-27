@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Schema Validator v7.0
+LOOP Vault Schema Validator v7.1
 모든 마크다운 파일의 frontmatter를 검증합니다.
+
+변경사항 (v7.1):
+- Derived 필드 검증 추가 (v5.2 SSOT 원칙)
+- Hypothesis.validated_by, Track/Condition.realized_sum 저장 금지 경고
 
 변경사항 (v7.0):
 - mtime 기반 스키마 최신성 체크 추가
@@ -303,6 +307,30 @@ def validate_program(frontmatter: Dict) -> List[str]:
     return errors
 
 
+def validate_derived_fields(frontmatter: Dict, entity_type: str) -> List[str]:
+    """Derived 필드 검증 (v5.2) - 저장 금지 필드에 값이 있으면 경고"""
+    warnings = []
+
+    # YAML에서 derived_fields 규칙 로드
+    derived_rules = _SCHEMA_CONSTANTS.get("validation_rules", {}).get("derived_fields", {})
+
+    # 현재 entity_type에 해당하는 derived 필드들
+    forbidden_fields = derived_rules.get(entity_type, [])
+
+    for field in forbidden_fields:
+        value = frontmatter.get(field)
+        # 값이 존재하고 비어있지 않으면 경고
+        if value is not None:
+            if isinstance(value, list) and len(value) > 0:
+                warnings.append(f"⚠️  Derived field '{field}' should not be stored (SSOT 원칙 위반). Value will be computed at build time.")
+            elif isinstance(value, (str, int, float)) and value:
+                warnings.append(f"⚠️  Derived field '{field}' should not be stored (SSOT 원칙 위반). Value will be computed at build time.")
+            elif isinstance(value, dict) and len(value) > 0:
+                warnings.append(f"⚠️  Derived field '{field}' should not be stored (SSOT 원칙 위반). Value will be computed at build time.")
+
+    return warnings
+
+
 # === 스키마 최신성 체크 (v7.0) ===
 
 # Known fields - loaded from 00_Meta/schema_constants.yaml at runtime
@@ -510,6 +538,10 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
         program_errors = validate_program(frontmatter)
         errors.extend(program_errors)
 
+    # Derived 필드 검증 (v5.2) - 모든 엔티티 대상
+    derived_warnings = validate_derived_fields(frontmatter, entity_type)
+    errors.extend(derived_warnings)
+
     return errors
 
 
@@ -702,7 +734,7 @@ def main(vault_path: str, check_freshness: bool = True, single_file: Optional[st
 def print_usage():
     """사용법 출력"""
     print("""
-LOOP Vault Schema Validator v7.0
+LOOP Vault Schema Validator v7.1
 
 Usage:
     python3 validate_schema.py [vault_path]           # Full validation with freshness check

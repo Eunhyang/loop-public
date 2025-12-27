@@ -98,6 +98,12 @@ evidence_strength: strong|medium|weak
 attribution_share: 0.0-1.0  # 프로젝트 기여 비율
 ```
 
+**v5.2 Window 필드 (자동 생성):**
+```yaml
+window_id: "YYYY-MM"              # 평가 윈도우 ID (자동 계산)
+time_range: "YYYY-MM-DD..YYYY-MM-DD"  # 평가 기간 (자동 계산)
+```
+
 **확장 필드:**
 ```yaml
 impact_metric: "revenue"    # 측정 지표
@@ -111,6 +117,54 @@ confirmed_insights: []      # 확인된 인사이트 목록
 realized_status: succeeded|failed_but_high_signal|failed_low_signal|inconclusive
 ```
 
+### Step 3.5: Window 자동 계산 (v5.2)
+
+Evidence 생성 시 window 필드를 자동으로 계산합니다.
+
+**base_date 결정 (우선순위):**
+1. 사용자가 명시한 날짜 (있는 경우)
+2. 회고 문서의 날짜 (frontmatter `date` 또는 파일명)
+3. 오늘 날짜 (fallback)
+
+**window_id 생성:**
+- Evidence 기본 형식: `YYYY-MM` (월간)
+- 예: base_date가 2025-12-27 → window_id = "2025-12"
+
+**time_range 계산:**
+- `YYYY-MM` → 해당 월의 첫날..마지막날
+- 예: "2025-12" → "2025-12-01..2025-12-31"
+
+**계산 로직 (Python):**
+```python
+from datetime import datetime
+from calendar import monthrange
+
+def calculate_window(base_date_str: str = None) -> dict:
+    """base_date로부터 window_id, time_range 계산"""
+    if base_date_str:
+        base = datetime.strptime(base_date_str, "%Y-%m-%d")
+    else:
+        base = datetime.now()
+
+    year = base.year
+    month = base.month
+
+    window_id = f"{year}-{month:02d}"
+
+    # 월의 마지막 날 계산
+    last_day = monthrange(year, month)[1]
+    time_range = f"{year}-{month:02d}-01..{year}-{month:02d}-{last_day:02d}"
+
+    return {
+        "window_id": window_id,
+        "time_range": time_range,
+    }
+```
+
+**사용자 오버라이드:**
+- window_id를 사용자가 직접 입력한 경우 그 값을 우선
+- 분기(YYYY-QN) 또는 반기(YYYY-HN) 형식도 허용
+
 ### Step 4: Preview 표시
 
 다음 형식으로 Preview를 표시합니다:
@@ -120,6 +174,11 @@ realized_status: succeeded|failed_but_high_signal|failed_low_signal|inconclusive
 
 **Project**: prj-010 (와디즈 펀딩)
 **Evidence ID**: ev:2025-NNNN (자동 생성)
+
+### Window 정보 (v5.2)
+- window_id: 2025-12
+- time_range: 2025-12-01..2025-12-31
+- base_date: 2025-12-27 (회고 문서 기준)
 
 ### Realized Score 계산
 - normalized_delta: 0.21 (매출 기준 21% 달성)

@@ -39,22 +39,26 @@ python3 scripts/auto_fix_schema.py <path>               # Auto-fix issues
 python3 scripts/check_orphans.py .                      # Find orphaned entities
 python3 scripts/build_graph_index.py .                  # Rebuild _Graph_Index.md
 
+# Impact Score
+python3 scripts/build_impact.py .                       # Build impact.json
+python3 scripts/build_impact.py . --window 2025-Q1      # Specific window
+
 # API Server (local dev)
 poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
 
-# MCP Server (Docker on NAS)
-/mcp-server status|rebuild|restart|logs
-
-# Docker (local dev)
-docker compose up -d                                    # Start all services
+# Docker (NAS deployment)
+docker compose up -d                                    # Start all services (loop-api + n8n)
 docker compose logs -f loop-api                         # Watch API logs
 docker compose down                                     # Stop all services
+/mcp-server status|rebuild|restart|logs                 # MCP server management
+/n8n-server status|restart|logs                         # n8n workflow management
 ```
 
 ### Key Entry Points
 | Purpose | Location |
 |---------|----------|
 | **Schema (SSOT)** | `00_Meta/schema_constants.yaml` |
+| **Impact Config** | `impact_model_config.yml` |
 | Navigation hub | `_HOME.md` |
 | Entity graph | `_Graph_Index.md` (auto-generated) |
 | Templates | `00_Meta/_TEMPLATES/` |
@@ -264,7 +268,8 @@ Fetches data from API endpoints; works offline via `file://` protocol.
 | `/new-project`, `/new-task` | Create entity with proper schema |
 | `/new-dev-task`, `/done-dev-task` | Dev workflow (full pipeline) |
 | `/start-dev-task` | Start dev with existing Task |
-| `/mcp-server` | Docker MCP management |
+| `/mcp-server` | Docker MCP management (status/rebuild/restart/logs) |
+| `/n8n-server` | Docker n8n management (status/restart/logs) |
 | `/validate` | Schema validation |
 | `/code-review` | Git diff analysis |
 | `/build-impact` | Build impact metrics |
@@ -288,8 +293,16 @@ Fetches data from API endpoints; works offline via `file://` protocol.
 ## Scripts
 
 **Core** (pre-commit): `validate_schema.py`, `check_orphans.py`, `build_graph_index.py`, `auto_fix_schema.py`
-**Utility**: `archive_task.py`, `build_archive_catalog.py`, `build_impact.py`
+**Impact**: `build_impact.py` (generates `_build/impact.json` with A/B scores per Project)
+**Utility**: `archive_task.py`, `build_archive_catalog.py`
 **Shell**: `deploy_to_nas.sh`, `start_api_server.sh`
+
+### Impact Score System
+Projects have Expected (A) and Realized (B) impact scores:
+- **A Score**: `magnitude_points[tier][magnitude] × confidence` (at planning)
+- **B Score**: Measured outcome after completion, aggregated by `window_id` (monthly/quarterly)
+- Config: `impact_model_config.yml` defines tiers (`strategic`, `enabling`, `operational`), magnitudes, multipliers
+- Output: `_build/impact.json` consumed by Dashboard and n8n workflows
 
 ---
 
@@ -319,6 +332,8 @@ This vault manages **specifications only**. Real code lives in:
 | Orphan entity warnings | Create missing parent or update `parent_id` |
 | Pre-commit hook not running | `chmod +x .git/hooks/pre-commit` |
 | Poetry dependency issues | `poetry lock --no-update && poetry install` |
+| n8n workflow not triggering | `/n8n-server logs` then check webhook URL |
+| Docker port conflict | Check `docker ps`, adjust ports in `docker-compose.yml` |
 
 ---
 
@@ -335,10 +350,20 @@ Pre-commit hook
 Git commit → NAS sync (15 min)
     ↓
 API cache reload → Dashboard update
+    ↓
+n8n workflows (optional)
+    ├── entity_validator_autofiller.json (schema validation + LLM autofill)
+    └── Triggered via webhooks or scheduled
 ```
 
 **_Graph_Index.md**: Auto-generated entity graph. Never edit manually.
 
+### Docker Services
+| Service | Port | Purpose |
+|---------|------|---------|
+| `loop-api` | 8081 (internal), 8082 (host) | FastAPI + MCP server |
+| `n8n` | 5678 | Workflow automation (LLM autofill, notifications) |
+
 ---
 
-**Last updated**: 2025-12-27 | **Version**: 7.4
+**Last updated**: 2025-12-27 | **Version**: 7.5

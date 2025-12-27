@@ -32,7 +32,6 @@ tags: ["2026", "trk-4", "coaching", "glp-1", "demand"]
 
 # === 검증 연결 ===
 validates: []
-validated_by: []
 ---
 
 # GLP-1 과정 수요 재현

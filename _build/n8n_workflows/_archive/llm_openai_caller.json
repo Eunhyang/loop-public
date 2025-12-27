@@ -1,0 +1,94 @@
+{
+  "name": "LLM OpenAI Caller (Sub-workflow)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "execute-workflow-trigger",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"model\": $json.model || \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.prompt }], \"temperature\": $json.temperature || 0.3 } }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "id": "call-openai-api",
+      "name": "Call OpenAI API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 300],
+      "notes": "HTTP Request node - expressions work correctly per item"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse OpenAI API response\n// v1: Generic JSON extraction with fallback\n\nconst input = $input.first().json;\nconst inputData = $('Execute Workflow Trigger').first().json;\n\n// OpenAI API 응답 구조: choices[0].message.content\nconst rawResponse = input.choices?.[0]?.message?.content || '';\n\nlet parsed = null;\nlet success = false;\nlet error = null;\n\ntry {\n  if (!rawResponse) {\n    throw new Error('Empty LLM response');\n  }\n  \n  // Extract JSON from response (handle markdown code blocks)\n  let jsonStr = rawResponse;\n  \n  // Try markdown code block first\n  const jsonMatch = rawResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    // Try plain JSON object\n    const objMatch = rawResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  \n  parsed = JSON.parse(jsonStr);\n  success = true;\n} catch (e) {\n  error = `Failed to parse LLM response: ${e.message}`;\n  parsed = { error: error };\n  success = false;\n}\n\nreturn [{\n  json: {\n    response: rawResponse,\n    parsed: parsed,\n    success: success,\n    error: error,\n    // Pass through original input for context\n    original_input: inputData\n  }\n}];"
+      },
+      "id": "parse-response",
+      "name": "Parse Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Call OpenAI API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call OpenAI API": {
+      "main": [
+        [
+          {
+            "node": "Parse Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "llm-openai-caller-v1",
+    "created": "2025-12-27",
+    "updated": "2025-12-27",
+    "description": "Reusable sub-workflow for OpenAI API calls. Handles HTTP Request (avoiding sub-node expression issues), response parsing, and JSON extraction. Call with: { prompt: string, model?: string, temperature?: number }"
+  }
+}

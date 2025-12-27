@@ -41,3 +41,21 @@ def get_partnershipstages():
     cache = get_cache()
     stages = cache.get_all_partnershipstages()
     return {"partnershipstages": stages}
+
+
+@router.get("/context")
+def get_strategy_context():
+    """
+    전체 전략 계층 컨텍스트 반환 (LLM 프롬프트용)
+
+    n8n 워크플로우에서 한 번의 API 호출로 모든 전략 컨텍스트를 가져옴.
+    NorthStar → MetaHypotheses → Conditions → Tracks → Hypotheses
+    """
+    cache = get_cache()
+    return {
+        "northstars": cache.get_all_northstars(),
+        "metahypotheses": cache.get_all_metahypotheses(),
+        "conditions": cache.get_all_conditions(),
+        "tracks": cache.get_all_tracks(),
+        "hypotheses": cache.get_all_hypotheses()
+    }

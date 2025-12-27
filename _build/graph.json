@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-27T17:19:25.098460",
-  "total_entities": 203,
+  "generated": "2025-12-27T23:13:02.538605",
+  "total_entities": 206,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -1271,7 +1271,7 @@
       "id": "tsk-014-02",
       "type": "Task",
       "name": "W33 대본작성",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1280,7 +1280,7 @@
       "id": "tsk-014-03",
       "type": "Task",
       "name": "W33 촬영",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1628,11 +1628,12 @@
       "id": "prj-n8n-entity-autofill",
       "type": "Project",
       "name": "n8n Entity Auto-filler",
-      "status": "doing",
+      "status": "",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Project_정의.md",
       "conditions_3y": [
         "cond-e"
       ],
+      "priority_flag": "medium",
       "owner": "김은향"
     },
     {
@@ -1651,8 +1652,20 @@
       "id": "tsk-n8n-02",
       "type": "Task",
       "name": "n8n 자동화 워크플로우 구축",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-04",
+      "type": "Task",
+      "name": "n8n LLM 프롬프트 템플릿 개선",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md",
       "conditions_3y": [
         "cond-e"
       ],
@@ -1663,7 +1676,7 @@
       "id": "tsk-n8n-03",
       "type": "Task",
       "name": "Project Impact Score 자동화 n8n 워크플로우",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
       "conditions_3y": [
         "cond-e"
@@ -1687,8 +1700,32 @@
       "id": "tsk-impact-schema-v2-01",
       "type": "Task",
       "name": "Impact - Realized 필드 확장",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Impact - Realized 필드 확장.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-02",
+      "type": "Task",
+      "name": "build_impact.py window 지원 (Phase 2)",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/build_impact.py window 지원.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-03",
+      "type": "Task",
+      "name": "Schema - Hypothesis-Evidence 연결 설계",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Hypothesis-Evidence 연결 설계.md",
       "conditions_3y": [
         "cond-b"
       ],
@@ -1746,7 +1783,7 @@
       "id": "tsk-017-02",
       "type": "Task",
       "name": "사업계획서 틀 작성",
-      "status": "todo",
+      "status": "doing",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md",
       "conditions_3y": [
         "cond-d"
@@ -2223,6 +2260,11 @@
     },
     {
       "source": "trk-2",
+      "target": "prj-n8n-entity-autofill",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
       "target": "prj-impact-schema-v2",
       "type": "parent_of"
     },
@@ -2389,11 +2431,6 @@
     {
       "source": "trk-6",
       "target": "prj-grants-jemi",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-n8n-entity-autofill",
       "type": "parent_of"
     },
     {
@@ -2868,12 +2905,27 @@
     },
     {
       "source": "prj-n8n-entity-autofill",
+      "target": "tsk-n8n-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n-entity-autofill",
       "target": "tsk-n8n-03",
       "type": "parent_of"
     },
     {
       "source": "prj-impact-schema-v2",
       "target": "tsk-impact-schema-v2-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-schema-v2-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-schema-v2-03",
       "type": "parent_of"
     },
     {
@@ -3772,6 +3824,8 @@
       "tsk-mcp-rbac-02",
       "prj-impact-schema-v2",
       "tsk-impact-schema-v2-01",
+      "tsk-impact-schema-v2-02",
+      "tsk-impact-schema-v2-03",
       "trk-2",
       "trk-4"
     ],
@@ -3805,6 +3859,7 @@
       "prj-n8n-entity-autofill",
       "tsk-n8n-01",
       "tsk-n8n-02",
+      "tsk-n8n-04",
       "tsk-n8n-03",
       "pgm-tips",
       "prj-017",
@@ -4045,8 +4100,11 @@
       "tsk-mcp-rbac-02",
       "tsk-n8n-01",
       "tsk-n8n-02",
+      "tsk-n8n-04",
       "tsk-n8n-03",
       "tsk-impact-schema-v2-01",
+      "tsk-impact-schema-v2-02",
+      "tsk-impact-schema-v2-03",
       "tsk-017-01",
       "tsk-017-02",
       "tsk-017-03",
@@ -4195,11 +4253,9 @@
       "tsk-016-02",
       "prj-grants-jemi",
       "tsk-grants-youth-01",
-      "tsk-014-03",
       "tsk-014-04",
       "tsk-dashboard-ux-v1-01",
       "tsk-017-01",
-      "tsk-017-02",
       "tsk-017-03",
       "tsk-017-04",
       "prj-018",
@@ -4232,17 +4288,13 @@
       "prj-grants-youth",
       "pgm-youtube-weekly",
       "prj-yt-w33",
-      "tsk-014-02",
       "pgm-vault-system",
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-10",
       "prj-mcp-dual-vault-rbac",
-      "prj-n8n-entity-autofill",
-      "tsk-n8n-02",
-      "tsk-n8n-03",
-      "tsk-impact-schema-v2-01",
       "pgm-coaching",
       "pgm-tips",
+      "tsk-017-02",
       "trk-2",
       "trk-3",
       "trk-4",
@@ -4264,6 +4316,7 @@
       "prj-012",
       "prj-008",
       "prj-dashboard-ux-v1",
+      "prj-n8n-entity-autofill",
       "prj-017"
     ],
     "done": [
@@ -4292,6 +4345,8 @@
       "tsk-015-05",
       "tsk-015-09",
       "tsk-015-10",
+      "tsk-014-02",
+      "tsk-014-03",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-04",
       "tsk-vault-gpt-03",
@@ -4312,6 +4367,12 @@
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-n8n-01",
+      "tsk-n8n-02",
+      "tsk-n8n-04",
+      "tsk-n8n-03",
+      "tsk-impact-schema-v2-01",
+      "tsk-impact-schema-v2-02",
+      "tsk-impact-schema-v2-03",
       "retro:2025-annual"
     ],
     "active": [

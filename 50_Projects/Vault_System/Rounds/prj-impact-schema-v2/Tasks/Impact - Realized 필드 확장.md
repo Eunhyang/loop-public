@@ -4,7 +4,8 @@ entity_id: tsk-impact-schema-v2-01
 entity_name: "Impact - Realized 필드 확장"
 created: 2025-12-27
 updated: 2025-12-27
-status: doing
+closed: 2025-12-27
+status: done
 
 # === 계층 ===
 parent_id: prj-impact-schema-v2
@@ -87,27 +88,43 @@ realized_impact:
 
 ## 체크리스트
 
-- [ ] `schema_constants.yaml` - realized_impact 필드 확장
-- [ ] `template_project.md` - 신규 필드 추가
-- [ ] `template_evidence.md` - time_range, window_id 추가
-- [ ] `impact_model_config.yml` - 평가 윈도우 규칙 추가
-- [ ] `build_impact.py` - window 정보 출력 (선택)
-- [ ] 기존 프로젝트 호환성 테스트
+- [x] `schema_constants.yaml` - realized_impact 필드 확장 (line 348, 447-456)
+- [x] `template_project.md` - 신규 필드 추가 (line 53-63)
+- [x] `template_evidence.md` - time_range, window_id 추가 (line 26-31)
+- [x] `impact_model_config.yml` - evaluation_windows + status_mapping + metrics_snapshot 제약
+- [ ] `build_impact.py` - window 정보 출력 (Phase 2로 이관)
+- [x] 기존 프로젝트 호환성 테스트 - optional 필드로 마이그레이션 불필요
 
 ---
 
 ## Notes
 
-### Todo
-- [ ] 스키마 변경
-- [ ] 템플릿 업데이트
-- [ ] 스크립트 수정
-- [ ] 검증
+### 완료된 작업 (2025-12-27)
+
+**Phase 1: 스키마 확장**
+- schema_constants.yaml:348 - summary 블록에 window_id, time_range, metrics_snapshot 추가
+- schema_constants.yaml:447-456 - realized_impact 상세 정의 확장
+
+**Phase 2: 템플릿 업데이트**
+- template_project.md - realized_impact에 3개 신규 필드 추가
+- template_evidence.md - window_id, time_range 필드 추가
+
+**Phase 3: Config 정의**
+- impact_model_config.yml v1.2.0:
+  - evaluation_windows (defaults, auto_fill, warnings)
+  - status_mapping (realized_status → verdict/outcome)
+  - metrics_snapshot 제약 (scalar types, max 20 keys)
+
+**Codex Review 반영**
+- template 주석에 weekly(YYYY-WNN) 포맷 추가
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+**2025-12-27 - v5.2 스키마 확장 완료**
+- ChatGPT 조언 기반 GAP 분석: time_range, window_id, metrics_snapshot 부재 확인
+- Codex-Claude Loop으로 Plan 검증 및 구현
+- 모든 스키마/템플릿/설정 파일 업데이트 완료
+- 기존 프로젝트 호환성: optional 필드로 마이그레이션 불필요
 
 
 ---

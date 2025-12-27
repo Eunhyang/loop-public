@@ -153,7 +153,9 @@ ChatGPT 조언에 따르면 현재 A/B 점수 구조는 좋지만, B(Realized)�
 
 | ID | Name | Assignee | Status | Due |
 |----|------|----------|--------|-----|
-| tsk-impact-schema-v2-01 | Impact - Realized 필드 확장 | 김은향 | doing | 2025-12-27 |
+| tsk-impact-schema-v2-01 | Impact - Realized 필드 확장 | 김은향 | done | 2025-12-27 |
+| tsk-impact-schema-v2-02 | build_impact.py window 지원 (Phase 2) | 김은향 | doing | 2025-12-27 |
+| tsk-impact-schema-v2-03 | Hypothesis-Evidence 연결 설계 | 김은향 | done | 2025-12-27 |
 
 ---
 

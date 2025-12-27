@@ -1,6 +1,12 @@
 # LOOP Impact Model Configuration
-# Version: 1.1.0
-# Last Updated: 2025-12-20
+# Version: 1.2.0
+# Last Updated: 2025-12-27
+#
+# Changelog (v1.2.0):
+# - evaluation_windows 섹션 추가 (B 점수 평가 기간 정의)
+# - realized_impact에 window_id, time_range, metrics_snapshot 추가
+# - status_mapping 추가 (realized_status → verdict/outcome)
+# - metrics_snapshot 제약 정의
 #
 # Changelog (v1.1.0):
 # - realized_status에 학습 기반 상태 추가 (succeeded, failed_but_high_signal, etc.)
@@ -10,7 +16,7 @@
 # 이 파일은 Impact A/B 점수 계산에 사용되는 모든 상수를 정의합니다.
 # build_impact.py, API autofill 등에서 참조합니다.
 
-version: "1.1.0"  # v5.1: condition_contributes + track_contributes
+version: "1.2.0"  # v5.2: evaluation_windows + metrics_snapshot
 
 # ============================================
 # Tier 정의
@@ -247,3 +253,87 @@ validation:
       - learning_value        # 학습 가치 (high/medium/low)
       - falsified_hypotheses  # 반증된 가설 목록
       - confirmed_insights    # 확인된 인사이트 목록
+      - window_id             # 평가 윈도우 ID (v5.2)
+      - time_range            # 평가 기간 (v5.2)
+
+# ============================================
+# Evaluation Windows (v5.2 추가)
+# ============================================
+# B(Realized) 점수의 평가 기간을 정의
+# 점수 계산 로직은 그대로, "어떤 기간의 결과인지"를 고정
+
+evaluation_windows:
+  # 엔티티별 기본 평가 주기
+  defaults:
+    project:
+      period: month
+      format: "YYYY-MM"        # 예: 2025-12
+    track:
+      period: quarter
+      format: "YYYY-QN"        # 예: 2025-Q4
+    condition:
+      period: half
+      format: "YYYY-HN"        # 예: 2025-H2
+
+  # window_id 자동 생성 규칙
+  auto_fill:
+    # 기준 날짜 우선순위
+    base_date_priority:
+      - decided              # 1순위: realized_impact.decided
+      - updated              # 2순위: 문서 updated
+      - today                # 3순위: 오늘 날짜 (fallback)
+
+    # time_range 자동 계산 규칙 (하드코딩 아닌 규칙 기반)
+    time_range_rules:
+      YYYY-MM: "해당 월 1일..말일"
+      YYYY-QN: "분기 시작일..분기 말일"  # Q1=01-01..03-31, Q2=04-01..06-30, ...
+      YYYY-HN: "반기 시작일..반기 말일"  # H1=01-01..06-30, H2=07-01..12-31
+      YYYY-WNN: "ISO week 기준 7일"
+
+    # Override 우선순위
+    priority:
+      1: user_input          # 사용자 명시 입력
+      2: auto_generated      # 기본값 자동 생성
+
+  # 검증 규칙 (경고 수준, 에러 아님)
+  warnings:
+    - "window_id만 있고 time_range 없으면 → 자동 생성 + 경고"
+    - "time_range만 있고 window_id 없으면 → 경고 (user 입력 유도)"
+    - "window_id와 time_range 불일치 시 경고"
+    - "decided 없고 updated도 없으면 → today로 생성 + 경고"
+
+# ============================================
+# realized_status → verdict/outcome 매핑
+# ============================================
+# retro→evidence의 realized_status를 Project의 verdict/outcome으로 변환
+
+status_mapping:
+  succeeded:
+    verdict: go
+    outcome: supported
+  failed_but_high_signal:
+    verdict: pivot
+    outcome: inconclusive
+  failed_low_signal:
+    verdict: no-go
+    outcome: rejected
+  inconclusive:
+    verdict: pending
+    outcome: inconclusive
+
+# ============================================
+# metrics_snapshot 제약
+# ============================================
+metrics_snapshot:
+  # 값 타입 제한 (중첩 불허)
+  allowed_types:
+    - number
+    - string
+    - boolean
+    - "null"
+
+  # 키 네이밍 권장
+  key_format: snake_case  # 예: retention_d7, funding_pct, nps
+
+  # 키 개수 상한
+  max_keys: 20

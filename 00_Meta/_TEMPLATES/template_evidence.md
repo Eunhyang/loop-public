@@ -24,6 +24,13 @@ updated: {{DATE}}
 project: "{{PROJECT_ID}}"  # 필수: prj-NNN 형식
 
 # ============================================
+# 평가 윈도우 (v5.2 추가)
+# ============================================
+# 이 Evidence가 어떤 기간의 결과를 담고 있는지 명시
+window_id: "{{WINDOW_ID}}"       # 예: "2025-12" | "2025-Q4" | "2025-H2" | "2025-W52"
+time_range: "{{TIME_RANGE}}"     # 예: "2025-12-01..2025-12-31"
+
+# ============================================
 # Realized Score 계산 입력값 (필수)
 # ============================================
 
@@ -58,10 +65,13 @@ impact_metric: "{{METRIC_NAME}}"
 #    - low: 노이즈가 많아 판단 어려움
 learning_value: "{{high|medium|low}}"
 
-# 6. 반증된 가설 목록
-falsified_hypotheses:
-  - "{{가설 1}}"
-  - "{{가설 2}}"
+# 6. 가설 판정 결과 (v5.3 추가)
+#    - Evidence가 실제로 판정한 가설들 (결과)
+#    - Project.validates[]와 다름: 그건 '의도', 이건 '결과'
+validated_hypotheses:    # 이 Evidence가 지지(확증)한 가설 목록
+  - "{{hyp-N-NN}}"
+falsified_hypotheses:    # 이 Evidence가 반증(기각)한 가설 목록
+  - "{{hyp-N-NN}}"
 
 # 7. 확인된 인사이트
 confirmed_insights:

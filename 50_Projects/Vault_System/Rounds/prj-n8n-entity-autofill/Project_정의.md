@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-n8n-entity-autofill
 entity_name: n8n Entity Auto-filler
 created: 2025-12-27
-updated: 2025-12-27
-status: doing
+updated: '2025-12-27'
+status: ''
 program_id: pgm-vault-system
 cycle: '2025'
 owner: 김은향
@@ -22,7 +22,7 @@ realized_impact:
   decided: null
 hypothesis_id: null
 experiments: []
-parent_id: trk-6
+parent_id: trk-2
 conditions_3y:
 - cond-e
 aliases:
@@ -37,8 +37,8 @@ tags:
 - n8n
 - automation
 - llm
+priority_flag: medium
 ---
-
 # n8n Entity Auto-filler
 
 > Project ID: `prj-n8n-entity-autofill` | Track: `trk-6` | Status: doing

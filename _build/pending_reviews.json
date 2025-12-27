@@ -6,20 +6,57 @@
       "entity_type": "Task",
       "entity_name": "리크루팅 사이트) 원택님 피드백 반영",
       "suggested_fields": {
+        "due": "2026-01-15",
         "conditions_3y": [
           "cond-a",
-          "cond-b",
-          "cond-c"
+          "cond-c",
+          "cond-d"
         ],
-        "assignee": "소상민",
-        "due": "2026-01-10"
+        "assignee": "김은향"
       },
       "reasoning": {
-        "conditions_3y": "Task의 성격상 제품-시장 적합성 검증, 수익모델 점검, 향후 확장성 판단과 직접적으로 연결되는 경우가 일반적이어서 핵심 3개 조건으로 제안합니다.",
-        "assignee": "실행/분석 중심의 Task는 담당자 1명 지정이 필요하며, 기본적으로 운영·실행 드라이브 역할에 적합한 담당자로 소상민을 제안합니다.",
-        "due": "일반적인 리서치/정리/검증 범위의 Task를 기준으로 약 2주 내 완료 가능한 일정으로 합리적인 마감일을 제안합니다."
+        "due": "작업의 복잡성을 고려할 때, 피드백 반영 작업은 약 1개월 정도의 시간이 필요할 것으로 예상됩니다.",
+        "conditions_3y": "리크루팅 사이트 프로젝트는 제품-시장 적합성, 확장성, 팀과 관련된 조건이 중요합니다.",
+        "assignee": "김은향님이 이미 할당되어 있으므로 그대로 유지합니다."
       },
-      "created_at": "2025-12-27T17:18:42.921104",
+      "created_at": "2025-12-27T20:40:16.812579",
+      "status": "pending"
+    },
+    {
+      "id": "review-20251227203000-sy07",
+      "entity_id": "prj-001",
+      "entity_type": "Project",
+      "entity_name": "Ontology v0.1",
+      "suggested_fields": {
+        "expected_impact": {
+          "tier": "enabling",
+          "impact_magnitude": "mid",
+          "confidence": 0.5,
+          "contributes": [
+            {
+              "to": "cond-e",
+              "weight": 0.34,
+              "description": "제품/실험/운영을 가능하게 하는 핵심 기술·인프라를 보강해 이후 PMF/Revenue 검증의 속도와 안정성을 높임"
+            },
+            {
+              "to": "cond-d",
+              "weight": 0.33,
+              "description": "팀의 실행 역량(프로세스/협업/채용/온보딩 등)을 강화해 반복 실험과 실행 사이클을 가속"
+            },
+            {
+              "to": "cond-c",
+              "weight": 0.33,
+              "description": "확장 단계에서 병목이 되는 구조(운영/시스템/재현성)를 미리 정리해 스케일 검증의 리스크를 낮춤"
+            }
+          ]
+        }
+      },
+      "reasoning": {
+        "tier": "제공된 프로젝트 JSON이 실제로 포함되지 않아(템플릿 문자열만 존재) parent_id/conditions_3y/hypothesis_text 기반의 직접 판단이 불가능합니다. 따라서 일반적으로 LOOP Vault에서 ‘전략을 가속하는 기반 작업’에 해당하는 보수적 기본값으로 enabling을 제안합니다.",
+        "impact_magnitude": "구체 목표/지표/가설이 없어 핵심 지표에 직접 영향을 주는 전략 과제(high)로 보기 어렵고, 단순 운영 유지(low)로 단정하기도 어려워 중간값(mid)으로 설정했습니다.",
+        "confidence": "프로젝트 세부정보(Track, 연결된 3Y 조건, 검증 가설, 범위/일정/리소스)가 누락되어 실행 가능성과 리스크를 정량화할 수 없으므로 중립값(0.5)로 두었습니다."
+      },
+      "created_at": "2025-12-27T20:30:00.988854",
       "status": "pending"
     }
   ],

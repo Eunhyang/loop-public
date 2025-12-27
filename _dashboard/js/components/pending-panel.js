@@ -60,7 +60,7 @@ const PendingPanel = {
             </div>
 
             <!-- Review Detail Modal -->
-            <div id="reviewDetailModal" class="modal">
+            <div id="reviewDetailModal" class="pending-review-modal">
                 <div class="modal-content review-detail-modal">
                     <div class="modal-header">
                         <h3 id="reviewDetailTitle">Review Details</h3>

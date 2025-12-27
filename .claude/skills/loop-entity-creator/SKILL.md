@@ -11,6 +11,16 @@ Manage LOOP vault entities with GraphRAG pattern enforcement.
 
 This skill ensures Task and Project entities follow strict schema requirements and maintain proper relationships. It prevents orphaned entities by enforcing validation and automatic graph index updates.
 
+> ## ⛔ MANDATORY NAME FORMAT (절대 규칙)
+>
+> **모든 Task와 Project 이름은 반드시 `주제 - 내용` 형식이어야 함**
+>
+> - 정규식: `/^.+ - .+$/`
+> - 구분자: ` - ` (공백-하이픈-공백, 3글자)
+> - 검증 실패 시: **생성 진행 금지, 재입력 요청**
+>
+> **이 규칙은 스킵할 수 없음. 예외 없음.**
+
 **Supported operations-**
 - **Create** - Generate new Task or Project with auto-assigned ID
 - **Edit** - Modify existing entity fields while preserving schema
@@ -34,13 +44,60 @@ Use AskUserQuestion to collect:
 
 Required fields:
 - `entity_name` - Task name in **'주제 - 내용'** format (e.g., "CoachOS - 프로토타입 개발")
-  - **형식 필수**: 반드시 ' - ' (공백-하이픈-공백)로 구분
-  - 주제: 프로젝트/기능/영역 (짧게)
-  - 내용: 구체적 작업 설명
-  - ❌ 잘못된 예: "프로토타입 개발", "CoachOS프로토타입", "CoachOS-개발"
-  - ✅ 올바른 예: "CoachOS - 프로토타입 개발", "Dashboard - 필터 기능 추가"
 - `project_id` - Parent project ID (must exist, e.g., "prj-003")
 - `assignee` - Person responsible (MUST be from `00_Meta/members.yaml`)
+
+**Step 1.5: MANDATORY Name Format Validation (반드시 실행)**
+
+> ⚠️ **CRITICAL: 이 단계를 스킵하면 안 됨. 형식 검증 실패 시 생성 진행 금지.**
+
+**검증 규칙:**
+- 정규식: `/^.+ - .+$/` (반드시 ' - ' 공백-하이픈-공백 포함)
+- 최소 구조: `{주제} - {내용}` (양쪽 모두 1자 이상)
+
+**검증 로직:**
+```
+IF entity_name does NOT contain ' - ' (space-hyphen-space):
+    → REJECT and re-ask with error message
+    → NEVER proceed to Step 2
+```
+
+**형식 규칙:**
+- 주제: 프로젝트/기능/영역 (짧게, 1-3단어)
+- 내용: 구체적 작업 설명 (명확하게)
+- 구분자: 반드시 ` - ` (공백 + 하이픈 + 공백)
+
+**❌ REJECT (절대 허용 금지):**
+| 잘못된 입력 | 문제점 |
+|------------|--------|
+| "프로토타입 개발" | ' - ' 없음 |
+| "CoachOS프로토타입" | ' - ' 없음 |
+| "CoachOS-개발" | 공백 없음 (하이픈만) |
+| "CoachOS -개발" | 뒤 공백 없음 |
+| "CoachOS- 개발" | 앞 공백 없음 |
+| " - 개발" | 주제 없음 |
+| "CoachOS - " | 내용 없음 |
+
+**✅ ACCEPT (허용):**
+| 올바른 입력 | 구조 |
+|------------|------|
+| "CoachOS - 프로토타입 개발" | 주제 - 내용 |
+| "Dashboard - 필터 기능 추가" | 주제 - 내용 |
+| "API - OAuth 2.0 구현" | 주제 - 내용 |
+| "버그 - 로그인 실패 수정" | 주제 - 내용 |
+
+**검증 실패 시 응답:**
+```
+❌ 이름 형식이 올바르지 않습니다.
+
+입력: "{user_input}"
+문제: ' - ' (공백-하이픈-공백) 구분자가 없습니다.
+
+올바른 형식: "{주제} - {내용}"
+예시: "CoachOS - 프로토타입 개발"
+
+다시 입력해 주세요.
+```
 
 Default fields (자동 설정):
 - `status` - 기본값: "todo" (유효값: → `00_Meta/schema_constants.yaml` > `task.status` 참조)
@@ -125,14 +182,61 @@ Use AskUserQuestion to collect:
 
 Required fields:
 - `entity_name` - Project name in **'주제 - 내용'** format (e.g., "Ontology - v0.2 스키마 설계")
-  - **형식 필수**: 반드시 ' - ' (공백-하이픈-공백)로 구분
-  - 주제: 프로젝트/제품/영역 (짧게)
-  - 내용: 구체적 목표/버전 설명
-  - ❌ 잘못된 예: "Ontology_v0.2", "온톨로지스키마", "Ontology-설계"
-  - ✅ 올바른 예: "Ontology - v0.2 스키마 설계", "Dashboard - UX 개선"
 - `owner` - Project owner (MUST be from `00_Meta/members.yaml`)
 - `parent_id` - Parent Track ID (e.g., "trk-2") - **필수, Program 하위 Project도 반드시 Track 연결 필요**
 - `conditions_3y` - 기여하는 3년 Condition 목록 (→ `00_Meta/schema_constants.yaml` > `condition_ids` 참조) - **필수**
+
+**Step 1.5: MANDATORY Name Format Validation (반드시 실행)**
+
+> ⚠️ **CRITICAL: 이 단계를 스킵하면 안 됨. 형식 검증 실패 시 생성 진행 금지.**
+
+**검증 규칙:**
+- 정규식: `/^.+ - .+$/` (반드시 ' - ' 공백-하이픈-공백 포함)
+- 최소 구조: `{주제} - {내용}` (양쪽 모두 1자 이상)
+
+**검증 로직:**
+```
+IF entity_name does NOT contain ' - ' (space-hyphen-space):
+    → REJECT and re-ask with error message
+    → NEVER proceed to Step 2
+```
+
+**형식 규칙:**
+- 주제: 프로젝트/제품/영역 (짧게, 1-3단어)
+- 내용: 구체적 목표/버전 설명 (명확하게)
+- 구분자: 반드시 ` - ` (공백 + 하이픈 + 공백)
+
+**❌ REJECT (절대 허용 금지):**
+| 잘못된 입력 | 문제점 |
+|------------|--------|
+| "Ontology_v0.2" | ' - ' 없음 |
+| "온톨로지스키마" | ' - ' 없음 |
+| "Ontology-설계" | 공백 없음 (하이픈만) |
+| "Dashboard -UX개선" | 뒤 공백 없음 |
+| "Dashboard- UX 개선" | 앞 공백 없음 |
+| " - UX 개선" | 주제 없음 |
+| "Dashboard - " | 내용 없음 |
+
+**✅ ACCEPT (허용):**
+| 올바른 입력 | 구조 |
+|------------|------|
+| "Ontology - v0.2 스키마 설계" | 주제 - 내용 |
+| "Dashboard - UX 개선" | 주제 - 내용 |
+| "CoachOS - MVP 개발" | 주제 - 내용 |
+| "Impact - Schema v2 도입" | 주제 - 내용 |
+
+**검증 실패 시 응답:**
+```
+❌ 프로젝트 이름 형식이 올바르지 않습니다.
+
+입력: "{user_input}"
+문제: ' - ' (공백-하이픈-공백) 구분자가 없습니다.
+
+올바른 형식: "{주제} - {내용}"
+예시: "Dashboard - UX 개선"
+
+다시 입력해 주세요.
+```
 
 Default fields (자동 설정):
 - `status` - 기본값: "doing" (유효값: → `00_Meta/schema_constants.yaml` > `project.status` 참조)
@@ -151,7 +255,7 @@ Program에 속한 Project라도 반드시:
 
 이 연결이 없으면 전략 계층에서 고아(orphan) 프로젝트가 됨.
 
-**Step 1.5: Expected Impact 설정**
+**Step 1.6: Expected Impact 설정**
 
 Use AskUserQuestion to ask:
 
@@ -216,7 +320,7 @@ Use AskUserQuestion to ask:
    - `{{project_num}}` → extracted from ID (004)
    - Note: `aliases` will automatically include entity_id for Obsidian linking
 
-   Expected Impact 플레이스홀더 (Step 1.5 선택에 따라):
+   Expected Impact 플레이스홀더 (Step 1.6 선택에 따라):
    - `{{IMPACT_TIER}}` → "strategic" | "enabling" | "operational" | "none" | null
    - `{{IMPACT_MAG}}` → "high" | "mid" | "low" | null
    - `{{CONFIDENCE}}` → 0.0-1.0 | null

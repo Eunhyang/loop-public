@@ -1,12 +1,13 @@
 {
   "model_version": "IM-2025-01",
-  "generated": "2025-12-27T16:48:05.462425",
-  "script_version": "1.2.0",
+  "generated": "2025-12-27T21:24:21.221892",
+  "script_version": "1.3.0",
   "summary": {
-    "total_projects": 23,
-    "projects_with_impact": 10,
+    "total_projects": 24,
+    "projects_with_impact": 11,
     "projects_excluded": 1,
-    "total_expected": 55.65,
+    "projects_with_window": 0,
+    "total_expected": 57.9,
     "total_realized": 0.0,
     "total_evidence": 0
   },
@@ -32,6 +33,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "Founder + 온톨로지 팀",
       "status": "doing"
     },
@@ -61,6 +65,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": ""
     },
@@ -90,6 +97,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": "todo"
     },
@@ -114,6 +124,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": "doing"
     },
@@ -143,6 +156,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "미정",
       "status": "doing"
     },
@@ -172,6 +188,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": ""
     },
@@ -196,8 +215,38 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": ""
+    },
+    {
+      "id": "prj-impact-schema-v2",
+      "name": "Schema - Realized Impact 확장",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.75,
+      "condition_contributes": [
+        {
+          "to": "cond-b",
+          "weight": 0.3,
+          "description": "스키마 개선으로 데이터 품질 및 추적 가능성 향상"
+        }
+      ],
+      "primary_track": "trk-2",
+      "track_contributes": [],
+      "expected_score": 2.25,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
+      "owner": "김은향",
+      "status": "active"
     },
     {
       "id": "prj-007",
@@ -214,6 +263,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": "done"
     },
@@ -232,6 +284,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": "doing"
     },
@@ -250,6 +305,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": "doing"
     },
@@ -279,6 +337,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "doing"
     },
@@ -297,6 +358,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "doing"
     },
@@ -315,6 +379,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "todo"
     },
@@ -333,6 +400,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "todo"
     },
@@ -351,6 +421,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "doing"
     },
@@ -369,6 +442,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "doing"
     },
@@ -387,6 +463,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "active"
     },
@@ -405,6 +484,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": "doing"
     },
@@ -423,6 +505,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": ""
     },
@@ -441,6 +526,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": "doing"
     },
@@ -452,15 +540,18 @@
       "impact_magnitude": "mid",
       "confidence": 0.7,
       "condition_contributes": [],
-      "primary_track": "trk-6",
+      "primary_track": "trk-2",
       "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
-      "status": "doing"
+      "status": ""
     },
     {
       "id": "prj-008",
@@ -488,6 +579,9 @@
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "김은향",
       "status": ""
     },
@@ -517,15 +611,18 @@
       "realized_status": "planned",
       "impact_excluded": true,
       "evidence_count": 0,
+      "window_id": null,
+      "time_range": null,
+      "metrics_snapshot": {},
       "owner": "한명학",
       "status": ""
     }
   ],
   "conditions": {
     "cond-b": {
-      "expected_sum": 8.77,
+      "expected_sum": 9.44,
       "realized_sum": 0.0,
-      "project_count": 7,
+      "project_count": 8,
       "projects": [
         {
           "id": "prj-001",
@@ -533,7 +630,8 @@
           "tier": "strategic",
           "weight": 0.7,
           "expected": 6.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-003",
@@ -541,7 +639,8 @@
           "tier": "enabling",
           "weight": 0.5,
           "expected": 3.0,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-006",
@@ -549,7 +648,8 @@
           "tier": "enabling",
           "weight": 0.3,
           "expected": 2.75,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-002",
@@ -557,7 +657,8 @@
           "tier": "tactical",
           "weight": 0.3,
           "expected": 2.75,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-005",
@@ -565,7 +666,17 @@
           "tier": "enabling",
           "weight": 0.2,
           "expected": 2.25,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
+        },
+        {
+          "id": "prj-impact-schema-v2",
+          "name": "Schema - Realized Impact 확장",
+          "tier": "enabling",
+          "weight": 0.3,
+          "expected": 2.25,
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-014",
@@ -573,7 +684,8 @@
           "tier": "enabling",
           "weight": 0.15,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-008",
@@ -581,7 +693,8 @@
           "tier": "tactical",
           "weight": 0.2,
           "expected": 1.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "excluded_projects": [
@@ -594,9 +707,10 @@
       ],
       "tier_distribution": {
         "strategic": 1,
-        "enabling": 4,
+        "enabling": 5,
         "operational": 1
-      }
+      },
+      "realized_by_half": {}
     },
     "cond-d": {
       "expected_sum": 6.1,
@@ -609,7 +723,8 @@
           "tier": "strategic",
           "weight": 0.5,
           "expected": 4.0,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-018",
@@ -617,7 +732,8 @@
           "tier": "strategic",
           "weight": 0.5,
           "expected": 3.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-006",
@@ -625,7 +741,8 @@
           "tier": "enabling",
           "weight": 0.2,
           "expected": 2.75,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-002",
@@ -633,7 +750,8 @@
           "tier": "tactical",
           "weight": 0.6,
           "expected": 2.75,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-008",
@@ -641,7 +759,8 @@
           "tier": "tactical",
           "weight": 0.1,
           "expected": 1.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "excluded_projects": [
@@ -656,7 +775,8 @@
         "strategic": 2,
         "enabling": 1,
         "operational": 1
-      }
+      },
+      "realized_by_half": {}
     },
     "cond-e": {
       "expected_sum": 1.92,
@@ -669,7 +789,8 @@
           "tier": "strategic",
           "weight": 0.2,
           "expected": 4.0,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-018",
@@ -677,7 +798,8 @@
           "tier": "strategic",
           "weight": 0.2,
           "expected": 3.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-014",
@@ -685,7 +807,8 @@
           "tier": "enabling",
           "weight": 0.2,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "excluded_projects": [],
@@ -693,12 +816,13 @@
         "strategic": 2,
         "enabling": 1,
         "operational": 0
-      }
+      },
+      "realized_by_half": {}
     }
   },
   "tracks": {
     "trk-2": {
-      "expected_sum": 20.15,
+      "expected_sum": 24.5,
       "realized_sum": 0.0,
       "primary_projects": [
         {
@@ -707,7 +831,8 @@
           "tier": "strategic",
           "weight": 1.0,
           "expected": 6.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-003",
@@ -715,7 +840,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 3.0,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-005",
@@ -723,7 +849,17 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.25,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
+        },
+        {
+          "id": "prj-impact-schema-v2",
+          "name": "Schema - Realized Impact 확장",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.25,
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-004",
@@ -731,7 +867,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-vault-gpt",
@@ -739,7 +876,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-dashboard-ux-v1",
@@ -747,7 +885,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-mcp-dual-vault-rbac",
@@ -755,18 +894,29 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
+        },
+        {
+          "id": "prj-n8n-entity-autofill",
+          "name": "n8n Entity Auto-filler",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
       "tier_distribution": {
         "strategic": 1,
-        "enabling": 6,
+        "enabling": 8,
         "operational": 0
-      }
+      },
+      "realized_by_quarter": {}
     },
     "trk-6": {
-      "expected_sum": 18.0,
+      "expected_sum": 15.9,
       "realized_sum": 0.0,
       "primary_projects": [
         {
@@ -775,7 +925,8 @@
           "tier": "strategic",
           "weight": 1.0,
           "expected": 4.0,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-018",
@@ -783,7 +934,8 @@
           "tier": "strategic",
           "weight": 1.0,
           "expected": 3.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-007",
@@ -791,7 +943,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-015",
@@ -799,7 +952,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-016",
@@ -807,7 +961,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-grants-jemi",
@@ -815,23 +970,17 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
-        },
-        {
-          "id": "prj-n8n-entity-autofill",
-          "name": "n8n Entity Auto-filler",
-          "tier": "enabling",
-          "weight": 1.0,
-          "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
       "tier_distribution": {
         "strategic": 2,
-        "enabling": 5,
+        "enabling": 4,
         "operational": 0
-      }
+      },
+      "realized_by_quarter": {}
     },
     "trk-4": {
       "expected_sum": 9.1,
@@ -843,7 +992,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.75,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-002",
@@ -851,7 +1001,8 @@
           "tier": "tactical",
           "weight": 1.0,
           "expected": 2.75,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-014",
@@ -859,7 +1010,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         },
         {
           "id": "prj-008",
@@ -867,7 +1019,8 @@
           "tier": "tactical",
           "weight": 1.0,
           "expected": 1.5,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
@@ -875,7 +1028,8 @@
         "strategic": 0,
         "enabling": 2,
         "operational": 1
-      }
+      },
+      "realized_by_quarter": {}
     },
     "trk-5": {
       "expected_sum": 2.1,
@@ -887,7 +1041,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
@@ -895,7 +1050,8 @@
         "strategic": 0,
         "enabling": 1,
         "operational": 0
-      }
+      },
+      "realized_by_quarter": {}
     },
     "pgm-grants": {
       "expected_sum": 2.1,
@@ -907,7 +1063,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
@@ -915,7 +1072,8 @@
         "strategic": 0,
         "enabling": 1,
         "operational": 0
-      }
+      },
+      "realized_by_quarter": {}
     },
     "trk-3": {
       "expected_sum": 2.1,
@@ -927,7 +1085,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
@@ -935,7 +1094,8 @@
         "strategic": 0,
         "enabling": 1,
         "operational": 0
-      }
+      },
+      "realized_by_quarter": {}
     },
     "pgm-youtube-weekly": {
       "expected_sum": 2.1,
@@ -947,7 +1107,8 @@
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,
-          "realized": 0.0
+          "realized": 0.0,
+          "window_id": null
         }
       ],
       "secondary_projects": [],
@@ -955,7 +1116,8 @@
         "strategic": 0,
         "enabling": 1,
         "operational": 0
-      }
+      },
+      "realized_by_quarter": {}
     }
   },
   "config": {

@@ -12,8 +12,9 @@ aliases: ["prj-{{NUMBER}}"]
 
 # === 관계 ===
 outgoing_relations: []
-validates: []
+validates: []                     # 검증하는 가설들 (0..N)
 validated_by: []
+primary_hypothesis_id: null       # 프로젝트 생성 근본 질문 (0..1, hyp-*)
 
 # === Project 전용 ===
 owner: "{{OWNER_NAME}}"
@@ -50,13 +51,17 @@ expected_impact:
   metric: "{{IMPACT_METRIC}}"
   target: "{{IMPACT_TARGET}}"
 
-# === Realized Impact (B) ===
+# === Realized Impact (B) - v5.2 ===
 # 프로젝트 종료 시 작성 (본문 Rollup 섹션과 동기화)
+# Evidence 문서에서 대표 스냅샷 복사
 realized_impact:
   verdict: null                    # pending | go | no-go | pivot
   outcome: null                    # supported | rejected | inconclusive
   evidence_links: []               # ["[[link1]]", "[[link2]]", ...]
   decided: null                    # 결정일 (YYYY-MM-DD)
+  window_id: null                  # 평가 윈도우 (YYYY-MM | YYYY-QN | YYYY-HN | YYYY-WNN)
+  time_range: null                 # 평가 기간 (YYYY-MM-DD..YYYY-MM-DD)
+  metrics_snapshot: {}             # 당시 지표 스냅샷 {metric_name: value}
 
 # === 3Y 전략 연결 (필수) ===
 conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)

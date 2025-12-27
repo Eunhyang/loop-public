@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2025-12-27
 updated: 2025-12-27
-total_entities: 203
+total_entities: 206
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 203개
+- **총 엔티티**: 206개
 - **마지막 업데이트**: 2025-12-27
 
 ### 타입별
@@ -29,20 +29,20 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 6 |
 | Project | 24 |
-| Task | 93 |
+| Task | 96 |
 | Hypothesis | 45 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-|  | 6 |
+|  | 7 |
 | active | 2 |
-| doing | 42 |
-| done | 46 |
+| doing | 38 |
+| done | 54 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 1 |
-| todo | 95 |
+| todo | 93 |
 | unknown | 5 |
 | validating | 4 |
 
@@ -124,13 +124,13 @@ tags: ["meta", "graph", "index"]
 | `prj-grants-youth` | 청년창업사관학교 | doing | `50_Projects/Grants/Rounds/prj-grants-youth/Project_정의.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | active | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Project_정의.md` |
 | `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md` |
-| `prj-n8n-entity-autofill` | n8n Entity Auto-filler | doing | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Project_정의.md` |
+| `prj-n8n-entity-autofill` | n8n Entity Auto-filler |  | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Project_정의.md` |
 | `prj-vault-gpt` | ChatGPT Vault MCP 연결 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
 | `prj-yt-w33` | YouTube W33 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md` |
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (93개)
+## Task (96개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -176,8 +176,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-011-01` | 리크루팅 사이트) 원택님 피드백 반영 | todo | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md` |
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | doing | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
 | `tsk-014-01` | 꼭꼭Fit 3기 환급 검토 | doing | `50_Projects/2025/P014_코칭 운영 체계/Tasks/꼭꼭Fit 3기 환급 검토.md` |
-| `tsk-014-02` | W33 대본작성 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md` |
-| `tsk-014-03` | W33 촬영 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
+| `tsk-014-02` | W33 대본작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md` |
+| `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
@@ -194,7 +194,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-016-01` | 법인 정관 작성 후 최종 검토 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
 | `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
 | `tsk-017-01` | 제출 서류 준비 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-01_제출서류준비.md` |
-| `tsk-017-02` | 사업계획서 틀 작성 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md` |
+| `tsk-017-02` | 사업계획서 틀 작성 | doing | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md` |
 | `tsk-017-03` | 사업계획서 리뷰(은향) | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md` |
 | `tsk-017-04` | 사업계획서 작성 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
 | `tsk-017-05` | 아이디어파트너스 배치 프로그램 사업계획서 작성 | todo | `50_Projects/2025/P004_(프로젝트 없음)/Tasks/아이디어파트너스_배치_프로그램_사업계획서_작성.md` |
@@ -216,12 +216,15 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-16` | 캘린더뷰 Task Type 필터링 UI 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md` |
 | `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | doing | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
 | `tsk-grants-youth-01` | 이인벤션 선납 비용 처리 논의 | todo | `50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md` |
-| `tsk-impact-schema-v2-01` | Impact - Realized 필드 확장 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Impact - Realized 필드 확장.md` |
+| `tsk-impact-schema-v2-01` | Impact - Realized 필드 확장 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Impact - Realized 필드 확장.md` |
+| `tsk-impact-schema-v2-02` | build_impact.py window 지원 (Phase 2) | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/build_impact.py window 지원.md` |
+| `tsk-impact-schema-v2-03` | Schema - Hypothesis-Evidence 연결 설계 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Hypothesis-Evidence 연결 설계.md` |
 | `tsk-mcp-rbac-01` | User 모델 role 필드 + CLI | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md` |
 | `tsk-mcp-rbac-02` | 대시보드 OAuth 로그인 통합 | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
-| `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | doing | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
-| `tsk-n8n-03` | Project Impact Score 자동화 n8n 워크플로우 | doing | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
+| `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
+| `tsk-n8n-03` | Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
+| `tsk-n8n-04` | n8n LLM 프롬프트 템플릿 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 | `tsk-vault-gpt-02` | MCP API TaskUpdate 모델 확장 | hold | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md` |
 | `tsk-vault-gpt-03` | API - Tree + Batch 엔드포인트 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md` |
@@ -422,6 +425,8 @@ tags: ["meta", "graph", "index"]
   - tsk-grants-youth-01 (이인벤션 선납 비용 처리 논의)
 - **prj-impact-schema-v2** (Schema - Realized Impact 확장)
   - tsk-impact-schema-v2-01 (Impact - Realized 필드 확장)
+  - tsk-impact-schema-v2-02 (build_impact.py window 지원 (Phase 2))
+  - tsk-impact-schema-v2-03 (Schema - Hypothesis-Evidence 연결 설계)
 - **prj-mcp-dual-vault-rbac** (MCP Dual-Vault RBAC)
   - tsk-mcp-rbac-01 (User 모델 role 필드 + CLI)
   - tsk-mcp-rbac-02 (대시보드 OAuth 로그인 통합)
@@ -429,6 +434,7 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-01 (n8n Docker 배포 및 파이프라인 구축)
   - tsk-n8n-02 (n8n 자동화 워크플로우 구축)
   - tsk-n8n-03 (Project Impact Score 자동화 n8n 워크플로우)
+  - tsk-n8n-04 (n8n LLM 프롬프트 템플릿 개선)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-vault-gpt-01 (v1 HTTP MCP 설정)
   - tsk-vault-gpt-02 (MCP API TaskUpdate 모델 확장)
@@ -471,6 +477,7 @@ tags: ["meta", "graph", "index"]
   - prj-dashboard-ux-v1 (대시보드 UX 개선 v1)
   - prj-impact-schema-v2 (Schema - Realized Impact 확장)
   - prj-mcp-dual-vault-rbac (MCP Dual-Vault RBAC)
+  - prj-n8n-entity-autofill (n8n Entity Auto-filler)
   - prj-vault-gpt (ChatGPT Vault MCP 연결)
 - **trk-3** (Track_3_Content)
   - pgm-youtube-weekly (YouTube 1주 1업로드)
@@ -514,7 +521,6 @@ tags: ["meta", "graph", "index"]
   - prj-017 (아이디어파트너스 배치 프로그램 지원)
   - prj-018 (프라이머 배치 프로그램 지원)
   - prj-grants-jemi (JEMI디딤돌 지원사업)
-  - prj-n8n-entity-autofill (n8n Entity Auto-filler)
 
 ---
 

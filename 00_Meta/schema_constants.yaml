@@ -11,6 +11,23 @@
 #
 # 이 파일이 유일한 스키마 정의 소스입니다.
 # schema_registry.md는 이 파일로 통합되어 삭제되었습니다.
+#
+# ============================================
+# SSOT + Derived 원칙 (v5.2)
+# ============================================
+# 모든 데이터는 한 곳에만 저장(SSOT), 나머지는 계산(Derived)
+#
+# 1. Project ↔ Hypothesis 관계:
+#    - SSOT: Project.validates = [hyp-...]
+#    - Derived: Hypothesis.validated_by (역인덱스로 계산)
+#
+# 2. A/B Score + Window 롤업:
+#    - SSOT: Project.realized_impact @ 월간 window
+#    - Derived: Track.realized_sum @ 분기 (하위 Project B 집계)
+#    - Derived: Condition.realized_sum @ 반기 (하위 Project B 집계)
+#
+# Track/Condition에 realized_impact 직접 저장 금지!
+# → build_impact.py가 실행 시 Project B를 window로 묶어 계산
 
 # ============================================
 # Task
@@ -37,11 +54,12 @@ task:
     blocked: "#ef4444"   # red
   # Task 유형 (dev Task 연동용)
   types:
-    - dev        # 개발 작업
+    - dev        # 개발 작업 (신규 기능)
+    - bug        # 버그 수정
     - strategy   # 전략 작업
     - research   # 리서치
     - ops        # 운영
-  # 외부 프로젝트 (type=dev일 때)
+  # 외부 프로젝트 (type=dev|bug일 때)
   target_projects:
     - sosi       # SoSi 앱
     - kkokkkok   # 꼭꼭 앱
@@ -106,6 +124,7 @@ entity_types:
   - Task
   - Hypothesis
   - Experiment
+  - Evidence      # v5.2 추가: 프로젝트 결과/학습 기록
   # loop_exec 전용
   - Candidate
   - TaskExecDetail
@@ -293,6 +312,10 @@ required_fields:
   Retrospective:
     - source_project
     - verdict
+  Evidence:
+    - project
+    - normalized_delta
+    - evidence_strength
 
 # ============================================
 # Known Fields (freshness check용 - 스키마에 정의된 필드)
@@ -345,8 +368,9 @@ known_fields:
     - program_id       # 소속 프로그램 ID
     - cycle            # 사이클/라운드 (예: "2026Q1")
     - expected_impact  # 구조: {statement, metric, target}
-    - realized_impact  # 구조: {verdict, outcome, evidence_links, decided}
-    - hypothesis_id
+    - realized_impact  # 구조: {verdict, outcome, evidence_links, decided, window_id, time_range, metrics_snapshot}
+    - hypothesis_id           # deprecated → primary_hypothesis_id
+    - primary_hypothesis_id   # 신규: 프로젝트 생성 근본 질문 (hyp-*)
     - experiments
     - hypothesis_text  # deprecated → expected_impact.statement
     - links            # 구조: [{label, url}]
@@ -410,6 +434,18 @@ known_fields:
     - verdict_date
     - signals              # [string] 핵심 판별 신호
     - system_updates       # [string] 시스템 개선 항목
+  Evidence:
+    - project                    # 필수: 연결된 Project ID
+    - normalized_delta           # 필수: 목표 대비 달성률 (0.0 ~ 1.0)
+    - evidence_strength          # 필수: strong | medium | weak
+    - attribution_share          # 권장: 기여 비율 (default 1.0)
+    - window_id                  # 권장: 평가 윈도우 ID
+    - time_range                 # 권장: 평가 기간
+    - impact_metric
+    - learning_value
+    - validated_hypotheses       # [hyp-*] 이 Evidence가 확증한 가설
+    - falsified_hypotheses       # [hyp-*] 이 Evidence가 반증한 가설
+    - confirmed_insights
 
 # ============================================
 # Field Structures (중첩 필드 구조 정의)
@@ -444,13 +480,16 @@ field_structures:
       - metric: string
       - target: string
 
-  # Project.realized_impact
+  # Project.realized_impact (v5.2 확장)
   realized_impact:
     fields:
       - verdict: string    # pending | go | no-go | pivot
       - outcome: string    # supported | rejected | inconclusive
       - evidence_links: "[string]"
-      - decided: date
+      - decided: date      # 결정일 (YYYY-MM-DD)
+      - window_id: string  # 평가 윈도우 ID (YYYY-MM | YYYY-QN | YYYY-HN | YYYY-WNN)
+      - time_range: string # 평가 기간 (YYYY-MM-DD..YYYY-MM-DD)
+      - metrics_snapshot: object  # 당시 지표 스냅샷 {metric_name: scalar_value}
 
   # Project/Task.links
   links:
@@ -478,6 +517,16 @@ field_structures:
 # Validation Rules (검증 규칙)
 # ============================================
 validation_rules:
+  # Derived 필드 (저장 금지 - 빌드 시 역인덱스 계산)
+  # 이 필드들에 값이 저장되어 있으면 경고
+  derived_fields:
+    Hypothesis:
+      - validated_by         # Evidence에서 역인덱스 계산
+    Track:
+      - realized_sum         # 하위 Project B 집계 (build_impact.py)
+    Condition:
+      - realized_sum         # 하위 Project B 집계 (build_impact.py)
+
   # parent_id 참조 대상
   parent_references:
     MetaHypothesis: NorthStar
@@ -496,7 +545,7 @@ validation_rules:
       - field: closed
         when: "status = done"
       - field: target_project
-        when: "type = dev"
+        when: "type in [dev, bug]"
 
   # 값 형식 규칙
   format_rules:
@@ -659,7 +708,12 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.1"
+schema_version: "5.2"
 last_updated: "2025-12-27"
+# v5.2 변경:
+# - Evidence 엔티티 정식 등록 (entity_types, required_fields, known_fields)
+# - Project.primary_hypothesis_id 필드 추가 (hypothesis_id deprecated)
+# - validation_rules.derived_fields 섹션 추가 (저장 금지 필드 규칙)
+# - Hypothesis.validated_by, Track/Condition.realized_sum은 빌드 시 계산
 # v5.1 변경: contributes → condition_contributes + track_contributes 분리 (Option A)
 # 이전 버전: schema_registry.md v4.1 → 이 파일로 통합
