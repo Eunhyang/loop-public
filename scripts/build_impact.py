@@ -223,7 +223,19 @@ def build_project_impact(
     tier = fm.get("tier", "enabling")
     magnitude = fm.get("impact_magnitude", "mid")
     confidence = fm.get("confidence", 0.7)
-    contributes = fm.get("contributes", [])
+
+    # v5.1: condition_contributes 사용 (기존 contributes 호환)
+    condition_contributes = fm.get("condition_contributes", [])
+    if not condition_contributes:
+        # 기존 contributes 필드에서 condition만 추출 (마이그레이션 호환)
+        old_contributes = fm.get("contributes", [])
+        condition_contributes = [c for c in old_contributes if isinstance(c, dict) and c.get("type") == "condition"]
+        # type 없으면 모두 condition으로 간주
+        if not condition_contributes:
+            condition_contributes = [c for c in old_contributes if isinstance(c, dict)]
+
+    track_contributes = fm.get("track_contributes", [])
+    parent_id = fm.get("parent_id", "")  # Primary Track
     realized_status = fm.get("realized_status", "planned")
 
     # Tier 정책 조회
@@ -258,7 +270,13 @@ def build_project_impact(
         "tier": tier,
         "impact_magnitude": magnitude,
         "confidence": confidence,
-        "contributes": contributes,
+
+        # Condition 기여 (v5.1: contributes → condition_contributes)
+        "condition_contributes": condition_contributes,
+
+        # Track 기여 (v5.1: 신규)
+        "primary_track": parent_id,  # 암묵적 weight 1.0
+        "track_contributes": track_contributes,  # Secondary Track 기여
 
         # 계산된 점수
         "expected_score": expected_score,
@@ -272,7 +290,6 @@ def build_project_impact(
         "evidence_count": evidence_count,
 
         # 추가 메타데이터
-        "track": fm.get("track", ""),
         "owner": fm.get("owner", ""),
         "status": fm.get("status", ""),
     }
@@ -283,7 +300,10 @@ def build_project_impact(
 def calculate_condition_rollup(
     project_records: List[Dict],
 ) -> Dict[str, Dict]:
-    """Condition별 롤업 계산 (Tier 정책 적용)"""
+    """Condition별 롤업 계산 (Tier 정책 적용)
+
+    v5.1: contributes → condition_contributes
+    """
     rollup = defaultdict(lambda: {
         "expected_sum": 0.0,
         "realized_sum": 0.0,
@@ -294,11 +314,12 @@ def calculate_condition_rollup(
     })
 
     for project in project_records:
-        contributes = project.get("contributes", [])
+        # v5.1: condition_contributes 사용
+        condition_contributes = project.get("condition_contributes", [])
         tier = project.get("tier", "enabling")
         policy = TIER_POLICY.get(tier, TIER_POLICY["enabling"])
 
-        for c in contributes:
+        for c in condition_contributes:
             if not isinstance(c, dict):
                 continue
 
@@ -343,6 +364,77 @@ def calculate_condition_rollup(
     return dict(rollup)
 
 
+def calculate_track_rollup(
+    project_records: List[Dict],
+) -> Dict[str, Dict]:
+    """Track별 롤업 계산 (v5.1 신규)
+
+    Primary Track: parent_id (암묵적 weight 1.0)
+    Secondary Track: track_contributes 필드
+    """
+    rollup = defaultdict(lambda: {
+        "expected_sum": 0.0,
+        "realized_sum": 0.0,
+        "primary_projects": [],    # 이 Track이 Primary인 프로젝트
+        "secondary_projects": [],  # 이 Track에 Secondary 기여하는 프로젝트
+        "tier_distribution": {"strategic": 0, "enabling": 0, "operational": 0},
+    })
+
+    for project in project_records:
+        primary_track = project.get("primary_track", "")
+        track_contributes = project.get("track_contributes", [])
+        tier = project.get("tier", "enabling")
+        policy = TIER_POLICY.get(tier, TIER_POLICY["enabling"])
+
+        # Primary Track 처리 (암묵적 weight 1.0)
+        if primary_track:
+            if tier in rollup[primary_track]["tier_distribution"]:
+                rollup[primary_track]["tier_distribution"][tier] += 1
+
+            if policy["include_in_rollup"]:
+                # Primary Track은 weight 1.0으로 전체 점수 기여
+                rollup[primary_track]["expected_sum"] += project["expected_score"]
+                rollup[primary_track]["realized_sum"] += project["realized_score"]
+                rollup[primary_track]["primary_projects"].append({
+                    "id": project["id"],
+                    "name": project["name"],
+                    "tier": tier,
+                    "weight": 1.0,  # 암묵적
+                    "expected": project["expected_score"],
+                    "realized": project["realized_score"],
+                })
+
+        # Secondary Track 처리
+        for tc in track_contributes:
+            if not isinstance(tc, dict):
+                continue
+
+            track_id = tc.get("to", "")
+            weight = tc.get("weight", 0)
+
+            if not track_id:
+                continue
+
+            if policy["include_in_rollup"]:
+                rollup[track_id]["expected_sum"] += project["expected_score"] * weight
+                rollup[track_id]["realized_sum"] += project["realized_score"] * weight
+                rollup[track_id]["secondary_projects"].append({
+                    "id": project["id"],
+                    "name": project["name"],
+                    "tier": tier,
+                    "weight": weight,
+                    "expected": project["expected_score"],
+                    "realized": project["realized_score"],
+                })
+
+    # 반올림
+    for track_id in rollup:
+        rollup[track_id]["expected_sum"] = round(rollup[track_id]["expected_sum"], 2)
+        rollup[track_id]["realized_sum"] = round(rollup[track_id]["realized_sum"], 2)
+
+    return dict(rollup)
+
+
 def main(vault_path: str) -> int:
     """메인 함수"""
     vault_root = Path(vault_path).resolve()
@@ -376,10 +468,13 @@ def main(vault_path: str) -> int:
     print("Calculating condition rollup...")
     condition_rollup = calculate_condition_rollup(project_records)
 
+    print("Calculating track rollup...")
+    track_rollup = calculate_track_rollup(project_records)
+
     # 통계
     total_expected = sum(p["expected_score"] for p in project_records)
     total_realized = sum(p["realized_score"] for p in project_records)
-    with_impact = len([p for p in project_records if p.get("contributes")])
+    with_impact = len([p for p in project_records if p.get("condition_contributes")])
 
     # operational 제외 통계
     excluded_count = len([p for p in project_records if p.get("impact_excluded")])
@@ -388,7 +483,7 @@ def main(vault_path: str) -> int:
     impact_data = {
         "model_version": IMPACT_MODEL_VERSION,  # Impact 모델 버전 (점수 변경 추적용)
         "generated": datetime.now().isoformat(),
-        "script_version": "1.1.0",
+        "script_version": "1.2.0",  # v5.1: condition_contributes + track_contributes
 
         # 전체 통계
         "summary": {
@@ -405,6 +500,9 @@ def main(vault_path: str) -> int:
 
         # Condition별 롤업
         "conditions": condition_rollup,
+
+        # Track별 롤업 (v5.1 신규)
+        "tracks": track_rollup,
 
         # 사용된 설정
         "config": {
@@ -429,6 +527,7 @@ def main(vault_path: str) -> int:
     print(f"Total Expected Score: {total_expected:.2f}")
     print(f"Total Realized Score: {total_realized:.2f}")
     print(f"Conditions with rollup: {len(condition_rollup)}")
+    print(f"Tracks with rollup: {len(track_rollup)}")
 
     if project_records:
         print(f"\n=== Top 5 Projects by Expected Score ===")

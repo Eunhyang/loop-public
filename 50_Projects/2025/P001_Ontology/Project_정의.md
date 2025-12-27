@@ -60,10 +60,12 @@ priority_flag: critical
 tier: strategic
 impact_magnitude: high
 confidence: 0.65
-contributes:
+condition_contributes:
   - to: "cond-b"
     weight: 0.7
     description: "Ontology가 Condition B(재현 패턴 10개)의 핵심 기반"
+
+track_contributes: []
 
 expected_impact:
   statement: "이 프로젝트가 성공하면 5개 코어 엔티티로 Loop 데이터 표현이 가능함이 증명된다"

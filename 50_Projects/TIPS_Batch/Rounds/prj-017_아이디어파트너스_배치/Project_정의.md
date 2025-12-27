@@ -23,13 +23,15 @@ hypothesis_text: 배치 프로그램 선정 시 TIPS 추천 및 후속 투자 �
 tier: strategic
 impact_magnitude: high
 confidence: 0.4
-contributes:
+condition_contributes:
 - to: cond-d
   weight: 0.5
   description: 투자 유치 시 런웨이 직접 확보
 - to: cond-e
   weight: 0.2
   description: 배치 멘토링으로 팀 역량 강화
+track_contributes: []
+
 expected_impact:
   statement: 아이디어파트너스 배치 선정 시 TIPS 추천 확보 가능
   metric: 배치 프로그램 선정

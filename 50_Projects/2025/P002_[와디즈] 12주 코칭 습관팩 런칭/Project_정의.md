@@ -23,13 +23,15 @@ hypothesis_text: 12주 습관 코칭 패키지가 와디즈 크라우드펀딩�
 tier: tactical
 impact_magnitude: high
 confidence: 0.55
-contributes:
+condition_contributes:
 - to: cond-d
   weight: 0.6
   description: 펀딩 성공 시 런웨이 확보 + 시장 검증
 - to: cond-b
   weight: 0.3
   description: 코칭 데이터 수집 기반 마련
+track_contributes: []
+
 expected_impact:
   statement: 이 프로젝트가 성공하면 12주 코칭 습관팩에 대한 시장 수요가 존재하고 와디즈 채널이 유효함이 증명된다
   metric: 펀딩 달성률 + 서포터 수

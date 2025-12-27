@@ -20,13 +20,15 @@ hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: tactical
 impact_magnitude: mid
 confidence: 0.5
-contributes:
+condition_contributes:
 - to: cond-b
   weight: 0.2
   description: 파일럿 참여자 데이터 수집
 - to: cond-d
   weight: 0.1
   description: 소규모 매출 기여 가능
+track_contributes: []
+
 expected_impact:
   statement: 이 프로젝트가 성공하면 코칭 파일럿의 시장 적합성이 증명된다
   metric: 파일럿 참여자 만족도

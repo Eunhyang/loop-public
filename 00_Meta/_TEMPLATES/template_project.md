@@ -24,13 +24,31 @@ experiments: []
 
 # === Expected Impact (A) ===
 # null = 아직 미정 | "none" = 계산 불필요 (operational task)
+tier: {{IMPACT_TIER}}              # strategic | enabling | operational | null | "none"
+impact_magnitude: {{IMPACT_MAG}}   # high | mid | low | null
+confidence: {{CONFIDENCE}}         # 0.0-1.0 | null
+
+# === Condition 기여 (필수) ===
+# weight 합계 ≤ 1.0
+condition_contributes:
+  - to: "{{COND_ID}}"
+    weight: {{WEIGHT}}
+    description: "{{COND_DESCRIPTION}}"
+
+# === Secondary Track 기여 (선택) ===
+# Primary Track = parent_id (암묵적 weight 1.0)
+# 다른 Track에도 기여할 경우 여기에 추가
+track_contributes: []
+# 예시:
+#   - to: "trk-3"
+#     weight: 0.3
+#     description: "Product Track에 코칭 데이터 제공"
+
+# === Expected Impact Statement ===
 expected_impact:
-  tier: {{IMPACT_TIER}}           # strategic | enabling | operational | null | "none"
-  impact_magnitude: {{IMPACT_MAG}}  # high | mid | low | null
-  confidence: {{CONFIDENCE}}        # 0.0-1.0 | null
-  contributes:                      # 기여하는 Condition 목록
-    - condition_id: "{{COND_ID}}"
-      weight: {{WEIGHT}}
+  statement: "{{IMPACT_STATEMENT}}"  # "이 프로젝트가 성공하면 X가 증명된다"
+  metric: "{{IMPACT_METRIC}}"
+  target: "{{IMPACT_TARGET}}"
 
 # === Realized Impact (B) ===
 # 프로젝트 종료 시 작성 (본문 Rollup 섹션과 동기화)

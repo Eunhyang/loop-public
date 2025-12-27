@@ -24,13 +24,15 @@ hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: enabling
 impact_magnitude: high
 confidence: 0.55
-contributes:
+condition_contributes:
   - to: "cond-b"
     weight: 0.3
     description: "코치 = 라벨링 인력 = 패턴 발견 엔진"
   - to: "cond-d"
     weight: 0.2
     description: "코칭 참여자 증가 → 매출 → 런웨이"
+
+track_contributes: []
 
 expected_impact:
   statement: "이 프로젝트가 성공하면 코칭 서비스 Scale이 가능함이 증명된다"
@@ -45,7 +47,6 @@ conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: medium
 ---
-
 # 코치 1명 구인 & 1차 온보딩 준비
 
 > Project ID: `prj-006` | Track: `trk-2` | Status: active

@@ -1,0 +1,345 @@
+{
+  "name": "LOOP Project Impact Auto-filler",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/projects",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-all-projects",
+      "name": "Get All Projects",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// LOOP Project Impact Filter v1\n// - expected_impact 없는 프로젝트 필터링\n// - done 상태 + realized_impact 없는 프로젝트 필터링\n\nconst projects = $input.all().map(item => item.json.projects || []).flat();\nconst results = [];\n\nfor (const project of projects) {\n  // Skip if no entity_id\n  if (!project.entity_id) continue;\n\n  // A: expected_impact 없는 프로젝트\n  const expectedImpact = project.expected_impact;\n  const needsExpected = !expectedImpact || \n                        !expectedImpact.tier || \n                        expectedImpact.tier === null ||\n                        expectedImpact.tier === 'none';\n  \n  // B: done 상태 + realized_impact 없는 프로젝트\n  const realizedImpact = project.realized_impact;\n  const isDone = project.status === 'done';\n  const needsRealized = isDone && \n                        (!realizedImpact || \n                         realizedImpact.normalized_delta === undefined ||\n                         realizedImpact.normalized_delta === null);\n  \n  // expected_impact 필요한 경우\n  if (needsExpected) {\n    results.push({\n      entity_id: project.entity_id,\n      entity_name: project.entity_name,\n      entity_type: 'Project',\n      impact_type: 'expected',\n      original_project: project\n    });\n  }\n  \n  // realized_impact 필요한 경우\n  if (needsRealized) {\n    results.push({\n      entity_id: project.entity_id,\n      entity_name: project.entity_name,\n      entity_type: 'Project',\n      impact_type: 'realized',\n      original_project: project\n    });\n  }\n}\n\n// 결과가 없으면 빈 배열 반환 (워크플로우 종료)\nif (results.length === 0) {\n  return [];\n}\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "id": "filter-projects",
+      "name": "Filter Projects",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.impact_type }}",
+              "value2": "expected",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "is-expected-type",
+      "name": "Is Expected?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "You are a LOOP Vault strategy expert. Analyze the following Project and suggest Expected Impact values.\n\nProject:\n```json\n{{ JSON.stringify($json.original_project, null, 2) }}\n```\n\nFor Expected Impact, determine:\n1. tier: strategic (비전 직접 기여, 신규 시장/핵심 제품) | enabling (전략 가속, 인프라/채용) | operational (운영 유지)\n2. impact_magnitude: high (핵심 지표 직접 영향) | mid (중간 영향) | low (간접/작은 영향)\n3. confidence: 0.0-1.0 (실행 가능성, 리스크 고려)\n4. contributes: which 3Y conditions this project contributes to\n\n3Y Conditions reference:\n- cond-a: PMF - 제품-시장 적합성 검증\n- cond-b: Revenue - 수익 모델 검증\n- cond-c: Scale - 확장성 검증\n- cond-d: Team - 팀 역량 확보\n- cond-e: Tech - 기술/인프라 구축\n\nConsider:\n- Project의 parent_id (어떤 Track에 속하는지)\n- Project의 conditions_3y (이미 연결된 조건)\n- Project의 hypothesis_text (검증하려는 가설)\n\nRespond with ONLY valid JSON (no markdown code blocks):\n{\n  \"suggested_fields\": {\n    \"expected_impact\": {\n      \"tier\": \"strategic|enabling|operational\",\n      \"impact_magnitude\": \"high|mid|low\",\n      \"confidence\": 0.0,\n      \"contributes\": [{\"to\": \"cond-x\", \"weight\": 0.0, \"description\": \"기여 설명\"}]\n    }\n  },\n  \"reasoning\": {\n    \"tier\": \"tier 판단 근거 (한국어)\",\n    \"impact_magnitude\": \"magnitude 판단 근거 (한국어)\",\n    \"confidence\": \"confidence 판단 근거 (한국어)\"\n  }\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "llm-expected-impact",
+      "name": "LLM Expected Impact",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [1050, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "You are a LOOP Vault retrospective expert. Analyze the following completed Project and suggest Realized Impact values.\n\nProject:\n```json\n{{ JSON.stringify($json.original_project, null, 2) }}\n```\n\nFor Realized Impact, determine:\n1. normalized_delta: 0.0-1.0 (목표 대비 달성률, 0.21 = 21% 달성)\n2. evidence_strength: strong (정량 데이터 명확) | medium (일부 정량) | weak (정성적)\n3. attribution_share: 0.0-1.0 (이 프로젝트의 직접 기여도, 외부 요인 제외)\n4. learning_value: high (전략 변경 근거) | medium (개선점 발견) | low (학습 없음)\n5. realized_status: 판정 결과\n\nStatus criteria:\n- succeeded: normalized_delta >= 0.8 (목표 80% 이상 달성)\n- failed_but_high_signal: delta < 0.5 AND learning_value = high (실패했지만 학습 가치 높음)\n- failed_low_signal: delta < 0.5 AND learning_value = low (실패, 학습도 없음)\n- inconclusive: attribution_share < 0.3 (기여도 불명확, 판단 불가)\n\nConsider:\n- Project status가 'done'인 이유\n- 프로젝트 목표와 실제 결과\n- 회고나 결과 문서가 있는지\n\nRespond with ONLY valid JSON (no markdown code blocks):\n{\n  \"suggested_fields\": {\n    \"realized_impact\": {\n      \"normalized_delta\": 0.0,\n      \"evidence_strength\": \"strong|medium|weak\",\n      \"attribution_share\": 0.0,\n      \"learning_value\": \"high|medium|low\",\n      \"realized_status\": \"succeeded|failed_but_high_signal|failed_low_signal|inconclusive\"\n    }\n  },\n  \"reasoning\": {\n    \"normalized_delta\": \"달성률 판단 근거 (한국어)\",\n    \"realized_status\": \"status 판정 근거 (한국어)\"\n  }\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "llm-realized-impact",
+      "name": "LLM Realized Impact",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [1050, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Expected Impact\nconst input = $input.first().json;\nconst filterData = $('Filter Projects').first().json;\nconst llmResponse = input.message?.content || input.text || input.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  // Extract JSON from response (handle markdown code blocks)\n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: filterData.entity_id,\n    entity_type: 'Project',\n    entity_name: filterData.entity_name,\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-expected-response",
+      "name": "Parse Expected Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Realized Impact\nconst input = $input.first().json;\nconst filterData = $('Filter Projects').first().json;\nconst llmResponse = input.message?.content || input.text || input.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  // Extract JSON from response (handle markdown code blocks)\n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: filterData.entity_id,\n    entity_type: 'Project',\n    entity_name: filterData.entity_name,\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-realized-response",
+      "name": "Parse Realized Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "entity_id",
+              "value": "={{ $json.entity_id }}"
+            },
+            {
+              "name": "entity_type",
+              "value": "={{ $json.entity_type }}"
+            },
+            {
+              "name": "entity_name",
+              "value": "={{ $json.entity_name }}"
+            },
+            {
+              "name": "suggested_fields",
+              "value": "={{ $json.suggested_fields }}"
+            },
+            {
+              "name": "reasoning",
+              "value": "={{ $json.reasoning }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-pending-expected",
+      "name": "Create Pending (Expected)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 200],
+      "notes": "POST expected_impact suggestion to pending queue"
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "entity_id",
+              "value": "={{ $json.entity_id }}"
+            },
+            {
+              "name": "entity_type",
+              "value": "={{ $json.entity_type }}"
+            },
+            {
+              "name": "entity_name",
+              "value": "={{ $json.entity_name }}"
+            },
+            {
+              "name": "suggested_fields",
+              "value": "={{ $json.suggested_fields }}"
+            },
+            {
+              "name": "reasoning",
+              "value": "={{ $json.reasoning }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-pending-realized",
+      "name": "Create Pending (Realized)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 400],
+      "notes": "POST realized_impact suggestion to pending queue"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get All Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Projects": {
+      "main": [
+        [
+          {
+            "node": "Filter Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Projects": {
+      "main": [
+        [
+          {
+            "node": "Is Expected?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Expected?": {
+      "main": [
+        [
+          {
+            "node": "LLM Expected Impact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "LLM Realized Impact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Expected Impact": {
+      "main": [
+        [
+          {
+            "node": "Parse Expected Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Realized Impact": {
+      "main": [
+        [
+          {
+            "node": "Parse Realized Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Expected Response": {
+      "main": [
+        [
+          {
+            "node": "Create Pending (Expected)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Realized Response": {
+      "main": [
+        [
+          {
+            "node": "Create Pending (Realized)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "loop-project-impact-autofill-v1",
+    "created": "2025-12-27",
+    "updated": "2025-12-27",
+    "description": "Auto-suggests Expected Impact (A) and Realized Impact (B) for Projects. Uses LLM to analyze project context and generates pending reviews for Dashboard approval."
+  }
+}

@@ -54,8 +54,7 @@ docker compose down                                     # Stop all services
 ### Key Entry Points
 | Purpose | Location |
 |---------|----------|
-| **Schema definitions** | `00_Meta/schema_registry.md` |
-| **Constants (SSOT)** | `00_Meta/schema_constants.yaml` |
+| **Schema (SSOT)** | `00_Meta/schema_constants.yaml` |
 | Navigation hub | `_HOME.md` |
 | Entity graph | `_Graph_Index.md` (auto-generated) |
 | Templates | `00_Meta/_TEMPLATES/` |
@@ -147,7 +146,6 @@ All status, priority, type values defined in `00_Meta/schema_constants.yaml`. Ch
 | `scripts/validate_schema.py` | YAML 직접 로드 |
 | `scripts/build_graph_index.py` | YAML 직접 로드 |
 | `_dashboard/js/state.js` | API `/api/constants` 호출 |
-| `00_Meta/schema_registry.md` | "→ schema_constants.yaml 참조" 명시 |
 
 ### 금지 예시
 ```python
@@ -343,4 +341,4 @@ API cache reload → Dashboard update
 
 ---
 
-**Last updated**: 2025-12-27 | **Version**: 7.3
+**Last updated**: 2025-12-27 | **Version**: 7.4

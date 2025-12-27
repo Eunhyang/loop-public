@@ -1,5 +1,28 @@
 {
-  "reviews": [],
+  "reviews": [
+    {
+      "id": "review-20251227165913-p5kp",
+      "entity_id": "tsk-011-01",
+      "entity_type": "Task",
+      "entity_name": "리크루팅 사이트) 원택님 피드백 반영",
+      "suggested_fields": {
+        "conditions_3y": [
+          "cond-a",
+          "cond-b",
+          "cond-c"
+        ],
+        "assignee": "소상민",
+        "due": "2026-01-10"
+      },
+      "reasoning": {
+        "conditions_3y": "Task의 성격상 제품-시장 적합성 검증, 수익모델 점검, 향후 확장성 판단과 직접적으로 연결되는 경우가 일반적이어서 핵심 3개 조건으로 제안합니다.",
+        "assignee": "실행/분석 중심의 Task는 담당자 1명 지정이 필요하며, 기본적으로 운영·실행 드라이브 역할에 적합한 담당자로 소상민을 제안합니다.",
+        "due": "일반적인 리서치/정리/검증 범위의 Task를 기준으로 약 2주 내 완료 가능한 일정으로 합리적인 마감일을 제안합니다."
+      },
+      "created_at": "2025-12-27T17:18:42.921104",
+      "status": "pending"
+    }
+  ],
   "metadata": {
     "version": "1.0.0",
     "created": "2025-12-27",

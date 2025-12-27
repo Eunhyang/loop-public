@@ -4,6 +4,112 @@
  */
 
 // ============================================
+// URL Router - Deep Link Support
+// ============================================
+const Router = {
+    /**
+     * 현재 URL hash 파싱
+     * @returns {Object|null} { type: 'task'|'project', id: 'tsk-001-01' }
+     */
+    parseHash() {
+        const hash = window.location.hash;
+        if (!hash || hash === '#') return null;
+
+        // Format: #/task/tsk-001-01 or #/project/prj-001
+        const match = hash.match(/^#\/(task|project)\/(.+)$/);
+        if (match) {
+            return { type: match[1], id: decodeURIComponent(match[2]) };
+        }
+        return null;
+    },
+
+    /**
+     * URL hash 설정
+     * @param {string} type - 'task' | 'project'
+     * @param {string} id - entity ID
+     */
+    setHash(type, id) {
+        if (!type || !id) {
+            window.history.replaceState(null, '', window.location.pathname);
+            return;
+        }
+        const newHash = `#/${type}/${encodeURIComponent(id)}`;
+        window.history.replaceState(null, '', newHash);
+    },
+
+    /**
+     * URL hash 클리어
+     */
+    clearHash() {
+        window.history.replaceState(null, '', window.location.pathname);
+    },
+
+    /**
+     * 현재 페이지 URL 생성 (복사용)
+     * @param {string} type - 'task' | 'project'
+     * @param {string} id - entity ID
+     * @returns {string} full URL
+     */
+    getShareableUrl(type, id) {
+        const base = window.location.origin + window.location.pathname;
+        return `${base}#/${type}/${encodeURIComponent(id)}`;
+    },
+
+    /**
+     * URL을 클립보드에 복사
+     * @param {string} type - 'task' | 'project'
+     * @param {string} id - entity ID
+     */
+    copyShareableUrl(type, id) {
+        const url = this.getShareableUrl(type, id);
+        navigator.clipboard.writeText(url).then(() => {
+            showToast(`Link copied!`, 'success');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            showToast('Copy failed', 'error');
+        });
+    },
+
+    /**
+     * 초기 라우팅 처리 (페이지 로드 시)
+     */
+    async handleInitialRoute() {
+        const route = this.parseHash();
+        if (!route) return;
+
+        // 약간의 지연 후 패널 열기 (데이터 로드 완료 대기)
+        setTimeout(() => {
+            if (route.type === 'task') {
+                TaskPanel.open(route.id);
+            } else if (route.type === 'project') {
+                ProjectPanel.open(route.id);
+            }
+        }, 100);
+    },
+
+    /**
+     * hashchange 이벤트 핸들러
+     */
+    onHashChange() {
+        const route = this.parseHash();
+        if (!route) return;
+
+        if (route.type === 'task') {
+            TaskPanel.open(route.id);
+        } else if (route.type === 'project') {
+            ProjectPanel.open(route.id);
+        }
+    },
+
+    /**
+     * 라우터 초기화
+     */
+    init() {
+        window.addEventListener('hashchange', () => this.onHashChange());
+    }
+};
+
+// ============================================
 // Toast Notifications
 // ============================================
 function showToast(message, type = 'info') {
@@ -70,8 +176,14 @@ async function init() {
         // Setup event listeners
         setupEventListeners();
 
+        // Initialize Router
+        Router.init();
+
         // Display user info
         displayUserInfo();
+
+        // Handle initial route (deep link)
+        Router.handleInitialRoute();
 
     } catch (err) {
         console.error('Init error:', err);

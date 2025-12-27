@@ -22,10 +22,12 @@ hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: enabling
 impact_magnitude: mid
 confidence: 0.75
-contributes:
+condition_contributes:
 - to: cond-b
   weight: 0.2
   description: 데이터 역량이 cond-b 달성 가속 (간접)
+track_contributes: []
+
 expected_impact:
   statement: 이 프로젝트가 성공하면 LoopOS 데이터 파이프라인 구축 역량이 확보됨이 증명된다
   metric: 학습 완료율

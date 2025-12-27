@@ -9,6 +9,16 @@ const TaskPanel = {
     editableLinks: [], // 편집 중인 링크 목록 (Save 시 저장)
 
     /**
+     * Obsidian URI 생성
+     * @param {string} vaultPath - Vault 상대 경로
+     * @returns {string} Obsidian URI
+     */
+    getObsidianUri(vaultPath) {
+        if (!vaultPath) return '';
+        return 'obsidian://open?vault=LOOP&file=' + encodeURIComponent(vaultPath);
+    },
+
+    /**
      * 패널 초기화 - Select 옵션 채우기
      */
     init() {
@@ -94,6 +104,13 @@ const TaskPanel = {
             idEl.title = 'Click to copy ID';
             idEl.addEventListener('click', () => this.copyId(idEl.textContent));
         }
+
+        // 링크 복사 버튼
+        document.getElementById('panelTaskCopyLink')?.addEventListener('click', () => {
+            if (this.currentTask) {
+                Router.copyShareableUrl('task', this.currentTask.entity_id);
+            }
+        });
     },
 
     /**
@@ -236,6 +253,12 @@ const TaskPanel = {
         document.getElementById('panelTaskDue').value = today;
         document.getElementById('panelTaskNotes').value = '';
 
+        // Obsidian 링크 숨기기 (새 Task는 파일 없음)
+        document.getElementById('taskPanelObsidian').style.display = 'none';
+
+        // 링크 복사 버튼 숨기기 (새 Task는 ID 없음)
+        document.getElementById('panelTaskCopyLink').style.display = 'none';
+
         // 현재 필터된 프로젝트 선택 (단일 선택인 경우에만)
         if (State.currentProjects.length === 1) {
             document.getElementById('panelTaskProject').value = State.currentProjects[0];
@@ -291,10 +314,26 @@ const TaskPanel = {
         document.getElementById('panelTaskStartDate').value = cachedTask.start_date || cachedTask.due || '';
         document.getElementById('panelTaskDue').value = cachedTask.due || '';
 
+        // Obsidian 링크 설정
+        const obsidianLinkEl = document.getElementById('taskPanelObsidian');
+        const obsidianUri = this.getObsidianUri(cachedTask._path);
+        if (obsidianUri) {
+            obsidianLinkEl.href = obsidianUri;
+            obsidianLinkEl.style.display = 'inline-flex';
+        } else {
+            obsidianLinkEl.style.display = 'none';
+        }
+
+        // 링크 복사 버튼 표시
+        document.getElementById('panelTaskCopyLink').style.display = 'inline-flex';
+
         // 패널 먼저 표시 (로딩 중)
         document.getElementById('panelTaskNotes').value = 'Loading...';
         this.resetNotesView();
         this.updateNotesPreview('Loading...');
+
+        // URL hash를 위해 먼저 캐시된 task를 currentTask로 설정
+        this.currentTask = cachedTask;
         this.show();
 
         // API에서 본문 포함한 상세 정보 로드
@@ -779,6 +818,11 @@ const TaskPanel = {
         document.getElementById('taskPanel').classList.add('active');
         document.getElementById('taskPanelOverlay').classList.add('active');
         document.getElementById('panelTaskName').focus();
+
+        // URL hash 업데이트
+        if (this.currentTask) {
+            Router.setHash('task', this.currentTask.entity_id);
+        }
     },
 
     /**
@@ -797,6 +841,9 @@ const TaskPanel = {
         const btn = document.getElementById('taskPanelExpand');
         btn.textContent = '⛶';
         btn.title = 'Expand';
+
+        // URL hash 클리어
+        Router.clearHash();
     },
 
     /**

@@ -1,12 +1,12 @@
 {
   "model_version": "IM-2025-01",
-  "generated": "2025-12-25T03:04:02.403608",
-  "script_version": "1.1.0",
+  "generated": "2025-12-27T16:48:05.462425",
+  "script_version": "1.2.0",
   "summary": {
-    "total_projects": 16,
+    "total_projects": 23,
     "projects_with_impact": 10,
-    "projects_excluded": 2,
-    "total_expected": 36.95,
+    "projects_excluded": 1,
+    "total_expected": 55.65,
     "total_realized": 0.0,
     "total_evidence": 0
   },
@@ -18,33 +18,34 @@
       "tier": "strategic",
       "impact_magnitude": "high",
       "confidence": 0.65,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.7,
           "description": "Ontology가 Condition B(재현 패턴 10개)의 핵심 기반"
         }
       ],
+      "primary_track": "trk-2",
+      "track_contributes": [],
       "expected_score": 6.5,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "Founder + 온톨로지 팀",
-      "status": "active"
+      "status": "doing"
     },
     {
-      "id": "prj-009",
-      "name": "[투자/TIPS준비] 배치 프로그램 지원",
-      "path": "50_Projects/2025/P009_[투자TIPS준비] 배치 프로그램 지원/Project_정의.md",
+      "id": "prj-017",
+      "name": "아이디어파트너스 배치 프로그램 지원",
+      "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Project_정의.md",
       "tier": "strategic",
       "impact_magnitude": "high",
-      "confidence": 0.35,
-      "contributes": [
+      "confidence": 0.4,
+      "condition_contributes": [
         {
           "to": "cond-d",
-          "weight": 0.6,
+          "weight": 0.5,
           "description": "투자 유치 시 런웨이 직접 확보"
         },
         {
@@ -53,14 +54,44 @@
           "description": "배치 멘토링으로 팀 역량 강화"
         }
       ],
+      "primary_track": "trk-6",
+      "track_contributes": [],
+      "expected_score": 4.0,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "김은향",
+      "status": ""
+    },
+    {
+      "id": "prj-018",
+      "name": "프라이머 배치 프로그램 지원",
+      "path": "50_Projects/TIPS_Batch/Rounds/prj-018_프라이머_배치/Project_정의.md",
+      "tier": "strategic",
+      "impact_magnitude": "high",
+      "confidence": 0.35,
+      "condition_contributes": [
+        {
+          "to": "cond-d",
+          "weight": 0.5,
+          "description": "투자 유치 시 런웨이 직접 확보"
+        },
+        {
+          "to": "cond-e",
+          "weight": 0.2,
+          "description": "배치 멘토링으로 팀 역량 강화"
+        }
+      ],
+      "primary_track": "trk-6",
+      "track_contributes": [],
       "expected_score": 3.5,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
-      "status": "active"
+      "status": "todo"
     },
     {
       "id": "prj-003",
@@ -69,21 +100,22 @@
       "tier": "enabling",
       "impact_magnitude": "high",
       "confidence": 0.6,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.5,
           "description": "패턴 저장 스키마 = cond-b 달성의 필수 기반"
         }
       ],
+      "primary_track": "trk-2",
+      "track_contributes": [],
       "expected_score": 3.0,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
-      "status": "active"
+      "status": "doing"
     },
     {
       "id": "prj-006",
@@ -92,7 +124,7 @@
       "tier": "enabling",
       "impact_magnitude": "high",
       "confidence": 0.55,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.3,
@@ -104,23 +136,24 @@
           "description": "코칭 참여자 증가 → 매출 → 런웨이"
         }
       ],
+      "primary_track": "trk-4",
+      "track_contributes": [],
       "expected_score": 2.75,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "미정",
-      "status": "active"
+      "status": "doing"
     },
     {
       "id": "prj-002",
-      "name": "[와디즈] 12주 코칭 습관팩 런칭",
+      "name": "와디즈 - 12주 코칭 습관팩 런칭",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
       "tier": "tactical",
       "impact_magnitude": "high",
       "confidence": 0.55,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-d",
           "weight": 0.6,
@@ -132,37 +165,39 @@
           "description": "코칭 데이터 수집 기반 마련"
         }
       ],
+      "primary_track": "trk-4",
+      "track_contributes": [],
       "expected_score": 2.75,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
-      "status": "active"
+      "status": ""
     },
     {
       "id": "prj-005",
-      "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
+      "name": "LoopOS - 최소 선제 학습",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.75,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.2,
           "description": "데이터 역량이 cond-b 달성 가속 (간접)"
         }
       ],
+      "primary_track": "trk-2",
+      "track_contributes": [],
       "expected_score": 2.25,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
-      "status": "active"
+      "status": ""
     },
     {
       "id": "prj-007",
@@ -171,13 +206,14 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [],
+      "condition_contributes": [],
+      "primary_track": "trk-6",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
       "status": "done"
     },
@@ -188,15 +224,16 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [],
+      "condition_contributes": [],
+      "primary_track": "trk-5",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
-      "status": "active"
+      "status": "doing"
     },
     {
       "id": "prj-004",
@@ -205,15 +242,16 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [],
+      "condition_contributes": [],
+      "primary_track": "trk-2",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "김은향",
-      "status": "active"
+      "status": "doing"
     },
     {
       "id": "prj-014",
@@ -222,7 +260,7 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.15,
@@ -234,14 +272,51 @@
           "description": "팀 역량/프로세스 표준화"
         }
       ],
+      "primary_track": "trk-4",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "한명학",
-      "status": "active"
+      "status": "doing"
+    },
+    {
+      "id": "prj-015",
+      "name": "Hiring - 주니어 개발자 채용",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "trk-6",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "한명학",
+      "status": "doing"
+    },
+    {
+      "id": "prj-016",
+      "name": "법인 전환 설립(주) 루프",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "trk-6",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "한명학",
+      "status": "todo"
     },
     {
       "id": "prj-grants-jemi",
@@ -250,15 +325,34 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [],
+      "condition_contributes": [],
+      "primary_track": "trk-6",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "한명학",
-      "status": "planning"
+      "status": "todo"
+    },
+    {
+      "id": "prj-grants-youth",
+      "name": "청년창업사관학교",
+      "path": "50_Projects/Grants/Rounds/prj-grants-youth/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "pgm-grants",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "한명학",
+      "status": "doing"
     },
     {
       "id": "prj-yt-w33",
@@ -267,13 +361,32 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [],
+      "condition_contributes": [],
+      "primary_track": "trk-3",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
+      "owner": "한명학",
+      "status": "doing"
+    },
+    {
+      "id": "prj-yt-wegovy",
+      "name": "위고비 유튜브 콘텐츠 기획",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "pgm-youtube-weekly",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
       "owner": "한명학",
       "status": "active"
     },
@@ -284,15 +397,70 @@
       "tier": "enabling",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [],
+      "condition_contributes": [],
+      "primary_track": "trk-2",
+      "track_contributes": [],
       "expected_score": 2.1,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
       "owner": "한명학",
-      "status": "active"
+      "status": "doing"
+    },
+    {
+      "id": "prj-dashboard-ux-v1",
+      "name": "대시보드 UX 개선 v1",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "trk-2",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "한명학",
+      "status": ""
+    },
+    {
+      "id": "prj-mcp-dual-vault-rbac",
+      "name": "MCP Dual-Vault RBAC",
+      "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "trk-2",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "김은향",
+      "status": "doing"
+    },
+    {
+      "id": "prj-n8n-entity-autofill",
+      "name": "n8n Entity Auto-filler",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Project_정의.md",
+      "tier": "enabling",
+      "impact_magnitude": "mid",
+      "confidence": 0.7,
+      "condition_contributes": [],
+      "primary_track": "trk-6",
+      "track_contributes": [],
+      "expected_score": 2.1,
+      "realized_score": 0.0,
+      "realized_status": "planned",
+      "impact_excluded": false,
+      "evidence_count": 0,
+      "owner": "김은향",
+      "status": "doing"
     },
     {
       "id": "prj-008",
@@ -301,7 +469,7 @@
       "tier": "tactical",
       "impact_magnitude": "mid",
       "confidence": 0.5,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.2,
@@ -313,51 +481,24 @@
           "description": "소규모 매출 기여 가능"
         }
       ],
+      "primary_track": "trk-4",
+      "track_contributes": [],
       "expected_score": 1.5,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": false,
       "evidence_count": 0,
-      "track": "",
-      "owner": "임단",
-      "status": "active"
-    },
-    {
-      "id": "prj-010",
-      "name": "[펀딩·마케팅] 와디즈 펀딩",
-      "path": "50_Projects/2025/P010_[펀딩·마케팅] 와디즈 펀딩/Project_정의.md",
-      "tier": "operational",
-      "impact_magnitude": "mid",
-      "confidence": 0.65,
-      "contributes": [
-        {
-          "to": "cond-b",
-          "weight": 0.3,
-          "description": "코칭 참여자 데이터 수집"
-        },
-        {
-          "to": "cond-d",
-          "weight": 0.2,
-          "description": "고객 만족 → 재구매/추천 → 매출"
-        }
-      ],
-      "expected_score": 0.0,
-      "realized_score": 0.0,
-      "realized_status": "planned",
-      "impact_excluded": true,
-      "evidence_count": 0,
-      "track": "",
-      "owner": "한명학",
-      "status": "active"
+      "owner": "김은향",
+      "status": ""
     },
     {
       "id": "prj-012",
-      "name": "[CS·운영] 고객관리/대응",
+      "name": "CS·운영 - 고객관리/대응",
       "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
       "tier": "operational",
       "impact_magnitude": "mid",
       "confidence": 0.7,
-      "contributes": [
+      "condition_contributes": [
         {
           "to": "cond-b",
           "weight": 0.1,
@@ -369,14 +510,15 @@
           "description": "고객 만족 → 재등록률 → 매출"
         }
       ],
+      "primary_track": "trk-4",
+      "track_contributes": [],
       "expected_score": 0.0,
       "realized_score": 0.0,
       "realized_status": "planned",
       "impact_excluded": true,
       "evidence_count": 0,
-      "track": "",
       "owner": "한명학",
-      "status": "active"
+      "status": ""
     }
   ],
   "conditions": {
@@ -411,7 +553,7 @@
         },
         {
           "id": "prj-002",
-          "name": "[와디즈] 12주 코칭 습관팩 런칭",
+          "name": "와디즈 - 12주 코칭 습관팩 런칭",
           "tier": "tactical",
           "weight": 0.3,
           "expected": 2.75,
@@ -419,7 +561,7 @@
         },
         {
           "id": "prj-005",
-          "name": "[LoopOS 데이터] LoopOS 최소 선제 학습",
+          "name": "LoopOS - 최소 선제 학습",
           "tier": "enabling",
           "weight": 0.2,
           "expected": 2.25,
@@ -444,14 +586,8 @@
       ],
       "excluded_projects": [
         {
-          "id": "prj-010",
-          "name": "[펀딩·마케팅] 와디즈 펀딩",
-          "tier": "operational",
-          "reason": "operational tier excluded from rollup"
-        },
-        {
           "id": "prj-012",
-          "name": "[CS·운영] 고객관리/대응",
+          "name": "CS·운영 - 고객관리/대응",
           "tier": "operational",
           "reason": "operational tier excluded from rollup"
         }
@@ -459,19 +595,27 @@
       "tier_distribution": {
         "strategic": 1,
         "enabling": 4,
-        "operational": 2
+        "operational": 1
       }
     },
     "cond-d": {
-      "expected_sum": 4.45,
+      "expected_sum": 6.1,
       "realized_sum": 0.0,
-      "project_count": 4,
+      "project_count": 5,
       "projects": [
         {
-          "id": "prj-009",
-          "name": "[투자/TIPS준비] 배치 프로그램 지원",
+          "id": "prj-017",
+          "name": "아이디어파트너스 배치 프로그램 지원",
           "tier": "strategic",
-          "weight": 0.6,
+          "weight": 0.5,
+          "expected": 4.0,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-018",
+          "name": "프라이머 배치 프로그램 지원",
+          "tier": "strategic",
+          "weight": 0.5,
           "expected": 3.5,
           "realized": 0.0
         },
@@ -485,7 +629,7 @@
         },
         {
           "id": "prj-002",
-          "name": "[와디즈] 12주 코칭 습관팩 런칭",
+          "name": "와디즈 - 12주 코칭 습관팩 런칭",
           "tier": "tactical",
           "weight": 0.6,
           "expected": 2.75,
@@ -502,32 +646,34 @@
       ],
       "excluded_projects": [
         {
-          "id": "prj-010",
-          "name": "[펀딩·마케팅] 와디즈 펀딩",
-          "tier": "operational",
-          "reason": "operational tier excluded from rollup"
-        },
-        {
           "id": "prj-012",
-          "name": "[CS·운영] 고객관리/대응",
+          "name": "CS·운영 - 고객관리/대응",
           "tier": "operational",
           "reason": "operational tier excluded from rollup"
         }
       ],
       "tier_distribution": {
-        "strategic": 1,
+        "strategic": 2,
         "enabling": 1,
-        "operational": 2
+        "operational": 1
       }
     },
     "cond-e": {
-      "expected_sum": 1.12,
+      "expected_sum": 1.92,
       "realized_sum": 0.0,
-      "project_count": 2,
+      "project_count": 3,
       "projects": [
         {
-          "id": "prj-009",
-          "name": "[투자/TIPS준비] 배치 프로그램 지원",
+          "id": "prj-017",
+          "name": "아이디어파트너스 배치 프로그램 지원",
+          "tier": "strategic",
+          "weight": 0.2,
+          "expected": 4.0,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-018",
+          "name": "프라이머 배치 프로그램 지원",
           "tier": "strategic",
           "weight": 0.2,
           "expected": 3.5,
@@ -544,7 +690,269 @@
       ],
       "excluded_projects": [],
       "tier_distribution": {
+        "strategic": 2,
+        "enabling": 1,
+        "operational": 0
+      }
+    }
+  },
+  "tracks": {
+    "trk-2": {
+      "expected_sum": 20.15,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-001",
+          "name": "Ontology v0.1",
+          "tier": "strategic",
+          "weight": 1.0,
+          "expected": 6.5,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-003",
+          "name": "LoopOS V0 데이터 설계",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 3.0,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-005",
+          "name": "LoopOS - 최소 선제 학습",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.25,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-004",
+          "name": "(프로젝트 없음)",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-vault-gpt",
+          "name": "ChatGPT Vault MCP 연결",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-dashboard-ux-v1",
+          "name": "대시보드 UX 개선 v1",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-mcp-dual-vault-rbac",
+          "name": "MCP Dual-Vault RBAC",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
         "strategic": 1,
+        "enabling": 6,
+        "operational": 0
+      }
+    },
+    "trk-6": {
+      "expected_sum": 18.0,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-017",
+          "name": "아이디어파트너스 배치 프로그램 지원",
+          "tier": "strategic",
+          "weight": 1.0,
+          "expected": 4.0,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-018",
+          "name": "프라이머 배치 프로그램 지원",
+          "tier": "strategic",
+          "weight": 1.0,
+          "expected": 3.5,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-007",
+          "name": "외부 비서",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-015",
+          "name": "Hiring - 주니어 개발자 채용",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-016",
+          "name": "법인 전환 설립(주) 루프",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-grants-jemi",
+          "name": "JEMI디딤돌 지원사업",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-n8n-entity-autofill",
+          "name": "n8n Entity Auto-filler",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
+        "strategic": 2,
+        "enabling": 5,
+        "operational": 0
+      }
+    },
+    "trk-4": {
+      "expected_sum": 9.1,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-006",
+          "name": "코치 1명 구인 & 1차 온보딩 준비",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.75,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-002",
+          "name": "와디즈 - 12주 코칭 습관팩 런칭",
+          "tier": "tactical",
+          "weight": 1.0,
+          "expected": 2.75,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-014",
+          "name": "코칭 서비스 운영 체계 재구축",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        },
+        {
+          "id": "prj-008",
+          "name": "파일럿 프로젝트 후보",
+          "tier": "tactical",
+          "weight": 1.0,
+          "expected": 1.5,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
+        "strategic": 0,
+        "enabling": 2,
+        "operational": 1
+      }
+    },
+    "trk-5": {
+      "expected_sum": 2.1,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-011",
+          "name": "사이드프로젝트 리크루팅 사이트 제작",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
+        "strategic": 0,
+        "enabling": 1,
+        "operational": 0
+      }
+    },
+    "pgm-grants": {
+      "expected_sum": 2.1,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-grants-youth",
+          "name": "청년창업사관학교",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
+        "strategic": 0,
+        "enabling": 1,
+        "operational": 0
+      }
+    },
+    "trk-3": {
+      "expected_sum": 2.1,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-yt-w33",
+          "name": "YouTube W33",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
+        "strategic": 0,
+        "enabling": 1,
+        "operational": 0
+      }
+    },
+    "pgm-youtube-weekly": {
+      "expected_sum": 2.1,
+      "realized_sum": 0.0,
+      "primary_projects": [
+        {
+          "id": "prj-yt-wegovy",
+          "name": "위고비 유튜브 콘텐츠 기획",
+          "tier": "enabling",
+          "weight": 1.0,
+          "expected": 2.1,
+          "realized": 0.0
+        }
+      ],
+      "secondary_projects": [],
+      "tier_distribution": {
+        "strategic": 0,
         "enabling": 1,
         "operational": 0
       }

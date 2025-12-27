@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-27T06:28:49.914511",
-  "total_entities": 199,
+  "generated": "2025-12-27T17:19:25.098460",
+  "total_entities": 203,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -699,6 +699,14 @@
       "owner": "김은향"
     },
     {
+      "id": "tsk-017-05",
+      "type": "Task",
+      "name": "아이디어파트너스 배치 프로그램 사업계획서 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/아이디어파트너스_배치_프로그램_사업계획서_작성.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "prj-002",
       "type": "Project",
       "name": "와디즈 - 12주 코칭 습관팩 런칭",
@@ -1263,7 +1271,7 @@
       "id": "tsk-014-02",
       "type": "Task",
       "name": "W33 대본작성",
-      "status": "todo",
+      "status": "doing",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1548,7 +1556,7 @@
       "id": "tsk-dashboard-ux-v1-14",
       "type": "Task",
       "name": "Week/Month 필터 담당자 탭 이동",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md",
       "conditions_3y": [
         "cond-e"
@@ -1572,7 +1580,7 @@
       "id": "tsk-dashboard-ux-v1-16",
       "type": "Task",
       "name": "캘린더뷰 Task Type 필터링 UI 구현",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md",
       "conditions_3y": [
         "cond-e"
@@ -1647,6 +1655,42 @@
       "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
       "conditions_3y": [
         "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-03",
+      "type": "Task",
+      "name": "Project Impact Score 자동화 n8n 워크플로우",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-impact-schema-v2",
+      "type": "Project",
+      "name": "Schema - Realized Impact 확장",
+      "status": "active",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Project_정의.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-01",
+      "type": "Task",
+      "name": "Impact - Realized 필드 확장",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Impact - Realized 필드 확장.md",
+      "conditions_3y": [
+        "cond-b"
       ],
       "priority_flag": "high",
       "assignee": "김은향"
@@ -2178,6 +2222,11 @@
       "type": "parent_of"
     },
     {
+      "source": "trk-2",
+      "target": "prj-impact-schema-v2",
+      "type": "parent_of"
+    },
+    {
       "source": "trk-4",
       "target": "hyp-4-02",
       "type": "parent_of"
@@ -2475,6 +2524,11 @@
     {
       "source": "prj-011",
       "target": "tsk-011-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-004",
+      "target": "tsk-017-05",
       "type": "parent_of"
     },
     {
@@ -2810,6 +2864,16 @@
     {
       "source": "prj-n8n-entity-autofill",
       "target": "tsk-n8n-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n-entity-autofill",
+      "target": "tsk-n8n-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-schema-v2-01",
       "type": "parent_of"
     },
     {
@@ -3706,6 +3770,8 @@
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
+      "prj-impact-schema-v2",
+      "tsk-impact-schema-v2-01",
       "trk-2",
       "trk-4"
     ],
@@ -3739,6 +3805,7 @@
       "prj-n8n-entity-autofill",
       "tsk-n8n-01",
       "tsk-n8n-02",
+      "tsk-n8n-03",
       "pgm-tips",
       "prj-017",
       "prj-018",
@@ -3886,6 +3953,7 @@
       "prj-dashboard-ux-v1",
       "prj-mcp-dual-vault-rbac",
       "prj-n8n-entity-autofill",
+      "prj-impact-schema-v2",
       "prj-017",
       "prj-018"
     ],
@@ -3913,6 +3981,7 @@
       "tsk-006-02",
       "tsk-006-03",
       "tsk-011-01",
+      "tsk-017-05",
       "tsk-002-01",
       "tsk-002-05",
       "tsk-002-09",
@@ -3976,6 +4045,8 @@
       "tsk-mcp-rbac-02",
       "tsk-n8n-01",
       "tsk-n8n-02",
+      "tsk-n8n-03",
+      "tsk-impact-schema-v2-01",
       "tsk-017-01",
       "tsk-017-02",
       "tsk-017-03",
@@ -4108,6 +4179,7 @@
       "tsk-001-02",
       "tsk-006-03",
       "tsk-011-01",
+      "tsk-017-05",
       "tsk-002-05",
       "tsk-002-09",
       "tsk-002-08",
@@ -4123,7 +4195,6 @@
       "tsk-016-02",
       "prj-grants-jemi",
       "tsk-grants-youth-01",
-      "tsk-014-02",
       "tsk-014-03",
       "tsk-014-04",
       "tsk-dashboard-ux-v1-01",
@@ -4161,14 +4232,15 @@
       "prj-grants-youth",
       "pgm-youtube-weekly",
       "prj-yt-w33",
+      "tsk-014-02",
       "pgm-vault-system",
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-10",
-      "tsk-dashboard-ux-v1-14",
-      "tsk-dashboard-ux-v1-16",
       "prj-mcp-dual-vault-rbac",
       "prj-n8n-entity-autofill",
       "tsk-n8n-02",
+      "tsk-n8n-03",
+      "tsk-impact-schema-v2-01",
       "pgm-coaching",
       "pgm-tips",
       "trk-2",
@@ -4234,14 +4306,17 @@
       "tsk-dashboard-ux-v1-06",
       "tsk-dashboard-ux-v1-12",
       "tsk-dashboard-ux-v1-13",
+      "tsk-dashboard-ux-v1-14",
       "tsk-dashboard-ux-v1-15",
+      "tsk-dashboard-ux-v1-16",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-n8n-01",
       "retro:2025-annual"
     ],
     "active": [
-      "prj-yt-wegovy"
+      "prj-yt-wegovy",
+      "prj-impact-schema-v2"
     ],
     "planning": [
       "tsk-yt-wegovy-01"

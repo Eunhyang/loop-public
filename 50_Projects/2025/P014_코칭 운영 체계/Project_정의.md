@@ -30,13 +30,15 @@ hypothesis_text: "코칭 운영 프로토콜과 철칙을 수립하면 서비스
 tier: enabling
 impact_magnitude: mid
 confidence: 0.70
-contributes:
+condition_contributes:
   - to: "cond-b"
     weight: 0.15
     description: "코칭 품질 향상 → 데이터 품질 향상 (간접)"
   - to: "cond-e"
     weight: 0.20
     description: "팀 역량/프로세스 표준화"
+
+track_contributes: []
 
 expected_impact:
   statement: "운영 체계가 수립되면 코칭 서비스 품질 일관성과 확장 가능성이 확보된다"
@@ -53,7 +55,6 @@ conditions_3y: ['cond-b', 'cond-e']
 tags: []
 priority_flag: medium
 ---
-
 # 코칭 서비스 운영 체계 재구축
 
 > Project ID: `prj-014` | Track: `trk-4` | Status: active

@@ -7,7 +7,10 @@
 # 참조하는 파일들:
 #   - api/constants.py (Python)
 #   - _dashboard/js/state.js (via API)
-#   - 00_Meta/schema_registry.md (문서)
+#   - CLAUDE.md (문서)
+#
+# 이 파일이 유일한 스키마 정의 소스입니다.
+# schema_registry.md는 이 파일로 통합되어 삭제되었습니다.
 
 # ============================================
 # Task
@@ -103,6 +106,10 @@ entity_types:
   - Task
   - Hypothesis
   - Experiment
+  # loop_exec 전용
+  - Candidate
+  - TaskExecDetail
+  - Retrospective
 
 # ============================================
 # Condition IDs (3Y 전략 조건)
@@ -155,6 +162,39 @@ northstar:
     - fixed        # 고정됨 (변경 불가)
 
 # ============================================
+# Candidate (loop_exec 전용)
+# ============================================
+candidate:
+  status:
+    - screening    # 서류 심사
+    - pilot        # 파일럿 진행
+    - offer        # 오퍼 제안
+    - hired        # 채용 완료
+    - rejected     # 탈락
+  verdict:
+    - filtering_success
+    - hired
+    - offer_declined
+
+# ============================================
+# Retrospective (loop_exec 전용)
+# ============================================
+retrospective:
+  verdict:
+    - filtering_success
+    - hired
+    - failed
+
+# ============================================
+# Experiment
+# ============================================
+experiment:
+  outcome:
+    - positive
+    - negative
+    - inconclusive
+
+# ============================================
 # Paths (검증/인덱싱 대상 경로)
 # ============================================
 paths:
@@ -198,6 +238,8 @@ id_patterns:
   ps: "^ps-[1-9]$"                                     # ps-1 ~ ps-9
   pgm: "^pgm-[a-z][a-z0-9-]*$"                         # pgm-hiring
   retro: "^retro-\\d{3}-\\d{2}$"                       # retro-015-01
+  cand: "^cand-\\d{3}$"                                # cand-001 (loop_exec)
+  res: "^res-\\d{3}-\\d{2}$"                           # res-001-01
   status: "^status-[a-z-]+$"                           # status documents
   concept: "^concept-[a-z-]+$"                         # concept documents
 
@@ -240,6 +282,17 @@ required_fields:
   Experiment:
     - hypothesis_id
     - metrics
+  # loop_exec 전용
+  Candidate:
+    - name
+    - hiring_project
+  TaskExecDetail:
+    - source_task
+    - source_project
+    - source_vault
+  Retrospective:
+    - source_project
+    - verdict
 
 # ============================================
 # Known Fields (freshness check용 - 스키마에 정의된 필드)
@@ -270,33 +323,35 @@ known_fields:
   Condition:
     - unlock
     - if_broken
-    - metrics
+    - metrics          # 구조: [{name, threshold, current, status}]
   Track:
-    - horizon
-    - hypothesis
-    - focus
+    - horizon          # "12month" | "6month" | "3month"
+    - hypothesis       # 핵심 가설 (텍스트)
+    - focus            # [string]
     - owner
-    - objectives
+    - objectives       # 구조: [{metric, target, current, status}]
   Program:
     - program_type
     - owner
-    - principles
-    - process_steps
-    - templates
-    - kpis
-    - exec_rounds_path
+    - principles       # [string]
+    - process_steps    # [string]
+    - templates        # [string]
+    - kpis             # 구조: [{name, description}]
+    - exec_rounds_path # loop_exec 라운드 폴더 경로
   Project:
     - owner
-    - budget
-    - deadline
-    - program_id
-    - cycle
-    - expected_impact
-    - realized_impact
+    - budget           # number | null
+    - deadline         # date | null
+    - program_id       # 소속 프로그램 ID
+    - cycle            # 사이클/라운드 (예: "2026Q1")
+    - expected_impact  # 구조: {statement, metric, target}
+    - realized_impact  # 구조: {verdict, outcome, evidence_links, decided}
     - hypothesis_id
     - experiments
-    - hypothesis_text
-    - links
+    - hypothesis_text  # deprecated → expected_impact.statement
+    - links            # 구조: [{label, url}]
+    - condition_contributes  # 구조: [{to, weight, description}] - Condition 기여
+    - track_contributes      # 구조: [{to, weight, description}] - Secondary Track 기여
   Task:
     - project_id
     - assignee
@@ -305,26 +360,26 @@ known_fields:
     - priority
     - estimated_hours
     - actual_hours
-    - type
-    - target_project
-    - candidate_id
-    - has_exec_details
-    - closed
-    - archived_at
-    - closed_inferred
+    - type             # dev | strategy | research | ops
+    - target_project   # sosi | kkokkkok | loop-api | loop
+    - candidate_id     # loop_exec 연결
+    - has_exec_details # boolean
+    - closed           # 완료일
+    - archived_at      # 아카이브 이동일
+    - closed_inferred  # updated | git_commit_date | today
     - notes
-    - links
+    - links            # 구조: [{label, url}]
   Hypothesis:
-    - hypothesis_question
-    - success_criteria
-    - failure_criteria
-    - measurement
-    - horizon
+    - hypothesis_question  # 질문 형태 ("?"로 끝나야 함)
+    - success_criteria     # 숫자/기간/표본 포함
+    - failure_criteria     # 피벗/중단 기준
+    - measurement          # 어디서/무엇을/어떻게
+    - horizon              # 검증 목표 연도 (예: "2026")
     - deadline
     - evidence_status
-    - confidence
-    - loop_layer
-    - hypothesis_text
+    - confidence           # 0.0 ~ 1.0
+    - loop_layer           # emotional | eating | habit | reward | autonomic
+    - hypothesis_text      # deprecated → hypothesis_question
   Experiment:
     - hypothesis_id
     - protocol
@@ -332,7 +387,215 @@ known_fields:
     - start_date
     - end_date
     - result_summary
-    - outcome
+    - outcome              # positive | negative | inconclusive
+  # loop_exec 전용
+  Candidate:
+    - name
+    - github
+    - position
+    - hiring_project
+    - pilot_project
+    - related_tasks
+    - retrospective
+    - verdict
+    - verdict_date
+  TaskExecDetail:
+    - source_task
+    - source_project
+    - source_vault         # "LOOP" 고정
+  Retrospective:
+    - source_project
+    - candidate_id
+    - verdict
+    - verdict_date
+    - signals              # [string] 핵심 판별 신호
+    - system_updates       # [string] 시스템 개선 항목
+
+# ============================================
+# Field Structures (중첩 필드 구조 정의)
+# ============================================
+field_structures:
+  # Condition.metrics
+  metrics:
+    fields:
+      - name: string
+      - threshold: string
+      - current: "string | number"
+      - status: string     # on_track | at_risk | failed
+
+  # Track.objectives
+  objectives:
+    fields:
+      - metric: string
+      - target: string
+      - current: "string | number"
+      - status: string
+
+  # Program.kpis
+  kpis:
+    fields:
+      - name: string
+      - description: string
+
+  # Project.expected_impact
+  expected_impact:
+    fields:
+      - statement: string  # "이 프로젝트가 성공하면 X가 증명된다"
+      - metric: string
+      - target: string
+
+  # Project.realized_impact
+  realized_impact:
+    fields:
+      - verdict: string    # pending | go | no-go | pivot
+      - outcome: string    # supported | rejected | inconclusive
+      - evidence_links: "[string]"
+      - decided: date
+
+  # Project/Task.links
+  links:
+    fields:
+      - label: string
+      - url: string        # https:// 또는 http://
+
+  # Project.condition_contributes (Condition 기여 - 필수)
+  condition_contributes:
+    fields:
+      - to: string         # cond-a ~ cond-e
+      - weight: number     # 0.0 ~ 1.0, 합계 ≤ 1.0
+      - description: string
+
+  # Project.track_contributes (Secondary Track 기여 - 선택)
+  # Primary Track = parent_id (암묵적 weight 1.0)
+  # Secondary Track = 이 필드로 추가 기여 명시
+  track_contributes:
+    fields:
+      - to: string         # trk-1 ~ trk-6
+      - weight: number     # 0.0 ~ 1.0, 합계 ≤ 1.0
+      - description: string
+
+# ============================================
+# Validation Rules (검증 규칙)
+# ============================================
+validation_rules:
+  # parent_id 참조 대상
+  parent_references:
+    MetaHypothesis: NorthStar
+    Condition: MetaHypothesis
+    Track: Condition
+    Project: Track
+    Task: Project
+    Hypothesis: Track
+
+  # 조건부 필수 필드
+  conditional_required:
+    Project:
+      - field: realized_impact
+        when: "status in [done, cancelled]"
+    Task:
+      - field: closed
+        when: "status = done"
+      - field: target_project
+        when: "type = dev"
+
+  # 값 형식 규칙
+  format_rules:
+    Hypothesis:
+      hypothesis_question: "must end with '?'"
+    NorthStar:
+      status: "must be 'fixed'"
+    Program:
+      status: "always 'doing' (닫지 않음)"
+
+  # 금지 규칙
+  forbidden:
+    Task:
+      - validates    # Task는 전략 판단에 개입하지 않음
+
+# ============================================
+# File Locations (파일 위치 규칙)
+# ============================================
+file_locations:
+  # 기본 위치
+  NorthStar: "01_North_Star/"
+  MetaHypothesis: "01_North_Star/"
+  Condition: "20_Strategy/3Y_Conditions_{period}/"
+  Track: "20_Strategy/12M_Tracks/{year}/"
+  Program: "50_Projects/{ProgramName}/_PROGRAM.md"
+  Project: "50_Projects/{year}/{folder}/"
+  Task: "50_Projects/.../Tasks/"
+  Hypothesis: "60_Hypotheses/{year}/"
+  Experiment: "70_Experiments/"
+
+  # 파일명 규칙: {entity_id}_{snake_case_name}.md
+  # 예: prj-001_ontology_v0.1.md, hyp-001_loop_modeling.md
+
+# ============================================
+# Cross-Vault (Dual Vault 규칙)
+# ============================================
+cross_vault:
+  # LOOP (Shared) - 이 vault
+  shared:
+    - Program        # 원칙/프로세스
+    - Project        # 공개 정보만
+    - Task           # stub (has_exec_details로 연결)
+
+  # loop_exec (C-Level) - /Volumes/LOOP_CLevel/vault/loop_exec
+  exec_only:
+    - Candidate
+    - TaskExecDetail
+    - Retrospective
+
+  # 연결 필드
+  linking_fields:
+    Task:
+      - candidate_id      # → Candidate
+      - has_exec_details  # boolean
+    TaskExecDetail:
+      - source_task       # → Task
+      - source_vault      # "LOOP"
+
+# ============================================
+# Role Rules (역할 분리 규칙)
+# ============================================
+# "레이어가 부족한 게 아니라 레이어의 책임이 흐려지는 것이 문제다"
+role_rules:
+  Hypothesis:
+    allowed:
+      - 질문 형태 ("?"로 끝남)
+      - 검증 가능한 기준 명시
+      - success/failure criteria
+    forbidden:
+      - 슬로건/선언문 형태
+      - 모호한 목표
+      - 기준 없는 희망사항
+
+  Project:
+    allowed:
+      - Expected Impact 선언 (A)
+      - Realized Impact 기록 (A')
+      - 가설 검증 (validates)
+    forbidden:
+      - Impact 없는 작업 목록
+      - 결과 없는 완료 처리
+    note: "유일한 판정 단위"
+
+  Task:
+    allowed:
+      - 단순 행동 기록
+      - 완료/미완료 상태
+      - 담당자/마감일
+    forbidden:
+      - 전략적 의미 기술
+      - 점수/판정 기록
+      - validates 관계 설정
+
+  # 위험 신호 (이런 증상이 나타나면 역할이 섞인 것)
+  warning_signs:
+    - "Task에 '이 작업이 중요한 이유'를 쓰기 시작"
+    - "Task에 validates 관계 설정"
+    - "Project에 가설/Impact 없이 작업만 나열"
+    - "Hypothesis가 질문이 아니라 슬로건"
 
 # ============================================
 # Entity Order (정렬 순서 - Graph Index용)
@@ -378,3 +641,25 @@ impact:
     - high
     - mid
     - low
+
+# ============================================
+# Migration Rules (마이그레이션 규칙 - 참고용)
+# ============================================
+# Phase 1: Alias 추가
+#   - 기존 파일에 aliases 필드 추가하여 기존 링크 유지
+#   - 예: aliases: [PRJ-001, P3_Ontology_v0.1]
+#
+# Phase 2: 링크 점진적 변환
+#   - 새 문서는 새 ID 형식 사용
+#   - 기존 문서는 점진적 변환
+#
+# Phase 3: Alias 제거
+#   - 3개월 후 aliases 제거 (모든 링크 변환 완료 후)
+
+# ============================================
+# Schema Version
+# ============================================
+schema_version: "5.1"
+last_updated: "2025-12-27"
+# v5.1 변경: contributes → condition_contributes + track_contributes 분리 (Option A)
+# 이전 버전: schema_registry.md v4.1 → 이 파일로 통합

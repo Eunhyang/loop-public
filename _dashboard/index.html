@@ -444,7 +444,10 @@
             <div class="panel-columns">
                 <!-- Left Column: Basic Info + Relations -->
                 <div class="panel-column-left">
-                    <div class="panel-field-id" id="panelProjectId"></div>
+                    <div class="panel-id-row">
+                        <div class="panel-field-id" id="panelProjectId"></div>
+                        <button class="btn-copy-link" id="panelProjectCopyLink" title="Copy link to clipboard">🔗</button>
+                    </div>
 
                     <!-- Basic Info -->
                     <div class="panel-section">
@@ -567,6 +570,7 @@
         <div class="panel-header">
             <h2 id="taskPanelTitle">Task Detail</h2>
             <div class="panel-header-actions">
+                <a class="panel-obsidian-link" id="taskPanelObsidian" href="#" title="Open in Obsidian" style="display: none;">📝</a>
                 <button class="panel-expand" id="taskPanelExpand" title="Expand">⛶</button>
                 <button class="panel-close" id="taskPanelClose">&times;</button>
             </div>
@@ -575,7 +579,10 @@
             <div class="panel-columns">
                 <!-- Left Column: Basic Info + Relations -->
                 <div class="panel-column-left">
-                    <div class="panel-field-id" id="panelTaskId"></div>
+                    <div class="panel-id-row">
+                        <div class="panel-field-id" id="panelTaskId"></div>
+                        <button class="btn-copy-link" id="panelTaskCopyLink" title="Copy link to clipboard">🔗</button>
+                    </div>
 
                     <!-- Basic Info -->
                     <div class="panel-section">

@@ -31,13 +31,15 @@ hypothesis_text: "프라이머 배치 선정 시 TIPS 추천 및 극초기 투�
 tier: strategic
 impact_magnitude: high
 confidence: 0.35
-contributes:
+condition_contributes:
   - to: "cond-d"
     weight: 0.5
     description: "투자 유치 시 런웨이 직접 확보"
   - to: "cond-e"
     weight: 0.2
     description: "배치 멘토링으로 팀 역량 강화"
+
+track_contributes: []
 
 expected_impact:
   statement: "프라이머 배치 선정 시 극초기 투자 및 TIPS 연계 가능"
@@ -54,7 +56,6 @@ conditions_3y: ['cond-d', 'cond-e']
 tags: ["투자", "배치", "프라이머"]
 priority_flag: high
 ---
-
 # 프라이머 배치 프로그램 지원
 
 > Project ID: `prj-018` | Program: `pgm-tips` | Track: `trk-6` | Status: todo

@@ -10,7 +10,7 @@
 # 이 파일은 Impact A/B 점수 계산에 사용되는 모든 상수를 정의합니다.
 # build_impact.py, API autofill 등에서 참조합니다.
 
-version: "1.0.0"
+version: "1.1.0"  # v5.1: condition_contributes + track_contributes
 
 # ============================================
 # Tier 정의
@@ -180,13 +180,22 @@ learning_value:
       - "코로나 영향으로 결과 해석 불가"
 
 # ============================================
-# Roll-up 설정
+# Roll-up 설정 (v5.1 업데이트)
 # ============================================
 rollup:
-  # Condition 롤업: 연결된 Project들의 가중 합
+  # Condition 롤업: condition_contributes 필드 사용
   condition:
     method: "weighted_sum"
-    formula: "sum(project.expected × project.contributes[cond].weight)"
+    formula: "sum(project.expected × project.condition_contributes[cond].weight)"
+    field: "condition_contributes"
+
+  # Track 롤업 (v5.1 신규)
+  track:
+    method: "weighted_sum"
+    primary_formula: "sum(project.expected × 1.0)"  # parent_id = Primary Track
+    secondary_formula: "sum(project.expected × project.track_contributes[trk].weight)"
+    primary_field: "parent_id"        # 암묵적 weight 1.0
+    secondary_field: "track_contributes"  # 명시적 weight
 
   # NorthStar 롤업: Condition들의 가중 합
   northstar:

@@ -103,6 +103,13 @@ const ProjectPanel = {
             idEl.title = 'Click to copy ID';
             idEl.addEventListener('click', () => this.copyId(idEl.textContent));
         }
+
+        // 링크 복사 버튼
+        document.getElementById('panelProjectCopyLink')?.addEventListener('click', () => {
+            if (this.currentProject) {
+                Router.copyShareableUrl('project', this.currentProject.entity_id);
+            }
+        });
     },
 
     /**
@@ -873,6 +880,11 @@ const ProjectPanel = {
         document.getElementById('projectPanel').classList.add('active');
         document.getElementById('projectPanelOverlay').classList.add('active');
         document.getElementById('panelProjectName').focus();
+
+        // URL hash 업데이트
+        if (this.currentProject) {
+            Router.setHash('project', this.currentProject.entity_id);
+        }
     },
 
     /**
@@ -890,6 +902,9 @@ const ProjectPanel = {
         // Reset expand button
         const btn = document.getElementById('projectPanelExpand');
         btn.title = 'Expand';
+
+        // URL hash 클리어
+        Router.clearHash();
     },
 
     /**

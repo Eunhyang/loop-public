@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-008-04
 entity_name: 꼭꼭 앱 Onboarding UI/UX 리뷰
 created: 2025-12-23
-updated: '2025-12-26'
+updated: '2025-12-27'
 status: done
 closed: 2025-12-26
 parent_id: prj-008
@@ -18,8 +18,8 @@ outgoing_relations:
 validates: []
 validated_by: []
 assignee: 김은향
-start_date: '2025-12-25T16:00:00+09:00'
-due: '2025-12-25T16:00:00+09:00'
+start_date: '2025-12-25'
+due: '2025-12-25'
 priority: high
 estimated_hours: null
 actual_hours: null
