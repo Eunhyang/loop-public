@@ -4,18 +4,25 @@ LLM Service
 LLM 호출 추상화 (OpenAI/Claude 공통 인터페이스)
 n8n, API, 스킬에서 동일한 프롬프트로 LLM 호출 가능
 
+LOOP_PHILOSOPHY 8.2:
+- 모든 LLM 호출은 run_log에 기록됨 (재현 가능한 디버깅)
+- run_id로 프롬프트/응답 추적 가능
+
 Usage:
     from api.services.llm_service import LLMService
 
     llm = LLMService()
-    result = await llm.call_llm(prompt, provider="openai")
+    result = await llm.call_llm(prompt, provider="openai", entity_context={"entity_id": "prj-001"})
 """
 
 import os
 import json
 import re
+import time
 from typing import Dict, Any, Optional, List
 from pathlib import Path
+
+from ..utils.run_logger import generate_run_id, create_run_log
 
 # OpenAI 클라이언트
 try:
@@ -62,10 +69,12 @@ class LLMService:
         model: Optional[str] = None,
         temperature: float = 0.3,
         max_tokens: int = 2048,
-        response_format: str = "json"
+        response_format: str = "json",
+        entity_context: Optional[Dict[str, Any]] = None,
+        log_run: bool = True
     ) -> Dict[str, Any]:
         """
-        LLM 호출 및 JSON 파싱
+        LLM 호출 및 JSON 파싱 (with run_log 기록)
 
         Args:
             prompt: 사용자 프롬프트
@@ -75,6 +84,8 @@ class LLMService:
             temperature: 생성 온도
             max_tokens: 최대 토큰 수
             response_format: "json" | "text"
+            entity_context: 관련 엔티티 정보 (run_log용)
+            log_run: run_log 기록 여부 (기본 True)
 
         Returns:
             {
@@ -83,19 +94,24 @@ class LLMService:
                 "raw": str,  # 원본 응답
                 "model": str,  # 사용된 모델
                 "provider": str,
+                "run_id": str,  # run_log ID
                 "error": Optional[str]
             }
         """
+        # 실행 시작 시간
+        start_time = time.time()
+        run_id = generate_run_id() if log_run else None
+
         if provider == "openai":
-            return await self._call_openai(
+            result = await self._call_openai(
                 prompt, system_prompt, model, temperature, max_tokens, response_format
             )
         elif provider == "anthropic":
-            return await self._call_anthropic(
+            result = await self._call_anthropic(
                 prompt, system_prompt, model, temperature, max_tokens, response_format
             )
         else:
-            return {
+            result = {
                 "success": False,
                 "content": None,
                 "raw": "",
@@ -103,6 +119,34 @@ class LLMService:
                 "provider": provider,
                 "error": f"Unknown provider: {provider}"
             }
+
+        # 실행 시간 계산
+        duration_ms = int((time.time() - start_time) * 1000)
+
+        # run_log 기록 (LOOP_PHILOSOPHY 8.2)
+        if log_run and run_id:
+            try:
+                create_run_log(
+                    run_id=run_id,
+                    prompt=prompt,
+                    system_prompt=system_prompt or "",
+                    response={
+                        "success": result["success"],
+                        "content": result["content"],
+                        "error": result.get("error")
+                    },
+                    provider=result["provider"],
+                    model=result["model"],
+                    entity_context=entity_context,
+                    duration_ms=duration_ms
+                )
+                result["run_id"] = run_id
+            except Exception as e:
+                # 로깅 실패해도 LLM 결과는 반환
+                result["run_id"] = None
+                result["log_error"] = str(e)
+
+        return result
 
     async def _call_openai(
         self,

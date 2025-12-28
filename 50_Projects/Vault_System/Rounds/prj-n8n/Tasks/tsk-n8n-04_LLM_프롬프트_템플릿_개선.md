@@ -100,24 +100,114 @@ tsk-n8n-02에서 발견된 이슈:
 
 ### 작업 로그
 
-#### 2025-12-27 21:00 (완료)
-**개요**: n8n Entity Schema Validator 워크플로우 LLM 프롬프트 전달 문제 해결. v2→v3→v4로 3단계 개선 완료. Dashboard 모달 버그도 함께 수정.
+#### 2025-12-27: n8n LLM 프롬프트 템플릿 개선 (v2→v3→v4)
 
-**변경사항**:
-- 개발: `buildLlmPrompt()` 함수 추가 (Validate Schema 노드)
-- 수정: OpenAI sub-node → HTTP Request 노드 교체 (v3)
-- 수정: bodyParameters → specifyBody:json + jsonBody (v4)
-- 수정: Dashboard pending-panel.js 모달 CSS class 수정
+**Overview**
 
-**파일 변경**:
-- `_build/n8n_workflows/entity_schema_validator.json` - v4로 업그레이드
-- `_dashboard/js/components/pending-panel.js` - 모달 class 수정
+n8n Entity Schema Validator 워크플로우에서 LLM 프롬프트에 Task 컨텍스트가 제대로 전달되지 않는 문제를 해결했습니다. v2→v3→v4로 3단계 개선을 거쳐 완성되었으며, 추가로 Dashboard Pending Reviews 모달 표시 버그도 수정했습니다.
 
-**결과**: ✅ 12/12 LLM 응답 성공, Task별 맥락 참조 확인
+**Context**
 
-**다음 단계**:
+배경 문제:
+- tsk-n8n-02에서 n8n 워크플로우 구축 완료 후 LLM 응답 품질 이슈 발견
+- 12개 Task 모두 동일한 패턴의 제안값 반환 (cond-a, 김은향/소상민, 2026-01-10)
+- LLM이 "과업 성격 불명확" 등 generic 응답 반환
+
+근본 원인:
+1. n8n OpenAI sub-node 제한: 표현식 `{{ $json.original_task }}`가 첫 번째 아이템에서만 resolve됨
+2. Dashboard CSS 불일치: 모달 HTML class와 CSS selector 불일치
+3. bodyParameters 직렬화 제한: nested object/array를 제대로 직렬화하지 못함
+
+**Changes Made**
+
+1. n8n 워크플로우 v3 업그레이드 (표현식 문제 해결)
+   - Validate Schema Code 노드에 `buildLlmPrompt()` 함수 추가
+   - 각 Task별로 full prompt 문자열 사전 생성
+   - results에 `llm_prompt` 필드 추가
+   - OpenAI sub-node → HTTP Request 노드로 교체
+
+2. Dashboard Pending Reviews 모달 수정
+   - `_dashboard/js/components/pending-panel.js` line 63
+   - `class="modal"` → `class="pending-review-modal"` 수정
+
+3. n8n 워크플로우 v4 업그레이드 (직렬화 문제 해결)
+   - Create Pending 노드 2개 수정
+   - `bodyParameters` → `specifyBody: "json"` + `jsonBody` 표현식
+   - `Content-Type: application/json` 헤더 명시적 추가
+
+**Code Examples**
+
+HTTP Request 노드 (LLM 호출):
+```json
+{
+  "url": "https://api.openai.com/v1/chat/completions",
+  "method": "POST",
+  "specifyBody": "json",
+  "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}"
+}
+```
+
+buildLlmPrompt 함수:
+```javascript
+function buildLlmPrompt(task, issues) {
+  const taskJson = JSON.stringify(task, null, 2);
+  const issueList = Array.isArray(issues) && issues.length > 0 ? issues.join(', ') : 'none';
+  return `You are a LOOP Vault schema expert...
+Task:
+\`\`\`json
+${taskJson}
+\`\`\`
+The issues detected are: ${issueList}...`;
+}
+```
+
+**File Changes Summary**
+
+| File | Change | Description |
+|------|--------|-------------|
+| `_build/n8n_workflows/entity_schema_validator.json` | 수정 | v4 업그레이드 (HTTP Request, jsonBody) |
+| `_dashboard/js/components/pending-panel.js` | 수정 | 모달 CSS class 수정 |
+
+**Verification Results**
+
+```
+Input: 12 Tasks with various issues (missing_due_date, missing_conditions_3y, missing_assignee)
+Output: 12/12 LLM 응답 성공
+- 각 Task별로 unique llm_prompt 생성 확인
+- LLM 응답이 Task 맥락에 맞는 제안값 포함 확인
+```
+
+예시 LLM 응답:
+```json
+{
+  "suggested_fields": {
+    "due": "2026-01-15",
+    "conditions_3y": ["cond-a", "cond-c", "cond-d"],
+    "assignee": "김은향"
+  },
+  "reasoning": {
+    "due": "작업의 복잡성을 고려할 때, 약 1개월 정도의 시간이 필요할 것으로 예상됩니다.",
+    "conditions_3y": "리크루팅 사이트 프로젝트는 제품-시장 적합성, 확장성, 팀과 관련된 조건이 중요합니다."
+  }
+}
+```
+
+**Technical Decisions**
+
+왜 HTTP Request 노드를 선택했나:
+1. OpenAI sub-node: AI Model Selector로서 batch 처리 시 첫 번째 아이템만 context resolve
+2. HTTP Request 노드: 각 아이템별로 독립적으로 표현식 evaluate
+3. 결과: 12개 Task 모두 고유한 프롬프트로 LLM 호출 성공
+
+왜 specifyBody: "json"을 선택했나:
+1. bodyParameters: form-urlencoded 스타일로 nested 구조 지원 불가
+2. specifyBody: "json" + jsonBody: 전체 body를 JSON 표현식으로 구성
+3. 결과: `conditions_3y: ["cond-a", "cond-b"]` 정상 전달
+
+**Next Steps**
 - n8n에 v4 워크플로우 재import
-- conditions_3y 배열 직렬화 최종 확인
+- 워크플로우 실행하여 conditions_3y 배열 직렬화 확인
+- Dashboard에서 Pending Review 상세 모달 표시 확인
 
 ---
 

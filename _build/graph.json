@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-28T23:22:24.507061",
-  "total_entities": 211,
+  "generated": "2025-12-29T02:07:02.372063",
+  "total_entities": 214,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -693,26 +693,6 @@
       ],
       "priority_flag": "low",
       "assignee": "김은향"
-    },
-    {
-      "id": "prj-004",
-      "type": "Project",
-      "name": "(프로젝트 없음)",
-      "status": "doing",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Project_정의.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "owner": "김은향"
-    },
-    {
-      "id": "tsk-017-05",
-      "type": "Task",
-      "name": "아이디어파트너스 배치 프로그램 사업계획서 작성",
-      "status": "todo",
-      "path": "50_Projects/2025/P004_(프로젝트 없음)/Tasks/아이디어파트너스_배치_프로그램_사업계획서_작성.md",
-      "assignee": "한명학"
     },
     {
       "id": "prj-002",
@@ -1645,6 +1625,18 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-mcp-rbac-03",
+      "type": "Task",
+      "name": "MCP - loop_exec Vault 라우팅 구현",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-03_loop_exec_Vault_라우팅.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-impact-schema-v2",
       "type": "Project",
       "name": "Schema - Realized Impact 확장",
@@ -1661,43 +1653,7 @@
       "type": "Task",
       "name": "Impact - Realized 필드 확장",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Impact - Realized 필드 확장.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-impact-schema-v2-02",
-      "type": "Task",
-      "name": "build_impact.py window 지원 (Phase 2)",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/build_impact.py window 지원.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-impact-schema-v2-03",
-      "type": "Task",
-      "name": "Schema - Hypothesis-Evidence 연결 설계",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Hypothesis-Evidence 연결 설계.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-impact-schema-v2-04",
-      "type": "Task",
-      "name": "Schema - Hypothesis validated_by 필드 마이그레이션",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Hypothesis validated_by 필드 마이그레이션.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md",
       "conditions_3y": [
         "cond-b"
       ],
@@ -1709,9 +1665,68 @@
       "type": "Task",
       "name": "Schema - Derived 필드 롤업 로직 완성",
       "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Derived 필드 롤업 로직 완성.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-02_Derived_롤업_로직.md",
       "conditions_3y": [
         "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-02",
+      "type": "Task",
+      "name": "build_impact.py window 지원 (Phase 2)",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-05_build_impact_window.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-03",
+      "type": "Task",
+      "name": "Schema - Hypothesis-Evidence 연결 설계",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-04_Hypothesis_Evidence_설계.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-04",
+      "type": "Task",
+      "name": "Schema - Hypothesis validated_by 필드 마이그레이션",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-03_validated_by_마이그레이션.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-v2-06",
+      "type": "Task",
+      "name": "Evidence - 품질 메타 표준화 + 승인 로그 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-06_Evidence_품질메타_승인로그.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-v2-07",
+      "type": "Task",
+      "name": "Schema - autofill infer - audit + decision_log + n8n 연동",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-07_autofill_infer_audit_decision_log.md",
+      "conditions_3y": [
+        "cond-e"
       ],
       "priority_flag": "high",
       "assignee": "김은향"
@@ -1765,6 +1780,18 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-05",
+      "type": "Task",
+      "name": "API 비즈니스 로직 통합 - 스킬→API 공통화",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-04",
       "type": "Task",
       "name": "n8n LLM 프롬프트 템플릿 개선",
@@ -1777,15 +1804,15 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-n8n-05",
+      "id": "tsk-n8n-06",
       "type": "Task",
-      "name": "API 비즈니스 로직 통합 - 스킬→API 공통화",
+      "name": "vault-hygiene - API 엔드포인트 개발",
       "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-06_vault-hygiene_API_엔드포인트_개발.md",
       "conditions_3y": [
         "cond-e"
       ],
-      "priority_flag": "high",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -1869,6 +1896,14 @@
         "cond-d"
       ],
       "priority_flag": "critical",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-017-05",
+      "type": "Task",
+      "name": "아이디어파트너스 배치 프로그램 사업계획서 작성",
+      "status": "todo",
+      "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-05_사업계획서_추가작성.md",
       "assignee": "한명학"
     },
     {
@@ -2232,11 +2267,6 @@
     {
       "source": "trk-2",
       "target": "prj-001",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-004",
       "type": "parent_of"
     },
     {
@@ -2625,11 +2655,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-004",
-      "target": "tsk-017-05",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-002",
       "target": "tsk-002-01",
       "type": "parent_of"
@@ -2960,8 +2985,18 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-mcp-dual-vault-rbac",
+      "target": "tsk-mcp-rbac-03",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-impact-schema-v2",
       "target": "tsk-impact-schema-v2-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-schema-v2-05",
       "type": "parent_of"
     },
     {
@@ -2981,7 +3016,12 @@
     },
     {
       "source": "prj-impact-schema-v2",
-      "target": "tsk-impact-schema-v2-05",
+      "target": "tsk-impact-v2-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-v2-07",
       "type": "parent_of"
     },
     {
@@ -3001,12 +3041,17 @@
     },
     {
       "source": "prj-n8n",
+      "target": "tsk-n8n-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
       "target": "tsk-n8n-04",
       "type": "parent_of"
     },
     {
       "source": "prj-n8n",
-      "target": "tsk-n8n-05",
+      "target": "tsk-n8n-06",
       "type": "parent_of"
     },
     {
@@ -3027,6 +3072,11 @@
     {
       "source": "prj-017",
       "target": "tsk-017-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-004",
+      "target": "tsk-017-05",
       "type": "parent_of"
     },
     {
@@ -3191,6 +3241,11 @@
     },
     {
       "source": "tsk-mcp-rbac-02",
+      "target": "tsk-mcp-rbac-01",
+      "type": "depends_on"
+    },
+    {
+      "source": "tsk-mcp-rbac-03",
       "target": "tsk-mcp-rbac-01",
       "type": "depends_on"
     },
@@ -3780,7 +3835,6 @@
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-03",
-      "prj-004",
       "prj-002",
       "tsk-002-01",
       "tsk-002-05",
@@ -3809,12 +3863,13 @@
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
+      "tsk-mcp-rbac-03",
       "prj-impact-schema-v2",
       "tsk-impact-schema-v2-01",
+      "tsk-impact-schema-v2-05",
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-03",
       "tsk-impact-schema-v2-04",
-      "tsk-impact-schema-v2-05",
       "trk-2",
       "trk-4"
     ],
@@ -3845,12 +3900,15 @@
       "tsk-dashboard-ux-v1-14",
       "tsk-dashboard-ux-v1-15",
       "tsk-dashboard-ux-v1-16",
+      "tsk-impact-v2-06",
+      "tsk-impact-v2-07",
       "prj-n8n",
       "tsk-n8n-01",
       "tsk-n8n-02",
       "tsk-n8n-03",
-      "tsk-n8n-04",
       "tsk-n8n-05",
+      "tsk-n8n-04",
+      "tsk-n8n-06",
       "pgm-tips",
       "prj-017",
       "prj-018",
@@ -3983,7 +4041,6 @@
       "prj-001",
       "prj-006",
       "prj-011",
-      "prj-004",
       "prj-002",
       "prj-012",
       "prj-008",
@@ -4027,7 +4084,6 @@
       "tsk-006-03",
       "tsk-006-05",
       "tsk-011-01",
-      "tsk-017-05",
       "tsk-002-01",
       "tsk-002-05",
       "tsk-002-09",
@@ -4090,20 +4146,25 @@
       "tsk-dashboard-ux-v1-16",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
+      "tsk-mcp-rbac-03",
       "tsk-impact-schema-v2-01",
+      "tsk-impact-schema-v2-05",
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-03",
       "tsk-impact-schema-v2-04",
-      "tsk-impact-schema-v2-05",
+      "tsk-impact-v2-06",
+      "tsk-impact-v2-07",
       "tsk-n8n-01",
       "tsk-n8n-02",
       "tsk-n8n-03",
-      "tsk-n8n-04",
       "tsk-n8n-05",
+      "tsk-n8n-04",
+      "tsk-n8n-06",
       "tsk-017-01",
       "tsk-017-02",
       "tsk-017-03",
-      "tsk-017-04"
+      "tsk-017-04",
+      "tsk-017-05"
     ],
     "Program": [
       "pgm-hiring",
@@ -4232,7 +4293,6 @@
       "tsk-001-02",
       "tsk-006-03",
       "tsk-011-01",
-      "tsk-017-05",
       "tsk-002-05",
       "tsk-002-09",
       "tsk-002-08",
@@ -4254,6 +4314,7 @@
       "tsk-017-01",
       "tsk-017-03",
       "tsk-017-04",
+      "tsk-017-05",
       "prj-018",
       "trk-5",
       "cond-c",
@@ -4272,7 +4333,6 @@
       "prj-006",
       "tsk-006-05",
       "prj-011",
-      "prj-004",
       "tsk-002-11",
       "tsk-012-01",
       "tsk-008-01",
@@ -4288,9 +4348,10 @@
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-10",
       "prj-mcp-dual-vault-rbac",
+      "tsk-mcp-rbac-03",
       "tsk-impact-schema-v2-05",
       "tsk-n8n-03",
-      "tsk-n8n-05",
+      "tsk-n8n-06",
       "pgm-coaching",
       "pgm-tips",
       "tsk-017-02",
@@ -4369,8 +4430,11 @@
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-03",
       "tsk-impact-schema-v2-04",
+      "tsk-impact-v2-06",
+      "tsk-impact-v2-07",
       "tsk-n8n-01",
       "tsk-n8n-02",
+      "tsk-n8n-05",
       "tsk-n8n-04",
       "retro:2025-annual"
     ],

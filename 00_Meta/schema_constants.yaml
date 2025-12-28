@@ -446,6 +446,14 @@ known_fields:
     - validated_hypotheses       # [hyp-*] 이 Evidence가 확증한 가설
     - falsified_hypotheses       # [hyp-*] 이 Evidence가 반증한 가설
     - confirmed_insights
+    # === 품질 메타 필드 (v5.3 추가) ===
+    - provenance                 # auto | human | mixed - 데이터 출처
+    - source_refs                # [string] 쿼리 URL/링크/샘플 ID
+    - sample_size                # number | null - 표본 크기
+    - measurement_quality        # low | medium | high - 측정 품질
+    - counterfactual             # none | before_after | controlled - 대조군/비교 유형
+    - confounders                # [string] 외부 변수 목록
+    - query_version              # string - 계산 규칙/버전 (예: "build_impact_v1.2.0")
 
 # ============================================
 # Field Structures (중첩 필드 구조 정의)
@@ -513,6 +521,18 @@ field_structures:
       - weight: number     # 0.0 ~ 1.0, 합계 ≤ 1.0
       - description: string
 
+  # Evidence.quality_meta (품질 메타 - v5.3 추가)
+  evidence_quality_meta:
+    description: "Evidence의 신뢰 구조 - 숫자(B Score)의 품질을 담보"
+    fields:
+      - provenance: string           # auto | human | mixed
+      - source_refs: "[string]"      # 쿼리 URL, 링크, 샘플 ID
+      - sample_size: "number | null"
+      - measurement_quality: string  # low | medium | high
+      - counterfactual: string       # none | before_after | controlled
+      - confounders: "[string]"      # 외부 변수 목록
+      - query_version: string        # 계산 규칙/버전
+
 # ============================================
 # Validation Rules (검증 규칙)
 # ============================================
@@ -555,6 +575,10 @@ validation_rules:
       status: "must be 'fixed'"
     Program:
       status: "always 'doing' (닫지 않음)"
+    Evidence:
+      provenance: "must be one of [auto, human, mixed]"
+      measurement_quality: "must be one of [high, medium, low]"
+      counterfactual: "must be one of [none, before_after, controlled]"
 
   # 금지 규칙
   forbidden:
@@ -708,8 +732,12 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.2"
-last_updated: "2025-12-27"
+schema_version: "5.3"
+last_updated: "2025-12-28"
+# v5.3 변경:
+# - Evidence 품질 메타 필드 7개 추가 (provenance, source_refs, sample_size, measurement_quality, counterfactual, confounders, query_version)
+# - field_structures.evidence_quality_meta 구조 정의
+# - LOOP_PHILOSOPHY 8.1 "Evidence 신뢰 구조" 반영
 # v5.2 변경:
 # - Evidence 엔티티 정식 등록 (entity_types, required_fields, known_fields)
 # - Project.primary_hypothesis_id 필드 추가 (hypothesis_id deprecated)

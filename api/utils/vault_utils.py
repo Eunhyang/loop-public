@@ -31,6 +31,30 @@ def get_vault_dir() -> Path:
     return Path.cwd()
 
 
+def get_exec_vault_dir() -> Path:
+    """환경에 따라 Exec Vault (loop_exec) 경로 반환
+
+    Exec vault는 민감한 C-Level 데이터(runway, cashflow, salary 등)를 담고 있음.
+    role=exec 또는 admin + mcp:exec scope가 있어야 접근 가능.
+    """
+    # 환경변수가 설정되어 있으면 사용
+    if os.environ.get("EXEC_VAULT_DIR"):
+        return Path(os.environ["EXEC_VAULT_DIR"])
+
+    # NAS 경로 (Synology)
+    nas_path = Path("/volume1/LOOP_CLevel/vault/loop_exec")
+    if nas_path.exists():
+        return nas_path
+
+    # MacBook 경로
+    mac_path = Path("/Volumes/LOOP_CLevel/vault/loop_exec")
+    if mac_path.exists():
+        return mac_path
+
+    # 기본값 (현재 디렉토리 기준)
+    return Path.cwd() / "exec_vault"
+
+
 def extract_frontmatter(file_path: Path) -> Optional[Dict[str, Any]]:
     """YAML frontmatter 추출"""
     try:

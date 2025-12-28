@@ -36,7 +36,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, files, search, pending, mcp_composite, autofill, audit
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -154,9 +154,15 @@ class AuthMiddleware:
             if auth_header.startswith("Bearer "):
                 bearer_token = auth_header[7:]
 
-                # 1. 정적 API 토큰 확인
+                # 1. 정적 API 토큰 확인 (admin 권한 부여)
                 if bearer_token == API_TOKEN:
                     log_oauth_access("api", client_ip, success=True, details="static_token")
+                    # RBAC: 정적 토큰은 admin 권한 (exec vault 접근 가능)
+                    scope["state"] = {
+                        "role": "admin",
+                        "scope": "mcp:read mcp:write mcp:exec mcp:admin",
+                        "user_id": "static_token",
+                    }
                     await self.app(scope, receive, send)
                     return
 
@@ -170,6 +176,12 @@ class AuthMiddleware:
                         success=True,
                         details=f"scope={jwt_payload.get('scope')}, role={jwt_payload.get('role')}"
                     )
+                    # RBAC: scope에 role/scope 저장 (files.py 등에서 접근)
+                    scope["state"] = {
+                        "role": jwt_payload.get("role", "member"),
+                        "scope": jwt_payload.get("scope", "mcp:read"),
+                        "user_id": jwt_payload.get("sub"),
+                    }
                     await self.app(scope, receive, send)
                     return
 
@@ -215,12 +227,12 @@ app.include_router(tracks.router)
 app.include_router(hypotheses.router)
 app.include_router(conditions.router)
 app.include_router(strategy.router)
-app.include_router(files.router)
 app.include_router(search.router)
 app.include_router(pending.router)
 app.include_router(mcp_composite.router)
 app.include_router(autofill.router)
 app.include_router(audit.router)
+app.include_router(ai.router)
 
 # OAuth 2.0 Router (Production - RS256 + PKCE + Login)
 app.include_router(oauth_router)
@@ -383,8 +395,6 @@ def openapi_lite():
 
     # GET만 포함할 경로
     keep_paths = [
-        '/api/files/',
-        '/api/files/{file_path}',
         '/api/search/',
         '/api/tasks',
         '/api/tasks/{task_id}',

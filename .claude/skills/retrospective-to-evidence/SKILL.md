@@ -75,8 +75,8 @@ POST /api/autofill/realized-impact
 ### API-First Pattern
 
 ```bash
-# 환경 변수 가드
-API_URL="${LOOP_API_URL:-http://localhost:8081}"
+# 환경 변수 (NAS URL 기본값)
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
 : "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
 
 # Health check (pipefail로 curl 실패 감지)

@@ -90,6 +90,14 @@ def create_task(task: TaskCreate):
     cache = get_cache()
 
     # 1. Validation
+    # 1a. entity_name 형식 검증 (주제 - 내용)
+    if " - " not in task.entity_name:
+        raise HTTPException(
+            status_code=400,
+            detail="entity_name은 '주제 - 내용' 형식이어야 합니다. (예: 'CoachOS - 프로토타입 개발')"
+        )
+
+    # 1b. assignee 검증
     members = load_members(VAULT_DIR)
     if task.assignee not in members:
         raise HTTPException(status_code=400, detail=f"Unknown assignee: {task.assignee}")

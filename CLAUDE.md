@@ -2,8 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Version 8.3** | Last updated: 2025-12-28
-> Schema v5.2 | Impact Model v1.2.0
+> **Version 8.4** | Last updated: 2025-12-29
+> Schema v5.3 | Impact Model v1.3.0
 
 ---
 
@@ -39,8 +39,11 @@ python3 scripts/check_orphans.py .                      # Find orphaned entities
 # API Server (local)
 poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
 
-# Docker (NAS)
+# Docker (NAS) - Note: 8082 → 8081 mapping
 docker compose up -d && docker compose logs -f loop-api
+
+# Required env vars for n8n (create .env file)
+# N8N_USER, N8N_PASSWORD, N8N_ENCRYPTION_KEY
 ```
 
 **Key files**: `00_Meta/schema_constants.yaml` (SSOT), `impact_model_config.yml`, `_Graph_Index.md`
@@ -124,9 +127,15 @@ api/
 └── oauth/               # OAuth 2.0 (RS256 + PKCE)
 ```
 
-**Endpoints**: Local `http://localhost:8081` | Prod `https://mcp.sosilab.synology.me`
-**Auth**: `Authorization: Bearer $LOOP_API_TOKEN` or OAuth JWT
-**Public**: `/`, `/health`, `/docs`, `/api/constants`
+**Endpoints** (IMPORTANT):
+- API: `https://mcp.sosilab.synology.me`
+- n8n: `https://n8n.sosilab.synology.me`
+- Auth via `.envrc`: `LOOP_API_URL`, `LOOP_API_TOKEN`
+- **API 접근**: `api-client` 스킬 사용
+- **서버 배포/관리**: `/mcp-server` 명령어 사용
+
+**Auth**: `Authorization: Bearer $LOOP_API_TOKEN` or OAuth JWT (RS256 + PKCE)
+**Public**: `/`, `/health`, `/docs`, `/api/constants`, OAuth endpoints
 
 **MCP Composite Endpoints** (LLM-optimized, single-call):
 - `/api/mcp/vault-context` - Vault structure + current status (recommended first call)
@@ -137,6 +146,23 @@ api/
 ---
 
 ## Critical Rules
+
+### LOOP API Access (MANDATORY)
+> **모든 LOOP API 호출 시 반드시 Authorization 헤더 포함**
+
+```bash
+# ✅ 올바른 API 호출 (항상 이 패턴 사용)
+curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" \
+  "$LOOP_API_URL/api/tasks"
+
+# ❌ 절대 금지 (401 Unauthorized 발생)
+curl -s https://mcp.sosilab.synology.me/api/tasks
+```
+
+**Public 엔드포인트 (인증 불필요)**: `/`, `/health`, `/docs`, `/api/constants`
+**나머지 모든 `/api/*` 엔드포인트**: `Authorization: Bearer $LOOP_API_TOKEN` 필수
+
+환경변수는 `.envrc`에 정의됨 (direnv 자동 로드)
 
 ### Schema Constants SSOT (MANDATORY)
 > **All constants defined ONLY in `00_Meta/schema_constants.yaml`**
@@ -237,6 +263,14 @@ Uses Claude API to suggest Impact fields. Config in `impact_model_config.yml`:
 - Model: `claude-sonnet-4-20250514`
 - Temperature: 0.3
 - Endpoints: `/api/autofill/expected-impact`, `/api/autofill/realized-impact`
+- Prompts: `api/prompts/expected_impact.py`, `api/prompts/realized_impact.py`
+
+### Evidence Quality Meta (v5.3)
+Required for trustworthy B scores:
+- `provenance`: auto | human | mixed
+- `measurement_quality`: low | medium | high
+- `counterfactual`: none | before_after | controlled
+- Optional: `source_refs`, `sample_size`, `confounders`, `query_version`
 
 ---
 
@@ -247,6 +281,8 @@ Uses Claude API to suggest Impact fields. Config in `impact_model_config.yml`:
 |---------|------|---------|
 | `loop-api` | 8082 → 8081 | FastAPI + MCP server |
 | `n8n` | 5678 | Workflow automation |
+
+**Volume mounts**: LOOP Vault (rw), loop_exec (ro - sensitive data protection)
 
 ### Git on Network Mount
 SMB mount causes git lock errors:
@@ -297,3 +333,12 @@ This vault manages **specifications only**. Real code repositories:
 | `build_archive_catalog.py` | Generate `90_Archive/00_Catalog/catalog.jsonl` |
 | `backfill_conditions_3y.py` | Backfill conditions_3y field from parent hierarchy |
 | `migrate_*.py` | One-time migration scripts (check before running) |
+
+---
+
+## Audit & Decision Logging
+
+Append-only logs for reproducibility and governance:
+- `_build/decision_log.jsonl` - All approval/rejection decisions
+- `_build/audit.log` - Run execution logs with `run_id`
+- Endpoints: `/api/audit/runs`, `/api/audit/decisions`

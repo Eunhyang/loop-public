@@ -61,6 +61,13 @@ async def create_project(project: ProjectCreate):
         autofill_expected_impact=True: LLM으로 Expected Impact 자동 채움
         expected_impact: 수동 Expected Impact 설정
     """
+    # 0. entity_name 형식 검증 (주제 - 내용)
+    if " - " not in project.entity_name:
+        raise HTTPException(
+            status_code=400,
+            detail="entity_name은 '주제 - 내용' 형식이어야 합니다. (예: 'Dashboard - UX 개선')"
+        )
+
     cache = get_cache()
 
     # 1. Project ID 생성 (캐시 기반)

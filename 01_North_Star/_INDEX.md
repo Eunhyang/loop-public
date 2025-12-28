@@ -2,8 +2,8 @@
 entity_type: Index
 entity_id: idx:01_north_star
 entity_name: North Star 인덱스
-created: 2025-12-28
-updated: 2025-12-28
+created: 2025-12-29
+updated: 2025-12-29
 auto_generated: true
 purpose: LLM-optimized index for 01_North_Star
 tags: ["meta", "index", "auto-generated"]
@@ -38,5 +38,5 @@ tags: ["meta", "index", "auto-generated"]
 
 ---
 
-**Auto-generated**: 2025-12-28
+**Auto-generated**: 2025-12-29
 **Script**: scripts/build_graph_index.py

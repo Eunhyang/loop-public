@@ -56,8 +56,8 @@ curl -s --max-time 5 https://mcp.sosilab.synology.me/health
 
 **Task 생성 시:**
 ```bash
-# 환경 변수 확인
-API_URL="${LOOP_API_URL:-http://localhost:8081}"
+# 환경 변수 (NAS URL 기본값)
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
 : "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
 
 # 1. Health check (pipefail로 curl 실패 감지)
@@ -83,7 +83,8 @@ set +o pipefail
 
 **Project 생성 시:**
 ```bash
-# 환경 변수 가드
+# 환경 변수 (NAS URL 기본값)
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
 : "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
 
 curl -fsS -X POST "$API_URL/api/projects" \

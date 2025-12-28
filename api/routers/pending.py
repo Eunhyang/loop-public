@@ -4,6 +4,7 @@ Pending Review API Router
 n8n에서 생성한 pending review 관리 엔드포인트
 - 스키마 불일치 엔티티의 제안값 저장
 - Dashboard에서 승인/거부 처리
+- 승인/거부 시 decision_log.jsonl에 기록 (LOOP_PHILOSOPHY 8.2)
 """
 
 import json
@@ -12,10 +13,11 @@ import yaml
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Dict, Any, List
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException, Query
+from pydantic import BaseModel, Field
 
 from ..utils.vault_utils import get_vault_dir
+from ..services.decision_logger import log_decision
 
 router = APIRouter(prefix="/api/pending", tags=["pending"])
 
@@ -38,8 +40,16 @@ class PendingCreate(BaseModel):
 
 
 class PendingApprove(BaseModel):
-    """승인 시 수정된 값 (optional)"""
+    """승인 시 요청 모델"""
     modified_fields: Optional[Dict[str, Any]] = None
+    reason: Optional[str] = Field(None, description="승인 사유 (선택)")
+    user: str = Field(default="dashboard", description="승인자")
+
+
+class PendingReject(BaseModel):
+    """거부 시 요청 모델"""
+    reason: str = Field(..., description="거부 사유 (필수)")
+    user: str = Field(default="dashboard", description="거부자")
 
 
 # ============================================
@@ -208,10 +218,12 @@ def create_pending_review(pending: PendingCreate):
 @router.post("/{review_id}/approve")
 def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = None):
     """
-    Pending review 승인 → 엔티티 업데이트
+    Pending review 승인 → 엔티티 업데이트 + decision_log 기록
 
     Body (optional):
         modified_fields: 수정된 필드값 (없으면 suggested_fields 그대로 적용)
+        reason: 승인 사유
+        user: 승인자 (기본값: dashboard)
     """
     data = load_pending()
     reviews = data.get("reviews", [])
@@ -232,6 +244,8 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
 
     # 적용할 필드 결정
     fields_to_apply = approve.modified_fields if approve and approve.modified_fields else review["suggested_fields"]
+    user = approve.user if approve else "dashboard"
+    reason = approve.reason if approve else None
 
     # 엔티티 파일 찾기
     entity_file = find_entity_file(review["entity_id"], review["entity_type"])
@@ -243,10 +257,22 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
     if not success:
         raise HTTPException(status_code=500, detail="Failed to update entity file")
 
+    # decision_log에 승인 기록 (LOOP_PHILOSOPHY 8.2)
+    decision_id = log_decision(
+        decision="approve",
+        entity_id=review["entity_id"],
+        entity_type=review["entity_type"],
+        review_id=review_id,
+        user=user,
+        reason=reason,
+        applied_fields=fields_to_apply
+    )
+
     # Review 상태 업데이트
     reviews[review_idx]["status"] = "approved"
     reviews[review_idx]["approved_at"] = datetime.now().isoformat()
     reviews[review_idx]["applied_fields"] = fields_to_apply
+    reviews[review_idx]["decision_id"] = decision_id  # decision_log 연결
 
     data["reviews"] = reviews
     save_pending(data)
@@ -254,20 +280,29 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
     return {
         "message": "Review approved and entity updated",
         "entity_id": review["entity_id"],
-        "applied_fields": fields_to_apply
+        "applied_fields": fields_to_apply,
+        "decision_id": decision_id
     }
 
 
 @router.post("/{review_id}/reject")
-def reject_pending_review(review_id: str):
-    """Pending review 거부"""
+def reject_pending_review(review_id: str, reject: PendingReject):
+    """
+    Pending review 거부 + decision_log 기록
+
+    Body (required):
+        reason: 거부 사유 (필수)
+        user: 거부자 (기본값: dashboard)
+    """
     data = load_pending()
     reviews = data.get("reviews", [])
 
     review_idx = None
+    review = None
     for idx, r in enumerate(reviews):
         if r.get("id") == review_id:
             review_idx = idx
+            review = r
             break
 
     if review_idx is None:
@@ -276,13 +311,31 @@ def reject_pending_review(review_id: str):
     if reviews[review_idx].get("status") != "pending":
         raise HTTPException(status_code=400, detail=f"Review already processed")
 
+    # decision_log에 거부 기록 (LOOP_PHILOSOPHY 8.2)
+    decision_id = log_decision(
+        decision="reject",
+        entity_id=review["entity_id"],
+        entity_type=review["entity_type"],
+        review_id=review_id,
+        user=reject.user,
+        reason=reject.reason  # 거부 시 사유 필수
+    )
+
+    # Review 상태 업데이트
     reviews[review_idx]["status"] = "rejected"
     reviews[review_idx]["rejected_at"] = datetime.now().isoformat()
+    reviews[review_idx]["reject_reason"] = reject.reason
+    reviews[review_idx]["decision_id"] = decision_id  # decision_log 연결
 
     data["reviews"] = reviews
     save_pending(data)
 
-    return {"message": "Review rejected", "review_id": review_id}
+    return {
+        "message": "Review rejected",
+        "review_id": review_id,
+        "reason": reject.reason,
+        "decision_id": decision_id
+    }
 
 
 @router.delete("/{review_id}")
@@ -300,3 +353,7 @@ def delete_pending_review(review_id: str):
     save_pending(data)
 
     return {"message": "Review deleted", "review_id": review_id}
+
+
+# Note: Decision log 조회 엔드포인트는 /api/audit/decisions 에서 제공됨
+# (LOOP_PHILOSOPHY 8.2)

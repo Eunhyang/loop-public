@@ -16,7 +16,7 @@
 # 이 파일은 Impact A/B 점수 계산에 사용되는 모든 상수를 정의합니다.
 # build_impact.py, API autofill 등에서 참조합니다.
 
-version: "1.2.0"  # v5.2: evaluation_windows + metrics_snapshot
+version: "1.3.0"  # v5.3: evidence_quality_meta 추가
 
 # ============================================
 # Tier 정의
@@ -337,3 +337,45 @@ metrics_snapshot:
 
   # 키 개수 상한
   max_keys: 20
+
+# ============================================
+# Evidence Quality Meta (v1.3.0 추가)
+# ============================================
+# LOOP_PHILOSOPHY 8.1: "숫자의 신뢰 구조가 없으면 그럴듯한 점수로 끝난다"
+# 이 섹션은 Evidence의 품질 메타 필드 유효값과 기본값을 정의한다.
+
+evidence_quality_meta:
+  # 데이터 출처 (어디서 생긴 증거인지)
+  provenance:
+    values:
+      - auto      # 자동 수집 (API, 쿼리, 스크립트)
+      - human     # 수기 입력 (회고, 관찰)
+      - mixed     # 자동 + 수기 혼합
+    default: human
+    description: "Evidence가 어떻게 생성되었는지"
+
+  # 측정 품질 (얼마나 정확한 측정인지)
+  measurement_quality:
+    values:
+      - low       # 간접 지표, 추정치, 정성적 평가
+      - medium    # 직접 지표, 일부 노이즈 있음
+      - high      # 정확한 측정, 검증됨, 정량적
+    default: medium
+    description: "측정 방법의 신뢰도"
+
+  # 대조군/비교 유형 (인과 추론 강도)
+  counterfactual:
+    values:
+      - none          # 대조군 없음 (단순 관측)
+      - before_after  # 전후 비교 (시계열)
+      - controlled    # 통제 실험 (A/B 테스트, RCT)
+    default: none
+    description: "인과 추론의 강도 - controlled가 가장 강함"
+
+  # 품질 메타가 B Score에 미치는 영향 (선택적)
+  quality_adjustment:
+    enabled: false  # Phase 1에서는 비활성화 (메타만 기록)
+    # 향후 활성화 시:
+    # - measurement_quality=high: score × 1.1
+    # - counterfactual=controlled: score × 1.2
+    # - provenance=auto: no adjustment (자동 수집이 항상 좋은 건 아님)

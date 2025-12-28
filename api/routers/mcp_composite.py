@@ -18,14 +18,15 @@ Endpoints:
 import re
 import json
 from pathlib import Path
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from datetime import datetime
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 
 from ..cache import get_cache
-from ..utils.vault_utils import get_vault_dir
+from ..utils.vault_utils import get_vault_dir, get_exec_vault_dir
 from ..constants import get_all_constants
+from ..oauth.jwks import verify_jwt
 
 
 router = APIRouter(prefix="/api/mcp", tags=["mcp-composite"])
@@ -110,6 +111,48 @@ class EntityGraphResponse(BaseModel):
     parents: List[Dict[str, Any]]
     children: List[Dict[str, Any]]
     related: List[Dict[str, Any]]
+
+
+# ============================================
+# RBAC Helper
+# ============================================
+
+def get_role_and_scope(request: Request) -> Tuple[str, str]:
+    """request.scope["state"]에서 role/scope 가져오거나 JWT에서 확인"""
+    # 1. ASGI scope["state"] 확인 (AuthMiddleware가 설정)
+    state = request.scope.get("state", {})
+    if isinstance(state, dict):
+        role = state.get("role")
+        scope = state.get("scope")
+        if role and scope:
+            return role, scope
+
+    # 2. Authorization 헤더에서 직접 JWT 확인
+    auth_header = request.headers.get("authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+        payload = verify_jwt(token)
+        if payload:
+            return payload.get("role", "member"), payload.get("scope", "mcp:read")
+
+    # 3. 기본값
+    return "member", "mcp:read"
+
+
+def require_exec_access(request: Request):
+    """exec vault 접근 권한 확인. 없으면 403 발생"""
+    role, scope = get_role_and_scope(request)
+    if role not in ("exec", "admin"):
+        raise HTTPException(
+            status_code=403,
+            detail=f"Access denied: exec vault requires 'exec' or 'admin' role (current: {role})"
+        )
+    if "mcp:exec" not in scope:
+        raise HTTPException(
+            status_code=403,
+            detail="Access denied: exec vault requires 'mcp:exec' scope"
+        )
+    return role, scope
 
 
 # ============================================
