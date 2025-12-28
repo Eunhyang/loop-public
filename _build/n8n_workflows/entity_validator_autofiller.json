@@ -89,7 +89,7 @@
         "conditions": {
           "boolean": [
             {
-              "value1": "={{ $json.needs_llm }}",
+              "value1": "={{ $json.needs_llm === true && !!$json.llm_prompt }}",
               "value2": true
             }
           ]
@@ -121,8 +121,8 @@
         },
         "method": "POST",
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}",
+        "specifyBody": "string",
+        "body": "={{ JSON.stringify({ model: 'gpt-5.2', messages: [{ role: 'user', content: String($json.llm_prompt || '') }], temperature: 0.3 }) }}",
         "options": {}
       },
       "id": "call-openai-tasks",
@@ -209,7 +209,7 @@
         "conditions": {
           "boolean": [
             {
-              "value1": "={{ $json.needs_llm }}",
+              "value1": "={{ $json.needs_llm === true && !!$json.llm_prompt }}",
               "value2": true
             }
           ]
@@ -241,8 +241,8 @@
         },
         "method": "POST",
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}",
+        "specifyBody": "string",
+        "body": "={{ JSON.stringify({ model: 'gpt-5.2', messages: [{ role: 'user', content: String($json.llm_prompt || '') }], temperature: 0.3 }) }}",
         "options": {}
       },
       "id": "call-openai-projects",
@@ -293,13 +293,30 @@
     },
     {
       "parameters": {
-        "jsCode": "// Phase 3: Project Impact Auto-fill\n// Filter projects that need expected_impact OR realized_impact\n// - expected_impact: 없거나 tier가 null인 경우\n// - realized_impact: done/cancelled 상태인데 없는 경우\n\nconst projectsInput = $('Get Projects').first().json;\nconst contextInput = $('Build Strategy Context').first().json;\n\nconst projects = projectsInput.projects || [];\nconst strategyContextText = contextInput.strategyContextText || '';\nconst strategyContext = contextInput.strategyContext || {};\n\nconst results = [];\n\nfunction buildExpectedImpactPrompt(project) {\n  const projectJson = JSON.stringify(project, null, 2);\n  \n  return `You are a LOOP Vault strategy expert. Given the following Project and strategy context, determine its expected strategic impact.\n\n${strategyContextText}\n\n---\n\n## Project to Analyze\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Instructions\n\nAnalyze this project and determine its expected_impact:\n\n### tier (required)\nChoose one:\n- strategic: 전략적 영향 - 핵심 가설 검증, 중요 비즈니스 결정에 영향\n- enabling: 지원 영향 - 전략적 프로젝트를 가능하게 함\n- operational: 운영 영향 - 일상 운영에 필요\n- none: 영향 없음 - 실험적이거나 학습 목적\n\n### impact_magnitude (required if tier != none)\nChoose one:\n- high: 높은 임팩트\n- mid: 중간 임팩트\n- low: 낮은 임팩트\n\n### confidence (required)\nA number between 0.0 and 1.0 representing confidence in the impact assessment.\n\n### contributes (required)\nArray of Condition contributions. Example:\n[\n  { \"to\": \"cond-a\", \"weight\": 0.6, \"description\": \"PMF 검증에 기여\" }\n]\n\nBased on the project name, context, and strategic alignment, provide your assessment.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks):\n{\n  \"suggested_fields\": {\n    \"expected_impact\": {\n      \"tier\": \"...\",\n      \"impact_magnitude\": \"...\",\n      \"confidence\": 0.X,\n      \"contributes\": [...]\n    }\n  },\n  \"reasoning\": {\n    \"tier\": \"...\",\n    \"impact_magnitude\": \"...\",\n    \"confidence\": \"...\",\n    \"contributes\": \"...\"\n  }\n}`;\n}\n\nfunction buildRealizedImpactPrompt(project) {\n  const projectJson = JSON.stringify(project, null, 2);\n  \n  return `You are a LOOP Vault strategy expert. This Project is completed (${project.status}). Analyze its realized impact.\n\n${strategyContextText}\n\n---\n\n## Completed Project\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Instructions\n\nAnalyze this completed project and determine its realized_impact:\n\n### verdict (required)\nChoose one:\n- go: 성공적으로 완료, 다음 단계 진행\n- no-go: 실패 또는 중단 결정\n- pivot: 방향 전환 필요\n- pending: 아직 평가 중\n\n### outcome (required)\nChoose one:\n- supported: 가설이 지지됨\n- rejected: 가설이 반증됨\n- inconclusive: 결론 불가\n\n### evidence_strength (0.0-1.0)\nHow strong is the evidence for this outcome?\n\n### normalized_delta\nChange from expected impact (-1.0 to +1.0):\n- Negative: worse than expected\n- Zero: as expected\n- Positive: better than expected\n\nBased on the project status, expected_impact (if any), and context, provide your assessment.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks):\n{\n  \"suggested_fields\": {\n    \"realized_impact\": {\n      \"verdict\": \"...\",\n      \"outcome\": \"...\",\n      \"evidence_strength\": 0.X,\n      \"normalized_delta\": 0.X,\n      \"decided\": \"YYYY-MM-DD\",\n      \"evidence_links\": []\n    }\n  },\n  \"reasoning\": {\n    \"verdict\": \"...\",\n    \"outcome\": \"...\"\n  }\n}`;\n}\n\nfor (const project of projects) {\n  // Check if expected_impact is missing or incomplete\n  const needsExpectedImpact = !project.expected_impact || \n    !project.expected_impact.tier ||\n    project.expected_impact.tier === null;\n  \n  // Check if realized_impact is needed (done/cancelled projects)\n  const isCompleted = ['done', 'cancelled'].includes(project.status);\n  const needsRealizedImpact = isCompleted && (!project.realized_impact || !project.realized_impact.verdict);\n  \n  if (needsExpectedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'expected_impact',\n        needs_llm: true,\n        llm_prompt: buildExpectedImpactPrompt(project),\n        original_entity: project\n      }\n    });\n  }\n  \n  if (needsRealizedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'realized_impact',\n        needs_llm: true,\n        llm_prompt: buildRealizedImpactPrompt(project),\n        original_entity: project\n      }\n    });\n  }\n}\n\nreturn results;"
+        "jsCode": "// Phase 3: Project Impact Auto-fill (v5.2)\n// Filter projects that need expected_impact OR realized_impact\n// - expected_impact: 없거나 tier가 null인 경우\n// - realized_impact: done/cancelled 상태인데 없는 경우\n// - v3: Schema v5.2 반영 (prj-impact-schema-v2)\n//   - contributes → condition_contributes\n//   - track_contributes, validates, primary_hypothesis_id 추가\n//   - window_id, time_range, metrics_snapshot 추가\n\nconst projectsInput = $('Get Projects').first().json;\nconst contextInput = $('Build Strategy Context').first().json;\n\nconst projects = projectsInput.projects || [];\nconst strategyContextText = contextInput.strategyContextText || '';\nconst strategyContext = contextInput.strategyContext || {};\n\nconst results = [];\n\n// window_id 자동 계산 함수 (v5.2)\nfunction calculateWindowFields(decidedDate) {\n  const date = decidedDate ? new Date(decidedDate) : new Date();\n  const year = date.getFullYear();\n  const month = String(date.getMonth() + 1).padStart(2, '0');\n  const window_id = `${year}-${month}`;\n  const lastDay = new Date(year, date.getMonth() + 1, 0).getDate();\n  const time_range = `${window_id}-01..${window_id}-${String(lastDay).padStart(2, '0')}`;\n  return { window_id, time_range };\n}\n\nfunction buildExpectedImpactPrompt(project) {\n  const projectJson = JSON.stringify(project, null, 2);\n  \n  // Hypothesis 목록 (validates 제안용)\n  const hypothesesList = (strategyContext.hypotheses || []).slice(0, 20).map(h => \n    `- ${h.entity_id}: ${h.entity_name}`\n  ).join('\\n');\n  \n  return `You are a LOOP Vault strategy expert (Schema v5.2). Given the following Project and strategy context, determine its expected strategic impact.\n\n${strategyContextText}\n\n---\n\n## Project to Analyze\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Instructions\n\nAnalyze this project and determine its expected_impact and related fields:\n\n### tier (required) - Project 루트 레벨\nChoose one:\n- strategic: 전략적 영향 - 핵심 가설 검증, 중요 비즈니스 결정에 영향\n- enabling: 지원 영향 - 전략적 프로젝트를 가능하게 함\n- operational: 운영 영향 - 일상 운영에 필요\n- none: 영향 없음 - 실험적이거나 학습 목적\n\n### impact_magnitude (required if tier != none) - Project 루트 레벨\nChoose one:\n- high: 높은 임팩트\n- mid: 중간 임팩트\n- low: 낮은 임팩트\n\n### confidence (required) - Project 루트 레벨\nA number between 0.0 and 1.0 representing confidence in the impact assessment.\n\n### condition_contributes (required) - v5.1 필드명 변경\nArray of Condition contribution weights. Example:\n[\n  { \"to\": \"cond-a\", \"weight\": 0.6, \"description\": \"PMF 검증에 기여\" },\n  { \"to\": \"cond-e\", \"weight\": 0.3, \"description\": \"기술 인프라에 기여\" }\n]\n- Weights should sum to ≤ 1.0\n\n### track_contributes (optional) - v5.1\nIf this project contributes to secondary Tracks (beyond parent_id):\n[\n  { \"to\": \"trk-2\", \"weight\": 0.3, \"description\": \"데이터 파이프라인에 부분 기여\" }\n]\nLeave empty array [] if only primary Track.\n\n### validates (optional) - v5.2\nArray of Hypothesis IDs this project validates:\n${hypothesesList}\nExample: [\"hyp-2-01\", \"hyp-2-03\"]\n\n### primary_hypothesis_id (optional) - v5.2\nThe MAIN hypothesis (must be in validates array, or null).\n\n### expected_impact (required) - nested object\n{\n  \"statement\": \"이 프로젝트가 성공하면 [증명될 가설]이 증명된다\",\n  \"metric\": \"핵심 측정 지표명\",\n  \"target\": \"목표값 또는 정성적 기준\"\n}\n\nBased on the project name, context, and strategic alignment, provide your assessment.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks):\n{\n  \"suggested_fields\": {\n    \"tier\": \"...\",\n    \"impact_magnitude\": \"...\",\n    \"confidence\": 0.X,\n    \"condition_contributes\": [...],\n    \"track_contributes\": [],\n    \"validates\": [...],\n    \"primary_hypothesis_id\": \"...\" or null,\n    \"expected_impact\": {\n      \"statement\": \"...\",\n      \"metric\": \"...\",\n      \"target\": \"...\"\n    }\n  },\n  \"reasoning\": {\n    \"tier\": \"...\",\n    \"condition_contributes\": \"...\",\n    \"validates\": \"...\"\n  }\n}`;\n}\n\nfunction buildRealizedImpactPrompt(project) {\n  const projectJson = JSON.stringify(project, null, 2);\n  const today = new Date().toISOString().split('T')[0];\n  const windowFields = calculateWindowFields(today);\n  \n  return `You are a LOOP Vault strategy expert (Schema v5.2). This Project is completed (${project.status}). Analyze its realized impact.\n\n${strategyContextText}\n\n---\n\n## Completed Project\n\\`\\`\\`json\n${projectJson}\n\\`\\`\\`\n\n## Instructions\n\nAnalyze this completed project and determine its realized_impact (v5.2 구조):\n\n### verdict (required) - 👤 사람 판단 필수이나 LLM 초안 가능\nChoose one:\n- go: 성공적으로 완료, 다음 단계 진행\n- no-go: 실패 또는 중단 결정\n- pivot: 방향 전환 필요\n- pending: 아직 평가 중 (확신 없을 때 이것 선택)\n\n### outcome (required) - 👤 사람 판단 필수이나 LLM 초안 가능\nChoose one:\n- supported: 가설이 지지됨\n- rejected: 가설이 반증됨\n- inconclusive: 결론 불가 (확신 없을 때 이것 선택)\n\n### evidence_links (optional)\nArray of evidence document links. Example: [\"[[ev:2025-0001]]\"]\nLeave empty if no evidence yet.\n\n### decided (required)\nDate of decision in YYYY-MM-DD format. Use today: ${today}\n\n### window_id (auto-calculated) - v5.2\nFormat: YYYY-MM (e.g., \"${windowFields.window_id}\")\nBased on decided date.\n\n### time_range (auto-calculated) - v5.2\nFormat: YYYY-MM-DD..YYYY-MM-DD (e.g., \"${windowFields.time_range}\")\nFull month range based on window_id.\n\n### metrics_snapshot (optional) - v5.2\nObject with key metrics at decision time. Example:\n{\n  \"completion_rate\": 0.85,\n  \"user_count\": 150\n}\nLeave empty {} if no metrics available.\n\n⚠️ NOTE: verdict와 outcome은 사람 판단이 필수입니다. LLM은 초안/템플릿만 제공합니다.\n확신이 없으면 verdict: \"pending\", outcome: \"inconclusive\"를 선택하세요.\n\nRespond with ONLY a valid JSON object (no markdown, no code blocks):\n{\n  \"suggested_fields\": {\n    \"realized_impact\": {\n      \"verdict\": \"...\",\n      \"outcome\": \"...\",\n      \"evidence_links\": [],\n      \"decided\": \"${today}\",\n      \"window_id\": \"${windowFields.window_id}\",\n      \"time_range\": \"${windowFields.time_range}\",\n      \"metrics_snapshot\": {}\n    }\n  },\n  \"reasoning\": {\n    \"verdict\": \"...\",\n    \"outcome\": \"...\"\n  },\n  \"human_required\": [\"verdict\", \"outcome\", \"metrics_snapshot\"]\n}`;\n}\n\nfor (const project of projects) {\n  // Check if expected_impact is missing or incomplete\n  const needsExpectedImpact = !project.expected_impact || \n    !project.expected_impact.tier ||\n    project.expected_impact.tier === null ||\n    project.tier === null;\n  \n  // Check if realized_impact is needed (done/cancelled projects)\n  const isCompleted = ['done', 'cancelled'].includes(project.status);\n  const needsRealizedImpact = isCompleted && (!project.realized_impact || !project.realized_impact.verdict);\n  \n  if (needsExpectedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'expected_impact',\n        needs_llm: true,\n        llm_prompt: buildExpectedImpactPrompt(project),\n        original_entity: project\n      }\n    });\n  }\n  \n  if (needsRealizedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'realized_impact',\n        needs_llm: true,\n        llm_prompt: buildRealizedImpactPrompt(project),\n        original_entity: project\n      }\n    });\n  }\n}\n\nreturn results;"
       },
       "id": "filter-impact-needed",
       "name": "Filter Impact Needed",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [900, 1000]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needs_llm === true && !!$json.llm_prompt }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "impact-need-llm",
+      "name": "Impact Need LLM?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 1000]
     },
     {
       "parameters": {
@@ -321,8 +338,8 @@
         },
         "method": "POST",
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ { \"model\": \"gpt-4o\", \"messages\": [{ \"role\": \"user\", \"content\": $json.llm_prompt }], \"temperature\": 0.3 } }}",
+        "specifyBody": "string",
+        "body": "={{ JSON.stringify({ model: 'gpt-5.2', messages: [{ role: 'user', content: String($json.llm_prompt || '') }], temperature: 0.3 }) }}",
         "options": {}
       },
       "id": "call-openai-impact",
@@ -471,8 +488,16 @@
     "Filter Impact Needed": {
       "main": [
         [
-          { "node": "Call OpenAI (Impact)", "type": "main", "index": 0 }
+          { "node": "Impact Need LLM?", "type": "main", "index": 0 }
         ]
+      ]
+    },
+    "Impact Need LLM?": {
+      "main": [
+        [
+          { "node": "Call OpenAI (Impact)", "type": "main", "index": 0 }
+        ],
+        []
       ]
     },
     "Call OpenAI (Impact)": {
@@ -495,9 +520,10 @@
   },
   "staticData": null,
   "meta": {
-    "templateId": "entity-validator-autofiller-v2",
+    "templateId": "entity-validator-autofiller-v3",
     "created": "2025-12-27",
     "updated": "2025-12-27",
-    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v2: Single API call for strategy context (/api/strategy/context). Combines Task schema validation, Project schema validation (including hypothesis_id, condition_contributes, track_contributes), and Project Impact auto-fill (expected/realized)."
+    "schemaVersion": "5.2",
+    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v3: Schema v5.2 support (prj-impact-schema-v2). Changes: (1) contributes → condition_contributes, (2) hypothesis_id → primary_hypothesis_id, (3) validates array for hypothesis relationships, (4) realized_impact with window_id/time_range/metrics_snapshot, (5) derived fields warning (validated_by, realized_sum)."
   }
 }

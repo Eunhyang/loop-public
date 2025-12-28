@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: tsk-014-01
 entity_name: 꼭꼭Fit 3기 환급 검토
 created: 2025-12-18
-updated: 2025-12-18
-status: doing
+updated: '2025-12-28'
+status: done
 parent_id: prj-014
 project_id: prj-014
 aliases:
@@ -19,11 +19,12 @@ due: 2025-12-18
 priority: medium
 estimated_hours: null
 actual_hours: null
-conditions_3y: ['cond-b', 'cond-d']
+conditions_3y:
+- cond-b
+- cond-d
 tags: []
 priority_flag: medium
 ---
-
 # 꼭꼭Fit 3기 환급 검토
 
 > Task ID: `tsk-014-01` | Project: `prj-014` | Status: in_progress

@@ -42,13 +42,15 @@ description: LOOP Vault 또는 외부 프로젝트(sosi, kkokkkok)에서 dev Tas
 
 **새 Task 모드 (task_id 없음):**
 ```
-Step 1 → Step 2 → [Step 2-1 새 Project 생성 (선택 시)] → Step 3 → Step 4 → Step 5 → Step 6
+Step 1 → Step 2 → [Step 2-1 새 Project 생성 (선택 시)] → Step 3 → Step 4 → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
 ```
 
 **기존 Task 모드 (task_id 있음):**
 ```
-Step 0-1 → Step 0-2 → Step 3 (조건부) → Step 4 (조건부) → Step 5 → Step 6
+Step 0-1 → Step 0-2 → Step 3 (조건부) → Step 4 (조건부) → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
 ```
+
+> **⚠️ Step 6 (codex-claude-loop 호출)은 모든 모드에서 필수입니다. 스킵 불가.**
 
 ---
 
@@ -284,10 +286,30 @@ Project 파일의 `## Notes > ### PRD` 섹션에 Task 내용 추가:
 <!-- workthrough 스킬로 자동 기록 -->
 ```
 
-### Step 6: codex-claude-loop 호출 (MUST - 항상 실행)
+### Step 6: codex-claude-loop 호출 (MANDATORY - 스킵 불가)
 
-> **CRITICAL: 모든 코드 구현은 이 스킬을 통해 진행**
-> **NEVER: codex-claude-loop 없이 직접 코드 작성 금지**
+> **🚨 MANDATORY: 이 Step은 절대 스킵할 수 없습니다**
+> **🚨 CRITICAL: 모든 코드 구현은 반드시 이 스킬을 통해 진행**
+> **🚨 NEVER: codex-claude-loop 없이 직접 코드 작성 절대 금지**
+
+#### 호출 방법 (MUST USE)
+
+```
+반드시 Skill tool을 사용하여 codex-claude-loop 스킬을 호출하세요:
+
+Skill tool 호출:
+  skill: "codex-claude-loop"
+  args: "{task_id}"
+```
+
+#### 호출 전 체크리스트
+
+- [ ] Task 파일 생성 완료 (Step 3)
+- [ ] Git 브랜치 생성 완료 또는 스킵 (Step 4)
+- [ ] Notes 섹션 (Tech Spec, Todo) 채우기 완료 (Step 5)
+- [ ] **위 항목 모두 완료 후 codex-claude-loop 호출**
+
+#### codex-claude-loop이 수행하는 작업
 
 **Phase 1: 계획 수립 (Claude)**
 - Tech Spec, Todo 기반 구현 계획
@@ -318,6 +340,10 @@ Check for:
 **Phase 5: 반복**
 - Codex 피드백 기반 수정
 - 품질 기준 충족까지 반복
+
+#### Step 6 완료 조건
+
+> **codex-claude-loop 스킬이 완료될 때까지 Step 7로 진행 금지**
 
 ### Step 7: Validation
 
@@ -385,16 +411,22 @@ Target: {target_project}
 
 - Step 스킵 (조건부 스킵 제외)
 - prompt-enhancer 없이 Notes 비워두고 진행
-- codex-claude-loop 없이 직접 코드 작성
+- **🚨 codex-claude-loop 없이 직접 코드 작성 (가장 중요)**
+  - Edit/Write 도구로 코드 직접 작성 금지
+  - 반드시 `Skill tool`로 `codex-claude-loop` 호출 후 구현
+  - codex-claude-loop 스킵 시 워크플로우 실패로 간주
 - 기존 Task 모드에서 새 Task 생성
 - task_id 검증 없이 진행
+- Step 6 완료 전 Step 7 진행
 
 ## ALWAYS DO (필수 실행)
 
 - Step 0에서 모드 판단 먼저
 - 각 Step 완료 확인 후 다음 진행
 - Notes 섹션 (Tech Spec, Todo) 채우기
-- codex-claude-loop으로 구현 진행
+- **🚨 Step 6에서 반드시 `Skill tool`로 `codex-claude-loop` 호출**
+  - 호출 없이 직접 구현 시 워크플로우 위반
+  - codex-claude-loop 완료 후에만 Step 7 진행
 - 완료 메시지 출력
 
 ---

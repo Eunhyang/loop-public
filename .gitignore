@@ -35,3 +35,6 @@ __pycache__/
 # Poetry
 poetry.lock
 .env
+.envrc
+
+_exec_vault

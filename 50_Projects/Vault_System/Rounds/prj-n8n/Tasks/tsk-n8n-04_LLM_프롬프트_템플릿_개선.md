@@ -5,8 +5,8 @@ entity_name: n8n LLM 프롬프트 템플릿 개선
 created: 2025-12-27
 updated: '2025-12-27'
 status: done
-parent_id: prj-n8n-entity-autofill
-project_id: prj-n8n-entity-autofill
+parent_id: prj-n8n
+project_id: prj-n8n
 aliases:
 - tsk-n8n-04
 outgoing_relations: []
@@ -30,7 +30,7 @@ priority_flag: high
 ---
 # n8n LLM 프롬프트 템플릿 개선
 
-> Task ID: `tsk-n8n-04` | Project: `prj-n8n-entity-autofill` | Status: doing
+> Task ID: `tsk-n8n-04` | Project: `prj-n8n` | Status: doing
 
 ## 목표
 
@@ -123,7 +123,7 @@ tsk-n8n-02에서 발견된 이슈:
 
 ## 참고 문서
 
-- [[prj-n8n-entity-autofill]] - 소속 Project
+- [[prj-n8n]] - 소속 Project
 - [[tsk-n8n-02]] - 선행 Task
 
 ---

@@ -5,8 +5,8 @@ entity_name: n8n Docker 배포 및 파이프라인 구축
 created: 2025-12-27
 updated: '2025-12-27'
 status: done
-parent_id: prj-n8n-entity-autofill
-project_id: prj-n8n-entity-autofill
+parent_id: prj-n8n
+project_id: prj-n8n
 aliases:
 - tsk-n8n-01
 outgoing_relations: []
@@ -29,7 +29,7 @@ tags:
 - llm
 priority_flag: high
 start_date: '2025-12-27'
-notes: "# n8n Docker 배포 및 파이프라인 구축\n\n> Task ID: `tsk-n8n-01` | Project: `prj-n8n-entity-autofill`\
+notes: "# n8n Docker 배포 및 파이프라인 구축\n\n> Task ID: `tsk-n8n-01` | Project: `prj-n8n`\
   \ | Status: doing\n\n## 목표\n\n**완료 조건**:\n1. NAS에 n8n Docker 컨테이너 배포 완료\n2. 웹 UI\
   \ (port 5678) 접근 가능\n3. LOOP MCP API 연동 워크플로우 생성\n4. 빠진 필드 자동 추론 파이프라인 동작\n\n---\n\
   \n## 상세 내용\n\n### 배경\n\nTask/Project 엔티티에 빠진 필드를 수동으로 채우는 것은 비효율적.\nn8n + LLM으로\
@@ -74,13 +74,13 @@ notes: "# n8n Docker 배포 및 파이프라인 구축\n\n> Task ID: `tsk-n8n-01
   \ 암호화)\n- `user: \"1000:1000\"` 추가 (비루트 실행)\n- `N8N_SECURE_COOKIE` 제거 (HTTPS 환경에서\
   \ 자동 처리)\n\n**결과**: ✅ docker-compose.yml 준비 완료\n\n**다음 단계**:\n1. NAS에서 `/volume1/docker/n8n`\
   \ 디렉토리 생성\n2. `.env` 파일 생성 (실제 비밀번호 설정)\n3. `docker-compose up -d n8n` 실행\n4. n8n\
-  \ GUI에서 워크플로우 구성\n\n---\n\n## 참고 문서\n\n- [[prj-n8n-entity-autofill]] - 소속 Project\n\
+  \ GUI에서 워크플로우 구성\n\n---\n\n## 참고 문서\n\n- [[prj-n8n]] - 소속 Project\n\
   - https://docs.n8n.io/ - n8n 공식 문서\n- `api/routers/tasks.py` - LOOP Task API\n\n\
   ---\n\n**Created**: 2025-12-27\n**Assignee**: 김은향\n**Due**: 2025-12-27"
 ---
 # n8n Docker 배포 및 파이프라인 구축
 
-> Task ID: `tsk-n8n-01` | Project: `prj-n8n-entity-autofill` | Status: doing
+> Task ID: `tsk-n8n-01` | Project: `prj-n8n` | Status: doing
 
 ## 목표
 
@@ -252,7 +252,7 @@ return tasks.filter(item => {
 
 ## 참고 문서
 
-- [[prj-n8n-entity-autofill]] - 소속 Project
+- [[prj-n8n]] - 소속 Project
 - https://docs.n8n.io/ - n8n 공식 문서
 - `api/routers/tasks.py` - LOOP Task API
 

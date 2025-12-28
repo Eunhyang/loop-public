@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-27T23:13:02.538605",
-  "total_entities": 206,
+  "generated": "2025-12-28T23:22:24.507061",
+  "total_entities": 211,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -8,6 +8,104 @@
       "name": "가설 인덱스",
       "status": null,
       "path": "60_Hypotheses/_INDEX.md"
+    },
+    {
+      "id": "hyp-2-01",
+      "type": "Hypothesis",
+      "name": "스키마 최소세트가 충분",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
+    },
+    {
+      "id": "hyp-2-02",
+      "type": "Hypothesis",
+      "name": "스키마 안정성",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
+    },
+    {
+      "id": "hyp-2-03",
+      "type": "Hypothesis",
+      "name": "데이터 누락률",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-03_데이터_누락률.md"
+    },
+    {
+      "id": "hyp-2-04",
+      "type": "Hypothesis",
+      "name": "앱+코칭 데이터 결합 가능",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md"
+    },
+    {
+      "id": "hyp-4-01",
+      "type": "Hypothesis",
+      "name": "심화 과정 수요 재현",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md"
+    },
+    {
+      "id": "hyp-4-03",
+      "type": "Hypothesis",
+      "name": "완주율",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-03_완주율.md"
+    },
+    {
+      "id": "hyp-4-04",
+      "type": "Hypothesis",
+      "name": "만족/추천",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-04_만족_추천.md"
+    },
+    {
+      "id": "hyp-4-05",
+      "type": "Hypothesis",
+      "name": "행동변화",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-05_행동변화.md"
+    },
+    {
+      "id": "hyp-4-06",
+      "type": "Hypothesis",
+      "name": "운영 표준화",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-06_운영_표준화.md"
+    },
+    {
+      "id": "hyp-4-07",
+      "type": "Hypothesis",
+      "name": "코치 시간/단가 구조",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md"
+    },
+    {
+      "id": "hyp-6-09",
+      "type": "Hypothesis",
+      "name": "와디즈/캠페인 효율",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md"
+    },
+    {
+      "id": "hyp-6-10",
+      "type": "Hypothesis",
+      "name": "효과 증거가 전환을 올림",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-6-10_효과증거_전환.md"
+    },
+    {
+      "id": "hyp-6-13",
+      "type": "Hypothesis",
+      "name": "TIPS/투자 요구조건 충족",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
+    },
+    {
+      "id": "hyp-6-14",
+      "type": "Hypothesis",
+      "name": "실제 자금조달 성립",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md"
     },
     {
       "id": "hyp-1-01",
@@ -94,11 +192,25 @@
       "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
     },
     {
+      "id": "hyp-2-06",
+      "type": "Hypothesis",
+      "name": "패턴 재현율",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
+    },
+    {
       "id": "hyp-2-07",
       "type": "Hypothesis",
       "name": "효과지표 산출 자동화",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
+    },
+    {
+      "id": "hyp-2-08",
+      "type": "Hypothesis",
+      "name": "데이터로 루프 재구성",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
     },
     {
       "id": "hyp-2-09",
@@ -129,11 +241,25 @@
       "path": "60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md"
     },
     {
+      "id": "hyp-4-09",
+      "type": "Hypothesis",
+      "name": "코칭→데이터 엔진",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
+    },
+    {
       "id": "hyp-4-10",
       "type": "Hypothesis",
       "name": "코칭 포지셔닝",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md"
+    },
+    {
+      "id": "hyp-6-01",
+      "type": "Hypothesis",
+      "name": "전면 유료화 성립",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
     },
     {
       "id": "hyp-6-02",
@@ -192,137 +318,11 @@
       "path": "60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md"
     },
     {
-      "id": "hyp-2-03",
-      "type": "Hypothesis",
-      "name": "데이터 누락률",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-03_데이터_누락률.md"
-    },
-    {
-      "id": "hyp-2-04",
-      "type": "Hypothesis",
-      "name": "앱+코칭 데이터 결합 가능",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md"
-    },
-    {
-      "id": "hyp-4-01",
-      "type": "Hypothesis",
-      "name": "심화 과정 수요 재현",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md"
-    },
-    {
-      "id": "hyp-4-03",
-      "type": "Hypothesis",
-      "name": "완주율",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-03_완주율.md"
-    },
-    {
-      "id": "hyp-4-04",
-      "type": "Hypothesis",
-      "name": "만족/추천",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-04_만족_추천.md"
-    },
-    {
-      "id": "hyp-4-05",
-      "type": "Hypothesis",
-      "name": "행동변화",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-05_행동변화.md"
-    },
-    {
-      "id": "hyp-4-06",
-      "type": "Hypothesis",
-      "name": "운영 표준화",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-06_운영_표준화.md"
-    },
-    {
-      "id": "hyp-4-07",
-      "type": "Hypothesis",
-      "name": "코치 시간/단가 구조",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md"
-    },
-    {
-      "id": "hyp-6-09",
-      "type": "Hypothesis",
-      "name": "와디즈/캠페인 효율",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md"
-    },
-    {
-      "id": "hyp-6-10",
-      "type": "Hypothesis",
-      "name": "효과 증거가 전환을 올림",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-10_효과증거_전환.md"
-    },
-    {
-      "id": "hyp-6-13",
-      "type": "Hypothesis",
-      "name": "TIPS/투자 요구조건 충족",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
-    },
-    {
-      "id": "hyp-2-06",
-      "type": "Hypothesis",
-      "name": "패턴 재현율",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
-    },
-    {
-      "id": "hyp-2-08",
-      "type": "Hypothesis",
-      "name": "데이터로 루프 재구성",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
-    },
-    {
-      "id": "hyp-4-09",
-      "type": "Hypothesis",
-      "name": "코칭→데이터 엔진",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
-    },
-    {
-      "id": "hyp-6-01",
-      "type": "Hypothesis",
-      "name": "전면 유료화 성립",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
-    },
-    {
       "id": "hyp-6-12",
       "type": "Hypothesis",
       "name": "월매출 런웨이 최소선",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
-    },
-    {
-      "id": "hyp-2-01",
-      "type": "Hypothesis",
-      "name": "스키마 최소세트가 충분",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
-    },
-    {
-      "id": "hyp-2-02",
-      "type": "Hypothesis",
-      "name": "스키마 안정성",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
-    },
-    {
-      "id": "hyp-6-14",
-      "type": "Hypothesis",
-      "name": "실제 자금조달 성립",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md"
     },
     {
       "id": "idx:projects",
@@ -661,6 +661,14 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-006-05",
+      "type": "Task",
+      "name": "용역비 지급(보윤님, 잔디님, 단님)",
+      "status": "doing",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/용역비_지급보윤님_잔딘님_단님.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "prj-011",
       "type": "Project",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
@@ -994,7 +1002,7 @@
       "id": "tsk-014-01",
       "type": "Task",
       "name": "꼭꼭Fit 3기 환급 검토",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/2025/P014_코칭 운영 체계/Tasks/꼭꼭Fit 3기 환급 검토.md",
       "conditions_3y": [
         "cond-b",
@@ -1385,6 +1393,18 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-vault-gpt-05",
+      "type": "Task",
+      "name": "MCP - 전용 복합 API 엔드포인트 개발",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-dashboard-ux-v1",
       "type": "Project",
       "name": "대시보드 UX 개선 v1",
@@ -1625,66 +1645,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "prj-n8n-entity-autofill",
-      "type": "Project",
-      "name": "n8n Entity Auto-filler",
-      "status": "",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Project_정의.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
-      "priority_flag": "medium",
-      "owner": "김은향"
-    },
-    {
-      "id": "tsk-n8n-01",
-      "type": "Task",
-      "name": "n8n Docker 배포 및 파이프라인 구축",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-n8n-02",
-      "type": "Task",
-      "name": "n8n 자동화 워크플로우 구축",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-n8n-04",
-      "type": "Task",
-      "name": "n8n LLM 프롬프트 템플릿 개선",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-n8n-03",
-      "type": "Task",
-      "name": "Project Impact Score 자동화 n8n 워크플로우",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
       "id": "prj-impact-schema-v2",
       "type": "Project",
       "name": "Schema - Realized Impact 확장",
@@ -1733,6 +1693,102 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-impact-schema-v2-04",
+      "type": "Task",
+      "name": "Schema - Hypothesis validated_by 필드 마이그레이션",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Hypothesis validated_by 필드 마이그레이션.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-impact-schema-v2-05",
+      "type": "Task",
+      "name": "Schema - Derived 필드 롤업 로직 완성",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/Schema - Derived 필드 롤업 로직 완성.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-n8n",
+      "type": "Project",
+      "name": "n8n Vault 자동화",
+      "status": "active",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Project_정의.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-n8n-01",
+      "type": "Task",
+      "name": "n8n Docker 배포 및 파이프라인 구축",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-02",
+      "type": "Task",
+      "name": "n8n 자동화 워크플로우 구축",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-03",
+      "type": "Task",
+      "name": "n8n - Project Impact Score 자동화 n8n 워크플로우",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-04",
+      "type": "Task",
+      "name": "n8n LLM 프롬프트 템플릿 개선",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-05",
+      "type": "Task",
+      "name": "API 비즈니스 로직 통합 - 스킬→API 공통화",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -1758,7 +1814,7 @@
       "id": "prj-017",
       "type": "Project",
       "name": "아이디어파트너스 배치 프로그램 지원",
-      "status": "",
+      "status": "todo",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Project_정의.md",
       "conditions_3y": [
         "cond-d",
@@ -2114,6 +2170,276 @@
   ],
   "edges": [
     {
+      "source": "trk-2",
+      "target": "hyp-2-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-003",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-005",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-001",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-004",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-vault-gpt",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-dashboard-ux-v1",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-mcp-dual-vault-rbac",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-impact-schema-v2",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-n8n",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "hyp-4-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "prj-006",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "prj-012",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "prj-008",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "prj-014",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-14",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "hyp-6-12",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-007",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-002",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-015",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-016",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-grants-jemi",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-017",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-018",
+      "type": "parent_of"
+    },
+    {
       "source": "trk-1",
       "target": "hyp-1-01",
       "type": "parent_of"
@@ -2171,276 +2497,6 @@
     {
       "source": "trk-1",
       "target": "pgm-coaching",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-06",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "hyp-2-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-003",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-005",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-001",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-004",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-vault-gpt",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-dashboard-ux-v1",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-mcp-dual-vault-rbac",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-n8n-entity-autofill",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-2",
-      "target": "prj-impact-schema-v2",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-06",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "hyp-4-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "prj-006",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "prj-002",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "prj-012",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "prj-008",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "prj-014",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-06",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-11",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-13",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-12",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "hyp-6-14",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-007",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-015",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-016",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-grants-jemi",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-017",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-018",
       "type": "parent_of"
     },
     {
@@ -2551,6 +2607,11 @@
     {
       "source": "prj-006",
       "target": "tsk-006-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-006",
+      "target": "tsk-006-05",
       "type": "parent_of"
     },
     {
@@ -2804,6 +2865,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-vault-gpt",
+      "target": "tsk-vault-gpt-05",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-01",
       "type": "parent_of"
@@ -2894,26 +2960,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-n8n-entity-autofill",
-      "target": "tsk-n8n-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-n8n-entity-autofill",
-      "target": "tsk-n8n-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-n8n-entity-autofill",
-      "target": "tsk-n8n-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-n8n-entity-autofill",
-      "target": "tsk-n8n-03",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-impact-schema-v2",
       "target": "tsk-impact-schema-v2-01",
       "type": "parent_of"
@@ -2926,6 +2972,41 @@
     {
       "source": "prj-impact-schema-v2",
       "target": "tsk-impact-schema-v2-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-schema-v2-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-impact-schema-v2",
+      "target": "tsk-impact-schema-v2-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-05",
       "type": "parent_of"
     },
     {
@@ -3304,6 +3385,21 @@
       "type": "unlocked_by"
     },
     {
+      "source": "hyp-2-01",
+      "target": "mh-3",
+      "type": "validates"
+    },
+    {
+      "source": "hyp-2-02",
+      "target": "mh-3",
+      "type": "validates"
+    },
+    {
+      "source": "hyp-6-14",
+      "target": "cond-e",
+      "type": "validates"
+    },
+    {
       "source": "hyp-2-06",
       "target": "cond-b",
       "type": "validates"
@@ -3325,21 +3421,6 @@
     },
     {
       "source": "hyp-6-12",
-      "target": "cond-e",
-      "type": "validates"
-    },
-    {
-      "source": "hyp-2-01",
-      "target": "mh-3",
-      "type": "validates"
-    },
-    {
-      "source": "hyp-2-02",
-      "target": "mh-3",
-      "type": "validates"
-    },
-    {
-      "source": "hyp-6-14",
       "target": "cond-e",
       "type": "validates"
     },
@@ -3486,101 +3567,6 @@
     {
       "source": "trk-6",
       "target": "cond-d",
-      "type": "validates"
-    },
-    {
-      "source": "prj-003",
-      "target": "hyp-2-03",
-      "type": "validates"
-    },
-    {
-      "source": "prj-005",
-      "target": "hyp-2-04",
-      "type": "validates"
-    },
-    {
-      "source": "prj-002",
-      "target": "hyp-4-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-002",
-      "target": "hyp-4-03",
-      "type": "validates"
-    },
-    {
-      "source": "prj-014",
-      "target": "hyp-4-03",
-      "type": "validates"
-    },
-    {
-      "source": "prj-014",
-      "target": "hyp-4-04",
-      "type": "validates"
-    },
-    {
-      "source": "prj-014",
-      "target": "hyp-4-05",
-      "type": "validates"
-    },
-    {
-      "source": "prj-006",
-      "target": "hyp-4-06",
-      "type": "validates"
-    },
-    {
-      "source": "prj-006",
-      "target": "hyp-4-07",
-      "type": "validates"
-    },
-    {
-      "source": "prj-002",
-      "target": "hyp-6-09",
-      "type": "validates"
-    },
-    {
-      "source": "prj-010",
-      "target": "hyp-6-09",
-      "type": "validates"
-    },
-    {
-      "source": "prj-010",
-      "target": "hyp-6-10",
-      "type": "validates"
-    },
-    {
-      "source": "prj-009",
-      "target": "hyp-6-13",
-      "type": "validates"
-    },
-    {
-      "source": "prj-001",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-003",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-005",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-001",
-      "target": "hyp-2-02",
-      "type": "validates"
-    },
-    {
-      "source": "prj-003",
-      "target": "hyp-2-02",
-      "type": "validates"
-    },
-    {
-      "source": "prj-009",
-      "target": "hyp-6-14",
       "type": "validates"
     },
     {
@@ -3819,6 +3805,7 @@
       "prj-vault-gpt",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-03",
+      "tsk-vault-gpt-05",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
@@ -3826,6 +3813,8 @@
       "tsk-impact-schema-v2-01",
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-03",
+      "tsk-impact-schema-v2-04",
+      "tsk-impact-schema-v2-05",
       "trk-2",
       "trk-4"
     ],
@@ -3856,11 +3845,12 @@
       "tsk-dashboard-ux-v1-14",
       "tsk-dashboard-ux-v1-15",
       "tsk-dashboard-ux-v1-16",
-      "prj-n8n-entity-autofill",
+      "prj-n8n",
       "tsk-n8n-01",
       "tsk-n8n-02",
-      "tsk-n8n-04",
       "tsk-n8n-03",
+      "tsk-n8n-04",
+      "tsk-n8n-05",
       "pgm-tips",
       "prj-017",
       "prj-018",
@@ -3940,6 +3930,20 @@
       "idx:20_strategy-3y_conditions"
     ],
     "Hypothesis": [
+      "hyp-2-01",
+      "hyp-2-02",
+      "hyp-2-03",
+      "hyp-2-04",
+      "hyp-4-01",
+      "hyp-4-03",
+      "hyp-4-04",
+      "hyp-4-05",
+      "hyp-4-06",
+      "hyp-4-07",
+      "hyp-6-09",
+      "hyp-6-10",
+      "hyp-6-13",
+      "hyp-6-14",
       "hyp-1-01",
       "hyp-1-02",
       "hyp-1-03",
@@ -3952,12 +3956,16 @@
       "hyp-1-10",
       "hyp-1-11",
       "hyp-2-05",
+      "hyp-2-06",
       "hyp-2-07",
+      "hyp-2-08",
       "hyp-2-09",
       "hyp-2-10",
       "hyp-4-02",
       "hyp-4-08",
+      "hyp-4-09",
       "hyp-4-10",
+      "hyp-6-01",
       "hyp-6-02",
       "hyp-6-03",
       "hyp-6-04",
@@ -3966,25 +3974,7 @@
       "hyp-6-07",
       "hyp-6-08",
       "hyp-6-11",
-      "hyp-2-03",
-      "hyp-2-04",
-      "hyp-4-01",
-      "hyp-4-03",
-      "hyp-4-04",
-      "hyp-4-05",
-      "hyp-4-06",
-      "hyp-4-07",
-      "hyp-6-09",
-      "hyp-6-10",
-      "hyp-6-13",
-      "hyp-2-06",
-      "hyp-2-08",
-      "hyp-4-09",
-      "hyp-6-01",
-      "hyp-6-12",
-      "hyp-2-01",
-      "hyp-2-02",
-      "hyp-6-14"
+      "hyp-6-12"
     ],
     "Project": [
       "prj-003",
@@ -4007,8 +3997,8 @@
       "prj-vault-gpt",
       "prj-dashboard-ux-v1",
       "prj-mcp-dual-vault-rbac",
-      "prj-n8n-entity-autofill",
       "prj-impact-schema-v2",
+      "prj-n8n",
       "prj-017",
       "prj-018"
     ],
@@ -4035,6 +4025,7 @@
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-03",
+      "tsk-006-05",
       "tsk-011-01",
       "tsk-017-05",
       "tsk-002-01",
@@ -4080,6 +4071,7 @@
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-04",
       "tsk-vault-gpt-03",
+      "tsk-vault-gpt-05",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-03",
@@ -4098,13 +4090,16 @@
       "tsk-dashboard-ux-v1-16",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
-      "tsk-n8n-01",
-      "tsk-n8n-02",
-      "tsk-n8n-04",
-      "tsk-n8n-03",
       "tsk-impact-schema-v2-01",
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-03",
+      "tsk-impact-schema-v2-04",
+      "tsk-impact-schema-v2-05",
+      "tsk-n8n-01",
+      "tsk-n8n-02",
+      "tsk-n8n-03",
+      "tsk-n8n-04",
+      "tsk-n8n-05",
       "tsk-017-01",
       "tsk-017-02",
       "tsk-017-03",
@@ -4176,6 +4171,20 @@
       "idx:20_strategy-3y_conditions"
     ],
     "todo": [
+      "hyp-2-01",
+      "hyp-2-02",
+      "hyp-2-03",
+      "hyp-2-04",
+      "hyp-4-01",
+      "hyp-4-03",
+      "hyp-4-04",
+      "hyp-4-05",
+      "hyp-4-06",
+      "hyp-4-07",
+      "hyp-6-09",
+      "hyp-6-10",
+      "hyp-6-13",
+      "hyp-6-14",
       "hyp-1-01",
       "hyp-1-02",
       "hyp-1-03",
@@ -4188,12 +4197,16 @@
       "hyp-1-10",
       "hyp-1-11",
       "hyp-2-05",
+      "hyp-2-06",
       "hyp-2-07",
+      "hyp-2-08",
       "hyp-2-09",
       "hyp-2-10",
       "hyp-4-02",
       "hyp-4-08",
+      "hyp-4-09",
       "hyp-4-10",
+      "hyp-6-01",
       "hyp-6-02",
       "hyp-6-03",
       "hyp-6-04",
@@ -4202,25 +4215,7 @@
       "hyp-6-07",
       "hyp-6-08",
       "hyp-6-11",
-      "hyp-2-03",
-      "hyp-2-04",
-      "hyp-4-01",
-      "hyp-4-03",
-      "hyp-4-04",
-      "hyp-4-05",
-      "hyp-4-06",
-      "hyp-4-07",
-      "hyp-6-09",
-      "hyp-6-10",
-      "hyp-6-13",
-      "hyp-2-06",
-      "hyp-2-08",
-      "hyp-4-09",
-      "hyp-6-01",
       "hyp-6-12",
-      "hyp-2-01",
-      "hyp-2-02",
-      "hyp-6-14",
       "tsk-003-01",
       "tsk-003-07",
       "tsk-003-03",
@@ -4255,6 +4250,7 @@
       "tsk-grants-youth-01",
       "tsk-014-04",
       "tsk-dashboard-ux-v1-01",
+      "prj-017",
       "tsk-017-01",
       "tsk-017-03",
       "tsk-017-04",
@@ -4274,13 +4270,13 @@
       "prj-003",
       "prj-001",
       "prj-006",
+      "tsk-006-05",
       "prj-011",
       "prj-004",
       "tsk-002-11",
       "tsk-012-01",
       "tsk-008-01",
       "prj-014",
-      "tsk-014-01",
       "prj-015",
       "pgm-hiring",
       "pgm-grants",
@@ -4292,6 +4288,9 @@
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-10",
       "prj-mcp-dual-vault-rbac",
+      "tsk-impact-schema-v2-05",
+      "tsk-n8n-03",
+      "tsk-n8n-05",
       "pgm-coaching",
       "pgm-tips",
       "tsk-017-02",
@@ -4315,9 +4314,7 @@
       "prj-002",
       "prj-012",
       "prj-008",
-      "prj-dashboard-ux-v1",
-      "prj-n8n-entity-autofill",
-      "prj-017"
+      "prj-dashboard-ux-v1"
     ],
     "done": [
       "prj-007",
@@ -4333,6 +4330,7 @@
       "tsk-002-03",
       "tsk-002-12",
       "tsk-008-04",
+      "tsk-014-01",
       "tsk-015-01",
       "tsk-015-02",
       "tsk-015-03",
@@ -4350,6 +4348,7 @@
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-04",
       "tsk-vault-gpt-03",
+      "tsk-vault-gpt-05",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-03",
       "tsk-dashboard-ux-v1-04",
@@ -4366,18 +4365,19 @@
       "tsk-dashboard-ux-v1-16",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
-      "tsk-n8n-01",
-      "tsk-n8n-02",
-      "tsk-n8n-04",
-      "tsk-n8n-03",
       "tsk-impact-schema-v2-01",
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-03",
+      "tsk-impact-schema-v2-04",
+      "tsk-n8n-01",
+      "tsk-n8n-02",
+      "tsk-n8n-04",
       "retro:2025-annual"
     ],
     "active": [
       "prj-yt-wegovy",
-      "prj-impact-schema-v2"
+      "prj-impact-schema-v2",
+      "prj-n8n"
     ],
     "planning": [
       "tsk-yt-wegovy-01"

@@ -3,6 +3,7 @@ Project API Router
 
 Project 생성 및 조회 엔드포인트
 캐시 기반으로 O(1) 조회 지원
+autofill_expected_impact 옵션으로 LLM 자동 채움 지원
 """
 
 import re
@@ -10,6 +11,7 @@ import yaml
 import shutil
 from pathlib import Path
 from datetime import datetime
+from typing import Optional, Dict, Any
 from fastapi import APIRouter, HTTPException
 
 from ..models.entities import ProjectCreate, ProjectUpdate, ProjectResponse
@@ -18,6 +20,10 @@ from ..utils.vault_utils import (
     sanitize_filename,
     get_vault_dir
 )
+from ..utils.impact_calculator import calculate_expected_score, validate_contributes_weights
+from ..services.llm_service import get_llm_service
+from ..prompts.expected_impact import EXPECTED_IMPACT_SYSTEM_PROMPT, build_simple_expected_impact_prompt
+from .audit import log_entity_action
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
 
@@ -47,8 +53,14 @@ def get_project(project_id: str):
 
 
 @router.post("", response_model=ProjectResponse)
-def create_project(project: ProjectCreate):
-    """Project 생성"""
+async def create_project(project: ProjectCreate):
+    """
+    Project 생성
+
+    옵션:
+        autofill_expected_impact=True: LLM으로 Expected Impact 자동 채움
+        expected_impact: 수동 Expected Impact 설정
+    """
     cache = get_cache()
 
     # 1. Project ID 생성 (캐시 기반)
@@ -83,7 +95,45 @@ def create_project(project: ProjectCreate):
     if project.parent_id:
         frontmatter["parent_id"] = project.parent_id
 
-    # 5. Project_정의.md 생성
+    if project.conditions_3y:
+        frontmatter["conditions_3y"] = project.conditions_3y
+
+    # 5. Expected Impact 처리
+    expected_impact_result = None
+    expected_score = None
+
+    if project.autofill_expected_impact:
+        # LLM 자동 채움
+        expected_impact_result, expected_score = await _autofill_expected_impact(
+            project_id=project_id,
+            project_name=project.entity_name,
+            conditions_3y=project.conditions_3y,
+            provider=project.llm_provider
+        )
+        if expected_impact_result:
+            frontmatter["expected_impact"] = expected_impact_result
+
+    elif project.expected_impact:
+        # 수동 설정
+        expected_impact_result = {
+            "tier": project.expected_impact.tier,
+            "impact_magnitude": project.expected_impact.impact_magnitude,
+            "confidence": project.expected_impact.confidence,
+            "contributes": project.expected_impact.contributes
+        }
+        frontmatter["expected_impact"] = expected_impact_result
+
+        # Score 계산
+        try:
+            expected_score = calculate_expected_score(
+                tier=project.expected_impact.tier,
+                magnitude=project.expected_impact.impact_magnitude,
+                confidence=project.expected_impact.confidence
+            )
+        except ValueError:
+            pass
+
+    # 6. Project_정의.md 생성
     project_file = project_dir / "Project_정의.md"
     content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
@@ -102,15 +152,102 @@ def create_project(project: ProjectCreate):
     with open(project_file, 'w', encoding='utf-8') as f:
         f.write(content)
 
-    # 6. 캐시 업데이트
+    # 7. 캐시 업데이트
     cache.set_project(project_id, frontmatter, project_file)
+
+    # 8. 감사 로그
+    log_entity_action(
+        action="create",
+        entity_type="Project",
+        entity_id=project_id,
+        entity_name=project.entity_name,
+        details={
+            "autofill_expected_impact": project.autofill_expected_impact,
+            "expected_impact": expected_impact_result,
+            "expected_score": expected_score
+        }
+    )
 
     return ProjectResponse(
         success=True,
         project_id=project_id,
         directory=dir_name,
-        message="Project created successfully"
+        message="Project created successfully",
+        expected_impact=expected_impact_result,
+        expected_score=round(expected_score, 2) if expected_score else None
     )
+
+
+async def _autofill_expected_impact(
+    project_id: str,
+    project_name: str,
+    conditions_3y: list,
+    provider: str = "openai"
+) -> tuple:
+    """
+    LLM으로 Expected Impact 자동 채움
+
+    Returns:
+        (expected_impact_dict, expected_score) or (None, None) on failure
+    """
+    try:
+        # 프롬프트 생성
+        prompt = build_simple_expected_impact_prompt(
+            project_name=project_name,
+            project_description="",  # 생성 시점에는 설명 없음
+            conditions_3y=conditions_3y
+        )
+
+        # LLM 호출
+        llm = get_llm_service()
+        result = await llm.call_llm(
+            prompt=prompt,
+            system_prompt=EXPECTED_IMPACT_SYSTEM_PROMPT,
+            provider=provider,
+            response_format="json"
+        )
+
+        if not result["success"]:
+            return None, None
+
+        content = result["content"]
+
+        # 응답 파싱
+        tier = "operational"
+        magnitude = "mid"
+        confidence = 0.7
+        contributes = []
+
+        if "tier" in content:
+            tier_data = content["tier"]
+            tier = tier_data.get("value", tier) if isinstance(tier_data, dict) else tier_data
+
+        if "impact_magnitude" in content:
+            mag_data = content["impact_magnitude"]
+            magnitude = mag_data.get("value", magnitude) if isinstance(mag_data, dict) else mag_data
+
+        if "confidence" in content:
+            conf_data = content["confidence"]
+            confidence = conf_data.get("value", confidence) if isinstance(conf_data, dict) else conf_data
+
+        if "contributes" in content and isinstance(content["contributes"], list):
+            _, contributes, _ = validate_contributes_weights(content["contributes"])
+
+        # Score 계산
+        expected_score = calculate_expected_score(tier, magnitude, confidence)
+
+        expected_impact = {
+            "tier": tier,
+            "impact_magnitude": magnitude,
+            "confidence": confidence,
+            "contributes": contributes
+        }
+
+        return expected_impact, expected_score
+
+    except Exception as e:
+        print(f"Autofill expected impact error: {e}")
+        return None, None
 
 
 @router.put("/{project_id}", response_model=ProjectResponse)

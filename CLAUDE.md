@@ -2,368 +2,298 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Dual-Vault System
+> **Version 8.3** | Last updated: 2025-12-28
+> Schema v5.2 | Impact Model v1.2.0
 
-> **This is the Shared Vault (LOOP)**. Sensitive C-level data lives in **loop_exec** vault.
+---
+
+## 필수 선행 문서 (MUST READ FIRST)
+
+> **`00_Meta/LOOP_PHILOSOPHY.md`** - LOOP Vault의 설계 철학과 핵심 원리
+>
+> 이 vault를 처음 접근하는 LLM은 반드시 위 문서를 먼저 읽어야 한다.
+> - **핵심 원리**: 결정(Decision)–증거(Evidence)–정량화(A/B)–승인(Approval)–학습(Loop)
+> - **SSOT + Derived**: 한 곳에만 저장, 나머지는 계산
+> - **"계산은 코드가, 판단은 사람이"**: LLM은 제안, 점수 계산은 서버, 승인은 인간
+
+---
+
+## Quick Reference
+
+```bash
+# Initial Setup
+poetry install                                          # Core dependencies only
+poetry install --with api                               # Include FastAPI server
+
+# Validation
+python3 scripts/validate_schema.py .                    # Full validation
+python3 scripts/validate_schema.py . --file <path>      # Single file
+python3 scripts/validate_schema.py . --check-freshness  # Check schema staleness
+python3 scripts/auto_fix_schema.py <path>               # Auto-fix issues
+
+# Build
+python3 scripts/build_graph_index.py .                  # Rebuild _Graph_Index.md
+python3 scripts/build_impact.py .                       # Build impact.json
+python3 scripts/check_orphans.py .                      # Find orphaned entities
+
+# API Server (local)
+poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
+
+# Docker (NAS)
+docker compose up -d && docker compose logs -f loop-api
+```
+
+**Key files**: `00_Meta/schema_constants.yaml` (SSOT), `impact_model_config.yml`, `_Graph_Index.md`
+
+### Entity Naming Convention (MANDATORY)
+> **All Task/Project names MUST follow: `주제 - 내용` format**
+
+- Pattern: `/^.+ - .+$/` (space-hyphen-space separator)
+- Examples: `"CoachOS - 프로토타입 개발"`, `"Dashboard - UX 개선"`
+- Invalid: `"프로토타입개발"`, `"CoachOS-개발"` (missing proper separator)
+
+---
+
+## Dual-Vault System
 
 | Question Type | Vault | Path |
 |--------------|-------|------|
-| Projects, Tasks, Strategy, Ontology | LOOP | This vault |
-| Runway, Budget, Hiring, Cashflow | loop_exec | `/Volumes/LOOP_CLevel/vault/loop_exec` |
+| Projects, Tasks, Strategy, Ontology | **LOOP** (this vault) | `/Volumes/LOOP_CORE/vault/LOOP` |
+| Runway, Budget, Hiring, Cashflow | **loop_exec** | `/Volumes/LOOP_CLevel/vault/loop_exec` |
 
 See `00_Meta/_VAULT_REGISTRY.md` for cross-vault routing rules.
 
 ---
 
-## Quick Start
+## Architecture
 
-**This is an Obsidian vault** with Python validation scripts and FastAPI server (MCP-enabled).
-
-### Requirements
-- Python 3.9+ (validation), Python 3.10+ (API/MCP server)
-- Poetry for dependency management
-- Docker (optional, for NAS deployment)
-
-### Installation & Commands
-```bash
-pip install pyyaml                                      # Basic (validation only)
-poetry install --extras api                             # Full (includes API server)
-
-# Validation
-python3 scripts/validate_schema.py .                    # Full validation
-python3 scripts/validate_schema.py . --file <path>      # Single file
-python3 scripts/validate_schema.py . --check-freshness  # Schema freshness check
-python3 scripts/auto_fix_schema.py <path>               # Auto-fix issues
-
-# Orphan & Graph Index
-python3 scripts/check_orphans.py .                      # Find orphaned entities
-python3 scripts/build_graph_index.py .                  # Rebuild _Graph_Index.md
-
-# Impact Score
-python3 scripts/build_impact.py .                       # Build impact.json
-python3 scripts/build_impact.py . --window 2025-Q1      # Specific window
-
-# API Server (local dev)
-poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
-
-# Docker (NAS deployment)
-docker compose up -d                                    # Start all services (loop-api + n8n)
-docker compose logs -f loop-api                         # Watch API logs
-docker compose down                                     # Stop all services
-/mcp-server status|rebuild|restart|logs                 # MCP server management
-/n8n-server status|restart|logs                         # n8n workflow management
+### Strategic Hierarchy
+```
+NorthStar (10-year Vision) - Immutable
+ └─ MetaHypothesis (MH1-4) - If ANY breaks → reconsider company
+     └─ Condition (cond-a~e) - When met → unlock; when broken → pivot/shutdown
+         └─ Track (trk-1~6) - 12-month investment direction hypotheses
+             └─ Project - Experiment units (유일한 판정 단위)
+                 └─ Task - Execution units (validates 금지)
 ```
 
-### Key Entry Points
-| Purpose | Location |
-|---------|----------|
-| **Schema (SSOT)** | `00_Meta/schema_constants.yaml` |
-| **Impact Config** | `impact_model_config.yml` |
-| Navigation hub | `_HOME.md` |
-| Entity graph | `_Graph_Index.md` (auto-generated) |
-| Templates | `00_Meta/_TEMPLATES/` |
-
-### Git on Network Mount
-SMB mount causes git lock errors:
-- Use `/safe-commit` for immediate commits (SSH to NAS)
-- Or let NAS daemon handle auto-commits (every 15 min)
-- If lock error occurs: `rm -f .git/index.lock`
-
-### Dashboard Access
-- **Local**: `open _dashboard/index.html` (file://)
-- **NAS**: `http://nas-ip:8080` (auto-deployed)
-
----
-
-## Strategic Hierarchy
-
-```
-10-year Vision (North Star) - Immutable
- └─ Meta Hypotheses (MH1-4) - If ANY breaks → reconsider company
-     └─ 3-year Conditions (A-E) - When met → unlock; when broken → pivot/shutdown
-         └─ 12-month Tracks (1-6) - Investment direction hypotheses
-             └─ Projects - Experiment units (유일한 판정 단위)
-                 └─ Tasks - Execution units (validates 금지)
-```
-
-**Core Philosophy**: "An organization that kills hypotheses quickly to find what survives"
-- Vision fixed, strategy conditional
+**Core Philosophy**: "Kill hypotheses quickly to find what survives"
 - Metrics = shutdown signals, not goals
-- Bad results = hypothesis generation opportunities
+- Use "validation/falsification" not "success/failure"
 
----
+### Entity IDs (Authoritative: `00_Meta/schema_constants.yaml`)
+| Entity | Pattern | Location |
+|--------|---------|----------|
+| NorthStar | `ns-NNN` | `01_North_Star/` |
+| MetaHypothesis | `mh-N` | `01_North_Star/` |
+| Condition | `cond-X` | `20_Strategy/3Y_Conditions_*/` |
+| Track | `trk-N` | `20_Strategy/12M_Tracks/` |
+| Program | `pgm-name` | `50_Projects/{Name}/_PROGRAM.md` |
+| Project | `prj-NNN` | `50_Projects/` |
+| Task | `tsk-NNN-NN` | `50_Projects/.../Tasks/` |
+| Hypothesis | `hyp-N-NN` | `60_Hypotheses/` |
+| Experiment | `exp-NNN` | `70_Experiments/` |
 
-## Entity IDs & Folder Structure
-
-> **Authoritative source**: `00_Meta/schema_constants.yaml`
-
-| Entity | Pattern | Example | Location |
-|--------|---------|---------|----------|
-| NorthStar | `ns-NNN` | ns-001 | `01_North_Star/` |
-| MetaHypothesis | `mh-N` | mh-3 | `01_North_Star/` |
-| Condition | `cond-X` | cond-b | `20_Strategy/3Y_Conditions_*/` |
-| Track | `trk-N` | trk-2 | `20_Strategy/12M_Tracks/` |
-| Program | `pgm-name` | pgm-hiring | `50_Projects/{Name}/_PROGRAM.md` |
-| Project | `prj-NNN` | prj-003 | `50_Projects/` |
-| Task | `tsk-NNN-NN` | tsk-003-01 | `50_Projects/.../Tasks/` |
-| Hypothesis | `hyp-N-NN` | hyp-2-01 | `60_Hypotheses/` |
-| Experiment | `exp-NNN` | exp-001 | `70_Experiments/` |
-
-### 90_Archive Access (CRITICAL)
-> **Default**: Do NOT access. Search hot areas only.
-
-**Access only when**:
-- User explicitly requests past evidence
-- Specific ID or time period provided
-
-**Access sequence**: Catalog first (`90_Archive/00_Catalog/catalog.jsonl`) → Read 1-2 confirmed files only
-
----
-
-## Entity Creation (MANDATORY)
-
-> **Always use `loop-entity-creator` skill or `/new-task`, `/new-project` commands**
-
-### NEVER DO
-- Write tool로 Task/Project 파일 직접 생성
-- 템플릿 없이 frontmatter 수동 작성
-- entity_id 수동 지정
-
-### Valid Status Values
-All status, priority, type values defined in `00_Meta/schema_constants.yaml`. Changes require `/mcp-server rebuild`.
-
----
-
-## Schema Constants SSOT (MANDATORY)
-
-> **⚠️ 모든 상수는 `00_Meta/schema_constants.yaml`에서만 정의**
-
-### 규칙
-1. **절대 하드코딩 금지**: status, priority, entity_types 등 상수값을 코드/문서에 직접 나열하지 않음
-2. **참조만 허용**: `"→ schema_constants.yaml 참조"` 또는 import로 참조
-3. **변경은 YAML만**: 상수 추가/수정/삭제는 오직 schema_constants.yaml에서
-
-### 참조 파일
-| 파일 | 로드 방식 |
-|------|----------|
-| `api/constants.py` | YAML 직접 로드 |
-| `scripts/validate_schema.py` | YAML 직접 로드 |
-| `scripts/build_graph_index.py` | YAML 직접 로드 |
-| `_dashboard/js/state.js` | API `/api/constants` 호출 |
-
-### 금지 예시
-```python
-# ❌ 하드코딩
-valid_statuses = ['todo', 'doing', 'done', 'blocked']
-
-# ✅ 상수 참조
-from api.constants import TASK_STATUS
-valid_statuses = TASK_STATUS
-```
-
-```markdown
-# ❌ 문서에 값 나열
-status: todo | doing | done | blocked
-
-# ✅ YAML 참조
-status: → schema_constants.yaml 참조
-```
-
-### 변경 시 필수 작업
-```bash
-/mcp-server rebuild   # API 서버 재시작 (Docker)
-```
-
----
-
-## Dev Task Workflow (CRITICAL)
-
-> **⚠️ 모든 Step 필수 - 스킵 금지**
-
-### `/new-dev-task` - 개발 작업 시작
-| Step | Skill | Output | Confirmation |
-|------|-------|--------|--------------|
-| 1 | `loop-dev-task` | Task 파일 + Git 브랜치 | "✅ Task 생성됨" |
-| 2 | `prompt-enhancer` | PRD + Tech Spec + Todo | "✅ PRD 작성됨" |
-| 3 | `codex-claude-loop` | Plan → Validate → Implement → Review | "✅ 진행 중..." |
-
-### `/done-dev-task` - 개발 작업 완료
-| Step | Skill | Output | Confirmation |
-|------|-------|--------|--------------|
-| 1 | `workthrough` | 작업 로그 문서화 | "✅ 로그 작성됨" |
-| 2 | `code-prompt-coach` | 세션 품질 분석 | "✅ 분석 완료" |
-| 3 | Git | commit + PR 생성 | "✅ PR 생성됨" |
-
-### `/start-dev-task {task_id}` - 기존 Task로 개발 시작
-- Step 2, 3만 실행 (Task 이미 존재)
-
----
-
-## Validation & Pre-commit
-
-Pre-commit hook (`chmod +x .git/hooks/pre-commit`):
-1. **Schema validation** (blocks on error)
-2. **Orphan check** (warns only)
-3. **Graph index rebuild** (auto-stages `_Graph_Index.md`)
-
-**Scanned**: `01_North_Star/`, `20_Strategy/`, `50_Projects/`, `60_Hypotheses/`, `70_Experiments/`
-**Excluded**: `00_Meta/_TEMPLATES/`, `10_Study/`, `30_Ontology/`, `40_LOOP_OS/`, `90_Archive/`
-
----
-
-## API Architecture
-
-> **Production**: https://mcp.sosilab.synology.me/
-> **Local**: http://localhost:8081
-> **MCP Endpoint**: `/mcp` (Model Context Protocol for LLM integrations)
-
+### API Architecture
 ```
 api/
-├── main.py              # FastAPI entry, auth middleware, MCP mount
+├── main.py              # FastAPI entry, ASGI auth middleware, MCP mount
 ├── constants.py         # Loads schema_constants.yaml (SSOT)
-├── routers/             # REST: tasks, projects, hypotheses, tracks, search
+├── routers/             # REST endpoints
+│   ├── tasks.py         # CRUD /api/tasks
+│   ├── projects.py      # CRUD /api/projects
+│   ├── hypotheses.py    # /api/hypotheses
+│   ├── tracks.py        # /api/tracks
+│   ├── conditions.py    # /api/conditions
+│   ├── search.py        # /api/search
+│   ├── files.py         # /api/files (read/write vault files)
+│   ├── pending.py       # /api/pending (pending reviews)
+│   ├── mcp_composite.py # /api/mcp/* (LLM-optimized compound endpoints)
+│   ├── autofill.py      # /api/autofill (LLM-powered field suggestions)
+│   └── audit.py         # /api/audit (run logs, decision logs)
+├── services/
+│   └── llm_service.py   # LLM integration (Claude API)
+├── prompts/             # LLM prompt templates
+│   ├── expected_impact.py
+│   └── realized_impact.py
+├── utils/
+│   ├── entity_generator.py
+│   └── impact_calculator.py
 ├── models/entities.py   # Pydantic schemas
 ├── cache/vault_cache.py # In-memory cache (O(1) lookups)
 └── oauth/               # OAuth 2.0 (RS256 + PKCE)
 ```
 
-### Authentication
-- **Static token**: `Authorization: Bearer $LOOP_API_TOKEN`
-- **OAuth JWT**: RS256 signed tokens via `/authorize` flow
-- **Public endpoints**: `/`, `/health`, `/docs`, `/constants`
+**Endpoints**: Local `http://localhost:8081` | Prod `https://mcp.sosilab.synology.me`
+**Auth**: `Authorization: Bearer $LOOP_API_TOKEN` or OAuth JWT
+**Public**: `/`, `/health`, `/docs`, `/api/constants`
 
-### API Testing
-```bash
-# Health check
-curl http://localhost:8081/health
+**MCP Composite Endpoints** (LLM-optimized, single-call):
+- `/api/mcp/vault-context` - Vault structure + current status (recommended first call)
+- `/api/mcp/search-and-read?q=keyword` - Search + read in one call
+- `/api/mcp/project/{id}/context` - Project + Tasks + Hypotheses
+- `/api/mcp/dashboard` - Full status dashboard
 
-# Get tasks (requires auth token)
-curl -H "Authorization: Bearer $LOOP_API_TOKEN" http://localhost:8081/api/tasks
+---
 
-# Get constants (schema values - public)
-curl http://localhost:8081/api/constants
+## Critical Rules
 
-# Cache management
-curl -X POST -H "Authorization: Bearer $LOOP_API_TOKEN" http://localhost:8081/api/cache/reload
+### Schema Constants SSOT (MANDATORY)
+> **All constants defined ONLY in `00_Meta/schema_constants.yaml`**
+
+```python
+# ❌ Never hardcode
+valid_statuses = ['todo', 'doing', 'done']
+
+# ✅ Always reference
+from api.constants import TASK_STATUS
 ```
 
-### Dashboard (Static Frontend)
-```
-_dashboard/
-├── index.html           # Single-page with embedded Tailwind
-├── js/state.js          # Loads schema_constants via API
-├── js/components/       # Kanban, panels, sidebar, task-card
-└── css/                 # Modular stylesheets
-```
-Fetches data from API endpoints; works offline via `file://` protocol.
+After schema changes: `/mcp-server rebuild`
+
+### Entity Creation (MANDATORY)
+> **Always use `loop-entity-creator` skill or `/new-task`, `/new-project` commands**
+
+**NEVER**:
+- Create Task/Project files directly with Write tool
+- Manually write frontmatter without templates
+- Manually assign entity_id
+
+### SSOT + Derived Principle
+- **SSOT**: Data stored in one place (e.g., `Project.validates = [hyp-...]`)
+- **Derived**: Calculated at build time (e.g., `Hypothesis.validated_by`, `Track.realized_sum`)
+- **Never store** derived fields directly in entities
+
+### 90_Archive Access
+> **Default: Do NOT access.** Search hot areas only.
+
+Access only when user explicitly requests past evidence with specific ID/time period.
+Sequence: `90_Archive/00_Catalog/catalog.jsonl` first → Read 1-2 confirmed files only.
+
+---
+
+## Dev Workflow
+
+### `/new-dev-task` - Start development
+1. `loop-dev-task` → Task file + Git branch
+2. `prompt-enhancer` → PRD + Tech Spec
+3. `codex-claude-loop` → Plan → Validate → Implement → Review
+
+### `/done-dev-task` - Complete development
+1. `workthrough` → Work log documentation
+2. `code-prompt-coach` → Session quality analysis
+3. Git → commit + PR creation
+
+### `/start-dev-task {task_id}` - Resume existing Task
+Steps 2, 3 only (Task already exists)
+
+---
+
+## Validation & Pre-commit
+
+Pre-commit hook (`.git/hooks/pre-commit`) runs:
+1. **Hardcode detection** - Warns if schema constants are hardcoded in `.py`/`.js` files
+2. `validate_schema.py` (blocks on error)
+3. `check_orphans.py` (warns only)
+4. `build_graph_index.py` (auto-stages `_Graph_Index.md`)
+
+**Scanned**: `01_North_Star/`, `20_Strategy/`, `50_Projects/`, `60_Hypotheses/`, `70_Experiments/`
+**Excluded**: `00_Meta/_TEMPLATES/`, `10_Study/`, `30_Ontology/`, `40_LOOP_OS/`, `90_Archive/`, `00_Inbox/`
 
 ---
 
 ## Commands & Skills
 
-### Slash Commands
+### Key Slash Commands
 | Command | Purpose |
 |---------|---------|
+| `/new-task`, `/new-project` | Create entity with proper schema |
+| `/new-dev-task`, `/done-dev-task` | Full dev workflow pipeline |
 | `/safe-commit` | SSH commit to NAS (avoids SMB conflicts) |
-| `/new-project`, `/new-task` | Create entity with proper schema |
-| `/new-dev-task`, `/done-dev-task` | Dev workflow (full pipeline) |
-| `/start-dev-task` | Start dev with existing Task |
-| `/mcp-server` | Docker MCP management (status/rebuild/restart/logs) |
-| `/n8n-server` | Docker n8n management (status/restart/logs) |
+| `/mcp-server` | Docker MCP management |
 | `/validate` | Schema validation |
-| `/code-review` | Git diff analysis |
-| `/build-impact` | Build impact metrics |
-| `/retro` | Retrospective to evidence |
-| `/auto-fill-project-impact` | Auto-fill Project expected_impact |
 
-### Skills
+### Key Skills
 | Skill | Purpose |
 |-------|---------|
-| `loop-entity-creator` | Task/Project creation with ID generation |
-| `loop-dev-task` | Dev Task + Git branch |
+| `loop-entity-creator` | Task/Project creation with ID generation (enforces naming convention) |
+| `loop-dev-task` | Create dev Task + Git branch for external projects |
 | `prompt-enhancer` | PRD/Tech Spec generation |
-| `codex-claude-loop` | Plan-validate-implement-review |
-| `workthrough` | Development documentation |
-| `api-client` | LOOP API curl 조회 (LOOP_API_TOKEN) |
-| `oauth-admin` | OAuth 2.0 token/client management |
-| `llm-vault-optimizer` | Vault structure optimization for LLM navigation |
+| `api-client` | LOOP API curl queries |
+| `workthrough` | Document development work after completion |
 
 ---
 
-## Scripts
+## Impact Score System
 
-**Core** (pre-commit): `validate_schema.py`, `check_orphans.py`, `build_graph_index.py`, `auto_fix_schema.py`
-**Impact**: `build_impact.py` (generates `_build/impact.json` with A/B scores per Project)
-**Utility**: `archive_task.py`, `build_archive_catalog.py`
-**Shell**: `deploy_to_nas.sh`, `start_api_server.sh`
+- **A Score (Expected)**: `magnitude_points[tier][magnitude] × confidence`
+- **B Score (Realized)**: `normalized_delta × strength_mult × attribution_share`
+- **Windows**: monthly (Project), quarterly (Track), half-yearly (Condition)
 
-### Impact Score System
-Projects have Expected (A) and Realized (B) impact scores:
-- **A Score**: `magnitude_points[tier][magnitude] × confidence` (at planning)
-- **B Score**: Measured outcome after completion, aggregated by `window_id` (monthly/quarterly)
-- Config: `impact_model_config.yml` defines tiers (`strategic`, `enabling`, `operational`), magnitudes, multipliers
-- Output: `_build/impact.json` consumed by Dashboard and n8n workflows
+Config: `impact_model_config.yml` | Output: `_build/impact.json`
+
+### LLM Autofill
+Uses Claude API to suggest Impact fields. Config in `impact_model_config.yml`:
+- Model: `claude-sonnet-4-20250514`
+- Temperature: 0.3
+- Endpoints: `/api/autofill/expected-impact`, `/api/autofill/realized-impact`
 
 ---
 
-## Important Rules
+## Infrastructure
 
-### Immutable (v0.1 Frozen)
-- 5 core ontology entities, ID field names, common fields, 4-condition rules
+### Docker Services (NAS)
+| Service | Port | Purpose |
+|---------|------|---------|
+| `loop-api` | 8082 → 8081 | FastAPI + MCP server |
+| `n8n` | 5678 | Workflow automation |
 
-### Strategy Document Principles
-- Metrics = shutdown signals only (never goals)
-- Use "validation/falsification" (never "success/failure")
-- Always include `if_broken` field
+### Git on Network Mount
+SMB mount causes git lock errors:
+- Use `/safe-commit` for SSH commit to NAS
+- Or let NAS daemon auto-commit (every 15 min)
+- Lock error fix: `rm -f .git/index.lock`
 
-### This Vault vs Implementation Projects
-This vault manages **specifications only**. Real code lives in:
-- **SoSi**: `~/dev/flutter/sosi`
-- **KkokKkokFit**: `~/dev/flutter/kkokkkokfit_web`
+### Data Flow
+```
+Obsidian edits → Pre-commit hook → Git → NAS sync (15 min) → API cache → Dashboard
+                                                          ↓
+                                              n8n workflows (validation, LLM autofill)
+```
 
-### Troubleshooting
+---
+
+## Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
 | Git lock error on SMB | `rm -f .git/index.lock` |
 | Schema validation fails | `python3 scripts/auto_fix_schema.py <file>` |
 | API not loading constants | `/mcp-server rebuild` |
-| Dashboard not updating | Check NAS daemon: `ps aux \| grep sync` |
 | Orphan entity warnings | Create missing parent or update `parent_id` |
 | Pre-commit hook not running | `chmod +x .git/hooks/pre-commit` |
-| Poetry dependency issues | `poetry lock --no-update && poetry install` |
-| n8n workflow not triggering | `/n8n-server logs` then check webhook URL |
-| Docker port conflict | Check `docker ps`, adjust ports in `docker-compose.yml` |
+| Poetry issues | `poetry lock --no-update && poetry install` |
 
 ---
 
-## Data Flow Overview
+## This Vault vs Implementation
 
-```
-Obsidian (user edits)
-    ↓
-Pre-commit hook
-    ├── validate_schema.py (blocks on error)
-    ├── check_orphans.py (warns only)
-    └── build_graph_index.py → _Graph_Index.md
-    ↓
-Git commit → NAS sync (15 min)
-    ↓
-API cache reload → Dashboard update
-    ↓
-n8n workflows (optional)
-    ├── entity_validator_autofiller.json (schema validation + LLM autofill)
-    └── Triggered via webhooks or scheduled
-```
-
-**_Graph_Index.md**: Auto-generated entity graph. Never edit manually.
-
-### Docker Services
-| Service | Port | Purpose |
-|---------|------|---------|
-| `loop-api` | 8081 (internal), 8082 (host) | FastAPI + MCP server |
-| `n8n` | 5678 | Workflow automation (LLM autofill, notifications) |
+This vault manages **specifications only**. Real code repositories:
+- **SoSi**: `~/dev/flutter/sosi`
+- **KkokKkokFit**: `~/dev/flutter/kkokkkokfit_web`
 
 ---
 
-**Last updated**: 2025-12-27 | **Version**: 7.5
+## Scripts Reference
+
+| Script | Purpose |
+|--------|---------|
+| `validate_schema.py` | Validate frontmatter against schema_constants.yaml |
+| `build_graph_index.py` | Regenerate `_Graph_Index.md` with entity relationships |
+| `build_impact.py` | Calculate A/B scores, output to `_build/impact.json` |
+| `check_orphans.py` | Find entities with missing parent references |
+| `auto_fix_schema.py` | Auto-fix common schema issues (dates, missing fields) |
+| `archive_task.py` | Move completed Tasks to `90_Archive/` |
+| `build_archive_catalog.py` | Generate `90_Archive/00_Catalog/catalog.jsonl` |
+| `backfill_conditions_3y.py` | Backfill conditions_3y field from parent hierarchy |
+| `migrate_*.py` | One-time migration scripts (check before running) |

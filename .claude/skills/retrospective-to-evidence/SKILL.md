@@ -11,6 +11,102 @@
 - 사용자는 반드시 Preview → Accept 단계를 거침
 - Evidence 템플릿 형식 강제
 
+---
+
+## API Integration (SSOT)
+
+> **CRITICAL: API 우선 + Fallback 패턴**
+>
+> 이 스킬은 LOOP MCP API (`POST /api/autofill/realized-impact`)를 호출합니다.
+> API 서버가 사용 가능할 때 API 호출, 불가능할 때만 로컬 LLM 호출.
+
+### API Endpoint
+
+```
+POST /api/autofill/realized-impact
+```
+
+**Request Body:**
+```json
+{
+    "project_id": "prj-NNN",
+    "retrospective_content": "회고 문서 전문...",
+    "goal_description": "목표 설명",
+    "actual_result": "실제 결과",
+    "mode": "preview",
+    "provider": "openai"
+}
+```
+
+**mode 파라미터:**
+| mode | 설명 |
+|------|------|
+| `preview` | LLM 제안값만 반환 (저장 안 함) - 사용자 확인용 |
+| `pending` | pending_reviews.json에 저장 (Dashboard 승인 대기) |
+| `execute` | 엔티티에 바로 적용 |
+
+**Response:**
+```json
+{
+    "success": true,
+    "entity_id": "prj-010",
+    "mode": "preview",
+    "suggested_fields": {
+        "normalized_delta": 0.21,
+        "evidence_strength": "strong",
+        "attribution_share": 0.7,
+        "learning_value": "high",
+        "realized_status": "failed_but_high_signal"
+    },
+    "calculated_fields": {
+        "realized_score": 0.147,
+        "window_id": "2025-M12",
+        "verdict": "falsified",
+        "outcome": "failed_but_high_signal"
+    },
+    "reasoning": {
+        "normalized_delta": "매출 기준 21% 달성...",
+        "evidence_strength": "정량 데이터 명확..."
+    },
+    "validation_warnings": []
+}
+```
+
+### API-First Pattern
+
+```bash
+# 환경 변수 가드
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
+
+# Health check (pipefail로 curl 실패 감지)
+set -o pipefail
+if curl -fsS --max-time 5 "$API_URL/health" 2>/dev/null | jq -e '.status == "healthy"' > /dev/null; then
+    # API 호출 (preview 모드) - jq로 안전한 JSON 생성
+    PAYLOAD=$(jq -n --arg pid "$PROJECT_ID" --arg content "$RETRO_CONTENT" \
+        '{project_id: $pid, retrospective_content: $content, mode: "preview", provider: "openai"}')
+
+    RESPONSE=$(curl -fsS -X POST "$API_URL/api/autofill/realized-impact" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "$PAYLOAD")
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        # 제안값 추출하여 Preview 표시
+        DELTA=$(echo "$RESPONSE" | jq -r '.suggested_fields.normalized_delta')
+        SCORE=$(echo "$RESPONSE" | jq -r '.calculated_fields.realized_score')
+        STATUS=$(echo "$RESPONSE" | jq -r '.suggested_fields.realized_status')
+        # → Step 4 Preview 표시
+    fi
+else
+    # Fallback: 로컬 LLM 호출 (기존 방식)
+    echo "⚠️ API unavailable, using local LLM"
+fi
+set +o pipefail
+```
+
+---
+
 ## When to Use
 
 이 스킬은 다음 상황에서 사용합니다:
@@ -72,7 +168,37 @@
    - 예: 매출 목표 1200만원, 실제 250만원
 ```
 
-### Step 2: 회고 분석
+### Step 2: 회고 분석 (API 우선)
+
+> **API 호출 우선, 실패 시 로컬 분석**
+
+**Step 2a: API 호출**
+
+```bash
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
+    # preview 모드로 분석
+    RESPONSE=$(curl -s -X POST "$API_URL/api/autofill/realized-impact" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"project_id\": \"$PROJECT_ID\",
+            \"retrospective_content\": \"$RETRO_CONTENT\",
+            \"goal_description\": \"$GOAL\",
+            \"actual_result\": \"$RESULT\",
+            \"mode\": \"preview\",
+            \"provider\": \"openai\"
+        }")
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        # API가 분석 + 필드 매핑까지 수행
+        # → Step 4 Preview로 이동
+    fi
+fi
+```
+
+**Step 2b: Fallback - 로컬 분석**
 
 회고 문서를 읽고 다음을 추출합니다:
 
@@ -89,6 +215,8 @@
 
 ### Step 3: Evidence 필드 매핑
 
+> **API 사용 시 Step 2에서 이미 완료됨. Fallback 시에만 실행.**
+
 `references/evidence_fields.md` 참조하여 각 필드 값을 제안합니다.
 
 **필수 필드:**
@@ -96,12 +224,6 @@
 normalized_delta: 0.0-1.0   # 목표 대비 달성률
 evidence_strength: strong|medium|weak
 attribution_share: 0.0-1.0  # 프로젝트 기여 비율
-```
-
-**v5.2 Window 필드 (자동 생성):**
-```yaml
-window_id: "YYYY-MM"              # 평가 윈도우 ID (자동 계산)
-time_range: "YYYY-MM-DD..YYYY-MM-DD"  # 평가 기간 (자동 계산)
 ```
 
 **확장 필드:**
@@ -117,54 +239,6 @@ confirmed_insights: []      # 확인된 인사이트 목록
 realized_status: succeeded|failed_but_high_signal|failed_low_signal|inconclusive
 ```
 
-### Step 3.5: Window 자동 계산 (v5.2)
-
-Evidence 생성 시 window 필드를 자동으로 계산합니다.
-
-**base_date 결정 (우선순위):**
-1. 사용자가 명시한 날짜 (있는 경우)
-2. 회고 문서의 날짜 (frontmatter `date` 또는 파일명)
-3. 오늘 날짜 (fallback)
-
-**window_id 생성:**
-- Evidence 기본 형식: `YYYY-MM` (월간)
-- 예: base_date가 2025-12-27 → window_id = "2025-12"
-
-**time_range 계산:**
-- `YYYY-MM` → 해당 월의 첫날..마지막날
-- 예: "2025-12" → "2025-12-01..2025-12-31"
-
-**계산 로직 (Python):**
-```python
-from datetime import datetime
-from calendar import monthrange
-
-def calculate_window(base_date_str: str = None) -> dict:
-    """base_date로부터 window_id, time_range 계산"""
-    if base_date_str:
-        base = datetime.strptime(base_date_str, "%Y-%m-%d")
-    else:
-        base = datetime.now()
-
-    year = base.year
-    month = base.month
-
-    window_id = f"{year}-{month:02d}"
-
-    # 월의 마지막 날 계산
-    last_day = monthrange(year, month)[1]
-    time_range = f"{year}-{month:02d}-01..{year}-{month:02d}-{last_day:02d}"
-
-    return {
-        "window_id": window_id,
-        "time_range": time_range,
-    }
-```
-
-**사용자 오버라이드:**
-- window_id를 사용자가 직접 입력한 경우 그 값을 우선
-- 분기(YYYY-QN) 또는 반기(YYYY-HN) 형식도 허용
-
 ### Step 4: Preview 표시
 
 다음 형식으로 Preview를 표시합니다:
@@ -174,11 +248,6 @@ def calculate_window(base_date_str: str = None) -> dict:
 
 **Project**: prj-010 (와디즈 펀딩)
 **Evidence ID**: ev:2025-NNNN (자동 생성)
-
-### Window 정보 (v5.2)
-- window_id: 2025-12
-- time_range: 2025-12-01..2025-12-31
-- base_date: 2025-12-27 (회고 문서 기준)
 
 ### Realized Score 계산
 - normalized_delta: 0.21 (매출 기준 21% 달성)
@@ -215,7 +284,44 @@ options-
     description: "변환을 취소합니다"
 ```
 
-### Step 6: 저장 및 빌드
+### Step 6: 저장 및 빌드 (API 우선)
+
+> **API 호출 우선, 실패 시 로컬 파일 생성**
+
+**Step 6a: API로 저장 (execute 모드)**
+
+```bash
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
+    # execute 모드로 바로 적용
+    RESPONSE=$(curl -s -X POST "$API_URL/api/autofill/realized-impact" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"project_id\": \"$PROJECT_ID\",
+            \"retrospective_content\": \"$RETRO_CONTENT\",
+            \"mode\": \"execute\",
+            \"provider\": \"openai\"
+        }")
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        SCORE=$(echo "$RESPONSE" | jq -r '.calculated_fields.realized_score')
+        VERDICT=$(echo "$RESPONSE" | jq -r '.calculated_fields.verdict')
+        echo "✅ Realized Impact saved via API"
+        echo "📊 Realized Score: $SCORE"
+        echo "📋 Verdict: $VERDICT"
+        # → build_impact.py 실행 여부 확인
+    else
+        echo "⚠️ API save failed, falling back to local"
+        # → Step 6b로 이동
+    fi
+else
+    # → Step 6b로 이동
+fi
+```
+
+**Step 6b: Fallback - 로컬 파일 생성**
 
 **Evidence 파일 생성 위치:**
 ```
@@ -260,6 +366,65 @@ options-
 회고 → Evidence 변환을 시작합니다.
 
 1. 회고 문서 경로를 알려주세요.
+   (현재 열린 파일이 있다면 그것을 사용할 수도 있습니다)
+
+2. 연결할 Project ID는 무엇인가요?
+
+3. 핵심 성과 지표는 무엇이었나요?
+   예: "매출 목표 1200만원, 실제 250만원"
+```
+
+### 전체 흐름 예시
+
+```
+사용자: /retro
+
+Claude: 회고 → Evidence 변환을 시작합니다.
+        회고 문서 경로와 Project ID를 알려주세요.
+
+사용자: 와디즈 펀딩 회고.md, prj-010, 매출 목표 1200만 실제 250만
+
+Claude: [회고 문서 분석 중...]
+
+        ## Evidence Preview
+
+        **RealizedScore = 0.147**
+        - normalized_delta: 0.21
+        - evidence_strength: strong
+        - learning_value: high
+
+        **판정: failed_but_high_signal**
+
+        반증된 가설 4개, 인사이트 5개 추출됨.
+
+        [Accept] [Edit] [Cancel]
+
+사용자: Accept
+
+Claude: Evidence 파일을 생성했습니다.
+        → 50_Projects/2025/P010_.../Evidence/ev_2025-0001_와디즈_회고.md
+
+        build_impact.py를 실행할까요? [Y/n]
+
+사용자: Y
+
+Claude: ✅ impact.json 업데이트 완료
+        prj-010 RealizedScore: 0.147
+```
+
+## Resources
+
+### references/
+- `evidence_fields.md` - Evidence 필드 상세 설명 및 판단 기준
+
+### prompts/
+- `extract_evidence.md` - 회고에서 Evidence 추출용 LLM 프롬프트
+
+## Related Files
+
+- `impact_model_config.yml` - 점수 계산 설정
+- `00_Meta/_TEMPLATES/template_evidence.md` - Evidence 템플릿
+- `scripts/build_impact.py` - Realized Score 계산 스크립트
    (현재 열린 파일이 있다면 그것을 사용할 수도 있습니다)
 
 2. 연결할 Project ID는 무엇인가요?

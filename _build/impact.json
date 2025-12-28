@@ -1,7 +1,7 @@
 {
   "model_version": "IM-2025-01",
-  "generated": "2025-12-27T21:24:21.221892",
-  "script_version": "1.3.0",
+  "generated": "2025-12-28T00:30:20.381423",
+  "script_version": "1.3.1",
   "summary": {
     "total_projects": 24,
     "projects_with_impact": 11,
@@ -534,7 +534,7 @@
     },
     {
       "id": "prj-n8n-entity-autofill",
-      "name": "n8n Entity Auto-filler",
+      "name": "n8n - Entity Auto-filler",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n-entity-autofill/Project_정의.md",
       "tier": "enabling",
       "impact_magnitude": "mid",
@@ -899,7 +899,7 @@
         },
         {
           "id": "prj-n8n-entity-autofill",
-          "name": "n8n Entity Auto-filler",
+          "name": "n8n - Entity Auto-filler",
           "tier": "enabling",
           "weight": 1.0,
           "expected": 2.1,

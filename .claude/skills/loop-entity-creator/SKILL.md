@@ -26,6 +26,113 @@ This skill ensures Task and Project entities follow strict schema requirements a
 - **Edit** - Modify existing entity fields while preserving schema
 - **Delete** - Remove entity and update all references
 
+## API Integration (SSOT)
+
+> **CRITICAL: API 우선 + Fallback 패턴**
+>
+> 이 스킬은 LOOP MCP API를 통해 엔티티를 생성합니다.
+> API 서버가 사용 가능할 때 API 호출, 불가능할 때만 로컬 파일 생성.
+
+### API Prerequisites
+
+**환경 변수 확인:**
+```bash
+# LOOP_API_TOKEN이 설정되어 있어야 함
+echo $LOOP_API_TOKEN
+```
+
+**API 서버 상태 확인:**
+```bash
+# Health check (로컬 또는 프로덕션)
+curl -s --max-time 5 http://localhost:8081/health 2>/dev/null || \
+curl -s --max-time 5 https://mcp.sosilab.synology.me/health
+```
+
+**API Base URL:**
+- Local: `http://localhost:8081`
+- Production: `https://mcp.sosilab.synology.me`
+
+### API-First Pattern
+
+**Task 생성 시:**
+```bash
+# 환경 변수 확인
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
+
+# 1. Health check (pipefail로 curl 실패 감지)
+set -o pipefail
+if curl -fsS --max-time 5 "$API_URL/health" 2>/dev/null | jq -e '.status == "healthy"' > /dev/null; then
+    # 2. API 호출
+    curl -fsS -X POST "$API_URL/api/tasks" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "entity_name": "주제 - 내용",
+            "project_id": "prj-NNN",
+            "assignee": "담당자",
+            "status": "todo",
+            "priority": "medium"
+        }'
+else
+    # 3. Fallback: 로컬 파일 생성 (기존 방식)
+    echo "⚠️ API unavailable, using local file creation"
+fi
+set +o pipefail
+```
+
+**Project 생성 시:**
+```bash
+# 환경 변수 가드
+: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
+
+curl -fsS -X POST "$API_URL/api/projects" \
+    -H "Authorization: Bearer $LOOP_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "entity_name": "주제 - 내용",
+        "owner": "소유자",
+        "conditions_3y": ["cond-a"],
+        "priority": "high",
+        "autofill_expected_impact": true
+    }'
+```
+
+### Error Handling
+
+**API 응답 검증:**
+```bash
+# 환경 변수 가드
+: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+# curl -w로 HTTP 코드 캡처 (fsS: fail on error, show error, silent progress)
+RESPONSE=$(curl -sS -w "\n%{http_code}" -X POST "$API_URL/api/tasks" \
+    -H "Authorization: Bearer $LOOP_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{"entity_name": "주제 - 내용", ...}')
+HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+BODY=$(echo "$RESPONSE" | sed '$d')
+
+if [ "$HTTP_CODE" -eq 200 ] || [ "$HTTP_CODE" -eq 201 ]; then
+    # 성공: task_id, file_path 추출
+    TASK_ID=$(echo "$BODY" | jq -r '.task_id')
+    echo "✅ Task created: $TASK_ID"
+elif [ "$HTTP_CODE" -eq 400 ]; then
+    # Validation error
+    ERROR=$(echo "$BODY" | jq -r '.detail')
+    echo "❌ Validation error: $ERROR"
+elif [ "$HTTP_CODE" -eq 401 ]; then
+    # Auth error
+    echo "❌ Authentication failed. Check LOOP_API_TOKEN"
+else
+    # Fallback to local
+    echo "⚠️ API error ($HTTP_CODE), falling back to local creation"
+fi
+```
+
+---
+
 ## Creating Entities
 
 ### Workflow Decision Tree
@@ -164,13 +271,56 @@ Get project name from project_id:
    50_Projects/{project_name}/Tasks/{entity_name}.md
    ```
 
-**Step 5: Create file**
+**Step 5: Create Task (API 우선)**
 
-Use Write to save the populated template to the determined path.
+> **API 호출 우선, 실패 시 로컬 파일 생성**
+
+**Step 5a: API 호출 시도**
+```bash
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+# Health check
+if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
+    # API 호출
+    RESPONSE=$(curl -s -X POST "$API_URL/api/tasks" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "entity_name": "{entity_name}",
+            "project_id": "{project_id}",
+            "assignee": "{assignee}",
+            "status": "{status}",
+            "priority": "{priority}",
+            "type": "{type}",
+            "target_project": "{target_project}"
+        }')
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        TASK_ID=$(echo "$RESPONSE" | jq -r '.task_id')
+        FILE_PATH=$(echo "$RESPONSE" | jq -r '.file_path')
+        echo "✅ Task created via API: $TASK_ID"
+        echo "📁 File: $FILE_PATH"
+        # → Step 6으로 이동 (Validation은 API가 이미 처리)
+    else
+        echo "⚠️ API returned error, falling back to local"
+        # → Step 5b로 이동
+    fi
+else
+    echo "⚠️ API unavailable, using local file creation"
+    # → Step 5b로 이동
+fi
+```
+
+**Step 5b: Fallback - 로컬 파일 생성**
+
+API 호출 실패 시 기존 방식으로 파일 생성:
+- Use Write to save the populated template to the determined path.
 
 **Step 6: Validate and index**
 
 Run validation (see "Validation Workflow" section below).
+- **API 성공 시**: API가 감사 로그 + 캐시 업데이트 완료. Validation만 실행.
+- **Fallback 사용 시**: 전체 Validation Workflow 실행.
 
 ### Creating a Project
 
@@ -327,7 +477,52 @@ Use AskUserQuestion to ask:
    - `{{COND_ID}}` → "cond-a" 등 | 빈 값
    - `{{WEIGHT}}` → 0.0-1.0 | 빈 값
 
-**Step 4: Create project directory structure**
+**Step 4: Create Project (API 우선)**
+
+> **API 호출 우선, 실패 시 로컬 파일 생성**
+
+**Step 4a: API 호출 시도**
+```bash
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+# Health check
+if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
+    # API 호출 (autofill_expected_impact 옵션 포함)
+    RESPONSE=$(curl -s -X POST "$API_URL/api/projects" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "entity_name": "{entity_name}",
+            "owner": "{owner}",
+            "parent_id": "{parent_id}",
+            "conditions_3y": {conditions_3y},
+            "priority": "{priority}",
+            "autofill_expected_impact": {true|false},
+            "llm_provider": "openai"
+        }')
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        PROJECT_ID=$(echo "$RESPONSE" | jq -r '.project_id')
+        DIR_NAME=$(echo "$RESPONSE" | jq -r '.directory')
+        EXP_SCORE=$(echo "$RESPONSE" | jq -r '.expected_score // "N/A"')
+        echo "✅ Project created via API: $PROJECT_ID"
+        echo "📁 Directory: $DIR_NAME"
+        [ "$EXP_SCORE" != "N/A" ] && echo "📊 Expected Score: $EXP_SCORE"
+        # → Step 5로 이동
+    else
+        ERROR=$(echo "$RESPONSE" | jq -r '.detail // .error')
+        echo "⚠️ API error: $ERROR"
+        # → Step 4b로 이동
+    fi
+else
+    echo "⚠️ API unavailable, using local file creation"
+    # → Step 4b로 이동
+fi
+```
+
+**Step 4b: Fallback - 로컬 생성**
+
+API 호출 실패 시 기존 방식으로 디렉토리 + 파일 생성:
 
 1. Create folder:
    ```
@@ -348,6 +543,8 @@ Use AskUserQuestion to ask:
 **Step 5: Validate and index**
 
 Run validation (see "Validation Workflow" section below).
+- **API 성공 시**: API가 감사 로그 + 캐시 업데이트 완료.
+- **Fallback 사용 시**: 전체 Validation Workflow 실행.
 
 ## Editing Entities
 

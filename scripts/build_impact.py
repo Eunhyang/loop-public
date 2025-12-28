@@ -66,86 +66,6 @@ TIER_POLICY = {
 INCLUDE_PATHS = ["50_Projects"]
 
 
-# === v5.2: Window 헬퍼 함수 ===
-def parse_window_id(window_id: Optional[str]) -> Optional[Dict]:
-    """window_id를 파싱하여 year, period, format 반환
-
-    Formats:
-    - YYYY-MM (월간): "2025-12" → {"year": 2025, "month": 12, "format": "month"}
-    - YYYY-QN (분기): "2025-Q4" → {"year": 2025, "quarter": 4, "format": "quarter"}
-    - YYYY-HN (반기): "2025-H2" → {"year": 2025, "half": 2, "format": "half"}
-    """
-    if not window_id:
-        return None
-
-    # YYYY-MM (월간) - 월 범위 검증 추가
-    if re.match(r'^\d{4}-\d{2}$', window_id):
-        year, month = window_id.split('-')
-        month_int = int(month)
-        if 1 <= month_int <= 12:
-            return {"year": int(year), "month": month_int, "format": "month"}
-        return None  # 잘못된 월 (13, 00 등)
-
-    # YYYY-QN
-    if re.match(r'^\d{4}-Q[1-4]$', window_id):
-        year = int(window_id[:4])
-        quarter = int(window_id[-1])
-        return {"year": year, "quarter": quarter, "format": "quarter"}
-
-    # YYYY-HN
-    if re.match(r'^\d{4}-H[1-2]$', window_id):
-        year = int(window_id[:4])
-        half = int(window_id[-1])
-        return {"year": year, "half": half, "format": "half"}
-
-    return None
-
-
-def month_to_quarter(month: int) -> int:
-    """월을 분기로 변환: 1-3→Q1, 4-6→Q2, 7-9→Q3, 10-12→Q4"""
-    return (month - 1) // 3 + 1
-
-
-def month_to_half(month: int) -> int:
-    """월을 반기로 변환: 1-6→H1, 7-12→H2"""
-    return 1 if month <= 6 else 2
-
-
-def project_in_quarter(project: Dict, year: int, quarter: int) -> bool:
-    """프로젝트가 해당 분기에 속하는지 확인"""
-    parsed = parse_window_id(project.get("window_id"))
-    if not parsed:
-        return False
-
-    if parsed["format"] == "month":
-        return parsed["year"] == year and month_to_quarter(parsed["month"]) == quarter
-
-    if parsed["format"] == "quarter":
-        return parsed["year"] == year and parsed["quarter"] == quarter
-
-    return False
-
-
-def project_in_half(project: Dict, year: int, half: int) -> bool:
-    """프로젝트가 해당 반기에 속하는지 확인"""
-    parsed = parse_window_id(project.get("window_id"))
-    if not parsed:
-        return False
-
-    if parsed["format"] == "month":
-        return parsed["year"] == year and month_to_half(parsed["month"]) == half
-
-    if parsed["format"] == "quarter":
-        # Q1, Q2 → H1 / Q3, Q4 → H2
-        project_half = 1 if parsed["quarter"] <= 2 else 2
-        return parsed["year"] == year and project_half == half
-
-    if parsed["format"] == "half":
-        return parsed["year"] == year and parsed["half"] == half
-
-    return False
-
-
 def load_config(vault_root: Path) -> Dict:
     """impact_model_config.yml 로드"""
     config_path = vault_root / "impact_model_config.yml"
@@ -395,11 +315,9 @@ def build_project_impact(
 def calculate_condition_rollup(
     project_records: List[Dict],
 ) -> Dict[str, Dict]:
-    """Condition별 롤업 계산 (v5.2 업데이트)
+    """Condition별 롤업 계산 (Tier 정책 적용)
 
     v5.1: contributes → condition_contributes
-    v5.2: Condition B는 Derived - 저장하지 않고 Project B를 반기 window로 집계
-    Condition.realized_sum @ 반기 = Σ(해당 반기에 속하는 Project.realized_score × weight)
     """
     rollup = defaultdict(lambda: {
         "expected_sum": 0.0,
@@ -408,8 +326,6 @@ def calculate_condition_rollup(
         "projects": [],
         "excluded_projects": [],  # operational tier 등 제외된 프로젝트
         "tier_distribution": {"strategic": 0, "enabling": 0, "operational": 0},
-        # v5.2: 반기별 Realized Score 집계
-        "realized_by_half": {},  # {"2025-H2": {"sum": 2.5, "projects": [...]}}
     })
 
     for project in project_records:
@@ -417,10 +333,6 @@ def calculate_condition_rollup(
         condition_contributes = project.get("condition_contributes", [])
         tier = project.get("tier", "enabling")
         policy = TIER_POLICY.get(tier, TIER_POLICY["enabling"])
-
-        # v5.2: window 정보 추출
-        window_id = project.get("window_id")
-        parsed_window = parse_window_id(window_id)
 
         for c in condition_contributes:
             if not isinstance(c, dict):
@@ -457,40 +369,12 @@ def calculate_condition_rollup(
                 "weight": weight,
                 "expected": project["expected_score"],
                 "realized": project["realized_score"],
-                "window_id": window_id,  # v5.2
             })
-
-            # v5.2: 반기별 집계 (Derived) - month, quarter, half 포맷 모두 처리
-            if parsed_window:
-                half_key = None
-                if parsed_window["format"] == "month":
-                    half = month_to_half(parsed_window["month"])
-                    half_key = f"{parsed_window['year']}-H{half}"
-                elif parsed_window["format"] == "quarter":
-                    # Q1, Q2 → H1 / Q3, Q4 → H2
-                    half = 1 if parsed_window["quarter"] <= 2 else 2
-                    half_key = f"{parsed_window['year']}-H{half}"
-                elif parsed_window["format"] == "half":
-                    half_key = f"{parsed_window['year']}-H{parsed_window['half']}"
-
-                if half_key:
-                    if half_key not in rollup[cond_id]["realized_by_half"]:
-                        rollup[cond_id]["realized_by_half"][half_key] = {
-                            "sum": 0.0,
-                            "projects": [],
-                        }
-                    rollup[cond_id]["realized_by_half"][half_key]["sum"] += project["realized_score"] * weight
-                    rollup[cond_id]["realized_by_half"][half_key]["projects"].append(project["id"])
 
     # 반올림
     for cond_id in rollup:
         rollup[cond_id]["expected_sum"] = round(rollup[cond_id]["expected_sum"], 2)
         rollup[cond_id]["realized_sum"] = round(rollup[cond_id]["realized_sum"], 2)
-        # v5.2: 반기별 합계도 반올림
-        for half_key in rollup[cond_id]["realized_by_half"]:
-            rollup[cond_id]["realized_by_half"][half_key]["sum"] = round(
-                rollup[cond_id]["realized_by_half"][half_key]["sum"], 2
-            )
 
     return dict(rollup)
 
@@ -498,13 +382,10 @@ def calculate_condition_rollup(
 def calculate_track_rollup(
     project_records: List[Dict],
 ) -> Dict[str, Dict]:
-    """Track별 롤업 계산 (v5.2 업데이트)
+    """Track별 롤업 계산 (v5.1 신규)
 
     Primary Track: parent_id (암묵적 weight 1.0)
     Secondary Track: track_contributes 필드
-
-    v5.2: Track B는 Derived - 저장하지 않고 Project B를 분기 window로 집계
-    Track.realized_sum @ 분기 = Σ(해당 분기에 속하는 Project.realized_score)
     """
     rollup = defaultdict(lambda: {
         "expected_sum": 0.0,
@@ -512,8 +393,6 @@ def calculate_track_rollup(
         "primary_projects": [],    # 이 Track이 Primary인 프로젝트
         "secondary_projects": [],  # 이 Track에 Secondary 기여하는 프로젝트
         "tier_distribution": {"strategic": 0, "enabling": 0, "operational": 0},
-        # v5.2: 분기별 Realized Score 집계
-        "realized_by_quarter": {},  # {"2025-Q4": {"sum": 1.5, "projects": [...]}}
     })
 
     for project in project_records:
@@ -521,10 +400,6 @@ def calculate_track_rollup(
         track_contributes = project.get("track_contributes", [])
         tier = project.get("tier", "enabling")
         policy = TIER_POLICY.get(tier, TIER_POLICY["enabling"])
-
-        # v5.2: window 정보 추출
-        window_id = project.get("window_id")
-        parsed_window = parse_window_id(window_id)
 
         # Primary Track 처리 (암묵적 weight 1.0)
         if primary_track:
@@ -542,24 +417,149 @@ def calculate_track_rollup(
                     "weight": 1.0,  # 암묵적
                     "expected": project["expected_score"],
                     "realized": project["realized_score"],
-                    "window_id": window_id,  # v5.2
                 })
 
-                # v5.2: 분기별 집계 (Derived) - month, quarter 포맷 모두 처리
-                if parsed_window:
-                    quarter_key = None
-                    if parsed_window["format"] == "month":
-                        quarter = month_to_quarter(parsed_window["month"])
-                        quarter_key = f"{parsed_window['year']}-Q{quarter}"
-                    elif parsed_window["format"] == "quarter":
-                        quarter_key = f"{parsed_window['year']}-Q{parsed_window['quarter']}"
+        # Secondary Track 처리
+        for tc in track_contributes:
+            if not isinstance(tc, dict):
+                continue
 
-                    if quarter_key:
-                        if quarter_key not in rollup[primary_track]["realized_by_quarter"]:
-                            rollup[primary_track]["realized_by_quarter"][quarter_key] = {
-                                "sum": 0.0,
-                                "projects": [],
-                            }
+            track_id = tc.get("to", "")
+            weight = tc.get("weight", 0)
+
+            if not track_id:
+                continue
+
+            if policy["include_in_rollup"]:
+                rollup[track_id]["expected_sum"] += project["expected_score"] * weight
+                rollup[track_id]["realized_sum"] += project["realized_score"] * weight
+                rollup[track_id]["secondary_projects"].append({
+                    "id": project["id"],
+                    "name": project["name"],
+                    "tier": tier,
+                    "weight": weight,
+                    "expected": project["expected_score"],
+                    "realized": project["realized_score"],
+                })
+
+    # 반올림
+    for track_id in rollup:
+        rollup[track_id]["expected_sum"] = round(rollup[track_id]["expected_sum"], 2)
+        rollup[track_id]["realized_sum"] = round(rollup[track_id]["realized_sum"], 2)
+
+    return dict(rollup)
+
+
+def main(vault_path: str) -> int:
+    """메인 함수"""
+    vault_root = Path(vault_path).resolve()
+
+    if not vault_root.exists():
+        print(f"Error: Vault path does not exist: {vault_root}")
+        return 1
+
+    print("Loading config...")
+    config = load_config(vault_root)
+
+    print("Collecting projects...")
+    projects = collect_projects(vault_root)
+    print(f"Found {len(projects)} projects")
+
+    print("Collecting evidence...")
+    evidence_map = collect_evidence(vault_root)
+    print(f"Found evidence for {len(evidence_map)} projects")
+
+    print("Calculating impact scores...")
+    project_records = []
+
+    for project_id, project_data in projects.items():
+        evidence_list = evidence_map.get(project_id, [])
+        record = build_project_impact(project_id, project_data, evidence_list, config)
+        project_records.append(record)
+
+    # 정렬 (expected_score 내림차순)
+    project_records.sort(key=lambda x: x["expected_score"], reverse=True)
+
+    print("Calculating condition rollup...")
+    condition_rollup = calculate_condition_rollup(project_records)
+
+    print("Calculating track rollup...")
+    track_rollup = calculate_track_rollup(project_records)
+
+    # 통계
+    total_expected = sum(p["expected_score"] for p in project_records)
+    total_realized = sum(p["realized_score"] for p in project_records)
+    with_impact = len([p for p in project_records if p.get("condition_contributes")])
+
+    # operational 제외 통계
+    excluded_count = len([p for p in project_records if p.get("impact_excluded")])
+
+    # v5.2: window 통계
+    with_window = len([p for p in project_records if p.get("window_id")])
+
+    # 최종 결과
+    impact_data = {
+        "model_version": IMPACT_MODEL_VERSION,  # Impact 모델 버전 (점수 변경 추적용)
+        "generated": datetime.now().isoformat(),
+        "script_version": "1.3.0",  # v5.2: window fields + SSOT principle
+
+        # 전체 통계
+        "summary": {
+            "total_projects": len(project_records),
+            "projects_with_impact": with_impact,
+            "projects_excluded": excluded_count,  # operational tier 등 제외된 수
+            "projects_with_window": with_window,  # v5.2: window_id가 있는 프로젝트 수
+            "total_expected": round(total_expected, 2),
+            "total_realized": round(total_realized, 2),
+            "total_evidence": sum(p["evidence_count"] for p in project_records),
+        },
+
+        # Project별 Impact
+        "projects": project_records,
+
+        # Condition별 롤업
+        "conditions": condition_rollup,
+
+        # Track별 롤업 (v5.1 신규)
+        "tracks": track_rollup,
+
+        # 사용된 설정
+        "config": {
+            "magnitude_points": config.get("magnitude_points", DEFAULT_MAGNITUDE_POINTS),
+            "strength_multipliers": config.get("strength_multipliers", DEFAULT_STRENGTH_MULTIPLIERS),
+        },
+    }
+
+    # 저장
+    build_dir = vault_root / "_build"
+    build_dir.mkdir(exist_ok=True)
+
+    impact_path = build_dir / "impact.json"
+    with open(impact_path, "w", encoding="utf-8") as f:
+        json.dump(impact_data, f, indent=2, ensure_ascii=False)
+    print(f"Saved: {impact_path}")
+
+    # 결과 출력
+    print(f"\n=== Impact Summary ===")
+    print(f"Total Projects: {len(project_records)}")
+    print(f"Projects with Impact: {with_impact}")
+    print(f"Total Expected Score: {total_expected:.2f}")
+    print(f"Total Realized Score: {total_realized:.2f}")
+    print(f"Conditions with rollup: {len(condition_rollup)}")
+    print(f"Tracks with rollup: {len(track_rollup)}")
+    print(f"Projects with window: {with_window}")
+
+    if project_records:
+        print(f"\n=== Top 5 Projects by Expected Score ===")
+        for p in project_records[:5]:
+            print(f"  {p['id']}: {p['name'][:30]} - Expected: {p['expected_score']}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    vault_path = sys.argv[1] if len(sys.argv) > 1 else "."
+    sys.exit(main(vault_path))
                         rollup[primary_track]["realized_by_quarter"][quarter_key]["sum"] += project["realized_score"]
                         rollup[primary_track]["realized_by_quarter"][quarter_key]["projects"].append(project["id"])
 
@@ -584,7 +584,26 @@ def calculate_track_rollup(
                     "weight": weight,
                     "expected": project["expected_score"],
                     "realized": project["realized_score"],
+                    "window_id": window_id,  # v5.2 추가
                 })
+
+                # v5.2: Secondary Track도 분기별 집계 (weight 반영)
+                if parsed_window:
+                    quarter_key = None
+                    if parsed_window["format"] == "month":
+                        quarter = month_to_quarter(parsed_window["month"])
+                        quarter_key = f"{parsed_window['year']}-Q{quarter}"
+                    elif parsed_window["format"] == "quarter":
+                        quarter_key = f"{parsed_window['year']}-Q{parsed_window['quarter']}"
+
+                    if quarter_key:
+                        if quarter_key not in rollup[track_id]["realized_by_quarter"]:
+                            rollup[track_id]["realized_by_quarter"][quarter_key] = {
+                                "sum": 0.0,
+                                "projects": [],
+                            }
+                        rollup[track_id]["realized_by_quarter"][quarter_key]["sum"] += project["realized_score"] * weight
+                        rollup[track_id]["realized_by_quarter"][quarter_key]["projects"].append(project["id"])
 
     # 반올림
     for track_id in rollup:
@@ -650,7 +669,7 @@ def main(vault_path: str) -> int:
     impact_data = {
         "model_version": IMPACT_MODEL_VERSION,  # Impact 모델 버전 (점수 변경 추적용)
         "generated": datetime.now().isoformat(),
-        "script_version": "1.3.0",  # v5.2: window fields + SSOT principle
+        "script_version": "1.3.1",  # v5.2: secondary track quarter rollup
 
         # 전체 통계
         "summary": {

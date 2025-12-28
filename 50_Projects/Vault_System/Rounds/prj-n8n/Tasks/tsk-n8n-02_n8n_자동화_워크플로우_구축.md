@@ -7,8 +7,8 @@ updated: 2025-12-27
 status: done
 
 # === 계층 ===
-parent_id: prj-n8n-entity-autofill
-project_id: prj-n8n-entity-autofill
+parent_id: prj-n8n
+project_id: prj-n8n
 aliases:
 - tsk-n8n-02
 
@@ -44,7 +44,7 @@ priority_flag: high
 
 # n8n 자동화 워크플로우 구축
 
-> Task ID: `tsk-n8n-02` | Project: `prj-n8n-entity-autofill` | Status: doing
+> Task ID: `tsk-n8n-02` | Project: `prj-n8n` | Status: doing
 
 ## 목표
 
@@ -162,7 +162,7 @@ tsk-n8n-01에서 n8n Docker 배포 완료 (https://n8n.sosilab.synology.me).
 
 ## 참고 문서
 
-- [[prj-n8n-entity-autofill]] - 소속 Project
+- [[prj-n8n]] - 소속 Project
 - [[tsk-n8n-01]] - n8n Docker 배포 (선행 Task)
 - https://docs.n8n.io/api/ - n8n API 문서
 

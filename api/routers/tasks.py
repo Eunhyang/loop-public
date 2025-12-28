@@ -19,6 +19,7 @@ from ..utils.vault_utils import (
     sanitize_filename,
     get_vault_dir
 )
+from .audit import log_entity_action
 
 router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 
@@ -165,6 +166,19 @@ def create_task(task: TaskCreate):
     # 7. 캐시 업데이트
     cache.set_task(task_id, frontmatter, task_file)
 
+    # 8. 감사 로그
+    log_entity_action(
+        action="create",
+        entity_type="Task",
+        entity_id=task_id,
+        entity_name=task.entity_name,
+        details={
+            "project_id": task.project_id,
+            "assignee": task.assignee,
+            "status": task.status
+        }
+    )
+
     return TaskResponse(
         success=True,
         task_id=task_id,
@@ -242,6 +256,16 @@ def update_task(task_id: str, task: TaskUpdate):
     # 캐시 업데이트
     cache.set_task(task_id, frontmatter, task_file)
 
+    # 감사 로그
+    changed_fields = {k: v for k, v in task.model_dump().items() if v is not None}
+    log_entity_action(
+        action="update",
+        entity_type="Task",
+        entity_id=task_id,
+        entity_name=frontmatter.get("entity_name", ""),
+        details={"changed_fields": changed_fields}
+    )
+
     return TaskResponse(
         success=True,
         task_id=task_id,
@@ -259,6 +283,10 @@ def delete_task(task_id: str):
     if not task_file:
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
 
+    # Task 정보 백업 (감사 로그용)
+    task_data = cache.get_task(task_id)
+    entity_name = task_data.get("entity_name", "") if task_data else ""
+
     # 파일 삭제
     try:
         task_file.unlink()
@@ -267,6 +295,15 @@ def delete_task(task_id: str):
 
     # 캐시에서 제거
     cache.remove_task(task_id)
+
+    # 감사 로그
+    log_entity_action(
+        action="delete",
+        entity_type="Task",
+        entity_id=task_id,
+        entity_name=entity_name,
+        details={"file_path": str(task_file)}
+    )
 
     return TaskResponse(
         success=True,

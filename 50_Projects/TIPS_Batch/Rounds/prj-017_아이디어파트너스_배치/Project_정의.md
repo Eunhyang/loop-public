@@ -4,7 +4,7 @@ entity_id: prj-017
 entity_name: 아이디어파트너스 배치 프로그램 지원
 created: 2025-12-26
 updated: '2025-12-27'
-status: ''
+status: todo
 parent_id: trk-6
 program_id: pgm-tips
 aliases:

@@ -6,33 +6,36 @@ const Calendar = {
     instance: null,
     initialized: false,
 
-    // 프로젝트별 고유 색상 팔레트 (20개 light pastel - 50 level)
-    PASTEL_COLORS: [
-        '#FFEBEE', '#FCE4EC', '#F3E5F5', '#EDE7F6', '#E8EAF6',
-        '#E3F2FD', '#E1F5FE', '#E0F7FA', '#E0F2F1', '#E8F5E9',
-        '#F1F8E9', '#F9FBE7', '#FFFDE7', '#FFF8E1', '#FFF3E0',
-        '#FBE9E7', '#EFEBE9', '#ECEFF1', '#F5F5F5', '#FAFAFA'
-    ],
-
-    /**
-     * 문자열 해시 함수 (djb2 알고리즘)
-     */
-    hashString(str) {
-        let hash = 5381;
-        for (let i = 0; i < str.length; i++) {
-            hash = ((hash << 5) + hash) + str.charCodeAt(i);
-        }
-        return Math.abs(hash);
+    // 트랙별 고정 색상 (6개 트랙)
+    TRACK_COLORS: {
+        'trk-1': '#FFEBEE',  // 연한 빨강
+        'trk-2': '#E8EAF6',  // 연한 인디고
+        'trk-3': '#E0F7FA',  // 연한 시안
+        'trk-4': '#E8F5E9',  // 연한 초록
+        'trk-5': '#FFF8E1',  // 연한 앰버
+        'trk-6': '#FBE9E7',  // 연한 오렌지
     },
 
+    // 기본 색상 (트랙 없는 경우)
+    DEFAULT_COLOR: '#E0E0E0',
+
     /**
-     * 프로젝트 ID 기반 색상 반환
+     * 프로젝트/태스크의 트랙 기반 색상 반환
+     * projectId → project.parent_id(트랙) → 트랙 색상
      */
     getColorByProject(projectId) {
-        if (projectId === null || projectId === undefined) return '#E0E0E0';
-        const str = String(projectId);
-        const index = this.hashString(str) % this.PASTEL_COLORS.length;
-        return this.PASTEL_COLORS[index];
+        if (projectId === null || projectId === undefined) return this.DEFAULT_COLOR;
+
+        // State에서 프로젝트 찾기
+        const project = State.projects.find(p => p.entity_id === projectId);
+        if (!project) return this.DEFAULT_COLOR;
+
+        // 프로젝트의 트랙 ID 가져오기
+        const trackId = project.parent_id || project.track_id;
+        if (!trackId) return this.DEFAULT_COLOR;
+
+        // 트랙 색상 반환
+        return this.TRACK_COLORS[trackId] || this.DEFAULT_COLOR;
     },
 
     /**

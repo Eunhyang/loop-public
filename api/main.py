@@ -36,7 +36,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, files, search, pending
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, files, search, pending, mcp_composite, autofill, audit
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -94,90 +94,118 @@ SSE_PREFIXES = ["/mcp"]
 # MCP 내부 호출 허용 IP (Docker 컨테이너 내부 루프백)
 MCP_TRUSTED_IPS = ["127.0.0.1", "localhost", "::1"]
 
-@app.middleware("http")
-async def auth_middleware(request: Request, call_next):
-    path = request.url.path
 
-    # SSE 경로 (MCP) - Bearer 토큰 인증 후 우회
-    for prefix in SSE_PREFIXES:
-        if path.startswith(prefix):
-            # MCP 경로도 Bearer 토큰 인증 필요 (Agent Builder 연동용)
-            auth_header = request.headers.get("authorization")
-            if auth_header and auth_header.startswith("Bearer "):
+# ============================================
+# Pure ASGI Middleware (SSE 호환)
+# ============================================
+# @app.middleware("http")는 BaseHTTPMiddleware를 사용하여 SSE와 충돌
+# 순수 ASGI 미들웨어로 구현하여 스트리밍 응답을 버퍼링하지 않음
+class AuthMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        path = scope["path"]
+        headers = dict(scope.get("headers", []))
+
+        # SSE 경로 (MCP) - Bearer 토큰 인증 필요
+        for prefix in SSE_PREFIXES:
+            if path.startswith(prefix):
+                auth_header = headers.get(b"authorization", b"").decode()
+                if auth_header.startswith("Bearer "):
+                    bearer_token = auth_header[7:]
+                    if bearer_token == API_TOKEN or verify_jwt(bearer_token):
+                        await self.app(scope, receive, send)
+                        return
+                # 인증 실패
+                await self._send_401(send, "Use Bearer token")
+                return
+
+        # IP 확인
+        client_ip = headers.get(b"x-forwarded-for", b"").decode()
+        if not client_ip and scope.get("client"):
+            client_ip = scope["client"][0]
+        print(f"CLIENT_IP: {client_ip} | PATH: {path}")
+
+        # MCP 내부 호출 우회
+        if client_ip in MCP_TRUSTED_IPS:
+            await self.app(scope, receive, send)
+            return
+
+        # 공개 경로 우회
+        if path in PUBLIC_PATHS:
+            await self.app(scope, receive, send)
+            return
+
+        for prefix in PUBLIC_PREFIXES:
+            if path.startswith(prefix):
+                await self.app(scope, receive, send)
+                return
+
+        # /api/* 경로는 토큰 검증
+        if path.startswith("/api"):
+            auth_header = headers.get(b"authorization", b"").decode()
+            x_api_token = headers.get(b"x-api-token", b"").decode()
+
+            if auth_header.startswith("Bearer "):
                 bearer_token = auth_header[7:]
+
                 # 1. 정적 API 토큰 확인
                 if bearer_token == API_TOKEN:
-                    return await call_next(request)
-                # 2. JWT 토큰 확인
+                    log_oauth_access("api", client_ip, success=True, details="static_token")
+                    await self.app(scope, receive, send)
+                    return
+
+                # 2. OAuth Bearer 토큰 확인 (RS256 JWT)
                 jwt_payload = verify_jwt(bearer_token)
                 if jwt_payload:
-                    return await call_next(request)
-            # 인증 없으면 차단
-            return JSONResponse(
-                status_code=401,
-                content={"detail": "Unauthorized", "hint": "Use Bearer token with loop_2024_kanban_secret or JWT"}
-            )
+                    log_oauth_access(
+                        "api",
+                        client_ip,
+                        user_id=jwt_payload.get("sub"),
+                        success=True,
+                        details=f"scope={jwt_payload.get('scope')}, role={jwt_payload.get('role')}"
+                    )
+                    await self.app(scope, receive, send)
+                    return
 
-    # IP 확인 (X-Forwarded-For가 없으면 직접 연결 IP 사용)
-    client_ip = request.headers.get("x-forwarded-for") or request.client.host
-    print(f"CLIENT_IP: {client_ip} | PATH: {path}")
+            # 3. x-api-token 헤더 확인 (대시보드용)
+            if x_api_token == API_TOKEN:
+                await self.app(scope, receive, send)
+                return
 
-    # MCP 내부 호출은 인증 우회 (127.0.0.1에서 오는 요청)
-    # Docker가 localhost에만 바인딩되어 있으므로 안전
-    if client_ip in MCP_TRUSTED_IPS:
-        return await call_next(request)
+            # 인증 실패
+            log_oauth_access("api", client_ip, success=False, details=f"path={path}")
+            await self._send_401(send, "Use Bearer token or x-api-token header")
+            return
 
-    # 공개 경로는 인증 제외
-    if path in PUBLIC_PATHS:
-        return await call_next(request)
+        # 기타 경로는 통과
+        await self.app(scope, receive, send)
 
-    # 공개 prefix는 인증 제외
-    for prefix in PUBLIC_PREFIXES:
-        if path.startswith(prefix):
-            return await call_next(request)
+    async def _send_401(self, send, hint: str):
+        """401 Unauthorized 응답 전송"""
+        import json
+        body = json.dumps({"detail": "Unauthorized", "hint": hint}).encode()
+        await send({
+            "type": "http.response.start",
+            "status": 401,
+            "headers": [
+                (b"content-type", b"application/json"),
+                (b"content-length", str(len(body)).encode()),
+            ],
+        })
+        await send({
+            "type": "http.response.body",
+            "body": body,
+        })
 
-    # /api/* 경로는 토큰 검증
-    if path.startswith("/api"):
-        auth_header = request.headers.get("authorization")
-        if auth_header and auth_header.startswith("Bearer "):
-            bearer_token = auth_header[7:]  # "Bearer " 제거
 
-            # 1. 정적 API 토큰 확인 (Agent Builder 연동용)
-            if bearer_token == API_TOKEN:
-                log_oauth_access("api", client_ip, success=True, details="static_token")
-                return await call_next(request)
-
-            # 2. OAuth Bearer 토큰 확인 (RS256 JWT)
-            jwt_payload = verify_jwt(bearer_token)
-            if jwt_payload:
-                # JWT 유효 - request.state에 저장 (downstream에서 사용)
-                request.state.user_id = jwt_payload.get("sub")
-                request.state.role = jwt_payload.get("role", "member")
-                request.state.scope = jwt_payload.get("scope", "mcp:read")
-
-                # 로그 기록
-                log_oauth_access(
-                    "api",
-                    client_ip,
-                    user_id=jwt_payload.get("sub"),
-                    success=True,
-                    details=f"scope={jwt_payload.get('scope')}, role={jwt_payload.get('role')}"
-                )
-                return await call_next(request)
-
-        # 3. x-api-token 헤더 확인 (대시보드용)
-        api_token = request.headers.get("x-api-token")
-        if api_token == API_TOKEN:
-            return await call_next(request)
-
-        # 인증 실패
-        log_oauth_access("api", client_ip, success=False, details=f"path={path}")
-        return JSONResponse(
-            status_code=401,
-            content={"detail": "Unauthorized", "hint": "Use Bearer token or x-api-token header"}
-        )
-
-    return await call_next(request)
+# ASGI 미들웨어 등록 (CORS 다음에 추가)
+app.add_middleware(AuthMiddleware)
 
 # Routers 등록
 app.include_router(tasks.router)
@@ -190,6 +218,9 @@ app.include_router(strategy.router)
 app.include_router(files.router)
 app.include_router(search.router)
 app.include_router(pending.router)
+app.include_router(mcp_composite.router)
+app.include_router(autofill.router)
+app.include_router(audit.router)
 
 # OAuth 2.0 Router (Production - RS256 + PKCE + Login)
 app.include_router(oauth_router)
@@ -198,13 +229,59 @@ app.include_router(oauth_router)
 # MCP Server (ChatGPT Developer Mode 연동용)
 # ============================================
 if MCP_AVAILABLE:
+    # 복합 API만 MCP 도구로 노출 (개별 API 숨김 → 권한 팝업 최소화)
+    MCP_ALLOWED_OPERATIONS = [
+        "get_vault_context_api_mcp_vault_context_get",
+        "search_and_read_api_mcp_search_and_read_get",
+        "get_project_context_api_mcp_project__project_id__context_get",
+        "get_track_context_api_mcp_track__track_id__context_get",
+        "get_dashboard_api_mcp_dashboard_get",
+        "get_entity_graph_api_mcp_entity__entity_id__graph_get",
+        "get_strategy_overview_api_mcp_strategy_get",
+        "get_schema_info_api_mcp_schema_get",
+    ]
     mcp = FastApiMCP(
         app,
         name="LOOP Vault MCP",
-        description="LOOP Obsidian Vault의 Task/Project/Strategy 데이터에 접근하는 MCP 서버"
+        include_operations=MCP_ALLOWED_OPERATIONS,
+        description="""LOOP Obsidian Vault - 0→1 소수 정예를 위한 AI 의사결정 인프라 (Palantir-lite)
+
+## 핵심 철학 (상세: 00_Meta/LOOP_PHILOSOPHY.md)
+결정–증거–정량화(A/B)–승인–학습 루프를 SSOT + Derived로 구현한 0→1 운영 OS
+1. SSOT + Derived: 한 곳에만 저장, 나머지는 계산 (드리프트 방지)
+2. 계산은 코드가, 판단은 사람이: LLM은 제안, 점수는 서버, 승인은 인간
+3. A/B 점수화: 베팅(A)과 결과(B) 분리 → 학습이 누적되는 구조
+4. 윈도우 평가: Project(월간) → Track(분기) → Condition(반기) 롤업
+
+## Entity Hierarchy
+NorthStar (10Y Vision) → MetaHypothesis (MH1-4) → Condition (cond-a~e) → Track (trk-1~6) → Project → Task
+Hypothesis: Project가 validates로 검증
+
+## ID Patterns
+- Project: prj-NNN (예: prj-001)
+- Task: tsk-NNN-NN (예: tsk-001-01)
+- Hypothesis: hyp-N-NN (예: hyp-2-01)
+- Track: trk-N (예: trk-1~6)
+- Condition: cond-X (예: cond-a~e)
+
+## 8가지 복합 API 도구 (1회 호출로 완료)
+1. vault-context - Vault 철학 + 구조 + 현황 (⭐ 첫 호출 필수)
+2. search-and-read - 검색+읽기 통합
+3. project-context - 프로젝트+Tasks+Hypotheses
+4. track-context - Track+하위 Projects
+5. dashboard - 전체 현황 요약
+6. entity-graph - 엔티티 관계 그래프
+7. strategy - 전략 계층 (NorthStar→Track)
+8. schema - 스키마/상수 정보
+
+## 사용 가이드
+1. 첫 연결 시: vault-context 호출 → 전체 구조 파악
+2. 검색 필요: search-and-read(q="키워드") → 파일까지 한 번에
+3. 특정 프로젝트: project-context(id) → 하위 Task 포함
+4. 현황 파악: dashboard → 긴급/지연 항목 확인"""
     )
     mcp.mount()  # /mcp 엔드포인트 자동 생성
-    print("✅ MCP Server mounted at /mcp")
+    print("✅ MCP Server mounted at /mcp (복합 API만 노출)")
 else:
     print("⚠️ fastapi-mcp not installed. MCP endpoint disabled.")
 

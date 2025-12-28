@@ -1419,19 +1419,21 @@
    Pending Review Panel
    ============================================ */
 .pending-panel .panel-header {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .pending-panel .panel-header h3 {
     font-size: 1.1em;
     font-weight: 600;
     margin: 0;
+    color: #1f2937;
 }
 
 .panel-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: #e5e7eb;
     border: none;
-    color: white;
+    color: #374151;
     cursor: pointer;
     padding: 6px 8px;
     border-radius: 4px;
@@ -1442,7 +1444,7 @@
 }
 
 .panel-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #d1d5db;
 }
 
 .panel-btn.spinning svg {
@@ -1480,7 +1482,7 @@
 }
 
 .pending-tab.active {
-    background: #f59e0b;
+    background: #374151;
     color: white;
 }
 
@@ -1502,8 +1504,8 @@
 }
 
 .pending-review-card:hover {
-    border-color: #f59e0b;
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+    border-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
     transform: translateY(-2px);
 }
 
@@ -1517,7 +1519,7 @@
 }
 
 .pending-review-card.review-status-pending {
-    border-left: 4px solid #f59e0b;
+    border-left: 4px solid #6b7280;
 }
 
 .review-card-header {
@@ -1565,8 +1567,8 @@
 .review-field-badge {
     font-size: 11px;
     padding: 2px 8px;
-    background: #fef3c7;
-    color: #92400e;
+    background: #e5e7eb;
+    color: #374151;
     border-radius: 10px;
 }
 
@@ -1641,8 +1643,8 @@
 
 .review-field-input:focus {
     outline: none;
-    border-color: #f59e0b;
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .review-field-reasoning {
@@ -1749,14 +1751,14 @@
 
 .pending-panel .btn-primary,
 .pending-review-modal .btn-primary {
-    background: #f59e0b;
+    background: #3b82f6;
     color: white;
     border: none;
 }
 
 .pending-panel .btn-primary:hover,
 .pending-review-modal .btn-primary:hover {
-    background: #d97706;
+    background: #2563eb;
 }
 
 .pending-panel .btn-secondary,
@@ -1779,7 +1781,7 @@
     min-width: 18px;
     height: 18px;
     padding: 0 6px;
-    background: #f59e0b;
+    background: #6b7280;
     color: white;
     font-size: 11px;
     font-weight: 600;

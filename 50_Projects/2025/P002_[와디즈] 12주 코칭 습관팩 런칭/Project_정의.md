@@ -3,9 +3,9 @@ entity_type: Project
 entity_id: prj-002
 entity_name: 와디즈 - 12주 코칭 습관팩 런칭
 created: 2025-12-18
-updated: '2025-12-27'
+updated: '2025-12-28'
 status: ''
-parent_id: trk-4
+parent_id: trk-6
 aliases:
 - prj-002
 - '[와디즈] 12주 코칭 습관팩 런칭'
@@ -31,7 +31,6 @@ condition_contributes:
   weight: 0.3
   description: 코칭 데이터 수집 기반 마련
 track_contributes: []
-
 expected_impact:
   statement: 이 프로젝트가 성공하면 12주 코칭 습관팩에 대한 시장 수요가 존재하고 와디즈 채널이 유효함이 증명된다
   metric: 펀딩 달성률 + 서포터 수

@@ -46,12 +46,25 @@ class TaskUpdate(BaseModel):
     links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
 
 
+class ExpectedImpactInput(BaseModel):
+    """Expected Impact 입력 (수동 설정용)"""
+    tier: str = Field(default="operational", description="strategic | enabling | operational | none")
+    impact_magnitude: str = Field(default="mid", description="high | mid | low")
+    confidence: float = Field(default=0.7, ge=0.0, le=1.0, description="신뢰도")
+    contributes: List[dict] = Field(default_factory=list, description="[{cond_id, weight}]")
+
+
 class ProjectCreate(BaseModel):
     """Project 생성 요청"""
     entity_name: str = Field(..., description="프로젝트 이름")
     owner: str = Field(..., description="책임자 ID")
     parent_id: Optional[str] = Field(default=None, description="부모 Track/Hypothesis ID")
     priority: str = Field(default="medium", description="우선순위")
+    conditions_3y: List[str] = Field(default_factory=list, description="3년 조건 연결 (cond-a ~ cond-e)")
+    # Autofill 옵션
+    autofill_expected_impact: bool = Field(default=False, description="True면 LLM으로 Expected Impact 자동 채움")
+    expected_impact: Optional[ExpectedImpactInput] = Field(default=None, description="수동 Expected Impact 설정")
+    llm_provider: str = Field(default="openai", description="openai | anthropic")
 
 
 class ProjectUpdate(BaseModel):
@@ -82,6 +95,9 @@ class ProjectResponse(BaseModel):
     project_id: str
     directory: Optional[str] = None
     message: str
+    # Autofill 결과 (옵션)
+    expected_impact: Optional[dict] = Field(default=None, description="자동/수동 설정된 Expected Impact")
+    expected_score: Optional[float] = Field(default=None, description="계산된 A Score")
 
 
 # ============================================

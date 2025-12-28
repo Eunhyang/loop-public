@@ -17,6 +17,93 @@ Project의 Expected Impact 필드를 LLM이 제안하고, **사용자와 대화�
 - 사용자가 최종 "OK"할 때까지 **절대 저장하지 않음**
 - OK되는 순간, 이 Project는 "전략적 베팅"이 됨
 
+---
+
+## API Integration (SSOT)
+
+> **CRITICAL: API 우선 + Fallback 패턴**
+>
+> 이 스킬은 LOOP MCP API (`POST /api/autofill/expected-impact`)를 호출합니다.
+> API 서버가 사용 가능할 때 API 호출, 불가능할 때만 로컬 LLM 호출.
+
+### API Endpoint
+
+```
+POST /api/autofill/expected-impact
+```
+
+**Request Body:**
+```json
+{
+    "project_id": "prj-NNN",
+    "mode": "preview",
+    "provider": "openai"
+}
+```
+
+**mode 파라미터:**
+| mode | 설명 |
+|------|------|
+| `preview` | LLM 제안값만 반환 (저장 안 함) - 사용자와 협상용 |
+| `pending` | pending_reviews.json에 저장 (Dashboard 승인 대기) |
+| `execute` | 엔티티에 바로 적용 |
+
+**Response:**
+```json
+{
+    "success": true,
+    "entity_id": "prj-010",
+    "mode": "preview",
+    "suggested_fields": {
+        "tier": "strategic",
+        "impact_magnitude": "high",
+        "confidence": 0.55,
+        "contributes": [{"condition": "cond-d", "weight": 0.6}]
+    },
+    "calculated_fields": {
+        "expected_score": 5.5
+    },
+    "reasoning": {
+        "tier": "Track 연결 분석...",
+        "impact_magnitude": "Condition 기여도...",
+        "confidence": "불확실성 요인..."
+    },
+    "validation_warnings": []
+}
+```
+
+### API-First Pattern
+
+```bash
+# 환경 변수 가드
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
+
+# Health check (pipefail로 curl 실패 감지)
+set -o pipefail
+if curl -fsS --max-time 5 "$API_URL/health" 2>/dev/null | jq -e '.status == "healthy"' > /dev/null; then
+    # API 호출 (preview 모드)
+    RESPONSE=$(curl -fsS -X POST "$API_URL/api/autofill/expected-impact" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{"project_id": "prj-010", "mode": "preview", "provider": "openai"}')
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        # 제안값 추출하여 사용자에게 표시
+        TIER=$(echo "$RESPONSE" | jq -r '.suggested_fields.tier')
+        SCORE=$(echo "$RESPONSE" | jq -r '.calculated_fields.expected_score')
+        REASONING=$(echo "$RESPONSE" | jq -r '.reasoning')
+        # → Step 4 협상 루프 진행
+    fi
+else
+    # Fallback: 로컬 LLM 호출 (기존 방식)
+    echo "⚠️ API unavailable, using local LLM"
+fi
+set +o pipefail
+```
+
+---
+
 ## When to Use
 
 이 스킬은 다음 상황에서 사용합니다:
@@ -120,9 +207,42 @@ Project의 Expected Impact 필드를 LLM이 제안하고, **사용자와 대화�
 - Condition의 핵심 지표
 - 관련 MH (Meta Hypothesis)
 
-### Step 3: Impact 필드 제안 + 상세 근거
+### Step 3: Impact 필드 제안 (API 우선)
 
-**LLM 프롬프트 실행**
+> **API 호출 우선, 실패 시 로컬 LLM 호출**
+
+**Step 3a: API 호출**
+```bash
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+# API 사용 가능 여부 확인
+if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
+    # preview 모드로 제안값만 가져오기
+    RESPONSE=$(curl -s -X POST "$API_URL/api/autofill/expected-impact" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "{\"project_id\": \"$PROJECT_ID\", \"mode\": \"preview\", \"provider\": \"openai\"}")
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        # API 응답에서 제안값 추출
+        SUGGESTED=$(echo "$RESPONSE" | jq '.suggested_fields')
+        CALCULATED=$(echo "$RESPONSE" | jq '.calculated_fields')
+        REASONING=$(echo "$RESPONSE" | jq '.reasoning')
+        # → Step 4 협상 루프로 진행
+    else
+        ERROR=$(echo "$RESPONSE" | jq -r '.error')
+        echo "⚠️ API error: $ERROR, falling back to local LLM"
+        # → Step 3b로 이동
+    fi
+else
+    echo "⚠️ API unavailable, using local LLM"
+    # → Step 3b로 이동
+fi
+```
+
+**Step 3b: Fallback - 로컬 LLM 호출**
+
+API 사용 불가 시 기존 방식으로 로컬 LLM 프롬프트 실행:
 
 `prompts/suggest_impact.md` 프롬프트를 사용하여:
 
@@ -276,15 +396,47 @@ Project의 Expected Impact 필드를 LLM이 제안하고, **사용자와 대화�
 
 ### Step 5: 저장 (사용자 OK 후에만)
 
+> **API 호출 우선, 실패 시 로컬 파일 수정**
+
 **5.1 최종 확인 메시지**
 
 ```
 사용자가 "OK"를 입력했습니다. 저장을 진행합니다.
 ```
 
-**5.2 Project Frontmatter 업데이트**
+**5.2a API로 저장 (execute 모드)**
 
-Edit 도구를 사용하여 frontmatter에 필드 추가:
+```bash
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
+
+if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
+    # execute 모드로 바로 적용
+    RESPONSE=$(curl -s -X POST "$API_URL/api/autofill/expected-impact" \
+        -H "Authorization: Bearer $LOOP_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"project_id\": \"$PROJECT_ID\",
+            \"mode\": \"execute\",
+            \"provider\": \"openai\"
+        }")
+
+    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
+        SCORE=$(echo "$RESPONSE" | jq -r '.calculated_fields.expected_score')
+        echo "✅ Expected Impact saved via API"
+        echo "📊 Expected Score: $SCORE"
+        # → 완료
+    else
+        echo "⚠️ API save failed, falling back to local"
+        # → Step 5.2b로 이동
+    fi
+else
+    # → Step 5.2b로 이동
+fi
+```
+
+**5.2b Fallback - 로컬 파일 수정**
+
+API 사용 불가 시 Edit 도구를 사용하여 frontmatter에 필드 추가:
 
 ```yaml
 # 기존 frontmatter에 추가
