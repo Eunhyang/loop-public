@@ -109,7 +109,6 @@ api/
 │   ├── tracks.py        # /api/tracks
 │   ├── conditions.py    # /api/conditions
 │   ├── search.py        # /api/search
-│   ├── files.py         # /api/files (read/write vault files)
 │   ├── pending.py       # /api/pending (pending reviews)
 │   ├── mcp_composite.py # /api/mcp/* (LLM-optimized compound endpoints)
 │   ├── autofill.py      # /api/autofill (LLM-powered field suggestions)
@@ -140,7 +139,9 @@ api/
 **MCP Composite Endpoints** (LLM-optimized, single-call):
 - `/api/mcp/vault-context` - Vault structure + current status (recommended first call)
 - `/api/mcp/search-and-read?q=keyword` - Search + read in one call
+- `/api/mcp/file-read?paths=path1,path2` - Direct file read by path (NEW)
 - `/api/mcp/project/{id}/context` - Project + Tasks + Hypotheses
+- `/api/mcp/project/{id}/context?include_body=true` - With body content (NEW)
 - `/api/mcp/dashboard` - Full status dashboard
 
 ---

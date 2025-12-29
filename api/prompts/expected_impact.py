@@ -11,7 +11,9 @@ EXPECTED_IMPACT_SYSTEM_PROMPT = """당신은 프로젝트의 전략적 가치를
 
 ## 역할
 - 프로젝트 문서와 전략 컨텍스트를 분석합니다
-- tier, impact_magnitude, confidence, contributes를 제안합니다
+- tier, impact_magnitude, confidence를 제안합니다
+- condition_contributes (Condition 기여)와 track_contributes (Track 기여)를 제안합니다
+- validates (검증 대상 가설)와 primary_hypothesis_id를 제안합니다
 - 판단 근거를 명확히 설명합니다
 
 ## 제약
@@ -92,7 +94,7 @@ def build_expected_impact_prompt(
     else:
         similar_info = "## 유사 프로젝트 참조\n없음\n"
 
-    # 출력 형식 가이드
+    # 출력 형식 가이드 (v5.3 정합: contributes -> condition_contributes)
     output_format = """
 ## 요청
 
@@ -116,13 +118,22 @@ def build_expected_impact_prompt(
       {"factor": "요인", "adjustment": -0.1}
     ]
   },
-  "contributes": [
+  "condition_contributes": [
     {
-      "condition_id": "cond-X",
+      "to": "cond-X",
       "weight": 0.0-1.0,
-      "description": "기여 설명"
+      "description": "Condition 기여 설명"
     }
   ],
+  "track_contributes": [
+    {
+      "to": "trk-N",
+      "weight": 0.0-1.0,
+      "description": "Secondary Track 기여 설명 (선택사항)"
+    }
+  ],
+  "validates": ["hyp-X-XX"],
+  "primary_hypothesis_id": "hyp-X-XX",
   "summary": "1-2문장 핵심 요약"
 }
 
@@ -142,6 +153,12 @@ def build_expected_impact_prompt(
 - 감점: 첫 시도(-0.2), 외부 의존성(-0.1~-0.2), 일정 촉박(-0.1), 기술적 불확실성(-0.2)
 - 가점: 유사 성공 경험(+0.1), 명확한 마일스톤(+0.1), 충분한 리소스(+0.1)
 - 기본값: 0.7 (보통)
+
+**v5.3 신규 필드:**
+- condition_contributes: 3년 Condition (cond-a~e)에 대한 기여
+- track_contributes: Secondary Track (trk-1~6)에 대한 기여 (선택사항)
+- validates: 검증 대상 가설 ID 목록 (hyp-X-XX)
+- primary_hypothesis_id: 프로젝트의 핵심 가설 ID
 """
 
     return f"""{project_info}

@@ -245,12 +245,17 @@ if MCP_AVAILABLE:
     MCP_ALLOWED_OPERATIONS = [
         "get_vault_context_api_mcp_vault_context_get",
         "search_and_read_api_mcp_search_and_read_get",
+        "file_read_api_mcp_file_read_get",  # 파일 직접 읽기 (경로 지정)
         "get_project_context_api_mcp_project__project_id__context_get",
         "get_track_context_api_mcp_track__track_id__context_get",
         "get_dashboard_api_mcp_dashboard_get",
         "get_entity_graph_api_mcp_entity__entity_id__graph_get",
         "get_strategy_overview_api_mcp_strategy_get",
         "get_schema_info_api_mcp_schema_get",
+        # Exec Vault (loop_exec) - RBAC protected
+        "get_exec_context_api_mcp_exec_context_get",
+        "exec_read_api_mcp_exec_read_get",
+        "exec_search_api_mcp_exec_search_get",
     ]
     mcp = FastApiMCP(
         app,
@@ -276,21 +281,52 @@ Hypothesis: Project가 validates로 검증
 - Track: trk-N (예: trk-1~6)
 - Condition: cond-X (예: cond-a~e)
 
-## 8가지 복합 API 도구 (1회 호출로 완료)
+## Dual Vault Contract
+- **LOOP Vault** = Shareable Truth (상태/정책/원칙/실행가이드)
+- **Exec Vault** = Private Truth (금액/개인/계약/계좌 등 민감 정보)
+- **출력 규칙**: exec → LOOP로는 "숫자 없는 상태/결론"만 반영 가능
+
+### Exec Vault 의사결정 파이프라인
+exec/의 폴더 구조 = 경영판단 라우팅 OS:
+```
+Runway(상태) → Cashflow(근거) → Pipeline(확률) → People(결정) → Contingency(강제실행)
+```
+- 10_Runway: 상태 머신 (Green/Yellow/Red)
+- 20_Cashflow: 상태를 계산하는 원장 (근거 데이터)
+- 30_Pipeline: 미래 현금 유입의 확률 테이블
+- 40_People: 상태에 종속되는 가장 비싼 결정 (채용/유지/역할)
+- 60_Contingency: Red일 때 자동 실행되는 프로토콜
+
+### 라우팅 규칙
+- "상태/정책/원칙?" → LOOP 우선
+- "금액/잔고/개인계약/급여?" → exec만, LOOP로 숫자/개인정보 절대 노출 금지
+- "결정(채용/예산/피봇)?" → exec 트리거 확인 → LOOP에는 결론만 반영
+
+## 12가지 복합 API 도구
+
+### LOOP Vault (9개)
 1. vault-context - Vault 철학 + 구조 + 현황 (⭐ 첫 호출 필수)
-2. search-and-read - 검색+읽기 통합
-3. project-context - 프로젝트+Tasks+Hypotheses
-4. track-context - Track+하위 Projects
-5. dashboard - 전체 현황 요약
-6. entity-graph - 엔티티 관계 그래프
-7. strategy - 전략 계층 (NorthStar→Track)
-8. schema - 스키마/상수 정보
+2. search-and-read - 검색+읽기 통합 (q=키워드)
+3. file-read - 파일 직접 읽기 (paths=경로, 쉼표 구분) ⭐NEW
+4. project-context - 프로젝트+Tasks+Hypotheses (include_body=true로 본문 포함)
+5. track-context - Track+하위 Projects
+6. dashboard - 전체 현황 요약
+7. entity-graph - 엔티티 관계 그래프
+8. strategy - 전략 계층 (NorthStar→Track)
+9. schema - 스키마/상수 정보
+
+### Exec Vault (3개, role=admin/exec 전용)
+10. exec-context - Exec Vault 구조 + 현황 (⭐ exec 첫 호출 필수)
+11. exec-read - Exec Vault 파일 읽기 (paths=경로)
+12. exec-search - Exec Vault 검색 (q=키워드)
 
 ## 사용 가이드
 1. 첫 연결 시: vault-context 호출 → 전체 구조 파악
 2. 검색 필요: search-and-read(q="키워드") → 파일까지 한 번에
-3. 특정 프로젝트: project-context(id) → 하위 Task 포함
-4. 현황 파악: dashboard → 긴급/지연 항목 확인"""
+3. 특정 파일 읽기: file-read(paths="50_Projects/.../file.md") → 직접 경로로 읽기
+4. 프로젝트 상세: project-context(id, include_body=true) → 본문 포함
+5. 현황 파악: dashboard → 긴급/지연 항목 확인
+6. exec 탐색: exec-context → _ENTRY_POINT → 각 폴더 _INDEX → 핵심 문서 순"""
     )
     mcp.mount()  # /mcp 엔드포인트 자동 생성
     print("✅ MCP Server mounted at /mcp (복합 API만 노출)")

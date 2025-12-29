@@ -24,8 +24,9 @@ except ImportError:
     from jose import jwt
     JWTError = Exception
 
-# Key storage directory
-KEYS_DIR = Path(__file__).parent / "keys"
+# Key storage directory (use VAULT_DIR for persistence across container restarts)
+_default_keys_dir = Path(__file__).parent / "keys"
+KEYS_DIR = Path(os.environ.get("OAUTH_KEYS_DIR", str(_default_keys_dir)))
 PRIVATE_KEY_PATH = KEYS_DIR / "private.pem"
 PUBLIC_KEY_PATH = KEYS_DIR / "public.pem"
 

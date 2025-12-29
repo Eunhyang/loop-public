@@ -38,3 +38,4 @@ poetry.lock
 .envrc
 
 _exec_vault
+api/oauth/keys/private.pem

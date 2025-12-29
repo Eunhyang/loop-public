@@ -37,12 +37,11 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 |  | 5 |
 | active | 3 |
-| doing | 41 |
-| done | 59 |
+| doing | 39 |
+| done | 66 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 1 |
-| todo | 94 |
+| todo | 90 |
 | unknown | 5 |
 | validating | 4 |
 
@@ -164,7 +163,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-006-02` | 채용 및 계약서 작성 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md` |
 | `tsk-006-03` | 혜영 코치에게 인수인계 받기 | todo | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md` |
 | `tsk-006-04` | 기본 프로토콜 및 교육 프로세스 정하기 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md` |
-| `tsk-006-05` | 용역비 지급(보윤님, 잔디님, 단님) | doing | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/용역비_지급보윤님_잔딘님_단님.md` |
+| `tsk-006-05` | 용역비 지급(보윤님, 잔디님, 단님) | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/용역비_지급보윤님_잔딘님_단님.md` |
 | `tsk-007-01` | 외부 비서 채용 – 3. 공고용 업무·요건 문단 작성 | done | `50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md` |
 | `tsk-007-02` | 외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리 | done | `50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md` |
 | `tsk-007-03` | 외부 비서 채용 – 1. 역할·권한 정책 문서 고정 | done | `50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md` |
@@ -191,13 +190,12 @@ tags: ["meta", "graph", "index"]
 | `tsk-015-11` | Hiring - 개발자 온보딩 문서 v1 작성 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
 | `tsk-015-12` | Hiring - 개발 환경 세팅 문서 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
 | `tsk-015-13` | Hiring - Day1 Onboarding 진행 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
-| `tsk-016-01` | 법인 정관 작성 후 최종 검토 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
-| `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
+| `tsk-016-01` | 법인 정관 작성 후 최종 검토 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
+| `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
 | `tsk-017-01` | 제출 서류 준비 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-01_제출서류준비.md` |
 | `tsk-017-02` | 사업계획서 틀 작성 | doing | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md` |
 | `tsk-017-03` | 사업계획서 리뷰(은향) | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md` |
 | `tsk-017-04` | 사업계획서 작성 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
-| `tsk-017-05` | 아이디어파트너스 배치 프로그램 사업계획서 작성 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-05_사업계획서_추가작성.md` |
 | `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
 | `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
 | `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
@@ -214,8 +212,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-14` | Week/Month 필터 담당자 탭 이동 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md` |
 | `tsk-dashboard-ux-v1-15` | Schema 상수 하드코딩 제거 및 일원화 강제 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md` |
 | `tsk-dashboard-ux-v1-16` | 캘린더뷰 Task Type 필터링 UI 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md` |
-| `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | doing | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
-| `tsk-grants-youth-01` | 이인벤션 선납 비용 처리 논의 | todo | `50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md` |
+| `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | done | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
+| `tsk-grants-youth-01` | 이인벤션 선납 비용 처리 논의 | done | `50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md` |
 | `tsk-impact-schema-v2-01` | Impact - Realized 필드 확장 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md` |
 | `tsk-impact-schema-v2-02` | build_impact.py window 지원 (Phase 2) | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-05_build_impact_window.md` |
 | `tsk-impact-schema-v2-03` | Schema - Hypothesis-Evidence 연결 설계 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-04_Hypothesis_Evidence_설계.md` |
@@ -232,12 +230,13 @@ tags: ["meta", "graph", "index"]
 | `tsk-n8n-04` | n8n LLM 프롬프트 템플릿 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md` |
 | `tsk-n8n-05` | API 비즈니스 로직 통합 - 스킬→API 공통화 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md` |
 | `tsk-n8n-06` | vault-hygiene - API 엔드포인트 개발 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-06_vault-hygiene_API_엔드포인트_개발.md` |
+| `tsk-n8n-07` | AI Router - Evidence 추론 엔드포인트 구현 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 | `tsk-vault-gpt-02` | MCP API TaskUpdate 모델 확장 | hold | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md` |
 | `tsk-vault-gpt-03` | API - Tree + Batch 엔드포인트 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md` |
 | `tsk-vault-gpt-04` | MCP Bearer Token 인증 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md` |
 | `tsk-vault-gpt-05` | MCP - 전용 복합 API 엔드포인트 개발 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md` |
-| `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
+| `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
 
 
 ## Hypothesis (45개)
@@ -449,6 +448,7 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-04 (n8n LLM 프롬프트 템플릿 개선)
   - tsk-n8n-05 (API 비즈니스 로직 통합 - 스킬→API 공통화)
   - tsk-n8n-06 (vault-hygiene - API 엔드포인트 개발)
+  - tsk-n8n-07 (AI Router - Evidence 추론 엔드포인트 구현)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-vault-gpt-01 (v1 HTTP MCP 설정)
   - tsk-vault-gpt-02 (MCP API TaskUpdate 모델 확장)

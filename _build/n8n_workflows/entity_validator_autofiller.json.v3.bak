@@ -103,7 +103,48 @@
     },
     {
       "parameters": {
-        "url": "https://mcp.sosilab.synology.me/api/ai/infer/task_schema",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "string",
+        "body": "={{ JSON.stringify({ model: 'gpt-5.2', messages: [{ role: 'user', content: String($json.llm_prompt || '') }], temperature: 0.3 }) }}",
+        "options": {}
+      },
+      "id": "call-openai-tasks",
+      "name": "Call OpenAI (Tasks)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1300, 200],
+      "notes": "HTTP Request node - expressions work correctly per item"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Tasks\nconst input = $input.first().json;\nconst validateData = $('Validate Tasks').first().json;\n\n// OpenAI API 응답 구조: choices[0].message.content\nconst llmResponse = input.choices?.[0]?.message?.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  if (!llmResponse) {\n    throw new Error('Empty LLM response');\n  }\n  \n  // Extract JSON from response (handle markdown code blocks)\n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: validateData.entity_id,\n    entity_type: 'Task',\n    entity_name: validateData.entity_name,\n    phase: 'task_schema',\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-tasks-response",
+      "name": "Parse Tasks Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
@@ -122,32 +163,14 @@
         "method": "POST",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"task_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\" } }}",
-        "options": {
-          "response": {
-            "response": {
-              "includeInputData": true
-            }
-          }
-        }
+        "jsonBody": "={{ { \"entity_id\": $json.entity_id, \"entity_type\": $json.entity_type, \"entity_name\": $json.entity_name, \"phase\": $json.phase, \"suggested_fields\": $json.suggested_fields, \"reasoning\": $json.reasoning } }}",
+        "options": {}
       },
-      "id": "call-ai-router-tasks",
-      "name": "Call AI Router (Task Schema)",
+      "id": "create-pending-tasks",
+      "name": "Create Pending (Tasks)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1300, 200],
-      "notes": "v5: AI Router 통합 - pending 자동 생성, audit 로그 통합"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Parse AI Router response for Tasks (v5)\n// AI Router 응답: { ok, run_id, patch, suggested_fields, reasoning, warnings, pending, audit_ref }\n// pending이 이미 생성되었으므로 별도 Create Pending 노드 불필요\n\nconst input = $input.first().json;\n\n// v5: includeInputData로 원본 입력이 포함됨\nconst inputData = input.$input?.item?.json || input.$input?.items?.[0]?.json || {};\n\n// entity 정보 추출 (여러 fallback 경로)\nconst entity_id = input.entity_id || inputData.entity_id || null;\nconst entity_name = input.entity_name || inputData.entity_name || 'unknown';\nconst phase = 'task_schema';\n\n// 에러 처리\nif (!input.ok) {\n  return [{\n    json: {\n      entity_id: entity_id || 'unknown',\n      entity_type: 'Task',\n      entity_name,\n      phase,\n      success: false,\n      error: input.error || 'AI Router call failed',\n      run_id: input.run_id || 'unknown'\n    }\n  }];\n}\n\n// AI Router가 이미 pending을 생성했으므로 성공 응답 반환\nreturn [{\n  json: {\n    entity_id,\n    entity_type: 'Task',\n    entity_name,\n    phase,\n    success: true,\n    run_id: input.run_id,\n    suggested_fields: input.suggested_fields || {},\n    reasoning: input.reasoning || {},\n    warnings: input.warnings || [],\n    pending: input.pending,\n    audit_ref: input.audit_ref\n  }\n}];"
-      },
-      "id": "parse-tasks-response",
-      "name": "Parse Tasks Response",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1500, 200],
-      "notes": "v5: AI Router 응답 파싱 (pending 이미 생성됨)"
+      "position": [1700, 200]
     },
     {
       "parameters": {
@@ -200,7 +223,47 @@
     },
     {
       "parameters": {
-        "url": "https://mcp.sosilab.synology.me/api/ai/infer/project_schema",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "string",
+        "body": "={{ JSON.stringify({ model: 'gpt-5.2', messages: [{ role: 'user', content: String($json.llm_prompt || '') }], temperature: 0.3 }) }}",
+        "options": {}
+      },
+      "id": "call-openai-projects",
+      "name": "Call OpenAI (Projects)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1300, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM response for Projects\nconst input = $input.first().json;\nconst validateData = $('Validate Projects').first().json;\n\nconst llmResponse = input.choices?.[0]?.message?.content || '';\n\nlet parsed = { suggested_fields: {}, reasoning: {} };\n\ntry {\n  if (!llmResponse) {\n    throw new Error('Empty LLM response');\n  }\n  \n  let jsonStr = llmResponse;\n  const jsonMatch = llmResponse.match(/```json\\n?([\\s\\S]*?)\\n?```/);\n  if (jsonMatch) {\n    jsonStr = jsonMatch[1];\n  } else {\n    const objMatch = llmResponse.match(/\\{[\\s\\S]*\\}/);\n    if (objMatch) jsonStr = objMatch[0];\n  }\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  parsed = { \n    suggested_fields: {}, \n    reasoning: { error: `Failed to parse LLM response: ${e.message}` } \n  };\n}\n\nreturn [{\n  json: {\n    entity_id: validateData.entity_id,\n    entity_type: 'Project',\n    entity_name: validateData.entity_name,\n    phase: 'project_schema',\n    suggested_fields: parsed.suggested_fields || {},\n    reasoning: parsed.reasoning || {}\n  }\n}];"
+      },
+      "id": "parse-projects-response",
+      "name": "Parse Projects Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 600]
+    },
+    {
+      "parameters": {
+        "url": "https://mcp.sosilab.synology.me/api/pending",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
@@ -219,43 +282,25 @@
         "method": "POST",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\" } }}",
-        "options": {
-          "response": {
-            "response": {
-              "includeInputData": true
-            }
-          }
-        }
+        "jsonBody": "={{ { \"entity_id\": $json.entity_id, \"entity_type\": $json.entity_type, \"entity_name\": $json.entity_name, \"phase\": $json.phase, \"suggested_fields\": $json.suggested_fields, \"reasoning\": $json.reasoning } }}",
+        "options": {}
       },
-      "id": "call-ai-router-projects",
-      "name": "Call AI Router (Project Schema)",
+      "id": "create-pending-projects",
+      "name": "Create Pending (Projects)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1300, 600],
-      "notes": "v5: AI Router 통합 - pending 자동 생성, audit 로그 통합"
+      "position": [1700, 600]
     },
     {
       "parameters": {
-        "jsCode": "// Parse AI Router response for Projects (v5)\n// AI Router 응답: { ok, run_id, patch, suggested_fields, reasoning, warnings, pending, audit_ref }\n// pending이 이미 생성되었으므로 별도 Create Pending 노드 불필요\n\nconst input = $input.first().json;\n\n// v5: includeInputData로 원본 입력이 포함됨\nconst inputData = input.$input?.item?.json || input.$input?.items?.[0]?.json || {};\n\n// entity 정보 추출 (여러 fallback 경로)\nconst entity_id = input.entity_id || inputData.entity_id || null;\nconst entity_name = input.entity_name || inputData.entity_name || 'unknown';\nconst phase = 'project_schema';\n\n// 에러 처리\nif (!input.ok) {\n  return [{\n    json: {\n      entity_id: entity_id || 'unknown',\n      entity_type: 'Project',\n      entity_name,\n      phase,\n      success: false,\n      error: input.error || 'AI Router call failed',\n      run_id: input.run_id || 'unknown'\n    }\n  }];\n}\n\n// AI Router가 이미 pending을 생성했으므로 성공 응답 반환\nreturn [{\n  json: {\n    entity_id,\n    entity_type: 'Project',\n    entity_name,\n    phase,\n    success: true,\n    run_id: input.run_id,\n    suggested_fields: input.suggested_fields || {},\n    reasoning: input.reasoning || {},\n    warnings: input.warnings || [],\n    pending: input.pending,\n    audit_ref: input.audit_ref\n  }\n}];"
-      },
-      "id": "parse-projects-response",
-      "name": "Parse Projects Response",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1500, 600],
-      "notes": "v5: AI Router 응답 파싱 (pending 이미 생성됨)"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Phase 3: Project Impact Auto-fill (v4.1 - run_id + meta_* 추가)\n// Filter projects that need expected_impact OR realized_impact\n// v4: OpenAI 직접 호출 대신 ai router API 사용\n// v4.1: run_id 생성 + meta_* 키 추가 (HTTP includeInputData 지원)\n//   - /api/ai/infer/project_impact (Expected Impact)\n//   - /api/ai/infer/evidence (Realized Impact)\n// 장점: 일관된 프롬프트, audit 로그, pending 자동 생성\n\nconst projectsInput = $('Get Projects').first().json;\nconst projects = projectsInput.projects || [];\n\nconst results = [];\n\n// run_id 생성 함수 (각 요청마다 고유 ID)\nfunction generateRunId() {\n  const iso = new Date().toISOString();\n  const datePart = iso.slice(0, 10).replace(/-/g, '');\n  const timePart = iso.slice(11, 19).replace(/:/g, '');\n  const rand = Math.random().toString(36).slice(2, 8);\n  return `run-${datePart}-${timePart}-${rand}`;\n}\n\nfor (const project of projects) {\n  // Check if expected_impact is missing or incomplete\n  const needsExpectedImpact = !project.expected_impact || \n    !project.expected_impact.tier ||\n    project.expected_impact.tier === null ||\n    project.tier === null;\n  \n  // Check if realized_impact is needed (done/cancelled projects)\n  const isCompleted = ['done', 'cancelled'].includes(project.status);\n  const needsRealizedImpact = isCompleted && (!project.realized_impact || !project.realized_impact.verdict);\n  \n  if (needsExpectedImpact) {\n    const run_id = generateRunId();\n    results.push({\n      json: {\n        // v4.1: meta_* 키 (HTTP includeInputData로 응답에 포함됨)\n        meta_entity_id: project.entity_id,\n        meta_entity_name: project.entity_name,\n        meta_phase: 'expected_impact',\n        meta_run_id: run_id,\n        // 기존 필드 유지 (다운스트림 노드 호환)\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'expected_impact',\n        needs_llm: true,\n        // v4: ai router용 요청 데이터\n        api_request: {\n          project_id: project.entity_id,\n          run_id: run_id,\n          mode: 'pending',\n          provider: 'openai',\n          actor: 'n8n',\n          create_pending: true,\n          schema_version: '5.3'\n        },\n        original_entity: project\n      }\n    });\n  }\n  \n  if (needsRealizedImpact) {\n    const run_id = generateRunId();\n    results.push({\n      json: {\n        // v4.1: meta_* 키 (HTTP includeInputData로 응답에 포함됨)\n        meta_entity_id: project.entity_id,\n        meta_entity_name: project.entity_name,\n        meta_phase: 'realized_impact',\n        meta_run_id: run_id,\n        // 기존 필드 유지 (다운스트림 노드 호환)\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'realized_impact',\n        needs_llm: true,\n        // v4: ai router용 요청 데이터 (Evidence 엔드포인트)\n        api_request: {\n          project_id: project.entity_id,\n          run_id: run_id,\n          mode: 'pending',\n          provider: 'openai',\n          actor: 'n8n',\n          create_pending: true,\n          schema_version: '5.3',\n          retrospective_content: null,\n          actual_result: null\n        },\n        original_entity: project\n      }\n    });\n  }\n}\n\nreturn results;"
+        "jsCode": "// Phase 3: Project Impact Auto-fill (v4 - ai router 통합)\n// Filter projects that need expected_impact OR realized_impact\n// v4: OpenAI 직접 호출 대신 ai router API 사용\n//   - /api/ai/infer/project_impact (Expected Impact)\n//   - /api/ai/infer/evidence (Realized Impact)\n// 장점: 일관된 프롬프트, audit 로그, pending 자동 생성\n\nconst projectsInput = $('Get Projects').first().json;\nconst projects = projectsInput.projects || [];\n\nconst results = [];\n\nfor (const project of projects) {\n  // Check if expected_impact is missing or incomplete\n  const needsExpectedImpact = !project.expected_impact || \n    !project.expected_impact.tier ||\n    project.expected_impact.tier === null ||\n    project.tier === null;\n  \n  // Check if realized_impact is needed (done/cancelled projects)\n  const isCompleted = ['done', 'cancelled'].includes(project.status);\n  const needsRealizedImpact = isCompleted && (!project.realized_impact || !project.realized_impact.verdict);\n  \n  if (needsExpectedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'expected_impact',\n        needs_llm: true,\n        // v4: ai router용 요청 데이터\n        api_request: {\n          project_id: project.entity_id,\n          mode: 'pending',\n          provider: 'openai',\n          actor: 'n8n',\n          create_pending: true,\n          schema_version: '5.3'\n        },\n        original_entity: project\n      }\n    });\n  }\n  \n  if (needsRealizedImpact) {\n    results.push({\n      json: {\n        entity_id: project.entity_id,\n        entity_name: project.entity_name,\n        entity_type: 'Project',\n        phase: 'realized_impact',\n        needs_llm: true,\n        // v4: ai router용 요청 데이터 (Evidence 엔드포인트)\n        api_request: {\n          project_id: project.entity_id,\n          mode: 'pending',\n          provider: 'openai',\n          actor: 'n8n',\n          create_pending: true,\n          schema_version: '5.3',\n          retrospective_content: null,\n          actual_result: null\n        },\n        original_entity: project\n      }\n    });\n  }\n}\n\nreturn results;"
       },
       "id": "filter-impact-needed",
       "name": "Filter Impact Needed",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [900, 1000],
-      "notes": "v4.1: run_id 생성 + meta_* 키 추가 (HTTP includeInputData 지원)"
+      "notes": "v4: OpenAI 프롬프트 대신 ai router API 요청 데이터 생성"
     },
     {
       "parameters": {
@@ -307,13 +352,7 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ $json.api_request }}",
-        "options": {
-          "response": {
-            "response": {
-              "includeInputData": true
-            }
-          }
-        }
+        "options": {}
       },
       "id": "call-ai-router-expected",
       "name": "Call AI Router (Expected)",
@@ -344,13 +383,7 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ $json.api_request }}",
-        "options": {
-          "response": {
-            "response": {
-              "includeInputData": true
-            }
-          }
-        }
+        "options": {}
       },
       "id": "call-ai-router-evidence",
       "name": "Call AI Router (Evidence)",
@@ -361,14 +394,14 @@
     },
     {
       "parameters": {
-        "jsCode": "// Parse ai router response (v4.1 - meta_* 기반 파싱)\n// v4.1: HTTP includeInputData로 원본 입력이 $input.item.json에 포함됨\n// ai router 응답: { ok, run_id, patch, derived_autofill, scores, pending, ... }\n// pending이 이미 생성되었으므로 별도 Create Pending 노드 불필요\n\nconst input = $input.first().json;\n\n// v4.1: includeInputData는 원본을 $input.item.json 또는 $input.items[0].json에 저장\n// 여러 경로를 시도하여 안정적으로 추출\nconst inputData = input.$input?.item?.json || input.$input?.items?.[0]?.json || {};\n\n// meta_* 키 추출 (여러 fallback 경로)\nconst entity_id = input.meta_entity_id || inputData.meta_entity_id || inputData.entity_id || null;\nconst entity_name = input.meta_entity_name || inputData.meta_entity_name || inputData.entity_name || 'unknown';\nconst phase = input.meta_phase || inputData.meta_phase || inputData.phase || 'unknown';\nconst meta_run_id = input.meta_run_id || inputData.meta_run_id || inputData.api_request?.run_id || null;\n\n// run_id: meta에서 가져오거나 API 응답에서 가져옴\nconst final_run_id = meta_run_id || input.run_id || 'unknown';\n\n// 에러 처리: entity_id가 없는 경우\nif (!entity_id) {\n  return [{\n    json: {\n      entity_id: 'unknown',\n      entity_type: 'Project',\n      entity_name: entity_name,\n      phase: phase,\n      success: false,\n      error: input.error || 'Failed to extract entity metadata from response',\n      run_id: final_run_id\n    }\n  }];\n}\n\nif (!input.ok) {\n  return [{\n    json: {\n      entity_id,\n      entity_type: 'Project',\n      entity_name,\n      phase,\n      success: false,\n      error: input.error || 'AI router call failed',\n      run_id: final_run_id\n    }\n  }];\n}\n\n// ai router가 이미 pending을 생성했으므로 성공 응답 반환\nreturn [{\n  json: {\n    entity_id,\n    entity_type: 'Project',\n    entity_name,\n    phase,\n    success: true,\n    run_id: final_run_id,\n    patch: input.patch,\n    scores: input.scores,\n    pending: input.pending,\n    audit_ref: input.audit_ref\n  }\n}];"
+        "jsCode": "// Parse ai router response (v4)\n// ai router 응답: { ok, run_id, patch, derived_autofill, scores, pending, ... }\n// pending이 이미 생성되었으므로 별도 Create Pending 노드 불필요\n\nconst input = $input.first().json;\nconst filterData = $('Filter Impact Needed').first().json;\n\nif (!input.ok) {\n  return [{\n    json: {\n      entity_id: filterData.entity_id,\n      entity_type: 'Project',\n      entity_name: filterData.entity_name,\n      phase: filterData.phase,\n      success: false,\n      error: input.error || 'AI router call failed',\n      run_id: input.run_id\n    }\n  }];\n}\n\n// ai router가 이미 pending을 생성했으므로 성공 응답 반환\nreturn [{\n  json: {\n    entity_id: filterData.entity_id,\n    entity_type: 'Project',\n    entity_name: filterData.entity_name,\n    phase: filterData.phase,\n    success: true,\n    run_id: input.run_id,\n    patch: input.patch,\n    scores: input.scores,\n    pending: input.pending,\n    audit_ref: input.audit_ref\n  }\n}];"
       },
       "id": "parse-impact-response",
       "name": "Parse Impact Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [1600, 1000],
-      "notes": "v4.1: meta_* 기반 파싱 (includeInputData 활용)"
+      "notes": "v4: ai router 응답 파싱 (pending 이미 생성됨)"
     }
   ],
   "connections": {
@@ -411,12 +444,12 @@
     "Tasks Need LLM?": {
       "main": [
         [
-          { "node": "Call AI Router (Task Schema)", "type": "main", "index": 0 }
+          { "node": "Call OpenAI (Tasks)", "type": "main", "index": 0 }
         ],
         []
       ]
     },
-    "Call AI Router (Task Schema)": {
+    "Call OpenAI (Tasks)": {
       "main": [
         [
           { "node": "Parse Tasks Response", "type": "main", "index": 0 }
@@ -425,7 +458,9 @@
     },
     "Parse Tasks Response": {
       "main": [
-        []
+        [
+          { "node": "Create Pending (Tasks)", "type": "main", "index": 0 }
+        ]
       ]
     },
     "Get Projects": {
@@ -446,12 +481,12 @@
     "Projects Need LLM?": {
       "main": [
         [
-          { "node": "Call AI Router (Project Schema)", "type": "main", "index": 0 }
+          { "node": "Call OpenAI (Projects)", "type": "main", "index": 0 }
         ],
         []
       ]
     },
-    "Call AI Router (Project Schema)": {
+    "Call OpenAI (Projects)": {
       "main": [
         [
           { "node": "Parse Projects Response", "type": "main", "index": 0 }
@@ -460,7 +495,9 @@
     },
     "Parse Projects Response": {
       "main": [
-        []
+        [
+          { "node": "Create Pending (Projects)", "type": "main", "index": 0 }
+        ]
       ]
     },
     "Filter Impact Needed": {
@@ -513,10 +550,10 @@
   },
   "staticData": null,
   "meta": {
-    "templateId": "entity-validator-autofiller-v5",
+    "templateId": "entity-validator-autofiller-v4",
     "created": "2025-12-27",
     "updated": "2025-12-29",
     "schemaVersion": "5.3",
-    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v5: 전체 Phase AI Router 통합 완료. Phase 1 (Task Schema): /api/ai/infer/task_schema, Phase 2 (Project Schema): /api/ai/infer/project_schema, Phase 3 (Impact): /api/ai/infer/project_impact, /api/ai/infer/evidence. 모든 LLM 호출이 중앙 API를 통해 audit/decision 로그 자동 생성. Create Pending 노드 제거 (AI Router가 pending 자동 생성)."
+    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v4: ai router 통합 (OpenAI 직접 호출 제거). Changes: (1) Phase 3 OpenAI → ai router API 호출, (2) /api/ai/infer/project_impact (Expected Impact), (3) /api/ai/infer/evidence (Realized Impact), (4) pending 자동 생성 (별도 Create Pending 노드 불필요), (5) 일관된 프롬프트/audit 로그/decision_log 통합. Note: Phase 1/2 (Task/Project Schema Validation)는 기존 OpenAI 직접 호출 유지 (ai router에 해당 엔드포인트 없음)."
   }
 }

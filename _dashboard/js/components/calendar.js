@@ -19,6 +19,14 @@ const Calendar = {
     // 기본 색상 (트랙 없는 경우)
     DEFAULT_COLOR: '#E0E0E0',
 
+    // Google Calendar 설정
+    GOOGLE_CALENDAR_CONFIG: {
+        apiKey: 'AIzaSyDhdIFvqgVcnOCsp2vkG_KC5nD7cBawkAk',
+        calendarId: 'sosilab2020@gmail.com', // Primary calendar (변경 필요시 수정)
+        color: '#4285F4',     // Google Blue
+        className: 'google-event'
+    },
+
     /**
      * 프로젝트/태스크의 트랙 기반 색상 반환
      * projectId → project.parent_id(트랙) → 트랙 색상
@@ -66,9 +74,15 @@ const Calendar = {
                 month: '월',
                 week: '주'
             },
-            events: this.getEvents(),
+            // Google Calendar API Key
+            googleCalendarApiKey: this.GOOGLE_CALENDAR_CONFIG.apiKey,
+            // 이벤트 소스: LOOP Tasks + Google Calendar
+            eventSources: [
+                this.getLoopEventSource(),
+                this.getGoogleCalendarEventSource()
+            ],
             eventClick: (info) => this.onEventClick(info),
-            editable: true,
+            editable: true,  // 기본값 (개별 소스에서 override)
             eventDrop: (info) => this.onEventDrop(info),
             eventResize: (info) => this.onEventResize(info),
             height: 'auto',
@@ -124,6 +138,37 @@ const Calendar = {
     },
 
     /**
+     * Google Calendar 이벤트 소스 반환
+     * 읽기 전용으로 설정 (editable: false)
+     */
+    getGoogleCalendarEventSource() {
+        const config = this.GOOGLE_CALENDAR_CONFIG;
+        return {
+            id: 'google',
+            googleCalendarId: config.calendarId,
+            color: config.color,
+            textColor: '#fff',
+            className: config.className,
+            editable: false,  // 읽기 전용 - 드래그/리사이즈 불가
+            failure: () => {
+                console.warn('Google Calendar 로드 실패');
+                showToast('Google Calendar를 불러오지 못했습니다', 'warning');
+            }
+        };
+    },
+
+    /**
+     * LOOP Task 이벤트 소스 반환
+     */
+    getLoopEventSource() {
+        return {
+            id: 'loop',
+            events: this.getEvents(),
+            editable: true
+        };
+    },
+
+    /**
      * FullCalendar는 end date를 exclusive로 처리하므로 +1일
      */
     getEndDateForCalendar(dateStr) {
@@ -146,9 +191,25 @@ const Calendar = {
     },
 
     /**
-     * 이벤트 클릭 핸들러 - Task 패널 열기
+     * 이벤트 클릭 핸들러
+     * - LOOP 이벤트: Task 패널 열기
+     * - Google 이벤트: Toast로 정보만 표시 (읽기 전용)
      */
     onEventClick(info) {
+        const sourceId = info.event.source?.id;
+
+        // Google Calendar 이벤트인 경우
+        if (sourceId === 'google') {
+            info.jsEvent.preventDefault();
+            const event = info.event;
+            const startTime = event.start ? event.start.toLocaleString('ko-KR') : '';
+            const endTime = event.end ? event.end.toLocaleString('ko-KR') : '';
+            const timeRange = endTime ? `${startTime} ~ ${endTime}` : startTime;
+            showToast(`📅 ${event.title}\n${timeRange}`, 'info', 4000);
+            return;
+        }
+
+        // LOOP Task 이벤트
         const taskId = info.event.id;
         TaskPanel.open(taskId);
     },

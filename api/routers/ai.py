@@ -2,7 +2,10 @@
 AI Inference API Router
 
 LLM 기반 추론 엔드포인트
-- /api/ai/infer/project_impact: Project Impact autofill
+- /api/ai/infer/project_impact: Project Impact autofill (A Score)
+- /api/ai/infer/evidence: Evidence 추론 (B Score - Realized Impact)
+- /api/ai/infer/task_schema: Task 스키마 필드 채움 (n8n Phase 1)
+- /api/ai/infer/project_schema: Project 스키마 필드 채움 (n8n Phase 2)
 
 LOOP_PHILOSOPHY 8.2:
 - 모든 추론은 audit 로그에 기록
@@ -12,6 +15,11 @@ LOOP_PHILOSOPHY 8.2:
 n8n 워크플로우와 통합:
 - n8n에서 OpenAI 노드 대신 이 엔드포인트 호출
 - 일관된 프롬프트/응답 형식 보장
+- v5: Phase 1/2도 AI Router로 통합
+
+v5.3 Schema:
+- contributes → condition_contributes (Project)
+- Evidence 품질 메타 7개 필드 지원
 """
 
 import json
@@ -27,6 +35,7 @@ from ..utils.vault_utils import get_vault_dir
 from ..utils.run_logger import generate_run_id
 from ..utils.impact_calculator import (
     calculate_expected_score,
+    calculate_realized_score,
     calculate_window_fields,
     validate_contributes_weights
 )
@@ -36,6 +45,21 @@ from ..prompts.expected_impact import (
     EXPECTED_IMPACT_SYSTEM_PROMPT,
     build_expected_impact_prompt,
     build_simple_expected_impact_prompt
+)
+from ..prompts.evidence import (
+    EVIDENCE_SYSTEM_PROMPT,
+    build_evidence_prompt,
+    build_simple_evidence_prompt
+)
+from ..prompts.task_schema import (
+    TASK_SCHEMA_SYSTEM_PROMPT,
+    build_task_schema_prompt,
+    build_simple_task_schema_prompt
+)
+from ..prompts.project_schema import (
+    PROJECT_SCHEMA_SYSTEM_PROMPT,
+    build_project_schema_prompt,
+    build_simple_project_schema_prompt
 )
 from .pending import (
     load_pending,
@@ -79,6 +103,91 @@ class InferProjectImpactResponse(BaseModel):
     error: Optional[str] = Field(default=None, description="에러 메시지")
 
 
+class InferEvidenceRequest(BaseModel):
+    """Evidence 추론 요청 (B Score - Realized Impact)"""
+    project_id: str = Field(..., description="Project ID (예: prj-001)")
+    mode: str = Field(default="preview", description="preview | pending | execute")
+    provider: str = Field(default="openai", description="LLM provider (openai, anthropic)")
+    retrospective_content: Optional[str] = Field(default=None, description="회고 문서 내용")
+    actual_result: Optional[str] = Field(default=None, description="실제 결과 요약")
+    actor: str = Field(default="n8n", description="요청자 (n8n, api, claude)")
+    run_id: Optional[str] = Field(default=None, description="외부에서 제공하는 run_id")
+    schema_version: str = Field(default="5.3", description="스키마 버전")
+    create_pending: bool = Field(default=True, description="mode=pending 시 pending 생성 여부")
+
+
+class InferEvidenceResponse(BaseModel):
+    """Evidence 추론 응답"""
+    ok: bool
+    run_id: str
+    patch: Dict[str, Any] = Field(default_factory=dict, description="LLM 제안 필드 (normalized_delta, evidence_strength 등)")
+    quality_meta: Dict[str, Any] = Field(default_factory=dict, description="v5.3 품질 메타 필드")
+    derived_autofill: Dict[str, Any] = Field(default_factory=dict, description="서버 계산 필드 (window_id, time_range)")
+    scores: Dict[str, float] = Field(default_factory=dict, description="계산된 점수 (realized_score)")
+    validation: Dict[str, Any] = Field(default_factory=dict, description="검증 결과")
+    pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
+    audit_ref: str = Field(default="", description="audit 참조 ID")
+    error: Optional[str] = Field(default=None, description="에러 메시지")
+
+
+# ============================================
+# Task/Project Schema Models (n8n Phase 1/2)
+# ============================================
+
+class InferTaskSchemaRequest(BaseModel):
+    """Task 스키마 추론 요청 (n8n Phase 1)"""
+    task_id: str = Field(..., description="Task ID (예: tsk-001-01)")
+    issues: List[str] = Field(default_factory=list, description="감지된 이슈 목록")
+    mode: str = Field(default="pending", description="preview | pending")
+    provider: str = Field(default="openai", description="LLM provider")
+    actor: str = Field(default="n8n", description="요청자")
+    run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
+    schema_version: str = Field(default="5.3", description="스키마 버전")
+    create_pending: bool = Field(default=True, description="pending 생성 여부")
+    # n8n에서 전달하는 원본 데이터
+    original_entity: Optional[Dict[str, Any]] = Field(default=None, description="n8n에서 전달한 원본 Task")
+    strategy_context: Optional[Dict[str, Any]] = Field(default=None, description="전략 컨텍스트")
+
+
+class InferTaskSchemaResponse(BaseModel):
+    """Task 스키마 추론 응답"""
+    ok: bool
+    run_id: str
+    suggested_fields: Dict[str, Any] = Field(default_factory=dict, description="LLM 제안 필드")
+    reasoning: Dict[str, str] = Field(default_factory=dict, description="제안 근거")
+    validation: Dict[str, Any] = Field(default_factory=dict, description="검증 결과")
+    pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
+    audit_ref: str = Field(default="", description="audit 참조 ID")
+    error: Optional[str] = Field(default=None, description="에러 메시지")
+
+
+class InferProjectSchemaRequest(BaseModel):
+    """Project 스키마 추론 요청 (n8n Phase 2)"""
+    project_id: str = Field(..., description="Project ID (예: prj-001)")
+    issues: List[str] = Field(default_factory=list, description="감지된 이슈 목록")
+    mode: str = Field(default="pending", description="preview | pending")
+    provider: str = Field(default="openai", description="LLM provider")
+    actor: str = Field(default="n8n", description="요청자")
+    run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
+    schema_version: str = Field(default="5.3", description="스키마 버전")
+    create_pending: bool = Field(default=True, description="pending 생성 여부")
+    # n8n에서 전달하는 원본 데이터
+    original_entity: Optional[Dict[str, Any]] = Field(default=None, description="n8n에서 전달한 원본 Project")
+    strategy_context: Optional[Dict[str, Any]] = Field(default=None, description="전략 컨텍스트")
+
+
+class InferProjectSchemaResponse(BaseModel):
+    """Project 스키마 추론 응답"""
+    ok: bool
+    run_id: str
+    suggested_fields: Dict[str, Any] = Field(default_factory=dict, description="LLM 제안 필드")
+    reasoning: Dict[str, str] = Field(default_factory=dict, description="제안 근거")
+    validation: Dict[str, Any] = Field(default_factory=dict, description="검증 결과")
+    pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
+    audit_ref: str = Field(default="", description="audit 참조 ID")
+    error: Optional[str] = Field(default=None, description="에러 메시지")
+
+
 # ============================================
 # Helper Functions
 # ============================================
@@ -95,6 +204,12 @@ def get_track_by_id(track_id: str) -> Optional[Dict[str, Any]]:
     cache = get_cache()
     # VaultCache는 get_track() 사용
     return cache.get_track(track_id)
+
+
+def get_task_by_id(task_id: str) -> Optional[Dict[str, Any]]:
+    """Task 조회 (캐시 우선)"""
+    cache = get_cache()
+    return cache.get_task(task_id)
 
 
 def validate_run_id(run_id: str) -> bool:
@@ -334,13 +449,31 @@ async def infer_project_impact(request: InferProjectImpactRequest):
         else:
             patch["confidence"] = conf_data
 
-    # contributes
-    if "contributes" in content:
-        contributes = content["contributes"]
+    # condition_contributes (v5.3: contributes -> condition_contributes)
+    # LLM 응답에서 contributes 또는 condition_contributes 모두 허용
+    contributes_key = "condition_contributes" if "condition_contributes" in content else "contributes"
+    if contributes_key in content:
+        contributes = content[contributes_key]
         if isinstance(contributes, list):
             is_valid, normalized, contrib_warnings = validate_contributes_weights(contributes)
-            patch["contributes"] = normalized
+            patch["condition_contributes"] = normalized  # v5.3: condition_contributes로 저장
             warnings.extend(contrib_warnings)
+
+    # track_contributes (v5.3 신규)
+    if "track_contributes" in content:
+        track_contrib = content["track_contributes"]
+        if isinstance(track_contrib, list):
+            patch["track_contributes"] = track_contrib
+
+    # validates (v5.3 신규)
+    if "validates" in content:
+        validates = content["validates"]
+        if isinstance(validates, list):
+            patch["validates"] = validates
+
+    # primary_hypothesis_id (v5.3 신규)
+    if "primary_hypothesis_id" in content:
+        patch["primary_hypothesis_id"] = content["primary_hypothesis_id"]
 
     # summary
     if "summary" in content:
@@ -377,19 +510,28 @@ async def infer_project_impact(request: InferProjectImpactRequest):
     pending_info = None
 
     if request.mode == "pending" and request.create_pending:
-        # pending review 생성
+        # pending review 생성 (v5.3 정합: condition_contributes)
         expected_impact_obj = {
             "tier": patch.get("tier"),
             "impact_magnitude": patch.get("impact_magnitude"),
             "confidence": patch.get("confidence"),
-            "contributes": patch.get("contributes", [])
+            "condition_contributes": patch.get("condition_contributes", [])
         }
+
+        # v5.3 신규 필드 추가
+        suggested_fields = {"expected_impact": expected_impact_obj}
+        if "track_contributes" in patch:
+            suggested_fields["track_contributes"] = patch["track_contributes"]
+        if "validates" in patch:
+            suggested_fields["validates"] = patch["validates"]
+        if "primary_hypothesis_id" in patch:
+            suggested_fields["primary_hypothesis_id"] = patch["primary_hypothesis_id"]
 
         pending_review = create_pending_review(
             entity_id=request.project_id,
             entity_type="Project",
             entity_name=project.get("entity_name", ""),
-            suggested_fields={"expected_impact": expected_impact_obj},
+            suggested_fields=suggested_fields,
             reasoning=reasoning,
             run_id=run_id,
             actor=request.actor
@@ -443,6 +585,340 @@ async def infer_project_impact(request: InferProjectImpactRequest):
     )
 
 
+@router.post("/infer/evidence", response_model=InferEvidenceResponse)
+async def infer_evidence(request: InferEvidenceRequest):
+    """
+    Evidence 추론 (LLM 기반) - B Score / Realized Impact
+
+    회고 문서에서 Evidence 필드를 추출하고 B Score를 계산합니다.
+    v5.3 품질 메타 7개 필드를 자동 채움합니다.
+
+    n8n 워크플로우 통합용 엔드포인트:
+    - 일관된 프롬프트 템플릿
+    - 자동 pending review 생성
+    - audit 로그 + decision_log 기록
+    - B Score 자동 계산
+
+    Modes:
+    - preview: LLM 제안만 반환 (저장 안 함)
+    - pending: pending_reviews.json에 저장 (Dashboard 승인 대기)
+    - execute: 엔티티에 바로 적용 (TODO: 구현 예정)
+
+    v5.3 품질 메타 필드:
+    - provenance: auto | human | mixed
+    - source_refs: [string]
+    - sample_size: number | null
+    - measurement_quality: low | medium | high
+    - counterfactual: none | before_after | controlled
+    - confounders: [string]
+    - query_version: string
+    """
+    # 1. run_id 생성 또는 검증
+    if request.run_id:
+        if not validate_run_id(request.run_id):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid run_id format: {request.run_id}. Expected: run-YYYYMMDD-HHMMSS-xxxxxx"
+            )
+        run_id = request.run_id
+    else:
+        run_id = generate_run_id()
+
+    # 2. 프로젝트 조회
+    project = get_project_by_id(request.project_id)
+    if not project:
+        return InferEvidenceResponse(
+            ok=False,
+            run_id=run_id,
+            error=f"Project not found: {request.project_id}",
+            audit_ref=run_id
+        )
+
+    # 3. 프롬프트 생성
+    if request.retrospective_content or request.actual_result:
+        prompt = build_evidence_prompt(
+            project=project,
+            retrospective_content=request.retrospective_content,
+            actual_result=request.actual_result
+        )
+    else:
+        # 최소 정보로 간단 프롬프트
+        prompt = build_simple_evidence_prompt(
+            project_name=project.get("entity_name", ""),
+            goal=project.get("goal", project.get("description", "")),
+            actual_result=request.actual_result or "실제 결과 정보 없음"
+        )
+
+    # 4. LLM 호출
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=EVIDENCE_SYSTEM_PROMPT,
+        provider=request.provider,
+        response_format="json",
+        entity_context={
+            "entity_id": request.project_id,
+            "entity_type": "Evidence",
+            "action": "infer_evidence"
+        }
+    )
+
+    if not result["success"]:
+        # 실패해도 audit 로그 저장
+        save_ai_audit_log(run_id, {
+            "project_id": request.project_id,
+            "mode": request.mode,
+            "actor": request.actor,
+            "endpoint": "infer_evidence",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+
+        return InferEvidenceResponse(
+            ok=False,
+            run_id=run_id,
+            error=result.get("error", "LLM call failed"),
+            audit_ref=run_id
+        )
+
+    content = result["content"]
+
+    # 5. LLM 응답 파싱 (patch 필드)
+    patch = {}
+    quality_meta = {}
+    reasoning = {}
+    warnings = []
+
+    # normalized_delta
+    if "normalized_delta" in content:
+        nd_data = content["normalized_delta"]
+        if isinstance(nd_data, dict):
+            patch["normalized_delta"] = nd_data.get("value")
+            reasoning["normalized_delta"] = nd_data.get("reasoning", "")
+        else:
+            patch["normalized_delta"] = nd_data
+
+    # evidence_strength
+    if "evidence_strength" in content:
+        es_data = content["evidence_strength"]
+        if isinstance(es_data, dict):
+            patch["evidence_strength"] = es_data.get("value", "medium")
+            reasoning["evidence_strength"] = es_data.get("reasoning", "")
+        else:
+            patch["evidence_strength"] = es_data
+
+    # attribution_share
+    if "attribution_share" in content:
+        as_data = content["attribution_share"]
+        if isinstance(as_data, dict):
+            patch["attribution_share"] = as_data.get("value", 1.0)
+            reasoning["attribution_share"] = as_data.get("reasoning", "")
+        else:
+            patch["attribution_share"] = as_data
+
+    # impact_metric
+    if "impact_metric" in content:
+        patch["impact_metric"] = content["impact_metric"]
+
+    # learning_value
+    if "learning_value" in content:
+        lv_data = content["learning_value"]
+        if isinstance(lv_data, dict):
+            patch["learning_value"] = lv_data.get("value", "medium")
+            reasoning["learning_value"] = lv_data.get("reasoning", "")
+        else:
+            patch["learning_value"] = lv_data
+
+    # validated_hypotheses
+    if "validated_hypotheses" in content:
+        patch["validated_hypotheses"] = content["validated_hypotheses"]
+
+    # falsified_hypotheses
+    if "falsified_hypotheses" in content:
+        patch["falsified_hypotheses"] = content["falsified_hypotheses"]
+
+    # confirmed_insights
+    if "confirmed_insights" in content:
+        patch["confirmed_insights"] = content["confirmed_insights"]
+
+    # realized_status
+    if "realized_status" in content:
+        rs_data = content["realized_status"]
+        if isinstance(rs_data, dict):
+            patch["realized_status"] = rs_data.get("value")
+            reasoning["realized_status"] = rs_data.get("reasoning", "")
+        else:
+            patch["realized_status"] = rs_data
+
+    # summary (Codex 피드백: patch에도 포함하여 응답에 반환)
+    if "summary" in content:
+        patch["summary"] = content["summary"]
+        reasoning["summary"] = content["summary"]
+
+    # 6. 품질 메타 필드 파싱 (v5.3)
+    if "quality_meta" in content:
+        qm = content["quality_meta"]
+
+        # provenance
+        if "provenance" in qm:
+            prov_data = qm["provenance"]
+            if isinstance(prov_data, dict):
+                quality_meta["provenance"] = prov_data.get("value", "mixed")
+                reasoning["provenance"] = prov_data.get("reasoning", "")
+            else:
+                quality_meta["provenance"] = prov_data
+
+        # source_refs
+        if "source_refs" in qm:
+            quality_meta["source_refs"] = qm["source_refs"]
+
+        # sample_size
+        if "sample_size" in qm:
+            quality_meta["sample_size"] = qm["sample_size"]
+
+        # measurement_quality
+        if "measurement_quality" in qm:
+            mq_data = qm["measurement_quality"]
+            if isinstance(mq_data, dict):
+                quality_meta["measurement_quality"] = mq_data.get("value", "medium")
+                reasoning["measurement_quality"] = mq_data.get("reasoning", "")
+            else:
+                quality_meta["measurement_quality"] = mq_data
+
+        # counterfactual
+        if "counterfactual" in qm:
+            cf_data = qm["counterfactual"]
+            if isinstance(cf_data, dict):
+                quality_meta["counterfactual"] = cf_data.get("value", "none")
+                reasoning["counterfactual"] = cf_data.get("reasoning", "")
+            else:
+                quality_meta["counterfactual"] = cf_data
+
+        # confounders
+        if "confounders" in qm:
+            quality_meta["confounders"] = qm["confounders"]
+
+        # query_version
+        if "query_version" in qm:
+            quality_meta["query_version"] = qm["query_version"]
+
+    # 7. 서버 계산값 (derived_autofill)
+    derived_autofill = {}
+    scores = {}
+
+    # window_id, time_range 자동 계산
+    window_fields = calculate_window_fields(entity_type="project")
+    derived_autofill["window_id"] = window_fields["window_id"]
+    derived_autofill["time_range"] = window_fields["time_range"]
+
+    # B Score (realized_score) 계산
+    normalized_delta = patch.get("normalized_delta")
+    evidence_strength = patch.get("evidence_strength", "medium")
+    attribution_share = patch.get("attribution_share", 1.0)
+
+    if normalized_delta is not None:
+        try:
+            realized_score = calculate_realized_score(
+                normalized_delta=float(normalized_delta),
+                evidence_strength=evidence_strength,
+                attribution_share=float(attribution_share)
+            )
+            scores["realized_score"] = round(realized_score, 4)
+        except (ValueError, TypeError) as e:
+            warnings.append(f"B Score 계산 실패: {str(e)}")
+    else:
+        warnings.append("normalized_delta가 없어 B Score를 계산할 수 없습니다.")
+
+    # 8. Validation 결과
+    validation = {
+        "is_valid": len(warnings) == 0,
+        "warnings": warnings,
+        "schema_version": request.schema_version
+    }
+
+    # 9. Mode별 처리 (Codex 피드백 반영)
+    pending_info = None
+
+    # mode 유효성 검증 (Codex: 잘못된 mode 무시 방지)
+    valid_modes = ["preview", "pending", "execute"]
+    if request.mode not in valid_modes:
+        warnings.append(f"Unknown mode '{request.mode}', treated as 'preview'")
+
+    if request.mode == "pending" and request.create_pending:
+        # Evidence pending review 생성
+        # Codex 피드백: quality_meta 구조 유지, derived_autofill 포함
+        evidence_fields = {
+            **patch,
+            "quality_meta": quality_meta,  # 중첩 구조 유지
+            **derived_autofill  # window_id, time_range 포함
+        }
+
+        # Codex 피드백: entity_id에 project_id 사용은 의도적
+        # Evidence 엔티티는 approve 시 생성되며, pending review는 project를 참조
+        pending_review = create_pending_review(
+            entity_id=request.project_id,
+            entity_type="Evidence",
+            entity_name=f"Evidence for {project.get('entity_name', '')}",
+            suggested_fields={"evidence": evidence_fields},
+            reasoning=reasoning,
+            run_id=run_id,
+            actor=request.actor
+        )
+
+        pending_info = {
+            "review_id": pending_review["id"],
+            "status": pending_review["status"],
+            "created_at": pending_review["created_at"]
+        }
+
+    elif request.mode == "execute":
+        # execute 모드는 아직 구현되지 않음
+        return InferEvidenceResponse(
+            ok=False,
+            run_id=run_id,
+            patch=patch,
+            quality_meta=quality_meta,
+            derived_autofill=derived_autofill,
+            scores=scores,
+            validation=validation,
+            error="execute mode is not yet implemented. Use mode=pending instead.",
+            audit_ref=run_id
+        )
+
+    # 10. Audit 로그 저장
+    audit_ref = save_ai_audit_log(run_id, {
+        "project_id": request.project_id,
+        "project_name": project.get("entity_name"),
+        "mode": request.mode,
+        "actor": request.actor,
+        "endpoint": "infer_evidence",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "patch": patch,
+        "quality_meta": quality_meta,
+        "derived_autofill": derived_autofill,
+        "scores": scores,
+        "validation": validation,
+        "pending": pending_info,
+        "llm_run_id": result.get("run_id")
+    })
+
+    return InferEvidenceResponse(
+        ok=True,
+        run_id=run_id,
+        patch=patch,
+        quality_meta=quality_meta,
+        derived_autofill=derived_autofill,
+        scores=scores,
+        validation=validation,
+        pending=pending_info,
+        audit_ref=audit_ref
+    )
+
+
 @router.get("/audit/{run_id}")
 def get_ai_audit_log(run_id: str):
     """
@@ -479,7 +955,336 @@ def ai_health():
         "available_providers": providers,
         "endpoints": [
             "/api/ai/infer/project_impact",
+            "/api/ai/infer/evidence",
+            "/api/ai/infer/task_schema",
+            "/api/ai/infer/project_schema",
             "/api/ai/audit/{run_id}",
             "/api/ai/health"
         ]
     }
+
+
+# ============================================
+# Task/Project Schema Endpoints (n8n Phase 1/2)
+# ============================================
+
+@router.post("/infer/task_schema", response_model=InferTaskSchemaResponse)
+async def infer_task_schema(request: InferTaskSchemaRequest):
+    """
+    Task 스키마 필드 추론 (LLM 기반) - n8n Phase 1
+
+    n8n 워크플로우에서 Call OpenAI (Tasks) 대신 이 API를 호출합니다.
+
+    장점:
+    - 일관된 프롬프트 템플릿
+    - derived 필드 제안 금지 (validates 금지)
+    - enum 값 강제 (schema_constants.yaml 기준)
+    - 자동 pending review 생성
+    - audit 로그 + decision_log 기록
+
+    Modes:
+    - preview: LLM 제안만 반환 (저장 안 함)
+    - pending: pending_reviews.json에 저장 (Dashboard 승인 대기)
+    """
+    # 1. run_id 생성 또는 검증
+    if request.run_id:
+        if not validate_run_id(request.run_id):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid run_id format: {request.run_id}"
+            )
+        run_id = request.run_id
+    else:
+        run_id = generate_run_id()
+
+    # 2. Task 조회 (n8n에서 전달한 원본 우선, 없으면 캐시에서)
+    task = request.original_entity
+    if not task:
+        task = get_task_by_id(request.task_id)
+        if not task:
+            return InferTaskSchemaResponse(
+                ok=False,
+                run_id=run_id,
+                error=f"Task not found: {request.task_id}",
+                audit_ref=run_id
+            )
+
+    # 3. 프롬프트 생성
+    if request.strategy_context:
+        prompt = build_task_schema_prompt(
+            task=task,
+            issues=request.issues,
+            strategy_context=request.strategy_context
+        )
+    else:
+        prompt = build_simple_task_schema_prompt(
+            task_name=task.get("entity_name", ""),
+            project_id=task.get("project_id", ""),
+            issues=request.issues
+        )
+
+    # 4. LLM 호출
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=TASK_SCHEMA_SYSTEM_PROMPT,
+        provider=request.provider,
+        response_format="json",
+        entity_context={
+            "entity_id": request.task_id,
+            "entity_type": "Task",
+            "action": "infer_task_schema"
+        }
+    )
+
+    if not result["success"]:
+        save_ai_audit_log(run_id, {
+            "task_id": request.task_id,
+            "mode": request.mode,
+            "actor": request.actor,
+            "endpoint": "infer_task_schema",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+
+        return InferTaskSchemaResponse(
+            ok=False,
+            run_id=run_id,
+            error=result.get("error", "LLM call failed"),
+            audit_ref=run_id
+        )
+
+    content = result["content"]
+
+    # 5. LLM 응답 파싱
+    suggested_fields = content.get("suggested_fields", {})
+    reasoning = content.get("reasoning", {})
+    warnings = []
+
+    # validates 필드 제거 (금지 규칙)
+    if "validates" in suggested_fields:
+        del suggested_fields["validates"]
+        warnings.append("validates 필드 제거됨 (Task는 전략 판단 금지)")
+
+    # 6. Validation
+    validation = {
+        "is_valid": len(warnings) == 0,
+        "warnings": warnings,
+        "schema_version": request.schema_version
+    }
+
+    # 7. Mode별 처리
+    pending_info = None
+
+    if request.mode == "pending" and request.create_pending:
+        pending_review = create_pending_review(
+            entity_id=request.task_id,
+            entity_type="Task",
+            entity_name=task.get("entity_name", ""),
+            suggested_fields=suggested_fields,
+            reasoning=reasoning,
+            run_id=run_id,
+            actor=request.actor
+        )
+
+        pending_info = {
+            "review_id": pending_review["id"],
+            "status": pending_review["status"],
+            "created_at": pending_review["created_at"]
+        }
+
+    # 8. Audit 로그 저장
+    audit_ref = save_ai_audit_log(run_id, {
+        "task_id": request.task_id,
+        "task_name": task.get("entity_name"),
+        "mode": request.mode,
+        "actor": request.actor,
+        "endpoint": "infer_task_schema",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "issues": request.issues,
+        "suggested_fields": suggested_fields,
+        "reasoning": reasoning,
+        "validation": validation,
+        "pending": pending_info
+    })
+
+    return InferTaskSchemaResponse(
+        ok=True,
+        run_id=run_id,
+        suggested_fields=suggested_fields,
+        reasoning=reasoning,
+        validation=validation,
+        pending=pending_info,
+        audit_ref=audit_ref
+    )
+
+
+@router.post("/infer/project_schema", response_model=InferProjectSchemaResponse)
+async def infer_project_schema(request: InferProjectSchemaRequest):
+    """
+    Project 스키마 필드 추론 (LLM 기반) - n8n Phase 2
+
+    n8n 워크플로우에서 Call OpenAI (Projects) 대신 이 API를 호출합니다.
+
+    장점:
+    - 일관된 프롬프트 템플릿
+    - derived 필드 제안 금지 (validated_by, realized_sum)
+    - enum 값 강제 (schema_constants.yaml 기준)
+    - 자동 pending review 생성
+    - audit 로그 + decision_log 기록
+
+    NOTE: Impact 필드 (expected_impact, realized_impact)는 별도 엔드포인트:
+    - /api/ai/infer/project_impact
+    - /api/ai/infer/evidence
+
+    Modes:
+    - preview: LLM 제안만 반환 (저장 안 함)
+    - pending: pending_reviews.json에 저장 (Dashboard 승인 대기)
+    """
+    # 1. run_id 생성 또는 검증
+    if request.run_id:
+        if not validate_run_id(request.run_id):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid run_id format: {request.run_id}"
+            )
+        run_id = request.run_id
+    else:
+        run_id = generate_run_id()
+
+    # 2. Project 조회 (n8n에서 전달한 원본 우선, 없으면 캐시에서)
+    project = request.original_entity
+    if not project:
+        project = get_project_by_id(request.project_id)
+        if not project:
+            return InferProjectSchemaResponse(
+                ok=False,
+                run_id=run_id,
+                error=f"Project not found: {request.project_id}",
+                audit_ref=run_id
+            )
+
+    # 3. 프롬프트 생성
+    if request.strategy_context:
+        prompt = build_project_schema_prompt(
+            project=project,
+            issues=request.issues,
+            strategy_context=request.strategy_context
+        )
+    else:
+        prompt = build_simple_project_schema_prompt(
+            project_name=project.get("entity_name", ""),
+            issues=request.issues
+        )
+
+    # 4. LLM 호출
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=PROJECT_SCHEMA_SYSTEM_PROMPT,
+        provider=request.provider,
+        response_format="json",
+        entity_context={
+            "entity_id": request.project_id,
+            "entity_type": "Project",
+            "action": "infer_project_schema"
+        }
+    )
+
+    if not result["success"]:
+        save_ai_audit_log(run_id, {
+            "project_id": request.project_id,
+            "mode": request.mode,
+            "actor": request.actor,
+            "endpoint": "infer_project_schema",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+
+        return InferProjectSchemaResponse(
+            ok=False,
+            run_id=run_id,
+            error=result.get("error", "LLM call failed"),
+            audit_ref=run_id
+        )
+
+    content = result["content"]
+
+    # 5. LLM 응답 파싱
+    suggested_fields = content.get("suggested_fields", {})
+    reasoning = content.get("reasoning", {})
+    warnings = []
+
+    # derived 필드 제거 (금지 규칙)
+    derived_forbidden = ["validated_by", "realized_sum"]
+    for field in derived_forbidden:
+        if field in suggested_fields:
+            del suggested_fields[field]
+            warnings.append(f"{field} 필드 제거됨 (derived 필드)")
+
+    # Impact 필드 제거 (별도 엔드포인트 사용)
+    impact_fields = ["expected_impact", "realized_impact"]
+    for field in impact_fields:
+        if field in suggested_fields:
+            del suggested_fields[field]
+            warnings.append(f"{field} 필드 제거됨 (별도 엔드포인트 사용)")
+
+    # 6. Validation
+    validation = {
+        "is_valid": len(warnings) == 0,
+        "warnings": warnings,
+        "schema_version": request.schema_version
+    }
+
+    # 7. Mode별 처리
+    pending_info = None
+
+    if request.mode == "pending" and request.create_pending:
+        pending_review = create_pending_review(
+            entity_id=request.project_id,
+            entity_type="Project",
+            entity_name=project.get("entity_name", ""),
+            suggested_fields=suggested_fields,
+            reasoning=reasoning,
+            run_id=run_id,
+            actor=request.actor
+        )
+
+        pending_info = {
+            "review_id": pending_review["id"],
+            "status": pending_review["status"],
+            "created_at": pending_review["created_at"]
+        }
+
+    # 8. Audit 로그 저장
+    audit_ref = save_ai_audit_log(run_id, {
+        "project_id": request.project_id,
+        "project_name": project.get("entity_name"),
+        "mode": request.mode,
+        "actor": request.actor,
+        "endpoint": "infer_project_schema",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "issues": request.issues,
+        "suggested_fields": suggested_fields,
+        "reasoning": reasoning,
+        "validation": validation,
+        "pending": pending_info
+    })
+
+    return InferProjectSchemaResponse(
+        ok=True,
+        run_id=run_id,
+        suggested_fields=suggested_fields,
+        reasoning=reasoning,
+        validation=validation,
+        pending=pending_info,
+        audit_ref=audit_ref
+    )

@@ -62,9 +62,8 @@ def get_client_ip(request: Request) -> str:
 # OAuth Discovery
 # ============================================
 
-@router.get("/.well-known/oauth-authorization-server")
-def oauth_discovery():
-    """OAuth Authorization Server Metadata (RFC 8414)"""
+def _get_discovery_doc():
+    """공통 Discovery 문서"""
     return {
         "issuer": OAUTH_ISSUER,
         "authorization_endpoint": f"{OAUTH_ISSUER}/authorize",
@@ -75,8 +74,23 @@ def oauth_discovery():
         "grant_types_supported": ["authorization_code"],
         "code_challenge_methods_supported": ["S256"],
         "token_endpoint_auth_methods_supported": ["none"],
-        "scopes_supported": ["mcp:read", "mcp:write", "mcp:admin"]
+        "scopes_supported": ["mcp:read", "mcp:write", "mcp:admin"],
+        # OpenID Connect specific
+        "subject_types_supported": ["public"],
+        "id_token_signing_alg_values_supported": ["RS256"]
     }
+
+
+@router.get("/.well-known/oauth-authorization-server")
+def oauth_discovery():
+    """OAuth Authorization Server Metadata (RFC 8414)"""
+    return _get_discovery_doc()
+
+
+@router.get("/.well-known/openid-configuration")
+def openid_discovery():
+    """OpenID Connect Discovery (ChatGPT 호환)"""
+    return _get_discovery_doc()
 
 
 @router.get("/.well-known/jwks.json")

@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: tsk-n8n-03
 entity_name: n8n - Project Impact Score 자동화 n8n 워크플로우
 created: 2025-12-27
-updated: '2025-12-28'
-status: doing
+updated: '2025-12-29'
+status: done
+closed: '2025-12-29'
 parent_id: prj-n8n
 project_id: prj-n8n
 aliases:
@@ -200,6 +201,7 @@ tsk-n8n-02에서 구현한 pending API/Dashboard 재사용.
 
 ## 체크리스트
 
+### 완료됨
 - [x] GET /api/projects 응답 구조 확인
 - [x] 워크플로우 JSON 작성 (`_build/n8n_workflows/project_impact_autofill.json`)
 - [x] A 추론 LLM 프롬프트 작성
@@ -207,8 +209,27 @@ tsk-n8n-02에서 구현한 pending API/Dashboard 재사용.
 - [x] 통합 워크플로우 생성 (`entity_validator_autofiller.json` - 17노드)
 - [x] `/api/strategy/context` 통합 API 엔드포인트 추가
 - [x] MCP 서버 재빌드 및 API 검증
-- [ ] pending API 연동 테스트
-- [ ] n8n GUI에서 import 및 테스트
+- [x] tsk-n8n-07: `/api/ai/infer/evidence` 엔드포인트 구현
+- [x] tsk-n8n-07: v5.3 품질 메타 프롬프트 반영 (evidence.py)
+
+### Priority 1: OpenAI 노드 → ai router 통일 (설계 완료)
+- [x] Phase 3 ai router 통합 설계
+- [x] run_id 생성 로직 설계 (ai.py 패턴 준수)
+- [x] meta_* 키 아이템 매칭 설계
+- [x] Parse Impact Response .first() 문제 해결책 도출
+- [ ] entity_validator_autofiller.json v4 구현 (설계대로)
+
+### Priority 2: n8n GUI import + E2E 테스트
+- [ ] n8n GUI에서 v4 워크플로우 import
+- [ ] 1개 프로젝트(prj-n8n)로 Dry-run
+- [ ] pending_reviews.json에 pending 생성됨 확인
+- [ ] decision_log.jsonl에 pending_created 이벤트 기록 확인
+- [ ] run_log/audit에서 run_id로 조회 확인
+
+### Priority 3: Workflow C (승인→build_impact)
+- [ ] 15분 polling 워크플로우 생성
+- [ ] GET /api/audit/decisions?since=... 호출
+- [ ] approve 이벤트 감지 시 build_impact 트리거
 
 ---
 
@@ -233,11 +254,36 @@ tsk-n8n-02에서 구현한 pending API/Dashboard 재사용.
 - `_dashboard/js/components/pending-panel.js` - UI
 
 ### Todo
+
+**완료됨:**
 - [x] projects API 응답 확인
 - [x] 워크플로우 JSON 설계
 - [x] LLM 프롬프트 작성
-- [ ] prj-impact-schema-v2 변경사항 n8n 워크플로우 반영
-- [ ] n8n GUI에서 import 및 E2E 테스트
+- [x] prj-impact-schema-v2 변경사항 반영 (v5.2 → v5.3)
+- [x] `/api/ai/infer/evidence` 엔드포인트 (tsk-n8n-07)
+- [x] v5.3 품질 메타 프롬프트 (tsk-n8n-07)
+
+**Priority 1: OpenAI 노드 → ai router 통일** (설계 완료 ✅)
+- 이유: run_log/decision_log/audit가 서버 중심 설계. n8n이 OpenAI 직접 호출 시 로그/재현성 분열
+- [x] Phase 3 ai router 통합 설계 (작업 로그 2025-12-29 참조)
+- [x] run_id 생성 로직 (`run-YYYYMMDD-HHMMSS-xxxxxx`)
+- [x] meta_* 키 아이템 매칭 (.first() 문제 해결)
+- [x] HTTP Request "Include Input Data" 옵션 필요 확인
+- [ ] entity_validator_autofiller.json v4 구현
+
+**Priority 2: n8n GUI import + E2E 테스트** (실제 완료조건)
+- [ ] v4 워크플로우 import
+- [ ] prj-n8n 대상 Dry-run
+- 성공 판정:
+  - [ ] pending 생성됨
+  - [ ] decision_log에 pending_created 기록
+  - [ ] run_log/audit에서 run_id 조회됨
+
+**Priority 3: Workflow C (승인→build_impact)** (운영 완성)
+- 방식: 15분 polling (NAS sync 주기 맞춤)
+- [ ] GET /api/audit/decisions?since=... 호출
+- [ ] approve 이벤트 감지 시 build_impact 트리거
+- [ ] Impact 롤업 갱신 확인
 
 ---
 
@@ -376,6 +422,100 @@ const time_range = `${window_id}-01..${window_id}-${lastDay}`;
 ---
 
 ### 작업 로그
+
+#### 2025-12-29 15:00 - Task 완료 (설계 완료, 구현은 다음 Task에서)
+
+**개요**: tsk-n8n-03 설계 단계 완료. v4 JSON 구현, n8n E2E 테스트, Workflow C는 별도 Task로 분리하여 진행.
+
+**완료된 작업**:
+- ✅ 워크플로우 JSON 설계 (v1 → v3)
+- ✅ LLM 프롬프트 작성 (Expected/Realized Impact)
+- ✅ Schema v5.2 → v5.3 반영
+- ✅ `/api/ai/infer/evidence` 엔드포인트 (tsk-n8n-07)
+- ✅ Phase 3 ai router 통합 설계 (5개 수정 사항)
+- ✅ run_id 생성 로직, meta_* 키 아이템 매칭 설계
+
+**다음 Task로 이관**:
+- [ ] entity_validator_autofiller.json v4 구현
+- [ ] n8n GUI import + E2E 테스트
+- [ ] Workflow C (승인→build_impact)
+
+**결과**: ✅ 설계 완료
+
+---
+
+#### 2025-12-29 14:30 - ai router 통합 설계 완료 (구현 대기)
+
+**개요**: Phase 3 OpenAI 노드를 ai router API로 교체하기 위한 설계 완료. 운영 안정성 위한 수정 사항 5개 도출. tsk-n8n-07에서 구현한 `/api/ai/infer/evidence` 엔드포인트와 연동 설계.
+
+**변경사항**:
+- 설계: Phase 3 ai router 통합 아키텍처 (Expected/Realized 분기)
+- 설계: run_id 생성 로직 (ai.py validate_run_id 패턴 준수)
+- 설계: meta_* 키 아이템 매칭 (멀티 프로젝트 처리 시 entity_id 섞임 방지)
+- 설계: Parse Impact Response `.first()` 문제 해결
+- 설계: HTTP Request "Include Input Data" 옵션 필요 확인
+
+**파일 변경**:
+- `tsk-n8n-03_*.md` - 작업 로그 및 체크리스트 업데이트
+- `_build/n8n_workflows/entity_validator_autofiller.json` - v4 구현 대기 (설계만 완료)
+
+**결과**: ✅ 설계 완료 (구현 대기)
+
+**다음 단계**:
+- [ ] entity_validator_autofiller.json v4 구현 (설계대로)
+- [ ] n8n GUI import + E2E 테스트
+- [ ] Workflow C (승인→build_impact) 구현
+
+**설계 내용**:
+
+1. **Phase 3 ai router 통합**
+   - `Call OpenAI (Impact)` 삭제
+   - `Route by Phase` 노드 추가 (Expected/Realized 분기)
+   - `Call AI Router (Expected)` → `/api/ai/infer/project_impact`
+   - `Call AI Router (Evidence)` → `/api/ai/infer/evidence`
+   - `Create Pending (Impact)` 삭제 (서버가 pending 생성)
+
+2. **run_id 생성 (n8n → 서버 전달)**
+   - 포맷: `run-YYYYMMDD-HHMMSS-xxxxxx` (ai.py validate_run_id 패턴 준수)
+   - Filter Impact Needed에서 아이템 단위로 생성
+   ```javascript
+   const iso = new Date().toISOString();
+   const datePart = iso.slice(0, 10).replace(/-/g, '');
+   const timePart = iso.slice(11, 19).replace(/:/g, '');
+   const rand = Math.random().toString(36).slice(2, 8);
+   const run_id = `run-${datePart}-${timePart}-${rand}`;
+   ```
+
+3. **meta_* 키 추가 (아이템 매칭용)**
+   - `meta_entity_id`, `meta_entity_name`, `meta_phase`, `meta_run_id`
+   - api_request와 함께 전달하여 Parse에서 참조
+
+4. **Parse Impact Response 수정**
+   - `.first()` 제거 → `$json.meta_*` 기반 처리
+   - 멀티 아이템 처리 시 entity_id 섞임 방지
+
+5. **HTTP Request 노드 설정**
+   - "Include Input Data" 옵션 활성화 필요
+   - 또는 Merge 노드로 request metadata + response 결합
+
+**수정 대상 노드** (v4 업그레이드 시):
+| 노드 | 수정 내용 |
+|------|----------|
+| Filter Impact Needed | run_id 생성 + meta_* 키 추가 |
+| Route by Phase | 신규 추가 |
+| Call AI Router (Expected) | 신규 추가 + Include Input Data |
+| Call AI Router (Evidence) | 신규 추가 + Include Input Data |
+| Parse Impact Response | .first() 제거 → $json.meta_* 사용 |
+
+**Phase 1/2 현황**:
+- OpenAI 직접 호출 유지 (ai router에 Schema Validation 엔드포인트 없음)
+- 향후 `/api/ai/validate/task`, `/api/ai/validate/project` 추가 시 교체 가능
+
+**다음 단계**:
+- [ ] 위 설계대로 entity_validator_autofiller.json v4 구현
+- [ ] n8n GUI import + E2E 테스트
+
+---
 
 #### 2025-12-27 23:30 - Schema v5.2 반영 완료
 

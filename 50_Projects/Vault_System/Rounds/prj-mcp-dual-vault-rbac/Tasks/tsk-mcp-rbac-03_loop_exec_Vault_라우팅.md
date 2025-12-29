@@ -124,11 +124,12 @@ ChatGPT에서 `R001_단님_파일럿_회고.md` 등 loop_exec 파일 접근 시 
 
 ## 체크리스트
 
-- [ ] `vault_utils.py` 수정
-- [ ] `files.py` 수정
-- [ ] admin@sosilab.com role=admin 설정
-- [ ] Docker compose 수정
-- [ ] 배포 및 테스트
+- [x] `vault_utils.py` 수정
+- [x] ~~`files.py` 수정~~ → `mcp_composite.py`에 exec 엔드포인트 추가
+- [x] admin@sosilab.com role=admin 설정
+- [x] Docker compose 수정
+- [x] 배포 완료 (curl 테스트 통과)
+- [ ] ChatGPT MCP 테스트
 
 ---
 
@@ -189,16 +190,47 @@ docker-compose.yml           # 수정: loop_exec 볼륨 마운트
    - `python -m api.oauth.cli set-role --email admin@sosilab.com --role admin`
 
 ### Todo
-- [ ] `vault_utils.py`에 `get_exec_vault_dir()` 함수 구현
-- [ ] `files.py` 모든 엔드포인트에서 `exec/` prefix 라우팅
-- [ ] admin@sosilab.com role=admin 설정
-- [ ] docker-compose.yml에 loop_exec 볼륨 마운트
-- [ ] ChatGPT MCP 테스트
+- [x] `vault_utils.py`에 `get_exec_vault_dir()` 함수 구현
+- [x] ~~`files.py` 모든 엔드포인트에서 `exec/` prefix 라우팅~~ → `mcp_composite.py`에 exec 전용 엔드포인트 3개 추가
+- [x] admin@sosilab.com role=admin 설정
+- [x] docker-compose.yml에 loop_exec 볼륨 마운트
+- [ ] ChatGPT MCP 테스트 (11개 함수 표시 확인)
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2025-12-29 17:30
+**개요**: ChatGPT MCP에서 loop_exec vault 접근을 위한 전용 API 엔드포인트 3개 구현. 기존 `/api/files/` 라우터는 GPT Actions 전용이었으므로 삭제하고, MCP composite 엔드포인트에 exec 전용 함수 추가.
+
+**변경사항**:
+- 개발: `mcp_composite.py`에 exec vault 전용 엔드포인트 3개 추가
+  - `exec-context`: exec vault 구조 + 현황 반환
+  - `exec-read`: exec vault 파일 읽기 (paths 파라미터)
+  - `exec-search`: exec vault 검색 (q 파라미터)
+- 개발: RBAC 헬퍼 함수 추가 (`get_role_and_scope()`, `require_exec_access()`)
+- 수정: `main.py` - MCP_ALLOWED_OPERATIONS에 exec 함수 3개 추가
+- 수정: `main.py` - MCP description에 Dual Vault Contract, 의사결정 파이프라인, 라우팅 규칙 추가
+- 수정: `main.py` - AuthMiddleware에 scope["state"] 추가 (RBAC role/scope 전달)
+- 삭제: `api/routers/files.py` (GPT Actions 전용이었으므로 MCP에서 불필요)
+
+**파일 변경**:
+- `api/routers/mcp_composite.py` - exec 엔드포인트 3개 + RBAC 헬퍼 추가 (약 180줄)
+- `api/main.py` - MCP_ALLOWED_OPERATIONS, AuthMiddleware scope["state"], MCP description 수정
+- `api/routers/files.py` - 삭제
+
+**MCP Description 추가 내용**:
+- Dual Vault Contract (LOOP = Shareable, Exec = Private)
+- 의사결정 파이프라인: Runway → Cashflow → Pipeline → People → Contingency
+- 라우팅 규칙 (상태/정책 → LOOP, 금액/개인 → exec만)
+- exec 탐색 순서 가이드
+
+**결과**: ✅ curl 테스트 통과
+- `exec-context` → HTTP 200, vault 구조 반환
+- `exec-read?paths=_ENTRY_POINT.md` → HTTP 200, 파일 내용 반환
+- `exec-search?q=runway` → HTTP 200, 검색 결과 반환
+
+**다음 단계**:
+- [ ] ChatGPT MCP에서 11개 함수 표시 확인 (기존 8개 + exec 3개)
+- [ ] ChatGPT에서 exec-context, exec-read, exec-search 실제 호출 테스트
 
 
 ---

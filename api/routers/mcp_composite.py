@@ -360,23 +360,133 @@ async def search_and_read(
     )
 
 
-@router.get("/project/{project_id}/context", response_model=ProjectContextResponse)
-async def get_project_context(project_id: str):
+@router.get("/file-read")
+async def file_read(
+    paths: str = Query(..., description="읽을 파일 경로들 (쉼표 구분, vault 상대 경로)"),
+    max_chars_per_file: int = Query(8000, ge=1000, le=20000, description="파일당 최대 문자수")
+):
+    """
+    Vault 파일 직접 읽기
+
+    경로로 파일을 직접 읽어 frontmatter + body 반환.
+    검색 없이 특정 파일을 바로 읽고 싶을 때 사용.
+
+    경로 예시:
+    - `50_Projects/n8n/prj-n8n.md`
+    - `50_Projects/n8n/Tasks/tsk-n8n-03_xxx.md`
+    - 여러 파일: `paths=file1.md,file2.md`
+    """
+    vault_dir = get_vault_dir()
+
+    path_list = [p.strip() for p in paths.split(",") if p.strip()]
+    if not path_list:
+        raise HTTPException(status_code=400, detail="No paths provided")
+
+    results: List[FileContent] = []
+
+    for rel_path in path_list[:10]:  # 최대 10개 파일
+        file_path = vault_dir / rel_path
+
+        # 경로 탈출 방지
+        try:
+            file_path.resolve().relative_to(vault_dir.resolve())
+        except ValueError:
+            results.append(FileContent(
+                path=rel_path,
+                frontmatter={"error": "Path traversal not allowed"},
+                body="",
+                truncated=False
+            ))
+            continue
+
+        # 제외 패턴 체크
+        if any(exclude in str(file_path) for exclude in EXCLUDE_PATTERNS):
+            results.append(FileContent(
+                path=rel_path,
+                frontmatter={"error": "Path excluded"},
+                body="",
+                truncated=False
+            ))
+            continue
+
+        if not file_path.exists():
+            results.append(FileContent(
+                path=rel_path,
+                frontmatter={"error": "File not found"},
+                body="",
+                truncated=False
+            ))
+            continue
+
+        try:
+            frontmatter, body = extract_frontmatter_and_body(file_path)
+            body_truncated, was_truncated = truncate_body(body, max_chars_per_file)
+
+            results.append(FileContent(
+                path=rel_path,
+                frontmatter=frontmatter or {},
+                body=body_truncated,
+                truncated=was_truncated
+            ))
+        except Exception as e:
+            results.append(FileContent(
+                path=rel_path,
+                frontmatter={"error": str(e)},
+                body="",
+                truncated=False
+            ))
+
+    return {
+        "total_files": len(results),
+        "files": results
+    }
+
+
+@router.get("/project/{project_id}/context")
+async def get_project_context(
+    project_id: str,
+    include_body: bool = Query(False, description="프로젝트/Task 본문 포함 여부"),
+    max_body_chars: int = Query(5000, ge=1000, le=15000, description="본문 최대 문자수")
+):
     """
     프로젝트 + 모든 Task + 관련 Hypothesis + 부모 Track
 
     기존: project (1회) + tasks (N회) + hypotheses (M회) = 1+N+M회 호출
     개선: 1회 호출로 프로젝트 전체 컨텍스트 획득
+
+    include_body=true 시 프로젝트와 Task의 본문(body)도 포함
     """
     cache = get_cache()
+    vault_dir = get_vault_dir()
 
     # 프로젝트 조회
     project = cache.get_project(project_id)
     if not project:
         raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
 
-    # 프로젝트의 Tasks 조회 (frontmatter만, body 제외)
+    # include_body=true일 때 프로젝트 본문 추가
+    project_data = dict(project)
+    if include_body and project.get('_path'):
+        file_path = vault_dir / project['_path']
+        if file_path.exists():
+            _, body = extract_frontmatter_and_body(file_path)
+            body_truncated, _ = truncate_body(body, max_body_chars)
+            project_data['_body'] = body_truncated
+
+    # 프로젝트의 Tasks 조회
     tasks = cache.get_all_tasks(project_id=project_id)
+
+    # include_body=true일 때 Task 본문도 추가
+    tasks_data = []
+    for task in tasks:
+        task_data = dict(task)
+        if include_body and task.get('_path'):
+            file_path = vault_dir / task['_path']
+            if file_path.exists():
+                _, body = extract_frontmatter_and_body(file_path)
+                body_truncated, _ = truncate_body(body, max_body_chars)
+                task_data['_body'] = body_truncated
+        tasks_data.append(task_data)
 
     # 관련 Hypothesis 조회
     validates = project.get('validates', []) or []
@@ -392,12 +502,12 @@ async def get_project_context(project_id: str):
     if parent_id and parent_id.startswith('trk-'):
         parent_track = cache.get_track(parent_id)
 
-    return ProjectContextResponse(
-        project=project,
-        tasks=tasks,
-        hypotheses=hypotheses,
-        parent_track=parent_track
-    )
+    return {
+        "project": project_data,
+        "tasks": tasks_data,
+        "hypotheses": hypotheses,
+        "parent_track": parent_track
+    }
 
 
 @router.get("/track/{track_id}/context", response_model=TrackContextResponse)
@@ -713,3 +823,186 @@ async def get_schema_info(
 
     filtered = {k: v for k, v in all_constants.items() if any(key in k.lower() for key in keys)}
     return filtered
+
+
+# ============================================
+# Exec Vault Endpoints (RBAC Protected)
+# ============================================
+
+@router.get("/exec-context")
+async def get_exec_context(request: Request):
+    """
+    Exec Vault (loop_exec) 구조 + 현황
+
+    C-Level 전용 민감 데이터 (Runway, Budget, People 등) 접근.
+    role=admin 또는 role=exec + mcp:exec scope 필요.
+    """
+    # RBAC 권한 확인
+    role, scope = require_exec_access(request)
+
+    exec_vault = get_exec_vault_dir()
+    if not exec_vault.exists():
+        raise HTTPException(status_code=500, detail="Exec vault not found")
+
+    # 폴더 구조 탐색
+    folders = {}
+    for item in exec_vault.iterdir():
+        if item.is_dir() and not item.name.startswith('.'):
+            md_files = list(item.glob("*.md"))
+            folders[item.name] = {
+                "file_count": len(md_files),
+                "files": [f.name for f in md_files[:10]]  # 최대 10개만
+            }
+
+    # 엔트리 포인트 확인
+    entry_point = exec_vault / "_ENTRY_POINT.md"
+    entry_content = None
+    if entry_point.exists():
+        entry_content = entry_point.read_text(encoding='utf-8')[:2000]
+
+    return {
+        "vault_path": str(exec_vault),
+        "folders": folders,
+        "entry_point": entry_content,
+        "access_info": {
+            "role": role,
+            "scope": scope
+        }
+    }
+
+
+@router.get("/exec-read")
+async def exec_read(
+    request: Request,
+    paths: str = Query(..., description="읽을 파일 경로들 (쉼표 구분, exec vault 상대 경로)")
+):
+    """
+    Exec Vault 파일 읽기
+
+    경로 예시: `_ENTRY_POINT.md` 또는 `50_Projects_Exec/some_file.md`
+    여러 파일: `paths=file1.md,file2.md`
+    """
+    # RBAC 권한 확인
+    role, scope = require_exec_access(request)
+
+    exec_vault = get_exec_vault_dir()
+    if not exec_vault.exists():
+        raise HTTPException(status_code=500, detail="Exec vault not found")
+
+    path_list = [p.strip() for p in paths.split(",") if p.strip()]
+    if not path_list:
+        raise HTTPException(status_code=400, detail="No paths provided")
+
+    results = []
+    for rel_path in path_list[:10]:  # 최대 10개 파일
+        file_path = exec_vault / rel_path
+
+        # 경로 탈출 방지
+        try:
+            file_path.resolve().relative_to(exec_vault.resolve())
+        except ValueError:
+            results.append({
+                "path": rel_path,
+                "error": "Path traversal not allowed"
+            })
+            continue
+
+        if not file_path.exists():
+            results.append({
+                "path": rel_path,
+                "error": "File not found"
+            })
+            continue
+
+        try:
+            content = file_path.read_text(encoding='utf-8')
+            frontmatter, body = extract_frontmatter_and_body(file_path)
+            body_truncated, was_truncated = truncate_body(body, 5000)
+
+            results.append({
+                "path": rel_path,
+                "frontmatter": frontmatter,
+                "body": body_truncated,
+                "truncated": was_truncated
+            })
+        except Exception as e:
+            results.append({
+                "path": rel_path,
+                "error": str(e)
+            })
+
+    return {
+        "files": results,
+        "access_info": {
+            "role": role,
+            "scope": scope
+        }
+    }
+
+
+@router.get("/exec-search")
+async def exec_search(
+    request: Request,
+    q: str = Query(..., description="검색 키워드"),
+    max_results: int = Query(20, ge=1, le=50, description="최대 결과 수")
+):
+    """
+    Exec Vault 검색
+
+    파일명과 내용에서 키워드 검색. 매칭된 파일 목록과 미리보기 반환.
+    """
+    # RBAC 권한 확인
+    role, scope = require_exec_access(request)
+
+    exec_vault = get_exec_vault_dir()
+    if not exec_vault.exists():
+        raise HTTPException(status_code=500, detail="Exec vault not found")
+
+    query_lower = q.lower()
+    matches = []
+
+    for md_file in exec_vault.rglob("*.md"):
+        # 숨김 폴더 제외
+        if any(part.startswith('.') for part in md_file.parts):
+            continue
+
+        rel_path = md_file.relative_to(exec_vault)
+
+        # 파일명 매칭
+        name_match = query_lower in md_file.name.lower()
+
+        # 내용 매칭
+        content_match = False
+        preview = ""
+        try:
+            content = md_file.read_text(encoding='utf-8')
+            if query_lower in content.lower():
+                content_match = True
+                # 매칭 위치 주변 미리보기
+                idx = content.lower().find(query_lower)
+                start = max(0, idx - 50)
+                end = min(len(content), idx + len(q) + 100)
+                preview = "..." + content[start:end] + "..."
+        except Exception:
+            pass
+
+        if name_match or content_match:
+            matches.append({
+                "path": str(rel_path),
+                "name_match": name_match,
+                "content_match": content_match,
+                "preview": preview[:200] if preview else None
+            })
+
+            if len(matches) >= max_results:
+                break
+
+    return {
+        "query": q,
+        "total_matches": len(matches),
+        "results": matches,
+        "access_info": {
+            "role": role,
+            "scope": scope
+        }
+    }

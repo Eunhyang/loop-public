@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-29T02:07:02.372063",
+  "generated": "2025-12-29T12:15:44.588749",
   "total_entities": 214,
   "nodes": [
     {
@@ -664,7 +664,7 @@
       "id": "tsk-006-05",
       "type": "Task",
       "name": "용역비 지급(보윤님, 잔디님, 단님)",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/용역비_지급보윤님_잔딘님_단님.md",
       "assignee": "한명학"
     },
@@ -1163,7 +1163,7 @@
       "id": "tsk-016-01",
       "type": "Task",
       "name": "법인 정관 작성 후 최종 검토",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md",
       "priority_flag": "high",
       "assignee": "한명학"
@@ -1172,7 +1172,7 @@
       "id": "tsk-016-02",
       "type": "Task",
       "name": "법인 신청 및 결제/추후 보완사항 대응",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1211,7 +1211,7 @@
       "id": "tsk-grants-jemi-01",
       "type": "Task",
       "name": "JEMI 디딤돌 e-나라도움 정산 증빙자료 수집",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1232,7 +1232,7 @@
       "id": "tsk-grants-youth-01",
       "type": "Task",
       "name": "이인벤션 선납 비용 처리 논의",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1298,7 +1298,7 @@
       "id": "tsk-yt-wegovy-01",
       "type": "Task",
       "name": "위고비 처방 및 구매",
-      "status": "planning",
+      "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -1816,6 +1816,18 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-07",
+      "type": "Task",
+      "name": "AI Router - Evidence 추론 엔드포인트 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -1896,14 +1908,6 @@
         "cond-d"
       ],
       "priority_flag": "critical",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-017-05",
-      "type": "Task",
-      "name": "아이디어파트너스 배치 프로그램 사업계획서 작성",
-      "status": "todo",
-      "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-05_사업계획서_추가작성.md",
       "assignee": "한명학"
     },
     {
@@ -3055,6 +3059,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-07",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-017",
       "target": "tsk-017-01",
       "type": "parent_of"
@@ -3072,11 +3081,6 @@
     {
       "source": "prj-017",
       "target": "tsk-017-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-004",
-      "target": "tsk-017-05",
       "type": "parent_of"
     },
     {
@@ -3909,6 +3913,7 @@
       "tsk-n8n-05",
       "tsk-n8n-04",
       "tsk-n8n-06",
+      "tsk-n8n-07",
       "pgm-tips",
       "prj-017",
       "prj-018",
@@ -4160,11 +4165,11 @@
       "tsk-n8n-05",
       "tsk-n8n-04",
       "tsk-n8n-06",
+      "tsk-n8n-07",
       "tsk-017-01",
       "tsk-017-02",
       "tsk-017-03",
-      "tsk-017-04",
-      "tsk-017-05"
+      "tsk-017-04"
     ],
     "Program": [
       "pgm-hiring",
@@ -4304,17 +4309,13 @@
       "tsk-008-02",
       "tsk-008-05",
       "prj-016",
-      "tsk-016-01",
-      "tsk-016-02",
       "prj-grants-jemi",
-      "tsk-grants-youth-01",
       "tsk-014-04",
       "tsk-dashboard-ux-v1-01",
       "prj-017",
       "tsk-017-01",
       "tsk-017-03",
       "tsk-017-04",
-      "tsk-017-05",
       "prj-018",
       "trk-5",
       "cond-c",
@@ -4331,7 +4332,6 @@
       "prj-003",
       "prj-001",
       "prj-006",
-      "tsk-006-05",
       "prj-011",
       "tsk-002-11",
       "tsk-012-01",
@@ -4340,7 +4340,6 @@
       "prj-015",
       "pgm-hiring",
       "pgm-grants",
-      "tsk-grants-jemi-01",
       "prj-grants-youth",
       "pgm-youtube-weekly",
       "prj-yt-w33",
@@ -4386,6 +4385,7 @@
       "tsk-006-04",
       "tsk-006-01",
       "tsk-006-02",
+      "tsk-006-05",
       "tsk-002-01",
       "tsk-002-04",
       "tsk-002-03",
@@ -4404,8 +4404,13 @@
       "tsk-015-05",
       "tsk-015-09",
       "tsk-015-10",
+      "tsk-016-01",
+      "tsk-016-02",
+      "tsk-grants-jemi-01",
+      "tsk-grants-youth-01",
       "tsk-014-02",
       "tsk-014-03",
+      "tsk-yt-wegovy-01",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-04",
       "tsk-vault-gpt-03",
@@ -4436,15 +4441,13 @@
       "tsk-n8n-02",
       "tsk-n8n-05",
       "tsk-n8n-04",
+      "tsk-n8n-07",
       "retro:2025-annual"
     ],
     "active": [
       "prj-yt-wegovy",
       "prj-impact-schema-v2",
       "prj-n8n"
-    ],
-    "planning": [
-      "tsk-yt-wegovy-01"
     ],
     "hold": [
       "tsk-vault-gpt-02"
