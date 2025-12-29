@@ -1,16 +1,14 @@
 ---
-description: NAS git sync daemon과 충돌하지 않는 안전한 커밋/푸시 (SSH→NAS, HTTPS→GitHub) - 두 Vault 동시 커밋
+description: 로컬 SSD에서 직접 커밋/푸시 후 NAS로 rsync 백업 - 두 Vault 동시 처리
 ---
 
-# Safe Commit (NAS Sync 충돌 방지)
+# Safe Commit (로컬 SSD 운영 모드)
 
-SMB 마운트에서는 git index 쓰기 문제가 발생할 수 있어서, NAS에 SSH로 직접 접속해서 커밋합니다.
+로컬 SSD에서 직접 git commit/push 후 NAS로 rsync 백업합니다.
 
 **두 Vault 동시 커밋:**
-- `LOOP` (Shared Vault) - 코어 멤버 접근
-- `loop_exec` (Exec Vault) - C-Level 전용
-
-**GitHub 인증**: 양쪽 모두 HTTPS + PAT (Personal Access Token) 방식 사용
+- `~/dev/LOOP_WORK` (Shared Vault)
+- `~/dev/loop_exec_WORK` (Exec Vault)
 
 ## 사용자 입력
 
@@ -24,31 +22,37 @@ $ARGUMENTS
 
 ```bash
 # Shared Vault (LOOP)
-cd /Volumes/LOOP_CORE/vault/LOOP && git status --short
+cd ~/dev/LOOP_WORK && git status --short
 
 # Exec Vault (loop_exec)
-cd /Volumes/LOOP_CLevel/vault/loop_exec && git status --short
+cd ~/dev/loop_exec_WORK && git status --short
 ```
 
-### 2. SSH로 NAS에서 직접 커밋/푸시 실행
+### 2. 로컬에서 직접 커밋/푸시
 
-#### Shared Vault (LOOP_CORE) 커밋
+#### Shared Vault (LOOP) 커밋
 ```bash
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'export HOME=/tmp && git config --global --add safe.directory "*" && git config --global user.email "eunhyang90218@gmail.com" && git config --global user.name "Claude Code" && cd /volume1/LOOP_CORE/vault/LOOP && git add -A && git commit --no-verify -m "커밋메시지" && git push origin main'
+cd ~/dev/LOOP_WORK && git add -A && git commit -m "커밋메시지" && git push origin main
 ```
 
-#### Exec Vault (LOOP_CLevel) 커밋
+#### Exec Vault (loop_exec) 커밋
 ```bash
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'export HOME=/tmp && git config --global --add safe.directory "*" && git config --global user.email "eunhyang90218@gmail.com" && git config --global user.name "Claude Code" && cd /volume1/LOOP_CLevel/vault/loop_exec && git add -A && git commit --no-verify -m "커밋메시지" && git push origin main'
+cd ~/dev/loop_exec_WORK && git add -A && git commit -m "커밋메시지" && git push origin main
 ```
 
-### 3. 결과 확인
+### 3. NAS로 rsync 백업
+
+```bash
+~/bin/sync-to-nas.sh
+```
+
+### 4. 결과 확인
 ```bash
 # Shared Vault
-cd /Volumes/LOOP_CORE/vault/LOOP && git log -1 --oneline
+cd ~/dev/LOOP_WORK && git log -1 --oneline
 
 # Exec Vault
-cd /Volumes/LOOP_CLevel/vault/loop_exec && git log -1 --oneline
+cd ~/dev/loop_exec_WORK && git log -1 --oneline
 ```
 
 ## 커밋 메시지 규칙
@@ -61,38 +65,27 @@ cd /Volumes/LOOP_CLevel/vault/loop_exec && git log -1 --oneline
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ```
 
-## NAS 연결 정보
+## Vault 경로
 
-- Host: `100.93.242.60` (Tailscale IP)
-- Port: `22`
-- User: `Sosilab`
-- Password: `Dkssud272902*`
+| Vault | 로컬 경로 | NAS 백업 경로 |
+|-------|---------|--------------|
+| Shared (LOOP) | `~/dev/LOOP_WORK` | `/Volumes/LOOP_CORE/vault/LOOP` |
+| Exec (loop_exec) | `~/dev/loop_exec_WORK` | `/Volumes/LOOP_CLevel/vault/loop_exec` |
 
-### Vault 경로
+## 통합 명령 템플릿
 
-| Vault | NAS 경로 | 로컬 마운트 |
-|-------|---------|------------|
-| Shared (LOOP) | `/volume1/LOOP_CORE/vault/LOOP` | `/Volumes/LOOP_CORE/vault/LOOP` |
-| Exec (loop_exec) | `/volume1/LOOP_CLevel/vault/loop_exec` | `/Volumes/LOOP_CLevel/vault/loop_exec` |
-
-## SSH 명령 템플릿 (통합)
-
-두 vault를 한 번에 커밋하는 스크립트:
+두 vault를 한 번에 처리:
 ```bash
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 '
-export HOME=/tmp
-git config --global --add safe.directory "*"
-git config --global user.email "eunhyang90218@gmail.com"
-git config --global user.name "Claude Code"
+# LOOP
+cd ~/dev/LOOP_WORK
+git add -A && git commit -m "커밋메시지" && git push origin main || echo "LOOP: no changes"
 
-# Shared Vault
-cd /volume1/LOOP_CORE/vault/LOOP
-git add -A && git commit --no-verify -m "커밋메시지" && git push origin main || echo "LOOP: no changes"
+# loop_exec
+cd ~/dev/loop_exec_WORK
+git add -A && git commit -m "커밋메시지" && git push origin main || echo "loop_exec: no changes"
 
-# Exec Vault
-cd /volume1/LOOP_CLevel/vault/loop_exec
-git add -A && git commit --no-verify -m "커밋메시지" && git push origin main || echo "loop_exec: no changes"
-'
+# NAS 백업
+~/bin/sync-to-nas.sh
 ```
 
 ## 선택적 커밋
@@ -102,24 +95,37 @@ git add -A && git commit --no-verify -m "커밋메시지" && git push origin mai
 - `--exec`: loop_exec만 커밋
 - (기본): 둘 다 커밋
 
-## GitHub Remote 설정
-
-양쪽 Vault 모두 HTTPS + PAT 방식 사용 (SSH 키 불필요):
+## rsync 옵션
 
 ```bash
-# LOOP (Shared Vault)
-git remote set-url origin https://Eunhyang:ghp_TOKEN@github.com/Eunhyang/loop_obsidian.git
+# LOOP만 동기화
+~/bin/sync-to-nas.sh --loop
 
-# loop_exec (Exec Vault)
-git remote set-url origin https://Eunhyang:ghp_TOKEN@github.com/Eunhyang/loop_exec.git
+# loop_exec만 동기화
+~/bin/sync-to-nas.sh --exec
+
+# 둘 다 동기화 (기본)
+~/bin/sync-to-nas.sh --all
 ```
 
-> PAT은 GitHub Settings > Developer settings > Personal access tokens에서 발급
+## 아키텍처
 
-## 대안: NAS Daemon 사용
-
-급하지 않으면 lock 파일 없이 두면 NAS daemon이 15분마다 자동 커밋:
-```bash
-# Shared Vault daemon
-ssh -p 22 Sosilab@100.93.242.60 "/volume1/LOOP_CORE/scripts/loop-git-sync.sh"
 ```
+┌─────────────────────────────────────────────────────────────┐
+│  로컬 Mac (SSD) - 작업 + Git                                │
+│  ~/dev/LOOP_WORK          ← Claude Code + Obsidian + Git    │
+│  ~/dev/loop_exec_WORK     ← Claude Code + Git               │
+│         │                                                   │
+│         │ git push → GitHub                                 │
+│         │                                                   │
+│         │ rsync --delete → NAS (백업)                       │
+│         ▼                                                   │
+├─────────────────────────────────────────────────────────────┤
+│  NAS (SMB Mount) - 백업/공유 전용                           │
+│  /Volumes/LOOP_CORE/vault/LOOP      ← 읽기 전용 백업        │
+│  /Volumes/LOOP_CLevel/vault/loop_exec  ← 읽기 전용 백업     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+> **Note**: NAS daemon은 더 이상 commit하지 않음 (2025-12-29 변경)
+> NAS는 rsync 수신 전용으로 운영됨
