@@ -1,0 +1,11 @@
+{
+  "run_id": "run-20251231-103256-0cjwnt",
+  "timestamp": "2025-12-31T19:32:57.595486",
+  "project_id": "prj-grants-youth",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

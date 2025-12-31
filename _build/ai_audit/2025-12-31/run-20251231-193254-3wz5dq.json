@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20251231-193254-3wz5dq",
+  "timestamp": "2025-12-31T19:32:54.438641",
+  "task_id": "tsk-yt-wegovy-01",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}
