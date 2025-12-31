@@ -2,7 +2,6 @@
   "name": "LOOP Entity Validator & Auto-filler",
   "nodes": [
     {
-      "parameters": {},
       "id": "schedule-trigger",
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
