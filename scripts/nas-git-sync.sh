@@ -13,6 +13,10 @@ git config --global --add safe.directory "$VAULT_DIR" 2>/dev/null || true
 
 cd "$VAULT_DIR"
 
+# Synology @eaDir 메타데이터 정리 (git refs 오염 방지)
+find .git/refs -name "*@eaDir*" -o -name "*@SynoEA*" 2>/dev/null | xargs rm -rf 2>/dev/null || true
+find .git -name "@eaDir" -type d 2>/dev/null | xargs rm -rf 2>/dev/null || true
+
 # 로그 함수
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
