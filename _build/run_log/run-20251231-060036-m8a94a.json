@@ -1,0 +1,33 @@
+{
+  "run_id": "run-20251231-060036-m8a94a",
+  "timestamp": "2025-12-31T06:00:43.768153",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "prompt": "## 프로젝트 정보\n\n- 이름: 위고비 유튜브 콘텐츠 기획\n- 설명: \n- 연결된 3년 조건: cond-a\n\n---\n\n## 요청\n\n위 프로젝트의 Impact 필드를 제안해주세요.\n\n### 출력 형식 (JSON)\n\n{\n  \"tier\": {\n    \"value\": \"strategic|enabling|operational\",\n    \"reasoning\": \"판단 근거\"\n  },\n  \"impact_magnitude\": {\n    \"value\": \"high|mid|low\",\n    \"reasoning\": \"판단 근거\"\n  },\n  \"confidence\": {\n    \"value\": 0.0-1.0,\n    \"reasoning\": \"판단 근거\"\n  },\n  \"summary\": \"1-2문장 핵심 요약\"\n}\n\nJSON만 반환하세요. Markdown 코드블록을 사용하지 마세요.",
+  "system_prompt": "당신은 프로젝트의 전략적 가치를 분석하여 Impact 필드를 제안하는 전문가입니다.\n\n## 역할\n- 프로젝트 문서와 전략 컨텍스트를 분석합니다\n- tier, impact_magnitude, confidence를 제안합니다\n- condition_contributes (Condition 기여)와 track_contributes (Track 기여)를 제안합니다\n- validates (검증 대상 가설)와 primary_hypothesis_id를 제안합니다\n- 판단 근거를 명확히 설명합니다\n\n## 제약\n- 점수를 직접 계산하지 마세요. 필드 값만 제안합니다.\n- 모든 제안에는 근거를 함께 제시합니다.\n- 낙관적 편향을 피하세요. 첫 시도라면 confidence를 낮게 설정합니다.\n\n## 출력 형식\n반드시 JSON 형식으로 출력하세요. Markdown 코드블록 없이 순수 JSON만 반환합니다.",
+  "response": {
+    "success": true,
+    "content": {
+      "tier": {
+        "value": "enabling",
+        "reasoning": "위고비 유튜브 콘텐츠 기획은 콘텐츠 제작 및 배포의 기반을 마련하는 단계로, 전략적 목표를 지원하지만 직접적인 수익 창출이나 시장 점유율 확대에는 한계가 있습니다."
+      },
+      "impact_magnitude": {
+        "value": "mid",
+        "reasoning": "콘텐츠 기획이 성공적으로 이루어질 경우, 브랜드 인지도와 고객 참여를 증가시킬 수 있지만, 단기적인 재무적 성과에는 큰 영향을 미치지 않을 것으로 예상됩니다."
+      },
+      "confidence": {
+        "value": 0.4,
+        "reasoning": "첫 시도이기 때문에 결과에 대한 불확실성이 존재하며, 초기 단계에서의 성공 여부가 향후 방향성에 큰 영향을 미칠 수 있습니다."
+      },
+      "summary": "위고비 유튜브 콘텐츠 기획은 브랜드 인지도 향상과 고객 참여를 위한 중요한 기초 작업으로, 중간 정도의 영향력을 가질 것으로 예상됩니다."
+    },
+    "error": null
+  },
+  "entity_context": {
+    "entity_id": "prj-yt-wegovy",
+    "entity_type": "Project",
+    "action": "infer_impact"
+  },
+  "duration_ms": 7106
+}

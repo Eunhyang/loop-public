@@ -1,0 +1,11 @@
+{
+  "run_id": "run-20251230-120555-s9seut",
+  "timestamp": "2025-12-30T21:05:57.155412",
+  "project_id": "prj-yt-wegovy",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

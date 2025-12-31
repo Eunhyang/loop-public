@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20251230-150037-mismnc",
+  "timestamp": "2025-12-31T00:00:45.089478",
+  "project_id": "prj-014",
+  "project_name": "코칭 서비스 운영 체계 재구축",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "mid",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-4",
+        "weight": 0.5,
+        "description": "코칭 서비스 운영 체계 재구축이 Track_4_Coaching의 목표 달성에 기여할 것으로 예상됨."
+      }
+    ],
+    "validates": [
+      "hyp-001"
+    ],
+    "primary_hypothesis_id": "hyp-001"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 1.5
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-clof",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:45.085998"
+  },
+  "llm_run_id": "run-20251231-000037-sw7mi1"
+}

@@ -1,0 +1,59 @@
+{
+  "run_id": "run-20251231-000024-r5hroa",
+  "timestamp": "2025-12-31T00:00:33.035824",
+  "project_id": "prj-017",
+  "project_name": "아이디어파트너스 배치 프로그램 지원",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-6-13",
+      "hyp-6-14"
+    ],
+    "primary_hypothesis_id": "hyp-6-13",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.5,
+        "description": "투자 유치 시 런웨이 직접 확보"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.2,
+        "description": "배치 멘토링으로 팀 역량 강화"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 비즈니스 관련이므로 김은향이 적합합니다.",
+    "parent_id": "이 프로젝트는 Track 6에 속하므로 trk-6을 선택했습니다.",
+    "conditions_3y": "기존 조건인 cond-d와 cond-e가 적합하므로 그대로 유지했습니다.",
+    "validates": "검증하려는 가설이 두 개 있으므로 그대로 유지했습니다.",
+    "condition_contributes": "기여도는 기존 조건에 맞춰 적절하게 설정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-kvyt",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:33.032598"
+  }
+}

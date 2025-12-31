@@ -1,0 +1,38 @@
+{
+  "run_id": "run-20251230-213303-kwwtfu",
+  "timestamp": "2025-12-30T21:33:09.775724",
+  "task_id": "tsk-grants-jemi-01",
+  "task_name": "JEMI 디딤돌 e-나라도움 정산 증빙자료 수집",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_conditions_3y"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-e"
+    ],
+    "assignee": "소상민",
+    "due": "2025-12-26",
+    "type": "ops"
+  },
+  "reasoning": {
+    "conditions_3y": "Task의 내용이 정산 증빙자료 수집과 관련되어 있으며, 이는 팀의 기술 및 인프라와 관련된 작업으로 판단되어 cond-e가 적합합니다.",
+    "assignee": "소상민은 기술 작업과 관련된 업무를 담당하므로 이 Task에 적합합니다.",
+    "due": "Task의 마감일이 2025-12-26로 설정되어 있으며, 이는 1-2주 내의 중간 복잡도로 판단됩니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213309-tbjc",
+    "status": "pending",
+    "created_at": "2025-12-30T21:33:09.750603"
+  }
+}

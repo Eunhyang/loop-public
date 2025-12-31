@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20251230-123325-p4rv24",
+  "timestamp": "2025-12-30T21:33:33.427187",
+  "project_id": "prj-007",
+  "project_name": "외부 비서",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "operational",
+    "impact_magnitude": "low",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-6",
+        "weight": 0.3,
+        "description": "외부 비서 프로젝트가 수익 창출에 기여할 수 있는 가능성이 있지만, 그 기여도는 제한적입니다."
+      }
+    ],
+    "validates": [
+      "hyp-1-01"
+    ],
+    "primary_hypothesis_id": "hyp-1-01"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 0.25
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-7vyh",
+    "status": "pending",
+    "created_at": "2025-12-30T21:33:33.423911"
+  },
+  "llm_run_id": "run-20251230-213326-7mutoo"
+}

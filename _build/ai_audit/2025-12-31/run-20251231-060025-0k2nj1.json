@@ -1,0 +1,64 @@
+{
+  "run_id": "run-20251231-060025-0k2nj1",
+  "timestamp": "2025-12-31T06:00:33.337140",
+  "project_id": "prj-006",
+  "project_name": "코치 1명 구인 & 1차 온보딩 준비",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-4",
+    "conditions_3y": [
+      "cond-b",
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-1-07"
+    ],
+    "primary_hypothesis_id": "hyp-1-07",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.3,
+        "description": "코치 = 라벨링 인력 = 패턴 발견 엔진"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.2,
+        "description": "코칭 참여자 증가 → 매출 → 런웨이"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.5,
+        "description": "팀의 기술적 역량 강화"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 코칭 관련이므로, 김은향이 적합합니다.",
+    "parent_id": "이 프로젝트는 Coaching Track에 속하므로 trk-4로 설정합니다.",
+    "conditions_3y": "수익 모델(Revenue Model)과 팀(Team) 관련 조건을 추가하여 3년 내 성과를 보장합니다.",
+    "validates": "코칭과 관련된 가설인 hyp-1-07을 선택하여 검증합니다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 설정하여 합계가 1.0 이하로 유지합니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213320-jvnm",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:33.318042"
+  }
+}

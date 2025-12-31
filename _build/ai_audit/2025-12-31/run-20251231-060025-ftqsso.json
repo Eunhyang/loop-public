@@ -1,0 +1,56 @@
+{
+  "run_id": "run-20251231-060025-ftqsso",
+  "timestamp": "2025-12-31T06:00:33.893935",
+  "project_id": "prj-008",
+  "project_name": "파일럿 프로젝트 후보",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "validates": [
+      "hyp-1-02",
+      "hyp-1-04"
+    ],
+    "primary_hypothesis_id": "hyp-1-02",
+    "conditions_3y": [
+      "cond-b",
+      "cond-d"
+    ],
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.2,
+        "description": "파일럿 참여자 데이터 수집에 기여"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.1,
+        "description": "소규모 매출 기여 가능성에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "validates": "이 프로젝트는 수익 모델과 관련된 가설(hyp-1-02) 및 효과 가시화가 결제를 올리는 가설(hyp-1-04)을 검증할 수 있습니다.",
+    "primary_hypothesis_id": "hyp-1-02는 검증하려는 가설 중 핵심 가설로 선택되었습니다.",
+    "conditions_3y": "수익 모델(조건-b)과 팀(조건-d) 조건이 프로젝트의 목표와 관련이 있습니다.",
+    "condition_contributes": "각 조건에 대한 기여도는 프로젝트의 목표와 관련된 활동을 기반으로 설정되었습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-e7j1",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:33.890356"
+  }
+}

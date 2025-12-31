@@ -1,0 +1,61 @@
+{
+  "run_id": "run-20251230-213311-62r4af",
+  "timestamp": "2025-12-30T21:33:19.494759",
+  "project_id": "prj-grants-jemi",
+  "project_name": "JEMI디딤돌 지원사업",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-1-01",
+      "hyp-1-04"
+    ],
+    "primary_hypothesis_id": "hyp-1-01",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.6,
+        "description": "팀의 역량과 협업이 프로젝트 성공에 기여"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술적 인프라가 프로젝트 진행에 필수적"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 지원사업으로, 전략 및 디자인 관련성이 높아 김은향이 적합함.",
+    "parent_id": "프로젝트가 수익 모델과 관련된 Track 6에 속함.",
+    "conditions_3y": "팀과 기술적 인프라가 프로젝트 성공에 중요한 요소로 판단됨.",
+    "validates": "프로젝트의 목표와 관련된 가설을 선택하여 검증할 필요가 있음.",
+    "condition_contributes": "각 Condition에 대한 기여도를 명확히 하여 프로젝트의 성공 가능성을 높임."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-hvif",
+    "status": "pending",
+    "created_at": "2025-12-30T21:33:19.492360"
+  }
+}

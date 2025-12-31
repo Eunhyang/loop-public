@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20251230-213326-7mutoo",
+  "timestamp": "2025-12-30T21:33:33.422537",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "prompt": "## 프로젝트 정보\n\n- Project ID: prj-007\n- 이름: 외부 비서\n- 목표: N/A\n- Owner: 김은향\n- Status: done\n\n\n---\n\n## 전략 컨텍스트\n\n### 상위 Track\n- Track ID: trk-6\n- 이름: Track_6_Revenue\n- 설명: N/A\n\n### 관련 Conditions\n정보 없음\n\n### NorthStar/MH 요약\n정보 없음\n\n---\n\n## 유사 프로젝트 참조\n없음\n\n---\n\n\n## 요청\n\n위 프로젝트를 분석하여 Impact 필드를 제안해주세요.\n\n### 출력 형식 (JSON)\n\n{\n  \"tier\": {\n    \"value\": \"strategic|enabling|operational\",\n    \"reasoning\": \"판단 근거\"\n  },\n  \"impact_magnitude\": {\n    \"value\": \"high|mid|low\",\n    \"reasoning\": \"판단 근거\"\n  },\n  \"confidence\": {\n    \"value\": 0.0-1.0,\n    \"reasoning\": \"판단 근거\",\n    \"adjustments\": [\n      {\"factor\": \"요인\", \"adjustment\": -0.1}\n    ]\n  },\n  \"condition_contributes\": [\n    {\n      \"to\": \"cond-X\",\n      \"weight\": 0.0-1.0,\n      \"description\": \"Condition 기여 설명\"\n    }\n  ],\n  \"track_contributes\": [\n    {\n      \"to\": \"trk-N\",\n      \"weight\": 0.0-1.0,\n      \"description\": \"Secondary Track 기여 설명 (선택사항)\"\n    }\n  ],\n  \"validates\": [\"hyp-X-XX\"],\n  \"primary_hypothesis_id\": \"hyp-X-XX\",\n  \"summary\": \"1-2문장 핵심 요약\"\n}\n\n### 판단 기준\n\n**tier 판단:**\n- strategic: 비전/전략에 직접 기여, 3년 Condition 달성에 필수\n- enabling: 전략 실행을 가속, 다른 프로젝트 성공에 기여\n- operational: 일상 운영 유지, 없으면 운영이 멈춤\n\n**impact_magnitude 판단:**\n- high: 핵심 지표에 직접적 큰 영향, 목표 달성의 30% 이상 기여\n- mid: 중간 수준 영향, 목표 달성의 10-30% 기여\n- low: 간접적/작은 영향, 목표 달성의 10% 미만 기여\n\n**confidence 조정:**\n- 감점: 첫 시도(-0.2), 외부 의존성(-0.1~-0.2), 일정 촉박(-0.1), 기술적 불확실성(-0.2)\n- 가점: 유사 성공 경험(+0.1), 명확한 마일스톤(+0.1), 충분한 리소스(+0.1)\n- 기본값: 0.7 (보통)\n\n**v5.3 신규 필드:**\n- condition_contributes: 3년 Condition (cond-a~e)에 대한 기여\n- track_contributes: Secondary Track (trk-1~6)에 대한 기여 (선택사항)\n- validates: 검증 대상 가설 ID 목록 (hyp-X-XX)\n- primary_hypothesis_id: 프로젝트의 핵심 가설 ID\n",
+  "system_prompt": "당신은 프로젝트의 전략적 가치를 분석하여 Impact 필드를 제안하는 전문가입니다.\n\n## 역할\n- 프로젝트 문서와 전략 컨텍스트를 분석합니다\n- tier, impact_magnitude, confidence를 제안합니다\n- condition_contributes (Condition 기여)와 track_contributes (Track 기여)를 제안합니다\n- validates (검증 대상 가설)와 primary_hypothesis_id를 제안합니다\n- 판단 근거를 명확히 설명합니다\n\n## 제약\n- 점수를 직접 계산하지 마세요. 필드 값만 제안합니다.\n- 모든 제안에는 근거를 함께 제시합니다.\n- 낙관적 편향을 피하세요. 첫 시도라면 confidence를 낮게 설정합니다.\n\n## 출력 형식\n반드시 JSON 형식으로 출력하세요. Markdown 코드블록 없이 순수 JSON만 반환합니다.",
+  "response": {
+    "success": true,
+    "content": {
+      "tier": {
+        "value": "operational",
+        "reasoning": "프로젝트가 외부 비서라는 일상적인 운영을 지원하는 도구로 보이며, 운영 유지에 필수적이지는 않지만 운영에 기여할 수 있습니다."
+      },
+      "impact_magnitude": {
+        "value": "low",
+        "reasoning": "프로젝트의 목표가 명확하지 않고, 외부 비서가 핵심 지표에 미치는 영향이 적을 것으로 예상되므로 목표 달성에 10% 미만 기여할 것으로 판단됩니다."
+      },
+      "confidence": {
+        "value": 0.5,
+        "reasoning": "프로젝트가 완료된 상태이나, 목표와 관련된 정보가 부족하여 신뢰도를 낮게 설정했습니다.",
+        "adjustments": []
+      },
+      "condition_contributes": [],
+      "track_contributes": [
+        {
+          "to": "trk-6",
+          "weight": 0.3,
+          "description": "외부 비서 프로젝트가 수익 창출에 기여할 수 있는 가능성이 있지만, 그 기여도는 제한적입니다."
+        }
+      ],
+      "validates": [
+        "hyp-1-01"
+      ],
+      "primary_hypothesis_id": "hyp-1-01",
+      "summary": "외부 비서 프로젝트는 일상 운영에 기여할 수 있지만, 목표와 관련된 정보 부족으로 인해 신뢰도가 낮고, 수익 창출에 대한 기여도는 제한적입니다."
+    },
+    "error": null
+  },
+  "entity_context": {
+    "entity_id": "prj-007",
+    "entity_type": "Project",
+    "action": "infer_impact"
+  },
+  "duration_ms": 7207
+}

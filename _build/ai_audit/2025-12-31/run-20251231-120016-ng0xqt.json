@@ -1,0 +1,38 @@
+{
+  "run_id": "run-20251231-120016-ng0xqt",
+  "timestamp": "2025-12-31T12:00:21.634484",
+  "task_id": "tsk-014-03",
+  "task_name": "W33 촬영",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_conditions_3y"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-e"
+    ],
+    "assignee": "소상민",
+    "due": "2025-12-31",
+    "type": "strategy"
+  },
+  "reasoning": {
+    "conditions_3y": "W33 촬영은 팀의 협업과 관련된 작업으로, 팀(Team)과 관련된 조건이 가장 적합합니다.",
+    "assignee": "소상민은 기술 작업에 적합하며, 촬영 작업의 기술적 측면을 담당할 수 있습니다.",
+    "due": "작업의 복잡도를 고려할 때, 1-3일 이내에 완료할 수 있는 간단한 작업으로 판단하여 2025-12-31로 설정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213308-eji6",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:21.631182"
+  }
+}

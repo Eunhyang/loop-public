@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20251231-030037-poyfmt",
+  "timestamp": "2025-12-31T12:00:46.045532",
+  "project_id": "prj-008",
+  "project_name": "파일럿 프로젝트 후보",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "low",
+    "confidence": 0.4,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-4",
+        "weight": 0.5,
+        "description": "Track_4_Coaching의 실행을 지원하여 전반적인 프로젝트 성과에 기여할 수 있습니다."
+      }
+    ],
+    "validates": [
+      "hyp-1-01"
+    ],
+    "primary_hypothesis_id": "hyp-1-01"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 0.6
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-e7j1",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:46.017511"
+  },
+  "llm_run_id": "run-20251231-120037-2lu8vs"
+}

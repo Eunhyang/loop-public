@@ -1,0 +1,59 @@
+{
+  "run_id": "run-20251231-060025-ic7yd6",
+  "timestamp": "2025-12-31T06:00:32.993937",
+  "project_id": "prj-003",
+  "project_name": "LoopOS V0 데이터 설계",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-b",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-2-01",
+      "hyp-2-02"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.5,
+        "description": "패턴 저장 스키마 = cond-b 달성의 필수 기반"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.5,
+        "description": "스키마 최소세트가 충분 = cond-a 달성의 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "이 프로젝트는 데이터 설계와 관련되어 있으며, 김은향이 해당 분야의 전략과 디자인을 담당하고 있어 적합합니다.",
+    "parent_id": "이 프로젝트는 Track_2_Data에 속하므로 parent_id로 trk-2를 선택했습니다.",
+    "conditions_3y": "cond-b는 이미 포함되어 있으며, 추가로 제품-시장 적합성을 나타내는 cond-a를 선택하여 조건을 충족합니다.",
+    "validates": "이 프로젝트가 검증하려는 가설은 hyp-2-01과 hyp-2-02로, 스키마 최소세트와 안정성 관련 가설입니다.",
+    "condition_contributes": "cond-b에 대한 기여는 이미 명시되어 있으며, cond-a에 대한 기여를 추가하여 총합이 1.0이 되도록 조정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213325-9uzf",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:32.990494"
+  }
+}

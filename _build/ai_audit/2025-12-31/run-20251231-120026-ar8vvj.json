@@ -1,0 +1,61 @@
+{
+  "run_id": "run-20251231-120026-ar8vvj",
+  "timestamp": "2025-12-31T12:00:36.988788",
+  "project_id": "prj-016",
+  "project_name": "법인 전환 설립(주) 루프",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-1-04",
+      "hyp-1-10"
+    ],
+    "primary_hypothesis_id": "hyp-1-04",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.6,
+        "description": "팀의 역량과 프로젝트 진행을 위한 필수 조건"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술 및 인프라의 적합성 확인"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격상 전략 및 비즈니스 관련이므로 김은향이 적합합니다.",
+    "parent_id": "이 프로젝트는 수익 관련 트랙에 속하므로 trk-6이 적합합니다.",
+    "conditions_3y": "팀과 기술/인프라 조건이 프로젝트 성공에 중요하므로 cond-d와 cond-e를 선택했습니다.",
+    "validates": "프로젝트의 목표가 결제 증가와 관련이 있으므로 hyp-1-04와 hyp-1-10이 적합합니다.",
+    "condition_contributes": "팀 역량과 기술 적합성이 프로젝트에 중요한 기여를 하므로 각각 0.6과 0.4의 기여도를 부여했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213320-kyjx",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:36.984553"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "run_id": "run-20251231-120016-ofbcjx",
+  "timestamp": "2025-12-31T12:00:24.905002",
+  "task_id": "tsk-016-01",
+  "task_name": "법인 정관 작성 후 최종 검토",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_conditions_3y"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-a",
+      "cond-b"
+    ],
+    "assignee": "김은향",
+    "due": "2026-01-05",
+    "type": "strategy"
+  },
+  "reasoning": {
+    "conditions_3y": "법인 정관 작성은 제품-시장 적합성(Condition_A_PMF)과 수익 모델(Condition_B_Loop_Dataset)과 관련이 깊습니다. 정관은 법인의 운영 방향과 시장에서의 위치를 정의하는 중요한 문서이기 때문입니다.",
+    "assignee": "김은향은 전략적 작업에 적합하며, 법인 정관 작성 및 검토와 관련된 작업을 효과적으로 수행할 수 있습니다.",
+    "due": "정관 작성 및 검토는 중간 복잡도의 작업으로, 1-2주 정도의 시간이 필요하므로 2026-01-05로 설정하는 것이 합리적입니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213307-ad0i",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:24.878501"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "run_id": "run-20251231-060026-oj6ifo",
+  "timestamp": "2025-12-31T06:00:33.734279",
+  "project_id": "prj-grants-youth",
+  "project_name": "청년창업사관학교",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-4",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-1-01",
+      "hyp-1-04"
+    ],
+    "primary_hypothesis_id": "hyp-1-01",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.6,
+        "description": "팀의 역량과 구성의 중요성을 강조"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술적 인프라의 필요성 강조"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 청년 창업을 지원하는 사업으로, 전략 및 비즈니스 관점에서 김은향이 적합하다고 판단됨.",
+    "parent_id": "청년 창업과 관련된 코칭을 포함한 프로젝트로, Track_4_Coaching이 가장 적합하다고 판단됨.",
+    "conditions_3y": "팀과 기술 인프라가 프로젝트의 성공에 중요한 요소로 작용할 것으로 예상됨.",
+    "validates": "프로젝트의 성공적인 실행을 위해 행동 변화와 효과 가시화에 대한 가설을 검증할 필요가 있음.",
+    "condition_contributes": "팀과 기술 인프라가 프로젝트의 성공에 기여할 것으로 예상되어 기여도를 설정함."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-insq",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:33.699420"
+  }
+}

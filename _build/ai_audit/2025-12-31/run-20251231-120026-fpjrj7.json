@@ -1,0 +1,60 @@
+{
+  "run_id": "run-20251231-120026-fpjrj7",
+  "timestamp": "2025-12-31T12:00:31.870794",
+  "project_id": "prj-015",
+  "project_name": "Hiring - 주니어 개발자 채용",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "소상민",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-2-01"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.5,
+        "description": "팀의 역량 강화에 기여"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.5,
+        "description": "기술 인프라 확장에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 개발 관련 작업이므로 소상민이 적합합니다.",
+    "parent_id": "이 프로젝트는 Track_6_Revenue에 속하므로 trk-6이 적합합니다.",
+    "conditions_3y": "팀(Team)과 기술/인프라(Tech/Infrastructure) 조건이 이 프로젝트에 적합합니다.",
+    "validates": "이 프로젝트는 스키마 최소세트가 충분하다는 가설을 검증하려고 합니다.",
+    "condition_contributes": "팀과 기술 인프라에 각각 50% 기여하여 총합이 1.0이 되도록 설정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-7si8",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:31.851933"
+  }
+}

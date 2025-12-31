@@ -1,0 +1,59 @@
+{
+  "run_id": "run-20251231-000024-hk6ftp",
+  "timestamp": "2025-12-31T00:00:35.030544",
+  "project_id": "prj-008",
+  "project_name": "파일럿 프로젝트 후보",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-4",
+    "conditions_3y": [
+      "cond-b",
+      "cond-d"
+    ],
+    "validates": [
+      "hyp-1-01",
+      "hyp-1-04"
+    ],
+    "primary_hypothesis_id": "hyp-1-01",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.2,
+        "description": "파일럿 참여자 데이터 수집으로 수익 모델 검증"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.1,
+        "description": "소규모 매출 기여 가능성으로 팀 검증"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 코칭 관련이므로 김은향이 적합합니다.",
+    "parent_id": "프로젝트가 Track 4 (Coaching)에 속하므로 trk-4로 설정합니다.",
+    "conditions_3y": "현재 조건은 cond-b와 cond-d로, 수익 모델과 팀 관련 검증이 필요합니다.",
+    "validates": "파일럿 프로젝트의 성공을 검증하기 위해 hyp-1-01과 hyp-1-04를 선택했습니다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 설정하여 총합이 0.3이 되도록 하였습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-e7j1",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:35.027097"
+  }
+}

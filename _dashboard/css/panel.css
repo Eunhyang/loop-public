@@ -1788,3 +1788,242 @@
     border-radius: 9px;
     margin-left: 8px;
 }
+
+/* ============================================
+   Pending Review Enhancements (tsk-n8n-10)
+   ============================================ */
+
+/* 1. Card Field Type Border Colors */
+.pending-review-card[data-field-type="expected_impact"] {
+    border-left-color: #3b82f6 !important;
+}
+.pending-review-card[data-field-type="realized_impact"] {
+    border-left-color: #10b981 !important;
+}
+.pending-review-card[data-field-type="conditions_3y"] {
+    border-left-color: #8b5cf6 !important;
+}
+.pending-review-card[data-field-type="due"] {
+    border-left-color: #f59e0b !important;
+}
+.pending-review-card[data-field-type="priority"] {
+    border-left-color: #dc2626 !important;
+}
+.pending-review-card[data-field-type="track_contributes"],
+.pending-review-card[data-field-type="condition_contributes"] {
+    border-left-color: #6366f1 !important;
+}
+
+/* 2. Array/Badge Display */
+.field-value-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.field-value-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    background: #e5e7eb;
+    color: #374151;
+    border-radius: 12px;
+    font-family: monospace;
+}
+
+.field-value-badge.condition {
+    background: #ede9fe;
+    color: #6d28d9;
+    font-weight: 500;
+}
+
+.field-value-empty,
+.field-value-null {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.field-value-simple {
+    color: #1f2937;
+}
+
+/* 3. Object Display */
+.field-value-table {
+    width: 100%;
+    font-size: 13px;
+    border-collapse: collapse;
+}
+
+.field-value-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: top;
+}
+
+.field-value-table .field-key {
+    font-weight: 600;
+    color: #6b7280;
+    width: 120px;
+    white-space: nowrap;
+}
+
+.field-value-table .field-val {
+    color: #1f2937;
+}
+
+/* 4. Impact Object Display */
+.impact-object {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.impact-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.impact-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.impact-label {
+    font-size: 11px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.impact-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.impact-value.tier-strategic { color: #dc2626; }
+.impact-value.tier-enabling { color: #3b82f6; }
+.impact-value.tier-operational { color: #6b7280; }
+
+.contributes-section {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+    margin-top: 4px;
+}
+
+.contributes-label {
+    font-size: 11px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.contributes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.contributes-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.contributes-target {
+    font-family: monospace;
+    color: #6d28d9;
+    font-weight: 500;
+}
+
+.contributes-weight {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* 5. Field Type Badge in Modal */
+.field-type-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    background: #e5e7eb;
+    color: #6b7280;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+}
+
+/* 6. Textarea for JSON editing */
+.review-field-textarea {
+    width: 100%;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 12px;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    resize: vertical;
+    background: #f9fafb;
+    margin-top: 8px;
+}
+
+.review-field-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #fff;
+}
+
+/* 7. AI Reasoning Toggle */
+.reasoning-section {
+    margin-top: 10px;
+}
+
+.reasoning-toggle-btn {
+    background: none;
+    border: none;
+    color: #6366f1;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.reasoning-toggle-btn:hover {
+    color: #4f46e5;
+}
+
+.toggle-icon {
+    font-size: 10px;
+}
+
+.reasoning-content {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.6;
+    padding: 12px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
+    border-radius: 6px;
+    border-left: 3px solid #f59e0b;
+    margin-top: 8px;
+}
+
+.reasoning-content.collapsed {
+    display: none;
+}
+
+/* 8. Field Item Border */
+.review-field-item {
+    padding-left: 12px;
+    margin-bottom: 16px;
+}

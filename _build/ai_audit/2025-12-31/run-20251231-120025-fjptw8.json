@@ -1,0 +1,59 @@
+{
+  "run_id": "run-20251231-120025-fjptw8",
+  "timestamp": "2025-12-31T12:00:32.783600",
+  "project_id": "prj-007",
+  "project_name": "외부 비서",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-1-04"
+    ],
+    "primary_hypothesis_id": "hyp-1-04",
+    "condition_contributes": [
+      {
+        "to": "cond-e",
+        "weight": 0.5,
+        "description": "팀의 효율성을 높이는 데 기여"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.5,
+        "description": "제품-시장 적합성 검증에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "이 프로젝트는 외부 비서와 관련된 운영 효율화로, PM 및 비즈니스 프로젝트에 적합하여 김은향이 적합하다.",
+    "parent_id": "이 프로젝트는 Track_2_Data에 속하므로 parent_id는 trk-2로 설정한다.",
+    "conditions_3y": "팀의 효율성을 높이는 것과 제품-시장 적합성을 검증하기 위해 cond-e와 cond-a를 선택하였다.",
+    "validates": "이 프로젝트는 외부 비서를 통한 운영 효율화를 증명하는 것을 목표로 하며, 이에 따라 '효과 가시화가 결제를 올림' 가설(hyp-1-04)을 검증할 수 있다.",
+    "condition_contributes": "팀의 효율성 및 제품-시장 적합성에 대한 기여도를 각각 0.5로 설정하여 총합이 1.0이 되도록 하였다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-7vyh",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:32.780254"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "run_id": "run-20251231-120026-1s58na",
+  "timestamp": "2025-12-31T12:00:34.490208",
+  "project_id": "prj-mcp-dual-vault-rbac",
+  "project_name": "MCP Dual-Vault RBAC",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-b",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-2-01"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.6,
+        "description": "수익 모델을 통해 RBAC의 필요성을 검증"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술 인프라가 RBAC 구현에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 기술적 요소가 포함되어 있으나, PM 및 비즈니스적인 측면이 강하므로 김은향이 적합함.",
+    "parent_id": "프로젝트가 데이터 관련 작업을 포함하고 있어 Track_2_Data에 적합함.",
+    "conditions_3y": "Revenue Model(수익 모델)과 Tech/Infrastructure(기술/인프라) 조건이 프로젝트의 성공에 중요한 기여를 할 것으로 판단됨.",
+    "validates": "RBAC의 필요성을 검증하기 위해 스키마 최소세트가 충분하다는 가설을 선택함.",
+    "condition_contributes": "수익 모델과 기술 인프라가 프로젝트의 성공에 기여하는 비율을 고려하여 기여도를 설정함."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-0vm9",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:34.486598"
+  }
+}

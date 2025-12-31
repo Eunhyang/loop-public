@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20251231-120016-1062k8",
+  "timestamp": "2025-12-31T12:00:21.780652",
+  "task_id": "tsk-006-05",
+  "task_name": "용역비 지급(보윤님, 잔디님, 단님)",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_conditions_3y"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-e"
+    ],
+    "assignee": "소상민",
+    "due": "2025-12-31",
+    "priority": "medium",
+    "type": "ops",
+    "target_project": "loop"
+  },
+  "reasoning": {
+    "conditions_3y": "Task의 내용이 용역비 지급과 관련되어 있으며, 팀과 관련된 조건이 가장 적합하다고 판단됨.",
+    "assignee": "소상민은 기술 작업과 관련된 업무를 담당하므로 이 Task에 적합함.",
+    "due": "Task의 복잡도를 고려할 때, 1-3일 내에 완료할 수 있는 간단한 작업으로 판단됨."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213308-llv9",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:21.777117"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20251230-123325-g9u1w6",
+  "timestamp": "2025-12-30T21:33:31.801021",
+  "project_id": "prj-yt-w33",
+  "project_name": "YouTube W33",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "operational",
+    "impact_magnitude": "low",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [],
+    "validates": [
+      "hyp-yt-w33-01"
+    ],
+    "primary_hypothesis_id": "hyp-yt-w33-01"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 0.25
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-g0t0",
+    "status": "pending",
+    "created_at": "2025-12-30T21:33:31.774098"
+  },
+  "llm_run_id": "run-20251230-213326-4hfvdx"
+}

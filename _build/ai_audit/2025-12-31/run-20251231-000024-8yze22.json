@@ -1,0 +1,64 @@
+{
+  "run_id": "run-20251231-000024-8yze22",
+  "timestamp": "2025-12-31T00:00:35.191826",
+  "project_id": "prj-014",
+  "project_name": "코칭 서비스 운영 체계 재구축",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-4",
+    "conditions_3y": [
+      "cond-b",
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-2-01"
+    ],
+    "primary_hypothesis_id": "hyp-4-04",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.15,
+        "description": "코칭 품질 향상 → 데이터 품질 향상 (간접)"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.2,
+        "description": "팀 역량/프로세스 표준화"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.65,
+        "description": "운영 체계 수립으로 제품-시장 적합성 확보"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 코칭 서비스와 관련된 전략적 요소를 포함하고 있어 김은향이 적합하다.",
+    "parent_id": "프로젝트가 코칭 관련 Track인 trk-4에 속하므로 해당 ID를 선택했다.",
+    "conditions_3y": "코칭 서비스의 품질 향상과 팀 역량 강화를 위해 Revenue Model과 Tech/Infrastructure 조건을 추가했다.",
+    "validates": "가설 중 코칭 서비스의 품질 향상과 관련된 hyp-2-01을 선택했다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 명확히 하여 총합이 1.0 이하가 되도록 설정했다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-clof",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:35.041700"
+  }
+}

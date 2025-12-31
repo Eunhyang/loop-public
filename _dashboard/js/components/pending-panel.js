@@ -7,6 +7,168 @@ const PendingPanel = {
     currentReview: null,
     isExpanded: false,
 
+    // field_type별 색상 매핑 (대시보드 기존 색감)
+    FIELD_TYPE_COLORS: {
+        expected_impact: '#3b82f6',   // blue (doing)
+        realized_impact: '#10b981',   // green (done)
+        conditions_3y: '#8b5cf6',     // purple (track)
+        due: '#f59e0b',               // amber (hold)
+        priority: '#dc2626',          // red (critical)
+        track_contributes: '#6366f1', // indigo
+        condition_contributes: '#6366f1'
+    },
+
+    // 필드 타입 우선순위 (카드 색상 결정용)
+    FIELD_TYPE_PRIORITY: ['expected_impact', 'realized_impact', 'priority', 'conditions_3y', 'due'],
+
+    /**
+     * 필드 타입 색상 반환
+     */
+    getFieldTypeColor(fieldType) {
+        return this.FIELD_TYPE_COLORS[fieldType] || '#6b7280';
+    },
+
+    /**
+     * 주요 필드 타입 결정 (카드 색상용)
+     */
+    getPrimaryFieldType(fieldTypes) {
+        for (const p of this.FIELD_TYPE_PRIORITY) {
+            if (fieldTypes.includes(p)) return p;
+        }
+        return fieldTypes[0] || 'other';
+    },
+
+    /**
+     * 배열 값을 뱃지 형태로 포맷팅
+     */
+    formatArrayValue(arr) {
+        if (!Array.isArray(arr) || arr.length === 0) {
+            return '<span class="field-value-empty">-</span>';
+        }
+        return '<div class="field-value-badges">' +
+            arr.map(item => {
+                if (item === null || item === undefined) {
+                    return '<span class="field-value-badge">null</span>';
+                }
+                if (typeof item === 'object') {
+                    return '<span class="field-value-badge">' + this.escapeHtml(JSON.stringify(item)) + '</span>';
+                }
+                const isCondition = String(item).startsWith('cond-');
+                const badgeClass = isCondition ? 'field-value-badge condition' : 'field-value-badge';
+                return '<span class="' + badgeClass + '">' + this.escapeHtml(String(item)) + '</span>';
+            }).join('') +
+        '</div>';
+    },
+
+    /**
+     * Impact 객체를 구조화된 형태로 포맷팅
+     */
+    formatImpactObject(impact) {
+        if (!impact || typeof impact !== 'object') {
+            return '<span class="field-value-empty">-</span>';
+        }
+
+        let html = '<div class="impact-object">';
+        html += '<div class="impact-meta">';
+
+        if (impact.tier) {
+            html += '<div class="impact-meta-item"><span class="impact-label">Tier</span><span class="impact-value tier-' + impact.tier + '">' + this.escapeHtml(impact.tier) + '</span></div>';
+        }
+        if (impact.impact_magnitude) {
+            html += '<div class="impact-meta-item"><span class="impact-label">Magnitude</span><span class="impact-value">' + this.escapeHtml(impact.impact_magnitude) + '</span></div>';
+        }
+        if (impact.confidence !== undefined && impact.confidence !== null) {
+            const conf = Number(impact.confidence);
+            const display = !isNaN(conf) && conf >= 0 && conf <= 1 ? (conf * 100).toFixed(0) + '%' : String(impact.confidence);
+            html += '<div class="impact-meta-item"><span class="impact-label">Confidence</span><span class="impact-value">' + display + '</span></div>';
+        }
+        html += '</div>';
+
+        if (Array.isArray(impact.contributes) && impact.contributes.length > 0) {
+            html += '<div class="contributes-section"><div class="contributes-label">Contributes to:</div><div class="contributes-list">';
+            impact.contributes.forEach(c => {
+                const w = Number(c.weight);
+                const wDisplay = !isNaN(w) && w >= 0 && w <= 1 ? (w * 100).toFixed(0) + '%' : String(c.weight || '-');
+                html += '<div class="contributes-item"><span class="contributes-target">' + this.escapeHtml(c.to || '') + '</span><span class="contributes-weight">' + wDisplay + '</span></div>';
+            });
+            html += '</div></div>';
+        }
+        html += '</div>';
+        return html;
+    },
+
+    /**
+     * 일반 객체를 key-value 테이블로 포맷팅
+     */
+    formatGenericObject(obj, depth = 0) {
+        if (!obj || typeof obj !== 'object') return '<span class="field-value-empty">-</span>';
+        if (depth > 2) return '<span class="field-value-truncated">' + this.escapeHtml(JSON.stringify(obj)) + '</span>';
+
+        const entries = Object.entries(obj);
+        if (entries.length === 0) return '<span class="field-value-empty">{}</span>';
+
+        let html = '<table class="field-value-table"><tbody>';
+        entries.forEach(([key, val]) => {
+            html += '<tr><td class="field-key">' + this.escapeHtml(key) + '</td><td class="field-val">';
+            if (val === null || val === undefined) {
+                html += '<span class="field-value-null">null</span>';
+            } else if (Array.isArray(val)) {
+                html += this.formatArrayValue(val);
+            } else if (typeof val === 'object') {
+                html += this.formatGenericObject(val, depth + 1);
+            } else {
+                html += this.escapeHtml(String(val));
+            }
+            html += '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+    },
+
+    /**
+     * 필드값 포맷팅 (타입별 분기)
+     */
+    formatFieldValue(field, value) {
+        if (value === null || value === undefined) {
+            return '<span class="field-value-empty">-</span>';
+        }
+        if (Array.isArray(value)) {
+            return this.formatArrayValue(value);
+        }
+        if (typeof value === 'object') {
+            if (field === 'expected_impact' || field === 'realized_impact') {
+                return this.formatImpactObject(value);
+            }
+            return this.formatGenericObject(value);
+        }
+        return '<span class="field-value-simple">' + this.escapeHtml(String(value)) + '</span>';
+    },
+
+    /**
+     * AI Reasoning 렌더링 (접기/펼치기)
+     */
+    renderReasoning(reviewId, field, reasoningText) {
+        if (!reasoningText) return '';
+        const uniqueId = 'reasoning-' + this.escapeHtml(String(reviewId)) + '-' + this.escapeHtml(field);
+        return '<div class="reasoning-section">' +
+            '<button class="reasoning-toggle-btn" onclick="PendingPanel.toggleReasoning(\'' + uniqueId + '\')">' +
+            '<span class="toggle-icon">▶</span> AI 판단 근거</button>' +
+            '<div class="reasoning-content collapsed" id="' + uniqueId + '">' +
+            this.escapeHtml(reasoningText) + '</div></div>';
+    },
+
+    /**
+     * Reasoning 토글
+     */
+    toggleReasoning(targetId) {
+        const content = document.getElementById(targetId);
+        if (!content) return;
+        const btn = document.querySelector('[onclick*="' + targetId + '"]');
+        const icon = btn?.querySelector('.toggle-icon');
+        content.classList.toggle('collapsed');
+        if (icon) icon.textContent = content.classList.contains('collapsed') ? '▶' : '▼';
+    },
+
     /**
      * 패널 초기화
      */
@@ -113,11 +275,12 @@ const PendingPanel = {
 
     /**
      * HTML 이스케이프 (XSS 방지)
+     * - 0, false 등 falsy 값도 문자열로 변환
      */
     escapeHtml(str) {
-        if (!str) return '';
+        if (str === null || str === undefined) return '';
         const div = document.createElement('div');
-        div.textContent = str;
+        div.textContent = String(str);
         return div.innerHTML;
     },
 
@@ -194,9 +357,13 @@ const PendingPanel = {
     renderReviewCard(review) {
         const statusClass = `review-status-${review.status}`;
         const date = new Date(review.created_at).toLocaleDateString('ko-KR');
+        const fieldTypes = Object.keys(review.suggested_fields || {});
+        const primaryFieldType = this.getPrimaryFieldType(fieldTypes);
 
         return `
-            <div class="pending-review-card ${statusClass}" data-review-id="${this.escapeHtml(review.id)}">
+            <div class="pending-review-card ${statusClass}"
+                 data-review-id="${this.escapeHtml(review.id)}"
+                 data-field-type="${this.escapeHtml(primaryFieldType)}">
                 <div class="review-card-header">
                     <span class="review-entity-type">${this.escapeHtml(review.entity_type)}</span>
                     <span class="review-date">${date}</span>
@@ -204,9 +371,10 @@ const PendingPanel = {
                 <div class="review-card-title">${this.escapeHtml(review.entity_name)}</div>
                 <div class="review-card-id">${this.escapeHtml(review.entity_id)}</div>
                 <div class="review-card-fields">
-                    ${Object.keys(review.suggested_fields || {}).map(field => `
-                        <span class="review-field-badge">${this.escapeHtml(field)}</span>
-                    `).join('')}
+                    ${fieldTypes.map(field => {
+                        const color = this.getFieldTypeColor(field);
+                        return `<span class="review-field-badge" style="border-left: 3px solid ${color}">${this.escapeHtml(field)}</span>`;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -241,24 +409,34 @@ const PendingPanel = {
 
             <div class="review-detail-section">
                 <h4>Suggested Changes</h4>
-                ${Object.entries(review.suggested_fields || {}).map(([field, value]) => `
-                    <div class="review-field-item">
+                ${Object.entries(review.suggested_fields || {}).map(([field, value]) => {
+                    const isComplex = typeof value === 'object' && value !== null;
+                    const fieldColor = this.getFieldTypeColor(field);
+
+                    return `
+                    <div class="review-field-item" style="border-left: 3px solid ${fieldColor}">
                         <div class="review-field-header">
                             <span class="field-name">${this.escapeHtml(field)}</span>
+                            ${isComplex ? '<span class="field-type-badge">Object</span>' : ''}
                         </div>
                         <div class="review-field-value">
-                            <input type="text" class="review-field-input"
-                                   data-field="${this.escapeHtml(field)}"
-                                   value="${this.escapeHtml(Array.isArray(value) ? JSON.stringify(value) : String(value))}" />
+                            ${isComplex ? `
+                                <div class="field-value-display">
+                                    ${this.formatFieldValue(field, value)}
+                                </div>
+                                <textarea class="review-field-textarea"
+                                       data-field="${this.escapeHtml(field)}"
+                                       rows="4">${this.escapeHtml(JSON.stringify(value, null, 2))}</textarea>
+                            ` : `
+                                <input type="text" class="review-field-input"
+                                       data-field="${this.escapeHtml(field)}"
+                                       value="${this.escapeHtml(String(value))}" />
+                            `}
                         </div>
-                        ${review.reasoning?.[field] ? `
-                            <div class="review-field-reasoning">
-                                <span class="reasoning-label">Reasoning:</span>
-                                ${this.escapeHtml(review.reasoning[field])}
-                            </div>
-                        ` : ''}
+                        ${this.renderReasoning(review.id, field, review.reasoning?.[field])}
                     </div>
-                `).join('')}
+                    `;
+                }).join('')}
             </div>
         `;
 
@@ -329,14 +507,27 @@ const PendingPanel = {
     async approveReview() {
         if (!this.currentReview) return;
 
-        // Collect modified values from inputs with type preservation
+        // Collect modified values from inputs and textareas with type preservation
         const modifiedFields = {};
         const suggestedFields = this.currentReview.suggested_fields || {};
 
+        // 일반 input 필드 처리
         document.querySelectorAll('.review-field-input').forEach(input => {
             const field = input.dataset.field;
             const originalValue = suggestedFields[field];
             modifiedFields[field] = this.parseFieldValue(input.value, originalValue);
+        });
+
+        // textarea (JSON) 필드 처리
+        document.querySelectorAll('.review-field-textarea').forEach(textarea => {
+            const field = textarea.dataset.field;
+            try {
+                modifiedFields[field] = JSON.parse(textarea.value);
+            } catch (e) {
+                // JSON 파싱 실패 시 원본 값 유지
+                modifiedFields[field] = suggestedFields[field];
+                console.warn(`Failed to parse JSON for field ${field}:`, e);
+            }
         });
 
         try {

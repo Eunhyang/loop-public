@@ -1,0 +1,65 @@
+{
+  "run_id": "run-20251230-213311-mvv93y",
+  "timestamp": "2025-12-30T21:33:21.352702",
+  "project_id": "prj-012",
+  "project_name": "CS·운영 - 고객관리/대응",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-4",
+    "conditions_3y": [
+      "cond-b",
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-1-02",
+      "hyp-1-07"
+    ],
+    "primary_hypothesis_id": "hyp-1-02",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.1,
+        "description": "고객 리텐션을 통한 데이터 수집"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.1,
+        "description": "고객 만족도를 통한 재등록률 증가"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.1,
+        "description": "기술 인프라의 안정성을 통한 운영 효율성"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 고객 관리 및 대응과 관련된 운영적 성격을 가지므로, 김은향이 적합하다.",
+    "parent_id": "이 프로젝트는 Track 4에 속하므로 trk-4가 적합하다.",
+    "conditions_3y": "고객 리텐션(cond-b), 고객 만족(cond-d), 기술 인프라(cond-e) 모두 프로젝트의 성공에 기여할 수 있다.",
+    "validates": "고객 지속 사용(hyp-1-02)과 온보딩이 행동을 만든다(hyp-1-07) 가설이 이 프로젝트와 관련이 있다.",
+    "condition_contributes": "각 Condition에 대한 기여도는 고객 관리 및 기술 인프라와 관련된 요소들로, 총합이 0.3으로 1.0 이하이다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213321-5y59",
+    "status": "pending",
+    "created_at": "2025-12-30T21:33:21.349665"
+  }
+}

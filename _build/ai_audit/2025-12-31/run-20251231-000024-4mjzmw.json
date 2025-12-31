@@ -1,0 +1,60 @@
+{
+  "run_id": "run-20251231-000024-4mjzmw",
+  "timestamp": "2025-12-31T00:00:35.666451",
+  "project_id": "prj-mcp-dual-vault-rbac",
+  "project_name": "MCP Dual-Vault RBAC",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-b",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-2-01"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.6,
+        "description": "수익 모델의 적합성을 높이기 위한 역할 기반 접근 제어의 필요성"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술 인프라의 안정성을 확보하기 위한 RBAC 구현"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 전략 및 비즈니스 관련이므로 김은향이 적합합니다.",
+    "parent_id": "이 프로젝트는 데이터 관련 작업을 포함하므로 Track 2에 속합니다.",
+    "conditions_3y": "수익 모델과 기술 인프라의 기여가 중요하므로 cond-b와 cond-e를 선택했습니다.",
+    "validates": "RBAC 구현이 수익 모델에 영향을 미칠 수 있으므로 hyp-2-01을 선택했습니다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 명확히 하기 위해 두 가지 Condition에 대한 기여도를 설정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-0vm9",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:35.662913"
+  }
+}

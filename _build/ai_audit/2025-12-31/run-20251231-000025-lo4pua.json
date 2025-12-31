@@ -1,0 +1,62 @@
+{
+  "run_id": "run-20251231-000025-lo4pua",
+  "timestamp": "2025-12-31T00:00:36.986721",
+  "project_id": "prj-yt-w33",
+  "project_name": "YouTube W33",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_conditions_3y",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-3",
+    "conditions_3y": [
+      "cond-a",
+      "cond-d"
+    ],
+    "validates": [
+      "hyp-1-01",
+      "hyp-1-04"
+    ],
+    "primary_hypothesis_id": "hyp-1-01",
+    "condition_contributes": [
+      {
+        "to": "cond-a",
+        "weight": 0.6,
+        "description": "제품-시장 적합성을 위한 주간 업로드의 일관성 유지"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.4,
+        "description": "팀의 협업과 역할 분담을 통한 프로젝트 성공"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 콘텐츠 제작과 관련되어 있어, 전략 및 기획을 담당하는 김은향이 적합함.",
+    "parent_id": "YouTube W33 프로젝트는 콘텐츠 관련 트랙인 trk-3에 속함.",
+    "conditions_3y": "제품-시장 적합성과 팀의 기여가 중요하므로 cond-a와 cond-d를 선택함.",
+    "validates": "주간 업로드 일관성을 증명하기 위한 행동 변화와 효과 가시화 관련 가설을 선택함.",
+    "condition_contributes": "업로드 일관성이 제품-시장 적합성에 60%, 팀의 협업에 40% 기여한다고 판단함."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-g0t0",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:36.959445"
+  }
+}

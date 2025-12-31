@@ -1,0 +1,170 @@
+[2025-12-31 19:15:01] === Git Sync 시작 ===
+🔍 Running schema validation...
+
+=== Schema Freshness Check ===
+⚠️  schema_registry.md not found at 00_Meta/schema_registry.md
+
+⚠️  Schema may need updates. Continuing with validation...
+
+
+=== Schema Validation Report ===
+Files checked: 225
+Files with errors: 37
+
+--- Errors ---
+
+50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-02_채용_및_계약서_작성.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-05_용역비_지급.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/용역비_지급보윤님_잔딘님_단님.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/채용 및 계약서 작성.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/2025/P007_외부 비서/Project_정의.md:
+  - realized_impact.outcome is required (supported|rejected|inconclusive)
+
+50_Projects/2025/P014_코칭 운영 체계/Tasks/꼭꼭Fit 3기 환급 검토.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Grants/Rounds/prj-grants-youth/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md:
+  - conditions_3y must have at least 1 condition
+
+50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-02_대본작성.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+
+50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md:
+  - Missing required field for Task: conditions_3y
+  - conditions_3y field is required
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-11_schema_registry.md_상수_분리.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-13_Dashboard_Links_Field.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-05_build_impact_window.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-n8n/Project_정의.md:
+  - expected_impact.statement is required
+  - expected_impact.metric is required
+  - expected_impact.target is required
+
+50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md:
+  - Task with status='done' requires 'closed' date field
+
+50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md:
+  - Task with status='done' requires 'closed' date field
+
+70_Experiments/2025/2025_연간_회고.md:
+  - Missing required field for Retrospective: source_project
+  - Missing required field for Retrospective: verdict
+  - Unknown ID prefix: retro:2025
+❌ Schema validation failed. Commit blocked.
+[2025-12-31 19:18:06] === Git Sync 시작 ===
+[2025-12-31 19:18:06] 로컬 변경사항 없음
+[2025-12-31 19:18:06] ERROR: Pull 실패 - conflict 가능성
+[2025-12-31 19:18:45] === Git Sync 시작 ===
+[2025-12-31 19:18:45] 로컬 변경사항 없음
+[2025-12-31 19:18:45] ERROR: Pull 실패 - conflict 가능성
+[2025-12-31 19:19:07] === Git Sync 시작 ===

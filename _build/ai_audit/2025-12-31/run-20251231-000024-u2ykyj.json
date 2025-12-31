@@ -1,0 +1,64 @@
+{
+  "run_id": "run-20251231-000024-u2ykyj",
+  "timestamp": "2025-12-31T00:00:34.141589",
+  "project_id": "prj-018",
+  "project_name": "프라이머 배치 프로그램 지원",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-6-13"
+    ],
+    "primary_hypothesis_id": "hyp-6-13",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.5,
+        "description": "투자 유치 시 런웨이 직접 확보"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.2,
+        "description": "배치 멘토링으로 팀 역량 강화"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.3,
+        "description": "프라이머 배치 프로그램 선정으로 제품-시장 적합성 검토"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 비즈니스와 관련된 전략적 목표를 가지고 있어 김은향이 적합.",
+    "parent_id": "프로젝트는 Track_6_Revenue에 속하므로 trk-6 선택.",
+    "conditions_3y": "기여 조건으로 팀과 제품-시장 적합성을 고려하여 cond-d, cond-e, cond-a 선택.",
+    "validates": "프라이머 배치 프로그램 지원과 관련된 가설 hyp-6-13을 검증하려고 하므로 선택.",
+    "condition_contributes": "각 Condition에 대한 기여도를 명확히 하여 합계가 1.0 이하로 설정."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213320-sf90",
+    "status": "pending",
+    "created_at": "2025-12-31T00:00:34.138209"
+  }
+}

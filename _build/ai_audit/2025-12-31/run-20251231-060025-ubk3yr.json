@@ -1,0 +1,57 @@
+{
+  "run_id": "run-20251231-060025-ubk3yr",
+  "timestamp": "2025-12-31T06:00:32.148034",
+  "project_id": "prj-002",
+  "project_name": "와디즈 - 12주 코칭 습관팩 런칭",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-b",
+      "cond-d"
+    ],
+    "validates": [
+      "hyp-4-01"
+    ],
+    "primary_hypothesis_id": "hyp-4-01",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.3,
+        "description": "코칭 데이터 수집 기반 마련"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.6,
+        "description": "펀딩 성공 시 런웨이 확보 + 시장 검증"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 비즈니스와 관련된 코칭 패키지 런칭이므로 김은향이 적합합니다.",
+    "parent_id": "프로젝트가 Track_6_Revenue에 속하므로 trk-6을 선택했습니다.",
+    "conditions_3y": "현재 조건에 대한 기여도를 고려하여 cond-b와 cond-d를 선택했습니다.",
+    "validates": "프로젝트의 가설 중 핵심 가설로 hyp-4-01을 선택했습니다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 명확히 하여 최소 1개 이상의 Condition에 기여하도록 설정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213322-mtgr",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:32.144754"
+  }
+}

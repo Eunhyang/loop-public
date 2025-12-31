@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20251231-030037-xwy736",
+  "timestamp": "2025-12-31T12:00:44.679947",
+  "project_id": "prj-006",
+  "project_name": "코치 1명 구인 & 1차 온보딩 준비",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "mid",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [],
+    "validates": [
+      "hyp-001"
+    ],
+    "primary_hypothesis_id": "hyp-001"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 1.5
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213320-jvnm",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:44.676483"
+  },
+  "llm_run_id": "run-20251231-120037-6srnbr"
+}

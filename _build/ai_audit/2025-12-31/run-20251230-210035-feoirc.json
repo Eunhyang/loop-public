@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20251230-210035-feoirc",
+  "timestamp": "2025-12-31T06:00:42.533298",
+  "project_id": "prj-005",
+  "project_name": "LoopOS - 최소 선제 학습",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "mid",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-2",
+        "weight": 0.5,
+        "description": "Track_2_Data의 성공적인 실행을 지원할 수 있는 기여가 예상됩니다."
+      }
+    ],
+    "validates": [
+      "hyp-001"
+    ],
+    "primary_hypothesis_id": "hyp-001"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 1.5
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213320-53l3",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:42.529722"
+  },
+  "llm_run_id": "run-20251231-060035-prmv1y"
+}

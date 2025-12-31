@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20251231-060017-hb47nu",
+  "timestamp": "2025-12-31T06:00:24.865265",
+  "task_id": "tsk-mcp-rbac-03",
+  "task_name": "MCP - loop_exec Vault 라우팅 구현",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_due_date"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-b"
+    ],
+    "assignee": "김은향",
+    "due": "2026-01-12",
+    "priority": "high",
+    "type": "dev",
+    "target_project": "loop"
+  },
+  "reasoning": {
+    "conditions_3y": "Task의 목표가 ChatGPT MCP에서 exec 경로 접근 시 loop_exec vault를 서빙하도록 구현하는 것과 관련하여, Revenue Model(수익 모델)과 관련된 'cond-b'가 가장 적합하다고 판단됨.",
+    "assignee": "김은향은 전략, 디자인, PM 작업에 적합하며, 이 Task는 개발과 관련된 작업이지만, 전체적인 프로젝트 관리와 조율이 필요하므로 김은향이 적합하다고 판단됨.",
+    "due": "Task의 복잡성을 고려할 때, 2-4주 내에 완료될 것으로 예상되며, 2026년 1월 12일이 합리적인 마감일로 제안됨."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213310-r8u0",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:24.838635"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "run_id": "run-20251231-120017-yx185x",
+  "timestamp": "2025-12-31T12:00:22.616114",
+  "task_id": "tsk-grants-youth-01",
+  "task_name": "이인벤션 선납 비용 처리 논의",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_conditions_3y"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-a",
+      "cond-b"
+    ],
+    "assignee": "소상민",
+    "due": "2026-01-05",
+    "priority": "medium",
+    "type": "strategy",
+    "target_project": null
+  },
+  "reasoning": {
+    "conditions_3y": "이 Task는 비용 처리 방안 논의와 관련이 있으며, 제품-시장 적합성과 수익 모델이 중요한 요소로 작용할 수 있습니다.",
+    "assignee": "소상민은 기술적 작업과 관련된 Task에 적합하며, 이 Task의 논의와 실행에 필요한 기술적 이해가 필요합니다.",
+    "due": "Task의 복잡성을 고려할 때, 1주일 후인 2026-01-05가 합리적인 마감일입니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213309-k84z",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:22.590056"
+  }
+}

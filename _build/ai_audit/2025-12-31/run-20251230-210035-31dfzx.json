@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20251230-210035-31dfzx",
+  "timestamp": "2025-12-31T06:00:44.437614",
+  "project_id": "prj-014",
+  "project_name": "코칭 서비스 운영 체계 재구축",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "mid",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [],
+    "validates": [
+      "hyp-001"
+    ],
+    "primary_hypothesis_id": "hyp-001"
+  },
+  "derived_autofill": {
+    "window_id": "2025-12",
+    "time_range": "2025-12-01..2025-12-31"
+  },
+  "scores": {
+    "expected_score": 1.5
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-clof",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:44.398110"
+  },
+  "llm_run_id": "run-20251231-060036-mj0u54"
+}

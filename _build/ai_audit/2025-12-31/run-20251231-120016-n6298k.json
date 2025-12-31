@@ -1,0 +1,37 @@
+{
+  "run_id": "run-20251231-120016-n6298k",
+  "timestamp": "2025-12-31T12:00:21.773129",
+  "task_id": "tsk-dashboard-ux-v1-10",
+  "task_name": "api/constants.py 응답 확장",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_due_date"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-e"
+    ],
+    "assignee": "김은향",
+    "due": "2026-01-10"
+  },
+  "reasoning": {
+    "conditions_3y": "Task가 API 응답 확장과 관련되어 있으며, 이는 기술 및 인프라와 관련된 작업으로, cond-e (Tech/Infrastructure)가 가장 적합합니다.",
+    "assignee": "김은향은 전략 및 디자인 작업에 적합하며, 이 Task의 성격상 김은향이 적합합니다.",
+    "due": "Task의 복잡도를 고려할 때, 중간 작업으로 2주 후인 2026-01-10이 합리적인 마감일입니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213308-vjuu",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:21.769743"
+  }
+}

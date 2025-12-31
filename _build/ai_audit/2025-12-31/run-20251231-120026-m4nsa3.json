@@ -1,0 +1,60 @@
+{
+  "run_id": "run-20251231-120026-m4nsa3",
+  "timestamp": "2025-12-31T12:00:32.921089",
+  "project_id": "prj-dashboard-ux-v1",
+  "project_name": "대시보드 UX 개선 v1",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-2-01",
+      "hyp-2-02"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-e",
+        "weight": 0.6,
+        "description": "팀의 기술적 역량 향상에 기여"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.4,
+        "description": "제품-시장 적합성을 높이는 데 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 UX 개선과 관련된 디자인 및 전략적 요소를 포함하고 있어 김은향이 적합하다.",
+    "parent_id": "이 프로젝트는 데이터 관련 Track에 속하므로 trk-2가 적합하다.",
+    "conditions_3y": "cond-e는 팀의 기술적 역량을 강조하며, cond-a는 제품-시장 적합성을 높이는 데 기여할 수 있다.",
+    "validates": "이 프로젝트는 스키마 최소세트가 충분하다는 가설을 검증하고, 스키마 안정성을 검증하는 가설도 포함된다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 설정하여 총합이 1.0 이하가 되도록 하였다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213318-bq8x",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:32.917736"
+  }
+}

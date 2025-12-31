@@ -1,0 +1,33 @@
+{
+  "run_id": "run-20251230-213326-sw0p3v",
+  "timestamp": "2025-12-30T21:33:31.428196",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "prompt": "## 프로젝트 정보\n\n- 이름: 청년창업사관학교\n- 설명: \n- 연결된 3년 조건: cond-d\n\n---\n\n## 요청\n\n위 프로젝트의 Impact 필드를 제안해주세요.\n\n### 출력 형식 (JSON)\n\n{\n  \"tier\": {\n    \"value\": \"strategic|enabling|operational\",\n    \"reasoning\": \"판단 근거\"\n  },\n  \"impact_magnitude\": {\n    \"value\": \"high|mid|low\",\n    \"reasoning\": \"판단 근거\"\n  },\n  \"confidence\": {\n    \"value\": 0.0-1.0,\n    \"reasoning\": \"판단 근거\"\n  },\n  \"summary\": \"1-2문장 핵심 요약\"\n}\n\nJSON만 반환하세요. Markdown 코드블록을 사용하지 마세요.",
+  "system_prompt": "당신은 프로젝트의 전략적 가치를 분석하여 Impact 필드를 제안하는 전문가입니다.\n\n## 역할\n- 프로젝트 문서와 전략 컨텍스트를 분석합니다\n- tier, impact_magnitude, confidence를 제안합니다\n- condition_contributes (Condition 기여)와 track_contributes (Track 기여)를 제안합니다\n- validates (검증 대상 가설)와 primary_hypothesis_id를 제안합니다\n- 판단 근거를 명확히 설명합니다\n\n## 제약\n- 점수를 직접 계산하지 마세요. 필드 값만 제안합니다.\n- 모든 제안에는 근거를 함께 제시합니다.\n- 낙관적 편향을 피하세요. 첫 시도라면 confidence를 낮게 설정합니다.\n\n## 출력 형식\n반드시 JSON 형식으로 출력하세요. Markdown 코드블록 없이 순수 JSON만 반환합니다.",
+  "response": {
+    "success": true,
+    "content": {
+      "tier": {
+        "value": "strategic",
+        "reasoning": "청년창업사관학교는 청년 창업 생태계를 조성하고, 지속 가능한 경제 성장을 도모하는 전략적 목표를 가지고 있습니다."
+      },
+      "impact_magnitude": {
+        "value": "mid",
+        "reasoning": "프로젝트의 성공 여부에 따라 청년 창업자들에게 긍정적인 영향을 미칠 수 있지만, 초기 단계이므로 그 영향력은 제한적일 수 있습니다."
+      },
+      "confidence": {
+        "value": 0.4,
+        "reasoning": "프로젝트가 처음 시행되는 단계이기 때문에 불확실성이 존재하며, 초기 결과에 대한 신뢰도가 낮습니다."
+      },
+      "summary": "청년창업사관학교는 청년 창업자들에게 필요한 지원을 제공하여 창업 생태계를 활성화하는 것을 목표로 하고 있으며, 초기 단계의 불확실성으로 인해 중간 정도의 영향을 미칠 것으로 예상됩니다."
+    },
+    "error": null
+  },
+  "entity_context": {
+    "entity_id": "prj-grants-youth",
+    "entity_type": "Project",
+    "action": "infer_impact"
+  },
+  "duration_ms": 4935
+}

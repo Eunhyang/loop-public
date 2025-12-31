@@ -1,0 +1,61 @@
+{
+  "run_id": "run-20251231-060026-s31ojc",
+  "timestamp": "2025-12-31T06:00:32.950550",
+  "project_id": "prj-vault-gpt",
+  "project_name": "ChatGPT Vault MCP 연결",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "소상민",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-b",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-2-01",
+      "hyp-2-02"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.6,
+        "description": "수익 모델 검증을 위한 데이터 접근성 향상"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술 인프라의 효율성을 높이기 위한 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 기술적 인프라와 관련된 작업이므로 소상민이 적합합니다.",
+    "parent_id": "이 프로젝트는 데이터 관련 작업을 수행하므로 Track_2_Data에 속합니다.",
+    "conditions_3y": "Revenue Model과 Tech/Infrastructure 조건이 이 프로젝트의 목표와 관련이 깊습니다.",
+    "validates": "이 프로젝트는 스키마 최소세트와 안정성을 검증하려는 가설과 관련이 있습니다.",
+    "condition_contributes": "수익 모델과 기술 인프라에 대한 기여도를 설정하여 합계가 1.0이 되도록 조정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213321-mn1w",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:32.947169"
+  }
+}

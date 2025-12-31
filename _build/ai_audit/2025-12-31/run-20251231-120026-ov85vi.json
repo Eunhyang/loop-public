@@ -1,0 +1,60 @@
+{
+  "run_id": "run-20251231-120026-ov85vi",
+  "timestamp": "2025-12-31T12:00:32.709805",
+  "project_id": "prj-n8n",
+  "project_name": "n8n Vault 자동화",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "소상민",
+    "parent_id": "trk-2",
+    "conditions_3y": [
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-2-01",
+      "hyp-2-02"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-e",
+        "weight": 0.3,
+        "description": "팀의 역량 강화를 통해 Vault 운영 효율화"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.7,
+        "description": "제품-시장 적합성을 높이기 위한 자동화"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 기술 및 인프라 관련 작업을 포함하고 있어 소상민이 적합함.",
+    "parent_id": "이 프로젝트는 Track_2_Data에 속하므로 trk-2를 선택함.",
+    "conditions_3y": "cond-e는 이미 포함되어 있으며, cond-a를 추가하여 제품-시장 적합성을 고려함.",
+    "validates": "프로젝트의 자동화와 관련된 가설을 검증하기 위해 hyp-2-01과 hyp-2-02를 선택함.",
+    "condition_contributes": "각 Condition에 대한 기여도를 명확히 하여 총합이 1.0 이하가 되도록 설정함."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-ao8o",
+    "status": "pending",
+    "created_at": "2025-12-31T12:00:32.706490"
+  }
+}

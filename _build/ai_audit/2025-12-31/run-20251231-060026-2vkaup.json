@@ -1,0 +1,64 @@
+{
+  "run_id": "run-20251231-060026-2vkaup",
+  "timestamp": "2025-12-31T06:00:32.836362",
+  "project_id": "prj-017",
+  "project_name": "아이디어파트너스 배치 프로그램 지원",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-6-13"
+    ],
+    "primary_hypothesis_id": "hyp-6-13",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.5,
+        "description": "투자 유치 시 런웨이 직접 확보"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.2,
+        "description": "배치 멘토링으로 팀 역량 강화"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.3,
+        "description": "제품-시장 적합성을 위한 피드백 수집"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 비즈니스 관련이므로 김은향이 적합합니다.",
+    "parent_id": "프로젝트가 Track 6에 속하므로 trk-6을 선택했습니다.",
+    "conditions_3y": "제품-시장 적합성, 팀, 기술/인프라 조건에 기여하는 것이 중요합니다.",
+    "validates": "프로젝트의 가설 중 하나인 hyp-6-13을 검증하려고 하므로 이를 선택했습니다.",
+    "condition_contributes": "각 조건에 대한 기여도를 설정하여 합계가 1.0 이하가 되도록 했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251230213319-kvyt",
+    "status": "pending",
+    "created_at": "2025-12-31T06:00:32.833013"
+  }
+}
