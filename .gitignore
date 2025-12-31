@@ -39,3 +39,4 @@ poetry.lock
 
 _exec_vault
 api/oauth/keys/private.pem
+_build/git-sync.log
