@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-120018-xb9vhe",
+  "timestamp": "2026-01-01T12:00:18.885461",
+  "project_id": "prj-dashboard-ux-v1",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

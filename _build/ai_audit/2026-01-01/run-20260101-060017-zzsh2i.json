@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-060017-zzsh2i",
+  "timestamp": "2026-01-01T06:00:17.234992",
+  "task_id": "tsk-grants-youth-01",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}
