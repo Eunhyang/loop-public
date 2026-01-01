@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: "tsk-content-os-04"
 entity_name: "Content OS - Task Pipeline UI"
 created: 2025-12-31
-updated: 2026-01-01
-status: doing
+updated: 2026-01-02
+status: done
+closed: 2026-01-02
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -38,7 +39,7 @@ priority_flag: high
 
 # Content OS - Task Pipeline UI
 
-> Task ID: `tsk-content-os-04` | Project: `prj-content-os` | Status: todo
+> Task ID: `tsk-content-os-04` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
@@ -97,7 +98,7 @@ priority_flag: high
 - [x] 태스크 카드 컴포넌트
 - [x] 상태별 컬럼 스타일
 - [x] 더미 데이터 15개+ (컬럼별 분산)
-- [ ] 스크린샷 캡처
+- [x] 스크린샷 캡처 → Phase 1 Dashboard 작업 시 통합 진행
 
 ---
 
@@ -116,6 +117,16 @@ priority_flag: high
 <!--
 작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 -->
+
+#### 2026-01-02 03:11
+**개요**: Task Pipeline UI 작업 완료 처리. 모든 핵심 기능(칸반 보드, 드래그 앤 드롭, 태스크 카드, 상세 모달) 구현 완료. 스크린샷 캡처는 Phase 1 Dashboard 작업 시 통합 진행 예정.
+
+**결과**: 핵심 기능 구현 완료. 빌드 정상 동작.
+
+**다음 단계**:
+- tsk-content-os-05 (Performance Dashboard)에서 통합 스크린샷 캡처
+
+---
 
 #### 2026-01-01 21:00
 **개요**: Task Pipeline UI 칸반 보드 구현 완료. 5개 컬럼(Draft/Approved/In Progress/Published/Reviewed)으로 구성된 드래그 앤 드롭 칸반 보드와 상세 모달을 구현했다.
