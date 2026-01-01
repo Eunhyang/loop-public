@@ -134,6 +134,11 @@ class HypothesisCreate(BaseModel):
     evidence_status: str = Field(default="assumed", description="schema_constants.yaml 참조")
     deadline: Optional[str] = Field(default=None, description="판정 마감일 (YYYY-MM-DD)")
     tags: List[str] = Field(default_factory=list, description="태그")
+    # Project 연결 (선택)
+    project_ids: List[str] = Field(default_factory=list, description="연결할 프로젝트 IDs (prj-XXX.validates에 추가)")
+    # Auto-validation 옵션
+    auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
+    llm_provider: str = Field(default="openai", description="openai | anthropic")
 
 
 class HypothesisUpdate(BaseModel):
@@ -157,3 +162,7 @@ class HypothesisResponse(BaseModel):
     hypothesis_id: str
     file_path: Optional[str] = None
     message: str
+    # Auto-validation 결과
+    validation: Optional[ValidationResult] = Field(default=None, description="auto_validate=True 시 검증 결과")
+    # Project 연결 결과
+    linked_projects: List[str] = Field(default_factory=list, description="validates에 연결된 프로젝트 IDs")

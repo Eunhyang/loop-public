@@ -61,6 +61,11 @@ from ..prompts.project_schema import (
     build_project_schema_prompt,
     build_simple_project_schema_prompt
 )
+from ..prompts.hypothesis_schema import (
+    HYPOTHESIS_SCHEMA_SYSTEM_PROMPT,
+    build_hypothesis_schema_prompt,
+    build_simple_hypothesis_schema_prompt
+)
 from .pending import (
     load_pending,
     save_pending,
@@ -1561,3 +1566,216 @@ async def infer_project_schema(request: InferProjectSchemaRequest):
         pending=pending_info,
         audit_ref=audit_ref
     )
+
+
+# ============================================
+# Hypothesis Schema Validation (Internal)
+# ============================================
+
+async def _validate_hypothesis_schema_internal(
+    hypothesis_id: str,
+    frontmatter: Dict[str, Any],
+    provider: str = "openai"
+) -> Dict[str, Any]:
+    """
+    Hypothesis 스키마 내부 검증 (HTTP 오버헤드 없음)
+
+    생성된 Hypothesis의 품질과 A/B 모델 운영 가능성을 검사합니다.
+    create_hypothesis()에서 auto_validate=True일 때 호출됨.
+
+    검증 체크리스트:
+    A. 구조 검증
+       - ID 패턴: hyp-{track}-{seq}
+       - parent_id: trk-N 형식
+       - horizon: 4자리 연도
+
+    B. 품질 검증
+       - hypothesis_question: '?'로 끝나는지
+       - success_criteria: 존재하고 구체적인지
+       - failure_criteria: 존재하고 구체적인지
+       - measurement: 어디서/무엇을/어떻게 포함
+
+    C. Evidence 운영 가능성
+       - normalized_delta 계산 방법 정의 가능
+       - sample_size 명시
+       - counterfactual 설정 가능
+       - confounders 식별
+
+    Returns:
+        {
+            "validated": True,
+            "issues_found": 2,
+            "pending_created": True,
+            "pending_id": "rev-xxx",
+            "run_id": "run-xxx",
+            "quality_score": 0.8,
+            "evidence_readiness": {...}
+        }
+    """
+    run_id = generate_run_id()
+
+    # 1. 구조 검증 (기본 필수 필드)
+    issues = []
+
+    # hypothesis_question 검증
+    question = frontmatter.get("hypothesis_question", "")
+    if not question:
+        issues.append("missing_hypothesis_question")
+    elif not question.strip().endswith("?"):
+        issues.append("hypothesis_question_not_question_form")
+
+    # success_criteria 검증
+    success = frontmatter.get("success_criteria", "")
+    if not success or len(success.strip()) < 10:
+        issues.append("missing_or_weak_success_criteria")
+
+    # failure_criteria 검증
+    failure = frontmatter.get("failure_criteria", "")
+    if not failure or len(failure.strip()) < 10:
+        issues.append("missing_or_weak_failure_criteria")
+
+    # measurement 검증
+    measurement = frontmatter.get("measurement", "")
+    if not measurement or len(measurement.strip()) < 10:
+        issues.append("missing_or_weak_measurement")
+
+    # parent_id (Track) 검증
+    parent_id = frontmatter.get("parent_id", "")
+    if not parent_id or not parent_id.startswith("trk-"):
+        issues.append("invalid_parent_id_not_track")
+
+    # confidence 검증
+    confidence = frontmatter.get("confidence", 0.0)
+    if confidence == 0.0:
+        issues.append("confidence_not_set")
+
+    # 누락된 필드 없으면 기본 검증 완료 (LLM 호출 스킵)
+    if not issues:
+        return {
+            "validated": True,
+            "issues_found": 0,
+            "pending_created": False,
+            "pending_id": None,
+            "run_id": run_id,
+            "quality_score": 1.0,
+            "evidence_readiness": {
+                "is_ready": True,
+                "message": "All required fields present"
+            }
+        }
+
+    # 2. LLM 호출 (품질 검증 + Evidence 운영 가능성)
+    prompt = build_simple_hypothesis_schema_prompt(
+        hypothesis_name=frontmatter.get("entity_name", ""),
+        hypothesis_question=question,
+        success_criteria=success,
+        failure_criteria=failure,
+        measurement=measurement,
+        issues=issues
+    )
+
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=HYPOTHESIS_SCHEMA_SYSTEM_PROMPT,
+        provider=provider,
+        response_format="json",
+        entity_context={
+            "entity_id": hypothesis_id,
+            "entity_type": "Hypothesis",
+            "action": "auto_validate_hypothesis"
+        }
+    )
+
+    if not result["success"]:
+        save_ai_audit_log(run_id, {
+            "hypothesis_id": hypothesis_id,
+            "mode": "auto_validate",
+            "actor": "api",
+            "endpoint": "_validate_hypothesis_schema_internal",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+        return {
+            "validated": True,
+            "issues_found": len(issues),
+            "pending_created": False,
+            "pending_id": None,
+            "run_id": run_id,
+            "error": result.get("error"),
+            "quality_score": None
+        }
+
+    content = result["content"]
+
+    # 3. LLM 응답 파싱
+    suggested_fields = content.get("suggested_fields", {})
+    reasoning = content.get("reasoning", {})
+    validation_result = content.get("validation", {})
+
+    # validated_by 필드 제거 (Derived 금지)
+    if "validated_by" in suggested_fields:
+        del suggested_fields["validated_by"]
+
+    # quality score 추출
+    quality_data = validation_result.get("quality", {})
+    quality_score = quality_data.get("score", 0.5)
+
+    # evidence readiness 추출
+    evidence_data = validation_result.get("evidence_readiness", {})
+    evidence_readiness = {
+        "normalized_delta_method": evidence_data.get("normalized_delta_method"),
+        "suggested_sample_size": evidence_data.get("suggested_sample_size"),
+        "counterfactual_type": evidence_data.get("counterfactual_type", "none"),
+        "confounders": evidence_data.get("confounders", [])
+    }
+
+    # 4. Pending review 생성
+    if suggested_fields or quality_score < 0.8:
+        pending_review = create_pending_review(
+            entity_id=hypothesis_id,
+            entity_type="Hypothesis",
+            entity_name=frontmatter.get("entity_name", ""),
+            suggested_fields={
+                **suggested_fields,
+                "_quality_score": quality_score,
+                "_evidence_readiness": evidence_readiness
+            },
+            reasoning=reasoning,
+            run_id=run_id,
+            actor="api"
+        )
+        pending_id = pending_review["id"]
+        pending_created = True
+    else:
+        pending_id = None
+        pending_created = False
+
+    # 5. Audit 로그
+    save_ai_audit_log(run_id, {
+        "hypothesis_id": hypothesis_id,
+        "hypothesis_name": frontmatter.get("entity_name"),
+        "mode": "auto_validate",
+        "actor": "api",
+        "endpoint": "_validate_hypothesis_schema_internal",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "issues": issues,
+        "suggested_fields": suggested_fields,
+        "quality_score": quality_score,
+        "evidence_readiness": evidence_readiness,
+        "pending": {"review_id": pending_id} if pending_id else None
+    })
+
+    return {
+        "validated": True,
+        "issues_found": len(issues),
+        "pending_created": pending_created,
+        "pending_id": pending_id,
+        "run_id": run_id,
+        "quality_score": quality_score,
+        "evidence_readiness": evidence_readiness
+    }

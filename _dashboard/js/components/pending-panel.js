@@ -152,8 +152,8 @@ const PendingPanel = {
         const uniqueId = 'reasoning-' + this.escapeHtml(String(reviewId)) + '-' + this.escapeHtml(field);
         return '<div class="reasoning-section">' +
             '<button class="reasoning-toggle-btn" onclick="PendingPanel.toggleReasoning(\'' + uniqueId + '\')">' +
-            '<span class="toggle-icon">▶</span> AI 판단 근거</button>' +
-            '<div class="reasoning-content collapsed" id="' + uniqueId + '">' +
+            '<span class="toggle-icon">▼</span> AI 판단 근거</button>' +
+            '<div class="reasoning-content" id="' + uniqueId + '">' +
             this.escapeHtml(reasoningText) + '</div></div>';
     },
 
