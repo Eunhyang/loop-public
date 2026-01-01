@@ -117,3 +117,7 @@ Changes not staged for commit:
 	modified:   apps/content-os (modified content, untracked content)
 
 no changes added to commit (use "git add" and/or "git commit -a")
+[main 6cfa6f9] auto: 2026-01-01 20:52 - 1 files
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+error: cannot pull with rebase: You have unstaged changes.
+error: please commit or stash them.

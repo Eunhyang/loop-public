@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: "tsk-content-os-04"
 entity_name: "Content OS - Task Pipeline UI"
 created: 2025-12-31
-updated: 2025-12-31
-status: todo
+updated: 2026-01-01
+status: doing
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -92,11 +92,11 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] 칸반 보드 레이아웃
-- [ ] 드래그 앤 드롭 (dnd-kit 또는 @hello-pangea/dnd)
-- [ ] 태스크 카드 컴포넌트
-- [ ] 상태별 컬럼 스타일
-- [ ] 더미 데이터 15개+ (컬럼별 분산)
+- [x] 칸반 보드 레이아웃
+- [x] 드래그 앤 드롭 (dnd-kit 또는 @hello-pangea/dnd)
+- [x] 태스크 카드 컴포넌트
+- [x] 상태별 컬럼 스타일
+- [x] 더미 데이터 15개+ (컬럼별 분산)
 - [ ] 스크린샷 캡처
 
 ---
@@ -116,6 +116,31 @@ priority_flag: high
 <!--
 작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 -->
+
+#### 2026-01-01 21:00
+**개요**: Task Pipeline UI 칸반 보드 구현 완료. 5개 컬럼(Draft/Approved/In Progress/Published/Reviewed)으로 구성된 드래그 앤 드롭 칸반 보드와 상세 모달을 구현했다.
+
+**변경사항**:
+- 개발: 칸반 보드 컴포넌트 (pipeline-board.tsx, pipeline-column.tsx, pipeline-card.tsx)
+- 개발: 태스크 상세 모달 (task-detail-modal.tsx)
+- 개발: 타입 정의 확장 (lib/types/task.ts - PipelineTask, PipelineStatus)
+- 개발: 더미 데이터 16개 (app/pipeline/data/dummy-tasks.ts)
+- 수정: 메인 레이아웃에 Pipeline 메뉴 연동
+
+**파일 변경**:
+- `apps/content-os/app/pipeline/page.tsx` - Pipeline 페이지 진입점
+- `apps/content-os/app/pipeline/components/pipeline-board.tsx` - DndContext 기반 칸반 보드
+- `apps/content-os/app/pipeline/components/pipeline-column.tsx` - Droppable 컬럼 (5개 상태)
+- `apps/content-os/app/pipeline/components/pipeline-card.tsx` - Sortable 태스크 카드 (Format 배지, Score, Due 등)
+- `apps/content-os/app/pipeline/components/task-detail-modal.tsx` - 태스크 상세 정보 Dialog
+- `apps/content-os/app/pipeline/data/dummy-tasks.ts` - 16개 더미 태스크 (컬럼별 분산)
+- `apps/content-os/lib/types/task.ts` - PipelineTask 인터페이스, 상태 상수 정의
+
+**결과**: 빌드 성공. 드래그 앤 드롭으로 상태 변경, 카드 클릭 시 상세 모달 동작 확인.
+
+**다음 단계**:
+- 스크린샷 캡처
+- API 연동 (현재 로컬 상태만)
 
 
 ---
