@@ -244,59 +244,70 @@ app/explorer/
 ### Todo
 
 #### Phase 1: Type & Infrastructure
-- [ ] `types/video.ts` - Video 타입 확장 (duration, scores, isCollected, isBlocked)
-- [ ] `types/search.ts` - SearchSession, SearchFiltersSnapshot 정의
-- [ ] `types/collection.ts` - CollectedVideo, BlockedVideo, BlockedChannel 정의
-- [ ] `app/explorer/lib/score-calculator.ts` - 점수 계산 함수
+- [x] `types/video.ts` - Video 타입 확장 (duration, scores, isCollected, isBlocked)
+- [x] `types/search.ts` - SearchSession, SearchFiltersSnapshot 정의
+- [x] `types/collection.ts` - CollectedVideo, BlockedVideo, BlockedChannel 정의
+- [x] `app/explorer/lib/score-calculator.ts` - 점수 계산 함수
 
 #### Phase 2: Hooks & Data
-- [ ] `app/explorer/hooks/use-local-storage.ts` - localStorage 동기화
-- [ ] `app/explorer/hooks/use-debounce.ts` - debounce 훅
-- [ ] `app/explorer/hooks/use-search-history.ts` - 검색 기록 CRUD
-- [ ] `app/explorer/hooks/use-collection.ts` - 수집/차단 관리
-- [ ] `app/explorer/data/dummy-videos.ts` - 데이터 확장 (scores, duration)
+- [x] `app/explorer/hooks/use-local-storage.ts` - localStorage 동기화
+- [x] `app/explorer/hooks/use-debounce.ts` - debounce 훅
+- [x] `app/explorer/hooks/use-search-history.ts` - 검색 기록 CRUD
+- [x] `app/explorer/hooks/use-collection.ts` - 수집/차단 관리
+- [x] `app/explorer/data/dummy-videos.ts` - 데이터 확장 (scores, duration)
 
 #### Phase 3: UI Components - Table
-- [ ] `components/badges/exposure-grade-badge.tsx` - 노출확률 배지
-- [ ] `components/badges/score-display.tsx` - 점수 표시
-- [ ] `components/badges/collected-badge.tsx` - 수집됨 배지
-- [ ] `components/video-table-row.tsx` - 행 분리 + 액션 메뉴
-- [ ] `components/video-table.tsx` - 새 컬럼 적용
+- [x] `components/badges/exposure-grade-badge.tsx` - 노출확률 배지
+- [x] `components/badges/score-display.tsx` - 점수 표시
+- [x] `components/badges/collected-badge.tsx` - 수집됨 배지
+- [x] `components/video-table-row.tsx` - 행 분리 + 액션 메뉴
+- [x] `components/video-table.tsx` - 새 컬럼 적용
 
 #### Phase 4: UI Components - Search
-- [ ] `components/search/live-search-input.tsx` - debounced 입력
-- [ ] `components/search/search-history-item.tsx` - 세션 아이템
-- [ ] `components/search/search-history-list.tsx` - 세션 목록
-- [ ] `components/search/search-panel.tsx` - 통합 패널
+- [x] `components/search/live-search-input.tsx` - debounced 입력
+- [x] `components/search/search-history-item.tsx` - 세션 아이템
+- [x] `components/search/search-history-list.tsx` - 세션 목록
+- [x] `components/search/search-panel.tsx` - 통합 패널
 
 #### Phase 5: UI Components - Actions & Tabs
-- [ ] `components/bulk-actions.tsx` - 수집/제거 버튼 추가
-- [ ] `components/collection/collection-list.tsx` - 수집함 목록
-- [ ] `components/explorer-tabs.tsx` - 탭 컴포넌트
-- [ ] `components/video-filters.tsx` - showBlocked 토글 추가
+- [x] `components/bulk-actions.tsx` - 수집/제거 버튼 추가
+- [x] `components/collection/collection-list.tsx` - 수집함 목록
+- [x] `components/explorer-tabs.tsx` - 탭 컴포넌트
+- [x] `components/video-filters.tsx` - showBlocked 토글 추가
 
 #### Phase 6: Integration
-- [ ] `app/explorer/page.tsx` - 탭/검색/수집 통합
-- [ ] 빌드 테스트 및 동작 확인
+- [x] `app/explorer/page.tsx` - 탭/검색/수집 통합
+- [x] 빌드 테스트 및 동작 확인
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-02 04:23
+**개요**: Video Explorer에 Live Search, Search History, Collect/Block 기능을 구현했습니다. Viewtrap 스타일의 영상 검색 및 수집 워크플로우를 완성했습니다.
 
 **변경사항**:
 - 개발:
+  - Type 확장: `types/video.ts` (ExposureGrade, ProcessedVideo), `types/search.ts`, `types/collection.ts`
+  - 점수 계산: `lib/score-calculator.ts` (기여도/성과도/노출확률)
+  - Hooks: `use-local-storage.ts`, `use-debounce.ts`, `use-search-history.ts`, `use-collection.ts`
+  - Badge 컴포넌트: `exposure-grade-badge.tsx`, `score-display.tsx`, `collected-badge.tsx`
+  - 테이블: `video-table-row.tsx` (액션 메뉴 포함), `video-table.tsx` (새 컬럼)
+  - 검색: `live-search-input.tsx`, `search-history-*.tsx`, `search-panel.tsx`
+  - 탭: `explorer-tabs.tsx`, `collection-list.tsx`
 - 수정:
-- 개선:
+  - `video-filters.tsx` - showBlocked 토글 추가
+  - `bulk-actions.tsx` - 수집/제거 버튼 추가
+  - `dummy-videos.ts` - duration 필드 추가
+  - `page.tsx` - 전체 통합 (탭, 검색, 수집/차단)
+- 추가:
+  - `components/ui/tabs.tsx` - ShadCN Tabs 컴포넌트
 
-**핵심 코드**: (필요시)
+**파일 변경**: 신규 17개, 수정 6개 (총 23개)
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 빌드 성공 (`pnpm build` 통과)
 
 **다음 단계**:
--->
+- 한국어 라벨로 변경 (Contrib→기여도, Impact→성과도, Exposure→노출확률)
+- YouTube Data API 연동 (Phase 2)
 
 
 ---
