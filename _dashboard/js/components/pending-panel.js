@@ -315,7 +315,9 @@ const PendingPanel = {
         const config = this.FIELD_OPTIONS[field];
         if (!config) return;
 
-        const generation = ++this.optionsLoadGeneration;
+        // 현재 리뷰의 generation 저장 (필드별 race condition 방지 - Codex fix)
+        // 리뷰 전환 시에만 증가하므로 같은 리뷰 내 여러 필드 로드는 모두 허용
+        const currentGeneration = this.optionsLoadGeneration;
         const targetContainer = container.querySelector(`[data-field="${field}"].field-options-container`);
 
         // 로딩 상태 표시
@@ -331,8 +333,8 @@ const PendingPanel = {
                 options = config.options || [];
             }
 
-            // Race condition 방지: 이 로드가 최신인지 확인
-            if (generation !== this.optionsLoadGeneration) return;
+            // Race condition 방지: 리뷰가 전환되었는지 확인
+            if (currentGeneration !== this.optionsLoadGeneration) return;
 
             // 캐시에 저장
             this.loadedOptions[field] = options;

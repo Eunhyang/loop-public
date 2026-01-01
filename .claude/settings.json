@@ -2,6 +2,11 @@
   "permissions": {
     "allow": [
       "Read",
+      "Grep",
+      "Glob",
+      "Skill",
+      "Edit(~/.claude/**)",
+      "Write(~/.claude/**)",
       "Bash(codex:*)",
       "Bash(echo:*)",
       "Bash(git status:*)",
@@ -13,6 +18,19 @@
       "Bash(cat:*)",
       "Bash(head:*)",
       "Bash(tail:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate-agent-output.sh"
+          }
+        ]
+      }
     ]
   }
 }
