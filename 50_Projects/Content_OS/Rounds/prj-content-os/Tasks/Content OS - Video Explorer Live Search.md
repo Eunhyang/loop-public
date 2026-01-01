@@ -106,15 +106,178 @@ priority_flag: high
 ## Notes
 
 ### PRD (Product Requirements Document)
-<!-- prompt-enhancer로 자동 생성 예정 -->
+
+#### 1. Overview
+Video Explorer에 **Live Search**, **Search History**, **Collect/Block** 기능을 추가하여 사용자가 실시간으로 영상을 검색하고, 검색 기록을 관리하며, 유용한 영상을 자산으로 수집할 수 있는 완전한 워크플로우를 구현한다.
+
+#### 2. User Stories
+
+**US-1: Live Search (키워드 검색)**
+- As a 콘텐츠 기획자, I want to 검색창에 키워드를 입력하면 즉시 관련 영상을 볼 수 있기를
+- Acceptance: 300ms debounce, 로딩 스피너, 빈 결과 메시지
+
+**US-2: Search History (검색 기록)**
+- As a 반복 리서치 사용자, I want to 이전 검색 기록을 저장하고 재실행할 수 있기를
+- Acceptance: 세션 자동 생성, run_count 증가, 재로드/soft-delete
+
+**US-3: Collect (영상 수집)**
+- As a 콘텐츠 기획자, I want to 유용한 영상을 수집함에 저장할 수 있기를
+- Acceptance: 다중 선택 수집, "수집됨" 배지, 수집함 탭
+
+**US-4: Block (영상/채널 차단)**
+- As a 사용자, I want to 특정 영상이나 채널을 차단할 수 있기를
+- Acceptance: 영상/채널 제거, 검색 결과에서 숨김, "차단된 항목 보기" 토글
+
+**US-5: Bundle Task 생성**
+- As a 콘텐츠 제작자, I want to 선택한 영상들로 번들 태스크를 생성할 수 있기를
+- Acceptance: 선택 영상 기반 번들 생성, 참조 영상 정보 포함
+
+#### 3. 테이블 컬럼 (PRD 용어 유지)
+| 컬럼 | 필드 | 설명 |
+|------|------|------|
+| 선택 | checkbox | 다중 선택용 |
+| 썸네일 | thumbnail + duration | 영상 길이 오버레이 |
+| 제목 | title | YouTube 링크 (새 탭) |
+| 조회수 | views | 1.2M, 456K 포맷 |
+| 구독자 | channel.name + subscribers | "채널명 / 구독자수" |
+| **기여도** | contributionScore | 0-10 (views/subscribers 비율) |
+| **성과도** | impactScore | 0-10 (engagement 기반) |
+| **노출확률** | exposureGrade | Great/Good/Normal/Bad 배지 |
+| 게시일 | publishedAt | YYYY-MM-DD |
+| 액션 | - | 더보기 메뉴 (수집/제거) |
+
+#### 4. 지표 계산 로직 (MVP)
+```typescript
+// 기여도: views / max(1, subscribers) 로그 정규화 -> 0-10
+const contributionScore = Math.min(10, Math.log10(views / Math.max(1, subscribers) + 1) * 2.5);
+
+// 성과도: views + velocity proxy -> 0-10
+const impactScore = Math.min(10, Math.log10(views + 1) * 1.5 * 0.7 + velocity / 1000 * 0.3);
+
+// 노출확률: velocity + freshness -> Grade
+// velocityScore(0-3) + freshnessScore(0-3) = totalScore
+// totalScore >= 5: Great, >= 3: Good, >= 1: Normal, else: Bad
+```
 
 ### Tech Spec
-<!-- prompt-enhancer로 자동 생성 예정 -->
+
+#### 1. Type Definitions
+
+**확장된 Video 타입:**
+```typescript
+interface Video {
+  // 기존 필드 유지
+  id, thumbnail, title, channel, publishedAt, views, velocity, youtubeUrl
+
+  // 신규 필드
+  duration: string;              // "4:13" 형식
+  contributionScore: number;     // 기여도 0-10
+  impactScore: number;           // 성과도 0-10
+  exposureGrade: ExposureGrade;  // Great/Good/Normal/Bad
+  isCollected?: boolean;
+  isBlocked?: boolean;
+}
+
+type ExposureGrade = 'Great' | 'Good' | 'Normal' | 'Bad';
+```
+
+**Search Session 타입:**
+```typescript
+interface SearchSession {
+  id: string;
+  query: string;
+  createdAt: string;
+  lastRunAt: string;
+  runCount: number;
+  filtersSnapshot: SearchFiltersSnapshot;
+  resultVideoIds: string[];
+  pinned: boolean;
+  deletedAt: string | null;
+}
+```
+
+**Collection 타입:**
+```typescript
+interface CollectedVideo {
+  videoId: string;
+  collectedAt: string;
+  sourceSearchSessionId: string | null;
+}
+
+interface BlockedVideo { videoId: string; blockedAt: string; }
+interface BlockedChannel { channelId: string; blockedAt: string; }
+```
+
+#### 2. Component Architecture
+```
+app/explorer/
+├── page.tsx                    # 탭 관리, 상태 통합
+├── components/
+│   ├── explorer-tabs.tsx       # 검색/수집함/검색내역 탭
+│   ├── search/
+│   │   ├── live-search-input.tsx
+│   │   ├── search-history-list.tsx
+│   │   └── search-panel.tsx
+│   ├── badges/
+│   │   ├── exposure-grade-badge.tsx
+│   │   ├── score-display.tsx
+│   │   └── collected-badge.tsx
+│   ├── video-table.tsx         # 새 컬럼 추가
+│   ├── video-table-row.tsx     # 행 분리 (액션 메뉴)
+│   ├── bulk-actions.tsx        # 수집/제거 버튼
+│   └── collection/
+│       └── collection-list.tsx
+├── hooks/
+│   ├── use-local-storage.ts
+│   ├── use-debounce.ts
+│   ├── use-search-history.ts
+│   └── use-collection.ts
+└── lib/
+    └── score-calculator.ts
+```
+
+#### 3. 상태 관리 (MVP: useState + localStorage)
+- 검색: useState (query, results, isSearching)
+- 검색 기록: useLocalStorage('search-sessions')
+- 수집/차단: useLocalStorage('collected-videos', 'blocked-*')
 
 ### Todo
-- [ ]
-- [ ]
-- [ ]
+
+#### Phase 1: Type & Infrastructure
+- [ ] `types/video.ts` - Video 타입 확장 (duration, scores, isCollected, isBlocked)
+- [ ] `types/search.ts` - SearchSession, SearchFiltersSnapshot 정의
+- [ ] `types/collection.ts` - CollectedVideo, BlockedVideo, BlockedChannel 정의
+- [ ] `app/explorer/lib/score-calculator.ts` - 점수 계산 함수
+
+#### Phase 2: Hooks & Data
+- [ ] `app/explorer/hooks/use-local-storage.ts` - localStorage 동기화
+- [ ] `app/explorer/hooks/use-debounce.ts` - debounce 훅
+- [ ] `app/explorer/hooks/use-search-history.ts` - 검색 기록 CRUD
+- [ ] `app/explorer/hooks/use-collection.ts` - 수집/차단 관리
+- [ ] `app/explorer/data/dummy-videos.ts` - 데이터 확장 (scores, duration)
+
+#### Phase 3: UI Components - Table
+- [ ] `components/badges/exposure-grade-badge.tsx` - 노출확률 배지
+- [ ] `components/badges/score-display.tsx` - 점수 표시
+- [ ] `components/badges/collected-badge.tsx` - 수집됨 배지
+- [ ] `components/video-table-row.tsx` - 행 분리 + 액션 메뉴
+- [ ] `components/video-table.tsx` - 새 컬럼 적용
+
+#### Phase 4: UI Components - Search
+- [ ] `components/search/live-search-input.tsx` - debounced 입력
+- [ ] `components/search/search-history-item.tsx` - 세션 아이템
+- [ ] `components/search/search-history-list.tsx` - 세션 목록
+- [ ] `components/search/search-panel.tsx` - 통합 패널
+
+#### Phase 5: UI Components - Actions & Tabs
+- [ ] `components/bulk-actions.tsx` - 수집/제거 버튼 추가
+- [ ] `components/collection/collection-list.tsx` - 수집함 목록
+- [ ] `components/explorer-tabs.tsx` - 탭 컴포넌트
+- [ ] `components/video-filters.tsx` - showBlocked 토글 추가
+
+#### Phase 6: Integration
+- [ ] `app/explorer/page.tsx` - 탭/검색/수집 통합
+- [ ] 빌드 테스트 및 동작 확인
 
 ### 작업 로그
 <!--
