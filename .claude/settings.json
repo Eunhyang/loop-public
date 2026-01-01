@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "acceptEdits",
     "allow": [
       "Read",
       "Grep",
@@ -38,9 +39,7 @@
       "Bash(python3:*)",
       "Bash(sshpass:*)",
       "Bash(ssh:*)",
-      "Bash(mkdir:*)",
-      "Edit",
-      "Write"
+      "Bash(mkdir:*)"
     ]
   },
   "hooks": {
