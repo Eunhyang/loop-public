@@ -1,0 +1,19 @@
+{
+  "run_id": "run-20260101-143328-9vvxgd",
+  "timestamp": "2026-01-01T14:33:28.952088",
+  "provider": "openai",
+  "model": "",
+  "prompt": "## Task 정보\n\n```json\n{\n  \"entity_type\": \"Task\",\n  \"entity_id\": \"tsk-006-05\",\n  \"entity_name\": \"용역비 지급(보윤님, 잔디님, 단님)\",\n  \"created\": \"2025-12-28\",\n  \"updated\": \"2025-12-29\",\n  \"status\": \"done\",\n  \"project_id\": \"prj-006\",\n  \"parent_id\": \"prj-006\",\n  \"assignee\": \"한명학\",\n  \"priority\": \"medium\",\n  \"start_date\": \"2025-12-29\",\n  \"due\": \"2025-12-29\",\n  \"aliases\": [\n    \"tsk-006-05\"\n  ],\n  \"tags\": [],\n  \"notes\": \"# 용역비 지급(보윤님, 잔딘님, 단님)\\n\\n## 설명\\n\\n## 체크리스트\\n\\n- [ ]\\n\\n## 참고\\n\",\n  \"_path\": \"50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/용역비_지급보윤님_잔딘님_단님.md\"\n}\n```\n\n## 감지된 이슈\nmissing_conditions_3y\n\n---\n\n## 전략 컨텍스트\n\n### 3Y Conditions\n- cond-a: Condition_A_PMF\n- cond-b: Condition_B_Loop_Dataset\n- cond-c: Condition_C_Global_Data\n- cond-d: Condition_D_Runway\n- cond-e: Condition_E_Team\n\n### 12M Tracks\n- trk-1: Track_1_Product\n- trk-2: Track_2_Data\n- trk-3: Track_3_Content\n- trk-4: Track_4_Coaching\n- trk-5: Track_5_Partnership\n- trk-6: Track_6_Revenue\n\n\n\n---\n\n## 요청\n\n위 Task의 누락된 필드를 제안해주세요.\n\n### 출력 형식 (JSON)\n\n{\n  \"suggested_fields\": {\n    \"conditions_3y\": [\"cond-X\"],\n    \"assignee\": \"김은향 또는 소상민\",\n    \"due\": \"YYYY-MM-DD\",\n    \"priority\": \"critical|high|medium|low\",\n    \"type\": \"dev|bug|strategy|research|ops\",\n    \"target_project\": \"sosi|kkokkkok|loop-api|loop\"\n  },\n  \"reasoning\": {\n    \"conditions_3y\": \"판단 근거\",\n    \"assignee\": \"판단 근거\",\n    \"due\": \"판단 근거\"\n  }\n}\n\n### 판단 기준\n\n**conditions_3y 선택:**\n- cond-a: Product-Market Fit (제품-시장 적합성)\n- cond-b: Revenue Model (수익 모델)\n- cond-c: Scalability (확장성)\n- cond-d: Team (팀)\n- cond-e: Tech/Infrastructure (기술/인프라)\n\nTask 이름, notes, project_id, tags를 분석하여 가장 관련 있는 Condition을 선택하세요.\n\n**assignee 선택:**\n- 김은향: 전략, 디자인, PM 작업\n- 소상민: 개발, 인프라, 기술 작업\n\n**due 선택:**\n- 오늘 날짜: 2026-01-01\n- Task 복잡도에 따라 합리적인 마감일 제안\n- 간단한 작업: 1-3일\n- 중간 작업: 1-2주\n- 복잡한 작업: 2-4주\n\n**⚠️ 금지 사항:**\n- validates 필드는 절대 제안하지 마세요 (Task는 전략 판단 금지)\n- 정해진 enum 값 외의 값을 사용하지 마세요\n\nJSON만 반환하세요. Markdown 코드블록을 사용하지 마세요.",
+  "system_prompt": "당신은 LOOP Vault Task 스키마 전문가입니다.\n\n## 역할\n- Task 엔티티의 누락된 필드를 제안합니다\n- 전략 컨텍스트(Track, Condition)를 참조하여 적절한 값을 추론합니다\n- 모든 제안에 근거를 함께 제시합니다\n\n## 제약 (CRITICAL)\n1. **validates 필드 제안 금지** - Task는 전략 판단에 개입하지 않음\n2. **enum 값은 정해진 목록에서만 선택**\n   - status: todo, doing, hold, done, blocked\n   - priority: critical, high, medium, low\n   - type: dev, bug, strategy, research, ops\n   - target_project: sosi, kkokkkok, loop-api, loop (type이 dev/bug일 때만)\n3. **assignee는 정해진 목록에서만 선택**: 김은향, 소상민\n4. **conditions_3y는 1개 이상 필수**: cond-a, cond-b, cond-c, cond-d, cond-e\n\n## 출력 형식\n반드시 JSON 형식으로 출력하세요. Markdown 코드블록 없이 순수 JSON만 반환합니다.",
+  "response": {
+    "success": false,
+    "content": null,
+    "error": "OpenAI client not initialized. Check OPENAI_API_KEY."
+  },
+  "entity_context": {
+    "entity_id": "tsk-006-05",
+    "entity_type": "Task",
+    "action": "infer_task_schema"
+  },
+  "duration_ms": 0
+}
