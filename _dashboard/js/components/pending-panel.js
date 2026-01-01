@@ -678,7 +678,7 @@ const PendingPanel = {
     },
 
     /**
-     * Entity 미리보기 렌더링
+     * Entity 미리보기 렌더링 (entity-panel.js 스타일 재사용)
      */
     renderEntityPreview(entity, entityType) {
         const container = document.getElementById('pendingEntityContent');
@@ -693,15 +693,39 @@ const PendingPanel = {
         };
 
         const color = typeColors[entityType] || '#6b7280';
+        const entityName = entity.entity_name || entity.name || entity.title || entity.entity_id || 'Untitled';
+        const entityId = entity.entity_id || entity.id || '';
+
+        // 타입별 본문 렌더링
+        let bodyContent = '';
+        switch (entityType) {
+            case 'track':
+                bodyContent = this.renderTrackPreview(entity);
+                break;
+            case 'condition':
+                bodyContent = this.renderConditionPreview(entity);
+                break;
+            case 'hypothesis':
+                bodyContent = this.renderHypothesisPreview(entity);
+                break;
+            case 'project':
+                bodyContent = this.renderProjectPreview(entity);
+                break;
+            case 'task':
+                bodyContent = this.renderTaskPreview(entity);
+                break;
+            default:
+                bodyContent = this.renderGenericPreview(entity);
+        }
 
         container.innerHTML = `
             <div class="entity-preview-header" style="border-left: 4px solid ${color}">
                 <span class="entity-type-badge ${entityType}">${this.escapeHtml(entityType.toUpperCase())}</span>
-                <h4 class="entity-preview-title">${this.escapeHtml(entity.name || entity.title || entity.entity_id || 'Untitled')}</h4>
-                <span class="entity-preview-id">${this.escapeHtml(entity.entity_id || entity.id || '')}</span>
+                <h4 class="entity-preview-title">${this.escapeHtml(entityName)}</h4>
+                <span class="entity-preview-id">${this.escapeHtml(entityId)}</span>
             </div>
             <div class="entity-preview-body">
-                ${this.renderEntityFields(entity, entityType)}
+                ${bodyContent}
             </div>
         `;
 
@@ -710,16 +734,384 @@ const PendingPanel = {
     },
 
     /**
-     * Entity 필드 렌더링
+     * Track 미리보기 (EntityDetailPanel.renderTrack 스타일)
      */
-    renderEntityFields(entity, entityType) {
-        const skipFields = ['name', 'title', 'entity_id', 'id', 'file_path', 'body'];
+    renderTrackPreview(track) {
+        const progress = track.progress || 0;
+        let html = '';
+
+        // Status
+        if (track.status) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${track.status.replace(/\s+/g, '_')}">${this.escapeHtml(track.status)}</div>
+                </div>
+            `;
+        }
+
+        // Hypothesis
+        if (track.hypothesis) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Hypothesis</div>
+                    <div class="entity-section-content">${this.escapeHtml(track.hypothesis)}</div>
+                </div>
+            `;
+        }
+
+        // Progress
+        html += `
+            <div class="entity-section">
+                <div class="entity-section-title">Progress</div>
+                <div class="entity-progress">
+                    <div class="entity-progress-bar">
+                        <div class="entity-progress-fill" style="width: ${progress * 100}%"></div>
+                    </div>
+                    <div class="entity-progress-text">${Math.round(progress * 100)}% complete</div>
+                </div>
+            </div>
+        `;
+
+        // Focus Areas
+        if (track.focus) {
+            const focusItems = Array.isArray(track.focus) ? track.focus.map(f => `<div>• ${this.escapeHtml(f)}</div>`).join('') : this.escapeHtml(track.focus);
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Focus Areas</div>
+                    <div class="entity-section-content">${focusItems}</div>
+                </div>
+            `;
+        }
+
+        return html;
+    },
+
+    /**
+     * Condition 미리보기 (EntityDetailPanel.renderCondition 스타일)
+     */
+    renderConditionPreview(condition) {
+        let html = '';
+
+        // Status
+        if (condition.status) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${condition.status.replace(/\s+/g, '_')}">${this.escapeHtml(condition.status)}</div>
+                </div>
+            `;
+        }
+
+        // Unlock
+        if (condition.unlock) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Unlock</div>
+                    <div class="entity-section-content entity-unlock">${this.escapeHtml(condition.unlock)}</div>
+                </div>
+            `;
+        }
+
+        // If Broken
+        if (condition.if_broken) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">If Broken</div>
+                    <div class="entity-section-content entity-if-broken">${this.escapeHtml(condition.if_broken)}</div>
+                </div>
+            `;
+        }
+
+        // Metrics
+        const metrics = condition.metrics || [];
+        if (metrics.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Metrics</div>
+                    <div class="entity-metrics">
+                        ${metrics.map(m => `
+                            <div class="entity-metric">
+                                <div class="entity-metric-label">${this.escapeHtml(m.name)}</div>
+                                <div class="entity-metric-value ${m.status === 'at_risk' ? 'at-risk' : m.status === 'on_track' ? 'on-track' : ''}">
+                                    ${this.escapeHtml(m.current)} / ${this.escapeHtml(m.threshold)}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
+    },
+
+    /**
+     * Hypothesis 미리보기 (EntityDetailPanel.renderHypothesis 스타일)
+     */
+    renderHypothesisPreview(hypothesis) {
+        let html = '';
+
+        // Status
+        if (hypothesis.status) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${hypothesis.status.replace(/\s+/g, '_')}">${this.escapeHtml(hypothesis.status)}</div>
+                </div>
+            `;
+        }
+
+        // Hypothesis Question
+        if (hypothesis.hypothesis_question) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Hypothesis Question</div>
+                    <div class="entity-section-content entity-hypothesis-question">"${this.escapeHtml(hypothesis.hypothesis_question)}"</div>
+                </div>
+            `;
+        }
+
+        // Confidence Bar
+        if (hypothesis.confidence !== undefined) {
+            const conf = hypothesis.confidence;
+            const barColor = conf >= 0.7 ? '#3fb950' : conf >= 0.4 ? '#f0883e' : '#f85149';
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Confidence</div>
+                    <div class="entity-progress">
+                        <div class="entity-progress-bar">
+                            <div class="entity-progress-fill" style="width: ${conf * 100}%; background: ${barColor};"></div>
+                        </div>
+                        <div class="entity-progress-text">${Math.round(conf * 100)}%</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Success Criteria
+        if (hypothesis.success_criteria) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Success Criteria</div>
+                    <div class="entity-section-content entity-success">✓ ${this.escapeHtml(hypothesis.success_criteria)}</div>
+                </div>
+            `;
+        }
+
+        // Failure Criteria
+        if (hypothesis.failure_criteria) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Failure Criteria</div>
+                    <div class="entity-section-content entity-failure">✗ ${this.escapeHtml(hypothesis.failure_criteria)}</div>
+                </div>
+            `;
+        }
+
+        // Parent Track
+        if (hypothesis.parent_id) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Parent Track</div>
+                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(hypothesis.parent_id)}">${this.escapeHtml(hypothesis.parent_id)}</span>
+                </div>
+            `;
+        }
+
+        return html;
+    },
+
+    /**
+     * Project 미리보기 (ProjectPanel 스타일)
+     */
+    renderProjectPreview(project) {
+        let html = '';
+
+        // Status
+        if (project.status) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${project.status.replace(/\s+/g, '_')}">${this.escapeHtml(project.status)}</div>
+                </div>
+            `;
+        }
+
+        // Owner
+        if (project.owner) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Owner</div>
+                    <div class="entity-section-content">${this.escapeHtml(project.owner)}</div>
+                </div>
+            `;
+        }
+
+        // Expected Impact
+        const expectedImpact = project.expected_impact;
+        if (expectedImpact && expectedImpact.tier) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Expected Impact</div>
+                    <div class="impact-meta">
+                        <div class="impact-meta-item"><span class="impact-label">Tier</span><span class="impact-value tier-${expectedImpact.tier}">${this.escapeHtml(expectedImpact.tier)}</span></div>
+                        ${expectedImpact.impact_magnitude ? `<div class="impact-meta-item"><span class="impact-label">Magnitude</span><span class="impact-value">${this.escapeHtml(expectedImpact.impact_magnitude)}</span></div>` : ''}
+                        ${expectedImpact.confidence !== undefined ? `<div class="impact-meta-item"><span class="impact-label">Confidence</span><span class="impact-value">${(expectedImpact.confidence * 100).toFixed(0)}%</span></div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // conditions_3y
+        if (project.conditions_3y && project.conditions_3y.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Conditions (3Y)</div>
+                    <div class="field-value-badges">
+                        ${project.conditions_3y.map(c => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(c)}">${this.escapeHtml(c)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Parent Track
+        if (project.parent_id) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Parent Track</div>
+                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(project.parent_id)}">${this.escapeHtml(project.parent_id)}</span>
+                </div>
+            `;
+        }
+
+        // Validates
+        if (project.validates && project.validates.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Validates</div>
+                    <div class="field-value-badges">
+                        ${project.validates.map(h => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(h)}">${this.escapeHtml(h)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
+    },
+
+    /**
+     * Task 미리보기 (TaskPanel 스타일)
+     */
+    renderTaskPreview(task) {
+        let html = '';
+
+        // Status
+        if (task.status) {
+            const statusIcon = { done: '✅', doing: '🔄', todo: '⬜', blocked: '🚫' }[task.status] || '⬜';
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${task.status.replace(/\s+/g, '_')}">${statusIcon} ${this.escapeHtml(task.status)}</div>
+                </div>
+            `;
+        }
+
+        // Assignee
+        if (task.assignee) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Assignee</div>
+                    <div class="entity-section-content">${this.escapeHtml(task.assignee)}</div>
+                </div>
+            `;
+        }
+
+        // Due Date
+        if (task.due) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Due Date</div>
+                    <div class="entity-section-content">${this.escapeHtml(task.due)}</div>
+                </div>
+            `;
+        }
+
+        // Priority
+        if (task.priority_flag || task.priority) {
+            const priority = task.priority_flag || task.priority;
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Priority</div>
+                    <div class="entity-status-badge priority-${priority}">${this.escapeHtml(priority)}</div>
+                </div>
+            `;
+        }
+
+        // Project
+        if (task.project_id) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Project</div>
+                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(task.project_id)}">${this.escapeHtml(task.project_id)}</span>
+                </div>
+            `;
+        }
+
+        // conditions_3y
+        if (task.conditions_3y && task.conditions_3y.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Conditions (3Y)</div>
+                    <div class="field-value-badges">
+                        ${task.conditions_3y.map(c => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(c)}">${this.escapeHtml(c)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
+    },
+
+    /**
+     * Generic 미리보기 (알 수 없는 타입용)
+     */
+    renderGenericPreview(entity) {
+        const skipFields = ['name', 'title', 'entity_id', 'id', 'file_path', 'body', '_body'];
         let html = '<div class="entity-fields">';
 
         for (const [key, value] of Object.entries(entity)) {
             if (skipFields.includes(key) || value === null || value === undefined) continue;
 
-            const displayValue = this.formatEntityFieldValue(key, value);
+            let displayValue;
+            if (Array.isArray(value)) {
+                if (value.length === 0) {
+                    displayValue = '<span class="field-value-empty">-</span>';
+                } else {
+                    displayValue = '<div class="field-value-badges">' +
+                        value.map(item => {
+                            const strVal = String(item);
+                            const isEntityId = this.ENTITY_ID_REGEX.test(strVal);
+                            this.ENTITY_ID_REGEX.lastIndex = 0;
+                            if (isEntityId) {
+                                return `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(strVal)}">${this.escapeHtml(strVal)}</span>`;
+                            }
+                            return `<span class="field-value-badge">${this.escapeHtml(strVal)}</span>`;
+                        }).join('') +
+                    '</div>';
+                }
+            } else if (typeof value === 'object') {
+                displayValue = `<pre class="entity-field-json">${this.escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
+            } else {
+                const strVal = String(value);
+                if (this.ENTITY_ID_REGEX.test(strVal)) {
+                    this.ENTITY_ID_REGEX.lastIndex = 0;
+                    displayValue = `<span class="entity-id-link" data-entity-id="${this.escapeHtml(strVal)}">${this.escapeHtml(strVal)}</span>`;
+                } else {
+                    displayValue = this.escapeHtml(strVal);
+                }
+            }
+
             html += `
                 <div class="entity-field-row">
                     <span class="entity-field-label">${this.escapeHtml(key)}</span>
@@ -730,36 +1122,6 @@ const PendingPanel = {
 
         html += '</div>';
         return html;
-    },
-
-    /**
-     * Entity 필드값 포맷팅 (Entity ID 링크 포함)
-     */
-    formatEntityFieldValue(key, value) {
-        if (Array.isArray(value)) {
-            if (value.length === 0) return '<span class="field-value-empty">-</span>';
-            return '<div class="field-value-badges">' +
-                value.map(item => {
-                    const strVal = String(item);
-                    const isEntityId = this.ENTITY_ID_REGEX.test(strVal);
-                    this.ENTITY_ID_REGEX.lastIndex = 0; // Reset regex state
-                    if (isEntityId) {
-                        return `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(strVal)}">${this.escapeHtml(strVal)}</span>`;
-                    }
-                    return `<span class="field-value-badge">${this.escapeHtml(strVal)}</span>`;
-                }).join('') +
-            '</div>';
-        }
-        if (typeof value === 'object') {
-            return `<pre class="entity-field-json">${this.escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
-        }
-        const strVal = String(value);
-        // Check if it's an entity ID
-        if (this.ENTITY_ID_REGEX.test(strVal)) {
-            this.ENTITY_ID_REGEX.lastIndex = 0;
-            return `<span class="entity-id-link" data-entity-id="${this.escapeHtml(strVal)}">${this.escapeHtml(strVal)}</span>`;
-        }
-        return this.escapeHtml(strVal);
     },
 
     /**
