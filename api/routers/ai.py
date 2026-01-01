@@ -99,6 +99,8 @@ class InferProjectImpactResponse(BaseModel):
     """Project Impact 추론 응답"""
     ok: bool
     run_id: str
+    entity_id: Optional[str] = Field(default=None, description="프로젝트 ID")
+    entity_name: Optional[str] = Field(default=None, description="프로젝트 이름")
     patch: Dict[str, Any] = Field(default_factory=dict, description="LLM 제안 필드")
     derived_autofill: Dict[str, Any] = Field(default_factory=dict, description="서버 계산 필드")
     scores: Dict[str, float] = Field(default_factory=dict, description="계산된 점수")
@@ -125,6 +127,8 @@ class InferEvidenceResponse(BaseModel):
     """Evidence 추론 응답"""
     ok: bool
     run_id: str
+    entity_id: Optional[str] = Field(default=None, description="프로젝트 ID")
+    entity_name: Optional[str] = Field(default=None, description="프로젝트 이름")
     patch: Dict[str, Any] = Field(default_factory=dict, description="LLM 제안 필드 (normalized_delta, evidence_strength 등)")
     quality_meta: Dict[str, Any] = Field(default_factory=dict, description="v5.3 품질 메타 필드")
     derived_autofill: Dict[str, Any] = Field(default_factory=dict, description="서버 계산 필드 (window_id, time_range)")
@@ -643,6 +647,7 @@ async def infer_project_impact(request: InferProjectImpactRequest):
         return InferProjectImpactResponse(
             ok=False,
             run_id=run_id,
+            entity_id=request.project_id,
             error=f"Project not found: {request.project_id}",
             audit_ref=run_id
         )
@@ -693,6 +698,8 @@ async def infer_project_impact(request: InferProjectImpactRequest):
         return InferProjectImpactResponse(
             ok=False,
             run_id=run_id,
+            entity_id=request.project_id,
+            entity_name=project.get("entity_name"),
             error=result.get("error", "LLM call failed"),
             audit_ref=run_id
         )
@@ -830,6 +837,8 @@ async def infer_project_impact(request: InferProjectImpactRequest):
         return InferProjectImpactResponse(
             ok=False,
             run_id=run_id,
+            entity_id=request.project_id,
+            entity_name=project.get("entity_name"),
             patch=patch,
             derived_autofill=derived_autofill,
             scores=scores,
@@ -858,6 +867,8 @@ async def infer_project_impact(request: InferProjectImpactRequest):
     return InferProjectImpactResponse(
         ok=True,
         run_id=run_id,
+        entity_id=request.project_id,
+        entity_name=project.get("entity_name"),
         patch=patch,
         derived_autofill=derived_autofill,
         scores=scores,
@@ -912,6 +923,7 @@ async def infer_evidence(request: InferEvidenceRequest):
         return InferEvidenceResponse(
             ok=False,
             run_id=run_id,
+            entity_id=request.project_id,
             error=f"Project not found: {request.project_id}",
             audit_ref=run_id
         )
@@ -950,6 +962,8 @@ async def infer_evidence(request: InferEvidenceRequest):
         return InferEvidenceResponse(
             ok=True,
             run_id=run_id,
+            entity_id=request.project_id,
+            entity_name=project.get("entity_name"),
             skipped=True,
             skip_reason=skip_reason,
             existing_evidence_refs=existing_refs,
@@ -1002,6 +1016,8 @@ async def infer_evidence(request: InferEvidenceRequest):
         return InferEvidenceResponse(
             ok=False,
             run_id=run_id,
+            entity_id=request.project_id,
+            entity_name=project.get("entity_name"),
             error=result.get("error", "LLM call failed"),
             audit_ref=run_id
         )
@@ -1201,6 +1217,8 @@ async def infer_evidence(request: InferEvidenceRequest):
         return InferEvidenceResponse(
             ok=False,
             run_id=run_id,
+            entity_id=request.project_id,
+            entity_name=project.get("entity_name"),
             patch=patch,
             quality_meta=quality_meta,
             derived_autofill=derived_autofill,
@@ -1232,6 +1250,8 @@ async def infer_evidence(request: InferEvidenceRequest):
     return InferEvidenceResponse(
         ok=True,
         run_id=run_id,
+        entity_id=request.project_id,
+        entity_name=project.get("entity_name"),
         patch=patch,
         quality_meta=quality_meta,
         derived_autofill=derived_autofill,
