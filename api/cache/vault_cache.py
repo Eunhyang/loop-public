@@ -57,6 +57,10 @@ class VaultCache:
         self.projects: Dict[str, CacheEntry] = {}
         self.programs: Dict[str, CacheEntry] = {}
 
+        # Evidence 캐시 - project_id -> List[CacheEntry]
+        # tsk-n8n-12: Server Skip 지원용
+        self.evidence: Dict[str, List[CacheEntry]] = {}
+
         # 캐시 저장소 - 신규
         self.hypotheses: Dict[str, CacheEntry] = {}
         self.tracks: Dict[str, CacheEntry] = {}
@@ -81,6 +85,7 @@ class VaultCache:
         self._project_count: int = 0
         self._program_count: int = 0
         self._hypothesis_count: int = 0
+        self._evidence_count: int = 0
 
         # 초기 로드
         self._initial_load()
@@ -109,6 +114,7 @@ class VaultCache:
             self._load_metahypotheses()
             self._load_productlines()
             self._load_partnershipstages()
+            self._load_evidence()  # tsk-n8n-12: Evidence 캐시 로드
 
         elapsed = (datetime.now() - start).total_seconds()
         self._load_time = elapsed
@@ -118,6 +124,7 @@ class VaultCache:
             f"{self._project_count} projects, "
             f"{self._program_count} programs, "
             f"{self._hypothesis_count} hypotheses, "
+            f"{self._evidence_count} evidence, "
             f"{len(self.tracks)} tracks, "
             f"{len(self.conditions)} conditions in {elapsed:.2f}s"
         )
