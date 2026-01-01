@@ -93,6 +93,7 @@ priority_flag: high
 |-------|------|--------|------|
 | 주니어 개발자 채용 | Developer | in_progress | [[prj-015]] |
 | 코치 채용 | Coach | in_progress | [[prj-006]] |
+| 외부 비서 채용 | Overseas Assistant | done | [[prj-007]] |
 
 ---
 

@@ -122,6 +122,48 @@ Phase 1/2 (Task/Project Schema Validation)는 아직 OpenAI 직접 호출 사용
 
 ## Notes
 
+### n8n 엔티티 Validate 흐름
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     n8n Workflow (v5)                               │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  Schedule Trigger (매 X분)                                          │
+│       ↓                                                             │
+│  Get Strategy Context → Build Strategy Context                      │
+│       ↓                                                             │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │ Phase 1: Task Validation                                     │   │
+│  ├─────────────────────────────────────────────────────────────┤   │
+│  │ Get Tasks → Validate Tasks → Tasks Need LLM?                 │   │
+│  │                  │                    │                      │   │
+│  │      (JS Code)   │              yes   │  no → 스킵           │   │
+│  │  - missing_due   │                    ↓                      │   │
+│  │  - missing_assignee                                          │   │
+│  │  - missing_conditions_3y       Call AI Router (Task Schema)  │   │
+│  │  - invalid_status              POST /api/ai/infer/task_schema│   │
+│  │  - invalid_priority                   ↓                      │   │
+│  │                                Parse Tasks Response          │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│       ↓                                                             │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │ Phase 2: Project Validation                                  │   │
+│  ├─────────────────────────────────────────────────────────────┤   │
+│  │ Get Projects → Validate Projects → Projects Need LLM?        │   │
+│  │                     │                    │                   │   │
+│  │      (JS Code)      │              yes   │  no → 스킵        │   │
+│  │  - missing_owner    │                    ↓                   │   │
+│  │  - missing_parent_id          Call AI Router (Project Schema)│   │
+│  │  - missing_conditions_3y      POST /api/ai/infer/project_schema│ │
+│  │  - invalid_condition_contributes           ↓                 │   │
+│  │  - missing_validates          Parse Projects Response        │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│       ↓                                                             │
+│  Phase 3: Impact Autofill (별도 흐름)                               │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ### Todo
 - [x] API 엔드포인트 구현
 - [x] 워크플로우 v5 업그레이드

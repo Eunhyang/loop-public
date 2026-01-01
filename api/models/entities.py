@@ -25,6 +25,8 @@ class TaskCreate(BaseModel):
     status: str = Field(default="todo", description="schema_constants.yaml 참조")
     notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
     tags: List[str] = Field(default_factory=list, description="태그")
+    # Auto-validation 옵션
+    auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
 
 
 class TaskUpdate(BaseModel):

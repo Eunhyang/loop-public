@@ -25,6 +25,35 @@ $ARGUMENTS
 
 ## 실행 절차
 
+### [rebuild 전] 로컬 변경사항 확인 (rebuild 명령 시에만)
+
+rebuild 실행 전에 로컬에 커밋되지 않은 변경사항이 있는지 확인합니다.
+변경사항이 있으면 NAS에 반영되지 않은 상태이므로 sync 먼저 실행할지 물어봅니다.
+
+```bash
+cd ~/dev/LOOP_WORK && git status --short
+```
+
+변경사항이 있으면 사용자에게 질문:
+> "로컬에 변경사항이 있습니다. NAS에 먼저 동기화할까요? (git push → NAS sync)"
+
+**Yes인 경우:**
+1. 로컬에서 커밋 & push:
+```bash
+cd ~/dev/LOOP_WORK && git add -A && git commit -m "chore: sync before rebuild" && git push origin main
+```
+
+2. NAS에서 pull:
+```bash
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 '
+echo "Dkssud272902*" | sudo -S /volume1/LOOP_CORE/vault/LOOP/scripts/nas-git-sync.sh 2>&1
+'
+```
+
+3. 그 다음 rebuild 진행
+
+---
+
 ### 상태 확인 (status)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker ps | grep loop-api'

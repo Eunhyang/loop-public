@@ -277,6 +277,8 @@ Required for trustworthy B scores:
 
 ## Infrastructure
 
+> 전체 동기화 구조는 `00_Meta/SYNC_ARCHITECTURE.md` 참조
+
 ### Docker Services (NAS)
 | Service | Port | Purpose |
 |---------|------|---------|
@@ -284,6 +286,35 @@ Required for trustworthy B scores:
 | `n8n` | 5678 | Workflow automation |
 
 **Volume mounts**: LOOP Vault (rw), loop_exec (ro - sensitive data protection)
+
+### NAS Git Auto-Sync (15분마다)
+
+NAS에서 cron으로 자동 실행되어 GitHub와 동기화합니다.
+
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `/volume1/LOOP_CORE/vault/LOOP/scripts/nas-git-sync.sh` |
+| 실행 주기 | 15분마다 (cron) |
+| 로그 | `_build/git-sync.log` |
+
+**동작 순서:**
+1. `git add -A` - 변경사항 스테이징
+2. `git commit --no-verify` - 커밋 (pre-commit hook 스킵)
+3. `git pull --rebase origin main` - GitHub에서 pull
+4. `git push origin main` - GitHub로 push
+
+**로컬 작업 플로우:**
+```bash
+# 작업 시작 전 - 최신 상태 가져오기
+git pull
+
+# 작업 후 - GitHub로 push (15분 내 NAS 반영)
+git add -A && git commit -m "메시지" && git push
+```
+
+**상태 확인:**
+- 로그: `tail -50 _build/git-sync.log`
+- 스킬: `nas-git-status` 스킬 사용
 
 ### Git on Network Mount
 SMB mount causes git lock errors:
@@ -293,9 +324,9 @@ SMB mount causes git lock errors:
 
 ### Data Flow
 ```
-Obsidian edits → Pre-commit hook → Git → NAS sync (15 min) → API cache → Dashboard
-                                                          ↓
-                                              n8n workflows (validation, LLM autofill)
+로컬 작업 → git push → GitHub ←→ NAS (15분 cron) → API cache → Dashboard
+                                    ↓
+팀원 Obsidian 편집 → 자동 commit/push
 ```
 
 ---
