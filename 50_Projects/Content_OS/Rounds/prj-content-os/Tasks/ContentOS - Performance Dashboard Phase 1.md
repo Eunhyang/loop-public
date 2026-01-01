@@ -4,7 +4,7 @@ entity_id: "tsk-content-os-06"
 entity_name: "ContentOS - Performance Dashboard Phase 1"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -38,7 +38,7 @@ priority_flag: high
 
 # ContentOS - Performance Dashboard Phase 1
 
-> Task ID: `tsk-content-os-06` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-content-os-06` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
@@ -197,6 +197,34 @@ export type ProblemType =
 ---
 
 ### 작업 로그
+
+#### 2026-01-02 04:20
+**개요**: ContentOS NAS Docker 배포 완료. Dockerfile 작성, docker-compose.yml 업데이트, submodule 구조 정리 후 contentos.sosilab.synology.me로 서비스 오픈.
+
+**변경사항**:
+- 개발:
+  - `apps/content-os/Dockerfile` - Next.js standalone 빌드용 multi-stage Dockerfile
+  - `apps/content-os/.dockerignore` - Docker 빌드 제외 파일 설정
+- 수정:
+  - `docker-compose.yml` - content-os 서비스 추가 (port 8083:3000)
+  - `next.config.ts` - `output: "standalone"` 추가
+- 인프라:
+  - content-os submodule → 일반 디렉토리로 변환 (git rm --cached + git add)
+  - NAS Docker 컨테이너 빌드 및 실행
+  - Synology Reverse Proxy 설정 (contentos.sosilab.synology.me → localhost:8083)
+
+**파일 변경** (4개):
+- `apps/content-os/Dockerfile` - 신규
+- `apps/content-os/.dockerignore` - 신규
+- `apps/content-os/next.config.ts` - standalone 출력 추가
+- `docker-compose.yml` - content-os 서비스 추가
+
+**결과**: ✅ 배포 성공
+- Docker 컨테이너: `content-os` (running)
+- 접속 URL: `https://contentos.sosilab.synology.me`
+
+**다음 단계**:
+- Phase 2: YouTube Analytics API 연동 (OAuth 2.0 인증)
 
 #### 2026-01-02 03:30
 **개요**: Performance Dashboard Phase 1 UI 구현 완료. 3가지 뷰(리스트/상세/주간요약)와 진단 로직, 더미 데이터 포함. 빌드 성공.
