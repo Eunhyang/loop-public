@@ -93,19 +93,22 @@ def generate_review_id() -> str:
 
 
 def find_entity_file(entity_id: str, entity_type: str) -> Optional[Path]:
-    """엔티티 ID로 파일 경로 찾기"""
+    """엔티티 ID로 파일 경로 찾기 (파일명에 entity_id가 없을 수 있음)"""
     if entity_type == "Task":
-        pattern = f"50_Projects/**/Tasks/*{entity_id}*.md"
+        pattern = "50_Projects/**/Tasks/*.md"
     elif entity_type == "Project":
-        pattern = f"50_Projects/**/Project_정의.md"
+        pattern = "50_Projects/**/Project_정의.md"
     else:
         return None
 
     for path in VAULT_DIR.glob(pattern):
-        with open(path, 'r', encoding='utf-8') as f:
-            content = f.read()
-            if f"entity_id: {entity_id}" in content or f'entity_id: "{entity_id}"' in content:
-                return path
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read(2000)  # frontmatter만 읽으면 충분
+                if f"entity_id: {entity_id}" in content or f'entity_id: "{entity_id}"' in content:
+                    return path
+        except (IOError, UnicodeDecodeError):
+            continue
     return None
 
 
