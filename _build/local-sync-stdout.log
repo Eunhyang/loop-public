@@ -13,3 +13,7 @@ To https://github.com/Eunhyang/loop_obsidian.git
  2 files changed, 58 insertions(+), 5 deletions(-)
 error: cannot pull with rebase: You have unstaged changes.
 error: please commit or stash them.
+[main 0a777c6] auto: 2026-01-01 15:37 - 2 files
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+error: cannot pull with rebase: You have unstaged changes.
+error: please commit or stash them.
