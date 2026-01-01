@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20260101-071409-a1lvce",
+  "timestamp": "2026-01-01T16:14:15.600411",
+  "project_id": "prj-vault-gpt",
+  "project_name": "ChatGPT Vault MCP 연결",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "mid",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-2",
+        "weight": 0.5,
+        "description": "Track_2_Data와의 연결을 통해 데이터 처리 및 분석의 효율성을 높이는 데 기여할 것으로 예상됩니다."
+      }
+    ],
+    "validates": [
+      "hyp-1-01"
+    ],
+    "primary_hypothesis_id": "hyp-1-01"
+  },
+  "derived_autofill": {
+    "window_id": "2026-01",
+    "time_range": "2026-01-01..2026-01-31"
+  },
+  "scores": {
+    "expected_score": 1.5
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161407-grz4",
+    "status": "pending",
+    "created_at": "2026-01-01T16:14:15.596965"
+  },
+  "llm_run_id": "run-20260101-161409-2kp0ml"
+}

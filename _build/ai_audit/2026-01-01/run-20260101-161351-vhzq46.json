@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20260101-161351-vhzq46",
+  "timestamp": "2026-01-01T16:13:56.116888",
+  "task_id": "tsk-dashboard-ux-v1-01",
+  "task_name": "뷰 전환 단축키 (1/2/3)",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_due_date"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-e"
+    ],
+    "assignee": "소상민",
+    "due": "2026-01-01",
+    "priority": "high",
+    "type": "dev",
+    "target_project": "loop-api"
+  },
+  "reasoning": {
+    "conditions_3y": "Task는 UX 관련 작업으로 팀의 기술/인프라에 대한 조건이 적합하므로 cond-e를 선택했습니다.",
+    "assignee": "Task의 유형이 개발 관련이므로 소상민이 적합합니다.",
+    "due": "작업의 복잡도를 고려할 때, 간단한 작업으로 1-3일 내에 완료할 수 있어 2026-01-01로 설정했습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161356-ku9p",
+    "status": "pending",
+    "created_at": "2026-01-01T16:13:56.094570"
+  }
+}

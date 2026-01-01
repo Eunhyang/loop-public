@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20260101-071409-s9xw30",
+  "timestamp": "2026-01-01T16:14:15.217697",
+  "project_id": "prj-006",
+  "project_name": "코치 1명 구인 & 1차 온보딩 준비",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "enabling",
+    "impact_magnitude": "mid",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-4",
+        "weight": 0.5,
+        "description": "코치 구인 및 온보딩이 Coaching Track의 성공적인 실행에 기여할 것으로 예상됩니다."
+      }
+    ],
+    "validates": [
+      "hyp-001"
+    ],
+    "primary_hypothesis_id": "hyp-001"
+  },
+  "derived_autofill": {
+    "window_id": "2026-01",
+    "time_range": "2026-01-01..2026-01-31"
+  },
+  "scores": {
+    "expected_score": 1.5
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161406-5adu",
+    "status": "pending",
+    "created_at": "2026-01-01T16:14:15.214122"
+  },
+  "llm_run_id": "run-20260101-161409-cs9mzh"
+}

@@ -1,0 +1,39 @@
+{
+  "run_id": "run-20260101-161351-s7gsdi",
+  "timestamp": "2026-01-01T16:13:56.457265",
+  "task_id": "tsk-016-02",
+  "task_name": "법인 신청 및 결제/추후 보완사항 대응",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_conditions_3y"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-a",
+      "cond-b"
+    ],
+    "assignee": "김은향",
+    "due": "2026-01-05",
+    "type": "strategy"
+  },
+  "reasoning": {
+    "conditions_3y": "법인 신청 및 결제 작업은 제품-시장 적합성과 수익 모델을 고려해야 하므로 cond-a와 cond-b가 적합합니다.",
+    "assignee": "김은향은 전략적 작업에 적합하므로 이 Task에 적합합니다.",
+    "due": "작업의 복잡성을 고려할 때, 1주일 내에 완료할 수 있는 중간 난이도의 작업으로 판단하여 2026-01-05를 제안합니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161356-bjc4",
+    "status": "pending",
+    "created_at": "2026-01-01T16:13:56.455988"
+  }
+}

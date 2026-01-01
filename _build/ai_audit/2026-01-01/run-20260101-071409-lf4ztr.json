@@ -1,0 +1,46 @@
+{
+  "run_id": "run-20260101-071409-lf4ztr",
+  "timestamp": "2026-01-01T16:14:15.550234",
+  "project_id": "prj-007",
+  "project_name": "외부 비서",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "patch": {
+    "tier": "operational",
+    "impact_magnitude": "low",
+    "confidence": 0.5,
+    "condition_contributes": [],
+    "track_contributes": [
+      {
+        "to": "trk-6",
+        "weight": 0.3,
+        "description": "외부 비서 프로젝트가 Track_6_Revenue의 운영 효율성을 높이는 데 기여할 것으로 예상됨."
+      }
+    ],
+    "validates": [
+      "hyp-1-01"
+    ],
+    "primary_hypothesis_id": "hyp-1-01"
+  },
+  "derived_autofill": {
+    "window_id": "2026-01",
+    "time_range": "2026-01-01..2026-01-31"
+  },
+  "scores": {
+    "expected_score": 0.25
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161404-v32p",
+    "status": "pending",
+    "created_at": "2026-01-01T16:14:15.546796"
+  },
+  "llm_run_id": "run-20260101-161409-f7dzng"
+}

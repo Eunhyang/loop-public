@@ -1,0 +1,40 @@
+{
+  "run_id": "run-20260101-161351-v6ezog",
+  "timestamp": "2026-01-01T16:13:55.197063",
+  "task_id": "tsk-011-01",
+  "task_name": "리크루팅 사이트) 원택님 피드백 반영",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_due_date"
+  ],
+  "suggested_fields": {
+    "conditions_3y": [
+      "cond-a",
+      "cond-e"
+    ],
+    "assignee": "김은향",
+    "due": "2026-01-01",
+    "priority": "medium",
+    "type": "strategy"
+  },
+  "reasoning": {
+    "conditions_3y": "Task의 주제가 리크루팅 사이트에 대한 피드백 반영이므로, 제품-시장 적합성(cond-a)과 팀(cond-e) 관련 조건이 가장 적합합니다.",
+    "assignee": "김은향은 전략적 작업과 디자인 관련 업무에 적합하므로 이 Task에 적합합니다.",
+    "due": "Task의 복잡도를 고려할 때, 2-4주 정도의 시간이 필요할 것으로 보이며, 오늘 날짜인 2026-01-01을 마감일로 설정합니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20251227165913-p5kp",
+    "status": "pending",
+    "created_at": "2026-01-01T16:13:55.173085"
+  }
+}

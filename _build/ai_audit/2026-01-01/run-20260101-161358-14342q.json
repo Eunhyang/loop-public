@@ -1,0 +1,59 @@
+{
+  "run_id": "run-20260101-161358-14342q",
+  "timestamp": "2026-01-01T16:14:04.918212",
+  "project_id": "prj-007",
+  "project_name": "외부 비서",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-e",
+      "cond-a"
+    ],
+    "validates": [
+      "hyp-1-01"
+    ],
+    "primary_hypothesis_id": "hyp-1-01",
+    "condition_contributes": [
+      {
+        "to": "cond-e",
+        "weight": 0.5,
+        "description": "팀의 운영 효율화에 기여"
+      },
+      {
+        "to": "cond-a",
+        "weight": 0.5,
+        "description": "제품-시장 적합성 검증에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 비즈니스 운영 효율화와 관련되어 있어 김은향이 적합합니다.",
+    "parent_id": "이 프로젝트는 Track 6에 속하므로 parent_id는 trk-6입니다.",
+    "conditions_3y": "팀의 운영 효율화와 제품-시장 적합성을 동시에 고려하여 cond-e와 cond-a를 선택했습니다.",
+    "validates": "이 프로젝트의 가설은 행동 변화와 관련된 hyp-1-01이 적합하다고 판단했습니다.",
+    "condition_contributes": "각 Condition에 대한 기여도를 0.5로 설정하여 총합이 1.0이 되도록 하였습니다."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161404-v32p",
+    "status": "pending",
+    "created_at": "2026-01-01T16:14:04.727769"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "run_id": "run-20260101-161358-32doq5",
+  "timestamp": "2026-01-01T16:14:05.288115",
+  "project_id": "prj-015",
+  "project_name": "Hiring - 주니어 개발자 채용",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_validates",
+    "missing_primary_hypothesis_id",
+    "missing_condition_contributes"
+  ],
+  "suggested_fields": {
+    "owner": "소상민",
+    "parent_id": "trk-6",
+    "conditions_3y": [
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-2-01"
+    ],
+    "primary_hypothesis_id": "hyp-2-01",
+    "condition_contributes": [
+      {
+        "to": "cond-d",
+        "weight": 0.6,
+        "description": "팀의 역량 향상에 기여"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.4,
+        "description": "기술 인프라 개선에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트가 개발 관련이므로 소상민이 적합",
+    "parent_id": "이 프로젝트는 Track 6(Revenue)에 속하므로 trk-6으로 설정",
+    "conditions_3y": "팀과 기술 인프라가 프로젝트 성공에 중요한 요소이므로 cond-d와 cond-e를 선택",
+    "validates": "가설 '스키마 최소세트가 충분'이 이 프로젝트의 검증 목표와 관련이 있어 선택",
+    "condition_contributes": "팀 역량과 기술 인프라의 기여도를 고려하여 weight를 설정"
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161405-z5s8",
+    "status": "pending",
+    "created_at": "2026-01-01T16:14:05.286230"
+  }
+}

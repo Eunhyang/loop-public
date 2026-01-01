@@ -1,0 +1,64 @@
+{
+  "run_id": "run-20260101-161358-zwsfqg",
+  "timestamp": "2026-01-01T16:14:06.145453",
+  "project_id": "prj-006",
+  "project_name": "코치 1명 구인 & 1차 온보딩 준비",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": true,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "issues": [
+    "invalid_status",
+    "missing_primary_hypothesis_id"
+  ],
+  "suggested_fields": {
+    "owner": "김은향",
+    "parent_id": "trk-4",
+    "conditions_3y": [
+      "cond-b",
+      "cond-d",
+      "cond-e"
+    ],
+    "validates": [
+      "hyp-1-07"
+    ],
+    "primary_hypothesis_id": "hyp-1-07",
+    "condition_contributes": [
+      {
+        "to": "cond-b",
+        "weight": 0.3,
+        "description": "코치 = 라벨링 인력 = 패턴 발견 엔진"
+      },
+      {
+        "to": "cond-d",
+        "weight": 0.2,
+        "description": "코칭 참여자 증가 → 매출 → 런웨이"
+      },
+      {
+        "to": "cond-e",
+        "weight": 0.5,
+        "description": "팀의 기술적 역량이 프로젝트 성공에 기여"
+      }
+    ],
+    "track_contributes": []
+  },
+  "reasoning": {
+    "owner": "프로젝트의 성격이 코칭과 관련된 전략적 요소를 포함하고 있어 김은향이 적합함.",
+    "parent_id": "프로젝트가 Coaching Track에 속하므로 trk-4가 적합함.",
+    "conditions_3y": "Revenue Model, Team, Tech/Infrastructure 조건이 프로젝트 성공에 중요한 기여를 할 것으로 판단됨.",
+    "validates": "가설 '온보딩이 이해→행동을 만든다'가 이 프로젝트의 핵심 가설로 적합함.",
+    "condition_contributes": "각 조건에 대한 기여도를 명확히 하여 프로젝트의 성공 가능성을 높이기 위해 설정함."
+  },
+  "validation": {
+    "is_valid": true,
+    "warnings": [],
+    "schema_version": "5.3"
+  },
+  "pending": {
+    "review_id": "review-20260101161406-5adu",
+    "status": "pending",
+    "created_at": "2026-01-01T16:14:06.123599"
+  }
+}
