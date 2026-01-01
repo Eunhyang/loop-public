@@ -23,17 +23,7 @@ fi
 
 log "=== Local Git Sync 시작 ==="
 
-# 1. 먼저 pull (원격 변경사항 받기)
-if git pull --rebase origin main 2>&1; then
-    log "Pull 완료"
-else
-    log "ERROR: Pull 실패 - conflict 가능성"
-    # conflict 발생 시 rebase abort하고 종료
-    git rebase --abort 2>/dev/null || true
-    exit 1
-fi
-
-# 2. 변경사항 확인 및 커밋 (pre-commit hook 스킵)
+# 1. 변경사항 확인 및 커밋 (pull 전에 먼저!)
 if [ -n "$(git status --porcelain)" ]; then
     git add -A
     CHANGED_FILES=$(git diff --cached --name-only | wc -l | tr -d ' ')
@@ -41,6 +31,16 @@ if [ -n "$(git status --porcelain)" ]; then
     log "커밋 완료: ${CHANGED_FILES} files"
 else
     log "로컬 변경사항 없음"
+fi
+
+# 2. pull --rebase (원격 변경사항 받기)
+if git pull --rebase origin main 2>&1; then
+    log "Pull 완료"
+else
+    log "ERROR: Pull 실패 - conflict 가능성"
+    # conflict 발생 시 rebase abort하고 종료
+    git rebase --abort 2>/dev/null || true
+    exit 1
 fi
 
 # 3. GitHub로 push
