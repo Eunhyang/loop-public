@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: "tsk-content-os-01"
 entity_name: "Content OS - 프로젝트 초기 세팅"
 created: 2025-12-31
-updated: 2025-12-31
-status: doing
+updated: 2026-01-01
+closed: 2026-01-01
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"

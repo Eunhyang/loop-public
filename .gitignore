@@ -39,7 +39,6 @@ poetry.lock
 
 _exec_vault
 api/oauth/keys/private.pem
-_build/git-sync.log
-_build/local-sync.log
-_build/local-sync-stdout.log
-_build/local-sync-stderr.log
+
+# Build artifacts (자동 생성 파일 - 동기화 충돌 방지)
+_build/
