@@ -10,13 +10,14 @@ NAS와 GitHub 간 Git 동기화를 수동으로 실행합니다.
 
 $ARGUMENTS
 
-(sync | pull | push | reset | logs | status | local-sync)
+(sync | pull | push | reset | logs | status | local-sync | nas-to-local)
 
 ## 명령어 설명
 
 | 명령 | 설명 |
 |------|------|
 | `local-sync` | **로컬 → GitHub → NAS 전체 동기화** (권장) |
+| `nas-to-local` | **NAS → GitHub → 로컬 동기화** |
 | `sync` | NAS만 동기화 (commit → pull → push) |
 | `pull` | GitHub → NAS pull만 |
 | `push` | NAS → GitHub push만 |
@@ -76,6 +77,35 @@ cd /volume1/LOOP_CORE/vault/LOOP
 git config --global --add safe.directory /volume1/LOOP_CORE/vault/LOOP 2>/dev/null
 git pull --rebase origin main 2>&1
 "
+
+echo ""
+echo "=== 동기화 완료 ==="
+```
+
+### nas-to-local - NAS → GitHub → 로컬 동기화
+
+NAS 변경사항을 로컬로 가져옵니다:
+1. NAS uncommitted 변경 commit + push
+2. 로컬 pull
+
+```bash
+# Step 1: NAS 변경사항 commit + push
+echo "=== Step 1: NAS 변경사항 commit + push ==="
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
+export HOME=/tmp
+cd /volume1/LOOP_CORE/vault/LOOP
+git config --global --add safe.directory /volume1/LOOP_CORE/vault/LOOP 2>/dev/null
+git add -A
+if [ -n \"\$(git status --porcelain)\" ]; then
+  git commit --no-verify -m 'nas-auto: \$(date +%Y-%m-%d\ %H:%M)'
+fi
+git push origin main 2>&1 || true
+"
+
+# Step 2: 로컬 pull
+echo ""
+echo "=== Step 2: 로컬 pull ==="
+git pull --rebase origin main
 
 echo ""
 echo "=== 동기화 완료 ==="
