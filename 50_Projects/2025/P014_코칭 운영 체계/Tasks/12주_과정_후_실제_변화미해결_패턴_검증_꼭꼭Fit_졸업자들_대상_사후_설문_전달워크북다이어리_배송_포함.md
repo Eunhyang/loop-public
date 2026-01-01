@@ -1,0 +1,33 @@
+---
+entity_type: Task
+entity_id: tsk-017-06
+entity_name: 12주 과정 후 실제 변화/미해결 패턴 검증 - 꼭꼭Fit 졸업자들 대상 사후 설문 전달(워크북/다이어리 배송 포함)
+created: '2026-01-01'
+updated: '2026-01-01'
+status: done
+project_id: prj-014
+parent_id: prj-014
+assignee: 한명학
+priority: medium
+start_date: '2026-01-01'
+due: '2026-01-01'
+aliases:
+- tsk-017-06
+tags: []
+notes: "\U0001F3AF 2. 전략적 위치 (LOOP 10-Year Vision Layer 기준)\n전략 레이어\t현재 테스크의 연결성\t\
+  중요도\nHuman Inner Loop Reading Layer\t사용자 내면 패턴 데이터를 실제 언어로 수집 (감정–섭식–습관 루프 학습용 원천데이터)\t\
+  ★★★★★\nLoopOS Validation Layer (Micro Validation Loop)\t12주 과정 후 실제 변화/미해결 패턴 검증\
+  \ → 가설의 미세 검증 단위\t★★★★★\nProduct Layer (Loop Workbook / Diary)\tLOOP의 철학을 ‘기록 행위’로\
+  \ 체화시키는 첫 물리적 UX\t★★★★☆\nBrand Relationship Layer (Emotional Bond)\t졸업생과의 연결 유지\
+  \ → ‘코칭 이후에도 LOOP와 함께’ 정체성 구축\t★★★★☆\nGrowth / Feedback Infrastructure\t서비스 개선용\
+  \ 정성데이터 확보 → NPS/Retention 기반 다음 실험 설계 가능\t★★★☆☆"
+---
+# 12주 과정 후 실제 변화/미해결 패턴 검증 - 꼭꼭Fit 졸업자들 대상 사후 설문 전달(워크북/다이어리 배송 포함)
+
+## 설명
+
+## 체크리스트
+
+- [ ]
+
+## 참고
