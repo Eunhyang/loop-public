@@ -33,7 +33,9 @@
       "Bash(sleep:*)",
       "Bash(cd:*)",
       "Bash(pnpm:*)",
-      "Bash(npm:*)"
+      "Bash(npm:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)"
     ]
   },
   "hooks": {
