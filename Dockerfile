@@ -19,10 +19,14 @@ RUN pip install --no-cache-dir \
     bcrypt \
     python-jose[cryptography] \
     jinja2 \
-    sqlalchemy
+    sqlalchemy \
+    # LLM dependencies
+    openai \
+    anthropic
 
-# API 코드 및 템플릿 복사
+# API 코드 및 설정 파일 복사
 COPY api/ ./api/
+COPY impact_model_config.yml ./
 
 # 포트 노출
 EXPOSE 8081
