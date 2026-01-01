@@ -37,7 +37,10 @@
       "Bash(python:*)",
       "Bash(python3:*)",
       "Bash(sshpass:*)",
-      "Bash(ssh:*)"
+      "Bash(ssh:*)",
+      "Bash(mkdir:*)",
+      "Edit",
+      "Write"
     ]
   },
   "hooks": {
