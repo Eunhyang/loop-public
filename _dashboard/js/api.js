@@ -311,9 +311,11 @@ const API = {
         return res.json();
     },
 
-    async rejectPendingReview(reviewId) {
+    async rejectPendingReview(reviewId, reason) {
         const res = await this.authFetch(`${this.baseUrl}/api/pending/${encodeURIComponent(reviewId)}/reject`, {
-            method: 'POST'
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reason })
         });
         return res.json();
     },

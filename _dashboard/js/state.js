@@ -190,8 +190,8 @@ const State = {
         return result;
     },
 
-    async rejectPendingReview(reviewId) {
-        const result = await API.rejectPendingReview(reviewId);
+    async rejectPendingReview(reviewId, reason) {
+        const result = await API.rejectPendingReview(reviewId, reason);
         await this.loadPendingReviews();
         return result;
     },

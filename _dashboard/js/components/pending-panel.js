@@ -11,17 +11,22 @@ const PendingPanel = {
     abortController: null, // For cancelling stale entity fetches
     isExpanded: false,
 
-    // Entity ID 패턴 매핑
+    // Entity ID 패턴 매핑 (실제 ID 형식에 맞춤)
+    // - cond-a, cond-b, ... (단일 문자)
+    // - trk-1, trk-12, ... (숫자)
+    // - hyp-1-01, hyp-2-03, ... (숫자-숫자)
+    // - prj-001, prj-yt-wegovy, prj-dashboard-ux, ... (숫자 또는 문자열)
+    // - tsk-001-01, tsk-dashboard-ux-v1-01, ... (숫자 또는 문자열)
     ENTITY_PATTERNS: {
         condition: /^cond-[a-z]$/,
         track: /^trk-\d+$/,
         hypothesis: /^hyp-\d+-\d+$/,
-        project: /^prj-\d+$/,
-        task: /^tsk-\d+-\d+$/
+        project: /^prj-[\w-]+$/,
+        task: /^tsk-[\w-]+$/
     },
 
     // Entity ID 추출 정규식 (전역 매칭용)
-    ENTITY_ID_REGEX: /\b(cond-[a-z]|trk-\d+|hyp-\d+-\d+|prj-\d+|tsk-\d+-\d+)\b/g,
+    ENTITY_ID_REGEX: /\b(cond-[a-z]|trk-\d+|hyp-\d+-\d+|prj-[\w-]+|tsk-[\w-]+)\b/g,
 
     // field_type별 색상 매핑 (대시보드 기존 색감)
     FIELD_TYPE_COLORS: {
@@ -829,25 +834,34 @@ const PendingPanel = {
             this.clearDetailPane();
             this.clearEntityPane();
             this.renderReviews('pending');
+            this.updateBadge(); // Update badge count
         } catch (e) {
             showToast('Failed to approve: ' + e.message, 'error');
         }
     },
 
     /**
-     * 리뷰 거부
+     * 리뷰 거부 (사유 필수)
      */
     async rejectReview() {
         if (!this.currentReview) return;
 
+        // Prompt for rejection reason (required by API)
+        const reason = prompt('Enter rejection reason (required):');
+        if (!reason || reason.trim() === '') {
+            showToast('Rejection reason is required', 'warning');
+            return;
+        }
+
         try {
-            await State.rejectPendingReview(this.currentReview.id);
+            await State.rejectPendingReview(this.currentReview.id, reason.trim());
             showToast('Review rejected', 'success');
             this.selectedReviewId = null;
             this.currentReview = null;
             this.clearDetailPane();
             this.clearEntityPane();
             this.renderReviews('pending');
+            this.updateBadge(); // Update badge count
         } catch (e) {
             showToast('Failed to reject: ' + e.message, 'error');
         }
@@ -870,6 +884,7 @@ const PendingPanel = {
             this.clearEntityPane();
             const activeTab = document.querySelector('.pending-tab.active');
             this.renderReviews(activeTab?.dataset.status || 'pending');
+            this.updateBadge(); // Update badge count
         } catch (e) {
             showToast('Failed to delete: ' + e.message, 'error');
         }
