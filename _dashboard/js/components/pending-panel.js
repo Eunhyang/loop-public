@@ -11,6 +11,63 @@ const PendingPanel = {
     abortController: null, // For cancelling stale entity fetches
     isExpanded: false,
 
+    // ============================================
+    // Field Selection UX (tsk-n8n-13)
+    // ============================================
+    previewingForField: null,   // Current field being previewed
+    previewingValue: null,      // Value being previewed
+    pendingFieldValues: {},     // User-modified field values before approval
+    optionsLoadGeneration: 0,   // Counter to handle async race conditions
+    loadedOptions: {},          // Cached options for fields
+
+    // Field options configuration
+    FIELD_OPTIONS: {
+        conditions_3y: {
+            type: 'multi',
+            loadOptions: async () => {
+                const conditions = await API.getConditions();
+                return conditions.map(c => ({
+                    value: c.entity_id,
+                    label: c.entity_name || c.entity_id,
+                    entity: c
+                }));
+            },
+            entityPreviewable: true
+        },
+        parent_id: {
+            type: 'single',
+            loadOptions: async () => {
+                const tracks = await API.getTracks();
+                return tracks.map(t => ({
+                    value: t.entity_id,
+                    label: t.entity_name || t.entity_id,
+                    entity: t
+                }));
+            },
+            entityPreviewable: true
+        },
+        assignee: {
+            type: 'single',
+            options: [
+                { value: 'Alice', label: 'Alice' },
+                { value: 'Bob', label: 'Bob' },
+                { value: 'Claude', label: 'Claude' },
+                { value: 'Diana', label: 'Diana' }
+            ],
+            entityPreviewable: false
+        },
+        priority: {
+            type: 'single',
+            options: [
+                { value: 'critical', label: 'Critical' },
+                { value: 'high', label: 'High' },
+                { value: 'medium', label: 'Medium' },
+                { value: 'low', label: 'Low' }
+            ],
+            entityPreviewable: false
+        }
+    },
+
     // Entity ID 패턴 매핑 (실제 ID 형식에 맞춤)
     // - cond-a, cond-b, ... (단일 문자)
     // - trk-1, trk-12, ... (숫자)
@@ -188,6 +245,315 @@ const PendingPanel = {
         const icon = btn?.querySelector('.toggle-icon');
         content.classList.toggle('collapsed');
         if (icon) icon.textContent = content.classList.contains('collapsed') ? '▶' : '▼';
+    },
+
+    // ============================================
+    // Field Options UX (tsk-n8n-13)
+    // ============================================
+
+    /**
+     * 필드 옵션 렌더링 (pill 형태)
+     * @param {string} field - 필드명
+     * @param {*} currentValue - 현재 값 (pendingFieldValues 우선, 없으면 suggestedValue)
+     * @param {*} suggestedValue - AI 제안값
+     * @param {Array} options - 옵션 목록
+     */
+    renderFieldOptions(field, currentValue, suggestedValue, options) {
+        const config = this.FIELD_OPTIONS[field];
+        if (!config || !options || options.length === 0) return '';
+
+        const isMulti = config.type === 'multi';
+        const selectedValues = isMulti
+            ? (Array.isArray(currentValue) ? currentValue : [])
+            : [currentValue];
+        const suggestedValues = isMulti
+            ? (Array.isArray(suggestedValue) ? suggestedValue : [])
+            : [suggestedValue];
+
+        let html = `<div class="field-options-container" data-field="${this.escapeHtml(field)}" data-type="${isMulti ? 'multi' : 'single'}">`;
+        html += '<div class="field-options-label">Available options:</div>';
+        html += '<div class="field-options-pills">';
+
+        options.forEach(opt => {
+            const value = opt.value;
+            const label = opt.label || value;
+            const isSelected = selectedValues.includes(value);
+            const isSuggested = suggestedValues.includes(value);
+
+            let pillClass = 'field-option-pill';
+            if (isSelected) pillClass += ' selected';
+            if (isSuggested) pillClass += ' suggested';
+            if (isMulti) pillClass += ' checkbox';
+            if (config.entityPreviewable) pillClass += ' previewable';
+
+            html += `<button class="${pillClass}"
+                data-value="${this.escapeHtml(String(value))}"
+                data-field="${this.escapeHtml(field)}"
+                title="${isSuggested ? 'AI suggested value' : ''}">`;
+
+            if (isMulti) {
+                html += `<span class="pill-checkbox">${isSelected ? '☑' : '☐'}</span>`;
+            }
+            if (isSuggested) {
+                html += '<span class="pill-star">★</span>';
+            }
+            html += `<span class="pill-label">${this.escapeHtml(label)}</span>`;
+            html += '</button>';
+        });
+
+        html += '</div></div>';
+        return html;
+    },
+
+    /**
+     * 필드 옵션 로드 및 렌더링 (async)
+     * @param {HTMLElement} container - 옵션을 추가할 컨테이너
+     * @param {string} field - 필드명
+     * @param {*} suggestedValue - AI 제안값
+     */
+    async loadAndRenderFieldOptions(container, field, suggestedValue) {
+        const config = this.FIELD_OPTIONS[field];
+        if (!config) return;
+
+        const generation = ++this.optionsLoadGeneration;
+        const targetContainer = container.querySelector(`[data-field="${field}"].field-options-container`);
+
+        // 로딩 상태 표시
+        if (targetContainer) {
+            targetContainer.innerHTML = '<div class="field-options-loading">Loading options...</div>';
+        }
+
+        try {
+            let options;
+            if (config.loadOptions) {
+                options = await config.loadOptions();
+            } else {
+                options = config.options || [];
+            }
+
+            // Race condition 방지: 이 로드가 최신인지 확인
+            if (generation !== this.optionsLoadGeneration) return;
+
+            // 캐시에 저장
+            this.loadedOptions[field] = options;
+
+            // 현재 값 결정 (pendingFieldValues 우선)
+            const currentValue = this.pendingFieldValues.hasOwnProperty(field)
+                ? this.pendingFieldValues[field]
+                : suggestedValue;
+
+            // 렌더링
+            if (targetContainer) {
+                targetContainer.outerHTML = this.renderFieldOptions(field, currentValue, suggestedValue, options);
+                // 클릭 핸들러 재설정
+                this.setupOptionClickHandlers(container);
+            }
+        } catch (error) {
+            console.error(`Failed to load options for ${field}:`, error);
+            if (generation === this.optionsLoadGeneration && targetContainer) {
+                targetContainer.innerHTML = '<div class="field-options-error">Failed to load options</div>';
+            }
+        }
+    },
+
+    /**
+     * 옵션 클릭 핸들러 설정 (이벤트 위임 사용 - Codex fix)
+     * @param {HTMLElement} container - 이벤트를 설정할 컨테이너
+     */
+    setupOptionClickHandlers(container) {
+        // 이벤트 위임으로 한 번만 설정 (성능 및 접근성 개선)
+        // 이미 핸들러가 설정되어 있으면 스킵
+        if (container.dataset.optionHandlersAttached) return;
+        container.dataset.optionHandlersAttached = 'true';
+
+        container.addEventListener('click', (e) => {
+            const pill = e.target.closest('.field-option-pill');
+            if (!pill) return;
+
+            e.preventDefault();
+            const field = pill.dataset.field;
+            const value = pill.dataset.value;
+            const config = this.FIELD_OPTIONS[field];
+            if (!config) return;
+
+            if (config.type === 'multi') {
+                this.toggleFieldValue(field, value);
+            } else {
+                this.setFieldValue(field, value);
+            }
+
+            // Entity preview 표시 (previewable인 경우)
+            if (config.entityPreviewable) {
+                this.previewingForField = field;
+                this.previewingValue = value;
+                this.loadEntityPreview(value);
+            }
+        });
+    },
+
+    /**
+     * 다중 선택 필드값 토글
+     * @param {string} field - 필드명
+     * @param {string} value - 토글할 값
+     */
+    toggleFieldValue(field, value) {
+        if (!this.pendingFieldValues[field]) {
+            // 현재 textarea/input의 실제 값으로 초기화 (Codex fix: suggested 대신 current 사용)
+            const textarea = document.querySelector(`.review-field-textarea[data-field="${field}"]`);
+            if (textarea) {
+                try {
+                    const parsed = JSON.parse(textarea.value);
+                    this.pendingFieldValues[field] = Array.isArray(parsed) ? [...parsed] : [];
+                } catch (e) {
+                    // 파싱 실패 시 빈 배열로 시작
+                    this.pendingFieldValues[field] = [];
+                }
+            } else {
+                this.pendingFieldValues[field] = [];
+            }
+        }
+
+        const arr = this.pendingFieldValues[field];
+        const index = arr.indexOf(value);
+        if (index >= 0) {
+            arr.splice(index, 1);
+        } else {
+            arr.push(value);
+        }
+
+        // UI 업데이트
+        this.updateOptionPills(field);
+        this.syncInputWithPendingValue(field);
+    },
+
+    /**
+     * 단일 선택 필드값 설정
+     * @param {string} field - 필드명
+     * @param {string} value - 설정할 값
+     */
+    setFieldValue(field, value) {
+        this.pendingFieldValues[field] = value;
+
+        // UI 업데이트
+        this.updateOptionPills(field);
+        this.syncInputWithPendingValue(field);
+    },
+
+    /**
+     * 옵션 pill UI 업데이트
+     * @param {string} field - 필드명
+     */
+    updateOptionPills(field) {
+        const config = this.FIELD_OPTIONS[field];
+        if (!config) return;
+
+        const container = document.querySelector(`.field-options-container[data-field="${field}"]`);
+        if (!container) return;
+
+        const isMulti = config.type === 'multi';
+        const currentValue = this.pendingFieldValues[field];
+        const selectedValues = isMulti
+            ? (Array.isArray(currentValue) ? currentValue : [])
+            : [currentValue];
+        const suggestedValue = this.currentReview?.suggested_fields?.[field];
+        const suggestedValues = isMulti
+            ? (Array.isArray(suggestedValue) ? suggestedValue : [])
+            : [suggestedValue];
+
+        container.querySelectorAll('.field-option-pill').forEach(pill => {
+            const value = pill.dataset.value;
+            const isSelected = selectedValues.includes(value);
+            const isSuggested = suggestedValues.includes(value);
+
+            pill.classList.toggle('selected', isSelected);
+            pill.classList.toggle('suggested', isSuggested);
+
+            // 체크박스 아이콘 업데이트
+            const checkbox = pill.querySelector('.pill-checkbox');
+            if (checkbox) {
+                checkbox.textContent = isSelected ? '☑' : '☐';
+            }
+        });
+    },
+
+    /**
+     * 입력 필드와 pendingFieldValues 동기화
+     * @param {string} field - 필드명
+     */
+    syncInputWithPendingValue(field) {
+        const value = this.pendingFieldValues[field];
+        const config = this.FIELD_OPTIONS[field];
+
+        // input 또는 textarea 찾기
+        const input = document.querySelector(`.review-field-input[data-field="${field}"]`);
+        const textarea = document.querySelector(`.review-field-textarea[data-field="${field}"]`);
+
+        if (input) {
+            input.value = String(value ?? '');
+        } else if (textarea) {
+            textarea.value = JSON.stringify(value, null, 2);
+        }
+
+        // 배열 값인 경우 display 영역도 업데이트
+        if (config?.type === 'multi' && Array.isArray(value)) {
+            const displayArea = document.querySelector(`.review-field-item[data-field="${field}"] .field-value-display`);
+            if (displayArea) {
+                displayArea.innerHTML = this.formatArrayValue(value);
+            }
+        }
+    },
+
+    /**
+     * 미리보기 값 적용 (Use this value 버튼 클릭 시)
+     * Note: previewingValue is the entity ID string (e.g., "cond-a", "trk-1")
+     * not the full entity object (Codex fix)
+     */
+    applyPreviewedValue() {
+        if (!this.previewingForField || !this.previewingValue) return;
+
+        const field = this.previewingForField;
+        // previewingValue는 이미 entity ID 문자열임 (setupOptionClickHandlers에서 설정)
+        const value = this.previewingValue;
+        const config = this.FIELD_OPTIONS[field];
+
+        if (config?.type === 'multi') {
+            // 다중 선택: 이미 있으면 무시, 없으면 추가
+            if (!this.pendingFieldValues[field]) {
+                // 현재 textarea에서 값 가져오기 (Codex fix)
+                const textarea = document.querySelector(`.review-field-textarea[data-field="${field}"]`);
+                if (textarea) {
+                    try {
+                        const parsed = JSON.parse(textarea.value);
+                        this.pendingFieldValues[field] = Array.isArray(parsed) ? [...parsed] : [];
+                    } catch (e) {
+                        this.pendingFieldValues[field] = [];
+                    }
+                } else {
+                    this.pendingFieldValues[field] = [];
+                }
+            }
+            if (!this.pendingFieldValues[field].includes(value)) {
+                this.pendingFieldValues[field].push(value);
+            }
+        } else {
+            this.pendingFieldValues[field] = value;
+        }
+
+        // UI 업데이트
+        this.updateOptionPills(field);
+        this.syncInputWithPendingValue(field);
+
+        // 미리보기 상태 초기화
+        this.previewingForField = null;
+        this.previewingValue = null;
+
+        // Entity Preview footer 제거
+        const footer = document.querySelector('.entity-preview-footer');
+        if (footer) {
+            footer.remove();
+        }
+
+        showToast('Value applied', 'success');
     },
 
     /**
@@ -489,6 +855,16 @@ const PendingPanel = {
         // Clear entity pane when selecting new review
         this.clearEntityPane();
 
+        // Clear pending field values when switching reviews (tsk-n8n-13)
+        this.pendingFieldValues = {};
+        this.previewingForField = null;
+        this.previewingValue = null;
+        this.loadedOptions = {}; // Clear options cache (Codex fix: scope to review)
+        this.optionsLoadGeneration++; // Cancel any pending option loads
+
+        // Check which fields have options
+        const fieldsWithOptions = Object.keys(this.FIELD_OPTIONS);
+
         container.innerHTML = `
             <div class="detail-pane-header">
                 <h3>${this.escapeHtml(review.entity_type)}: ${this.escapeHtml(review.entity_name)}</h3>
@@ -516,9 +892,25 @@ const PendingPanel = {
                         const isComplex = typeof value === 'object' && value !== null;
                         const fieldColor = this.getFieldTypeColor(field);
                         const formattedValue = this.formatFieldValueWithLinks(field, value);
+                        const hasOptions = fieldsWithOptions.includes(field);
+                        const config = this.FIELD_OPTIONS[field];
+
+                        // 정적 옵션이 있는 경우 즉시 렌더링, 동적 옵션은 placeholder
+                        let optionsHtml = '';
+                        if (hasOptions) {
+                            if (config.options) {
+                                // 정적 옵션 즉시 렌더링
+                                optionsHtml = this.renderFieldOptions(field, value, value, config.options);
+                            } else {
+                                // 동적 옵션 로드용 placeholder
+                                optionsHtml = `<div class="field-options-container" data-field="${this.escapeHtml(field)}">
+                                    <div class="field-options-loading">Loading options...</div>
+                                </div>`;
+                            }
+                        }
 
                         return `
-                        <div class="review-field-item" style="border-left: 3px solid ${fieldColor}">
+                        <div class="review-field-item" data-field="${this.escapeHtml(field)}" style="border-left: 3px solid ${fieldColor}">
                             <div class="review-field-header">
                                 <span class="field-name">${this.escapeHtml(field)}</span>
                                 ${isComplex ? '<span class="field-type-badge">Object</span>' : ''}
@@ -537,6 +929,7 @@ const PendingPanel = {
                                            value="${this.escapeHtml(String(value))}" />
                                 `}
                             </div>
+                            ${optionsHtml}
                             ${this.renderReasoning(review.id, field, review.reasoning?.[field])}
                         </div>
                         `;
@@ -563,6 +956,17 @@ const PendingPanel = {
 
         // Setup entity ID click handlers
         this.setupEntityIdClickHandlers(container);
+
+        // Setup option click handlers for static options
+        this.setupOptionClickHandlers(container);
+
+        // Load dynamic options asynchronously (tsk-n8n-13)
+        Object.entries(review.suggested_fields || {}).forEach(([field, value]) => {
+            const config = this.FIELD_OPTIONS[field];
+            if (config && config.loadOptions) {
+                this.loadAndRenderFieldOptions(container, field, value);
+            }
+        });
     },
 
     /**
@@ -718,6 +1122,19 @@ const PendingPanel = {
                 bodyContent = this.renderGenericPreview(entity);
         }
 
+        // 필드 선택을 위한 미리보기인 경우 footer 추가 (tsk-n8n-13)
+        const showUseValueButton = this.previewingForField && this.previewingValue;
+        const footerHtml = showUseValueButton ? `
+            <div class="entity-preview-footer">
+                <div class="preview-for-field">
+                    Previewing for: <strong>${this.escapeHtml(this.previewingForField)}</strong>
+                </div>
+                <button class="btn btn-primary btn-use-value" id="btnUseThisValue">
+                    Use this value
+                </button>
+            </div>
+        ` : '';
+
         container.innerHTML = `
             <div class="entity-preview-header" style="border-left: 4px solid ${color}">
                 <span class="entity-type-badge ${entityType}">${this.escapeHtml(entityType.toUpperCase())}</span>
@@ -727,10 +1144,18 @@ const PendingPanel = {
             <div class="entity-preview-body">
                 ${bodyContent}
             </div>
+            ${footerHtml}
         `;
 
         // Setup entity ID click handlers for nested entities
         this.setupEntityIdClickHandlers(container);
+
+        // Setup "Use this value" button handler (tsk-n8n-13)
+        if (showUseValueButton) {
+            document.getElementById('btnUseThisValue')?.addEventListener('click', () => {
+                this.applyPreviewedValue();
+            });
+        }
     },
 
     /**
@@ -1188,11 +1613,21 @@ const PendingPanel = {
             }
         });
 
+        // pendingFieldValues 병합 (옵션 pill로 선택된 값 우선) (tsk-n8n-13)
+        // pendingFieldValues가 있는 필드는 input/textarea 값보다 우선함
+        Object.keys(this.pendingFieldValues).forEach(field => {
+            modifiedFields[field] = this.pendingFieldValues[field];
+        });
+
         try {
             await State.approvePendingReview(this.currentReview.id, modifiedFields);
             showToast('Review approved', 'success');
             this.selectedReviewId = null;
             this.currentReview = null;
+            // Reset pending field values (tsk-n8n-13)
+            this.pendingFieldValues = {};
+            this.previewingForField = null;
+            this.previewingValue = null;
             this.clearDetailPane();
             this.clearEntityPane();
             this.renderReviews('pending');

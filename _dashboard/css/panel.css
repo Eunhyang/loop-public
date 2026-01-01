@@ -2405,3 +2405,211 @@
         flex: 1;
     }
 }
+
+/* ============================================
+   Field Options UX (tsk-n8n-13)
+   ============================================ */
+
+/* Field Options Container */
+.field-options-container {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.field-options-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.field-options-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Option Pill Base */
+.field-option-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.field-option-pill:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.field-option-pill:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Selected State (Blue) */
+.field-option-pill.selected {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #ffffff;
+}
+
+.field-option-pill.selected:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+/* Suggested State (Yellow + Star) */
+.field-option-pill.suggested {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    color: #92400e;
+}
+
+.field-option-pill.suggested:hover {
+    background: #fde68a;
+    border-color: #d97706;
+}
+
+/* Both Selected and Suggested */
+.field-option-pill.selected.suggested {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #3b82f6;
+    color: #ffffff;
+}
+
+/* Pill Star Icon (for suggested values) */
+.pill-star {
+    color: #f59e0b;
+    font-size: 12px;
+}
+
+.field-option-pill.selected .pill-star {
+    color: #fbbf24;
+}
+
+/* Pill Checkbox (for multi-select) */
+.pill-checkbox {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.field-option-pill.checkbox {
+    padding-left: 8px;
+}
+
+/* Pill Label */
+.pill-label {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 12px;
+}
+
+/* Previewable Indicator */
+.field-option-pill.previewable::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    margin-left: 4px;
+    opacity: 0.6;
+}
+
+.field-option-pill.previewable:hover::after {
+    opacity: 1;
+}
+
+/* Loading State */
+.field-options-loading {
+    color: #6b7280;
+    font-size: 13px;
+    font-style: italic;
+    padding: 8px 0;
+}
+
+/* Error State */
+.field-options-error {
+    color: #dc2626;
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+/* ============================================
+   Entity Preview Footer (tsk-n8n-13)
+   ============================================ */
+
+.entity-preview-footer {
+    padding: 16px 20px;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.preview-for-field {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.preview-for-field strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.btn-use-value {
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-use-value:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-use-value:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* ============================================
+   Responsive adjustments for Field Options
+   ============================================ */
+@media (max-width: 900px) {
+    .field-options-pills {
+        gap: 6px;
+    }
+
+    .field-option-pill {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .pill-label {
+        font-size: 11px;
+    }
+}
