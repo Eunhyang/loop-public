@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, HTTPException
 
-from ..models.entities import TaskCreate, TaskUpdate, TaskResponse
+from ..models.entities import TaskCreate, TaskUpdate, TaskResponse, ValidationResult
 from ..cache import get_cache
 from ..utils.vault_utils import (
     load_members,
@@ -20,6 +20,7 @@ from ..utils.vault_utils import (
     get_vault_dir
 )
 from .audit import log_entity_action
+from .ai import _validate_task_schema_internal
 
 router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 
@@ -85,8 +86,8 @@ def get_task(task_id: str):
 
 
 @router.post("", response_model=TaskResponse)
-def create_task(task: TaskCreate):
-    """Task 생성"""
+async def create_task(task: TaskCreate):
+    """Task 생성 (auto_validate=True 시 자동 스키마 검증)"""
     cache = get_cache()
 
     # 1. Validation
@@ -183,15 +184,33 @@ def create_task(task: TaskCreate):
         details={
             "project_id": task.project_id,
             "assignee": task.assignee,
-            "status": task.status
+            "status": task.status,
+            "auto_validate": task.auto_validate
         }
     )
+
+    # 9. Auto-validate (optional)
+    validation_result = None
+    if task.auto_validate:
+        val_result = await _validate_task_schema_internal(
+            task_id=task_id,
+            frontmatter=frontmatter,
+            provider="openai"
+        )
+        validation_result = ValidationResult(
+            validated=val_result.get("validated", True),
+            issues_found=val_result.get("issues_found", 0),
+            pending_created=val_result.get("pending_created", False),
+            pending_id=val_result.get("pending_id"),
+            run_id=val_result.get("run_id")
+        )
 
     return TaskResponse(
         success=True,
         task_id=task_id,
         file_path=str(task_file.relative_to(VAULT_DIR)),
-        message="Task created successfully"
+        message="Task created successfully",
+        validation=validation_result
     )
 
 

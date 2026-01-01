@@ -14,7 +14,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 from fastapi import APIRouter, HTTPException
 
-from ..models.entities import ProjectCreate, ProjectUpdate, ProjectResponse
+from ..models.entities import ProjectCreate, ProjectUpdate, ProjectResponse, ValidationResult
 from ..cache import get_cache
 from ..utils.vault_utils import (
     sanitize_filename,
@@ -24,6 +24,7 @@ from ..utils.impact_calculator import calculate_expected_score, validate_contrib
 from ..services.llm_service import get_llm_service
 from ..prompts.expected_impact import EXPECTED_IMPACT_SYSTEM_PROMPT, build_simple_expected_impact_prompt
 from .audit import log_entity_action
+from .ai import _validate_project_schema_internal
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
 
@@ -55,11 +56,12 @@ def get_project(project_id: str):
 @router.post("", response_model=ProjectResponse)
 async def create_project(project: ProjectCreate):
     """
-    Project 생성
+    Project 생성 (auto_validate=True 시 자동 스키마 검증)
 
     옵션:
         autofill_expected_impact=True: LLM으로 Expected Impact 자동 채움
         expected_impact: 수동 Expected Impact 설정
+        auto_validate=True: 생성 후 스키마 검증 자동 실행
     """
     # 0. entity_name 형식 검증 (주제 - 내용)
     if " - " not in project.entity_name:
@@ -171,9 +173,26 @@ async def create_project(project: ProjectCreate):
         details={
             "autofill_expected_impact": project.autofill_expected_impact,
             "expected_impact": expected_impact_result,
-            "expected_score": expected_score
+            "expected_score": expected_score,
+            "auto_validate": project.auto_validate
         }
     )
+
+    # 9. Auto-validate (optional)
+    validation_result = None
+    if project.auto_validate:
+        val_result = await _validate_project_schema_internal(
+            project_id=project_id,
+            frontmatter=frontmatter,
+            provider=project.llm_provider
+        )
+        validation_result = ValidationResult(
+            validated=val_result.get("validated", True),
+            issues_found=val_result.get("issues_found", 0),
+            pending_created=val_result.get("pending_created", False),
+            pending_id=val_result.get("pending_id"),
+            run_id=val_result.get("run_id")
+        )
 
     return ProjectResponse(
         success=True,
@@ -181,7 +200,8 @@ async def create_project(project: ProjectCreate):
         directory=dir_name,
         message="Project created successfully",
         expected_impact=expected_impact_result,
-        expected_score=round(expected_score, 2) if expected_score else None
+        expected_score=round(expected_score, 2) if expected_score else None,
+        validation=validation_result
     )
 
 

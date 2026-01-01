@@ -324,6 +324,279 @@ def create_pending_review(
 
 
 # ============================================
+# Internal Validation Functions (for auto_validate)
+# ============================================
+
+async def _validate_task_schema_internal(
+    task_id: str,
+    frontmatter: Dict[str, Any],
+    provider: str = "openai"
+) -> Dict[str, Any]:
+    """
+    Task 스키마 내부 검증 (HTTP 오버헤드 없음)
+
+    생성된 Task의 필드를 검사하고 누락된 경우 LLM으로 채움.
+    create_task()에서 auto_validate=True일 때 호출됨.
+
+    Returns:
+        {
+            "validated": True,
+            "issues_found": 2,
+            "pending_created": True,
+            "pending_id": "rev-xxx",
+            "run_id": "run-xxx"
+        }
+    """
+    run_id = generate_run_id()
+
+    # 1. 필수 필드 누락 검사
+    issues = []
+    if not frontmatter.get("conditions_3y"):
+        issues.append("missing_conditions_3y")
+    if not frontmatter.get("due"):
+        issues.append("missing_due")
+    if not frontmatter.get("assignee"):
+        issues.append("missing_assignee")
+
+    # 누락된 필드 없으면 검증 완료
+    if not issues:
+        return {
+            "validated": True,
+            "issues_found": 0,
+            "pending_created": False,
+            "pending_id": None,
+            "run_id": run_id
+        }
+
+    # 2. LLM 호출
+    prompt = build_simple_task_schema_prompt(
+        task_name=frontmatter.get("entity_name", ""),
+        project_id=frontmatter.get("project_id", ""),
+        issues=issues
+    )
+
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=TASK_SCHEMA_SYSTEM_PROMPT,
+        provider=provider,
+        response_format="json",
+        entity_context={
+            "entity_id": task_id,
+            "entity_type": "Task",
+            "action": "auto_validate_task"
+        }
+    )
+
+    if not result["success"]:
+        save_ai_audit_log(run_id, {
+            "task_id": task_id,
+            "mode": "auto_validate",
+            "actor": "api",
+            "endpoint": "_validate_task_schema_internal",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+        return {
+            "validated": True,
+            "issues_found": len(issues),
+            "pending_created": False,
+            "pending_id": None,
+            "run_id": run_id,
+            "error": result.get("error")
+        }
+
+    content = result["content"]
+    suggested_fields = content.get("suggested_fields", {})
+    reasoning = content.get("reasoning", {})
+
+    # validates 필드 제거 (금지 규칙)
+    if "validates" in suggested_fields:
+        del suggested_fields["validates"]
+
+    # 3. Pending review 생성
+    if suggested_fields:
+        pending_review = create_pending_review(
+            entity_id=task_id,
+            entity_type="Task",
+            entity_name=frontmatter.get("entity_name", ""),
+            suggested_fields=suggested_fields,
+            reasoning=reasoning,
+            run_id=run_id,
+            actor="api"
+        )
+        pending_id = pending_review["id"]
+        pending_created = True
+    else:
+        pending_id = None
+        pending_created = False
+
+    # 4. Audit 로그
+    save_ai_audit_log(run_id, {
+        "task_id": task_id,
+        "task_name": frontmatter.get("entity_name"),
+        "mode": "auto_validate",
+        "actor": "api",
+        "endpoint": "_validate_task_schema_internal",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "issues": issues,
+        "suggested_fields": suggested_fields,
+        "pending": {"review_id": pending_id} if pending_id else None
+    })
+
+    return {
+        "validated": True,
+        "issues_found": len(issues),
+        "pending_created": pending_created,
+        "pending_id": pending_id,
+        "run_id": run_id
+    }
+
+
+async def _validate_project_schema_internal(
+    project_id: str,
+    frontmatter: Dict[str, Any],
+    provider: str = "openai"
+) -> Dict[str, Any]:
+    """
+    Project 스키마 내부 검증 (HTTP 오버헤드 없음)
+
+    생성된 Project의 필드를 검사하고 누락된 경우 LLM으로 채움.
+    create_project()에서 auto_validate=True일 때 호출됨.
+
+    Returns:
+        {
+            "validated": True,
+            "issues_found": 2,
+            "pending_created": True,
+            "pending_id": "rev-xxx",
+            "run_id": "run-xxx"
+        }
+    """
+    run_id = generate_run_id()
+
+    # 1. 필수 필드 누락 검사
+    issues = []
+    if not frontmatter.get("conditions_3y"):
+        issues.append("missing_conditions_3y")
+    if not frontmatter.get("owner"):
+        issues.append("missing_owner")
+    if not frontmatter.get("parent_id"):
+        issues.append("missing_parent_id")
+    if not frontmatter.get("validates"):
+        issues.append("missing_validates")
+
+    # 누락된 필드 없으면 검증 완료
+    if not issues:
+        return {
+            "validated": True,
+            "issues_found": 0,
+            "pending_created": False,
+            "pending_id": None,
+            "run_id": run_id
+        }
+
+    # 2. LLM 호출
+    prompt = build_simple_project_schema_prompt(
+        project_name=frontmatter.get("entity_name", ""),
+        issues=issues
+    )
+
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=PROJECT_SCHEMA_SYSTEM_PROMPT,
+        provider=provider,
+        response_format="json",
+        entity_context={
+            "entity_id": project_id,
+            "entity_type": "Project",
+            "action": "auto_validate_project"
+        }
+    )
+
+    if not result["success"]:
+        save_ai_audit_log(run_id, {
+            "project_id": project_id,
+            "mode": "auto_validate",
+            "actor": "api",
+            "endpoint": "_validate_project_schema_internal",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+        return {
+            "validated": True,
+            "issues_found": len(issues),
+            "pending_created": False,
+            "pending_id": None,
+            "run_id": run_id,
+            "error": result.get("error")
+        }
+
+    content = result["content"]
+    suggested_fields = content.get("suggested_fields", {})
+    reasoning = content.get("reasoning", {})
+
+    # derived 필드 제거 (금지 규칙)
+    derived_forbidden = ["validated_by", "realized_sum"]
+    for field in derived_forbidden:
+        if field in suggested_fields:
+            del suggested_fields[field]
+
+    # Impact 필드 제거 (별도 엔드포인트 사용)
+    impact_fields = ["expected_impact", "realized_impact"]
+    for field in impact_fields:
+        if field in suggested_fields:
+            del suggested_fields[field]
+
+    # 3. Pending review 생성
+    if suggested_fields:
+        pending_review = create_pending_review(
+            entity_id=project_id,
+            entity_type="Project",
+            entity_name=frontmatter.get("entity_name", ""),
+            suggested_fields=suggested_fields,
+            reasoning=reasoning,
+            run_id=run_id,
+            actor="api"
+        )
+        pending_id = pending_review["id"]
+        pending_created = True
+    else:
+        pending_id = None
+        pending_created = False
+
+    # 4. Audit 로그
+    save_ai_audit_log(run_id, {
+        "project_id": project_id,
+        "project_name": frontmatter.get("entity_name"),
+        "mode": "auto_validate",
+        "actor": "api",
+        "endpoint": "_validate_project_schema_internal",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "issues": issues,
+        "suggested_fields": suggested_fields,
+        "pending": {"review_id": pending_id} if pending_id else None
+    })
+
+    return {
+        "validated": True,
+        "issues_found": len(issues),
+        "pending_created": pending_created,
+        "pending_id": pending_id,
+        "run_id": run_id
+    }
+
+
+# ============================================
 # API Endpoints
 # ============================================
 
