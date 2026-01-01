@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Version 8.4** | Last updated: 2025-12-29
+> **Version 8.5** | Last updated: 2026-01-01
 > Schema v5.3 | Impact Model v1.3.0
 
 ---
@@ -316,6 +316,43 @@ git add -A && git commit -m "메시지" && git push
 - 로그: `tail -50 _build/git-sync.log`
 - 스킬: `nas-git-status` 스킬 사용
 
+### Local Git Auto-Sync (15분마다, 7분 오프셋)
+
+로컬 Mac에서 launchd로 자동 실행되어 GitHub와 동기화합니다.
+
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `scripts/local-git-sync.sh` |
+| launchd 설정 | `~/Library/LaunchAgents/com.loop.git-sync.plist` |
+| 실행 주기 | 15분마다 (7분, 22분, 37분, 52분) |
+| 로그 | `_build/local-sync.log` |
+
+**동작 순서:**
+1. `git add -A && git commit` - 로컬 변경사항 커밋
+2. `git pull --rebase origin main` - GitHub에서 pull
+3. `git push origin main` - GitHub로 push
+
+**NAS와 시간 오프셋 (충돌 방지):**
+```
+NAS:  0분 → 15분 → 30분 → 45분
+로컬: 7분 → 22분 → 37분 → 52분
+```
+
+**관리 명령어:**
+```bash
+# 상태 확인
+launchctl list | grep loop
+
+# 중지
+launchctl unload ~/Library/LaunchAgents/com.loop.git-sync.plist
+
+# 시작
+launchctl load ~/Library/LaunchAgents/com.loop.git-sync.plist
+
+# 로그 확인
+tail -20 _build/local-sync.log
+```
+
 ### Git on Network Mount
 SMB mount causes git lock errors:
 - Use `/safe-commit` for SSH commit to NAS
@@ -324,9 +361,20 @@ SMB mount causes git lock errors:
 
 ### Data Flow
 ```
-로컬 작업 → git push → GitHub ←→ NAS (15분 cron) → API cache → Dashboard
-                                    ↓
-팀원 Obsidian 편집 → 자동 commit/push
+┌─────────────┐         ┌──────────┐         ┌─────────────┐
+│   로컬      │         │  GitHub  │         │    NAS      │
+│ launchd 7분 │         │  (hub)   │         │  cron 0분   │
+└──────┬──────┘         └────┬─────┘         └──────┬──────┘
+       │                     │                      │
+       │ ◄── pull ───────────┤◄───── push ─────────┤ (0분)
+       │ ─── push ──────────►│                      │ (7분)
+       │                     │────── pull ─────────►│ (15분)
+       │ ◄── pull ───────────┤◄───── push ─────────┤ (15분)
+       │ ─── push ──────────►│                      │ (22분)
+       ...                   ...                    ...
+
+→ 양방향 자동 동기화 (수동 push 불필요)
+→ API cache → Dashboard 자동 갱신
 ```
 
 ---
@@ -364,6 +412,8 @@ This vault manages **specifications only**. Real code repositories:
 | `archive_task.py` | Move completed Tasks to `90_Archive/` |
 | `build_archive_catalog.py` | Generate `90_Archive/00_Catalog/catalog.jsonl` |
 | `backfill_conditions_3y.py` | Backfill conditions_3y field from parent hierarchy |
+| `local-git-sync.sh` | Local auto-sync via launchd (15min, 7min offset) |
+| `nas-git-sync.sh` | NAS auto-sync via cron (15min) |
 | `migrate_*.py` | One-time migration scripts (check before running) |
 
 ---
