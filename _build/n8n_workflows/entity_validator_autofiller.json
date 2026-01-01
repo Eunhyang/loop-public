@@ -6,7 +6,10 @@
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.1,
-      "position": [100, 500],
+      "position": [
+        100,
+        500
+      ],
       "parameters": {
         "rule": {
           "interval": [
@@ -38,7 +41,10 @@
       "name": "Get Strategy Context",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [300, 500],
+      "position": [
+        300,
+        500
+      ],
       "notes": "한 번의 API 호출로 전체 전략 계층 (NorthStar, MH, Conditions, Tracks, Hypotheses) 조회"
     },
     {
@@ -49,7 +55,10 @@
       "name": "Build Strategy Context",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [500, 500]
+      "position": [
+        500,
+        500
+      ]
     },
     {
       "parameters": {
@@ -71,7 +80,10 @@
       "name": "Get Tasks",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [700, 300]
+      "position": [
+        700,
+        300
+      ]
     },
     {
       "parameters": {
@@ -81,7 +93,10 @@
       "name": "Validate Tasks",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [900, 300]
+      "position": [
+        900,
+        300
+      ]
     },
     {
       "parameters": {
@@ -98,7 +113,10 @@
       "name": "Tasks Need LLM?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [1100, 300]
+      "position": [
+        1100,
+        300
+      ]
     },
     {
       "parameters": {
@@ -134,7 +152,10 @@
       "name": "Call AI Router (Task Schema)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1300, 200],
+      "position": [
+        1300,
+        200
+      ],
       "notes": "v5: AI Router 통합 - pending 자동 생성, audit 로그 통합"
     },
     {
@@ -145,7 +166,10 @@
       "name": "Parse Tasks Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1500, 200],
+      "position": [
+        1500,
+        200
+      ],
       "notes": "v5: AI Router 응답 파싱 (pending 이미 생성됨)"
     },
     {
@@ -168,7 +192,10 @@
       "name": "Get Projects",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [700, 700]
+      "position": [
+        700,
+        700
+      ]
     },
     {
       "parameters": {
@@ -178,7 +205,10 @@
       "name": "Validate Projects",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [900, 700]
+      "position": [
+        900,
+        700
+      ]
     },
     {
       "parameters": {
@@ -195,7 +225,10 @@
       "name": "Projects Need LLM?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [1100, 700]
+      "position": [
+        1100,
+        700
+      ]
     },
     {
       "parameters": {
@@ -231,7 +264,10 @@
       "name": "Call AI Router (Project Schema)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1300, 600],
+      "position": [
+        1300,
+        600
+      ],
       "notes": "v5: AI Router 통합 - pending 자동 생성, audit 로그 통합"
     },
     {
@@ -242,7 +278,10 @@
       "name": "Parse Projects Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1500, 600],
+      "position": [
+        1500,
+        600
+      ],
       "notes": "v5: AI Router 응답 파싱 (pending 이미 생성됨)"
     },
     {
@@ -253,7 +292,10 @@
       "name": "Filter Impact Needed",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [900, 1000],
+      "position": [
+        900,
+        1000
+      ],
       "notes": "v4.1: run_id 생성 + meta_* 키 추가 (HTTP includeInputData 지원)"
     },
     {
@@ -271,18 +313,26 @@
       "name": "Impact Need LLM?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [1050, 1000]
+      "position": [
+        1050,
+        1000
+      ]
     },
     {
       "parameters": {
-        "jsCode": "// Route to correct ai router endpoint based on phase\n// v4: Split into Expected vs Realized branches\n\nconst items = $input.all();\nconst expectedItems = [];\nconst realizedItems = [];\n\nfor (const item of items) {\n  if (item.json.phase === 'expected_impact') {\n    expectedItems.push(item);\n  } else if (item.json.phase === 'realized_impact') {\n    realizedItems.push(item);\n  }\n}\n\n// Output 0: Expected Impact items\n// Output 1: Realized Impact items\nreturn [expectedItems, realizedItems];"
+        "jsCode": "// Route to correct ai router endpoint based on phase\n// v4: Split into Expected vs Realized branches\n\nconst items = $input.all();\nconst expectedItems = [];\nconst realizedItems = [];\n\nfor (const item of items) {\n  if (item.json.phase === 'expected_impact') {\n    expectedItems.push(item);\n  } else if (item.json.phase === 'realized_impact') {\n    realizedItems.push(item);\n  }\n}\n\n// Output 0: Expected Impact items\n// Output 1: Realized Impact items\nreturn [expectedItems, realizedItems];",
+        "mode": "runOnceForAllItems",
+        "numberOfOutputs": 2
       },
       "id": "route-by-phase",
       "name": "Route by Phase",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1200, 1000],
-      "notes": "v4: phase에 따라 Expected/Realized 분기"
+      "position": [
+        1200,
+        1000
+      ],
+      "notes": "v4.1: mode=runOnceForAllItems, numberOfOutputs=2 추가"
     },
     {
       "parameters": {
@@ -318,7 +368,10 @@
       "name": "Call AI Router (Expected)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1400, 900],
+      "position": [
+        1400,
+        900
+      ],
       "notes": "v4: /api/ai/infer/project_impact - Expected Impact (A Score)"
     },
     {
@@ -355,7 +408,10 @@
       "name": "Call AI Router (Evidence)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1400, 1100],
+      "position": [
+        1400,
+        1100
+      ],
       "notes": "v4: /api/ai/infer/evidence - Realized Impact (B Score)"
     },
     {
@@ -366,7 +422,10 @@
       "name": "Parse Impact Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1600, 1000],
+      "position": [
+        1600,
+        1000
+      ],
       "notes": "v4.1: meta_* 기반 파싱 (includeInputData 활용)"
     }
   ],
@@ -374,43 +433,71 @@
     "Schedule Trigger": {
       "main": [
         [
-          { "node": "Get Strategy Context", "type": "main", "index": 0 }
+          {
+            "node": "Get Strategy Context",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Get Strategy Context": {
       "main": [
         [
-          { "node": "Build Strategy Context", "type": "main", "index": 0 }
+          {
+            "node": "Build Strategy Context",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Build Strategy Context": {
       "main": [
         [
-          { "node": "Get Tasks", "type": "main", "index": 0 },
-          { "node": "Get Projects", "type": "main", "index": 0 }
+          {
+            "node": "Get Tasks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Projects",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Get Tasks": {
       "main": [
         [
-          { "node": "Validate Tasks", "type": "main", "index": 0 }
+          {
+            "node": "Validate Tasks",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Validate Tasks": {
       "main": [
         [
-          { "node": "Tasks Need LLM?", "type": "main", "index": 0 }
+          {
+            "node": "Tasks Need LLM?",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Tasks Need LLM?": {
       "main": [
         [
-          { "node": "Call AI Router (Task Schema)", "type": "main", "index": 0 }
+          {
+            "node": "Call AI Router (Task Schema)",
+            "type": "main",
+            "index": 0
+          }
         ],
         []
       ]
@@ -418,7 +505,11 @@
     "Call AI Router (Task Schema)": {
       "main": [
         [
-          { "node": "Parse Tasks Response", "type": "main", "index": 0 }
+          {
+            "node": "Parse Tasks Response",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -430,22 +521,38 @@
     "Get Projects": {
       "main": [
         [
-          { "node": "Validate Projects", "type": "main", "index": 0 },
-          { "node": "Filter Impact Needed", "type": "main", "index": 0 }
+          {
+            "node": "Validate Projects",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter Impact Needed",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Validate Projects": {
       "main": [
         [
-          { "node": "Projects Need LLM?", "type": "main", "index": 0 }
+          {
+            "node": "Projects Need LLM?",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Projects Need LLM?": {
       "main": [
         [
-          { "node": "Call AI Router (Project Schema)", "type": "main", "index": 0 }
+          {
+            "node": "Call AI Router (Project Schema)",
+            "type": "main",
+            "index": 0
+          }
         ],
         []
       ]
@@ -453,7 +560,11 @@
     "Call AI Router (Project Schema)": {
       "main": [
         [
-          { "node": "Parse Projects Response", "type": "main", "index": 0 }
+          {
+            "node": "Parse Projects Response",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -465,14 +576,22 @@
     "Filter Impact Needed": {
       "main": [
         [
-          { "node": "Impact Need LLM?", "type": "main", "index": 0 }
+          {
+            "node": "Impact Need LLM?",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Impact Need LLM?": {
       "main": [
         [
-          { "node": "Route by Phase", "type": "main", "index": 0 }
+          {
+            "node": "Route by Phase",
+            "type": "main",
+            "index": 0
+          }
         ],
         []
       ]
@@ -480,24 +599,40 @@
     "Route by Phase": {
       "main": [
         [
-          { "node": "Call AI Router (Expected)", "type": "main", "index": 0 }
+          {
+            "node": "Call AI Router (Expected)",
+            "type": "main",
+            "index": 0
+          }
         ],
         [
-          { "node": "Call AI Router (Evidence)", "type": "main", "index": 0 }
+          {
+            "node": "Call AI Router (Evidence)",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Call AI Router (Expected)": {
       "main": [
         [
-          { "node": "Parse Impact Response", "type": "main", "index": 0 }
+          {
+            "node": "Parse Impact Response",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Call AI Router (Evidence)": {
       "main": [
         [
-          { "node": "Parse Impact Response", "type": "main", "index": 0 }
+          {
+            "node": "Parse Impact Response",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
