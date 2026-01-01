@@ -96,10 +96,160 @@ Evidence 자동화의 핵심 뼈대(80~90%)는 이미 구현됨:
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 1. 개요
+
+**Problem**
+현재 LOOP 시스템에서 Evidence pending이 승인되어도 `build_impact` 스크립트가 자동으로 실행되지 않아, Impact 점수가 수동으로 갱신되어야 한다. 또한 동일 프로젝트/윈도우에 대해 Evidence 추론이 중복 호출되면 불필요한 LLM 비용이 발생하고 pending review가 중복 생성된다.
+
+**Solution**
+1. **Workflow C**: n8n 워크플로우가 승인 이벤트를 감지하면 `POST /api/build/impact`를 호출하여 자동으로 Impact 점수를 재계산
+2. **Server Skip**: `/api/ai/infer/evidence` 엔드포인트 내부에서 Evidence 존재 여부를 체크하여, 이미 존재하면 LLM 호출 없이 skip 응답 반환
+
+**Success Metrics**
+- 승인 후 15분 이내 Impact 점수 자동 반영
+- Evidence 중복 생성 0건 (기존 Evidence가 있으면 LLM 호출 0회)
+- n8n 워크플로우 안정성 100% (cursor 기반 중복 실행 방지)
+
+#### 2. User Stories
+
+**US-1: 자동 Impact 갱신**
+- As a LOOP Vault 운영자
+- I want Evidence pending 승인 후 Impact 점수가 자동으로 재계산되기를
+- So that 수동으로 build_impact 스크립트를 실행하지 않아도 된다
+
+**Acceptance Criteria:**
+- [ ] `POST /api/build/impact` 엔드포인트가 존재하고 스크립트 실행
+- [ ] n8n이 15분마다 `/api/audit/decisions`를 폴링
+- [ ] `pending_approved` 또는 `approve` 이벤트 감지 시 build_impact 1회 실행
+- [ ] cursor를 staticData에 저장하여 중복 실행 방지
+
+**US-2: Evidence 중복 방지**
+- As a n8n 워크플로우 관리자
+- I want 이미 Evidence가 존재하는 프로젝트/윈도우에 대해 LLM 호출이 skip되기를
+- So that 불필요한 LLM 비용과 중복 pending review 생성을 방지할 수 있다
+
+**Acceptance Criteria:**
+- [ ] `/api/ai/infer/evidence` 호출 시 서버가 먼저 Evidence 존재 여부 체크
+- [ ] Evidence 존재 시 `{ok: true, skipped: true, skip_reason: "evidence_exists"}` 반환
+- [ ] `existing_evidence_refs` 필드에 기존 Evidence ID 목록 포함
+- [ ] LLM 호출 없이 즉시 응답 (비용 0원)
+
+---
+
+### Tech Spec
+
+#### 1. 아키텍처 도식
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                     Evidence 자동화 - 운영 완성 Architecture                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  n8n Layer:                                                                      │
+│  [Schedule Trigger 15분] → [GET /api/audit/decisions] → [Filter Code (cursor)]  │
+│                                    ↓                          ↓                 │
+│                          {decisions: [...]}      cursor 관리 (staticData)        │
+│                                                           ↓                     │
+│                                                  [IF: has_approvals?]            │
+│                                                        │    │                   │
+│                                                   Yes  ↓    ↓ No (skip)         │
+│                                        [POST /api/build/impact]                  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  API Layer (FastAPI):                                                            │
+│  ┌─────────────────────────────────────────────────────────────────┐            │
+│  │ /api/build/impact (NEW)                                          │            │
+│  │  → subprocess.run(["python3", "scripts/build_impact.py", "."])   │            │
+│  │  → {ok, build_id, started_at, ended_at, impact_path, summary}    │            │
+│  └─────────────────────────────────────────────────────────────────┘            │
+│  ┌─────────────────────────────────────────────────────────────────┐            │
+│  │ /api/ai/infer/evidence (MODIFIED)                                │            │
+│  │  → check_evidence_exists(project_id, window_id)                  │            │
+│  │  → 존재? {ok:true, skipped:true, ...}                            │            │
+│  │  → 없음? 기존 LLM 호출 로직 진행                                  │            │
+│  └─────────────────────────────────────────────────────────────────┘            │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  Data Layer:                                                                     │
+│  _build/impact.json, _build/decision_log.jsonl, _build/pending_reviews.json     │
+│  50_Projects/**/Evidence/*.md (존재 체크 대상)                                   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 2. API Design
+
+**POST /api/build/impact (NEW)**
+- Location: `api/routers/build.py`
+- Response:
+```json
+{
+  "ok": true,
+  "build_id": "build-20260101-090000-xxxx",
+  "started_at": "2026-01-01T09:00:00.000Z",
+  "ended_at": "2026-01-01T09:00:15.000Z",
+  "impact_path": "_build/impact.json",
+  "summary": {"total_projects": 25, "total_expected": 45.5}
+}
+```
+
+**POST /api/ai/infer/evidence (MODIFIED - Skip Response)**
+```json
+{
+  "ok": true,
+  "skipped": true,
+  "skip_reason": "evidence_exists",
+  "existing_evidence_refs": ["ev:2025-0001"],
+  "project_id": "prj-001",
+  "window_id": "2025-12",
+  "run_id": null,
+  "pending": null
+}
+```
+
+#### 3. VaultCache 확장
+
+```python
+class VaultCache:
+    def _load_evidence(self):
+        """Evidence 엔티티 로드"""
+        for path in self.vault_dir.rglob("*.md"):
+            if fm.get("entity_type") == "Evidence":
+                self._evidence[fm.get("entity_id")] = fm
+                self._evidence_by_project.setdefault(fm.get("project"), []).append(eid)
+
+    def get_evidence_by_project(self, project_id: str) -> List[Dict]:
+        """특정 Project의 Evidence 목록 반환"""
+        return [self._evidence[eid] for eid in self._evidence_by_project.get(project_id, [])]
+```
+
+---
+
 ### Todo
-- [ ] api/routers/build.py 생성
-- [ ] ai.py infer_evidence에 skip 로직 추가
-- [ ] n8n 워크플로우 Import 및 테스트
+
+**Phase 1: Server Skip 구현**
+- [ ] `api/cache/vault_cache.py` - Evidence 캐시 로드 로직 추가
+- [ ] `api/routers/ai.py` - `check_evidence_exists()` 함수 구현
+- [ ] `api/routers/ai.py` - infer_evidence 엔드포인트에 skip 로직 추가
+- [ ] `InferEvidenceResponse` 모델에 skip 관련 필드 추가
+
+**Phase 2: build_impact 엔드포인트 구현**
+- [ ] `api/routers/build.py` - 새 라우터 파일 생성
+- [ ] `api/main.py` - build 라우터 등록
+- [ ] 테스트: `curl -X POST /api/build/impact` 동작 확인
+
+**Phase 3: /api/audit/decisions cursor 지원**
+- [ ] `api/routers/audit.py` - `after` Query 파라미터 추가
+- [ ] `latest_timestamp` 필드 응답에 추가
+
+**Phase 4: n8n 워크플로우 생성**
+- [ ] n8n 워크플로우 JSON 생성 및 Import
+- [ ] 환경변수 설정: `LOOP_API_URL`, `LOOP_API_TOKEN`
+- [ ] 통합 테스트: 승인 → build_impact 자동 실행 확인
+
+**Phase 5: 문서화**
+- [ ] CLAUDE.md 업데이트
+- [ ] n8n 워크플로우 문서화
+
+---
 
 ### 작업 로그
 <!--
