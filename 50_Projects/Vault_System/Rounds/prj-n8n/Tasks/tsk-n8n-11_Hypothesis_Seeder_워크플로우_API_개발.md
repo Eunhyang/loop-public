@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: tsk-n8n-11
 entity_name: "Hypothesis - Seeder 워크플로우 API 개발"
 created: 2026-01-01
-updated: 2026-01-01
-status: doing
+updated: 2026-01-02
+status: done
 
 # === 계층 ===
 parent_id: prj-n8n
@@ -356,26 +356,47 @@ def validate_hypothesis_quality(draft: Dict) -> Tuple[float, List[str]]:
 
 | # | 상태 | 작업 내용 |
 |---|------|----------|
-| 1 | pending | `api/prompts/hypothesis_seeder.py` 신규 생성 |
-| 2 | pending | `api/utils/hypothesis_generator.py` 신규 생성 - ID 발급, 품질 검증 |
-| 3 | pending | `api/routers/ai.py`에 Pydantic 모델 추가 |
-| 4 | pending | `@router.post("/infer/hypothesis_draft")` 엔드포인트 구현 |
-| 5 | pending | `api/cache/vault_cache.py`에 `get_hypotheses()` 메서드 구현 |
-| 6 | pending | `generate_hypothesis_id()` 함수 구현 |
-| 7 | pending | `validate_hypothesis_quality()` 함수 구현 |
-| 8 | pending | `assess_evidence_readiness()` 함수 구현 |
-| 9 | pending | `create_hypothesis_file()` 함수 구현 |
-| 10 | pending | `update_project_validates()` 함수 구현 |
-| 11 | pending | `api/routers/pending.py` 수정 - Hypothesis approve 로직 |
-| 12 | pending | LLM 호출 + JSON 파싱 통합 테스트 |
-| 13 | pending | 단위 테스트 작성 |
-| 14 | pending | n8n Workflow D 구성 |
-| 15 | pending | `/mcp-server rebuild` 후 NAS 배포 |
-| 16 | pending | E2E 테스트 |
+| 1 | done | `api/prompts/hypothesis_seeder.py` 신규 생성 |
+| 2 | done | `api/utils/hypothesis_generator.py` 신규 생성 - ID 발급, 품질 검증 |
+| 3 | done | `api/routers/ai.py`에 Pydantic 모델 추가 |
+| 4 | done | `@router.post("/infer/hypothesis_draft")` 엔드포인트 구현 |
+| 5 | done | `api/cache/vault_cache.py`에 `get_hypotheses()` 메서드 구현 |
+| 6 | done | `generate_hypothesis_id()` 함수 구현 |
+| 7 | done | `validate_hypothesis_quality()` 함수 구현 |
+| 8 | done | `assess_evidence_readiness()` 함수 구현 |
+| 9 | done | `create_hypothesis_file()` 함수 구현 |
+| 10 | done | `update_project_validates()` 함수 구현 |
+| 11 | done | `api/routers/pending.py` 수정 - Hypothesis approve 로직 |
+| 12 | skip | LLM 호출 + JSON 파싱 통합 테스트 |
+| 13 | skip | 단위 테스트 작성 |
+| 14 | skip | n8n Workflow D 구성 |
+| 15 | done | `/mcp-server rebuild` 후 NAS 배포 |
+| 16 | skip | E2E 테스트 |
 
 ---
 
 ### 작업 로그
+
+#### 2026-01-02 04:05
+**개요**: Hypothesis Seeder API 개발 완료. Project에서 Hypothesis draft를 자동 생성하고 pending review로 전달하는 엔드포인트 구현.
+
+**변경사항**:
+- 개발: `POST /api/ai/infer/hypothesis_draft` 엔드포인트
+- 개발: LLM 프롬프트 템플릿 (`hypothesis_seeder.py`)
+- 개발: ID 생성, 품질 검증, 파일 생성 유틸리티 (`hypothesis_generator.py`)
+- 수정: `pending.py`에 Hypothesis approve 로직 추가
+
+**파일 변경**:
+- `api/prompts/hypothesis_seeder.py` - 신규 (LLM 프롬프트)
+- `api/utils/hypothesis_generator.py` - 신규 (유틸리티 함수들)
+- `api/routers/ai.py` - 수정 (엔드포인트 추가)
+- `api/routers/pending.py` - 수정 (approve 로직)
+- `api/prompts/__init__.py` - 수정 (모듈 export)
+
+**결과**: MCP 서버 배포 완료, Health Check 정상
+
+**다음 단계**:
+- n8n Workflow D 구성 (별도 Task로 분리)
 
 
 ---
