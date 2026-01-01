@@ -323,5 +323,38 @@ const API = {
             method: 'DELETE'
         });
         return res.json();
+    },
+
+    // ============================================
+    // Entity API (개별 조회 - for Entity Preview)
+    // ============================================
+    async getCondition(conditionId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/conditions/${encodeURIComponent(conditionId)}`);
+        const data = await res.json();
+        return data.condition || data;
+    },
+
+    async getTrack(trackId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/tracks/${encodeURIComponent(trackId)}`);
+        const data = await res.json();
+        return data.track || data;
+    },
+
+    async getHypothesis(hypothesisId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/hypotheses/${encodeURIComponent(hypothesisId)}`);
+        const data = await res.json();
+        return data.hypothesis || data;
+    },
+
+    async getProject(projectId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/projects/${encodeURIComponent(projectId)}`);
+        const data = await res.json();
+        return data.project || data;
+    },
+
+    async getTask(taskId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`);
+        const data = await res.json();
+        return data.task || data;
     }
 };

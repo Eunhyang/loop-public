@@ -33,3 +33,14 @@ error: please commit or stash them.
  1 file changed, 31 insertions(+), 1 deletion(-)
 error: cannot pull with rebase: You have unstaged changes.
 error: please commit or stash them.
+[main 17fffde] auto: 2026-01-01 16:52 - 13 files
+ 13 files changed, 400 insertions(+), 896 deletions(-)
+ delete mode 100755 "50_Projects/Content_OS/P018_Content_OS_MVP/Project_\354\240\225\354\235\230.md"
+ delete mode 100755 "50_Projects/Content_OS/P018_Content_OS_MVP/Tasks/Content OS - Opportunity \353\214\200\354\213\234\353\263\264\353\223\234 UI.md"
+ delete mode 100755 50_Projects/Content_OS/P018_Content_OS_MVP/Tasks/Content OS - Task Pipeline UI.md
+ delete mode 100755 50_Projects/Content_OS/P018_Content_OS_MVP/Tasks/Content OS - Video Explorer UI.md
+ delete mode 100755 "50_Projects/Content_OS/P018_Content_OS_MVP/Tasks/Content OS - \355\224\204\353\241\234\354\240\235\355\212\270 \354\264\210\352\270\260 \354\204\270\355\214\205.md"
+ delete mode 100755 "50_Projects/Content_OS/P018_Content_OS_MVP/Tasks/Content OS - \355\232\214\352\263\240 \353\214\200\354\213\234\353\263\264\353\223\234 UI.md"
+ create mode 100644 "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3\353\213\250_\353\240\210\354\235\264\354\225\204\354\233\203_UX_\352\260\234\354\204\240.md"
+error: cannot pull with rebase: You have unstaged changes.
+error: please commit or stash them.

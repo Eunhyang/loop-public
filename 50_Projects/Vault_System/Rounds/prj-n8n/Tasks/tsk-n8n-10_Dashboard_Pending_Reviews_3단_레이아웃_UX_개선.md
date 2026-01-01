@@ -153,11 +153,136 @@ tsk-n8n-09에서 E2E 테스트 완료 후 요청된 UX 개선 사항.
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 1.1 프로젝트 개요
+
+| 항목 | 내용 |
+|------|------|
+| Task ID | tsk-n8n-10 |
+| Task Name | Dashboard - Pending Reviews 3단 레이아웃 UX 개선 |
+| Project | LOOP Vault Dashboard |
+| 목표 | Pending Review 승인/거부 UX를 3단 레이아웃으로 개선하여 엔티티 상세 정보 확인 후 판단할 수 있도록 개선 |
+
+#### 1.2 문제 정의
+
+**현재 상태:**
+- Dashboard의 Pending Reviews는 Side Panel + Modal 방식으로 동작
+- 리스트에서 항목 클릭 시 Modal이 열리며 상세 정보 표시
+- Modal에서 `cond-a`, `hyp-001`, `trk-2` 등의 entity ID만 표시되고, 실제 엔티티 내용 확인 불가
+- 사용자가 승인/거부 판단을 위해 해당 엔티티가 무엇인지 별도로 확인해야 하는 번거로움
+
+**사용자 Pain Point:**
+1. `suggested_fields`에 `conditions_3y: ["cond-a", "cond-b"]`가 제안되어도 해당 Condition이 무엇인지 모름
+2. Impact의 `contributes.to: "trk-2"`를 보고도 Track 내용 확인 불가
+3. 판단을 위해 Obsidian이나 별도 창에서 엔티티를 찾아봐야 함
+
+#### 1.3 목표 및 성공 기준
+
+**성공 기준:**
+- [ ] 3단 레이아웃이 정상 렌더링됨
+- [ ] 왼쪽 패널: Pending 리스트 표시 및 선택 가능
+- [ ] 가운데 패널: 선택된 Pending의 suggested_fields, reasoning, Approve/Reject 버튼 표시
+- [ ] 오른쪽 패널: 가운데에서 클릭한 entity ID의 상세 정보 표시
+- [ ] 기존 Approve/Reject 기능 정상 동작
+- [ ] ESC 또는 오버레이 클릭 시 전체 패널 닫힘
+
+#### 1.4 기능 상세
+
+**왼쪽 패널 (Pending List):**
+- 너비: 250px 고정
+- 탭 필터: Pending / Approved / Rejected
+- 카드 컴포넌트: 기존 `pending-review-card` 재사용
+- 선택된 카드 하이라이트 표시
+
+**가운데 패널 (Pending Detail):**
+- 너비: flex-1 (나머지 공간)
+- Entity Info 섹션: ID, Type, Created 날짜
+- Suggested Changes 섹션: 각 필드별 현재값/제안값, **Entity ID 클릭 가능**
+- AI 판단 근거(reasoning) 기본 펼침
+- 액션 버튼: Reject / Approve
+
+**오른쪽 패널 (Entity Detail):**
+- 너비: 350px 고정
+- Track / Condition / Hypothesis 타입별 렌더링
+- 초기 상태: "Select an entity" 메시지
+
+---
+
+### Tech Spec
+
+#### 2.1 수정 대상 파일
+
+| 파일 | 수정 범위 |
+|------|-----------|
+| `_dashboard/js/components/pending-panel.js` | 주요 수정: 3단 레이아웃 구현 |
+| `_dashboard/css/panel.css` | CSS 추가: 3-pane 레이아웃 스타일 |
+| `_dashboard/js/api.js` | 신규 메서드 추가: getCondition, getTrack, getHypothesis |
+
+#### 2.2 API 엔드포인트
+
+**기존 사용:**
+- `GET /api/pending` - Pending 목록 조회
+- `POST /api/pending/{id}/approve` - 승인
+- `POST /api/pending/{id}/reject` - 거부
+
+**신규 사용 (Entity Detail 로드):**
+- `GET /api/conditions/{condition_id}` - Condition 상세
+- `GET /api/tracks/{track_id}` - Track 상세
+- `GET /api/hypotheses/{hypothesis_id}` - Hypothesis 상세
+
+#### 2.3 HTML 구조 (3단 레이아웃)
+
+```html
+<div id="pendingPanel" class="pending-3pane-container">
+  <!-- 1. 왼쪽: Pending List -->
+  <div class="pending-list-pane">...</div>
+  <!-- 2. 가운데: Pending Detail -->
+  <div class="pending-detail-pane">...</div>
+  <!-- 3. 오른쪽: Entity Preview -->
+  <div class="pending-entity-pane">...</div>
+</div>
+```
+
+#### 2.4 CSS 구조
+
+```css
+.pending-3pane-container { display: flex; max-width: 1200px; }
+.pending-list-pane { width: 250px; }
+.pending-detail-pane { flex: 1; min-width: 350px; }
+.pending-entity-pane { width: 350px; }
+.clickable-entity-id { color: #3b82f6; cursor: pointer; text-decoration: underline; }
+```
+
+#### 2.5 주요 함수
+
+- `createPanelHTML()` - 3단 레이아웃 HTML 생성
+- `renderDetail(review)` - 가운데 패널 렌더링
+- `loadEntityPreview(entityId)` - 오른쪽 패널 Entity 로드
+- `fetchEntity(type, id)` - API 호출
+- `renderEntityPreview(type, entity)` - Entity 상세 렌더링
+
+---
+
 ### Todo
-- [ ] pending-panel.js 3단 레이아웃으로 리팩토링
-- [ ] panel.css 스타일 추가
-- [ ] Entity API 조회 함수 구현
-- [ ] 모달 코드 제거
+
+| # | 상태 | 작업 내용 |
+|---|------|----------|
+| 1 | pending | `pending-panel.js`의 `createPanelHTML()` 수정 - 3단 레이아웃 HTML 구조로 변경 |
+| 2 | pending | `panel.css`에 3-pane 레이아웃 스타일 추가 |
+| 3 | pending | `renderReviews()` 수정 - 왼쪽 패널에 렌더링되도록 변경 |
+| 4 | pending | 신규 함수 `renderDetail()` 구현 - 가운데 패널 렌더링 |
+| 5 | pending | Suggested Fields에서 Entity ID를 클릭 가능하게 변경 |
+| 6 | pending | 신규 함수 `loadEntityPreview()` 구현 - 오른쪽 패널 Entity 로드 |
+| 7 | pending | `api.js`에 `getCondition()`, `getTrack()`, `getHypothesis()` 메서드 추가 |
+| 8 | pending | Entity Preview 렌더러 구현 (Track, Condition, Hypothesis 타입별) |
+| 9 | pending | 이벤트 리스너 설정 (카드 클릭, Entity ID 클릭, Approve/Reject) |
+| 10 | pending | 반응형 CSS 추가 (1024px, 768px 브레이크포인트) |
+| 11 | pending | 기존 Modal 코드 정리 |
+| 12 | pending | 로컬 테스트 및 엣지 케이스 검증 |
+| 13 | pending | NAS 동기화 및 Docker 재배포 |
+
+---
 
 ### 작업 로그
 
