@@ -320,19 +320,59 @@
     },
     {
       "parameters": {
-        "jsCode": "// Route to correct ai router endpoint based on phase\n// v6: n8n 2.x 호환 - filter 방식\n\nconst expected = $input.all().filter(item => item.json.phase === 'expected_impact');\nconst realized = $input.all().filter(item => item.json.phase === 'realized_impact');\n\nreturn [expected, realized];",
-        "mode": "runOnceForAllItems",
-        "numberOfOutputs": 2
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "combinator": "and"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.phase }}",
+                    "rightValue": "expected_impact",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Expected"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "combinator": "and"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.phase }}",
+                    "rightValue": "realized_impact",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Realized"
+            }
+          ]
+        },
+        "options": {}
       },
       "id": "route-by-phase",
       "name": "Route by Phase",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
       "position": [
         1200,
         1000
       ],
-      "notes": "v4.1: mode=runOnceForAllItems, numberOfOutputs=2 추가"
+      "notes": "v7: Switch 노드로 변경 (Code multi-output 버그 우회)"
     },
     {
       "parameters": {
