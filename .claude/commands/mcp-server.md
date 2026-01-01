@@ -74,10 +74,12 @@ sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 cd /volume1/LOOP_CORE/vault/LOOP
+# .env 파일에서 API 키 로드
+source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
 /var/packages/ContainerManager/target/usr/bin/docker stop loop-api
 /var/packages/ContainerManager/target/usr/bin/docker rm loop-api
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_DB_PATH=/vault/api/oauth/oauth.db -e TOKEN_EXPIRE_HOURS=720 -e TZ=Asia/Seoul loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_DB_PATH=/vault/api/oauth/oauth.db -e TOKEN_EXPIRE_HOURS=720 -e TZ=Asia/Seoul -e OPENAI_API_KEY=\$OPENAI_API_KEY -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY loop-api:latest
 " 2>&1'
 ```
 
