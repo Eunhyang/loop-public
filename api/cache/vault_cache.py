@@ -572,6 +572,124 @@ class VaultCache:
             return f'hyp-{track_num}-{max_seq + 1:02d}'
 
     # ============================================
+    # Evidence 로드/조회 (tsk-n8n-12: Server Skip 지원)
+    # ============================================
+
+    def _load_evidence(self) -> None:
+        """모든 Evidence 파일 로드 (50_Projects 하위에서 스캔)
+
+        Evidence는 project_id를 키로 그룹화하여 저장.
+        window_id로 특정 윈도우의 Evidence 존재 여부 확인 가능.
+        """
+        # Evidence는 50_Projects 하위에 저장됨
+        if not self.programs_dir.exists():
+            return
+
+        self._update_dir_mtime(self.programs_dir, 'Evidence')
+
+        for evidence_file in self.programs_dir.rglob("*.md"):
+            if evidence_file.name.startswith("_"):
+                continue
+            self._load_evidence_file(evidence_file)
+
+    def _load_evidence_file(self, file_path: Path) -> Optional[str]:
+        """단일 Evidence 파일 로드"""
+        data = self._extract_frontmatter(file_path)
+        if not data or data.get('entity_type') != 'Evidence':
+            return None
+
+        entity_id = data.get('entity_id')
+        project_id = data.get('project')  # Evidence.project 필드
+        if not entity_id or not project_id:
+            return None
+
+        data['_path'] = str(file_path.relative_to(self.vault_path))
+
+        entry = CacheEntry(
+            data=data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+
+        # project_id별로 그룹화
+        if project_id not in self.evidence:
+            self.evidence[project_id] = []
+        self.evidence[project_id].append(entry)
+        self._evidence_count += 1
+
+        return entity_id
+
+    def get_evidence_by_project(
+        self,
+        project_id: str,
+        window_id: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        특정 Project의 Evidence 목록 조회
+
+        Args:
+            project_id: 프로젝트 ID (예: prj-001)
+            window_id: 윈도우 ID 필터 (예: 2025-01, 2025-Q1)
+                       None이면 해당 프로젝트의 모든 Evidence 반환
+
+        Returns:
+            Evidence frontmatter 리스트
+
+        Note:
+            Codex 피드백 반영: mtime 기반 자동 새로고침으로 캐시 정합성 유지
+        """
+        with self._lock:
+            # 디렉토리 변경 감지 시 리로드
+            if self._should_reload_dir(self.programs_dir, 'Evidence'):
+                self.evidence.clear()
+                self._evidence_count = 0
+                self._load_evidence()
+
+            entries = self.evidence.get(project_id, [])
+            results = []
+
+            for entry in entries:
+                data = entry.data
+
+                # window_id 필터
+                if window_id and data.get('window_id') != window_id:
+                    continue
+
+                results.append(data.copy())
+
+            return results
+
+    def check_evidence_exists(
+        self,
+        project_id: str,
+        window_id: Optional[str] = None
+    ) -> tuple[bool, List[str]]:
+        """
+        Evidence 존재 여부 확인 (Server Skip 용)
+
+        Args:
+            project_id: 프로젝트 ID
+            window_id: 윈도우 ID (None이면 프로젝트의 모든 Evidence 체크)
+
+        Returns:
+            (exists: bool, evidence_refs: List[entity_id])
+
+        Note:
+            Codex 피드백 반영: fail-open 패턴 적용
+            - 캐시 조회 실패 시 (False, []) 반환하여 LLM 호출 진행
+        """
+        try:
+            evidence_list = self.get_evidence_by_project(project_id, window_id)
+            if evidence_list:
+                refs = [e.get('entity_id', '') for e in evidence_list if e.get('entity_id')]
+                return True, refs
+            return False, []
+        except Exception as e:
+            # Fail-open: 캐시 오류 시 LLM 호출 진행하도록 False 반환
+            logger.warning(f"Evidence cache check failed for {project_id}: {e}")
+            return False, []
+
+    # ============================================
     # Track 로드/조회 (Read-only)
     # ============================================
 
@@ -1042,6 +1160,7 @@ class VaultCache:
             self.projects.clear()
             self.programs.clear()
             self.hypotheses.clear()
+            self.evidence.clear()  # tsk-n8n-12
             self.tracks.clear()
             self.conditions.clear()
             self.northstars.clear()
@@ -1055,17 +1174,22 @@ class VaultCache:
             self._project_count = 0
             self._program_count = 0
             self._hypothesis_count = 0
+            self._evidence_count = 0  # tsk-n8n-12
 
             self._initial_load()
 
     def stats(self) -> Dict[str, Any]:
         """캐시 통계"""
         with self._lock:
+            # Evidence는 project별로 그룹화되어 있으므로 전체 개수 계산
+            evidence_total = sum(len(entries) for entries in self.evidence.values())
             return {
                 "tasks": len(self.tasks),
                 "projects": len(self.projects),
                 "programs": len(self.programs),
                 "hypotheses": len(self.hypotheses),
+                "evidence": evidence_total,  # tsk-n8n-12
+                "evidence_projects": len(self.evidence),  # project 수
                 "tracks": len(self.tracks),
                 "conditions": len(self.conditions),
                 "northstars": len(self.northstars),

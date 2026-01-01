@@ -1,0 +1,262 @@
+{
+  "name": "Workflow C - Impact Rebuild on Evidence Approve",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger (15분)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [260, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.LOOP_API_URL }}/api/audit/decisions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "decision",
+              "value": "approve"
+            },
+            {
+              "name": "entity_type",
+              "value": "Evidence"
+            },
+            {
+              "name": "after",
+              "value": "={{ $json.cursor || '' }}"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-decisions",
+      "name": "GET Evidence Approvals",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "LOOP_API_CRED_ID",
+          "name": "LOOP API Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-has-approvals",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-has-approvals",
+      "name": "Has New Approvals?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.LOOP_API_URL }}/api/build/impact",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "async_mode",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "trigger-build",
+      "name": "POST Build Impact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [920, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "LOOP_API_CRED_ID",
+          "name": "LOOP API Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.stringify({ cursor: $('GET Evidence Approvals').item.json.latest_timestamp, last_decision_id: $('GET Evidence Approvals').item.json.latest_decision_id, build_id: $json.build_id, triggered_at: new Date().toISOString() }) }}",
+        "options": {}
+      },
+      "id": "update-cursor",
+      "name": "Update Cursor (staticData)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1140, 200]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.stringify({ cursor: $json.latest_timestamp || $workflow.staticData?.cursor || '', last_check: new Date().toISOString() }) }}",
+        "options": {}
+      },
+      "id": "keep-cursor",
+      "name": "Keep Cursor (No Change)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [920, 400]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.stringify({ cursor: $workflow.staticData?.cursor || '' }) }}",
+        "options": {}
+      },
+      "id": "load-cursor",
+      "name": "Load Cursor from staticData",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [260, 140]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Workflow C - tsk-n8n-12: Impact Rebuild on Evidence Approve\n// \n// 이 워크플로우는 Evidence가 승인될 때마다 Impact 점수를 자동으로 재계산합니다.\n//\n// 흐름:\n// 1. 15분마다 /api/audit/decisions 폴링 (Evidence approve만 필터)\n// 2. 새로운 승인이 있으면 /api/build/impact 호출\n// 3. cursor를 staticData에 저장하여 다음 실행 시 사용\n//\n// Codex 피드백 반영:\n// - staticData 사용하여 cursor 영속화\n// - entity_type=Evidence 필터로 불필요한 rebuild 방지\n// - latest_timestamp + latest_decision_id로 tie-breaker\n\n// Load cursor from staticData\nconst cursor = $workflow.staticData?.cursor || '';\n\nreturn { cursor };"
+      },
+      "id": "code-init",
+      "name": "Init Code (Documentation)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [80, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (15분)": {
+      "main": [
+        [
+          {
+            "node": "GET Evidence Approvals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Evidence Approvals": {
+      "main": [
+        [
+          {
+            "node": "Has New Approvals?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has New Approvals?": {
+      "main": [
+        [
+          {
+            "node": "POST Build Impact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Keep Cursor (No Change)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Build Impact": {
+      "main": [
+        [
+          {
+            "node": "Update Cursor (staticData)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Cursor from staticData": {
+      "main": [
+        [
+          {
+            "node": "Schedule Trigger (15분)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "cursor": "",
+    "last_decision_id": ""
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "LOOP-tsk-n8n-12"
+  },
+  "pinData": {},
+  "versionId": "1.0.0",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "name": "tsk-n8n-12",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "name": "Workflow C",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "name": "Impact Rebuild",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    }
+  ]
+}

@@ -36,7 +36,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -233,6 +233,7 @@ app.include_router(mcp_composite.router)
 app.include_router(autofill.router)
 app.include_router(audit.router)
 app.include_router(ai.router)
+app.include_router(build.router)  # tsk-n8n-12: Impact 빌드 API
 
 # OAuth 2.0 Router (Production - RS256 + PKCE + Login)
 app.include_router(oauth_router)

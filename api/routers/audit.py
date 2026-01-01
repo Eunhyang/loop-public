@@ -126,8 +126,10 @@ def get_entity_history(entity_id: str):
 @router.get("/decisions")
 def list_decisions(
     entity_id: Optional[str] = Query(None, description="특정 엔티티 필터"),
-    decision: Optional[str] = Query(None, description="approve | reject 필터"),
+    entity_type: Optional[str] = Query(None, description="엔티티 유형 필터 (Evidence, Project 등)"),
+    decision: Optional[str] = Query(None, description="approve | reject | pending_created 필터"),
     user: Optional[str] = Query(None, description="특정 사용자 필터"),
+    after: Optional[str] = Query(None, description="이 timestamp 이후의 결정만 조회 (ISO format, cursor 기반 polling용)"),
     limit: int = Query(100, le=1000, description="최대 반환 개수")
 ):
     """
@@ -135,20 +137,44 @@ def list_decisions(
 
     Query Parameters:
         entity_id: 특정 엔티티 필터
-        decision: approve | reject 필터
+        entity_type: 엔티티 유형 필터 (tsk-n8n-12: Evidence approve 필터링용)
+        decision: approve | reject | pending_created 필터
         user: 특정 사용자 필터
+        after: ISO timestamp - 이 시간 이후의 결정만 반환 (cursor 기반 polling)
         limit: 최대 반환 개수 (최신순)
+
+    Response:
+        decisions: 결정 목록
+        count: 반환된 결정 수
+        latest_timestamp: 가장 최신 결정의 timestamp (다음 cursor로 사용)
+        latest_decision_id: 가장 최신 결정의 ID (tie-breaker)
+
+    tsk-n8n-12 Usage (n8n Workflow C):
+        1. GET /api/audit/decisions?decision=approve&entity_type=Evidence&after={last_cursor}
+        2. 새로운 Evidence approve가 있으면 POST /api/build/impact 호출
+        3. latest_timestamp + latest_decision_id를 다음 cursor로 저장
     """
     decisions = get_decisions(
         entity_id=entity_id,
+        entity_type=entity_type,
         decision=decision,
         user=user,
+        after=after,
         limit=limit
     )
 
+    # Codex 피드백: latest_timestamp + latest_decision_id 반환 (tie-breaker)
+    latest_timestamp = None
+    latest_decision_id = None
+    if decisions:
+        latest_timestamp = decisions[0].get("timestamp")
+        latest_decision_id = decisions[0].get("decision_id")
+
     return {
         "decisions": decisions,
-        "count": len(decisions)
+        "count": len(decisions),
+        "latest_timestamp": latest_timestamp,
+        "latest_decision_id": latest_decision_id
     }
 
 

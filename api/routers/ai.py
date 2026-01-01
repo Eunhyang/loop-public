@@ -133,6 +133,10 @@ class InferEvidenceResponse(BaseModel):
     pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
     audit_ref: str = Field(default="", description="audit 참조 ID")
     error: Optional[str] = Field(default=None, description="에러 메시지")
+    # tsk-n8n-12: Server Skip 지원
+    skipped: bool = Field(default=False, description="Evidence 존재로 인해 skip됨")
+    skip_reason: Optional[str] = Field(default=None, description="skip 사유")
+    existing_evidence_refs: List[str] = Field(default_factory=list, description="기존 Evidence ID 목록")
 
 
 # ============================================
@@ -909,6 +913,47 @@ async def infer_evidence(request: InferEvidenceRequest):
             ok=False,
             run_id=run_id,
             error=f"Project not found: {request.project_id}",
+            audit_ref=run_id
+        )
+
+    # 2.5 tsk-n8n-12: Server Skip - Evidence 존재 체크
+    # Codex 피드백: fail-open 패턴 적용 (캐시 오류 시 LLM 호출 진행)
+    cache = get_cache()
+
+    # window_id 계산 (현재 월 기준)
+    window_fields = calculate_window_fields(entity_type="project")
+    current_window_id = window_fields.get("window_id")
+
+    # Evidence 존재 여부 체크
+    evidence_exists, existing_refs = cache.check_evidence_exists(
+        project_id=request.project_id,
+        window_id=current_window_id
+    )
+
+    if evidence_exists:
+        # 동일 프로젝트/윈도우에 Evidence 이미 존재 → skip
+        skip_reason = f"Evidence already exists for project={request.project_id}, window={current_window_id}"
+
+        # Audit 로그 저장 (skip 기록)
+        save_ai_audit_log(run_id, {
+            "project_id": request.project_id,
+            "mode": request.mode,
+            "actor": request.actor,
+            "endpoint": "infer_evidence",
+            "success": True,
+            "skipped": True,
+            "skip_reason": skip_reason,
+            "existing_evidence_refs": existing_refs,
+            "window_id": current_window_id
+        })
+
+        return InferEvidenceResponse(
+            ok=True,
+            run_id=run_id,
+            skipped=True,
+            skip_reason=skip_reason,
+            existing_evidence_refs=existing_refs,
+            derived_autofill={"window_id": current_window_id},
             audit_ref=run_id
         )
 

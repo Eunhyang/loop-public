@@ -171,8 +171,10 @@ def log_pending_created(
 
 def get_decisions(
     entity_id: Optional[str] = None,
+    entity_type: Optional[str] = None,
     decision: Optional[str] = None,
     user: Optional[str] = None,
+    after: Optional[str] = None,
     limit: int = 100,
     offset: int = 0
 ) -> List[Dict[str, Any]]:
@@ -181,13 +183,20 @@ def get_decisions(
 
     Args:
         entity_id: 특정 엔티티 필터
-        decision: "approve" | "reject" 필터
+        entity_type: 엔티티 유형 필터 (tsk-n8n-12: Evidence 필터링용)
+        decision: "approve" | "reject" | "pending_created" 필터
         user: 특정 사용자 필터
+        after: ISO timestamp - 이 시간 이후의 결정만 반환 (cursor 기반)
+               Codex 피드백: >= 사용하여 동일 timestamp 포함
         limit: 최대 반환 개수
         offset: 건너뛸 개수
 
     Returns:
         결정 로그 리스트 (최신순)
+
+    Note (tsk-n8n-12):
+        n8n Workflow C에서 Evidence approve 폴링 시:
+        GET /api/audit/decisions?decision=approve&entity_type=Evidence&after={cursor}
     """
     if not DECISION_LOG_FILE.exists():
         return []
@@ -204,10 +213,19 @@ def get_decisions(
                 # 필터링
                 if entity_id and entry.get("entity_id") != entity_id:
                     continue
+                if entity_type and entry.get("entity_type") != entity_type:
+                    continue
                 if decision and entry.get("decision") != decision:
                     continue
                 if user and entry.get("user") != user:
                     continue
+
+                # after 필터 (cursor 기반 polling)
+                # Codex 피드백: > 사용 (같은 timestamp의 중복 방지는 decision_id로)
+                if after:
+                    entry_timestamp = entry.get("timestamp", "")
+                    if entry_timestamp <= after:
+                        continue
 
                 logs.append(entry)
             except json.JSONDecodeError:
