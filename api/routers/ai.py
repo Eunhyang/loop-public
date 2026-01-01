@@ -66,6 +66,17 @@ from ..prompts.hypothesis_schema import (
     build_hypothesis_schema_prompt,
     build_simple_hypothesis_schema_prompt
 )
+from ..prompts.hypothesis_seeder import (
+    HYPOTHESIS_SEEDER_SYSTEM_PROMPT,
+    build_hypothesis_seeder_prompt,
+    build_simple_hypothesis_seeder_prompt
+)
+from ..utils.hypothesis_generator import (
+    generate_hypothesis_id,
+    validate_hypothesis_quality,
+    assess_evidence_readiness,
+    build_hypothesis_draft
+)
 from .pending import (
     load_pending,
     save_pending,
@@ -199,6 +210,40 @@ class InferProjectSchemaResponse(BaseModel):
     pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
     audit_ref: str = Field(default="", description="audit 참조 ID")
     error: Optional[str] = Field(default=None, description="에러 메시지")
+
+
+# ============================================
+# Hypothesis Seeder Models (tsk-n8n-11)
+# ============================================
+
+class InferHypothesisDraftRequest(BaseModel):
+    """Hypothesis Draft 생성 요청 (n8n Workflow D)"""
+    project_id: str = Field(..., description="Project ID (예: prj-001)")
+    mode: str = Field(default="pending", description="preview | pending")
+    provider: str = Field(default="openai", description="LLM provider (openai, anthropic)")
+    actor: str = Field(default="n8n", description="요청자 (n8n, api, claude)")
+    run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
+    schema_version: str = Field(default="5.3", description="스키마 버전")
+    create_pending: bool = Field(default=True, description="pending 생성 여부")
+
+
+class InferHypothesisDraftResponse(BaseModel):
+    """Hypothesis Draft 생성 응답"""
+    ok: bool
+    run_id: str
+    project_id: Optional[str] = Field(default=None, description="Project ID")
+    project_name: Optional[str] = Field(default=None, description="Project 이름")
+    hypothesis_draft: Dict[str, Any] = Field(default_factory=dict, description="Hypothesis draft (frontmatter + body 초안)")
+    quality_score: float = Field(default=0.0, description="품질 점수 (0.0 ~ 1.0)")
+    quality_issues: List[str] = Field(default_factory=list, description="품질 이슈 목록")
+    evidence_readiness: Dict[str, Any] = Field(default_factory=dict, description="Evidence 운영 가능성")
+    project_link: Dict[str, Any] = Field(default_factory=dict, description="validates 업데이트 제안")
+    pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
+    audit_ref: str = Field(default="", description="audit 참조 ID")
+    error: Optional[str] = Field(default=None, description="에러 메시지")
+    # 추가 정보
+    skipped: bool = Field(default=False, description="처리가 스킵됨")
+    skip_reason: Optional[str] = Field(default=None, description="스킵 사유")
 
 
 # ============================================
@@ -1844,3 +1889,280 @@ async def _validate_hypothesis_schema_internal(
         "quality_score": quality_score,
         "evidence_readiness": evidence_readiness
     }
+
+
+# ============================================
+# Hypothesis Seeder Endpoint (tsk-n8n-11)
+# ============================================
+
+@router.post("/infer/hypothesis_draft", response_model=InferHypothesisDraftResponse)
+async def infer_hypothesis_draft(request: InferHypothesisDraftRequest):
+    """
+    Hypothesis Draft 생성 (LLM 기반) - n8n Workflow D
+
+    Project의 expected_impact.statement 또는 hypothesis_text를 기반으로
+    검증 가능한 Hypothesis draft를 생성합니다.
+
+    트리거 조건 (n8n에서 필터):
+    - Project.status in [planning, active]
+    - AND expected_impact.statement 또는 hypothesis_text 존재
+    - AND validates = [] (가설 연결 없음)
+    - AND tier in [strategic, enabling]
+
+    동작:
+    1. Project 조회 및 검증
+    2. Track 정보 로드 (parent_id)
+    3. LLM으로 Hypothesis draft 생성
+    4. 품질 검증 및 Evidence 운영 가능성 평가
+    5. pending review 생성 (mode=pending)
+    6. 승인 시 파일 생성 + Project.validates 연결
+
+    Modes:
+    - preview: LLM 제안만 반환 (저장 안 함)
+    - pending: pending_reviews.json에 저장 (Dashboard 승인 대기)
+
+    핵심 원칙:
+    - 자동 생성된 Hypothesis는 반드시 승인 필요
+    - 지식 그래프 품질 보호
+    """
+    # 1. run_id 생성 또는 검증
+    if request.run_id:
+        if not validate_run_id(request.run_id):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid run_id format: {request.run_id}. Expected: run-YYYYMMDD-HHMMSS-xxxxxx"
+            )
+        run_id = request.run_id
+    else:
+        run_id = generate_run_id()
+
+    # 2. Project 조회
+    project = get_project_by_id(request.project_id)
+    if not project:
+        return InferHypothesisDraftResponse(
+            ok=False,
+            run_id=run_id,
+            project_id=request.project_id,
+            error=f"Project not found: {request.project_id}",
+            audit_ref=run_id
+        )
+
+    project_name = project.get("entity_name", "")
+    project_status = project.get("status", "")
+
+    # 3. Project 상태 검증
+    valid_statuses = ["planning", "active"]
+    if project_status not in valid_statuses:
+        return InferHypothesisDraftResponse(
+            ok=False,
+            run_id=run_id,
+            project_id=request.project_id,
+            project_name=project_name,
+            error=f"Project status must be {valid_statuses}, got: {project_status}",
+            skipped=True,
+            skip_reason=f"invalid_status:{project_status}",
+            audit_ref=run_id
+        )
+
+    # 4. 이미 validates가 있는지 확인
+    validates = project.get("validates", [])
+    if validates and len(validates) > 0:
+        return InferHypothesisDraftResponse(
+            ok=True,
+            run_id=run_id,
+            project_id=request.project_id,
+            project_name=project_name,
+            skipped=True,
+            skip_reason=f"already_has_hypotheses:{','.join(validates)}",
+            audit_ref=run_id
+        )
+
+    # 5. parent_id (Track ID) 확인
+    parent_id = project.get("parent_id", "")
+    if not parent_id or not parent_id.startswith("trk-"):
+        return InferHypothesisDraftResponse(
+            ok=False,
+            run_id=run_id,
+            project_id=request.project_id,
+            project_name=project_name,
+            error=f"Project has no valid parent_id (Track). Got: {parent_id}",
+            audit_ref=run_id
+        )
+
+    # 6. Track 정보 로드
+    track = get_track_by_id(parent_id)
+
+    # 7. hypothesis_text 또는 expected_impact.statement 확인
+    expected_impact = project.get("expected_impact", {})
+    if isinstance(expected_impact, dict):
+        impact_statement = expected_impact.get("statement", "")
+    else:
+        impact_statement = ""
+
+    hypothesis_text = project.get("hypothesis_text", "")
+
+    if not impact_statement and not hypothesis_text:
+        return InferHypothesisDraftResponse(
+            ok=False,
+            run_id=run_id,
+            project_id=request.project_id,
+            project_name=project_name,
+            error="Project has no expected_impact.statement or hypothesis_text",
+            skipped=True,
+            skip_reason="no_hypothesis_source",
+            audit_ref=run_id
+        )
+
+    # 8. 프롬프트 생성
+    if track:
+        prompt = build_hypothesis_seeder_prompt(project, track)
+    else:
+        conditions_3y = project.get("conditions_3y", [])
+        prompt = build_simple_hypothesis_seeder_prompt(
+            project_name=project_name,
+            expected_impact_statement=impact_statement or hypothesis_text,
+            conditions_3y=conditions_3y
+        )
+
+    # 9. LLM 호출
+    llm = get_llm_service()
+    result = await llm.call_llm(
+        prompt=prompt,
+        system_prompt=HYPOTHESIS_SEEDER_SYSTEM_PROMPT,
+        provider=request.provider,
+        response_format="json",
+        entity_context={
+            "entity_id": request.project_id,
+            "entity_type": "Hypothesis",
+            "action": "infer_hypothesis_draft"
+        }
+    )
+
+    if not result["success"]:
+        # LLM 호출 실패
+        save_ai_audit_log(run_id, {
+            "project_id": request.project_id,
+            "project_name": project_name,
+            "mode": request.mode,
+            "actor": request.actor,
+            "endpoint": "infer_hypothesis_draft",
+            "success": False,
+            "error": result.get("error"),
+            "provider": result.get("provider"),
+            "model": result.get("model")
+        })
+
+        return InferHypothesisDraftResponse(
+            ok=False,
+            run_id=run_id,
+            project_id=request.project_id,
+            project_name=project_name,
+            error=result.get("error", "LLM call failed"),
+            audit_ref=run_id
+        )
+
+    content = result["content"]
+
+    # 10. Hypothesis ID 생성
+    try:
+        hypothesis_id = generate_hypothesis_id(parent_id)
+    except ValueError as e:
+        return InferHypothesisDraftResponse(
+            ok=False,
+            run_id=run_id,
+            project_id=request.project_id,
+            project_name=project_name,
+            error=f"Failed to generate hypothesis ID: {str(e)}",
+            audit_ref=run_id
+        )
+
+    # 11. Hypothesis draft 구성
+    hypothesis_draft = build_hypothesis_draft(content, project, hypothesis_id)
+
+    # 12. 품질 검증
+    quality_score, quality_issues = validate_hypothesis_quality(hypothesis_draft)
+
+    # 13. Evidence 운영 가능성 평가
+    evidence_readiness = assess_evidence_readiness(hypothesis_draft)
+
+    # 14. Project 연결 제안
+    project_link = {
+        "project_id": request.project_id,
+        "hypothesis_id": hypothesis_id,
+        "action": "add_to_validates",
+        "set_as_primary": len(validates) == 0
+    }
+
+    # 15. Validation 결과
+    validation = {
+        "quality_score": quality_score,
+        "quality_issues": quality_issues,
+        "is_valid": quality_score >= 0.6,
+        "evidence_readiness": evidence_readiness
+    }
+
+    # 16. Mode별 처리
+    pending_info = None
+
+    # mode 유효성 검증
+    valid_modes = ["preview", "pending"]
+    if request.mode not in valid_modes:
+        # 잘못된 mode는 preview로 처리
+        request.mode = "preview"
+
+    if request.mode == "pending" and request.create_pending:
+        # pending review 생성
+        pending_review = create_pending_review(
+            entity_id=request.project_id,  # Project ID를 entity_id로 (Hypothesis는 approve 시 생성)
+            entity_type="Hypothesis",
+            entity_name=f"Hypothesis for {project_name}",
+            suggested_fields={
+                "hypothesis_draft": hypothesis_draft,
+                "project_link": project_link,
+                "_quality_score": quality_score,
+                "_evidence_readiness": evidence_readiness
+            },
+            reasoning=content.get("reasoning", {}),
+            run_id=run_id,
+            actor=request.actor
+        )
+
+        pending_info = {
+            "review_id": pending_review["id"],
+            "status": pending_review["status"],
+            "created_at": pending_review["created_at"]
+        }
+
+    # 17. Audit 로그 저장
+    audit_ref = save_ai_audit_log(run_id, {
+        "project_id": request.project_id,
+        "project_name": project_name,
+        "hypothesis_id": hypothesis_id,
+        "mode": request.mode,
+        "actor": request.actor,
+        "endpoint": "infer_hypothesis_draft",
+        "success": True,
+        "provider": result.get("provider"),
+        "model": result.get("model"),
+        "hypothesis_draft": hypothesis_draft,
+        "quality_score": quality_score,
+        "quality_issues": quality_issues,
+        "evidence_readiness": evidence_readiness,
+        "project_link": project_link,
+        "pending": pending_info,
+        "llm_run_id": result.get("run_id")
+    })
+
+    return InferHypothesisDraftResponse(
+        ok=True,
+        run_id=run_id,
+        project_id=request.project_id,
+        project_name=project_name,
+        hypothesis_draft=hypothesis_draft,
+        quality_score=quality_score,
+        quality_issues=quality_issues,
+        evidence_readiness=evidence_readiness,
+        project_link=project_link,
+        pending=pending_info,
+        audit_ref=audit_ref
+    )

@@ -18,6 +18,10 @@ from pydantic import BaseModel, Field
 
 from ..utils.vault_utils import get_vault_dir
 from ..services.decision_logger import log_decision
+from ..utils.hypothesis_generator import (
+    create_hypothesis_file,
+    update_project_validates
+)
 
 router = APIRouter(prefix="/api/pending", tags=["pending"])
 
@@ -98,6 +102,9 @@ def find_entity_file(entity_id: str, entity_type: str) -> Optional[Path]:
         pattern = "50_Projects/**/Tasks/*.md"
     elif entity_type == "Project":
         pattern = "50_Projects/**/Project_정의.md"
+    elif entity_type == "Hypothesis":
+        # Hypothesis는 60_Hypotheses 아래에 저장
+        pattern = "60_Hypotheses/**/*.md"
     else:
         return None
 
@@ -110,6 +117,89 @@ def find_entity_file(entity_id: str, entity_type: str) -> Optional[Path]:
         except (IOError, UnicodeDecodeError):
             continue
     return None
+
+
+def handle_hypothesis_approve(
+    review: Dict[str, Any],
+    fields_to_apply: Dict[str, Any],
+    user: str,
+    reason: Optional[str]
+) -> Dict[str, Any]:
+    """
+    Hypothesis 승인 처리 (tsk-n8n-11)
+
+    1. Hypothesis 파일 생성
+    2. Project.validates 업데이트
+    3. decision_log 기록
+
+    Args:
+        review: pending review 정보
+        fields_to_apply: 적용할 필드 (hypothesis_draft 포함)
+        user: 승인자
+        reason: 승인 사유
+
+    Returns:
+        처리 결과 딕셔너리
+
+    Raises:
+        HTTPException: 처리 실패 시
+    """
+    # hypothesis_draft 추출
+    hypothesis_draft = fields_to_apply.get("hypothesis_draft")
+    if not hypothesis_draft:
+        raise HTTPException(
+            status_code=400,
+            detail="Missing hypothesis_draft in suggested_fields"
+        )
+
+    # project_link 추출
+    project_link = fields_to_apply.get("project_link", {})
+    project_id = project_link.get("project_id") or review.get("entity_id")
+    hypothesis_id = hypothesis_draft.get("entity_id")
+    parent_id = hypothesis_draft.get("parent_id")
+
+    if not hypothesis_id or not parent_id:
+        raise HTTPException(
+            status_code=400,
+            detail="Missing hypothesis_id or parent_id in hypothesis_draft"
+        )
+
+    # 1. Hypothesis 파일 생성
+    try:
+        file_path, content = create_hypothesis_file(
+            draft=hypothesis_draft,
+            hypothesis_id=hypothesis_id,
+            parent_id=parent_id,
+            vault_path=VAULT_DIR
+        )
+    except FileExistsError as e:
+        raise HTTPException(status_code=409, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to create hypothesis file: {str(e)}")
+
+    # 2. Project.validates 업데이트
+    set_as_primary = project_link.get("set_as_primary", False)
+    try:
+        link_success = update_project_validates(
+            project_id=project_id,
+            hypothesis_id=hypothesis_id,
+            vault_path=VAULT_DIR,
+            set_as_primary=set_as_primary
+        )
+    except Exception as e:
+        # 파일은 생성되었으나 링크 실패 - 경고만 기록
+        link_success = False
+        print(f"Warning: Failed to update project validates: {e}")
+
+    return {
+        "hypothesis_id": hypothesis_id,
+        "file_path": str(file_path.relative_to(VAULT_DIR)),
+        "project_id": project_id,
+        "project_linked": link_success,
+        "set_as_primary": set_as_primary if link_success else False
+    }
 
 
 def update_entity_frontmatter(file_path: Path, fields: Dict[str, Any]) -> bool:
@@ -227,6 +317,11 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
         modified_fields: 수정된 필드값 (없으면 suggested_fields 그대로 적용)
         reason: 승인 사유
         user: 승인자 (기본값: dashboard)
+
+    Hypothesis 승인 시 (tsk-n8n-11):
+    - Hypothesis 파일 생성
+    - Project.validates 업데이트
+    - decision_log 기록
     """
     data = load_pending()
     reviews = data.get("reviews", [])
@@ -250,8 +345,53 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
     user = approve.user if approve else "dashboard"
     reason = approve.reason if approve else None
 
+    entity_type = review.get("entity_type", "")
+    source = review.get("source", "")
+
+    # Hypothesis 생성 처리 (tsk-n8n-11)
+    # source="ai_infer" + entity_type="Hypothesis" → 파일 생성 필요
+    if entity_type == "Hypothesis" and source == "ai_infer":
+        # Hypothesis 파일 생성 + Project 연결
+        hyp_result = handle_hypothesis_approve(review, fields_to_apply, user, reason)
+
+        # decision_log에 승인 기록
+        decision_id = log_decision(
+            decision="approve",
+            entity_id=hyp_result["hypothesis_id"],
+            entity_type="Hypothesis",
+            review_id=review_id,
+            user=user,
+            reason=reason,
+            applied_fields={
+                "hypothesis_id": hyp_result["hypothesis_id"],
+                "file_path": hyp_result["file_path"],
+                "project_id": hyp_result["project_id"],
+                "project_linked": hyp_result["project_linked"]
+            }
+        )
+
+        # Review 상태 업데이트
+        reviews[review_idx]["status"] = "approved"
+        reviews[review_idx]["approved_at"] = datetime.now().isoformat()
+        reviews[review_idx]["applied_fields"] = fields_to_apply
+        reviews[review_idx]["decision_id"] = decision_id
+        reviews[review_idx]["hypothesis_result"] = hyp_result
+
+        data["reviews"] = reviews
+        save_pending(data)
+
+        return {
+            "message": "Hypothesis created and linked to project",
+            "hypothesis_id": hyp_result["hypothesis_id"],
+            "file_path": hyp_result["file_path"],
+            "project_id": hyp_result["project_id"],
+            "project_linked": hyp_result["project_linked"],
+            "decision_id": decision_id
+        }
+
+    # 기존 처리 (Task, Project 등)
     # 엔티티 파일 찾기
-    entity_file = find_entity_file(review["entity_id"], review["entity_type"])
+    entity_file = find_entity_file(review["entity_id"], entity_type)
     if not entity_file:
         raise HTTPException(status_code=404, detail=f"Entity file not found: {review['entity_id']}")
 
@@ -264,7 +404,7 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
     decision_id = log_decision(
         decision="approve",
         entity_id=review["entity_id"],
-        entity_type=review["entity_type"],
+        entity_type=entity_type,
         review_id=review_id,
         user=user,
         reason=reason,
