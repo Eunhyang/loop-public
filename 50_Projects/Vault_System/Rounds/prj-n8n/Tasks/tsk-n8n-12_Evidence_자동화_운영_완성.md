@@ -4,7 +4,7 @@ entity_id: "tsk-n8n-12"
 entity_name: "Evidence 자동화 - 운영 완성 (Workflow C + Server Skip)"
 created: 2026-01-01
 updated: 2026-01-01
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-n8n"

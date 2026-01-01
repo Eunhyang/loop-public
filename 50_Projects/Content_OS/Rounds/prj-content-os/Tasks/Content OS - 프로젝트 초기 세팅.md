@@ -26,7 +26,8 @@ actual_hours: null
 
 # === Task 유형 (dev Task 연동용) ===
 type: dev
-target_project: loop
+target_project: content-os
+repo_path: apps/content-os
 
 # === 3Y 전략 연결 (필수) ===
 conditions_3y: ["cond-a"]
@@ -85,12 +86,12 @@ Content OS MVP의 기반이 되는 프로젝트 구조 세팅. 후속 UI 태스�
 
 ## 체크리스트
 
-- [ ] Next.js 15 프로젝트 생성
-- [ ] ShadCN UI 설치
-- [ ] Tailwind CSS 테마 설정
-- [ ] 공통 Layout 컴포넌트
-- [ ] Navigation 컴포넌트
-- [ ] 4개 라우트 기본 페이지
+- [x] Next.js 15 프로젝트 생성 (실제 Next.js 16 + React 19)
+- [x] ShadCN UI 설치
+- [x] Tailwind CSS 테마 설정
+- [x] 공통 Layout 컴포넌트
+- [x] Navigation 컴포넌트
+- [x] 4개 라우트 기본 페이지
 
 ---
 
@@ -264,9 +265,35 @@ pnpm dlx shadcn@latest add button input card badge separator sheet
 ---
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-01 18:20
+**개요**: Content OS 프로젝트 초기 세팅 완료. Next.js 16 + React 19 기반으로 pnpm 패키지 매니저를 사용하여 프로젝트를 생성하고, ShadCN UI 컴포넌트와 Tailwind CSS 4를 활용한 다크 모드 지원 대시보드 레이아웃을 구축함. 4개의 핵심 대시보드 페이지(Opportunity, Explorer, Pipeline, Retro)를 플레이스홀더 카드와 함께 구현함.
+
+**변경사항**:
+- 개발: Next.js 16.1.1 + React 19.2.3 프로젝트 신규 생성, ShadCN UI 컴포넌트 (Button, Card, Badge, Input, Separator, Sheet), 공통 Layout 컴포넌트 (MainLayout, Sidebar, Header), 4개 대시보드 라우트 페이지
+- 수정: 프로젝트 위치를 `~/dev/content-os`에서 `LOOP_WORK/apps/content-os`로 이동
+- 개선: next-themes를 활용한 시스템/라이트/다크 테마 자동 감지 및 토글 기능, Tailwind CSS 4의 OKLCH 색상 시스템으로 다크 모드 색상 일관성 확보
+- 삭제: 없음
+
+**파일 변경**:
+- `app/layout.tsx` - RootLayout with ThemeProvider, MainLayout 래핑
+- `app/globals.css` - Tailwind CSS 4 테마 변수 (126줄)
+- `app/opportunity/page.tsx` - 콘텐츠 기회 발견 대시보드
+- `app/explorer/page.tsx` - 콘텐츠 라이브러리 탐색 대시보드
+- `app/pipeline/page.tsx` - 콘텐츠 제작 파이프라인 대시보드
+- `app/retro/page.tsx` - 성과 분석 및 회고 대시보드
+- `components/layout/` - main-layout, sidebar, header, index
+- `components/theme-provider.tsx` - next-themes 래퍼
+- `components/ui/` - ShadCN 컴포넌트 6개
+
+**파일 통계**: 총 24개 소스 파일, 821줄 TypeScript/TSX
+
+**결과**: ✅ 빌드 성공 (정적 페이지 8개 생성)
+
+**다음 단계**:
+- 각 대시보드 페이지의 실제 기능 구현 (API 연동)
+- 상태 관리 설정 (Zustand 또는 React Query)
+- 모바일 반응형 Sidebar 구현
 
 
 ---
