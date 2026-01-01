@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-01T18:05:34.736914",
-  "total_entities": 229,
+  "generated": "2026-01-01T20:26:44.661130",
+  "total_entities": 230,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -1234,8 +1234,11 @@
       "name": "W33 촬영",
       "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
       "priority_flag": "medium",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "prj-yt-wegovy",
@@ -1885,7 +1888,7 @@
       "id": "tsk-n8n-12",
       "type": "Task",
       "name": "Evidence 자동화 - 운영 완성 (Workflow C + Server Skip)",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md",
       "conditions_3y": [
         "cond-a"
@@ -1903,6 +1906,18 @@
         "cond-e"
       ],
       "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-13",
+      "type": "Task",
+      "name": "Dashboard - Pending Reviews 필드 선택 UX 개선",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -2062,7 +2077,7 @@
       "id": "tsk-content-os-01",
       "type": "Task",
       "name": "Content OS - 프로젝트 초기 세팅",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md",
       "conditions_3y": [
         "cond-a"
@@ -3285,6 +3300,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-13",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-017",
       "target": "tsk-017-04",
       "type": "parent_of"
@@ -4137,6 +4157,7 @@
       "tsk-011-01",
       "tsk-002-12",
       "tsk-002-11",
+      "tsk-014-03",
       "prj-dashboard-ux-v1",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-06",
@@ -4171,6 +4192,7 @@
       "tsk-n8n-04",
       "tsk-n8n-05",
       "tsk-n8n-06",
+      "tsk-n8n-13",
       "pgm-tips",
       "prj-017",
       "prj-018",
@@ -4439,6 +4461,7 @@
       "tsk-n8n-05",
       "tsk-n8n-12",
       "tsk-n8n-06",
+      "tsk-n8n-13",
       "tsk-017-04",
       "tsk-017-02",
       "tsk-017-03",
@@ -4636,14 +4659,13 @@
       "tsk-mcp-rbac-03",
       "tsk-impact-schema-v2-05",
       "tsk-n8n-11",
-      "tsk-n8n-12",
       "tsk-n8n-06",
+      "tsk-n8n-13",
       "pgm-tips",
       "tsk-017-02",
       "pgm-hiring",
       "pgm-coaching",
       "pgm-content-os",
-      "tsk-content-os-01",
       "cond-b",
       "cond-d",
       "cond-a",
@@ -4736,7 +4758,9 @@
       "tsk-n8n-01",
       "tsk-n8n-04",
       "tsk-n8n-05",
+      "tsk-n8n-12",
       "tsk-017-04",
+      "tsk-content-os-01",
       "retro:2025-annual"
     ],
     "active": [

@@ -35,7 +35,9 @@
       "Bash(pnpm:*)",
       "Bash(npm:*)",
       "Bash(python:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(sshpass:*)",
+      "Bash(ssh:*)"
     ]
   },
   "hooks": {

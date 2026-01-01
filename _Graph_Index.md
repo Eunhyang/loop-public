@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-01
 updated: 2026-01-01
-total_entities: 229
+total_entities: 230
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 229개
+- **총 엔티티**: 230개
 - **마지막 업데이트**: 2026-01-01
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 7 |
 | Project | 24 |
-| Task | 117 |
+| Task | 118 |
 | Hypothesis | 46 |
 
 ### 상태별
@@ -38,8 +38,8 @@ tags: ["meta", "graph", "index"]
 |  | 5 |
 | active | 4 |
 | assumed | 1 |
-| doing | 44 |
-| done | 71 |
+| doing | 43 |
+| done | 73 |
 | fixed | 1 |
 | hold | 1 |
 | todo | 93 |
@@ -131,7 +131,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (117개)
+## Task (118개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -200,7 +200,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-017-03` | 사업계획서 리뷰(은향) | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md` |
 | `tsk-017-04` | 사업계획서 작성 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
 | `tsk-017-05` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | doing | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/고객_관리_새해_인사_전달유튜브_오픈톡방_꼭꼭Fit_참여인원_등.md` |
-| `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
+| `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
 | `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
 | `tsk-content-os-03` | Content OS - Video Explorer UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md` |
 | `tsk-content-os-04` | Content OS - Task Pipeline UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
@@ -245,7 +245,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-n8n-09` | n8n - Phase 1/2 AI Router 통합 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md` |
 | `tsk-n8n-10` | Dashboard - Pending Reviews 3단 레이아웃 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md` |
 | `tsk-n8n-11` | Hypothesis - Seeder 워크플로우 API 개발 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md` |
-| `tsk-n8n-12` | Evidence 자동화 - 운영 완성 (Workflow C + Server Skip) | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md` |
+| `tsk-n8n-12` | Evidence 자동화 - 운영 완성 (Workflow C + Server Skip) | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md` |
+| `tsk-n8n-13` | Dashboard - Pending Reviews 필드 선택 UX 개선 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 | `tsk-vault-gpt-02` | MCP API TaskUpdate 모델 확장 | hold | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md` |
 | `tsk-vault-gpt-03` | API - Tree + Batch 엔드포인트 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md` |
@@ -478,6 +479,7 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-10 (Dashboard - Pending Reviews 3단 레이아웃 UX 개선)
   - tsk-n8n-11 (Hypothesis - Seeder 워크플로우 API 개발)
   - tsk-n8n-12 (Evidence 자동화 - 운영 완성 (Workflow C + Server Skip))
+  - tsk-n8n-13 (Dashboard - Pending Reviews 필드 선택 UX 개선)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-vault-gpt-01 (v1 HTTP MCP 설정)
   - tsk-vault-gpt-02 (MCP API TaskUpdate 모델 확장)
