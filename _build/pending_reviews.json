@@ -21,11 +21,23 @@
         "due": "Task의 복잡도를 고려할 때, 2-4주 정도의 시간이 필요할 것으로 보이며, 오늘 날짜인 2026-01-01을 마감일로 설정합니다."
       },
       "created_at": "2026-01-01T16:13:55.173085",
-      "status": "pending",
+      "status": "approved",
       "source": "ai_infer",
       "run_id": "run-20260101-161351-v6ezog",
       "actor": "n8n",
-      "updated_at": "2026-01-01T16:13:55.173093"
+      "updated_at": "2026-01-01T16:13:55.173093",
+      "approved_at": "2026-01-01T07:37:00.850793",
+      "applied_fields": {
+        "conditions_3y": [
+          "cond-a",
+          "cond-e"
+        ],
+        "assignee": "김은향",
+        "due": "2026-01-01",
+        "priority": "medium",
+        "type": "strategy"
+      },
+      "decision_id": "dec-20260101-073700-j6kc"
     },
     {
       "id": "review-20251227203000-sy07",

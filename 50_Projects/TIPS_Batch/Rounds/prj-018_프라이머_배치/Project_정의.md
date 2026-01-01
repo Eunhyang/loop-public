@@ -1,59 +1,52 @@
 ---
 entity_type: Project
-entity_id: "prj-018"
-entity_name: "프라이머 배치 프로그램 지원"
+entity_id: prj-018
+entity_name: 프라이머 배치 프로그램 지원
 created: 2025-12-26
-updated: 2025-12-26
+updated: '2026-01-01'
 status: todo
-
-# === 계층 ===
-parent_id: "trk-6"
-program_id: "pgm-tips"
+parent_id: trk-6
+program_id: pgm-tips
 aliases:
-  - "prj-018"
-  - "프라이머 배치 프로그램 지원"
-  - "프라이머"
-
-# === 관계 ===
+- prj-018
+- 프라이머 배치 프로그램 지원
+- 프라이머
 outgoing_relations: []
 validates:
-  - hyp-6-13
-  - hyp-6-14
+- hyp-6-13
+- hyp-6-14
 validated_by: []
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: 2026-01-02
-hypothesis_text: "프라이머 배치 선정 시 TIPS 추천 및 극초기 투자 연계 가능"
-
-# === Impact 점수 필드 (A) ===
+hypothesis_text: 프라이머 배치 선정 시 TIPS 추천 및 극초기 투자 연계 가능
 tier: strategic
 impact_magnitude: high
 confidence: 0.35
 condition_contributes:
-  - to: "cond-d"
-    weight: 0.5
-    description: "투자 유치 시 런웨이 직접 확보"
-  - to: "cond-e"
-    weight: 0.2
-    description: "배치 멘토링으로 팀 역량 강화"
-
+- to: cond-d
+  weight: 0.5
+  description: 투자 유치 시 런웨이 직접 확보
+- to: cond-e
+  weight: 0.2
+  description: 배치 멘토링으로 팀 역량 강화
 track_contributes: []
-
 expected_impact:
-  statement: "프라이머 배치 선정 시 극초기 투자 및 TIPS 연계 가능"
-  metric: "배치 프로그램 선정"
-  target: "2026년 배치 선정"
+  statement: 프라이머 배치 선정 시 극초기 투자 및 TIPS 연계 가능
+  metric: 배치 프로그램 선정
+  target: 2026년 배치 선정
 realized_impact:
   outcome: null
   evidence: null
   updated: null
 experiments: []
-
-# === 분류 ===
-conditions_3y: ['cond-d', 'cond-e']
-tags: ["투자", "배치", "프라이머"]
+conditions_3y:
+- cond-d
+- cond-e
+tags:
+- 투자
+- 배치
+- 프라이머
 priority_flag: high
 ---
 # 프라이머 배치 프로그램 지원
