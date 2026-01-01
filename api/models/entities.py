@@ -67,6 +67,8 @@ class ProjectCreate(BaseModel):
     autofill_expected_impact: bool = Field(default=False, description="True면 LLM으로 Expected Impact 자동 채움")
     expected_impact: Optional[ExpectedImpactInput] = Field(default=None, description="수동 Expected Impact 설정")
     llm_provider: str = Field(default="openai", description="openai | anthropic")
+    # Auto-validation 옵션
+    auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
 
 
 class ProjectUpdate(BaseModel):
@@ -83,12 +85,22 @@ class ProjectUpdate(BaseModel):
     links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
 
 
+class ValidationResult(BaseModel):
+    """Auto-validation 결과"""
+    validated: bool = Field(default=False, description="검증 수행 여부")
+    issues_found: int = Field(default=0, description="발견된 이슈 수")
+    pending_created: bool = Field(default=False, description="pending review 생성 여부")
+    pending_id: Optional[str] = Field(default=None, description="생성된 pending review ID")
+    run_id: Optional[str] = Field(default=None, description="검증 run_id")
+
+
 class TaskResponse(BaseModel):
     """Task 응답"""
     success: bool
     task_id: str
     file_path: Optional[str] = None
     message: str
+    validation: Optional[ValidationResult] = Field(default=None, description="auto_validate=True 시 검증 결과")
 
 
 class ProjectResponse(BaseModel):
@@ -100,6 +112,8 @@ class ProjectResponse(BaseModel):
     # Autofill 결과 (옵션)
     expected_impact: Optional[dict] = Field(default=None, description="자동/수동 설정된 Expected Impact")
     expected_score: Optional[float] = Field(default=None, description="계산된 A Score")
+    # Auto-validation 결과
+    validation: Optional[ValidationResult] = Field(default=None, description="auto_validate=True 시 검증 결과")
 
 
 # ============================================
