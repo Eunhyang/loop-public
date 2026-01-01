@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-01T14:36:37.294247",
-  "total_entities": 224,
+  "generated": "2026-01-01T18:05:34.736914",
+  "total_entities": 229,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -176,6 +176,13 @@
       "name": "효과지표 산출 자동화",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
+    },
+    {
+      "id": "hyp-3-01",
+      "type": "Hypothesis",
+      "name": "Content OS 기획시간 50% 단축",
+      "status": "assumed",
+      "path": "60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md"
     },
     {
       "id": "hyp-1-04",
@@ -714,8 +721,8 @@
       "status": "todo",
       "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
       "conditions_3y": [
-        "cond-c",
-        "cond-d"
+        "cond-a",
+        "cond-e"
       ],
       "priority_flag": "low",
       "assignee": "김은향"
@@ -1097,6 +1104,14 @@
         "cond-d"
       ],
       "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-017-05",
+      "type": "Task",
+      "name": "고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등)",
+      "status": "doing",
+      "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/고객_관리_새해_인사_전달유튜브_오픈톡방_꼭꼭Fit_참여인원_등.md",
       "assignee": "한명학"
     },
     {
@@ -1747,6 +1762,30 @@
       "owner": "김은향"
     },
     {
+      "id": "tsk-n8n-11",
+      "type": "Task",
+      "name": "Hypothesis - Seeder 워크플로우 API 개발",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-10",
+      "type": "Task",
+      "name": "Dashboard - Pending Reviews 3단 레이아웃 UX 개선",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-03",
       "type": "Task",
       "name": "n8n - Project Impact Score 자동화 n8n 워크플로우",
@@ -1774,7 +1813,7 @@
       "id": "tsk-n8n-09",
       "type": "Task",
       "name": "n8n - Phase 1/2 AI Router 통합",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md",
       "conditions_3y": [
         "cond-e"
@@ -1843,6 +1882,18 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-12",
+      "type": "Task",
+      "name": "Evidence 자동화 - 운영 완성 (Workflow C + Server Skip)",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md",
+      "conditions_3y": [
+        "cond-a"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-06",
       "type": "Task",
       "name": "vault-hygiene - API 엔드포인트 개발",
@@ -1884,7 +1935,7 @@
       "id": "tsk-017-04",
       "type": "Task",
       "name": "사업계획서 작성",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md",
       "conditions_3y": [
         "cond-d"
@@ -1976,7 +2027,7 @@
       "type": "Project",
       "name": "Content OS - MVP 개발",
       "status": "active",
-      "path": "50_Projects/Content_OS/prj-content-os/Project_정의.md",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Project_정의.md",
       "conditions_3y": [
         "cond-a"
       ],
@@ -1988,7 +2039,7 @@
       "type": "Task",
       "name": "Content OS - Task Pipeline UI",
       "status": "todo",
-      "path": "50_Projects/Content_OS/prj-content-os/Tasks/Content OS - Task Pipeline UI.md",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md",
       "conditions_3y": [
         "cond-a"
       ],
@@ -2000,7 +2051,7 @@
       "type": "Task",
       "name": "Content OS - Opportunity 대시보드 UI",
       "status": "todo",
-      "path": "50_Projects/Content_OS/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md",
       "conditions_3y": [
         "cond-a"
       ],
@@ -2012,7 +2063,7 @@
       "type": "Task",
       "name": "Content OS - 프로젝트 초기 세팅",
       "status": "doing",
-      "path": "50_Projects/Content_OS/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md",
       "conditions_3y": [
         "cond-a"
       ],
@@ -2024,7 +2075,7 @@
       "type": "Task",
       "name": "Content OS - 회고 대시보드 UI",
       "status": "todo",
-      "path": "50_Projects/Content_OS/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md",
       "conditions_3y": [
         "cond-a"
       ],
@@ -2036,7 +2087,7 @@
       "type": "Task",
       "name": "Content OS - Video Explorer UI",
       "status": "todo",
-      "path": "50_Projects/Content_OS/prj-content-os/Tasks/Content OS - Video Explorer UI.md",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md",
       "conditions_3y": [
         "cond-a"
       ],
@@ -2654,6 +2705,31 @@
       "type": "parent_of"
     },
     {
+      "source": "trk-3",
+      "target": "hyp-3-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "pgm-youtube-weekly",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "prj-yt-w33",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "pgm-content-os",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "prj-content-os",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-003",
       "target": "tsk-003-07",
       "type": "parent_of"
@@ -2919,6 +2995,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-012",
+      "target": "tsk-017-05",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-008",
       "target": "tsk-008-05",
       "type": "parent_of"
@@ -2941,26 +3022,6 @@
     {
       "source": "prj-008",
       "target": "tsk-008-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-3",
-      "target": "pgm-youtube-weekly",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-3",
-      "target": "prj-yt-w33",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-3",
-      "target": "pgm-content-os",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-3",
-      "target": "prj-content-os",
       "type": "parent_of"
     },
     {
@@ -3165,6 +3226,16 @@
     },
     {
       "source": "prj-n8n",
+      "target": "tsk-n8n-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
       "target": "tsk-n8n-03",
       "type": "parent_of"
     },
@@ -3201,6 +3272,11 @@
     {
       "source": "prj-n8n",
       "target": "tsk-n8n-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-12",
       "type": "parent_of"
     },
     {
@@ -3764,6 +3840,11 @@
       "type": "validates"
     },
     {
+      "source": "prj-content-os",
+      "target": "hyp-3-01",
+      "type": "validates"
+    },
+    {
       "source": "retro:2025-annual",
       "target": "mh-3",
       "type": "validates"
@@ -4053,6 +4134,7 @@
       "tsk-007-03",
       "tsk-007-02",
       "prj-014",
+      "tsk-011-01",
       "tsk-002-12",
       "tsk-002-11",
       "prj-dashboard-ux-v1",
@@ -4078,6 +4160,8 @@
       "tsk-impact-v2-07",
       "tsk-impact-v2-06",
       "prj-n8n",
+      "tsk-n8n-11",
+      "tsk-n8n-10",
       "tsk-n8n-03",
       "tsk-n8n-07",
       "tsk-n8n-09",
@@ -4100,7 +4184,6 @@
       "tsk-006-02",
       "tsk-014-01",
       "prj-011",
-      "tsk-011-01",
       "prj-015",
       "tsk-015-10",
       "tsk-015-11",
@@ -4148,11 +4231,12 @@
     ],
     "cond-c": [
       "prj-011",
-      "tsk-011-01",
       "trk-5"
     ],
     "cond-a": [
+      "tsk-011-01",
       "prj-yt-wegovy",
+      "tsk-n8n-12",
       "pgm-content-os",
       "prj-content-os",
       "tsk-content-os-04",
@@ -4197,6 +4281,7 @@
       "hyp-1-07",
       "hyp-1-02",
       "hyp-2-07",
+      "hyp-3-01",
       "hyp-1-04",
       "hyp-4-06",
       "hyp-6-07",
@@ -4298,6 +4383,7 @@
       "tsk-002-03",
       "tsk-002-07",
       "tsk-012-01",
+      "tsk-017-05",
       "tsk-008-05",
       "tsk-008-03",
       "tsk-008-02",
@@ -4341,6 +4427,8 @@
       "tsk-impact-schema-v2-02",
       "tsk-impact-schema-v2-05",
       "tsk-impact-v2-06",
+      "tsk-n8n-11",
+      "tsk-n8n-10",
       "tsk-n8n-03",
       "tsk-n8n-07",
       "tsk-n8n-09",
@@ -4349,6 +4437,7 @@
       "tsk-n8n-01",
       "tsk-n8n-04",
       "tsk-n8n-05",
+      "tsk-n8n-12",
       "tsk-n8n-06",
       "tsk-017-04",
       "tsk-017-02",
@@ -4503,7 +4592,6 @@
       "prj-grants-jemi",
       "tsk-dashboard-ux-v1-01",
       "prj-017",
-      "tsk-017-04",
       "tsk-017-03",
       "tsk-017-01",
       "prj-018",
@@ -4522,6 +4610,9 @@
       "pl-5",
       "pl-2"
     ],
+    "assumed": [
+      "hyp-3-01"
+    ],
     "doing": [
       "prj-003",
       "prj-001",
@@ -4531,6 +4622,7 @@
       "prj-015",
       "tsk-002-11",
       "tsk-012-01",
+      "tsk-017-05",
       "tsk-008-01",
       "pgm-youtube-weekly",
       "prj-yt-w33",
@@ -4543,7 +4635,8 @@
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-03",
       "tsk-impact-schema-v2-05",
-      "tsk-n8n-09",
+      "tsk-n8n-11",
+      "tsk-n8n-12",
       "tsk-n8n-06",
       "pgm-tips",
       "tsk-017-02",
@@ -4634,13 +4727,16 @@
       "tsk-impact-v2-07",
       "tsk-impact-schema-v2-02",
       "tsk-impact-v2-06",
+      "tsk-n8n-10",
       "tsk-n8n-03",
       "tsk-n8n-07",
+      "tsk-n8n-09",
       "tsk-n8n-08",
       "tsk-n8n-02",
       "tsk-n8n-01",
       "tsk-n8n-04",
       "tsk-n8n-05",
+      "tsk-017-04",
       "retro:2025-annual"
     ],
     "active": [

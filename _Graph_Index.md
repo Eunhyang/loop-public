@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-01
 updated: 2026-01-01
-total_entities: 224
+total_entities: 229
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 224개
+- **총 엔티티**: 229개
 - **마지막 업데이트**: 2026-01-01
 
 ### 타입별
@@ -29,19 +29,20 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 7 |
 | Project | 24 |
-| Task | 113 |
-| Hypothesis | 45 |
+| Task | 117 |
+| Hypothesis | 46 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
 |  | 5 |
 | active | 4 |
-| doing | 42 |
-| done | 68 |
+| assumed | 1 |
+| doing | 44 |
+| done | 71 |
 | fixed | 1 |
 | hold | 1 |
-| todo | 94 |
+| todo | 93 |
 | unknown | 5 |
 | validating | 4 |
 
@@ -118,7 +119,7 @@ tags: ["meta", "graph", "index"]
 | `prj-016` | 법인 전환 설립(주) 루프 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md` |
 | `prj-017` | 아이디어파트너스 배치 프로그램 지원 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Project_정의.md` |
 | `prj-018` | 프라이머 배치 프로그램 지원 | todo | `50_Projects/TIPS_Batch/Rounds/prj-018_프라이머_배치/Project_정의.md` |
-| `prj-content-os` | Content OS - MVP 개발 | active | `50_Projects/Content_OS/prj-content-os/Project_정의.md` |
+| `prj-content-os` | Content OS - MVP 개발 | active | `50_Projects/Content_OS/Rounds/prj-content-os/Project_정의.md` |
 | `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 |  | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
 | `prj-grants-jemi` | JEMI디딤돌 지원사업 | todo | `50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md` |
 | `prj-grants-youth` | 청년창업사관학교 | doing | `50_Projects/Grants/Rounds/prj-grants-youth/Project_정의.md` |
@@ -130,7 +131,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (113개)
+## Task (117개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -197,12 +198,13 @@ tags: ["meta", "graph", "index"]
 | `tsk-017-01` | 제출 서류 준비 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-01_제출서류준비.md` |
 | `tsk-017-02` | 사업계획서 틀 작성 | doing | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md` |
 | `tsk-017-03` | 사업계획서 리뷰(은향) | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md` |
-| `tsk-017-04` | 사업계획서 작성 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
-| `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | doing | `50_Projects/Content_OS/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
-| `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
-| `tsk-content-os-03` | Content OS - Video Explorer UI | todo | `50_Projects/Content_OS/prj-content-os/Tasks/Content OS - Video Explorer UI.md` |
-| `tsk-content-os-04` | Content OS - Task Pipeline UI | todo | `50_Projects/Content_OS/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
-| `tsk-content-os-05` | Content OS - 회고 대시보드 UI | todo | `50_Projects/Content_OS/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
+| `tsk-017-04` | 사업계획서 작성 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
+| `tsk-017-05` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | doing | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/고객_관리_새해_인사_전달유튜브_오픈톡방_꼭꼭Fit_참여인원_등.md` |
+| `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
+| `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
+| `tsk-content-os-03` | Content OS - Video Explorer UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md` |
+| `tsk-content-os-04` | Content OS - Task Pipeline UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
+| `tsk-content-os-05` | Content OS - 회고 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
 | `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
 | `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
 | `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
@@ -240,7 +242,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-n8n-06` | vault-hygiene - API 엔드포인트 개발 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-06_vault-hygiene_API_엔드포인트_개발.md` |
 | `tsk-n8n-07` | AI Router - Evidence 추론 엔드포인트 구현 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md` |
 | `tsk-n8n-08` | n8n - Workflow v4 구현 및 E2E 테스트 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-08_Workflow_v4_구현_및_E2E_테스트.md` |
-| `tsk-n8n-09` | n8n - Phase 1/2 AI Router 통합 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md` |
+| `tsk-n8n-09` | n8n - Phase 1/2 AI Router 통합 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md` |
+| `tsk-n8n-10` | Dashboard - Pending Reviews 3단 레이아웃 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md` |
+| `tsk-n8n-11` | Hypothesis - Seeder 워크플로우 API 개발 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md` |
+| `tsk-n8n-12` | Evidence 자동화 - 운영 완성 (Workflow C + Server Skip) | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 | `tsk-vault-gpt-02` | MCP API TaskUpdate 모델 확장 | hold | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md` |
 | `tsk-vault-gpt-03` | API - Tree + Batch 엔드포인트 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md` |
@@ -249,7 +254,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
 
 
-## Hypothesis (45개)
+## Hypothesis (46개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -274,6 +279,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-2-08` | 데이터로 루프 재구성 | todo | `60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md` |
 | `hyp-2-09` | 데이터 품질 리포트가 행동을 바꿈 | todo | `60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md` |
 | `hyp-2-10` | 투자/외부 설득용 신뢰도 | todo | `60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md` |
+| `hyp-3-01` | Content OS 기획시간 50% 단축 | assumed | `60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md` |
 | `hyp-4-01` | 심화 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md` |
 | `hyp-4-02` | GLP-1 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md` |
 | `hyp-4-03` | 완주율 | todo | `60_Hypotheses/2026/hyp-4-03_완주율.md` |
@@ -395,6 +401,7 @@ tags: ["meta", "graph", "index"]
   - tsk-011-01 (리크루팅 사이트) 원택님 피드백 반영)
 - **prj-012** (CS·운영 - 고객관리/대응)
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
+  - tsk-017-05 (고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등))
 - **prj-014** (코칭 서비스 운영 체계 재구축)
   - tsk-014-01 (꼭꼭Fit 3기 환급 검토)
 - **prj-015** (Hiring - 주니어 개발자 채용)
@@ -468,6 +475,9 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-07 (AI Router - Evidence 추론 엔드포인트 구현)
   - tsk-n8n-08 (n8n - Workflow v4 구현 및 E2E 테스트)
   - tsk-n8n-09 (n8n - Phase 1/2 AI Router 통합)
+  - tsk-n8n-10 (Dashboard - Pending Reviews 3단 레이아웃 UX 개선)
+  - tsk-n8n-11 (Hypothesis - Seeder 워크플로우 API 개발)
+  - tsk-n8n-12 (Evidence 자동화 - 운영 완성 (Workflow C + Server Skip))
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-vault-gpt-01 (v1 HTTP MCP 설정)
   - tsk-vault-gpt-02 (MCP API TaskUpdate 모델 확장)
@@ -513,6 +523,7 @@ tags: ["meta", "graph", "index"]
   - prj-n8n (n8n Vault 자동화)
   - prj-vault-gpt (ChatGPT Vault MCP 연결)
 - **trk-3** (Track_3_Content)
+  - hyp-3-01 (Content OS 기획시간 50% 단축)
   - pgm-content-os (Content OS)
   - pgm-youtube-weekly (YouTube 1주 1업로드)
   - prj-content-os (Content OS - MVP 개발)
@@ -564,7 +575,7 @@ tags: ["meta", "graph", "index"]
 ### Critical 엔티티
 
 - **prj-001**: Ontology v0.1 (status: doing)
-- **tsk-017-04**: 사업계획서 작성 (status: todo)
+- **tsk-017-04**: 사업계획서 작성 (status: done)
 - **mh-3**: MH3_데이터_모델링_가능 (status: validating)
 - **ns-001**: 10년 비전 (status: fixed)
 - **mh-4**: MH4_단계적_확장_가능 (status: validating)

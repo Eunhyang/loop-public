@@ -4,7 +4,7 @@ entity_id: tsk-n8n-10
 entity_name: "Dashboard - Pending Reviews 3단 레이아웃 UX 개선"
 created: 2026-01-01
 updated: 2026-01-01
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: prj-n8n
@@ -268,24 +268,55 @@ tsk-n8n-09에서 E2E 테스트 완료 후 요청된 UX 개선 사항.
 
 | # | 상태 | 작업 내용 |
 |---|------|----------|
-| 1 | pending | `pending-panel.js`의 `createPanelHTML()` 수정 - 3단 레이아웃 HTML 구조로 변경 |
-| 2 | pending | `panel.css`에 3-pane 레이아웃 스타일 추가 |
-| 3 | pending | `renderReviews()` 수정 - 왼쪽 패널에 렌더링되도록 변경 |
-| 4 | pending | 신규 함수 `renderDetail()` 구현 - 가운데 패널 렌더링 |
-| 5 | pending | Suggested Fields에서 Entity ID를 클릭 가능하게 변경 |
-| 6 | pending | 신규 함수 `loadEntityPreview()` 구현 - 오른쪽 패널 Entity 로드 |
-| 7 | pending | `api.js`에 `getCondition()`, `getTrack()`, `getHypothesis()` 메서드 추가 |
-| 8 | pending | Entity Preview 렌더러 구현 (Track, Condition, Hypothesis 타입별) |
-| 9 | pending | 이벤트 리스너 설정 (카드 클릭, Entity ID 클릭, Approve/Reject) |
-| 10 | pending | 반응형 CSS 추가 (1024px, 768px 브레이크포인트) |
-| 11 | pending | 기존 Modal 코드 정리 |
-| 12 | pending | 로컬 테스트 및 엣지 케이스 검증 |
-| 13 | pending | NAS 동기화 및 Docker 재배포 |
+| 1 | ✅ done | `pending-panel.js`의 `createPanelHTML()` 수정 - 3단 레이아웃 HTML 구조로 변경 |
+| 2 | ✅ done | `panel.css`에 3-pane 레이아웃 스타일 추가 |
+| 3 | ✅ done | `renderReviews()` 수정 - 왼쪽 패널에 렌더링되도록 변경 |
+| 4 | ✅ done | 신규 함수 `renderDetail()` 구현 - 가운데 패널 렌더링 |
+| 5 | ✅ done | Suggested Fields에서 Entity ID를 클릭 가능하게 변경 |
+| 6 | ✅ done | 신규 함수 `loadEntityPreview()` 구현 - 오른쪽 패널 Entity 로드 |
+| 7 | ✅ done | `api.js`에 `getCondition()`, `getTrack()`, `getHypothesis()` 메서드 추가 |
+| 8 | ✅ done | Entity Preview 렌더러 구현 (Track, Condition, Hypothesis, Project, Task 타입별) |
+| 9 | ✅ done | 이벤트 리스너 설정 (카드 클릭, Entity ID 클릭, Approve/Reject) |
+| 10 | ⏳ pending | 반응형 CSS 추가 (1024px, 768px 브레이크포인트) - 향후 개선 |
+| 11 | ✅ done | 기존 Modal 코드 정리 |
+| 12 | ✅ done | 로컬 테스트 및 엣지 케이스 검증 |
+| 13 | ✅ done | NAS 동기화 및 Docker 재배포 |
 
 ---
 
 ### 작업 로그
 
+#### 2026-01-01 18:00
+**개요**: Pending Reviews 패널을 3단 레이아웃(List | Detail | Entity Preview)으로 전환 완료. Entity Preview 패널에서 기존 Dashboard 컴포넌트 스타일을 재사용하여 Track, Condition, Hypothesis, Project, Task 타입별 렌더링 구현. Approve/Reject 버튼 고정 위치 CSS 수정.
+
+**변경사항**:
+- 개발: 3단 레이아웃 HTML 구조 (`pending-3pane-container`)
+- 개발: Entity Preview 타입별 렌더러 (`renderTrackPreview`, `renderConditionPreview`, `renderHypothesisPreview`, `renderProjectPreview`, `renderTaskPreview`)
+- 개발: Entity ID 클릭 → API 조회 → Preview 렌더링 연동
+- 수정: `panel.css` - 3-pane 레이아웃 스타일, footer 고정 위치
+- 수정: Entity ID 정규식 패턴 (`hyp-001` 형식 지원 추가)
+- 삭제: 기존 crude `renderEntityFields()`, `formatEntityFieldValue()` (JSON.stringify 방식)
+
+**파일 변경**:
+- `_dashboard/js/components/pending-panel.js` - 3단 레이아웃 + 타입별 Preview 렌더러
+- `_dashboard/css/panel.css` - 3-pane CSS, footer 고정
+- `_dashboard/js/api.js` - `getCondition()`, `getTrack()`, `getHypothesis()` 메서드 추가
+
+**핵심 코드**:
+```javascript
+// Entity ID 패턴 매칭
+if (entityId.match(/^cond-/)) entityType = 'condition';
+if (entityId.match(/^trk-/)) entityType = 'track';
+if (entityId.match(/^hyp-\d+-\d+$/) || entityId.match(/^hyp-\d+$/)) entityType = 'hypothesis';
+if (entityId.match(/^prj-/)) entityType = 'project';
+if (entityId.match(/^tsk-/)) entityType = 'task';
+```
+
+**결과**: ✅ 빌드 성공, NAS 동기화 완료
+
+**다음 단계**:
+- Dashboard 새로고침 후 최종 확인
+- Task 상태 done으로 변경 (필요시)
 
 ---
 

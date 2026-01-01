@@ -26,7 +26,7 @@ TASK_SCHEMA_SYSTEM_PROMPT = """당신은 LOOP Vault Task 스키마 전문가입�
    - priority: critical, high, medium, low
    - type: dev, bug, strategy, research, ops
    - target_project: sosi, kkokkkok, loop-api, loop (type이 dev/bug일 때만)
-3. **assignee는 정해진 목록에서만 선택**: 김은향, 소상민
+3. **assignee는 정해진 목록에서만 선택**: 김은향, 한명학
 4. **conditions_3y는 1개 이상 필수**: cond-a, cond-b, cond-c, cond-d, cond-e
 
 ## 출력 형식
@@ -107,7 +107,7 @@ def build_task_schema_prompt(
 {{
   "suggested_fields": {{
     "conditions_3y": ["cond-X"],
-    "assignee": "김은향 또는 소상민",
+    "assignee": "김은향 또는 한명학",
     "due": "YYYY-MM-DD",
     "priority": "critical|high|medium|low",
     "type": "dev|bug|strategy|research|ops",
@@ -132,8 +132,8 @@ def build_task_schema_prompt(
 Task 이름, notes, project_id, tags를 분석하여 가장 관련 있는 Condition을 선택하세요.
 
 **assignee 선택:**
-- 김은향: 전략, 디자인, PM 작업
-- 소상민: 개발, 인프라, 기술 작업
+- 김은향: 전략, 시스템 설계, 데이터, 개발, 기술 인프라 작업
+- 한명학: 팀 운영, 외부 영업/파트너십, 서류/행정, 코치 관리 작업
 
 **due 선택:**
 - 오늘 날짜: {today}
@@ -186,7 +186,7 @@ def build_simple_task_schema_prompt(
 {{
   "suggested_fields": {{
     "conditions_3y": ["cond-X"],
-    "assignee": "김은향 또는 소상민",
+    "assignee": "김은향 또는 한명학",
     "due": "YYYY-MM-DD"
   }},
   "reasoning": {{
@@ -199,7 +199,7 @@ def build_simple_task_schema_prompt(
 ### 선택지
 
 **conditions_3y**: cond-a (PMF), cond-b (수익), cond-c (확장), cond-d (팀), cond-e (기술)
-**assignee**: 김은향 (전략/디자인), 소상민 (개발/인프라)
+**assignee**: 김은향 (전략/개발/기술), 한명학 (팀운영/영업/행정)
 **오늘 날짜**: {today}
 
 JSON만 반환하세요."""

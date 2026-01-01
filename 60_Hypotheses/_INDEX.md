@@ -17,7 +17,7 @@ tags: ["meta", "index", "auto-generated"]
 
 ---
 
-## 목록 (45개)
+## 목록 (46개)
 
 | ID | Name | Status | Evidence Status | Confidence |
 |---|---|---|---|---|
@@ -42,6 +42,7 @@ tags: ["meta", "index", "auto-generated"]
 | `hyp-2-08` | [[hyp-2-08_데이터_루프재구성|데이터로 루프 재구성]] | todo | planning | 0.5 |
 | `hyp-2-09` | [[hyp-2-09_데이터품질_리포트_행동변화|데이터 품질 리포트가 행동을 바꿈]] | todo | planning | 0.5 |
 | `hyp-2-10` | [[hyp-2-10_투자_외부설득_신뢰도|투자/외부 설득용 신뢰도]] | todo | planning | 0.5 |
+| `hyp-3-01` | [[hyp-3-01_Content_OS_기획시간_50_단축|Content OS 기획시간 50% 단축]] | assumed | assumed | 0.5 |
 | `hyp-4-01` | [[hyp-4-01_심화과정_수요재현|심화 과정 수요 재현]] | todo | planning | 0.5 |
 | `hyp-4-02` | [[hyp-4-02_GLP1과정_수요재현|GLP-1 과정 수요 재현]] | todo | planning | 0.5 |
 | `hyp-4-03` | [[hyp-4-03_완주율|완주율]] | todo | planning | 0.5 |
@@ -73,6 +74,7 @@ tags: ["meta", "index", "auto-generated"]
 
 | Status | Count |
 |--------|-------|
+| assumed | 1 |
 | todo | 45 |
 
 ---

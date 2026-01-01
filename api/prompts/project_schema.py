@@ -26,7 +26,7 @@ PROJECT_SCHEMA_SYSTEM_PROMPT = """당신은 LOOP Vault Project 스키마 전문�
 2. **enum 값은 정해진 목록에서만 선택**
    - status: planning, active, paused, done, cancelled
    - priority_flag: critical, high, medium, low
-3. **owner는 정해진 목록에서만 선택**: 김은향, 소상민
+3. **owner는 정해진 목록에서만 선택**: 김은향, 한명학
 4. **parent_id는 Track ID만 가능**: trk-1 ~ trk-6
 5. **conditions_3y는 1개 이상 필수**: cond-a ~ cond-e
 
@@ -116,7 +116,7 @@ def build_project_schema_prompt(
 
 {{
   "suggested_fields": {{
-    "owner": "김은향 또는 소상민",
+    "owner": "김은향 또는 한명학",
     "parent_id": "trk-N",
     "conditions_3y": ["cond-X"],
     "validates": ["hyp-X-XX"],
@@ -148,8 +148,8 @@ def build_project_schema_prompt(
 ### 판단 기준
 
 **owner 선택:**
-- 김은향: 전략, 디자인, PM, 비즈니스 프로젝트
-- 소상민: 개발, 인프라, 기술 프로젝트
+- 김은향: 전략, 시스템 설계, 데이터, 개발, 기술 인프라 프로젝트
+- 한명학: 팀 운영, 외부 영업/파트너십, 코치 관리, 행정 프로젝트
 
 **parent_id (Track) 선택:**
 - trk-1 ~ trk-6 중 프로젝트가 속하는 Track
@@ -217,7 +217,7 @@ def build_simple_project_schema_prompt(
 
 {{
   "suggested_fields": {{
-    "owner": "김은향 또는 소상민",
+    "owner": "김은향 또는 한명학",
     "parent_id": "trk-N",
     "conditions_3y": ["cond-X"],
     "condition_contributes": [
@@ -233,7 +233,7 @@ def build_simple_project_schema_prompt(
 
 ### 선택지
 
-**owner**: 김은향 (전략/디자인), 소상민 (개발/인프라)
+**owner**: 김은향 (전략/개발/기술), 한명학 (팀운영/영업/행정)
 **parent_id**: trk-1 ~ trk-6
 **conditions_3y**: cond-a (PMF), cond-b (수익), cond-c (확장), cond-d (팀), cond-e (기술)
 
