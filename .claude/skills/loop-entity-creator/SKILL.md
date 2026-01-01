@@ -1,6 +1,6 @@
 ---
 name: loop-entity-creator
-description: Create, edit, and delete LOOP vault entities (Task, Project) while maintaining GraphRAG pattern integrity. Use when user wants to (1) create a new Task or Project entity, (2) edit an existing entity's fields, (3) delete an entity and update graph index. CRITICAL - This skill enforces schema compliance, automatic ID generation, parent-child linking, and graph index updates to maintain vault integrity.
+description: Create, edit, and delete LOOP vault entities (Task, Project, Hypothesis) while maintaining GraphRAG pattern integrity. Use when user wants to (1) create a new Task, Project, or Hypothesis entity, (2) edit an existing entity's fields, (3) delete an entity and update graph index. CRITICAL - This skill enforces schema compliance, automatic ID generation, parent-child linking, and graph index updates to maintain vault integrity.
 ---
 
 # LOOP Entity Creator
@@ -9,7 +9,7 @@ Manage LOOP vault entities with GraphRAG pattern enforcement.
 
 ## Overview
 
-This skill ensures Task and Project entities follow strict schema requirements and maintain proper relationships. It prevents orphaned entities by enforcing validation and automatic graph index updates.
+This skill ensures Task, Project, and Hypothesis entities follow strict schema requirements and maintain proper relationships. It prevents orphaned entities by enforcing validation and automatic graph index updates.
 
 > ## ⛔ MANDATORY NAME FORMAT (절대 규칙)
 >
@@ -20,9 +20,11 @@ This skill ensures Task and Project entities follow strict schema requirements a
 > - 검증 실패 시: **생성 진행 금지, 재입력 요청**
 >
 > **이 규칙은 스킵할 수 없음. 예외 없음.**
+>
+> **Hypothesis는 예외**: entity_name에 ` - ` 형식 불필요 (hypothesis_question이 핵심)
 
 **Supported operations-**
-- **Create** - Generate new Task or Project with auto-assigned ID
+- **Create** - Generate new Task, Project, or Hypothesis with auto-assigned ID
 - **Edit** - Modify existing entity fields while preserving schema
 - **Delete** - Remove entity and update all references
 
@@ -547,6 +549,123 @@ Run validation (see "Validation Workflow" section below).
 - **API 성공 시**: API가 감사 로그 + 캐시 업데이트 완료.
 - **Fallback 사용 시**: 전체 Validation Workflow 실행.
 
+### Creating a Hypothesis
+
+**Step 1: Collect required information**
+
+Use AskUserQuestion to collect:
+
+Required fields:
+- `entity_name` - 가설 이름 (` - ` 형식 불필요)
+- `parent_id` - Track ID (필수, 예: "trk-3")
+- `hypothesis_question` - 질문 형태 (반드시 `?`로 끝나야 함)
+- `success_criteria` - 성공 판정 기준 (구체적이고 측정 가능해야 함)
+- `failure_criteria` - 실패 판정 기준 (구체적이고 측정 가능해야 함)
+- `measurement` - 측정 방법 (어디서/무엇을/어떻게)
+
+Optional fields:
+- `horizon` - 검증 목표 연도 (기본값: 2026)
+- `confidence` - 신뢰도 (0.0~1.0, 기본값: 0.0)
+- `evidence_status` - 상태 (assumed, supported, rejected, inconclusive)
+- `project_ids` - 연결할 프로젝트 IDs (validates에 추가됨)
+- `auto_validate` - 생성 후 AI 검증 실행 여부
+
+**Step 1.5: MANDATORY Question Format Validation (반드시 실행)**
+
+> ⚠️ **CRITICAL: hypothesis_question이 `?`로 끝나지 않으면 생성 진행 금지**
+
+**검증 로직:**
+```
+IF hypothesis_question does NOT end with '?':
+    → REJECT and re-ask with error message
+    → NEVER proceed to Step 2
+```
+
+**✅ ACCEPT:**
+- "Content OS를 구축하면 콘텐츠 기획 시간이 50% 감소하는가?"
+- "코치가 라벨러 역할로 전환하여 고품질 데이터를 생성할 수 있는가?"
+
+**❌ REJECT:**
+- "Content OS를 구축하면 기획 시간이 감소한다" (질문 아님)
+- "기획 시간 50% 감소" (문장 아님)
+
+**Step 2: API 호출**
+
+```bash
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
+: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
+
+curl -fsS -X POST "$API_URL/api/hypotheses" \
+    -H "Authorization: Bearer $LOOP_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "entity_name": "가설 이름",
+        "parent_id": "trk-3",
+        "hypothesis_question": "...인가?",
+        "success_criteria": "성공 기준",
+        "failure_criteria": "실패 기준",
+        "measurement": "측정 방법",
+        "horizon": "2026",
+        "confidence": 0.7,
+        "project_ids": ["prj-018"],
+        "auto_validate": true
+    }'
+```
+
+**Step 3: API 응답 확인**
+
+API 응답 필드:
+- `hypothesis_id`: 생성된 ID (예: hyp-3-01)
+- `file_path`: 파일 경로 (60_Hypotheses/2026/hyp-3-01_xxx.md)
+- `linked_projects`: validates에 연결된 프로젝트 IDs
+- `validation`: auto_validate=True 시 검증 결과
+  - `quality_score`: 품질 점수 (0.0~1.0)
+  - `evidence_readiness`: Evidence 운영 가능성
+
+**Step 4: Auto-validate 결과 처리**
+
+`auto_validate=True`로 호출 시:
+
+1. **품질 검증 (quality_score)**
+   - 1.0: 모든 기준 충족, 즉시 검증 가능
+   - 0.8+: 대부분 충족, 약간의 개선 필요
+   - 0.6~0.8: 상당한 개선 필요 → pending review 생성
+   - <0.6: 재작성 권장
+
+2. **Evidence 운영 가능성 (evidence_readiness)**
+   - `normalized_delta_method`: B Score 계산 방법
+   - `suggested_sample_size`: 권장 샘플 크기
+   - `counterfactual_type`: 대조 유형 (none/before_after/controlled)
+   - `confounders`: 식별된 교란 변수
+
+3. **pending review 생성 조건**
+   - `quality_score < 0.8` 또는
+   - `suggested_fields`가 비어있지 않음
+
+**A/B 모델 검증 체크리스트 (CRITICAL)**
+
+Hypothesis 생성 시 다음을 확인:
+
+**A. 구조 검증**
+- [ ] ID 패턴: `hyp-{track}-{seq}` 유일한가?
+- [ ] parent_id가 Track ID (`trk-N`) 형식인가?
+- [ ] horizon이 4자리 연도인가?
+
+**B. 품질 검증**
+- [ ] hypothesis_question이 `?`로 끝나는가?
+- [ ] success_criteria가 구체적이고 측정 가능한가?
+- [ ] failure_criteria가 구체적이고 측정 가능한가?
+- [ ] measurement가 어디서/무엇을/어떻게를 포함하는가?
+
+**C. Project 연결 검증**
+- [ ] project_ids로 전달된 프로젝트에 validates 연결되었는가?
+- [ ] Hypothesis.validated_by는 저장하지 않는가? (Derived 금지)
+
+**D. Evidence 운영 가능성**
+- [ ] normalized_delta 계산 방법이 정의 가능한가?
+- [ ] sample_size가 명시 가능한가?
+- [ ] counterfactual(대조군) 설정이 가능한가?
+
 ## Editing Entities
 
 **Step 1: Find the entity**
@@ -766,4 +885,27 @@ User: "prj-005 프로젝트 삭제해줘"
 → Confirm with user
 → Delete directory
 → Update graph index
+```
+
+**Create a Hypothesis (with Project linking):**
+```
+User: "Content OS 기획시간 50% 감소 가설 만들어줘"
+→ Collect: entity_name, parent_id (trk-N), hypothesis_question (? 필수)
+→ Collect: success_criteria, failure_criteria, measurement
+→ Ask: 연결할 프로젝트? → ["prj-018"] 선택
+→ Generate: hyp-3-01
+→ Create: 60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_단축.md
+→ Link: prj-018.validates에 hyp-3-01 추가
+→ Auto-validate (optional): 품질 점수 + Evidence 운영 가능성 검증
+```
+
+**Create a Hypothesis (with auto_validate):**
+```
+User: "코칭 효과 가설 만들어줘, 검증도 해줘"
+→ Collect all fields
+→ Generate: hyp-4-01
+→ Create file
+→ auto_validate=True → LLM 품질 검증
+→ 품질 점수 < 0.8이면 pending review 생성
+→ Evidence 운영 가능성 (normalized_delta 계산법, counterfactual) 제안
 ```

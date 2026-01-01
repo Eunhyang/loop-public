@@ -110,8 +110,14 @@ def get_hypothesis(hypothesis_id: str):
 
 
 @router.post("", response_model=HypothesisResponse)
-def create_hypothesis(hypothesis: HypothesisCreate):
-    """Hypothesis 생성"""
+async def create_hypothesis(hypothesis: HypothesisCreate):
+    """
+    Hypothesis 생성 (auto_validate 옵션 지원)
+
+    옵션:
+        auto_validate=True: 생성 후 AI 스키마 검증 자동 실행
+        project_ids: 연결할 프로젝트 IDs (validates에 추가)
+    """
     cache = get_cache()
 
     # 1. Validation
@@ -237,12 +243,125 @@ def create_hypothesis(hypothesis: HypothesisCreate):
     # 6. 캐시 업데이트 (파일 쓰기 성공 후)
     cache.set_hypothesis(hypothesis_id, frontmatter, hyp_file)
 
+    # 7. Project 연결 (validates에 hypothesis_id 추가)
+    linked_projects: List[str] = []
+    if hypothesis.project_ids:
+        linked_projects = _link_hypothesis_to_projects(
+            hypothesis_id=hypothesis_id,
+            project_ids=hypothesis.project_ids,
+            cache=cache
+        )
+
+    # 8. 감사 로그
+    log_entity_action(
+        action="create",
+        entity_type="Hypothesis",
+        entity_id=hypothesis_id,
+        entity_name=hypothesis.entity_name,
+        details={
+            "parent_id": hypothesis.parent_id,
+            "horizon": hypothesis.horizon,
+            "evidence_status": hypothesis.evidence_status,
+            "linked_projects": linked_projects,
+            "auto_validate": hypothesis.auto_validate
+        }
+    )
+
+    # 9. Auto-validate (optional)
+    validation_result = None
+    if hypothesis.auto_validate:
+        val_result = await _validate_hypothesis_schema_internal(
+            hypothesis_id=hypothesis_id,
+            frontmatter=frontmatter,
+            provider=hypothesis.llm_provider
+        )
+        validation_result = ValidationResult(
+            validated=val_result.get("validated", True),
+            issues_found=val_result.get("issues_found", 0),
+            pending_created=val_result.get("pending_created", False),
+            pending_id=val_result.get("pending_id"),
+            run_id=val_result.get("run_id")
+        )
+
     return HypothesisResponse(
         success=True,
         hypothesis_id=hypothesis_id,
         file_path=str(hyp_file.relative_to(VAULT_DIR)),
-        message="Hypothesis created successfully"
+        message="Hypothesis created successfully",
+        validation=validation_result,
+        linked_projects=linked_projects
     )
+
+
+def _link_hypothesis_to_projects(
+    hypothesis_id: str,
+    project_ids: List[str],
+    cache
+) -> List[str]:
+    """
+    Hypothesis를 Project.validates에 연결
+
+    SSOT 원칙: Project.validates에만 저장 (Hypothesis.validated_by는 Derived)
+
+    Args:
+        hypothesis_id: 연결할 Hypothesis ID
+        project_ids: 연결할 Project IDs
+        cache: VaultCache 인스턴스
+
+    Returns:
+        실제로 연결된 Project IDs
+    """
+    linked = []
+
+    for project_id in project_ids:
+        # Project 경로 조회
+        project_dir = cache.get_project_dir(project_id)
+        if not project_dir:
+            continue
+
+        project_file = project_dir / "Project_정의.md"
+        if not project_file.exists():
+            continue
+
+        try:
+            # 파일 읽기
+            with open(project_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # Frontmatter 파싱
+            match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
+            if not match:
+                continue
+
+            fm = yaml.safe_load(match.group(1))
+            body = match.group(2)
+
+            # validates 필드에 hypothesis_id 추가
+            validates = fm.get("validates", [])
+            if hypothesis_id not in validates:
+                validates.append(hypothesis_id)
+                fm["validates"] = validates
+                fm["updated"] = datetime.now().strftime("%Y-%m-%d")
+
+                # 파일 다시 쓰기
+                new_content = f"""---
+{yaml.dump(fm, allow_unicode=True, sort_keys=False, default_flow_style=False)}---
+{body}"""
+
+                with open(project_file, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+
+                # 캐시 업데이트
+                cache.set_project(project_id, fm, project_file)
+
+                linked.append(project_id)
+
+        except Exception as e:
+            # 개별 프로젝트 연결 실패는 무시하고 계속 진행
+            print(f"Warning: Failed to link {hypothesis_id} to {project_id}: {e}")
+            continue
+
+    return linked
 
 
 @router.put("/{hypothesis_id}", response_model=HypothesisResponse)
