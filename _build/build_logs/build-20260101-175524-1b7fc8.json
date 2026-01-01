@@ -1,0 +1,10 @@
+{
+  "build_id": "build-20260101-175524-1b7fc8",
+  "started_at": "2026-01-01T17:55:24.356326",
+  "status": "failed",
+  "ok": false,
+  "impact_path": "",
+  "summary": {},
+  "error": "  File \"/vault/scripts/build_impact.py\", line 563\n    rollup[primary_track][\"realized_by_quarter\"][quarter_key][\"sum\"] += project[\"realized_score\"]\nIndentationError: unexpected indent\n",
+  "ended_at": "2026-01-01T17:55:24.383709"
+}
