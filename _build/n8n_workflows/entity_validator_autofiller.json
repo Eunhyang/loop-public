@@ -320,7 +320,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Route to correct ai router endpoint based on phase\n// v5: n8n 2.x 호환 - 명시적 아이템 래핑\n\nconst items = $input.all();\nconst expectedItems = [];\nconst realizedItems = [];\n\nfor (const item of items) {\n  // 명시적으로 {json: ...} 형태로 래핑\n  if (item.json.phase === 'expected_impact') {\n    expectedItems.push({ json: item.json });\n  } else if (item.json.phase === 'realized_impact') {\n    realizedItems.push({ json: item.json });\n  }\n}\n\n// Output 0: Expected Impact items\n// Output 1: Realized Impact items\nreturn [expectedItems, realizedItems];",
+        "jsCode": "// Route to correct ai router endpoint based on phase\n// v6: n8n 2.x 호환 - filter 방식\n\nconst expected = $input.all().filter(item => item.json.phase === 'expected_impact');\nconst realized = $input.all().filter(item => item.json.phase === 'realized_impact');\n\nreturn [expected, realized];",
         "mode": "runOnceForAllItems",
         "numberOfOutputs": 2
       },
