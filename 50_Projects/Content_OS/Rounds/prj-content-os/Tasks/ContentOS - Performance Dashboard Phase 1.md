@@ -73,13 +73,13 @@ PRD Phase 1: "My Channel Performance Dashboard"
 
 ## 체크리스트
 
-- [ ] types/performance.ts 타입 정의
-- [ ] /performance 페이지 라우트 생성
-- [ ] 더미 데이터 생성
-- [ ] 성과 리스트 테이블 컴포넌트
-- [ ] 상세 뷰 모달
-- [ ] 주간 요약 카드
-- [ ] 사이드바 네비게이션 추가
+- [x] types/performance.ts 타입 정의
+- [x] /performance 페이지 라우트 생성
+- [x] 더미 데이터 생성
+- [x] 성과 리스트 테이블 컴포넌트
+- [x] 상세 뷰 (별도 페이지로 구현)
+- [x] 주간 요약 카드
+- [x] 사이드바 네비게이션 추가
 
 ---
 
@@ -180,12 +180,12 @@ export type ProblemType =
 
 #### 성공 기준
 
-- [ ] `/performance` 라우트에서 콘텐츠 성과 리스트 확인 가능
-- [ ] 상태 배지로 한눈에 콘텐츠 상태 파악 가능
-- [ ] 24h→7d Delta 값으로 변화 추이 확인 가능
-- [ ] `/performance/[videoId]`에서 상세 지표 및 그래프 확인 가능
-- [ ] `/performance/weekly`에서 주간 요약 통계 확인 가능
-- [ ] 기존 코드 스타일 및 아키텍처 일관성 유지
+- [x] `/performance` 라우트에서 콘텐츠 성과 리스트 확인 가능
+- [x] 상태 배지로 한눈에 콘텐츠 상태 파악 가능
+- [x] 24h→7d Delta 값으로 변화 추이 확인 가능
+- [x] `/performance/[videoId]`에서 상세 지표 및 그래프 확인 가능
+- [x] `/performance/weekly`에서 주간 요약 통계 확인 가능
+- [x] 기존 코드 스타일 및 아키텍처 일관성 유지
 
 #### Phase 1 제외 범위
 
@@ -197,23 +197,35 @@ export type ProblemType =
 ---
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-02 03:30
+**개요**: Performance Dashboard Phase 1 UI 구현 완료. 3가지 뷰(리스트/상세/주간요약)와 진단 로직, 더미 데이터 포함. 빌드 성공.
 
 **변경사항**:
 - 개발:
+  - `types/performance.ts` - ContentPerformance, DiagnosisStatus, WeeklySummary 등 타입 정의
+  - `/performance` 리스트 뷰 - PerformanceTable, StatusBadge, DeltaIndicator, Filters
+  - `/performance/[videoId]` 상세 뷰 - MetricCompareCard, MetricChart (Recharts), DiagnosisLabel
+  - `/performance/weekly` 주간 요약 - SummaryStatCard, ProblemTypeChart, 4주 비교 테이블
+  - `data/dummy-performance.ts` - 10개 더미 영상 데이터 + 진단 로직
 - 수정:
-- 개선:
+  - `components/layout/sidebar.tsx` - Performance 메뉴 추가 (BarChart3 아이콘)
 
-**핵심 코드**: (필요시)
+**파일 변경** (16개):
+- `types/performance.ts` - 타입 정의
+- `app/performance/page.tsx` - 리스트 뷰 메인
+- `app/performance/components/*` - 테이블, 필터, 배지, 델타 (5개)
+- `app/performance/[videoId]/page.tsx` - 상세 뷰
+- `app/performance/[videoId]/components/*` - 비교카드, 차트, 진단 (4개)
+- `app/performance/weekly/page.tsx` - 주간 요약
+- `app/performance/weekly/components/*` - 통계카드, 차트 (3개)
+- `app/performance/data/dummy-performance.ts` - 더미 데이터
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 빌드 성공 (`pnpm build`)
 
 **다음 단계**:
--->
+- Phase 2: YouTube Analytics API 연동 (OAuth 2.0 인증)
+- 실제 채널 데이터로 대시보드 동기화
 
 
 ---

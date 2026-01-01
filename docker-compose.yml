@@ -26,6 +26,29 @@ services:
       retries: 3
       start_period: 10s
 
+  content-os:
+    build:
+      context: ./apps/content-os
+      dockerfile: Dockerfile
+    container_name: content-os
+    restart: unless-stopped
+    ports:
+      - "8083:3000"
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Seoul
+      # OAuth / API 설정 (나중에 추가)
+      # - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      # - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      # - NEXTAUTH_URL=https://content-os.sosilab.synology.me
+      # - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
   n8n:
     image: n8nio/n8n:latest
     container_name: n8n
