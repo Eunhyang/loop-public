@@ -4,27 +4,35 @@ Hypothesis API Router
 Hypothesis CRUD 엔드포인트 (캐시 기반)
 - GET /api/hypotheses - 목록 조회
 - GET /api/hypotheses/{hypothesis_id} - 개별 조회
-- POST /api/hypotheses - 생성
+- POST /api/hypotheses - 생성 (auto_validate 옵션 지원)
 - PUT /api/hypotheses/{hypothesis_id} - 수정
 - DELETE /api/hypotheses/{hypothesis_id} - 삭제
+
+v5.3 검증 체크리스트:
+A. 구조 검증: ID 패턴, parent_id, horizon
+B. 품질 검증: hypothesis_question, success/failure_criteria, measurement
+C. Evidence 운영 가능성: normalized_delta, sample_size, counterfactual
+D. Project 연결: validates 연결
 """
 
 import re
 import yaml
 from pathlib import Path
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, HTTPException
 
 from ..cache import get_cache
 from ..constants import HYPOTHESIS_EVIDENCE_STATUS
-from ..models.entities import HypothesisCreate, HypothesisUpdate, HypothesisResponse
+from ..models.entities import HypothesisCreate, HypothesisUpdate, HypothesisResponse, ValidationResult
 from ..utils.vault_utils import (
     get_vault_dir,
     validate_track_exists,
     validate_horizon,
     sanitize_filename
 )
+from .ai import _validate_hypothesis_schema_internal
+from .audit import log_entity_action
 
 router = APIRouter(prefix="/api/hypotheses", tags=["hypotheses"])
 
