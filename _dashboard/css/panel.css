@@ -2122,7 +2122,7 @@
 
 .pending-detail-pane .pane-content {
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden; /* 스크롤은 body에서만 */
     display: flex;
     flex-direction: column;
 }
