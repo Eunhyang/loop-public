@@ -21,9 +21,18 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.LOOP_API_URL }}/api/audit/decisions",
+        "url": "https://mcp.sosilab.synology.me/api/audit/decisions",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -37,7 +46,7 @@
             },
             {
               "name": "after",
-              "value": "={{ $json.cursor || '' }}"
+              "value": "={{ $workflow.staticData?.cursor || '' }}"
             },
             {
               "name": "limit",
@@ -51,13 +60,7 @@
       "name": "GET Evidence Approvals",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [480, 300],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "LOOP_API_CRED_ID",
-          "name": "LOOP API Token"
-        }
-      }
+      "position": [480, 300]
     },
     {
       "parameters": {
@@ -91,77 +94,52 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.LOOP_API_URL }}/api/build/impact",
+        "url": "https://mcp.sosilab.synology.me/api/build/impact",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
-        "sendBody": true,
-        "bodyParameters": {
+        "sendHeaders": true,
+        "headerParameters": {
           "parameters": [
             {
-              "name": "async_mode",
-              "value": "true"
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
             }
           ]
         },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"async_mode\": true } }}",
         "options": {}
       },
       "id": "trigger-build",
       "name": "POST Build Impact",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [920, 200],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "LOOP_API_CRED_ID",
-          "name": "LOOP API Token"
-        }
-      }
+      "position": [920, 200]
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={{ JSON.stringify({ cursor: $('GET Evidence Approvals').item.json.latest_timestamp, last_decision_id: $('GET Evidence Approvals').item.json.latest_decision_id, build_id: $json.build_id, triggered_at: new Date().toISOString() }) }}",
-        "options": {}
+        "jsCode": "// Workflow C - tsk-n8n-12: Impact Rebuild on Evidence Approve\n// \n// 빌드 완료 후 cursor 업데이트\n// latest_timestamp를 다음 폴링의 after 파라미터로 사용\n\nconst decisionsResponse = $('GET Evidence Approvals').first().json;\nconst buildResult = $input.first().json;\n\n// cursor 업데이트\nconst newCursor = decisionsResponse.latest_timestamp || '';\nconst newDecisionId = decisionsResponse.latest_decision_id || '';\n\n// staticData 업데이트\n$workflow.staticData = $workflow.staticData || {};\n$workflow.staticData.cursor = newCursor;\n$workflow.staticData.last_decision_id = newDecisionId;\n\nreturn [{\n  json: {\n    action: 'build_triggered',\n    cursor_updated: newCursor,\n    last_decision_id: newDecisionId,\n    build_id: buildResult.build_id,\n    build_status: buildResult.status,\n    triggered_at: new Date().toISOString()\n  }\n}];"
       },
       "id": "update-cursor",
       "name": "Update Cursor (staticData)",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [1140, 200]
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={{ JSON.stringify({ cursor: $json.latest_timestamp || $workflow.staticData?.cursor || '', last_check: new Date().toISOString() }) }}",
-        "options": {}
+        "jsCode": "// No new approvals - cursor 유지 또는 갱신\n// latest_timestamp가 있으면 갱신 (빈 응답이어도 timestamp는 있을 수 있음)\n\nconst input = $input.first().json;\n\nconst newCursor = input.latest_timestamp || '';\n\nif (newCursor) {\n  $workflow.staticData = $workflow.staticData || {};\n  $workflow.staticData.cursor = newCursor;\n}\n\nreturn [{\n  json: {\n    action: 'no_new_approvals',\n    cursor: $workflow.staticData?.cursor || '',\n    last_check: new Date().toISOString()\n  }\n}];"
       },
       "id": "keep-cursor",
       "name": "Keep Cursor (No Change)",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [920, 400]
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={{ JSON.stringify({ cursor: $workflow.staticData?.cursor || '' }) }}",
-        "options": {}
-      },
-      "id": "load-cursor",
-      "name": "Load Cursor from staticData",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [260, 140]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Workflow C - tsk-n8n-12: Impact Rebuild on Evidence Approve\n// \n// 이 워크플로우는 Evidence가 승인될 때마다 Impact 점수를 자동으로 재계산합니다.\n//\n// 흐름:\n// 1. 15분마다 /api/audit/decisions 폴링 (Evidence approve만 필터)\n// 2. 새로운 승인이 있으면 /api/build/impact 호출\n// 3. cursor를 staticData에 저장하여 다음 실행 시 사용\n//\n// Codex 피드백 반영:\n// - staticData 사용하여 cursor 영속화\n// - entity_type=Evidence 필터로 불필요한 rebuild 방지\n// - latest_timestamp + latest_decision_id로 tie-breaker\n\n// Load cursor from staticData\nconst cursor = $workflow.staticData?.cursor || '';\n\nreturn { cursor };"
-      },
-      "id": "code-init",
-      "name": "Init Code (Documentation)",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [80, 300]
+      "position": [920, 400]
     }
   ],
   "connections": {
@@ -215,17 +193,6 @@
           }
         ]
       ]
-    },
-    "Load Cursor from staticData": {
-      "main": [
-        [
-          {
-            "node": "Schedule Trigger (15분)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "settings": {
@@ -236,12 +203,12 @@
     "last_decision_id": ""
   },
   "meta": {
-    "templateCredsSetupCompleted": false,
-    "instanceId": "LOOP-tsk-n8n-12"
+    "templateId": "workflow-c-impact-rebuild-v1",
+    "created": "2026-01-01",
+    "updated": "2026-01-01",
+    "schemaVersion": "5.3",
+    "description": "tsk-n8n-12: Evidence 승인 감지 → build_impact 자동 트리거. 15분마다 /api/audit/decisions 폴링, 새 Evidence approve 발견 시 /api/build/impact 호출. staticData로 cursor 영속화하여 중복 실행 방지. [환경변수] LOOP_API_TOKEN=loop_2024_kanban_secret"
   },
-  "pinData": {},
-  "versionId": "1.0.0",
-  "triggerCount": 0,
   "tags": [
     {
       "name": "tsk-n8n-12",
