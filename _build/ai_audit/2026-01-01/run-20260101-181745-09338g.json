@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-181745-09338g",
+  "timestamp": "2026-01-01T18:17:45.302321",
+  "project_id": "prj-006",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-181744-rottxr",
+  "timestamp": "2026-01-01T18:17:44.673690",
+  "task_id": "tsk-grants-jemi-01",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

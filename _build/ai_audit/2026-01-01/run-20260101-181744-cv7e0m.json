@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-181744-cv7e0m",
+  "timestamp": "2026-01-01T18:17:44.617808",
+  "task_id": "tsk-content-os-04",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

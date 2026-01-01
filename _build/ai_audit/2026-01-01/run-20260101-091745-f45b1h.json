@@ -1,0 +1,11 @@
+{
+  "run_id": "run-20260101-091745-f45b1h",
+  "timestamp": "2026-01-01T18:17:46.470304",
+  "project_id": "prj-vault-gpt",
+  "mode": "pending",
+  "actor": "n8n",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-181449-krjjx6",
+  "timestamp": "2026-01-01T18:14:49.832373",
+  "project_id": "prj-mcp-dual-vault-rbac",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_project_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

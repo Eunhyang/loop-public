@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-180017-ngpute",
+  "timestamp": "2026-01-01T18:00:17.394597",
+  "task_id": "tsk-017-05",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}

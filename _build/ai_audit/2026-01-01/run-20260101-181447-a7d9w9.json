@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260101-181447-a7d9w9",
+  "timestamp": "2026-01-01T18:14:47.508942",
+  "task_id": "tsk-dashboard-ux-v1-10",
+  "mode": "pending",
+  "actor": "n8n",
+  "endpoint": "infer_task_schema",
+  "success": false,
+  "error": "OpenAI client not initialized. Check OPENAI_API_KEY.",
+  "provider": "openai",
+  "model": ""
+}
