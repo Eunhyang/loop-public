@@ -14,19 +14,19 @@ const PendingPanel = {
     // Entity ID 패턴 매핑 (실제 ID 형식에 맞춤)
     // - cond-a, cond-b, ... (단일 문자)
     // - trk-1, trk-12, ... (숫자)
-    // - hyp-1-01, hyp-2-03, ... (숫자-숫자)
+    // - hyp-001, hyp-1-01, hyp-2-03, ... (숫자 또는 숫자-숫자)
     // - prj-001, prj-yt-wegovy, prj-dashboard-ux, ... (숫자 또는 문자열)
     // - tsk-001-01, tsk-dashboard-ux-v1-01, ... (숫자 또는 문자열)
     ENTITY_PATTERNS: {
         condition: /^cond-[a-z]$/,
         track: /^trk-\d+$/,
-        hypothesis: /^hyp-\d+-\d+$/,
+        hypothesis: /^hyp-\d+(-\d+)?$/,  // hyp-001 또는 hyp-1-01 모두 허용
         project: /^prj-[\w-]+$/,
         task: /^tsk-[\w-]+$/
     },
 
     // Entity ID 추출 정규식 (전역 매칭용)
-    ENTITY_ID_REGEX: /\b(cond-[a-z]|trk-\d+|hyp-\d+-\d+|prj-[\w-]+|tsk-[\w-]+)\b/g,
+    ENTITY_ID_REGEX: /\b(cond-[a-z]|trk-\d+|hyp-\d+(-\d+)?|prj-[\w-]+|tsk-[\w-]+)\b/g,
 
     // field_type별 색상 매핑 (대시보드 기존 색감)
     FIELD_TYPE_COLORS: {

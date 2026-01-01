@@ -180,9 +180,27 @@ async def build_impact(
     Auth:
     - 기존 API 인증 미들웨어가 /api/* 경로에 자동 적용
     - Bearer token 필요
+
+    Codex 피드백 반영:
+    - Single-flight lock: 이미 빌드 진행 중이면 409 반환
     """
-    build_id = f"build-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
-    started_at = datetime.now().isoformat()
+    global _current_build_id
+
+    # Codex 피드백: Single-flight lock 체크
+    with _build_lock:
+        if _current_build_id is not None:
+            # 이미 빌드 진행 중
+            return BuildImpactResponse(
+                ok=False,
+                build_id=_current_build_id,
+                started_at=_build_status.get(_current_build_id, {}).get("started_at", ""),
+                status="running",
+                error=f"Build already in progress: {_current_build_id}"
+            )
+
+        build_id = f"build-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
+        started_at = datetime.now().isoformat()
+        _current_build_id = build_id
 
     # 빌드 상태 초기화
     _build_status[build_id] = {

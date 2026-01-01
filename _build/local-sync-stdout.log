@@ -52,3 +52,9 @@ error: please commit or stash them.
  1 file changed, 7 insertions(+)
 error: cannot pull with rebase: You have unstaged changes.
 error: please commit or stash them.
+[main 05fc629] auto: 2026-01-01 17:37 - 8 files
+ 8 files changed, 754 insertions(+), 5 deletions(-)
+ create mode 100644 _build/n8n_workflows/workflow_c_impact_rebuild.json
+ create mode 100644 api/routers/build.py
+error: cannot pull with rebase: You have unstaged changes.
+error: please commit or stash them.
