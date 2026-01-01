@@ -1,6 +1,6 @@
 # LOOP Vault 동기화 구조
 
-> **Version 1.0** | Last updated: 2026-01-01
+> **Version 1.1** | Last updated: 2026-01-01
 
 ---
 
@@ -74,17 +74,53 @@ git pull --rebase origin main     # GitHub에서 pull
 git push origin main              # GitHub로 push
 ```
 
-### 2. 로컬 SSD ↔ GitHub
+### 2. 로컬 SSD ↔ GitHub 자동 동기화 (15분 launchd, 7분 오프셋)
 
-수동 git 명령어 또는 `/nas-git local-sync` 명령어 사용
+로컬 Mac에서 launchd로 자동 실행됩니다.
+
+| 항목 | 값 |
+|------|-----|
+| 스크립트 | `scripts/local-git-sync.sh` |
+| launchd 설정 | `~/Library/LaunchAgents/com.loop.git-sync.plist` |
+| 실행 주기 | 15분마다 (7분, 22분, 37분, 52분) |
+| 로그 | `_build/local-sync.log` |
+
+**동작 순서:**
+```bash
+git add -A && git commit            # 로컬 변경사항 커밋
+git pull --rebase origin main       # GitHub에서 pull
+git push origin main                # GitHub로 push
+```
+
+**NAS와 시간 오프셋 (충돌 방지):**
+```
+NAS:  0분 → 15분 → 30분 → 45분
+로컬: 7분 → 22분 → 37분 → 52분
+```
+
+**관리 명령어:**
+```bash
+# 상태 확인
+launchctl list | grep loop
+
+# 중지/시작
+launchctl unload ~/Library/LaunchAgents/com.loop.git-sync.plist
+launchctl load ~/Library/LaunchAgents/com.loop.git-sync.plist
+
+# 로그 확인
+tail -20 _build/local-sync.log
+```
+
+### 3. 수동 동기화 명령어
+
+자동 동기화를 기다리지 않고 즉시 동기화할 때 사용:
 
 ```bash
-# 작업 시작 전
-git pull
+# 로컬 → NAS (로컬 작업 후)
+/nas-git local-sync
 
-# 작업 후
-git add -A && git commit -m "메시지" && git push
-# → 15분 내 NAS에 자동 반영
+# NAS → 로컬 (NAS 변경사항 가져오기)
+/nas-git nas-to-local
 ```
 
 ---
@@ -119,7 +155,7 @@ git add -A && git commit -m "메시지" && git push
 **Dashboard 반영**: 즉시 (동일 볼륨)
 **GitHub 반영**: 최대 15분
 
-### 시나리오 3: 급한 동기화 필요
+### 시나리오 3: 급한 로컬 → NAS 동기화
 
 ```bash
 /nas-git local-sync
@@ -127,9 +163,27 @@ git add -A && git commit -m "메시지" && git push
 
 **순서:**
 1. NAS 변경사항 → GitHub push
-2. 로컬 pull (충돌 시 여기서 해결)
-3. 로컬 변경사항 → GitHub push
-4. NAS pull
+2. 로컬 commit
+3. 로컬 pull (충돌 시 여기서 해결)
+4. 로컬 → GitHub push
+5. NAS pull
+
+### 시나리오 4: NAS 변경사항을 로컬로 가져오기
+
+```bash
+/nas-git nas-to-local
+```
+
+**순서:**
+1. NAS 변경사항 → GitHub push
+2. 로컬 pull
+
+```
+┌──────────┐     ┌──────────┐     ┌──────────┐
+│  로컬    │◄────│  GitHub  │◄────│   NAS    │
+│  SSD     │pull │          │push │          │
+└──────────┘     └──────────┘     └──────────┘
+```
 
 ---
 
@@ -140,6 +194,7 @@ git add -A && git commit -m "메시지" && git push
 | 명령어 | 설명 |
 |--------|------|
 | `/nas-git local-sync` | 로컬 → GitHub → NAS 전체 동기화 (권장) |
+| `/nas-git nas-to-local` | NAS → GitHub → 로컬 동기화 |
 | `/nas-git sync` | NAS만 즉시 동기화 |
 | `/nas-git pull` | GitHub → NAS |
 | `/nas-git push` | NAS → GitHub |
@@ -161,7 +216,8 @@ git add -A && git commit -m "메시지" && git push
 2. **로컬은 외부 작업용**: 외부 네트워크에서 끊길 때 사용
 3. **Dashboard 즉시 반영**: NAS 편집은 Dashboard에 바로 반영 (같은 볼륨)
 4. **GitHub은 Hub**: 직접 편집하지 않음, 동기화 허브로만 사용
-5. **충돌 해결은 로컬에서**: `/nas-git local-sync`의 Step 2에서 해결 (NAS보다 편함)
+5. **충돌 해결은 로컬에서**: `/nas-git local-sync`의 Step 3에서 해결 (NAS보다 편함)
+6. **양방향 자동 동기화**: NAS(0분)와 로컬(7분) 모두 15분마다 자동 실행
 
 ---
 
@@ -170,9 +226,11 @@ git add -A && git commit -m "메시지" && git push
 | 문제 | 해결 |
 |------|------|
 | NAS 동기화 실패 | `/nas-git logs`로 에러 확인 |
+| 로컬 동기화 실패 | `tail -20 _build/local-sync.log`로 에러 확인 |
 | 충돌 발생 | `/nas-git local-sync` 후 로컬에서 해결 |
 | NAS git 상태 이상 | `/nas-git reset`으로 GitHub 기준 리셋 |
 | cron 동작 확인 | `/nas-git logs`로 15분 간격 로그 확인 |
+| launchd 동작 확인 | `launchctl list \| grep loop`로 확인 |
 
 ---
 
@@ -181,5 +239,7 @@ git add -A && git commit -m "메시지" && git push
 | 파일 | 위치 | 설명 |
 |------|------|------|
 | `nas-git-sync.sh` | `scripts/` | NAS cron 스크립트 |
+| `local-git-sync.sh` | `scripts/` | 로컬 launchd 스크립트 |
+| `com.loop.git-sync.plist` | `~/Library/LaunchAgents/` | 로컬 launchd 설정 |
 | `nas-git.md` | `.claude/commands/` | nas-git 커맨드 정의 |
 | `SKILL.md` | `.claude/skills/nas-git-status/` | 상태 확인 스킬 |

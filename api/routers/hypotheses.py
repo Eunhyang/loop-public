@@ -212,29 +212,115 @@ async def create_hypothesis(hypothesis: HypothesisCreate):
 
 # {hypothesis.entity_name}
 
+> Track: [[{hypothesis.parent_id}]] | ID: {hypothesis_id} | 상태: {hypothesis.evidence_status}
+
+---
+
 ## 가설
 
-{hypothesis.hypothesis_question}
+**Q: {hypothesis.hypothesis_question}**
 
-## 성공 기준
+---
+
+## 판정 기준
+
+### 성공 (Success)
 
 {hypothesis.success_criteria}
 
-## 실패 기준
+### 실패 (Failure)
 
 {hypothesis.failure_criteria}
 
+---
+
 ## 측정 방법
+
+### 핵심 지표 (필수)
+
+| 지표 | 정의 | 단위 |
+|------|------|------|
+| (지표1) | (정의) | (단위) |
+| (지표2) | (정의) | (단위) |
+
+### 베이스라인 (필수)
+
+- 측정 기간: (도입 전 2주 또는 N건)
+- baseline_avg: (측정값)
+
+### 데이터 소스
 
 {hypothesis.measurement}
 
-## 검증 계획
+---
 
-(작성 예정)
+## Evidence 설계
 
-## 근거/결과
+> B Score 계산을 위한 Evidence 생성 규칙
 
-(검증 후 기록)
+### Window 설정
+
+- window_id: `YYYY-MM` (월간)
+- time_range: `YYYY-MM-01..YYYY-MM-말일`
+
+### normalized_delta 계산
+
+```
+target_reduction = 0.50  # 목표 감소율
+observed_reduction = 1 - (current_avg / baseline_avg)
+normalized_delta = clamp(observed_reduction / target_reduction, 0, 1)
+```
+
+### evidence_strength 룰
+
+| 강도 | 조건 |
+|------|------|
+| strong | n ≥ 10 AND measurement_quality = high |
+| medium | n ≥ 5 |
+| weak | n < 5 OR measurement_quality = low |
+
+### attribution_share
+
+- 기본: `1.0`
+- confounders 존재 시: `0.5 ~ 0.8`
+
+### evidence_quality_meta (필수)
+
+```yaml
+provenance: auto | mixed | human
+source_refs: [(DB query / dashboard 링크)]
+sample_size: (n)
+measurement_quality: low | medium | high
+counterfactual: none | before_after | controlled
+confounders: [(교란 변수 목록)]
+query_version: "(버전)"
+```
+
+---
+
+## 연결된 프로젝트
+
+> 이 Hypothesis는 Project.validates로 연결
+
+| Project ID | 역할 |
+|------------|------|
+| (prj-XXX) | validates / primary_hypothesis_id |
+
+---
+
+## 검증 로그
+
+| 날짜 | 상태 | 메모 |
+|------|------|------|
+| {today} | {hypothesis.evidence_status} | 가설 정의 및 측정 규칙 확정 |
+
+---
+
+## 다음 단계
+
+1. [ ] 베이스라인 측정 (도입 전 2주)
+2. [ ] 데이터 소스 연동 확인
+3. [ ] 첫 번째 Evidence 생성 (window 완료 후)
 """
 
     with open(hyp_file, 'w', encoding='utf-8') as f:

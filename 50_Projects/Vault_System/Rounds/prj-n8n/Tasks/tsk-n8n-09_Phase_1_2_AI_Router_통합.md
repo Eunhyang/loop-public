@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: tsk-n8n-09
 entity_name: "n8n - Phase 1/2 AI Router 통합"
 created: 2025-12-29
-updated: 2025-12-29
-status: doing
+updated: 2026-01-01
+closed: 2026-01-01
+status: done
 
 # === 계층 ===
 parent_id: prj-n8n
@@ -111,12 +112,12 @@ Phase 1/2 (Task/Project Schema Validation)는 아직 OpenAI 직접 호출 사용
 - [x] meta.templateId → v5 업데이트
 
 ### E2E 테스트
-- [ ] n8n GUI import
-- [ ] Manual 실행
-- [ ] Phase 3 테스트: pending 생성, run_id 포맷
-- [ ] Phase 1/2 테스트: task_schema, project_schema pending 생성
-- [ ] audit/runs API에서 run_id 조회
-- [ ] decision_log 확인
+- [x] n8n GUI import
+- [x] Manual 실행
+- [x] Phase 3 테스트: pending 생성, run_id 포맷
+- [x] Phase 1/2 테스트: task_schema, project_schema pending 생성
+- [x] audit/runs API에서 run_id 조회
+- [x] decision_log 확인
 
 ---
 
@@ -167,10 +168,37 @@ Phase 1/2 (Task/Project Schema Validation)는 아직 OpenAI 직접 호출 사용
 ### Todo
 - [x] API 엔드포인트 구현
 - [x] 워크플로우 v5 업그레이드
-- [ ] E2E 테스트
-- [ ] 결과 문서화
+- [x] E2E 테스트
+- [x] 결과 문서화
 
 ### 작업 로그
+
+#### 2026-01-01 (Session 3 - 완료)
+
+**개요**: E2E 테스트 완료 및 Pending Reviews 대시보드 UX 개선. n8n 워크플로우 실행 → API 연동 → 대시보드 Approve 흐름 전체 검증.
+
+**변경사항**:
+- 수정: `api/routers/pending.py` - `find_entity_file()` 함수 개선 (파일명에 entity_id 없는 경우 처리)
+- 수정: `_dashboard/js/components/pending-panel.js` - AI 판단 근거 기본 펼침 상태로 변경
+- 수정: `Dockerfile` - openai, anthropic 패키지 및 impact_model_config.yml 추가
+- 수정: `_build/n8n_workflows/entity_validator_autofiller.json` - JSON 중복 parameters 필드 수정
+
+**파일 변경**:
+- `api/routers/pending.py` - `find_entity_file()`: glob 패턴 `*{entity_id}*.md` → `*.md`로 변경, 파일 내용에서 entity_id 검색
+- `_dashboard/js/components/pending-panel.js` - `renderReasoning()`: collapsed 클래스 제거, 아이콘 ▶→▼
+- `Dockerfile` - pip install에 `openai`, `anthropic` 추가, `COPY impact_model_config.yml ./` 추가
+
+**테스트 결과**:
+- ✅ n8n 워크플로우 실행 성공
+- ✅ API `/api/ai/infer/task_schema`, `/api/ai/infer/project_schema` 정상 동작 (200 OK)
+- ✅ Pending Reviews 37개 생성 확인
+- ✅ 대시보드 Approve 성공 (`tsk-011-01` 테스트)
+- ✅ decision_log 기록 확인
+
+**다음 단계**:
+- 대시보드 Pending Reviews 3단 레이아웃 UX 개선 (다음 Task로 진행 예정)
+
+---
 
 #### 2025-12-29 (Session 2)
 

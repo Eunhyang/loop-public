@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: "prj-content-os"
 entity_name: "Content OS - MVP 개발"
 created: 2025-12-31
-updated: 2025-12-31
+updated: 2026-01-01
 status: active
 
 # === 계층 ===
@@ -16,9 +16,9 @@ cycle: "2025-12"
 
 # === 관계 ===
 outgoing_relations: []
-validates: []
+validates: ["hyp-3-01"]
 validated_by: []
-primary_hypothesis_id: null
+primary_hypothesis_id: "hyp-3-01"
 
 # === Project 전용 ===
 owner: "김은향"
