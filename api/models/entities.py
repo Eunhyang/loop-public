@@ -248,3 +248,21 @@ class AttachmentListResponse(BaseModel):
     attachments: List[AttachmentInfo] = Field(default_factory=list, description="첨부파일 목록")
     total_count: int = Field(..., description="총 파일 수")
     total_size: int = Field(..., description="총 파일 크기 (bytes)")
+
+
+# ============================================
+# Text Extraction Models (tsk-dashboard-ux-v1-21)
+# ============================================
+
+class TextExtractionResponse(BaseModel):
+    """텍스트 추출 응답"""
+    success: bool = Field(..., description="성공 여부")
+    task_id: str = Field(..., description="Task ID")
+    filename: str = Field(..., description="원본 파일명")
+    format: str = Field(..., description="파일 형식 (pdf|hwp|hwpx|doc|docx|txt|md)")
+    text: str = Field(..., description="추출된 텍스트")
+    chars: int = Field(..., description="문자 수")
+    cached: bool = Field(..., description=".txt 캐시에서 읽었는지 여부")
+    cache_path: Optional[str] = Field(default=None, description="저장된 .txt 캐시 경로")
+    truncated: bool = Field(default=False, description="max_chars로 잘렸는지 여부")
+    error: Optional[str] = Field(default=None, description="에러 메시지 (실패 시)")

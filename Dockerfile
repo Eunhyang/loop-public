@@ -2,9 +2,11 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# 시스템 의존성
+# 시스템 의존성 (gcc + LibreOffice for text extraction)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
+    libreoffice-writer \
+    libreoffice-calc \
     && rm -rf /var/lib/apt/lists/*
 
 # Python 의존성 설치
@@ -22,7 +24,9 @@ RUN pip install --no-cache-dir \
     sqlalchemy \
     # LLM dependencies
     openai \
-    anthropic
+    anthropic \
+    # Text extraction (tsk-dashboard-ux-v1-21)
+    pdfplumber
 
 # API 코드 및 설정 파일 복사
 COPY api/ ./api/

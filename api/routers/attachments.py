@@ -20,7 +20,8 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 
-from ..models.entities import AttachmentInfo, AttachmentResponse, AttachmentListResponse
+from ..models.entities import AttachmentInfo, AttachmentResponse, AttachmentListResponse, TextExtractionResponse
+from ..services.text_extractor import get_text_extractor
 from ..cache import get_cache
 from ..utils.vault_utils import get_vault_dir
 from .audit import log_entity_action
@@ -447,4 +448,95 @@ def delete_attachment(task_id: str, filename: str):
         success=True,
         task_id=task_id,
         message=f"Attachment deleted: {safe_filename}"
+    )
+
+
+@router.get("/{task_id}/attachments/{filename}/text", response_model=TextExtractionResponse)
+def extract_attachment_text(
+    task_id: str,
+    filename: str,
+    force: bool = False,
+    max_chars: Optional[int] = None
+):
+    """
+    첨부파일 텍스트 추출 (tsk-dashboard-ux-v1-21)
+
+    지원 형식:
+    - PDF: pdfplumber
+    - HWP/HWPX/DOC/DOCX: LibreOffice CLI
+    - TXT/MD: 직접 읽기
+
+    Query Parameters:
+        force: True면 캐시 무시하고 재추출 (기본값: False)
+        max_chars: 최대 문자 수 (LLM 토큰 절약용, 선택)
+
+    캐싱:
+        - 추출 결과를 {filename}.txt로 저장
+        - 다음 요청 시 .txt에서 바로 반환
+    """
+    cache = get_cache()
+    extractor = get_text_extractor()
+
+    # 1. Task 존재 검증
+    task_path = cache.get_task_path(task_id)
+    if not task_path:
+        raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
+
+    # 2. 파일명 sanitize
+    safe_filename = secure_filename(filename)
+
+    # 3. 파일 경로 확인
+    task_dir = get_task_attachments_dir(task_id)
+    file_path = task_dir / safe_filename
+
+    # 4. Path safety 검증
+    if not validate_path_safety(ATTACHMENTS_DIR, file_path):
+        raise HTTPException(status_code=400, detail="Invalid file path")
+
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
+
+    # 5. 지원 형식 확인
+    if not extractor.is_supported(safe_filename):
+        ext = os.path.splitext(safe_filename)[1].lower()
+        raise HTTPException(
+            status_code=415,
+            detail=f"Unsupported format for text extraction: {ext}. "
+                   f"Supported: {', '.join(sorted(extractor.SUPPORTED_FORMATS))}"
+        )
+
+    # 6. 텍스트 추출
+    result = extractor.extract(file_path, force=force)
+
+    if result.error:
+        raise HTTPException(status_code=500, detail=f"Text extraction failed: {result.error}")
+
+    # 7. max_chars 적용
+    text = result.text
+    truncated = False
+    if max_chars and len(text) > max_chars:
+        text = text[:max_chars]
+        truncated = True
+
+    # 8. 상대 경로 계산 (cache_path)
+    cache_path_relative = None
+    if result.cache_path:
+        try:
+            cache_path_relative = str(result.cache_path.relative_to(VAULT_DIR))
+        except ValueError:
+            cache_path_relative = str(result.cache_path)
+
+    # 9. 파일 형식 추출
+    file_format = os.path.splitext(safe_filename)[1].lower().lstrip('.')
+
+    return TextExtractionResponse(
+        success=True,
+        task_id=task_id,
+        filename=safe_filename,
+        format=file_format,
+        text=text,
+        chars=len(text),
+        cached=result.cached,
+        cache_path=cache_path_relative,
+        truncated=truncated
     )
