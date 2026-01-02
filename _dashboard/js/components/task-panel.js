@@ -1184,14 +1184,20 @@ const TaskPanel = {
             });
         });
 
-        // PDF 뷰어 버튼 (tsk-20 연동 포인트)
+        // PDF 뷰어 버튼 (tsk-dashboard-ux-v1-20 연동)
         listEl.querySelectorAll('.attachment-btn.viewer').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const filename = btn.dataset.filename;
-                // TODO: tsk-20에서 PDF 뷰어 모달 구현 후 연동
-                showToast('PDF viewer coming soon (tsk-20)', 'info');
-                console.log('PDF viewer for:', filename);
+                const url = API.getAttachmentUrl(taskId, filename);
+
+                // PDFViewer 모달 열기
+                if (typeof PDFViewer !== 'undefined') {
+                    PDFViewer.open(url, filename, taskId);
+                } else {
+                    showToast('PDF viewer not available', 'error');
+                    console.error('PDFViewer component not loaded');
+                }
             });
         });
 

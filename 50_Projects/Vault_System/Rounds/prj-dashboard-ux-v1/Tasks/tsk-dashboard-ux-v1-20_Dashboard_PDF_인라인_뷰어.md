@@ -4,7 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-20"
 entity_name: "Dashboard - PDF 인라인 뷰어"
 created: 2026-01-02
 updated: 2026-01-02
-status: todo
+status: done
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -179,9 +179,34 @@ const PDFViewer = {
 - [ ] 모바일 반응형
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-02
+**개요**: PDF.js 기반 인라인 PDF 뷰어를 대시보드에 구현했습니다. Codex와의 코드 리뷰를 통해 race condition, memory leak 등 품질 이슈를 개선했습니다.
+
+**변경사항**:
+- 신규:
+  - `_dashboard/css/pdf-viewer.css` - 풀스크린 모달, 툴바, 로딩 스피너, 모바일 반응형
+  - `_dashboard/js/components/pdf-viewer.js` - PDFViewer 객체 (~520 lines)
+- 수정:
+  - `_dashboard/index.html` - PDF 뷰어 모달 HTML (ARIA 속성 포함)
+  - `_dashboard/js/components/task-panel.js` - PDF 뷰어 버튼 연동
+  - `_dashboard/js/app.js` - PDFViewer.init() 호출
+
+**핵심 기능**:
+- PDF.js 4.x CDN 동적 로드 (ES Module)
+- 페이지 네비게이션 (이전/다음/직접 입력)
+- 확대/축소 (50%~200%, 25% 단위)
+- 다운로드 버튼
+- 키보드 단축키 (ESC, ←/→, +/-)
+- 접근성 (ARIA attributes, focus trap)
+
+**Codex 리뷰 반영**:
+- **Race condition 방지**: requestToken으로 stale 요청 무시
+- **Memory leak 방지**: AbortController로 fetch 취소, loadingTask.destroy()
+- **중복 로드 제거**: HTML script 태그 제거, import()만 사용
+- **CDN 에러 처리**: 에러 시 사용자에게 알림 + 재시도 기능
+
+**결과**: PDF 첨부파일을 대시보드에서 인라인으로 볼 수 있음
 
 
 ---

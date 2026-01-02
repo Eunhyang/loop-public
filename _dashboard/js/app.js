@@ -167,6 +167,11 @@ async function init() {
         FilterPanel.init();
         PendingPanel.init();
 
+        // Initialize PDF Viewer (tsk-dashboard-ux-v1-20)
+        if (typeof PDFViewer !== 'undefined') {
+            PDFViewer.init();
+        }
+
         // Update pending review badge
         PendingPanel.updateBadge();
 
