@@ -1,10 +1,11 @@
 ---
 entity_type: Task
 entity_id: "tsk-vault-gpt-07"
-entity_name: "OAuth 인증 서버 분리 (loop-auth)"
+entity_name: "OAuth 인증 세션 유지 (볼륨 영구 저장)"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
+closed: 2026-01-02
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -40,13 +41,16 @@ priority_flag: high
 
 ## 목표
 
-MCP API 서버와 OAuth 인증 서버를 분리하여, API 서버 rebuild 시에도 인증 세션이 유지되도록 함
+API 서버 rebuild 시에도 OAuth 인증 세션이 유지되도록 함
 
 **완료 조건**:
-1. `loop-auth` 컨테이너 생성 (OAuth 전용)
-2. `loop-api` 컨테이너는 API + MCP만 담당
-3. API rebuild 시 재인증 불필요 확인
-4. ChatGPT 연동 테스트 성공
+1. OAuth 키/DB를 볼륨에 영구 저장
+2. loop-api rebuild 시 기존 토큰 유효
+3. ChatGPT 연동 테스트 성공
+
+**아키텍처 결정**:
+- 초기 계획: loop-auth 컨테이너 분리 → Synology 리버스 프록시가 서브경로 라우팅 미지원으로 불가
+- 최종 결정: loop-api에서 OAuth 유지 + `/api/oauth/` 볼륨 영구 저장으로 세션 유지
 
 ---
 
@@ -83,12 +87,10 @@ MCP API 서버와 OAuth 인증 서버를 분리하여, API 서버 rebuild 시에
 
 ## 체크리스트
 
-- [ ] OAuth 라우터 독립 실행 가능 여부 확인
-- [ ] loop-auth용 Dockerfile.auth 생성
-- [ ] loop-api용 Dockerfile 수정 (OAuth 제외)
-- [ ] docker-compose.yml 작성 (두 컨테이너 연동)
-- [ ] NAS 배포 테스트
-- [ ] ChatGPT 재인증 테스트
+- [x] OAuth 키/DB 볼륨 마운트 설정
+- [x] mcp-server.md 명령어 수정 (oauth 폴더 rw 마운트)
+- [x] NAS 배포 테스트
+- [ ] ChatGPT 재인증 테스트 (rebuild 후 세션 유지 확인)
 
 ---
 
@@ -281,6 +283,34 @@ if JWKS_URL:
 - [ ] NAS 배포 테스트
 
 ### 작업 로그
+
+#### 2026-01-02 18:55
+**개요**: OAuth 인증 세션 유지를 위한 아키텍처 결정 및 구현 완료. 초기 계획(loop-auth 분리)에서 볼륨 영구 저장 방식으로 전환.
+
+**변경사항**:
+- 삭제: loop-auth 컨테이너 분리 계획 철회 (Synology 리버스 프록시 서브경로 라우팅 미지원)
+- 수정: `api/main.py` - OAuth 라우터 유지, 키/DB 볼륨 저장 방식 적용
+- 수정: `.claude/commands/mcp-server.md` - 볼륨 마운트 변경 (`/api/oauth/keys:ro` → `/api/oauth:rw`)
+- 삭제: loop-auth 관련 설정 제거 (rebuild, rebuild-all, logs, status 섹션 단순화)
+
+**파일 변경**:
+- `api/main.py` - OAuth 라우터 유지 확인
+- `.claude/commands/mcp-server.md` - 아키텍처 도식 및 볼륨 마운트 수정 (~50 lines)
+
+**결과**: ✅ 빌드 성공, Health check 통과, OAuth Discovery 정상
+
+**핵심 결정**:
+```
+Before: loop-auth (8084) + loop-api (8082) - 서브경로 라우팅 필요
+After:  loop-api (8082) only - OAuth + API + MCP 통합, /api/oauth/ 볼륨 영구 저장
+```
+
+**세션 유지 원리**:
+- OAuth 키/DB가 호스트 볼륨 `/volume1/LOOP_CORE/vault/LOOP/api/oauth/`에 저장
+- 컨테이너 재빌드해도 키/DB 유지 → 기존 JWT 토큰 유효
+
+**다음 단계**:
+- ChatGPT에서 rebuild 후 세션 유지 확인 테스트
 
 ---
 

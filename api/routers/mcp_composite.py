@@ -299,7 +299,7 @@ async def get_vault_context():
         ),
         recommended_start=[
             "/api/mcp/search-and-read?q=키워드 - 검색+읽기",
-            "/api/mcp/dashboard - 전체 현황 보기",
+            "/api/mcp/status-summary - 전체 현황 보기",
             "/api/mcp/project/{project_id}/context - 프로젝트 상세"
         ]
     )
@@ -554,13 +554,13 @@ async def get_track_context(track_id: str):
     )
 
 
-@router.get("/dashboard", response_model=DashboardResponse)
-async def get_dashboard():
+@router.get("/status-summary", response_model=DashboardResponse)
+async def get_status_summary():
     """
-    Vault 전체 현황 요약 (칸반 대시보드 데이터)
+    Vault 전체 현황 요약 (Tasks/Projects 상태 집계)
 
     기존: tasks + projects + 필터들 = 10+ 호출
-    개선: 1회 호출로 대시보드 전체 데이터 획득
+    개선: 1회 호출로 전체 상태 데이터 획득
     """
     cache = get_cache()
 
@@ -1061,7 +1061,7 @@ async def vault_full_scan(
         "file_read": "/api/mcp/file-read?paths=경로",
         "project_detail": "/api/mcp/project/{project_id}/context?include_body=true",
         "track_detail": "/api/mcp/track/{track_id}/context",
-        "dashboard": "/api/mcp/dashboard",
+        "status_summary": "/api/mcp/status-summary",
         "entity_graph": "/api/mcp/entity/{entity_id}/graph"
     }
 

@@ -294,7 +294,7 @@ if MCP_AVAILABLE:
         "vault_full_scan_api_mcp_vault_full_scan_get",  # 슈퍼 복합 API (1회 allow로 전체 구조 파악)
         "get_project_context_api_mcp_project__project_id__context_get",
         "get_track_context_api_mcp_track__track_id__context_get",
-        "get_dashboard_api_mcp_dashboard_get",
+        "get_status_summary_api_mcp_status_summary_get",
         "get_entity_graph_api_mcp_entity__entity_id__graph_get",
         "get_strategy_overview_api_mcp_strategy_get",
         "get_schema_info_api_mcp_schema_get",
@@ -356,7 +356,7 @@ Runway(상태) → Cashflow(근거) → Pipeline(확률) → People(결정) → 
 3. file-read - 파일 직접 읽기 (paths=경로, 쉼표 구분) ⭐NEW
 4. project-context - 프로젝트+Tasks+Hypotheses (include_body=true로 본문 포함)
 5. track-context - Track+하위 Projects
-6. dashboard - 전체 현황 요약
+6. status-summary - 전체 현황 요약
 7. entity-graph - 엔티티 관계 그래프
 8. strategy - 전략 계층 (NorthStar→Track)
 9. schema - 스키마/상수 정보
@@ -371,7 +371,7 @@ Runway(상태) → Cashflow(근거) → Pipeline(확률) → People(결정) → 
 2. 검색 필요: search-and-read(q="키워드") → 파일까지 한 번에
 3. 특정 파일 읽기: file-read(paths="50_Projects/.../file.md") → 직접 경로로 읽기
 4. 프로젝트 상세: project-context(id, include_body=true) → 본문 포함
-5. 현황 파악: dashboard → 긴급/지연 항목 확인
+5. 현황 파악: status-summary → 긴급/지연 항목 확인
 6. exec 탐색: exec-context → _ENTRY_POINT → 각 폴더 _INDEX → 핵심 문서 순"""
     )
     mcp.mount()  # /mcp 엔드포인트 자동 생성
