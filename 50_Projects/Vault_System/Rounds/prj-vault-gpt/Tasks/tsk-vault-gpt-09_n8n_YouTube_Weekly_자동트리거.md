@@ -140,7 +140,7 @@ tsk-vault-gpt-08에서 구현한 `/api/youtube-weekly/create-round` API를 n8n�
 ### Todo
 
 - [x] 워크플로우 JSON 기본 구조 생성
-- [ ] Success/Failure 메시지 코드 개선 (null 체크)
+- [x] Success/Failure 메시지 코드 개선 (null 체크, 에러 타입 분류)
 - [ ] n8n UI import 및 Credential 설정
 - [ ] 테스트 실행
 
@@ -172,6 +172,25 @@ n8n에서 사용할 환경변수:
 - n8n UI에서 워크플로우 import
 - 워크플로우 활성화
 - 테스트 실행
+
+#### 2026-01-03 03:00
+**개요**: codex-claude-loop으로 워크플로우 JSON 개선
+
+**변경사항 (v3)**:
+- HTTP Request: `onError: continueRegularOutput` 추가 (에러 시에도 워크플로우 계속)
+- Success Message: 입력 null 체크, task_ids 배열 안전 처리 추가
+- Failure Message: 에러 타입 분류 (http_error vs api_error), 500자 truncation 추가
+- IF 조건: `$json.success === true` 단순화
+
+**Codex 리뷰 피드백**:
+1. fullResponse 중첩 문제 수정 (잘못된 옵션 구조 제거)
+2. data.message 타입 체크 추가
+3. 에러 핸들링 개선 (FastAPI HTTPException 지원)
+
+**워크플로우 설계 노트**:
+- 알림 노드 미포함 (의도적): 사용자가 n8n에서 Slack/Email 노드 연결하여 사용
+- 타임존: NAS 서버 KST 기준 (09:00 KST)
+- 토큰: n8n 환경변수 LOOP_API_TOKEN 설정 필요
 
 ---
 

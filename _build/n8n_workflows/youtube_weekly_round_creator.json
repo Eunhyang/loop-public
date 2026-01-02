@@ -41,7 +41,8 @@
       "name": "Create Round API",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [600, 300]
+      "position": [600, 300],
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -54,7 +55,7 @@
           "conditions": [
             {
               "id": "condition-success",
-              "leftValue": "={{ $json.success }}",
+              "leftValue": "={{ $json.success === true }}",
               "rightValue": true,
               "operator": {
                 "type": "boolean",
@@ -74,7 +75,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Success notification message\nconst data = $input.first().json;\n\nconst message = `✅ YouTube ${data.cycle} 라운드 생성됨!\n\n📁 Project: ${data.project_id}\n📋 Tasks: ${data.tasks_created}개\n📅 시작일: ${data.start_date}\n\nTask IDs:\n${data.task_ids.map(id => `- ${id}`).join('\\n')}`;\n\nreturn [{ json: { message, success: true, data } }];"
+        "jsCode": "// Success notification message with robust null checks\nconst item = $input.first();\n\n// Guard: Check if input exists\nif (!item || !item.json) {\n  return [{ json: { \n    message: '✅ YouTube Weekly 라운드 생성 완료 (상세 정보 없음)',\n    success: true,\n    data: null\n  }}];\n}\n\nconst data = item.json;\n\n// Guard: Check if data is valid object\nif (!data || typeof data !== 'object') {\n  return [{ json: { \n    message: '✅ YouTube Weekly 라운드 생성 완료 (응답 파싱 실패)',\n    success: true,\n    data: null\n  }}];\n}\n\n// Safe array handling for task_ids\nlet taskIdsList = '';\nif (data.task_ids) {\n  const taskIds = Array.isArray(data.task_ids) \n    ? data.task_ids \n    : [data.task_ids].filter(Boolean);\n  taskIdsList = taskIds.length > 0 \n    ? '\\n\\nTask IDs:\\n' + taskIds.map(id => `- ${id}`).join('\\n')\n    : '';\n}\n\nconst message = `✅ YouTube ${data.cycle || '(Unknown)'} 라운드 생성됨!\\n\\n📁 Project: ${data.project_id || '(Unknown)'}\\n📋 Tasks: ${data.tasks_created || 0}개\\n📅 시작일: ${data.start_date || '(Unknown)'}${taskIdsList}`;\n\nreturn [{ json: { message, success: true, data } }];"
       },
       "id": "code-success-msg",
       "name": "Success Message",
@@ -84,7 +85,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Failure notification message\nconst data = $input.first().json;\n\nconst message = `⚠️ YouTube Weekly 라운드 생성 실패\n\nError: ${data.detail || data.message || JSON.stringify(data)}`;\n\nreturn [{ json: { message, success: false, error: data } }];"
+        "jsCode": "// Failure notification message with error handling\nconst item = $input.first();\n\n// Guard: Check if input exists\nif (!item || !item.json) {\n  return [{ json: { \n    message: '⚠️ YouTube Weekly 라운드 생성 실패\\n\\nError: 응답 데이터 없음',\n    success: false,\n    error: { type: 'no_data', detail: 'No response data' }\n  }}];\n}\n\nconst data = item.json;\n\n// Detect error type: n8n HTTP error vs API error\nlet errorMessage = '';\nlet errorDetail = {};\n\n// Case 1: n8n HTTP error (has error object)\nif (data.error && typeof data.error === 'object') {\n  errorMessage = data.error.message || data.error.description || data.reason || 'Unknown HTTP error';\n  errorDetail = {\n    type: 'http_error',\n    message: errorMessage\n  };\n}\n// Case 2: n8n HTTP error (string message)\nelse if (data.error && typeof data.error === 'string') {\n  errorMessage = data.error;\n  errorDetail = {\n    type: 'http_error',\n    message: errorMessage\n  };\n}\n// Case 3: API returned error (detail field from FastAPI HTTPException)\nelse if (data.detail) {\n  errorMessage = typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail);\n  errorDetail = {\n    type: 'api_error',\n    message: errorMessage,\n    detail: data.detail\n  };\n}\n// Case 4: Other API error\nelse {\n  errorMessage = typeof data.message === 'string' ? data.message : JSON.stringify(data);\n  errorDetail = {\n    type: 'api_error',\n    message: errorMessage,\n    body: data\n  };\n}\n\n// Truncate long error messages\nif (errorMessage.length > 500) {\n  errorMessage = errorMessage.substring(0, 500) + '...';\n}\n\nconst message = `⚠️ YouTube Weekly 라운드 생성 실패\\n\\nError: ${errorMessage}`;\n\nreturn [{ json: { message, success: false, error: errorDetail } }];"
       },
       "id": "code-failure-msg",
       "name": "Failure Message",
@@ -143,7 +144,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1",
+  "versionId": "3",
   "triggerCount": 1,
   "tags": [
     {
@@ -151,6 +152,9 @@
     },
     {
       "name": "automation"
+    },
+    {
+      "name": "loop-api"
     }
   ]
 }
