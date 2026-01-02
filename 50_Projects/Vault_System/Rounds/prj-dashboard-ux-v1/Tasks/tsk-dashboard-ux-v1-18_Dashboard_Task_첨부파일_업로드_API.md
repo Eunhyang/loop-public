@@ -85,10 +85,101 @@ Task에 첨부파일을 업로드/조회/삭제할 수 있는 백엔드 API 구�
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 프로젝트 컨텍스트
+| 항목 | 값 |
+|------|-----|
+| Framework | FastAPI (Python 3.11+) |
+| Architecture | Router → Service → Storage (레이어드) |
+| 인증 | Bearer Token / OAuth JWT |
+| 저장소 | NAS 로컬 (`_attachments/{task_id}/`) |
+| Git | `.gitignore`에 `_attachments/` 추가 |
+
+#### API 엔드포인트
+| Method | Path | 설명 |
+|--------|------|------|
+| POST | `/{task_id}/attachments` | 파일 업로드 (multipart) |
+| GET | `/{task_id}/attachments` | 목록 조회 |
+| GET | `/{task_id}/attachments/{filename}` | 파일 서빙 |
+| DELETE | `/{task_id}/attachments/{filename}` | 파일 삭제 |
+
+#### 허용 파일 확장자
+```python
+ALLOWED_EXTENSIONS = {
+    ".pdf", ".hwp", ".hwpx", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
+    ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg",
+    ".mp3", ".wav", ".m4a", ".ogg", ".flac",
+    ".mp4", ".mov", ".avi", ".mkv",
+    ".txt", ".md", ".csv", ".json",
+    ".zip", ".tar", ".gz",
+}
+```
+
+#### 파일 크기 제한
+- 파일당: 100MB
+- Task당 총합: 500MB
+
+#### Pydantic 모델
+```python
+class AttachmentInfo(BaseModel):
+    filename: str
+    size: int
+    content_type: str
+    uploaded_at: str
+    url: str
+
+class AttachmentResponse(BaseModel):
+    success: bool
+    task_id: str
+    message: str
+    attachment: Optional[AttachmentInfo] = None
+
+class AttachmentListResponse(BaseModel):
+    success: bool
+    task_id: str
+    attachments: List[AttachmentInfo]
+    total_count: int
+    total_size: int
+```
+
+---
+
+### Tech Spec
+
+#### 파일 구조
+```
+public/api/
+├── routers/
+│   └── attachments.py       # 신규 생성
+├── models/
+│   └── entities.py          # Attachment 모델 추가
+└── main.py                  # 라우터 등록
+```
+
+#### 저장소 구조
+```
+{VAULT_DIR}/_attachments/{task_id}/{filename}
+```
+
+#### 보안
+- Path traversal 공격 방지 (`../` 제거)
+- 파일명 sanitize
+- Task 존재 검증 (VaultCache)
+
+---
+
 ### Todo
-- [ ] attachments.py 라우터 생성
-- [ ] main.py에 라우터 등록
-- [ ] 파일 업로드 테스트
+- [ ] `api/routers/attachments.py` 생성
+- [ ] Pydantic 모델 추가 (`models/entities.py`)
+- [ ] POST 업로드 엔드포인트 구현
+- [ ] GET 목록 엔드포인트 구현
+- [ ] GET 파일 서빙 엔드포인트 구현
+- [ ] DELETE 삭제 엔드포인트 구현
+- [ ] `main.py`에 라우터 등록
+- [ ] `.gitignore`에 `_attachments/` 추가
+- [ ] 감사 로그 (`log_entity_action`)
+- [ ] API 테스트
 
 ### 작업 로그
 <!--

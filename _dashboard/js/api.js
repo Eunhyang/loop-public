@@ -364,9 +364,10 @@ const API = {
     // Admin: Program-Round API
     // ============================================
     async getProgramRounds(pgmId, limit = 20) {
+        // tsk-018-01: /api/mcp/admin/... 경로로 수정 (mcp_composite 라우터 prefix)
         const url = limit
-            ? `${this.baseUrl}/api/admin/programs/${encodeURIComponent(pgmId)}/rounds?limit=${limit}`
-            : `${this.baseUrl}/api/admin/programs/${encodeURIComponent(pgmId)}/rounds`;
+            ? `${this.baseUrl}/api/mcp/admin/programs/${encodeURIComponent(pgmId)}/rounds?limit=${limit}`
+            : `${this.baseUrl}/api/mcp/admin/programs/${encodeURIComponent(pgmId)}/rounds`;
         const res = await this.authFetch(url);
         const data = await res.json();
         return data.rounds || [];
