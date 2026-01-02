@@ -218,3 +218,33 @@ class ProgramRoundsResponse(BaseModel):
     total_count: int = Field(..., description="실제 존재하는 전체 Round 수 (페이지네이션용)")
     returned_count: int = Field(..., description="이번 응답에서 반환된 Round 수 (limit 적용)")
     limit_applied: int = Field(..., description="적용된 limit 값")
+
+
+# ============================================
+# Attachment Models (tsk-dashboard-ux-v1-18)
+# ============================================
+
+class AttachmentInfo(BaseModel):
+    """첨부파일 정보"""
+    filename: str = Field(..., description="파일명")
+    size: int = Field(..., description="파일 크기 (bytes)")
+    content_type: str = Field(..., description="MIME 타입")
+    uploaded_at: str = Field(..., description="업로드 시간 (ISO 8601)")
+    url: str = Field(..., description="다운로드 URL")
+
+
+class AttachmentResponse(BaseModel):
+    """첨부파일 단일 응답"""
+    success: bool = Field(..., description="성공 여부")
+    task_id: str = Field(..., description="Task ID")
+    message: str = Field(..., description="결과 메시지")
+    attachment: Optional[AttachmentInfo] = Field(default=None, description="첨부파일 정보")
+
+
+class AttachmentListResponse(BaseModel):
+    """첨부파일 목록 응답"""
+    success: bool = Field(..., description="성공 여부")
+    task_id: str = Field(..., description="Task ID")
+    attachments: List[AttachmentInfo] = Field(default_factory=list, description="첨부파일 목록")
+    total_count: int = Field(..., description="총 파일 수")
+    total_size: int = Field(..., description="총 파일 크기 (bytes)")

@@ -92,10 +92,103 @@ priority_flag: medium
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 프로젝트 컨텍스트
+| 항목 | 값 |
+|------|-----|
+| Framework | FastAPI |
+| Python | 3.9+ |
+| 용도 | n8n → LLM B Score 계산 시 증거자료 |
+| 의존성 | tsk-18 (첨부파일 API) |
+
+#### API 엔드포인트
+```
+GET /api/tasks/{task_id}/attachments/{filename}/text
+```
+
+**Query Parameters**:
+- `max_chars: int` - 최대 문자 수 (LLM 토큰 절약)
+- `page_start: int` - PDF 시작 페이지
+- `page_end: int` - PDF 끝 페이지
+
+#### 지원 형식
+| 형식 | 라이브러리 | 비고 |
+|------|-----------|------|
+| PDF | pdfplumber | 텍스트 + 테이블 |
+| HWP | olefile | OLE 스트림 파싱 |
+| TXT | 직접 읽기 | UTF-8 |
+| MD | 직접 읽기 | UTF-8 |
+
+#### Response 모델
+```python
+class TextExtractionResponse(BaseModel):
+    success: bool
+    task_id: str
+    filename: str
+    format: str       # pdf|hwp|txt|md
+    text: str
+    chars: int
+    pages: Optional[int]  # PDF only
+    truncated: bool
+    error: Optional[str]
+```
+
+---
+
+### Tech Spec
+
+#### 파일 구조
+```
+public/api/
+├── routers/tasks.py           # 엔드포인트 추가
+├── services/
+│   └── text_extractor.py      # 신규 서비스
+├── models/entities.py         # Response 모델 추가
+└── pyproject.toml             # 의존성 추가
+```
+
+#### TextExtractor 클래스
+```python
+class TextExtractor:
+    SUPPORTED_FORMATS = {'.pdf', '.hwp', '.txt', '.md'}
+
+    def extract(self, file_path: Path) -> TextExtractionResult
+    def extract_pdf(self, path, page_start, page_end)  # pdfplumber
+    def extract_hwp(self, path)                        # olefile
+    def extract_text_file(self, path)                  # UTF-8
+```
+
+#### 의존성 추가 (pyproject.toml)
+```toml
+[project.optional-dependencies]
+api = [
+    # 기존...
+    "pdfplumber>=0.10.0",
+    "olefile>=0.46",
+]
+```
+
+#### n8n 연동 흐름
+```
+1. GET /api/tasks/{id} → 첨부파일 목록
+2. GET /api/tasks/{id}/attachments/{file}/text → 텍스트
+3. LLM에 텍스트 전달 → B Score 분석
+```
+
+---
+
 ### Todo
-- [ ] 라이브러리 조사 (pdfplumber vs PyPDF2)
-- [ ] HWP 추출 방법 확인
-- [ ] 엔드포인트 구현
+- [ ] `pdfplumber`, `olefile` 의존성 추가
+- [ ] `TextExtractionResponse` 모델 추가
+- [ ] `services/text_extractor.py` 생성
+- [ ] `extract_pdf()` 구현 (pdfplumber)
+- [ ] `extract_hwp()` 구현 (olefile)
+- [ ] `extract_text_file()` 구현
+- [ ] `tasks.py`에 `/text` 엔드포인트 추가
+- [ ] `max_chars` 파라미터 처리
+- [ ] `page_start`/`page_end` 파라미터 처리
+- [ ] 에러 핸들링 (404, 415, 500)
 - [ ] n8n 워크플로우 테스트
 
 ### 작업 로그

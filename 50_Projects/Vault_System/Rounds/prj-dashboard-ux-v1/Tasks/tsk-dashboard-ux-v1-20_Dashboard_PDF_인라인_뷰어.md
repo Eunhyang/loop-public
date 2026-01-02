@@ -83,10 +83,100 @@ priority_flag: medium
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 프로젝트 컨텍스트
+| 항목 | 값 |
+|------|-----|
+| Framework | Vanilla JavaScript (ES6+) |
+| PDF Library | PDF.js 4.x (CDN) |
+| UI Pattern | Modal overlay (풀스크린) |
+| 의존성 | tsk-19 (첨부파일 UI) |
+
+#### 기능 요구사항
+1. PDF 링크 클릭 시 모달 뷰어 열기
+2. 페이지 네비게이션 (이전/다음, 페이지 번호)
+3. 확대/축소 (50%~200%, 25% 단위)
+4. 다운로드 버튼
+5. 닫기 (X 버튼, ESC 키, 배경 클릭)
+
+#### Modal Layout
+```
+┌──────────────────────────────────────────────────────────────┐
+│  [filename.pdf]              < 1 / 10 >   [-] 100% [+]   ⬇ ✕ │
+├──────────────────────────────────────────────────────────────┤
+│                    ┌─────────────────┐                       │
+│                    │   PDF Page      │                       │
+│                    │   (Canvas)      │                       │
+│                    └─────────────────┘                       │
+└──────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Tech Spec
+
+#### 파일 구조
+```
+public/_dashboard/
+├── index.html              # PDF.js CDN + Modal HTML
+├── css/pdf-viewer.css      # 신규 스타일
+├── js/components/
+│   └── pdf-viewer.js       # 신규 컴포넌트
+└── js/app.js               # PDFViewer.init() 호출
+```
+
+#### PDFViewer 객체
+```javascript
+const PDFViewer = {
+    pdfDoc: null,
+    currentPage: 1,
+    totalPages: 0,
+    scale: 1.0,
+
+    init(),           // 모달 생성, 이벤트 바인딩
+    open(url),        // PDF 로드, 첫 페이지 렌더링
+    close(),          // 정리, 모달 숨김
+    renderPage(num),  // 페이지 렌더링
+    prevPage(),       // 이전 페이지
+    nextPage(),       // 다음 페이지
+    zoomIn(),         // +25%, max 200%
+    zoomOut(),        // -25%, min 50%
+    download(),       // 다운로드 트리거
+};
+```
+
+#### PDF.js CDN
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs" type="module"></script>
+```
+
+#### 키보드 단축키
+| 키 | 동작 |
+|---|------|
+| ESC | 닫기 |
+| ← / → | 페이지 이동 |
+| + / - | 확대/축소 |
+
+---
+
 ### Todo
-- [ ] PDF.js 라이브러리 조사
-- [ ] 뷰어 컴포넌트 설계
-- [ ] 구현 및 테스트
+- [ ] PDF.js CDN 추가 (`index.html`)
+- [ ] PDF 뷰어 모달 HTML 추가
+- [ ] `pdf-viewer.css` 생성 (풀스크린 모달, 툴바)
+- [ ] `pdf-viewer.js` 생성
+- [ ] `init()` - 모달 생성, 이벤트 바인딩
+- [ ] `open(url)` - PDF 로드, 렌더링
+- [ ] `renderPage(num)` - 캔버스 렌더링
+- [ ] 페이지 네비게이션 구현
+- [ ] 확대/축소 구현
+- [ ] 다운로드 버튼
+- [ ] 닫기 기능 (X, ESC, 배경)
+- [ ] 키보드 단축키
+- [ ] 로딩 스피너
+- [ ] 에러 핸들링
+- [ ] `app.js`에 `PDFViewer.init()` 추가
+- [ ] 모바일 반응형
 
 ### 작업 로그
 <!--

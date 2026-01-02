@@ -4,7 +4,7 @@ entity_id: "tsk-content-os-11"
 entity_name: "Content OS - 하드코딩 인증 구현"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -35,7 +35,7 @@ priority_flag: high
 
 # Content OS - 하드코딩 인증 구현
 
-> Task ID: `tsk-content-os-11` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-content-os-11` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
@@ -64,12 +64,12 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] middleware.ts 생성 (인증 쿠키 체크)
-- [ ] 로그인 페이지 UI 구현
-- [ ] 로그인 API 구현
-- [ ] 로그아웃 API 구현
-- [ ] 환경변수 설정
-- [ ] Docker 배포 테스트
+- [x] middleware.ts 생성 (인증 쿠키 체크)
+- [x] 로그인 페이지 UI 구현
+- [x] 로그인 API 구현
+- [x] 로그아웃 API 구현
+- [x] 환경변수 설정
+- [x] Docker 배포 테스트
 
 ---
 
@@ -122,6 +122,30 @@ AUTH_PASSWORD=your_password
 
 ### 작업 로그
 
+#### 2026-01-02 22:50
+**개요**: Content OS에 하드코딩 기반 인증 시스템 구현 및 배포 완료
+
+**변경사항**:
+- 신규: `lib/auth.ts` - 인증 유틸리티 (세션 쿠키 상수, 자격증명 검증)
+- 신규: `middleware.ts` - 전역 인증 가드 (쿠키 체크, /login 리다이렉트)
+- 신규: `app/login/page.tsx` - ShadCN 기반 로그인 폼 UI
+- 신규: `app/login/layout.tsx` - Sidebar 제외 레이아웃
+- 신규: `app/api/auth/login/route.ts` - 로그인 API (HttpOnly 쿠키 발급)
+- 신규: `app/api/auth/logout/route.ts` - 로그아웃 API (쿠키 삭제)
+- 수정: `components/layout/sidebar.tsx` - 로그아웃 버튼 추가
+- 수정: `docker-compose.yml` - AUTH_USERNAME, AUTH_PASSWORD 환경변수
+- 수정: `.claude/commands/content-os-server.md` - 배포 스크립트 업데이트
+
+**핵심 코드**:
+- 세션 쿠키: `content-os-session`, 7일 유효, HttpOnly
+- 보호 범위: `/login`, `/api/auth/*` 제외 전체
+- 인증 정보: admin / contentos123
+
+**결과**: ✅ 빌드 성공, Docker 배포 완료, /explorer 307 리다이렉트 확인
+
+**테스트**:
+- `/login` 페이지 200 OK
+- `/explorer` 미인증 → 307 → `/login?callbackUrl=/explorer`
 
 ---
 

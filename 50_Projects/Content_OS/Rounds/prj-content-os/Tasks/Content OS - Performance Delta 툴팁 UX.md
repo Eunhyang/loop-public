@@ -4,7 +4,7 @@ entity_id: "tsk-content-os-12"
 entity_name: "Content OS - Performance Delta 툴팁 UX"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -35,7 +35,7 @@ priority_flag: medium
 
 # Content OS - Performance Delta 툴팁 UX
 
-> Task ID: `tsk-content-os-12` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-content-os-12` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
@@ -88,11 +88,11 @@ percentage = ((value7d - value24h) / value24h) * 100
 
 ## 체크리스트
 
-- [ ] DeltaIndicatorCompact에 Tooltip 래핑
-- [ ] Props에 원본 값 (24h, 7d) 추가 또는 계산 결과 활용
-- [ ] 툴팁 내용 (24h 값, 7d 값, 설명) 구성
-- [ ] performance-table.tsx에서 Props 전달 확인
-- [ ] 빌드 및 UI 테스트
+- [x] DeltaIndicatorCompact에 Tooltip 래핑
+- [x] Props에 원본 값 (24h, 7d) 추가 또는 계산 결과 활용
+- [x] 툴팁 내용 (24h 값, 7d 값, 설명) 구성
+- [x] performance-table.tsx에서 Props 전달 확인
+- [x] 빌드 및 UI 테스트
 
 ---
 
@@ -194,9 +194,38 @@ percentage = ((value7d - value24h) / value24h) * 100
 
 ### Todo
 - [x] PRD 생성 (prompt-enhancer)
-- [ ] 구현
+- [x] 구현
 
 ### 작업 로그
+
+#### 2026-01-02 21:30
+**개요**: Performance Dashboard의 Delta 지표에 ShadCN Tooltip을 추가하여 24h/7d 원본 값과 트렌드 해석 메시지를 표시하도록 UX 개선.
+
+**변경사항**:
+- 개발:
+  - `components/ui/tooltip.tsx` - ShadCN Tooltip 컴포넌트 (신규)
+  - `@radix-ui/react-tooltip` 패키지 설치
+- 수정:
+  - `app/layout.tsx` - TooltipProvider 추가 (delayDuration: 300ms)
+  - `app/performance/components/delta-indicator.tsx` - Tooltip 래핑, metricLabel/format props 추가
+  - `app/performance/components/performance-table.tsx` - metricLabel="CTR", format="percentage" 전달
+
+**핵심 코드**:
+```tsx
+// delta-indicator.tsx - 트렌드 해석 메시지
+const getTrendMessage = (trend: string, percentage: number, label: string) => {
+  if (trend === "up") {
+    return `24시간 ${label}이(가) 7일 평균 대비 ${Math.abs(percentage).toFixed(0)}% 높음`;
+  } else if (trend === "down") {
+    return `24시간 ${label}이(가) 7일 평균 대비 ${Math.abs(percentage).toFixed(0)}% 낮음`;
+  }
+  return `24시간 ${label}이(가) 7일 평균과 비슷함`;
+};
+```
+
+**파일 변경**: 신규 1개, 수정 3개 (총 4개)
+
+**결과**: ✅ 빌드 성공, 툴팁 정상 동작 확인
 
 
 ---

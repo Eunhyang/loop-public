@@ -50,3 +50,6 @@ _build/local-sync.log
 _build/local-sync-stdout.log
 _build/local-sync-stderr.log
 _build/pending_reviews.json
+
+# Attachments (tsk-dashboard-ux-v1-18: Task 첨부파일 - NAS에만 저장)
+_attachments/

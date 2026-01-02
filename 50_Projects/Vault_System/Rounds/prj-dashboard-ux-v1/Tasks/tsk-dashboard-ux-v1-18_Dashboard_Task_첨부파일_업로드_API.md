@@ -4,7 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-18"
 entity_name: "Dashboard - Task 첨부파일 업로드 API"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -72,14 +72,14 @@ Task에 첨부파일을 업로드/조회/삭제할 수 있는 백엔드 API 구�
 
 ## 체크리스트
 
-- [ ] `api/routers/attachments.py` 생성
-- [ ] POST 업로드 엔드포인트 구현
-- [ ] GET 목록 엔드포인트 구현
-- [ ] GET 파일 서빙 엔드포인트 구현
-- [ ] DELETE 삭제 엔드포인트 구현
-- [ ] `_attachments/` 폴더 구조 생성
-- [ ] `.gitignore`에 추가
-- [ ] API 테스트
+- [x] `api/routers/attachments.py` 생성
+- [x] POST 업로드 엔드포인트 구현
+- [x] GET 목록 엔드포인트 구현
+- [x] GET 파일 서빙 엔드포인트 구현
+- [x] DELETE 삭제 엔드포인트 구현
+- [x] `_attachments/` 폴더 구조 생성 (업로드 시 자동 생성)
+- [x] `.gitignore`에 추가
+- [x] 보안 테스트 통과
 
 ---
 
@@ -170,35 +170,47 @@ public/api/
 ---
 
 ### Todo
-- [ ] `api/routers/attachments.py` 생성
-- [ ] Pydantic 모델 추가 (`models/entities.py`)
-- [ ] POST 업로드 엔드포인트 구현
-- [ ] GET 목록 엔드포인트 구현
-- [ ] GET 파일 서빙 엔드포인트 구현
-- [ ] DELETE 삭제 엔드포인트 구현
-- [ ] `main.py`에 라우터 등록
-- [ ] `.gitignore`에 `_attachments/` 추가
-- [ ] 감사 로그 (`log_entity_action`)
-- [ ] API 테스트
+- [x] `api/routers/attachments.py` 생성
+- [x] Pydantic 모델 추가 (`models/entities.py`)
+- [x] POST 업로드 엔드포인트 구현
+- [x] GET 목록 엔드포인트 구현
+- [x] GET 파일 서빙 엔드포인트 구현
+- [x] DELETE 삭제 엔드포인트 구현
+- [x] `main.py`에 라우터 등록
+- [x] `.gitignore`에 `_attachments/` 추가
+- [x] 감사 로그 (`log_entity_action`)
+- [x] 보안 테스트 통과
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-02
+**개요**: Task 첨부파일 업로드/조회/삭제 API를 FastAPI로 구현했습니다. Codex와의 코드 리뷰를 통해 보안 취약점을 개선했습니다.
 
 **변경사항**:
 - 개발:
-- 수정:
-- 개선:
+  - `api/routers/attachments.py` - 4개 엔드포인트 (POST/GET/GET/DELETE)
+  - `api/models/entities.py` - AttachmentInfo, AttachmentResponse, AttachmentListResponse 모델
+  - `api/main.py` - 라우터 등록
+  - `.gitignore` - `_attachments/` 추가
+- 보안 (Codex 피드백 반영):
+  - `secure_filename()` - path traversal, null byte, URL encoding 방지
+  - `validate_path_safety()` - `Path.is_relative_to()` 사용 (startswith 취약점 수정)
+  - `UploadFile.close()` - finally 블록에서 리소스 정리
+  - 청크 단위 업로드로 메모리 보호 (100MB/파일, 500MB/Task)
 
-**핵심 코드**: (필요시)
+**핵심 코드**:
+```python
+# Path traversal 방지 (Codex 피드백)
+def validate_path_safety(base_dir: Path, target_path: Path) -> bool:
+    resolved_target = target_path.resolve()
+    return resolved_target.is_relative_to(base_dir.resolve())
+```
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: 보안 테스트 통과
 
 **다음 단계**:
--->
+- 프론트엔드 첨부파일 UI 구현 (별도 Task)
+- MCP 서버 재배포로 API 활성화
 
 
 ---
