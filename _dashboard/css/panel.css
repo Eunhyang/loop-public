@@ -2613,3 +2613,272 @@
         font-size: 11px;
     }
 }
+
+/* ============================================
+   Attachments Section (tsk-dashboard-ux-v1-19)
+   ============================================ */
+
+.panel-attachments {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Dropzone */
+.attachment-dropzone {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f9fafb;
+}
+
+.attachment-dropzone:hover {
+    border-color: #667eea;
+    background: #f0f0ff;
+}
+
+.attachment-dropzone.drag-over {
+    border-color: #667eea;
+    background: #e8e8ff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropzone-icon {
+    font-size: 2em;
+}
+
+.dropzone-text {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #374151;
+}
+
+.dropzone-hint {
+    font-size: 0.75em;
+    color: #9ca3af;
+}
+
+/* Upload Progress */
+.attachment-progress {
+    background: #f0f0ff;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.85em;
+}
+
+.progress-filename {
+    color: #374151;
+    font-weight: 500;
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.progress-percent {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.progress-bar-container {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.2s ease;
+}
+
+/* Attachment List */
+.attachment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.attachment-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.attachment-item:hover {
+    background: #f0f0ff;
+    border-color: #d1d5db;
+}
+
+.attachment-icon {
+    font-size: 1.5em;
+    width: 32px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.attachment-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.attachment-name {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #1f2937;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.attachment-meta {
+    font-size: 0.75em;
+    color: #6b7280;
+    display: flex;
+    gap: 8px;
+}
+
+.attachment-size {
+    color: #9ca3af;
+}
+
+.attachment-type {
+    color: #9ca3af;
+    text-transform: uppercase;
+}
+
+.attachment-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.attachment-btn {
+    background: none;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    color: #6b7280;
+}
+
+.attachment-btn:hover {
+    background: #e5e7eb;
+}
+
+.attachment-btn.download:hover {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.attachment-btn.viewer:hover {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.attachment-btn.delete:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Empty State */
+.attachment-empty {
+    text-align: center;
+    padding: 16px;
+    color: #9ca3af;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* File Type Specific Icons */
+.attachment-icon.pdf { color: #dc2626; }
+.attachment-icon.hwp { color: #0284c7; }
+.attachment-icon.doc { color: #2563eb; }
+.attachment-icon.xls { color: #16a34a; }
+.attachment-icon.ppt { color: #ea580c; }
+.attachment-icon.image { color: #8b5cf6; }
+.attachment-icon.audio { color: #ec4899; }
+.attachment-icon.video { color: #f59e0b; }
+.attachment-icon.archive { color: #6b7280; }
+.attachment-icon.text { color: #374151; }
+.attachment-icon.other { color: #9ca3af; }
+
+/* Loading State */
+.attachment-list-loading {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+}
+
+.attachment-list-loading::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e5e7eb;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .attachment-dropzone {
+        padding: 16px 12px;
+    }
+
+    .dropzone-icon {
+        font-size: 1.5em;
+    }
+
+    .attachment-item {
+        padding: 8px 10px;
+    }
+
+    .attachment-icon {
+        font-size: 1.2em;
+        width: 28px;
+    }
+
+    .attachment-name {
+        font-size: 0.85em;
+    }
+
+    .attachment-btn {
+        padding: 4px 6px;
+        font-size: 0.9em;
+    }
+}

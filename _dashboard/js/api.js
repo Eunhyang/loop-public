@@ -371,5 +371,111 @@ const API = {
         const res = await this.authFetch(url);
         const data = await res.json();
         return data.rounds || [];
+    },
+
+    // ============================================
+    // Attachments (tsk-dashboard-ux-v1-19)
+    // ============================================
+
+    /**
+     * 첨부파일 목록 조회
+     * @param {string} taskId - Task ID
+     * @returns {Promise<{attachments: Array, total_count: number, total_size: number}>}
+     */
+    async getAttachments(taskId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}/attachments`);
+        const data = await res.json();
+        return data;
+    },
+
+    /**
+     * 첨부파일 URL 생성
+     * @param {string} taskId - Task ID
+     * @param {string} filename - 파일명
+     * @returns {string} 다운로드 URL
+     */
+    getAttachmentUrl(taskId, filename) {
+        return `${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}/attachments/${encodeURIComponent(filename)}`;
+    },
+
+    /**
+     * 첨부파일 업로드 (XMLHttpRequest로 진행률 추적)
+     * @param {string} taskId - Task ID
+     * @param {File} file - 업로드할 파일
+     * @param {function} onProgress - 진행률 콜백 (0-100)
+     * @returns {Promise<Object>} 업로드 결과
+     */
+    uploadAttachment(taskId, file, onProgress = null) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // 진행률 추적
+            if (onProgress) {
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        onProgress(percent);
+                    }
+                });
+            }
+
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        resolve(data);
+                    } catch (e) {
+                        reject(new Error('Invalid response'));
+                    }
+                } else if (xhr.status === 401 || xhr.status === 403) {
+                    this.clearToken();
+                    if (window.showLoginModal) {
+                        window.showLoginModal();
+                    }
+                    reject(new Error('Unauthorized'));
+                } else {
+                    try {
+                        const error = JSON.parse(xhr.responseText);
+                        reject(new Error(error.detail || 'Upload failed'));
+                    } catch (e) {
+                        reject(new Error(`Upload failed: ${xhr.status}`));
+                    }
+                }
+            });
+
+            xhr.addEventListener('error', () => {
+                reject(new Error('Network error'));
+            });
+
+            xhr.addEventListener('abort', () => {
+                reject(new Error('Upload cancelled'));
+            });
+
+            xhr.open('POST', `${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}/attachments`);
+
+            // Authorization 헤더 추가
+            const token = this.getToken();
+            if (token) {
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            }
+
+            xhr.send(formData);
+        });
+    },
+
+    /**
+     * 첨부파일 삭제
+     * @param {string} taskId - Task ID
+     * @param {string} filename - 삭제할 파일명
+     * @returns {Promise<Object>} 삭제 결과
+     */
+    async deleteAttachment(taskId, filename) {
+        const res = await this.authFetch(
+            `${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}/attachments/${encodeURIComponent(filename)}`,
+            { method: 'DELETE' }
+        );
+        return res.json();
     }
 };

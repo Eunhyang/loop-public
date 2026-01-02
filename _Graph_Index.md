@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-02
 updated: 2026-01-02
-total_entities: 246
+total_entities: 254
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 246개
+- **총 엔티티**: 254개
 - **마지막 업데이트**: 2026-01-02
 
 ### 타입별
@@ -28,8 +28,8 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 8 |
-| Project | 26 |
-| Task | 131 |
+| Project | 27 |
+| Task | 138 |
 | Hypothesis | 46 |
 
 ### 상태별
@@ -38,11 +38,11 @@ tags: ["meta", "graph", "index"]
 |  | 5 |
 | active | 4 |
 | assumed | 1 |
-| doing | 49 |
-| done | 89 |
+| doing | 50 |
+| done | 95 |
 | fixed | 1 |
 | hold | 1 |
-| todo | 87 |
+| todo | 88 |
 | unknown | 5 |
 | validating | 4 |
 
@@ -102,7 +102,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (26개)
+## Project (27개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -121,6 +121,7 @@ tags: ["meta", "graph", "index"]
 | `prj-017` | 아이디어파트너스 배치 프로그램 지원 | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Project_정의.md` |
 | `prj-018` | 프라이머 배치 프로그램 지원 | todo | `50_Projects/TIPS_Batch/Rounds/prj-018_프라이머_배치/Project_정의.md` |
 | `prj-019` | Dual-Vault - 정비 | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Project_정의.md` |
+| `prj-api-exec-vault` | API - Exec Vault 통합 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Project_정의.md` |
 | `prj-content-os` | Content OS - MVP 개발 | active | `50_Projects/Content_OS/Rounds/prj-content-os/Project_정의.md` |
 | `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 |  | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
 | `prj-grants-jemi` | JEMI디딤돌 지원사업 | todo | `50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md` |
@@ -134,7 +135,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (131개)
+## Task (138개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -199,8 +200,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-016-01` | 법인 정관 작성 후 최종 검토 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
 | `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
 | `tsk-017-01` | 제출 서류 준비 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-01_제출서류준비.md` |
-| `tsk-017-02` | 사업계획서 틀 작성 | doing | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md` |
-| `tsk-017-03` | 사업계획서 리뷰(은향) | todo | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md` |
+| `tsk-017-02` | 사업계획서 틀 작성 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md` |
+| `tsk-017-03` | 사업계획서 리뷰(은향) | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md` |
 | `tsk-017-04` | 사업계획서 작성 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
 | `tsk-017-05` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/고객_관리_새해_인사_전달유튜브_오픈톡방_꼭꼭Fit_참여인원_등.md` |
 | `tsk-017-06` | 12주 과정 후 실제 변화/미해결 패턴 검증 - 꼭꼭Fit 졸업자들 대상 사후 설문 전달(워크북/다이어리 배송 포함) | done | `50_Projects/2025/P014_코칭 운영 체계/Tasks/12주_과정_후_실제_변화미해결_패턴_검증_꼭꼭Fit_졸업자들_대상_사후_설문_전달워크북다이어리_배송_포함.md` |
@@ -208,16 +209,19 @@ tags: ["meta", "graph", "index"]
 | `tsk-017-09` | Dual-Vault - Program-Round 조인 API | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md` |
 | `tsk-017-11` | Dual-Vault - n8n 토큰 분리 설정 | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-11_n8n_토큰_분리_설정.md` |
 | `tsk-017-12` | Dual-Vault - Program-Round 대시보드 통합 | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-12_Program-Round_대시보드_통합.md` |
+| `tsk-018-01` | API - VaultCache exec vault 프로젝트 로드 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md` |
 | `tsk-019-01` | Dual-Vault - exec pre-commit hook | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md` |
 | `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
 | `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
-| `tsk-content-os-03` | Content OS - Video Explorer UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md` |
 | `tsk-content-os-04` | Content OS - Task Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
 | `tsk-content-os-05` | Content OS - 회고 대시보드 UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
 | `tsk-content-os-06` | ContentOS - Performance Dashboard Phase 1 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md` |
 | `tsk-content-os-07` | Content OS - Video Explorer Live Search | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md` |
 | `tsk-content-os-08` | Content OS - DB 스키마 구축 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md` |
 | `tsk-content-os-09` | Content OS - YouTube API Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md` |
+| `tsk-content-os-10` | Content OS - YouTube Analytics API 연동 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md` |
+| `tsk-content-os-11` | Content OS - 하드코딩 인증 구현 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md` |
+| `tsk-content-os-12` | Content OS - Performance Delta 툴팁 UX | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Performance Delta 툴팁 UX.md` |
 | `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
 | `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
 | `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
@@ -235,6 +239,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-15` | Schema 상수 하드코딩 제거 및 일원화 강제 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md` |
 | `tsk-dashboard-ux-v1-16` | 캘린더뷰 Task Type 필터링 UI 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md` |
 | `tsk-dashboard-ux-v1-17` | Dashboard - Google Calendar 연동 (읽기 전용) | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-17_Dashboard_Google_Calendar_연동.md` |
+| `tsk-dashboard-ux-v1-18` | Dashboard - Task 첨부파일 업로드 API | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-18_Dashboard_Task_첨부파일_업로드_API.md` |
+| `tsk-dashboard-ux-v1-19` | Dashboard - Task 첨부파일 UI | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-19_Dashboard_Task_첨부파일_UI.md` |
+| `tsk-dashboard-ux-v1-20` | Dashboard - PDF 인라인 뷰어 | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-20_Dashboard_PDF_인라인_뷰어.md` |
+| `tsk-dashboard-ux-v1-21` | Dashboard - 첨부파일 텍스트 추출 API | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-21_Dashboard_첨부파일_텍스트_추출_API.md` |
 | `tsk-grants-jemi-01` | JEMI 디딤돌 e-나라도움 정산 증빙자료 수집 | done | `50_Projects/Grants/Rounds/prj-grants-jemi/Tasks/tsk-grants-jemi-01_정산증빙자료수집.md` |
 | `tsk-grants-youth-01` | 이인벤션 선납 비용 처리 논의 | done | `50_Projects/Grants/Rounds/prj-grants-youth/Tasks/tsk-grants-youth-01_이인벤션비용논의.md` |
 | `tsk-impact-schema-v2-01` | Impact - Realized 필드 확장 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md` |
@@ -452,13 +460,15 @@ tags: ["meta", "graph", "index"]
 - **prj-content-os** (Content OS - MVP 개발)
   - tsk-content-os-01 (Content OS - 프로젝트 초기 세팅)
   - tsk-content-os-02 (Content OS - Opportunity 대시보드 UI)
-  - tsk-content-os-03 (Content OS - Video Explorer UI)
   - tsk-content-os-04 (Content OS - Task Pipeline UI)
   - tsk-content-os-05 (Content OS - 회고 대시보드 UI)
   - tsk-content-os-06 (ContentOS - Performance Dashboard Phase 1)
   - tsk-content-os-07 (Content OS - Video Explorer Live Search)
   - tsk-content-os-08 (Content OS - DB 스키마 구축)
   - tsk-content-os-09 (Content OS - YouTube API Integration)
+  - tsk-content-os-10 (Content OS - YouTube Analytics API 연동)
+  - tsk-content-os-11 (Content OS - 하드코딩 인증 구현)
+  - tsk-content-os-12 (Content OS - Performance Delta 툴팁 UX)
 - **prj-dashboard-ux-v1** (대시보드 UX 개선 v1)
   - tsk-dashboard-ux-v1-01 (뷰 전환 단축키 (1/2/3))
   - tsk-dashboard-ux-v1-02 (대시보드 키보드 단축키)
@@ -477,6 +487,10 @@ tags: ["meta", "graph", "index"]
   - tsk-dashboard-ux-v1-15 (Schema 상수 하드코딩 제거 및 일원화 강제)
   - tsk-dashboard-ux-v1-16 (캘린더뷰 Task Type 필터링 UI 구현)
   - tsk-dashboard-ux-v1-17 (Dashboard - Google Calendar 연동 (읽기 전용))
+  - tsk-dashboard-ux-v1-18 (Dashboard - Task 첨부파일 업로드 API)
+  - tsk-dashboard-ux-v1-19 (Dashboard - Task 첨부파일 UI)
+  - tsk-dashboard-ux-v1-20 (Dashboard - PDF 인라인 뷰어)
+  - tsk-dashboard-ux-v1-21 (Dashboard - 첨부파일 텍스트 추출 API)
 - **prj-grants-jemi** (JEMI디딤돌 지원사업)
   - tsk-grants-jemi-01 (JEMI 디딤돌 e-나라도움 정산 증빙자료 수집)
 - **prj-grants-youth** (청년창업사관학교)
@@ -552,6 +566,7 @@ tags: ["meta", "graph", "index"]
   - prj-003 (LoopOS V0 데이터 설계)
   - prj-005 (LoopOS - 최소 선제 학습)
   - prj-019 (Dual-Vault - 정비)
+  - prj-api-exec-vault (API - Exec Vault 통합)
   - prj-dashboard-ux-v1 (대시보드 UX 개선 v1)
   - prj-impact-schema-v2 (Schema - Realized Impact 확장)
   - prj-mcp-dual-vault-rbac (MCP Dual-Vault RBAC)

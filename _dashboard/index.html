@@ -647,6 +647,36 @@
                             <!-- Dynamically populated -->
                         </div>
                     </div>
+
+                    <!-- Attachments (tsk-dashboard-ux-v1-19) -->
+                    <div class="panel-section" id="panelTaskAttachmentsSection">
+                        <div class="panel-section-title">📁 Attachments</div>
+                        <div class="panel-attachments" id="panelTaskAttachments">
+                            <!-- Upload Area -->
+                            <div class="attachment-dropzone" id="attachmentDropzone">
+                                <input type="file" id="attachmentFileInput" multiple hidden>
+                                <div class="dropzone-content">
+                                    <span class="dropzone-icon">📤</span>
+                                    <span class="dropzone-text">Drop files here or click to upload</span>
+                                    <span class="dropzone-hint">Max 100MB per file</span>
+                                </div>
+                            </div>
+                            <!-- Upload Progress -->
+                            <div class="attachment-progress" id="attachmentProgress" style="display: none;">
+                                <div class="progress-info">
+                                    <span class="progress-filename" id="attachmentProgressFilename"></span>
+                                    <span class="progress-percent" id="attachmentProgressPercent">0%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" id="attachmentProgressBar"></div>
+                                </div>
+                            </div>
+                            <!-- Attachment List -->
+                            <div class="attachment-list" id="attachmentList">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Right Column: Notes -->

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-02T19:14:58.310913",
-  "total_entities": 246,
+  "generated": "2026-01-02T23:46:49.150338",
+  "total_entities": 254,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -1203,6 +1203,15 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-19",
+      "type": "Task",
+      "name": "Dashboard - Task 첨부파일 UI",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-19_Dashboard_Task_첨부파일_UI.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-09",
       "type": "Task",
       "name": "loop-entity-creator 문서 수정",
@@ -1230,11 +1239,29 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-21",
+      "type": "Task",
+      "name": "Dashboard - 첨부파일 텍스트 추출 API",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-21_Dashboard_첨부파일_텍스트_추출_API.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-05",
       "type": "Task",
       "name": "Schema 상수 중앙화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-05_Schema_상수_중앙화.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-18",
+      "type": "Task",
+      "name": "Dashboard - Task 첨부파일 업로드 API",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-18_Dashboard_Task_첨부파일_업로드_API.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1308,6 +1335,15 @@
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md",
       "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-20",
+      "type": "Task",
+      "name": "Dashboard - PDF 인라인 뷰어",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-20_Dashboard_PDF_인라인_뷰어.md",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -1556,6 +1592,27 @@
       "assignee": "김은향"
     },
     {
+      "id": "prj-api-exec-vault",
+      "type": "Project",
+      "name": "API - Exec Vault 통합",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Project_정의.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-018-01",
+      "type": "Task",
+      "name": "API - VaultCache exec vault 프로젝트 로드",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-n8n",
       "type": "Project",
       "name": "n8n Vault 자동화",
@@ -1750,7 +1807,7 @@
       "id": "tsk-017-02",
       "type": "Task",
       "name": "사업계획서 틀 작성",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md",
       "priority_flag": "high",
       "assignee": "한명학"
@@ -1759,7 +1816,7 @@
       "id": "tsk-017-03",
       "type": "Task",
       "name": "사업계획서 리뷰(은향)",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md",
       "priority_flag": "high",
       "assignee": "김은향"
@@ -1829,6 +1886,15 @@
       "owner": "김은향"
     },
     {
+      "id": "tsk-content-os-12",
+      "type": "Task",
+      "name": "Content OS - Performance Delta 툴팁 UX",
+      "status": "done",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Performance Delta 툴팁 UX.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-content-os-04",
       "type": "Task",
       "name": "Content OS - Task Pipeline UI",
@@ -1843,6 +1909,15 @@
       "name": "Content OS - Opportunity 대시보드 UI",
       "status": "todo",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-content-os-10",
+      "type": "Task",
+      "name": "Content OS - YouTube Analytics API 연동",
+      "status": "done",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1874,6 +1949,15 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-content-os-11",
+      "type": "Task",
+      "name": "Content OS - 하드코딩 인증 구현",
+      "status": "done",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-content-os-08",
       "type": "Task",
       "name": "Content OS - DB 스키마 구축",
@@ -1888,15 +1972,6 @@
       "name": "Content OS - YouTube API Integration",
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-content-os-03",
-      "type": "Task",
-      "name": "Content OS - Video Explorer UI",
-      "status": "todo",
-      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2282,6 +2357,11 @@
     {
       "source": "trk-2",
       "target": "prj-impact-schema-v2",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-api-exec-vault",
       "type": "parent_of"
     },
     {
@@ -2911,6 +2991,11 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-19",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-09",
       "type": "parent_of"
     },
@@ -2926,7 +3011,17 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-21",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-18",
       "type": "parent_of"
     },
     {
@@ -2967,6 +3062,11 @@
     {
       "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-20",
       "type": "parent_of"
     },
     {
@@ -3181,12 +3281,22 @@
     },
     {
       "source": "prj-content-os",
+      "target": "tsk-content-os-12",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-content-os",
       "target": "tsk-content-os-04",
       "type": "parent_of"
     },
     {
       "source": "prj-content-os",
       "target": "tsk-content-os-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-content-os",
+      "target": "tsk-content-os-10",
       "type": "parent_of"
     },
     {
@@ -3206,17 +3316,17 @@
     },
     {
       "source": "prj-content-os",
+      "target": "tsk-content-os-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-content-os",
       "target": "tsk-content-os-08",
       "type": "parent_of"
     },
     {
       "source": "prj-content-os",
       "target": "tsk-content-os-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-03",
       "type": "parent_of"
     },
     {
@@ -4001,6 +4111,7 @@
       "prj-007",
       "prj-014",
       "prj-dashboard-ux-v1",
+      "prj-api-exec-vault",
       "prj-n8n",
       "pgm-tips",
       "prj-017",
@@ -4115,6 +4226,7 @@
       "prj-mcp-dual-vault-rbac",
       "prj-019",
       "prj-impact-schema-v2",
+      "prj-api-exec-vault",
       "prj-n8n",
       "prj-017",
       "prj-018",
@@ -4189,10 +4301,13 @@
       "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-06",
+      "tsk-dashboard-ux-v1-19",
       "tsk-dashboard-ux-v1-09",
       "tsk-dashboard-ux-v1-11",
       "tsk-dashboard-ux-v1-12",
+      "tsk-dashboard-ux-v1-21",
       "tsk-dashboard-ux-v1-05",
+      "tsk-dashboard-ux-v1-18",
       "tsk-dashboard-ux-v1-14",
       "tsk-dashboard-ux-v1-07",
       "tsk-dashboard-ux-v1-16",
@@ -4201,6 +4316,7 @@
       "tsk-dashboard-ux-v1-17",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-03",
+      "tsk-dashboard-ux-v1-20",
       "tsk-dashboard-ux-v1-13",
       "tsk-dashboard-ux-v1-04",
       "tsk-dashboard-ux-v1-10",
@@ -4223,6 +4339,7 @@
       "tsk-impact-schema-v2-05",
       "tsk-impact-v2-06",
       "tsk-019-01",
+      "tsk-018-01",
       "tsk-n8n-11",
       "tsk-n8n-10",
       "tsk-n8n-03",
@@ -4243,14 +4360,16 @@
       "tsk-017-02",
       "tsk-017-03",
       "tsk-017-01",
+      "tsk-content-os-12",
       "tsk-content-os-04",
       "tsk-content-os-02",
+      "tsk-content-os-10",
       "tsk-content-os-01",
       "tsk-content-os-07",
       "tsk-content-os-05",
+      "tsk-content-os-11",
       "tsk-content-os-08",
       "tsk-content-os-09",
-      "tsk-content-os-03",
       "tsk-content-os-06"
     ],
     "Program": [
@@ -4392,12 +4511,13 @@
       "tsk-008-03",
       "tsk-008-02",
       "prj-grants-jemi",
+      "tsk-dashboard-ux-v1-19",
+      "tsk-dashboard-ux-v1-21",
       "tsk-dashboard-ux-v1-01",
+      "tsk-dashboard-ux-v1-20",
       "prj-017",
-      "tsk-017-03",
       "prj-018",
       "tsk-content-os-02",
-      "tsk-content-os-03",
       "cond-c",
       "ps-3",
       "ps-1",
@@ -4439,11 +4559,12 @@
       "prj-019",
       "tsk-017-08",
       "tsk-impact-schema-v2-05",
+      "prj-api-exec-vault",
+      "tsk-018-01",
       "tsk-n8n-06",
       "tsk-n8n-13",
       "tsk-017-11",
       "pgm-tips",
-      "tsk-017-02",
       "pgm-hiring",
       "pgm-coaching",
       "pgm-content-os",
@@ -4516,6 +4637,7 @@
       "tsk-dashboard-ux-v1-11",
       "tsk-dashboard-ux-v1-12",
       "tsk-dashboard-ux-v1-05",
+      "tsk-dashboard-ux-v1-18",
       "tsk-dashboard-ux-v1-14",
       "tsk-dashboard-ux-v1-07",
       "tsk-dashboard-ux-v1-16",
@@ -4552,11 +4674,16 @@
       "tsk-017-12",
       "tsk-017-09",
       "tsk-017-04",
+      "tsk-017-02",
+      "tsk-017-03",
       "tsk-017-01",
+      "tsk-content-os-12",
       "tsk-content-os-04",
+      "tsk-content-os-10",
       "tsk-content-os-01",
       "tsk-content-os-07",
       "tsk-content-os-05",
+      "tsk-content-os-11",
       "tsk-content-os-09",
       "tsk-content-os-06",
       "retro:2025-annual"

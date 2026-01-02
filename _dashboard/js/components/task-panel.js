@@ -7,6 +7,7 @@ const TaskPanel = {
     isExpanded: false,
     isEditingNotes: false,
     editableLinks: [], // 편집 중인 링크 목록 (Save 시 저장)
+    isUploading: false, // 업로드 중 상태
 
     /**
      * Obsidian URI 생성
@@ -111,6 +112,9 @@ const TaskPanel = {
                 Router.copyShareableUrl('task', this.currentTask.entity_id);
             }
         });
+
+        // 첨부파일 이벤트 (tsk-dashboard-ux-v1-19)
+        this.setupAttachmentEvents();
     },
 
     /**
@@ -282,6 +286,9 @@ const TaskPanel = {
         this.toggleNotesEdit(); // 새 Task는 편집 모드로 시작
         this.updateNotesPreview('');
 
+        // 첨부파일 섹션 숨김 (새 Task는 저장 후 첨부파일 추가 가능)
+        this.initAttachmentsForNewTask();
+
         this.show();
     },
 
@@ -355,6 +362,9 @@ const TaskPanel = {
             // Links 표시
             this.renderLinks(task);
 
+            // 첨부파일 섹션 표시 및 로드
+            this.showAttachmentsSection(taskId);
+
         } catch (err) {
             console.error('Error loading task detail:', err);
             // 폴백: 캐시된 정보 사용
@@ -364,6 +374,9 @@ const TaskPanel = {
             this.updateNotesPreview(notesContent);
             this.renderRelations(cachedTask);
             this.renderLinks(cachedTask);
+
+            // 첨부파일 섹션 표시 및 로드 (폴백에서도)
+            this.showAttachmentsSection(taskId);
         }
 
         // Delete 버튼 표시
@@ -941,5 +954,419 @@ const TaskPanel = {
             console.error('Delete task error:', err);
             showToast('Error deleting task', 'error');
         }
+    },
+
+    // ============================================
+    // Attachments (tsk-dashboard-ux-v1-19)
+    // ============================================
+
+    /**
+     * 첨부파일 이벤트 리스너 설정
+     */
+    setupAttachmentEvents() {
+        const dropzone = document.getElementById('attachmentDropzone');
+        const fileInput = document.getElementById('attachmentFileInput');
+
+        if (!dropzone || !fileInput) return;
+
+        // 클릭으로 파일 선택
+        dropzone.addEventListener('click', () => {
+            if (!this.isUploading) {
+                fileInput.click();
+            }
+        });
+
+        // 파일 선택 시 업로드
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                this.uploadFiles(Array.from(e.target.files));
+                fileInput.value = ''; // 초기화
+            }
+        });
+
+        // 드래그 이벤트
+        dropzone.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('drag-over');
+        });
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('drag-over');
+        });
+
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('drag-over');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('drag-over');
+
+            if (!this.isUploading && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                this.uploadFiles(Array.from(e.dataTransfer.files));
+            }
+        });
+    },
+
+    /**
+     * 파일 업로드 처리
+     * @param {File[]} files - 업로드할 파일 목록
+     */
+    async uploadFiles(files) {
+        if (!this.currentTask) {
+            showToast('Please save task first', 'warning');
+            return;
+        }
+
+        if (this.isUploading) {
+            showToast('Upload in progress', 'warning');
+            return;
+        }
+
+        const taskId = this.currentTask.entity_id;
+
+        for (const file of files) {
+            try {
+                this.isUploading = true;
+                this.showUploadProgress(file.name);
+
+                await API.uploadAttachment(taskId, file, (percent) => {
+                    this.updateUploadProgress(percent);
+                });
+
+                showToast(`Uploaded: ${file.name}`, 'success');
+            } catch (err) {
+                console.error('Upload error:', err);
+                showToast(`Upload failed: ${err.message}`, 'error');
+            } finally {
+                this.isUploading = false;
+                this.hideUploadProgress();
+            }
+        }
+
+        // 업로드 완료 후 목록 새로고침
+        this.loadAttachments(taskId);
+    },
+
+    /**
+     * 업로드 진행 UI 표시
+     * @param {string} filename - 파일명
+     */
+    showUploadProgress(filename) {
+        const progressEl = document.getElementById('attachmentProgress');
+        const filenameEl = document.getElementById('attachmentProgressFilename');
+        const percentEl = document.getElementById('attachmentProgressPercent');
+        const barEl = document.getElementById('attachmentProgressBar');
+
+        if (progressEl) {
+            progressEl.style.display = 'block';
+            filenameEl.textContent = filename;
+            percentEl.textContent = '0%';
+            barEl.style.width = '0%';
+        }
+    },
+
+    /**
+     * 업로드 진행률 업데이트
+     * @param {number} percent - 진행률 (0-100)
+     */
+    updateUploadProgress(percent) {
+        const percentEl = document.getElementById('attachmentProgressPercent');
+        const barEl = document.getElementById('attachmentProgressBar');
+
+        if (percentEl) percentEl.textContent = `${percent}%`;
+        if (barEl) barEl.style.width = `${percent}%`;
+    },
+
+    /**
+     * 업로드 진행 UI 숨김
+     */
+    hideUploadProgress() {
+        const progressEl = document.getElementById('attachmentProgress');
+        if (progressEl) {
+            progressEl.style.display = 'none';
+        }
+    },
+
+    /**
+     * 첨부파일 목록 로드 및 렌더링
+     * @param {string} taskId - Task ID
+     */
+    async loadAttachments(taskId) {
+        const listEl = document.getElementById('attachmentList');
+        if (!listEl) return;
+
+        // 로딩 상태
+        listEl.innerHTML = '<div class="attachment-list-loading">Loading attachments...</div>';
+
+        try {
+            const data = await API.getAttachments(taskId);
+            this.renderAttachmentList(taskId, data.attachments || []);
+        } catch (err) {
+            console.error('Error loading attachments:', err);
+            listEl.innerHTML = '<div class="attachment-empty">Failed to load attachments</div>';
+        }
+    },
+
+    /**
+     * 첨부파일 목록 렌더링
+     * @param {string} taskId - Task ID
+     * @param {Array} attachments - 첨부파일 목록
+     */
+    renderAttachmentList(taskId, attachments) {
+        const listEl = document.getElementById('attachmentList');
+        if (!listEl) return;
+
+        if (!attachments || attachments.length === 0) {
+            listEl.innerHTML = '<div class="attachment-empty">No attachments</div>';
+            return;
+        }
+
+        const items = attachments.map(att => {
+            const icon = this.getFileIcon(att.content_type, att.filename);
+            const size = this.formatFileSize(att.size);
+            const ext = att.filename.split('.').pop()?.toUpperCase() || '';
+            const isPdf = att.content_type === 'application/pdf';
+            const safeFilename = this.escapeHtml(att.filename);
+
+            // PDF인 경우 뷰어 버튼 추가 (tsk-20 연동 포인트)
+            const viewerBtn = isPdf
+                ? `<button class="attachment-btn viewer" data-filename="${safeFilename}" title="View PDF">👁</button>`
+                : '';
+
+            return `
+                <div class="attachment-item" data-filename="${safeFilename}">
+                    <span class="attachment-icon ${icon.class}">${icon.emoji}</span>
+                    <div class="attachment-info">
+                        <span class="attachment-name" title="${safeFilename}">${safeFilename}</span>
+                        <div class="attachment-meta">
+                            <span class="attachment-size">${size}</span>
+                            <span class="attachment-type">${ext}</span>
+                        </div>
+                    </div>
+                    <div class="attachment-actions">
+                        ${viewerBtn}
+                        <button class="attachment-btn download" data-filename="${safeFilename}" title="Download">⬇</button>
+                        <button class="attachment-btn delete" data-filename="${safeFilename}" title="Delete">🗑</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        listEl.innerHTML = items.join('');
+
+        // 이벤트 바인딩
+        this.bindAttachmentActions(taskId);
+    },
+
+    /**
+     * 첨부파일 액션 버튼 이벤트 바인딩
+     * @param {string} taskId - Task ID
+     */
+    bindAttachmentActions(taskId) {
+        const listEl = document.getElementById('attachmentList');
+        if (!listEl) return;
+
+        // 다운로드 버튼
+        listEl.querySelectorAll('.attachment-btn.download').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const filename = btn.dataset.filename;
+                const url = API.getAttachmentUrl(taskId, filename);
+                // Authorization 헤더가 필요하므로 새 탭에서 직접 열기 대신 fetch + blob 사용
+                this.downloadAttachment(taskId, filename);
+            });
+        });
+
+        // PDF 뷰어 버튼 (tsk-20 연동 포인트)
+        listEl.querySelectorAll('.attachment-btn.viewer').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const filename = btn.dataset.filename;
+                // TODO: tsk-20에서 PDF 뷰어 모달 구현 후 연동
+                showToast('PDF viewer coming soon (tsk-20)', 'info');
+                console.log('PDF viewer for:', filename);
+            });
+        });
+
+        // 삭제 버튼
+        listEl.querySelectorAll('.attachment-btn.delete').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const filename = btn.dataset.filename;
+                if (confirm(`Delete "${filename}"?`)) {
+                    await this.deleteAttachment(taskId, filename);
+                }
+            });
+        });
+    },
+
+    /**
+     * 첨부파일 다운로드 (인증 헤더 포함)
+     * @param {string} taskId - Task ID
+     * @param {string} filename - 파일명
+     */
+    async downloadAttachment(taskId, filename) {
+        try {
+            const url = API.getAttachmentUrl(taskId, filename);
+            const response = await API.authFetch(url);
+
+            if (!response.ok) {
+                throw new Error('Download failed');
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(downloadUrl);
+        } catch (err) {
+            console.error('Download error:', err);
+            showToast('Download failed', 'error');
+        }
+    },
+
+    /**
+     * 첨부파일 삭제
+     * @param {string} taskId - Task ID
+     * @param {string} filename - 파일명
+     */
+    async deleteAttachment(taskId, filename) {
+        try {
+            const result = await API.deleteAttachment(taskId, filename);
+            if (result.success) {
+                showToast('Attachment deleted', 'success');
+                this.loadAttachments(taskId);
+            } else {
+                showToast(result.message || 'Delete failed', 'error');
+            }
+        } catch (err) {
+            console.error('Delete attachment error:', err);
+            showToast('Delete failed', 'error');
+        }
+    },
+
+    /**
+     * 파일 타입에 따른 아이콘 반환
+     * @param {string} mimeType - MIME 타입
+     * @param {string} filename - 파일명
+     * @returns {{emoji: string, class: string}}
+     */
+    getFileIcon(mimeType, filename) {
+        const ext = filename.split('.').pop()?.toLowerCase() || '';
+
+        // PDF
+        if (mimeType === 'application/pdf' || ext === 'pdf') {
+            return { emoji: '📄', class: 'pdf' };
+        }
+
+        // HWP
+        if (ext === 'hwp' || ext === 'hwpx') {
+            return { emoji: '📋', class: 'hwp' };
+        }
+
+        // Word
+        if (mimeType?.includes('word') || ext === 'doc' || ext === 'docx') {
+            return { emoji: '📝', class: 'doc' };
+        }
+
+        // Excel
+        if (mimeType?.includes('spreadsheet') || mimeType?.includes('excel') || ext === 'xls' || ext === 'xlsx' || ext === 'csv') {
+            return { emoji: '📊', class: 'xls' };
+        }
+
+        // PowerPoint
+        if (mimeType?.includes('presentation') || mimeType?.includes('powerpoint') || ext === 'ppt' || ext === 'pptx') {
+            return { emoji: '📑', class: 'ppt' };
+        }
+
+        // Image
+        if (mimeType?.startsWith('image/') || ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) {
+            return { emoji: '🖼', class: 'image' };
+        }
+
+        // Audio
+        if (mimeType?.startsWith('audio/') || ['mp3', 'wav', 'm4a', 'ogg', 'flac'].includes(ext)) {
+            return { emoji: '🎵', class: 'audio' };
+        }
+
+        // Video
+        if (mimeType?.startsWith('video/') || ['mp4', 'mov', 'avi', 'mkv'].includes(ext)) {
+            return { emoji: '🎬', class: 'video' };
+        }
+
+        // Archive
+        if (['zip', 'tar', 'gz', 'rar', '7z'].includes(ext)) {
+            return { emoji: '📦', class: 'archive' };
+        }
+
+        // Text
+        if (mimeType?.startsWith('text/') || ['txt', 'md', 'json'].includes(ext)) {
+            return { emoji: '📃', class: 'text' };
+        }
+
+        // Default
+        return { emoji: '📎', class: 'other' };
+    },
+
+    /**
+     * 파일 크기 포맷
+     * @param {number} bytes - 바이트
+     * @returns {string} 포맷된 크기
+     */
+    formatFileSize(bytes) {
+        if (!bytes || bytes === 0) return '0 B';
+
+        const units = ['B', 'KB', 'MB', 'GB'];
+        let unitIndex = 0;
+        let size = bytes;
+
+        while (size >= 1024 && unitIndex < units.length - 1) {
+            size /= 1024;
+            unitIndex++;
+        }
+
+        return `${size.toFixed(unitIndex > 0 ? 1 : 0)} ${units[unitIndex]}`;
+    },
+
+    /**
+     * 첨부파일 섹션 초기화 (새 Task용)
+     */
+    initAttachmentsForNewTask() {
+        const sectionEl = document.getElementById('panelTaskAttachmentsSection');
+        const listEl = document.getElementById('attachmentList');
+
+        if (sectionEl) {
+            // 새 Task는 저장 후 첨부파일 추가 가능
+            sectionEl.style.display = 'none';
+        }
+
+        if (listEl) {
+            listEl.innerHTML = '';
+        }
+    },
+
+    /**
+     * 첨부파일 섹션 표시 (기존 Task용)
+     * @param {string} taskId - Task ID
+     */
+    showAttachmentsSection(taskId) {
+        const sectionEl = document.getElementById('panelTaskAttachmentsSection');
+
+        if (sectionEl) {
+            sectionEl.style.display = 'block';
+        }
+
+        this.loadAttachments(taskId);
     }
 };
