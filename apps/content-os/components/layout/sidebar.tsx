@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -13,6 +13,7 @@ import {
   RotateCcw,
   Moon,
   Sun,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -52,7 +53,14 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <aside className="flex h-screen w-60 flex-col border-r border-border bg-sidebar">
@@ -88,8 +96,8 @@ export function Sidebar() {
 
       <Separator />
 
-      {/* Theme Toggle */}
-      <div className="p-4">
+      {/* Theme Toggle & Logout */}
+      <div className="space-y-1 p-4">
         <Button
           variant="ghost"
           size="sm"
@@ -101,6 +109,16 @@ export function Sidebar() {
           <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="dark:hidden">Light Mode</span>
           <span className="hidden dark:inline">Dark Mode</span>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleLogout}
+          className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground"
+          aria-label="Log out"
+        >
+          <LogOut className="h-5 w-5" />
+          <span>로그아웃</span>
         </Button>
       </div>
     </aside>

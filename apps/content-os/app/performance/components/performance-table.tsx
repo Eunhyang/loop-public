@@ -192,6 +192,8 @@ export function PerformanceTable({
                 <DeltaIndicatorCompact
                   value24h={item.metrics.ctr_24h}
                   value7d={item.metrics.ctr_7d}
+                  metricLabel="CTR"
+                  format="percentage"
                 />
               </TableCell>
               <TableCell className="text-right font-medium">

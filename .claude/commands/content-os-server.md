@@ -73,17 +73,25 @@ sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.
 코드 변경 후 Docker 이미지를 다시 빌드하고 배포합니다:
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
-cd /volume1/LOOP_CORE/vault/LOOP/50_Projects/Content_OS
+cd /volume1/LOOP_CORE/vault/LOOP/apps/content-os
+source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-content-os:latest .
-/var/packages/ContainerManager/target/usr/bin/docker stop content-os
-/var/packages/ContainerManager/target/usr/bin/docker rm content-os
+/var/packages/ContainerManager/target/usr/bin/docker stop content-os 2>/dev/null || true
+/var/packages/ContainerManager/target/usr/bin/docker rm content-os 2>/dev/null || true
 /var/packages/ContainerManager/target/usr/bin/docker run -d \
   --name content-os \
   --restart unless-stopped \
-  -p 8083:8081 \
+  -p 8083:3000 \
   -v /volume1/LOOP_CORE/vault/LOOP:/vault:ro \
+  -e NODE_ENV=production \
   -e VAULT_DIR=/vault \
   -e TZ=Asia/Seoul \
+  -e AUTH_USERNAME=\$AUTH_USERNAME \
+  -e AUTH_PASSWORD=\$AUTH_PASSWORD \
+  -e YOUTUBE_API_KEY=\$YOUTUBE_API_KEY \
+  -e GOOGLE_CLIENT_ID=\$GOOGLE_CLIENT_ID \
+  -e GOOGLE_CLIENT_SECRET=\$GOOGLE_CLIENT_SECRET \
+  -e GOOGLE_REDIRECT_URI=https://contentos.sosilab.synology.me/api/auth/youtube/callback \
   loop-content-os:latest
 " 2>&1'
 ```

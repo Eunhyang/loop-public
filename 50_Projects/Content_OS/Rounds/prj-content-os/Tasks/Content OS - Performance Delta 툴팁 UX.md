@@ -98,8 +98,102 @@ percentage = ((value7d - value24h) / value24h) * 100
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 1. 아키텍처 도식
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              Delta Tooltip Feature Architecture                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ UI Layer (app/performance/)                               │   │
+│  ├──────────────────────────────────────────────────────────┤   │
+│  │  PerformanceTable                                         │   │
+│  │       │                                                   │   │
+│  │       ↓                                                   │   │
+│  │  DeltaIndicatorCompact ──→ Tooltip (NEW)                 │   │
+│  │       │                       │                           │   │
+│  │       ↓                       ↓                           │   │
+│  │  Delta 값 (+15%)       TooltipContent                    │   │
+│  │                         - value24h, value7d 표시          │   │
+│  │                         - 계산 방식 설명                   │   │
+│  │                         - 트렌드 해석 메시지               │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│       │                                                          │
+│       ↓                                                          │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ Component Layer (components/ui/)                          │   │
+│  ├──────────────────────────────────────────────────────────┤   │
+│  │  Tooltip (ShadCN)                                         │   │
+│  │       │                                                   │   │
+│  │       ↓                                                   │   │
+│  │  @radix-ui/react-tooltip                                 │   │
+│  │       - TooltipProvider (App root에 추가)                 │   │
+│  │       - Tooltip, TooltipTrigger, TooltipContent          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+#### 2. 프로젝트 컨텍스트
+
+| 항목 | 값 |
+|------|-----|
+| Framework | Next.js 16.1.1 (App Router) |
+| UI Library | ShadCN UI (Radix UI 기반) |
+| Styling | TailwindCSS v4 |
+
+#### 3. 상세 요구사항
+
+**3.1 ShadCN Tooltip 설치**
+- 위치: `components/ui/tooltip.tsx`
+- 의존성: `@radix-ui/react-tooltip`
+
+**3.2 TooltipProvider 추가**
+- 위치: `app/layout.tsx`
+- delayDuration: 300ms
+
+**3.3 DeltaIndicatorCompact 수정**
+- Props 확장: `metricLabel`, `format`
+- Tooltip 래핑
+- 트렌드 해석 메시지 로직
+
+**3.4 PerformanceTable 수정**
+- metricLabel="CTR", format="percentage" 전달
+
+#### 4. 성공 기준
+
+- [ ] ShadCN Tooltip 설치 완료
+- [ ] TooltipProvider 앱 레이아웃에 추가
+- [ ] Delta 값 호버 시 툴팁 표시
+- [ ] 툴팁에 24h/7d 값 + 트렌드 해석 표시
+- [ ] cursor-help 스타일 적용
+- [ ] 다크모드 지원
+
+### Tech Spec
+
+#### 구현 순서
+
+1. `@radix-ui/react-tooltip` 설치
+2. `components/ui/tooltip.tsx` 생성 (ShadCN 표준)
+3. `app/layout.tsx`에 TooltipProvider 추가
+4. `DeltaIndicatorCompact` 수정 (Tooltip 래핑 + props 확장)
+5. `PerformanceTable`에서 새 props 전달
+6. 테스트
+
+#### 파일 변경
+
+| 파일 | 변경 유형 |
+|------|----------|
+| `components/ui/tooltip.tsx` | 신규 |
+| `app/layout.tsx` | 수정 |
+| `app/performance/components/delta-indicator.tsx` | 수정 |
+| `app/performance/components/performance-table.tsx` | 수정 |
+
 ### Todo
-- [ ] PRD 생성 (prompt-enhancer)
+- [x] PRD 생성 (prompt-enhancer)
 - [ ] 구현
 
 ### 작업 로그

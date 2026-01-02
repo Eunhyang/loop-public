@@ -72,6 +72,9 @@ services:
     environment:
       - NODE_ENV=production
       - TZ=Asia/Seoul
+      # App Authentication (하드코딩 인증)
+      - AUTH_USERNAME=${AUTH_USERNAME}
+      - AUTH_PASSWORD=${AUTH_PASSWORD}
       # YouTube Data API (검색)
       - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
       # Google OAuth 2.0 (YouTube Analytics)

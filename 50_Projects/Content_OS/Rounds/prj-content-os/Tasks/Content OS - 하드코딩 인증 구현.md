@@ -75,11 +75,50 @@ priority_flag: high
 
 ## Notes
 
-### Todo
-- [ ] middleware.ts
-- [ ] login page
-- [ ] login/logout API
-- [ ] 배포 확인
+### PRD
+
+#### 아키텍처
+```
+User Request → middleware.ts → Cookie Check
+                    │
+                    ├─ Has session cookie? → Yes → Continue
+                    │
+                    └─ No → Redirect /login → Login Form → POST /api/auth/login
+                                                              │
+                                                              ├─ Valid → Set Cookie → Redirect
+                                                              └─ Invalid → 401 Error
+```
+
+#### 구현 파일
+| 파일 | 역할 |
+|------|------|
+| `middleware.ts` | 전역 인증 가드, 쿠키 체크 |
+| `lib/auth.ts` | 인증 상수 및 유틸리티 |
+| `app/login/page.tsx` | 로그인 폼 UI |
+| `app/login/layout.tsx` | MainLayout 제외용 |
+| `app/api/auth/login/route.ts` | 로그인 API |
+| `app/api/auth/logout/route.ts` | 로그아웃 API |
+
+#### 보호 범위
+- **Public**: `/login`, `/api/auth/*`, `/_next/*`, `/favicon.ico`
+- **Protected**: 나머지 모든 경로
+
+#### 환경변수
+```bash
+AUTH_USERNAME=admin
+AUTH_PASSWORD=your_password
+```
+
+#### 쿠키 설정
+- Name: `content-os-session`
+- httpOnly: true, secure: production, sameSite: lax
+- maxAge: 7일
+
+#### 성공 기준
+- [ ] 미인증 시 /login 리다이렉트
+- [ ] 로그인 성공 시 세션 쿠키 발급
+- [ ] 로그아웃 시 쿠키 삭제
+- [ ] 기존 ShadCN UI 스타일 일관성
 
 ### 작업 로그
 
