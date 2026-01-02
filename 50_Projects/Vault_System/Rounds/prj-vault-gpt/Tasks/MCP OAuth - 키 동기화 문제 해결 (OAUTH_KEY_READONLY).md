@@ -12,10 +12,11 @@ project_id: prj-vault-gpt
 
 # === 실행 ===
 assignee: 김은향
-status: doing
+status: done
 priority_flag: high
 start_date: 2026-01-03
 due: 2026-01-03
+closed: 2026-01-03
 
 # === Dev Task 전용 ===
 type: dev
@@ -49,9 +50,9 @@ loop-auth와 loop-api가 같은 OAuth 디렉토리를 rw로 마운트하면서 �
 
 ## Checklist
 
-- [ ] jwks.py에 OAUTH_KEY_READONLY 환경변수 추가
-- [ ] _ensure_keys_exist() 함수 수정 - readonly 모드에서 키 생성 방지
-- [ ] docker-compose.yml에 loop-api OAUTH_KEY_READONLY=true 설정
-- [ ] NAS 배포 및 테스트
-- [ ] ChatGPT MCP 연결 테스트
-- [ ] 대시보드 로그인 테스트
+- [x] jwks.py에 OAUTH_KEY_READONLY 환경변수 추가
+- [x] _ensure_keys_exist() 함수 수정 - readonly 모드에서 키 생성 방지
+- [x] docker-compose.yml에 loop-api OAUTH_KEY_READONLY=true 설정
+- [x] NAS 배포 및 테스트
+- [ ] ChatGPT MCP 연결 테스트 (사용자 확인 필요)
+- [ ] 대시보드 로그인 테스트 (사용자 확인 필요)
