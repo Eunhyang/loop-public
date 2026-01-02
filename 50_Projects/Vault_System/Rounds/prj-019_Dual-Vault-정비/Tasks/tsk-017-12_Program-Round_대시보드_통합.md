@@ -4,7 +4,7 @@ entity_id: "tsk-017-12"
 entity_name: "Dual-Vault - Program-Round 대시보드 통합"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-019"
@@ -29,8 +29,6 @@ type: dev
 target_project: loop-api
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-b"]
-
 # === 분류 ===
 tags: ["dashboard", "api", "dual-vault", "admin", "oauth"]
 priority_flag: high
@@ -38,7 +36,7 @@ priority_flag: high
 
 # Dual-Vault - Program-Round 대시보드 통합
 
-> Task ID: `tsk-017-12` | Project: `prj-019` | Status: doing
+> Task ID: `tsk-017-12` | Project: `prj-019` | Status: done
 
 ## 목표
 
@@ -88,7 +86,7 @@ priority_flag: high
 - [x] index.html에 Program 뷰 버튼 및 컨테이너 추가
 - [x] program-rounds.css 스타일 파일 생성
 - [x] 권한 체크 및 에러 처리
-- [ ] 빌드 확인
+- [x] 빌드 확인 (JS 구문 검사 통과)
 
 ---
 
@@ -131,14 +129,14 @@ priority_flag: high
 - 403 에러 발생 시 사용자에게 명확한 권한 안내 표시
 
 ### Todo
-- [ ] api.js: getProgramRounds(pgmId, limit) 함수 추가
-- [ ] auth.js: isAdmin() 헬퍼 추가
-- [ ] state.js: programRoundsData, selectedProgramId, loadProgramRounds() 추가
-- [ ] program-rounds-view.js: 신규 컴포넌트 생성
-- [ ] app.js: switchView에 'program' 뷰 추가, updateAdminUI() 추가
-- [ ] index.html: viewProgram 버튼 + programRoundsView 컨테이너 추가
-- [ ] program-rounds.css: 스타일 파일 생성
-- [ ] 빌드 및 테스트
+- [x] api.js: getProgramRounds(pgmId, limit) 함수 추가
+- [x] auth.js: isAdmin() 헬퍼 추가
+- [x] state.js: programRoundsData, selectedProgramId, loadProgramRounds() 추가
+- [x] program-rounds-view.js: 신규 컴포넌트 생성
+- [x] app.js: switchView에 'program' 뷰 추가, updateAdminUI() 추가
+- [x] index.html: viewProgram 버튼 + programRoundsView 컨테이너 추가
+- [x] program-rounds.css: 스타일 파일 생성
+- [x] 빌드 및 테스트 (JS 구문 검사 통과)
 
 ### 작업 로그
 
