@@ -1,6 +1,6 @@
 ---
 name: loop-entity-creator
-description: Create, edit, and delete LOOP vault entities (Task, Project, Hypothesis) while maintaining GraphRAG pattern integrity. Use when user wants to (1) create a new Task, Project, or Hypothesis entity, (2) edit an existing entity's fields, (3) delete an entity and update graph index. CRITICAL - This skill enforces schema compliance, automatic ID generation, parent-child linking, and graph index updates to maintain vault integrity.
+description: Create, edit, and delete LOOP vault entities (Task, Project, Hypothesis) while maintaining GraphRAG pattern integrity. Use when user wants to (1) create a new Task, Project, or Hypothesis entity, (2) edit an existing entity's fields, (3) delete an entity and update graph index. CRITICAL - This skill enforces schema compliance, automatic ID generation, parent-child linking, and graph index updates to maintain vault integrity. Supports both public and exec vaults.
 ---
 
 # LOOP Entity Creator
@@ -10,6 +10,36 @@ Manage LOOP vault entities with GraphRAG pattern enforcement.
 ## Overview
 
 This skill ensures Task, Project, and Hypothesis entities follow strict schema requirements and maintain proper relationships. It prevents orphaned entities by enforcing validation and automatic graph index updates.
+
+## Vault Selection (MANDATORY FIRST STEP)
+
+> **Before creating any entity, determine which vault to use.**
+
+### Decision Tree
+
+```
+민감 정보 포함? (단가, 계약, 평가, 급여 등)
+├── YES → vault: exec
+│   └── exec/50_Projects/ 에 생성
+│   └── ID: prj-exec-NNN, tsk-exec-NNN
+└── NO → vault: public
+    └── public/50_Projects/ 에 생성
+    └── ID: prj-NNN, tsk-NNN-NN
+```
+
+### Vault Parameter
+
+| Vault | Base Path | ID Pattern | Use Case |
+|-------|-----------|------------|----------|
+| `public` (default) | `public/50_Projects/` | `prj-NNN`, `tsk-NNN-NN` | 일반 프로젝트, 공개 태스크 |
+| `exec` | `exec/50_Projects/` | `prj-exec-NNN`, `tsk-exec-NNN` | 민감 정보 (계약, 단가, 평가) |
+
+### Exec Vault 규칙
+
+1. **Program 참조만**: `program_id: pgm-xxx` (public vault의 Program 참조)
+2. **Project/Tasks 전부 exec에**: public vault에 아무것도 생성하지 않음
+3. **API 호출 안 함**: exec vault는 로컬 파일 생성만 사용
+4. **Validation 스킵**: exec vault는 public vault의 스크립트로 검증하지 않음
 
 > ## ⛔ MANDATORY NAME FORMAT (절대 규칙)
 >
@@ -548,6 +578,150 @@ API 호출 실패 시 기존 방식으로 디렉토리 + 파일 생성:
 Run validation (see "Validation Workflow" section below).
 - **API 성공 시**: API가 감사 로그 + 캐시 업데이트 완료.
 - **Fallback 사용 시**: 전체 Validation Workflow 실행.
+
+---
+
+## Exec Vault Entity Creation (vault: exec)
+
+> **민감 정보 프로젝트/태스크는 이 워크플로우 사용**
+
+### Creating an Exec Project
+
+**Step 0: Vault 확인**
+```
+vault: exec 확인
+→ API 호출 없음, 로컬 파일 생성만
+→ Validation 스킵
+```
+
+**Step 1: Collect required information**
+
+Required fields:
+- `entity_name` - Project name in **'주제 - 내용'** format
+- `program_id` - public vault의 Program ID (예: "pgm-hiring")
+- `owner` - 담당자
+
+Optional fields:
+- `contract` - 계약 정보 (type, rate, terms)
+- `status` - 기본값: "doing"
+
+**Step 2: Generate next Exec Project ID**
+
+1. Use Glob to find existing exec projects:
+   ```
+   pattern: exec/50_Projects/P*/_INDEX.md
+   ```
+
+2. Find the highest P number (e.g., P015)
+
+3. Increment by 1: P016
+
+4. Generate ID: `prj-exec-001` (또는 순차 증가)
+
+**Step 3: Create folder structure**
+
+```bash
+mkdir -p "exec/50_Projects/P{num}_{entity_name}/Tasks"
+```
+
+**Step 4: Create _INDEX.md**
+
+```yaml
+---
+entity_type: Project
+entity_id: prj-exec-001
+entity_name: 다온 - 영상 편집자 협업
+created: 2026-01-02
+updated: 2026-01-02
+
+# === Program 연결 ===
+program_id: pgm-hiring
+program_path: "[[public/50_Projects/Hiring/_PROGRAM.md]]"
+
+# === Exec 전용 ===
+vault: exec
+owner: 김은향
+status: doing
+
+# === 계약 정보 ===
+contract:
+  type: freelance
+  rate: "7만원/건"
+  terms: "1시간→15분 또는 40분→10분"
+---
+
+# {entity_name}
+
+> Exec Project | Program: [[pgm-hiring]]
+
+## 계약 조건
+- 단가: {rate}
+- 조건: {terms}
+
+## Tasks
+| ID | 이름 | 상태 |
+|----|------|------|
+| | | |
+```
+
+**Step 5: Skip validation** (exec vault는 검증 불필요)
+
+---
+
+### Creating an Exec Task
+
+**Step 1: Collect required information**
+
+Required fields:
+- `entity_name` - Task name in **'주제 - 내용'** format
+- `project_id` - Exec Project ID (예: "prj-exec-001")
+- `assignee` - 담당자
+
+**Step 2: Generate next Exec Task ID**
+
+1. Use Glob to find existing exec tasks:
+   ```
+   pattern: exec/50_Projects/**/Tasks/*.md
+   ```
+
+2. Find the highest tsk-exec number
+
+3. Increment by 1: `tsk-exec-002`
+
+**Step 3: Create Task file**
+
+Path: `exec/50_Projects/P{num}_{project_name}/Tasks/{entity_name}.md`
+
+```yaml
+---
+entity_type: Task
+entity_id: tsk-exec-001
+entity_name: 다온 - 카톡 오픈채팅 연락
+created: 2026-01-02
+updated: 2026-01-02
+
+# === 연결 ===
+project_id: prj-exec-001
+vault: exec
+
+# === 실행 ===
+assignee: 김은향
+status: todo
+due: 2026-01-03
+---
+
+# {entity_name}
+
+## 작업 내용
+- [ ] 카카오톡 오픈채팅 "인스타 다온" 검색
+- [ ] 연락 및 조건 확정
+```
+
+**Step 4: Update Project _INDEX.md**
+
+Tasks 테이블에 새 Task 추가
+
+---
 
 ### Creating a Hypothesis
 

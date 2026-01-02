@@ -72,11 +72,12 @@ services:
     environment:
       - NODE_ENV=production
       - TZ=Asia/Seoul
-      # OAuth / API 설정 (나중에 추가)
-      # - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      # - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      # - NEXTAUTH_URL=https://content-os.sosilab.synology.me
-      # - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      # YouTube Data API (검색)
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      # Google OAuth 2.0 (YouTube Analytics)
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=https://contentos.sosilab.synology.me/api/auth/youtube/callback
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
       interval: 30s
