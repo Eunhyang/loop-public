@@ -36,6 +36,10 @@ PUBLIC_KEY_PATH = KEYS_DIR / "public.pem"
 JWKS_URL = os.environ.get("JWKS_URL")
 JWKS_CACHE_TTL = int(os.environ.get("JWKS_CACHE_TTL", "3600"))  # 1 hour default
 
+# Key generation control: If true, never generate new keys (read-only mode)
+# Use this for loop-api to prevent accidental key generation conflicts
+OAUTH_KEY_READONLY = os.environ.get("OAUTH_KEY_READONLY", "false").lower() == "true"
+
 # JWT settings
 OAUTH_ISSUER = os.environ.get("OAUTH_ISSUER", "https://mcp.sosilab.synology.me")
 JWT_ALGORITHM = "RS256"
@@ -80,7 +84,11 @@ def _save_key_atomically(path: Path, content: bytes, mode: int = 0o600):
 
 
 def _ensure_keys_exist():
-    """Generate and save keys if they don't exist"""
+    """Generate and save keys if they don't exist
+
+    If OAUTH_KEY_READONLY=true, never generate new keys.
+    This prevents loop-api from accidentally creating different keys than loop-auth.
+    """
     global _private_key, _public_key
 
     if PRIVATE_KEY_PATH.exists() and PUBLIC_KEY_PATH.exists():
@@ -96,7 +104,14 @@ def _ensure_keys_exist():
         print(f"RSA keys loaded from {KEYS_DIR}")
         return
 
-    # Generate new keys
+    # READONLY mode: never generate keys, fail if keys don't exist
+    if OAUTH_KEY_READONLY:
+        raise RuntimeError(
+            f"OAuth keys not found at {KEYS_DIR} and OAUTH_KEY_READONLY=true. "
+            "Keys must be created by loop-auth first."
+        )
+
+    # Generate new keys (only in non-readonly mode, i.e., loop-auth)
     print("Generating new RSA key pair...")
     _private_key = _generate_rsa_keypair()
     _public_key = _private_key.public_key()

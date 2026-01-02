@@ -1,0 +1,57 @@
+---
+entity_type: Task
+entity_id: tsk-019-07
+entity_name: "MCP OAuth - 키 동기화 문제 해결 (OAUTH_KEY_READONLY)"
+aliases:
+  - tsk-019-07
+created: 2026-01-03
+updated: 2026-01-03
+
+# === 연결 ===
+project_id: prj-vault-gpt
+
+# === 실행 ===
+assignee: 김은향
+status: doing
+priority_flag: high
+start_date: 2026-01-03
+due: 2026-01-03
+
+# === Dev Task 전용 ===
+type: dev
+target_project: loop-api
+---
+
+# MCP OAuth - 키 동기화 문제 해결 (OAUTH_KEY_READONLY)
+
+> Task | Project: [[prj-vault-gpt]]
+
+## 문제 정의
+
+loop-auth와 loop-api가 같은 OAuth 디렉토리를 rw로 마운트하면서 키 동기화 문제 발생:
+- `private.pem`과 `public.pem`의 타임스탬프 불일치
+- 컨테이너 재시작 시 타이밍에 따라 서로 다른 키 생성 가능
+- JWT 서명 검증 실패 (Signature verification failed)
+
+## 해결 방안
+
+1. `OAUTH_KEY_READONLY` 환경변수 추가
+   - `true`: 키 생성 금지, 읽기만 (loop-api용)
+   - `false` (기본값): 키 생성 허용 (loop-auth용)
+
+2. 아키텍처 변경:
+   - loop-auth: 키 생성 및 관리 담당
+   - loop-api: OAUTH_KEY_READONLY=true로 읽기만
+
+## Notes
+
+<!-- PRD 및 기술 스펙은 여기에 추가 -->
+
+## Checklist
+
+- [ ] jwks.py에 OAUTH_KEY_READONLY 환경변수 추가
+- [ ] _ensure_keys_exist() 함수 수정 - readonly 모드에서 키 생성 방지
+- [ ] docker-compose.yml에 loop-api OAUTH_KEY_READONLY=true 설정
+- [ ] NAS 배포 및 테스트
+- [ ] ChatGPT MCP 연결 테스트
+- [ ] 대시보드 로그인 테스트
