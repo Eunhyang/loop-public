@@ -1,0 +1,332 @@
+/* ============================================
+   Program-Rounds View (Admin only)
+   ============================================ */
+.program-rounds-view {
+    display: none;
+    padding: 24px 32px;
+    background: #f8f9fa;
+    min-height: calc(100vh - 200px);
+}
+
+.program-rounds-view.active {
+    display: block;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+.program-rounds-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.program-rounds-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #333;
+}
+
+.program-select-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.program-select-wrapper label {
+    font-weight: 500;
+    color: #666;
+}
+
+.program-select {
+    padding: 10px 16px;
+    font-size: 0.95em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    min-width: 200px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.program-select:hover {
+    border-color: #667eea;
+}
+
+.program-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* ============================================
+   Content Area
+   ============================================ */
+.program-rounds-content {
+    min-height: 400px;
+}
+
+/* ============================================
+   Placeholder / Empty / Loading States
+   ============================================ */
+.program-rounds-placeholder,
+.program-rounds-empty,
+.program-rounds-loading,
+.program-rounds-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.placeholder-icon,
+.empty-icon,
+.error-icon {
+    font-size: 3em;
+    margin-bottom: 16px;
+    opacity: 0.8;
+}
+
+.placeholder-text,
+.empty-text,
+.error-message {
+    font-size: 1.1em;
+    color: #666;
+}
+
+.program-rounds-error {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+}
+
+.program-rounds-error .error-icon {
+    color: #e53e3e;
+}
+
+.program-rounds-error .error-message {
+    color: #c53030;
+}
+
+/* Loading Spinner */
+.program-rounds-loading .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-size: 1em;
+    color: #666;
+}
+
+/* ============================================
+   Statistics
+   ============================================ */
+.program-rounds-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.stats-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stats-label {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.stats-value {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #667eea;
+}
+
+/* ============================================
+   Round Card Grid
+   ============================================ */
+.program-rounds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* ============================================
+   Round Card
+   ============================================ */
+.round-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.round-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+.round-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.round-number {
+    font-weight: 700;
+    font-size: 1em;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.round-status {
+    font-size: 0.8em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+/* Status Colors */
+.round-status.status-planning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.round-status.status-active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.round-status.status-paused {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.round-status.status-done {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.round-status.status-cancelled {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.round-card-body {
+    padding: 16px;
+}
+
+.round-name {
+    margin: 0 0 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+}
+
+.round-id {
+    font-size: 0.8em;
+    color: #999;
+    font-family: monospace;
+}
+
+.round-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.85em;
+    color: #666;
+}
+
+.round-owner,
+.round-task-count {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ============================================
+   Admin-only View Toggle Button
+   ============================================ */
+.view-toggle-admin {
+    background: rgba(102, 126, 234, 0.1);
+    border-color: #667eea;
+    color: #4a5abe;
+}
+
+.view-toggle-admin:hover {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #5a6fd6;
+}
+
+.view-toggle-admin.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    .program-rounds-view {
+        padding: 16px;
+    }
+
+    .program-rounds-header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .program-select-wrapper {
+        width: 100%;
+    }
+
+    .program-select {
+        width: 100%;
+    }
+
+    .program-rounds-grid {
+        grid-template-columns: 1fr;
+    }
+}

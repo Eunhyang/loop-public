@@ -173,8 +173,16 @@ async function init() {
         // Initialize Graph
         Graph.init();
 
+        // Initialize Program-Rounds View (Admin only)
+        if (typeof ProgramRoundsView !== 'undefined') {
+            ProgramRoundsView.init();
+        }
+
         // Setup event listeners
         setupEventListeners();
+
+        // Update Admin UI visibility
+        updateAdminUI();
 
         // Initialize Router
         Router.init();
@@ -207,15 +215,23 @@ function switchView(view) {
     document.getElementById('viewKanban').classList.toggle('active', view === 'kanban');
     document.getElementById('viewCalendar').classList.toggle('active', view === 'calendar');
     document.getElementById('viewGraph').classList.toggle('active', view === 'graph');
+    const viewProgramBtn = document.getElementById('viewProgram');
+    if (viewProgramBtn) {
+        viewProgramBtn.classList.toggle('active', view === 'program');
+    }
 
     // Hide all views
     document.getElementById('kanbanView').classList.remove('active');
     document.getElementById('calendarView').classList.remove('active');
     document.getElementById('graphView').classList.remove('active');
+    const programRoundsView = document.getElementById('programRoundsView');
+    if (programRoundsView) {
+        programRoundsView.classList.remove('active');
+    }
 
-    // Show/hide shared filters (Kanban + Calendar use tabs, Graph doesn't)
+    // Show/hide shared filters (Kanban + Calendar use tabs, Graph/Program don't)
     const sharedFilters = document.getElementById('sharedFilters');
-    if (view === 'graph') {
+    if (view === 'graph' || view === 'program') {
         sharedFilters.style.display = 'none';
     } else {
         sharedFilters.style.display = 'block';
@@ -241,6 +257,29 @@ function switchView(view) {
     } else if (view === 'graph') {
         document.getElementById('graphView').classList.add('active');
         Graph.show();
+    } else if (view === 'program') {
+        if (programRoundsView) {
+            programRoundsView.classList.add('active');
+        }
+        // Render Program-Rounds view
+        if (typeof ProgramRoundsView !== 'undefined') {
+            ProgramRoundsView.render();
+        }
+    }
+}
+
+// ============================================
+// Admin UI Update
+// ============================================
+function updateAdminUI() {
+    const viewProgramBtn = document.getElementById('viewProgram');
+    if (viewProgramBtn) {
+        // Admin role만 Program 뷰 버튼 표시
+        if (Auth.isAdmin()) {
+            viewProgramBtn.style.display = 'inline-block';
+        } else {
+            viewProgramBtn.style.display = 'none';
+        }
     }
 }
 
@@ -274,6 +313,7 @@ function setupEventListeners() {
     document.getElementById('viewKanban').addEventListener('click', () => switchView('kanban'));
     document.getElementById('viewCalendar').addEventListener('click', () => switchView('calendar'));
     document.getElementById('viewGraph').addEventListener('click', () => switchView('graph'));
+    document.getElementById('viewProgram')?.addEventListener('click', () => switchView('program'));
 
     // Logout button
     document.getElementById('btnLogout')?.addEventListener('click', () => {

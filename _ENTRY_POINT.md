@@ -63,14 +63,14 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 | Entity | Required Links |
 |--------|----------------|
-| Task | `parent_id` → Project, `conditions_3y` → Condition(s) |
+| Task | `parent_id` → Project |
 | Project | `parent_id` → Track, `conditions_3y` → Condition(s) |
 | Track | `parent_id` → Condition, `conditions_3y` → Condition(s) |
 
 ### `conditions_3y` 필드 (핵심)
-- **형식**: `["cond-a", "cond-b"]` (최소 1개 필수)
+- **형식**: `["cond-a", "cond-b"]` (최소 1개 필수, Project/Track만)
 - **목적**: LLM이 "Condition X 관련 작업" 쿼리를 O(1)로 해결
-- **예시**: Task가 `conditions_3y: ["cond-b"]`이면 Loop Dataset 관련 작업
+- **예시**: Project가 `conditions_3y: ["cond-b"]`이면 Loop Dataset 관련 프로젝트
 
 ---
 
@@ -190,7 +190,7 @@ status: planning | active | blocked | done | failed | learning
 2. **ID 형식 준수**: 모든 ID는 `{type}:{number}` 형식
 3. **이모지 금지**: YAML frontmatter에 이모지 사용 금지
 4. **대칭 링크**: `validates`와 `validated_by`는 대칭 유지
-5. **conditions_3y 필수**: Task/Project/Track은 최소 1개 Condition 연결 필수
+5. **conditions_3y 필수**: Project/Track은 최소 1개 Condition 연결 필수
 
 ---
 

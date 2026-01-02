@@ -80,14 +80,14 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] api.js에 getProgramRounds() 함수 추가
-- [ ] auth.js에 isAdmin() 헬퍼 추가
-- [ ] state.js에 programRoundsData, loadProgramRounds() 추가
-- [ ] program-rounds-view.js 컴포넌트 생성
-- [ ] app.js switchView에 'program' 뷰 추가
-- [ ] index.html에 Program 뷰 버튼 및 컨테이너 추가
-- [ ] program-rounds.css 스타일 파일 생성
-- [ ] 권한 체크 및 에러 처리
+- [x] api.js에 getProgramRounds() 함수 추가
+- [x] auth.js에 isAdmin() 헬퍼 추가
+- [x] state.js에 programRoundsData, loadProgramRounds() 추가
+- [x] program-rounds-view.js 컴포넌트 생성
+- [x] app.js switchView에 'program' 뷰 추가
+- [x] index.html에 Program 뷰 버튼 및 컨테이너 추가
+- [x] program-rounds.css 스타일 파일 생성
+- [x] 권한 체크 및 에러 처리
 - [ ] 빌드 확인
 
 ---
@@ -141,23 +141,50 @@ priority_flag: high
 - [ ] 빌드 및 테스트
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-02 18:47
+**개요**: Program-Round 대시보드 통합 구현 완료. Admin 전용 Program 뷰를 추가하여 Program 선택 시 Round(Project) 목록을 조회하고 ProjectPanel과 연동.
 
 **변경사항**:
 - 개발:
-- 수정:
-- 개선:
+  - `api.js`: `getProgramRounds(pgmId, limit)` 함수 추가 (`/api/admin/programs/{pgm_id}/rounds` 호출)
+  - `auth.js`: `isAdmin()` 헬퍼 함수 추가
+  - `state.js`: `programRoundsData`, `selectedProgramId`, `loadProgramRounds()`, `clearProgramRounds()` 추가
+  - `program-rounds-view.js`: 신규 컴포넌트 (Program 선택 드롭다운, Round 카드 그리드, ProjectPanel 연동)
+  - `app.js`: `switchView()` 'program' 뷰 추가, `updateAdminUI()` 함수 추가
+  - `index.html`: viewProgram 버튼 (Admin only), programRoundsView 컨테이너, CSS/JS 참조 추가
+  - `program-rounds.css`: 신규 스타일 파일 (헤더, 카드 그리드, 상태 배지, 반응형)
+- 수정: 기존 뷰 전환 로직에 program 뷰 분기 추가
+- 개선: Role 기반 UI 분기로 Admin 외 사용자에게 버튼 숨김
 
-**핵심 코드**: (필요시)
+**핵심 코드**:
+```javascript
+// api.js - Admin API 호출
+async getProgramRounds(pgmId, limit = 20) {
+    const url = `${this.baseUrl}/api/admin/programs/${encodeURIComponent(pgmId)}/rounds`;
+    const res = await this.authFetch(url);
+    return (await res.json()).rounds || [];
+}
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+// auth.js - Admin 체크
+isAdmin() {
+    return this.getRole() === 'admin';
+}
+
+// app.js - UI 분기
+function updateAdminUI() {
+    const viewProgramBtn = document.getElementById('viewProgram');
+    if (viewProgramBtn) {
+        viewProgramBtn.style.display = Auth.isAdmin() ? 'inline-block' : 'none';
+    }
+}
+```
+
+**결과**: 대기 (브라우저 테스트 필요)
 
 **다음 단계**:
--->
+- 브라우저에서 Admin 로그인 후 Program 뷰 동작 확인
+- Round 카드 클릭 시 ProjectPanel 연동 테스트
 
 
 ---

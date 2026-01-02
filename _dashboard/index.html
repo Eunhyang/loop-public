@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/graph.css">
     <link rel="stylesheet" href="css/calendar.css">
     <link rel="stylesheet" href="css/quick-search.css">
+    <link rel="stylesheet" href="css/program-rounds.css">
     <!-- D3.js for Graph Visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- FullCalendar for Calendar View -->
@@ -104,6 +105,7 @@
                         <button class="view-toggle-btn active" id="viewKanban" title="Kanban View">Kanban</button>
                         <button class="view-toggle-btn" id="viewCalendar" title="Calendar View">Calendar</button>
                         <button class="view-toggle-btn" id="viewGraph" title="Graph View">Graph</button>
+                        <button class="view-toggle-btn view-toggle-admin" id="viewProgram" title="Program-Round View (Admin only)" style="display: none;">Program</button>
                     </div>
                     <button class="btn btn-primary" id="btnNewTask">+ New Task</button>
                     <button class="btn btn-primary" id="btnNewProject">+ New Project</button>
@@ -179,6 +181,11 @@
                 <div class="calendar-container" id="calendarContainer">
                     <!-- FullCalendar will be rendered here -->
                 </div>
+            </div>
+
+            <!-- Program-Round View (Admin only) -->
+            <div class="program-rounds-view" id="programRoundsView">
+                <!-- Dynamically populated by ProgramRoundsView -->
             </div>
         </div>
     </div>
@@ -742,6 +749,7 @@
     <script src="js/components/graphDetailPanel.js"></script>
     <script src="js/components/quick-search.js"></script>
     <script src="js/components/pending-panel.js"></script>
+    <script src="js/components/program-rounds-view.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

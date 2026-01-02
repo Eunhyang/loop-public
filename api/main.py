@@ -41,7 +41,8 @@ from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
 
-# OAuth 2.0 JWT Verification (loop-auth에서 토큰 발급, loop-api에서 검증만)
+# OAuth 2.0 Module (키/DB는 볼륨에 영구 저장)
+from .oauth.routes import router as oauth_router, init_oauth
 from .oauth.jwks import verify_jwt
 from .oauth.security import log_oauth_access
 
@@ -78,9 +79,12 @@ app.add_middleware(
 # ============================================
 API_TOKEN = "loop_2024_kanban_secret"
 
-# 인증 제외 경로 (OAuth는 loop-auth 컨테이너에서 처리)
+# 인증 제외 경로
 PUBLIC_PATHS = [
     "/", "/health", "/docs", "/openapi.json", "/redoc",
+    # OAuth endpoints
+    "/.well-known/oauth-authorization-server", "/.well-known/jwks.json",
+    "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout"
 ]
 PUBLIC_PREFIXES = ["/css", "/js"]  # 정적 파일만 공개
 
@@ -275,7 +279,8 @@ app.include_router(audit.router)
 app.include_router(ai.router)
 app.include_router(build.router)  # tsk-n8n-12: Impact 빌드 API
 
-# OAuth 2.0는 loop-auth 컨테이너에서 처리 (tsk-vault-gpt-07)
+# OAuth 2.0 Router (키는 loop-auth와 공유됨)
+app.include_router(oauth_router)
 
 # ============================================
 # MCP Server (ChatGPT Developer Mode 연동용)
@@ -508,5 +513,6 @@ def openapi_lite():
 # ============================================
 @app.on_event("startup")
 async def startup_event():
-    """Initialize API on startup (OAuth handled by loop-auth container)"""
-    print("LOOP Dashboard API started (OAuth delegated to loop-auth)")
+    """Initialize OAuth module on startup (keys/DB stored in volume)"""
+    init_oauth()
+    print("LOOP Dashboard API started with OAuth 2.0")

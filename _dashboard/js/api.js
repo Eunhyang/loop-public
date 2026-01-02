@@ -358,5 +358,17 @@ const API = {
         const res = await this.authFetch(`${this.baseUrl}/api/tasks/${encodeURIComponent(taskId)}`);
         const data = await res.json();
         return data.task || data;
+    },
+
+    // ============================================
+    // Admin: Program-Round API
+    // ============================================
+    async getProgramRounds(pgmId, limit = 20) {
+        const url = limit
+            ? `${this.baseUrl}/api/admin/programs/${encodeURIComponent(pgmId)}/rounds?limit=${limit}`
+            : `${this.baseUrl}/api/admin/programs/${encodeURIComponent(pgmId)}/rounds`;
+        const res = await this.authFetch(url);
+        const data = await res.json();
+        return data.rounds || [];
     }
 };

@@ -42,7 +42,7 @@ def build_task_schema_prompt(
 
     Args:
         task: Task 엔티티 정보
-        issues: 감지된 이슈 목록 (missing_assignee, missing_conditions_3y 등)
+        issues: 감지된 이슈 목록 (missing_assignee, missing_due 등)
         strategy_context: 전략 계층 컨텍스트 (tracks, conditions 등)
 
     Returns:
@@ -177,12 +177,10 @@ def build_simple_task_schema_prompt(
 
 {{
   "suggested_fields": {{
-    "conditions_3y": ["cond-X"],
     "assignee": "김은향 또는 한명학",
     "due": "YYYY-MM-DD"
   }},
   "reasoning": {{
-    "conditions_3y": "판단 근거",
     "assignee": "판단 근거",
     "due": "판단 근거"
   }}
@@ -190,7 +188,6 @@ def build_simple_task_schema_prompt(
 
 ### 선택지
 
-**conditions_3y**: cond-a (PMF), cond-b (수익), cond-c (확장), cond-d (팀), cond-e (기술)
 **assignee**: 김은향 (전략/개발/기술), 한명학 (팀운영/영업/행정)
 **오늘 날짜**: {today}
 

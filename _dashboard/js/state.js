@@ -57,6 +57,8 @@ const State = {
     tasks: [],
     hypotheses: [],
     pendingReviews: [],
+    programRoundsData: [],       // Program-Round 조인 데이터 (Admin only)
+    selectedProgramId: null,     // 현재 선택된 Program ID
 
     // UI State (다중 선택 지원: 배열)
     currentProjects: [],      // 빈 배열 = 전체, ['prj-001', 'prj-002'] = 다중 선택
@@ -156,6 +158,33 @@ const State = {
 
     async reloadPrograms() {
         this.programs = await API.getPrograms();
+    },
+
+    // ============================================
+    // Program-Round API (Admin only)
+    // ============================================
+    async loadProgramRounds(pgmId, limit = 20) {
+        // Admin 권한 체크
+        if (!Auth.isAdmin()) {
+            console.warn('loadProgramRounds: Admin role required');
+            this.programRoundsData = [];
+            return [];
+        }
+
+        try {
+            this.selectedProgramId = pgmId;
+            this.programRoundsData = await API.getProgramRounds(pgmId, limit);
+            return this.programRoundsData;
+        } catch (e) {
+            console.warn('Failed to load program rounds:', e);
+            this.programRoundsData = [];
+            return [];
+        }
+    },
+
+    clearProgramRounds() {
+        this.programRoundsData = [];
+        this.selectedProgramId = null;
     },
 
     // ============================================

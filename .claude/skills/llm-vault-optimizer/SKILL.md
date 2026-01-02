@@ -71,7 +71,7 @@ conditions_3y: ["cond-a", "cond-b"]  # Required, min 1 item
 ### 5. Update Validation Scripts (P1)
 
 Modify `scripts/validate_schema.py`:
-- Add `conditions_3y` to required fields for Task/Project/Track
+- Add `conditions_3y` to required fields for Project/Track (Task는 선택)
 - Validate that referenced Condition IDs exist
 
 Modify `scripts/check_orphans.py`:
@@ -98,7 +98,7 @@ JSON structure:
 After implementation, verify:
 
 - [ ] LLM can answer "3년 전략 전부" in 2-3 file reads
-- [ ] All Tasks have conditions_3y field
+- [ ] All Projects/Tracks have conditions_3y field
 - [ ] Orphan check blocks commits with broken links
 - [ ] Query recipes cover top 5 common questions
 - [ ] _ENTRY_POINT.md has all 6 required sections

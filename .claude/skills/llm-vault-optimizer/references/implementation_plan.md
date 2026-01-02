@@ -14,7 +14,7 @@ Fixed entry points + Query recipes + Redundant link paths (Palantir-style safety
 
 ### Success Criteria
 - Any strategic query resolved in 2-3 file reads
-- 100% of Tasks linked to Conditions via conditions_3y
+- 100% of Projects/Tracks linked to Conditions via conditions_3y
 - Orphan check blocks broken links at merge gate
 
 ---
@@ -45,9 +45,8 @@ Inner Loop OS 스타트업의 전략-실행 추적 시스템
 
 ## 3. Mandatory Link Rules
 - Task → must have parent_id (Project)
-- Task → must have conditions_3y (at least 1 Condition)
-- Project → must have parent_id (Track)
-- Track → must have parent_id (Condition)
+- Project → must have parent_id (Track), conditions_3y (at least 1 Condition)
+- Track → must have parent_id (Condition), conditions_3y (at least 1 Condition)
 
 ## 4. Global Map
 → [[_Graph_Index.md]]
@@ -214,7 +213,7 @@ REQUIRED_FIELDS = {
     # ... existing ...
     "Track": ["owner", "horizon", "conditions_3y"],  # Add conditions_3y
     "Project": ["owner", "parent_id", "conditions_3y"],  # Add conditions_3y
-    "Task": ["assignee", "project_id", "parent_id", "conditions_3y"],  # Add conditions_3y
+    "Task": ["assignee", "project_id", "parent_id"],  # conditions_3y 선택
 }
 
 # Add validation function
@@ -222,7 +221,7 @@ def validate_conditions_3y(frontmatter: Dict) -> List[str]:
     errors = []
     entity_type = frontmatter.get("entity_type")
 
-    if entity_type in ["Task", "Project", "Track"]:
+    if entity_type in ["Project", "Track"]:  # Task는 선택
         conditions = frontmatter.get("conditions_3y", [])
 
         if not conditions or len(conditions) == 0:
@@ -277,12 +276,12 @@ def check_orphans(entities: Dict[str, Dict]) -> List[str]:
 
 ## P2: Next Week (Automation & Backfill)
 
-### 7. Backfill conditions_3y to Existing Tasks
+### 7. Backfill conditions_3y to Existing Projects
 
 **File**: `scripts/backfill_conditions_3y.py` (new)
 
 **Logic**:
-1. Scan all Task/Project files
+1. Scan all Project files (Task는 conditions_3y 불필요)
 2. Derive conditions_3y from parent Track
 3. Add field to frontmatter
 4. Report changes
@@ -370,7 +369,7 @@ def generate_json_index(entities: Dict, output_path: str):
 | P1-4 | Add conditions_3y to templates | 00_Meta/_TEMPLATES/*.md | ✅ Done |
 | P1-5 | Update validate_schema.py | scripts/validate_schema.py | ✅ Done |
 | P1-6 | Make orphan check blocking | scripts/check_orphans.py | ✅ Done |
-| P2-7 | Backfill existing Tasks | scripts/backfill_conditions_3y.py | ✅ Done |
+| P2-7 | Backfill existing Projects | scripts/backfill_conditions_3y.py | ✅ Done |
 | P2-8 | Generate graph.json | scripts/build_graph_index.py | ✅ Done |
 | P2-9 | Create Projects Index | 50_Projects/_INDEX.md | ✅ Done |
 

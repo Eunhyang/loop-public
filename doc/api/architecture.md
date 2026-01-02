@@ -61,7 +61,7 @@ NorthStar (ns-001)                    # 10년 비전 (불변)
 | Relation | From | To | Field | Example |
 |----------|------|----|-------|---------|
 | validates | Project | Hypothesis | `validates` | `validates: [hyp-2-01, hyp-2-02]` |
-| conditions_3y | Project/Task | Condition | `conditions_3y` | `conditions_3y: [cond-b]` |
+| conditions_3y | Project | Condition | `conditions_3y` | `conditions_3y: [cond-b]` |
 
 ### 2.3 연결 다이어그램
 
@@ -77,8 +77,6 @@ Track (trk-2)
     │                               ├── conditions_3y ──► Condition (cond-b)
     │                               │
     │                               └── project_id ◄──── Task (tsk-003-01)
-    │                                                         │
-    │                                                         └── conditions_3y ──► Condition (cond-b)
     │
     └── parent_id ──────────────────► Hypothesis (hyp-2-01)
 ```
@@ -201,7 +199,7 @@ def get_all_projects(
 |-----------|------|-------------|---------|
 | `track_id` | string | Track의 Project들의 Task | `?track_id=trk-2` |
 | `hypothesis_id` | string | Hypothesis validates하는 Project의 Task | `?hypothesis_id=hyp-2-01` |
-| `condition_id` | string | conditions_3y에 포함된 Task | `?condition_id=cond-b` |
+| `condition_id` | string | conditions_3y에 포함된 Project의 Task | `?condition_id=cond-b` |
 | `project_id` | string | Project로 필터 | `?project_id=prj-003` |
 | `status` | string | 상태로 필터 | `?status=doing` |
 | `assignee` | string | 담당자로 필터 | `?assignee=김은향` |
@@ -244,11 +242,13 @@ def get_all_tasks(
         if project_id and task.get('project_id') != project_id:
             continue
 
-        # Condition 필터: Task의 conditions_3y 체크
+        # Condition 필터: Project의 conditions_3y 체크
         if condition_id:
-            conditions = task.get('conditions_3y', [])
-            if condition_id not in conditions-
-                continue
+            project = self.projects.get(task.get('project_id'))
+            if project:
+                conditions = project.get('conditions_3y', [])
+                if condition_id not in conditions:
+                    continue
 
         # Status 필터
         if status and task.get('status') != status:
@@ -305,7 +305,7 @@ def get_all_tasks(
     │
     └── 2. GET /api/tasks?condition_id=cond-b
             → Kanban/Calendar에 표시
-            → conditions_3y에 cond-b 포함된 Task만
+            → 해당 Project들(conditions_3y에 cond-b 포함)의 Task만
 ```
 
 ---

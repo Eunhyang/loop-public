@@ -169,6 +169,13 @@ const Auth = {
     },
 
     /**
+     * admin 권한 확인
+     */
+    isAdmin() {
+        return this.getRole() === 'admin';
+    },
+
+    /**
      * 로그아웃
      */
     logout() {

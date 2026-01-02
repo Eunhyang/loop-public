@@ -41,6 +41,7 @@
       "Bash(ssh:*)",
       "Bash(mkdir:*)",
       "Bash(chmod:*)",
+      "Bash(node:*)",
       "Bash(#:*)"
     ]
   },

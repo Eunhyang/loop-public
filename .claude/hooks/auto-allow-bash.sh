@@ -27,6 +27,7 @@ ALLOW_PATTERNS=(
   "^codex "                # codex 명령어
   "^find "                 # find 명령어
   "^chmod "                # chmod 명령어
+  "^node "                 # node 명령어
 )
 
 # 패턴 매칭 체크
