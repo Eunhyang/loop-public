@@ -3,7 +3,8 @@ entity_type: Task
 entity_id: "tsk-dashboard-ux-v1-20"
 entity_name: "Dashboard - PDF 인라인 뷰어"
 created: 2026-01-02
-updated: 2026-01-02
+updated: 2026-01-03
+closed: 2026-01-03
 status: done
 
 # === 계층 ===
