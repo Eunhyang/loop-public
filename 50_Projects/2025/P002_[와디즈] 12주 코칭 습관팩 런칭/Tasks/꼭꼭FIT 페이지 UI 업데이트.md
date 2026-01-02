@@ -19,9 +19,6 @@ due: '2026-01-02'
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y:
-- cond-b
-- cond-d
 tags: []
 priority_flag: high
 start_date: '2026-01-02'

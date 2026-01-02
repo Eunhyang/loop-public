@@ -23,8 +23,6 @@ estimated_hours: null
 actual_hours: null
 type: dev
 target_project: loop
-conditions_3y:
-- cond-b
 tags:
 - oauth
 - dashboard

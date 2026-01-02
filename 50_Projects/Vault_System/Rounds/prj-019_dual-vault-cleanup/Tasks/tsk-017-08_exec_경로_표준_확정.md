@@ -29,8 +29,6 @@ type: dev
 target_project: loop
 
 # === 3Y 전략 연결 ===
-conditions_3y: ["cond-b"]
-
 # === 분류 ===
 tags: ["vault", "dual-vault", "migration", "cleanup"]
 priority_flag: high

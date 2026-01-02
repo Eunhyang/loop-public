@@ -29,8 +29,6 @@ type: dev
 target_project: loop
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-a"]
-
 # === 분류 ===
 tags: ["content-os", "youtube-api", "api-integration", "video-explorer"]
 priority_flag: high

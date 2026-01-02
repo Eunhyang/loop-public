@@ -27,7 +27,6 @@ estimated_hours: null
 actual_hours: null
 
 # === 분류 ===
-conditions_3y: ['cond-b', 'cond-d']
 tags: []
 priority_flag: high
 ---

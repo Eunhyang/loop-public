@@ -23,9 +23,6 @@ due: '2025-12-25'
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y:
-- cond-b
-- cond-d
 tags:
 - review
 - onboarding

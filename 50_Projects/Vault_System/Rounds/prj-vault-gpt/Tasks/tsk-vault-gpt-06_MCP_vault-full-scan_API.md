@@ -29,8 +29,6 @@ type: dev
 target_project: loop-api
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-b"]
-
 # === 분류 ===
 tags: [mcp, api, gpt, composite-api, full-scan]
 priority_flag: high

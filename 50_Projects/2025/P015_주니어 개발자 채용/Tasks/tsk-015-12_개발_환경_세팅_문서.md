@@ -18,8 +18,6 @@ due: null
 priority: medium
 estimated_hours: null
 actual_hours: null
-conditions_3y:
-- cond-d
 tags:
 - imported/notion
 priority_flag: medium

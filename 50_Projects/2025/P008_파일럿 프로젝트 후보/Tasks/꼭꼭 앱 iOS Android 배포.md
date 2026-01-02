@@ -22,9 +22,6 @@ due: '2025-12-29'
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y:
-- cond-b
-- cond-d
 tags:
 - deploy
 - ios

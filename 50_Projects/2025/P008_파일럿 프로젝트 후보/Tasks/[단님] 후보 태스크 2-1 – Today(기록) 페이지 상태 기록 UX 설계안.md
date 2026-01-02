@@ -19,9 +19,6 @@ due: '2025-12-10'
 priority: high
 estimated_hours: null
 actual_hours: null
-conditions_3y:
-- cond-b
-- cond-d
 tags: []
 priority_flag: high
 notes: "# [단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안\n\n> Task ID: `tsk-008-02`\

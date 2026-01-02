@@ -21,8 +21,6 @@ estimated_hours: 2
 actual_hours: null
 type: dev
 target_project: loop
-conditions_3y:
-- cond-e
 tags:
 - dashboard
 - keyboard

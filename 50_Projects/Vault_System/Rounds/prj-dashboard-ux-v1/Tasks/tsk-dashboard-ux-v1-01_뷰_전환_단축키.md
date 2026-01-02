@@ -30,8 +30,6 @@ type: dev
 target_project: loop-api
 
 # === 3Y 전략 연결 ===
-conditions_3y: ["cond-e"]
-
 # === 분류 ===
 tags: ["dashboard", "ux", "keyboard", "shortcut"]
 priority_flag: high

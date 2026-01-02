@@ -16,8 +16,6 @@ closed: 2025-12-26
 archived_at: null
 closed_inferred: updated
 parent_id: prj-vault-gpt
-conditions_3y:
-  - cond-b
 aliases:
 - tsk-vault-gpt-01
 - v1 HTTP MCP 설정

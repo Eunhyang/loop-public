@@ -30,8 +30,6 @@ target_project: content-os
 repo_path: apps/content-os
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-a"]
-
 # === 분류 ===
 tags: ["content-os", "database", "infrastructure"]
 priority_flag: high

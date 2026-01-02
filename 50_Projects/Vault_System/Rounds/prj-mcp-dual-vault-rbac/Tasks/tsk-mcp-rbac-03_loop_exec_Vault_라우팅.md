@@ -22,8 +22,6 @@ priority: high
 due: null
 estimate: null
 target_project: loop
-conditions_3y:
-- cond-b
 tags:
 - mcp
 - dual-vault

@@ -20,8 +20,6 @@ estimated_hours: 1
 actual_hours: null
 type: dev
 target_project: loop
-conditions_3y:
-- cond-e
 tags:
 - dev
 - bug-fix

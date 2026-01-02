@@ -30,8 +30,6 @@ type: dev
 target_project: loop
 
 # === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-b"]
-
 # === 분류 ===
 tags: ["pre-commit", "validation", "exec-vault", "automation"]
 priority_flag: high

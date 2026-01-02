@@ -9,8 +9,6 @@ closed: 2025-12-29
 assignee: 김은향
 project_id: prj-impact-schema-v2
 parent_id: prj-impact-schema-v2
-conditions_3y:
-  - cond-e
 type: dev
 target_project: loop
 priority: high
