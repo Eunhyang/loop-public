@@ -1,6 +1,33 @@
 version: '3.8'
 
 services:
+  # OAuth 인증 서버 (독립 컨테이너)
+  # API rebuild 시에도 인증 세션 유지
+  loop-auth:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth
+    container_name: loop-auth
+    restart: unless-stopped
+    ports:
+      - "8084:8083"  # 외부 8084 → 내부 8083
+    volumes:
+      # OAuth DB 및 RSA keys 공유 (영구 저장)
+      - /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw
+    environment:
+      - OAUTH_DB_PATH=/app/api/oauth/oauth.db
+      - OAUTH_KEYS_DIR=/app/api/oauth/keys
+      - OAUTH_ISSUER=https://mcp.sosilab.synology.me
+      - TOKEN_EXPIRE_HOURS=720
+      - TZ=Asia/Seoul
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # API + MCP 서버 (OAuth 분리됨)
   loop-api:
     build: .
     container_name: loop-api
@@ -12,13 +39,21 @@ services:
       - /volume1/LOOP_CORE/vault/LOOP:/vault:rw
       # Exec Vault (loop_exec) 마운트 - 읽기 전용 (민감 데이터 보호)
       - /volume1/LOOP_CLevel/vault/loop_exec:/exec_vault:ro
+      # OAuth keys 공유 (JWT 검증용, 읽기 전용)
+      - /volume1/LOOP_CORE/vault/LOOP/api/oauth/keys:/app/api/oauth/keys:ro
     environment:
       - VAULT_DIR=/vault
       - EXEC_VAULT_DIR=/exec_vault
       - TZ=Asia/Seoul
+      # JWT 검증: loop-auth에서 JWKS fetch
+      - JWKS_URL=http://loop-auth:8083/.well-known/jwks.json
+      - OAUTH_ISSUER=https://mcp.sosilab.synology.me
       # LLM API Keys (from .env or NAS environment)
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    depends_on:
+      loop-auth:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
       interval: 30s

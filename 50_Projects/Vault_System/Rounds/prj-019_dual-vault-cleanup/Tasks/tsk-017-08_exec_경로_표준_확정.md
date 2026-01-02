@@ -118,10 +118,29 @@ loop_exec/
 - [x] CLAUDE.md 경로 참조 업데이트
 - [x] 40_People/Hiring_Rounds/ → 50_Projects/Hiring_Rounds/ 변경
 - [x] mcp_composite.py 예시 경로 수정
-- [ ] Validation 수행
+- [x] Validation 수행 (240 entities indexed)
 
 ### 작업 로그
-<!-- workthrough 스킬로 자동 기록 -->
+
+#### 2026-01-02 17:58
+**개요**: exec vault의 `50_Projects_Exec/` 디렉토리를 `50_Projects/`로 마이그레이션하여 public vault와 동일한 경로 구조를 적용. 관련 문서 및 API 참조 경로를 모두 업데이트 완료.
+
+**변경사항**:
+- 개발: `50_Projects/` 디렉토리 구조로 마이그레이션 (exec vault)
+- 수정: exec CLAUDE.md - 경로 참조를 `50_Projects_Exec/` → `50_Projects/`로 변경
+- 수정: exec CLAUDE.md - `40_People/Hiring_Rounds/` → `50_Projects/Hiring_Rounds/` 예시 변경
+- 수정: API `mcp_composite.py` - exec vault 경로 예시를 `50_Projects/` 기준으로 수정
+- 삭제: 기존 `50_Projects_Exec/` 디렉토리 (git mv로 이력 보존)
+
+**파일 변경**:
+- `/Users/gim-eunhyang/dev/loop/exec/50_Projects/` - 신규 경로 (P015 프로젝트 포함)
+- `/Users/gim-eunhyang/dev/loop/exec/CLAUDE.md` - 경로 참조 및 예시 업데이트
+- `/Users/gim-eunhyang/dev/loop/public/api/routers/mcp_composite.py` - exec vault 엔드포인트 경로 예시 수정
+
+**결과**: 빌드 성공, Validation 통과 (240 entities indexed)
+
+**다음 단계**:
+- [ ] Obsidian에서 링크 정상 동작 수동 확인
 
 ---
 

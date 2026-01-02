@@ -12,6 +12,7 @@ import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any
+import time
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -30,6 +31,11 @@ KEYS_DIR = Path(os.environ.get("OAUTH_KEYS_DIR", str(_default_keys_dir)))
 PRIVATE_KEY_PATH = KEYS_DIR / "private.pem"
 PUBLIC_KEY_PATH = KEYS_DIR / "public.pem"
 
+# JWKS URL for remote key fetching (used when running as loop-api without local keys)
+# If set, verify_jwt will fetch public key from this URL instead of local files
+JWKS_URL = os.environ.get("JWKS_URL")
+JWKS_CACHE_TTL = int(os.environ.get("JWKS_CACHE_TTL", "3600"))  # 1 hour default
+
 # JWT settings
 OAUTH_ISSUER = os.environ.get("OAUTH_ISSUER", "https://mcp.sosilab.synology.me")
 JWT_ALGORITHM = "RS256"
@@ -41,6 +47,8 @@ JWT_EXPIRE_HOURS = int(os.environ.get("TOKEN_EXPIRE_HOURS", "1"))
 _private_key = None
 _public_key = None
 _jwks_cache = None
+_remote_jwks_cache = None
+_remote_jwks_cache_time = 0
 
 
 def _generate_rsa_keypair():
@@ -228,8 +236,66 @@ def create_jwt(
     return token
 
 
+def _fetch_remote_jwks() -> Optional[Dict[str, Any]]:
+    """Fetch JWKS from remote URL with caching"""
+    global _remote_jwks_cache, _remote_jwks_cache_time
+
+    if not JWKS_URL:
+        return None
+
+    current_time = time.time()
+
+    # Return cached if still valid
+    if _remote_jwks_cache and (current_time - _remote_jwks_cache_time) < JWKS_CACHE_TTL:
+        return _remote_jwks_cache
+
+    try:
+        import urllib.request
+        import json
+
+        with urllib.request.urlopen(JWKS_URL, timeout=5) as response:
+            _remote_jwks_cache = json.loads(response.read().decode())
+            _remote_jwks_cache_time = current_time
+            print(f"JWKS fetched from {JWKS_URL}")
+            return _remote_jwks_cache
+    except Exception as e:
+        print(f"Failed to fetch JWKS from {JWKS_URL}: {e}")
+        # Return stale cache if available
+        if _remote_jwks_cache:
+            print("Using stale JWKS cache")
+            return _remote_jwks_cache
+        return None
+
+
+def _get_public_key_from_jwks(jwks: Dict[str, Any], kid: Optional[str] = None):
+    """Extract public key from JWKS"""
+    from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicNumbers
+
+    for key in jwks.get("keys", []):
+        if kid and key.get("kid") != kid:
+            continue
+        if key.get("kty") != "RSA":
+            continue
+
+        # Decode n and e from base64url
+        n_bytes = base64.urlsafe_b64decode(key["n"] + "==")
+        e_bytes = base64.urlsafe_b64decode(key["e"] + "==")
+
+        n = int.from_bytes(n_bytes, byteorder='big')
+        e = int.from_bytes(e_bytes, byteorder='big')
+
+        public_numbers = RSAPublicNumbers(e, n)
+        return public_numbers.public_key(default_backend())
+
+    return None
+
+
 def verify_jwt(token: str, check_revocation: bool = True) -> Optional[Dict[str, Any]]:
     """Verify JWT token
+
+    Supports two modes:
+    1. Local keys: Uses keys stored in KEYS_DIR (loop-auth mode)
+    2. Remote JWKS: Fetches public key from JWKS_URL (loop-api mode)
 
     Args:
         token: JWT string
@@ -239,7 +305,25 @@ def verify_jwt(token: str, check_revocation: bool = True) -> Optional[Dict[str, 
         Decoded payload if valid, None otherwise
     """
     try:
-        public_key = _get_public_key()
+        # Determine which public key to use
+        if JWKS_URL:
+            # Remote mode: fetch JWKS from loop-auth
+            jwks = _fetch_remote_jwks()
+            if not jwks:
+                print("Failed to get JWKS, cannot verify JWT")
+                return None
+
+            # Get kid from token header
+            unverified_header = jwt.get_unverified_header(token)
+            kid = unverified_header.get("kid")
+
+            public_key = _get_public_key_from_jwks(jwks, kid)
+            if not public_key:
+                print(f"No matching key found in JWKS for kid={kid}")
+                return None
+        else:
+            # Local mode: use local keys
+            public_key = _get_public_key()
 
         # Serialize public key to PEM for jose
         public_pem = public_key.public_bytes(

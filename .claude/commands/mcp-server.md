@@ -13,9 +13,22 @@ ChatGPT Developer Mode에서 LOOP Vault 데이터에 접근할 수 있게 해줍
 |-----|-----|
 | URL | `https://mcp.sosilab.synology.me` |
 | MCP 엔드포인트 | `https://mcp.sosilab.synology.me/mcp` |
-| 컨테이너 이름 | `loop-api` |
-| 포트 | 8082 (내부 8081) |
+| 컨테이너 | `loop-api` (API+MCP), `loop-auth` (OAuth) |
+| 포트 | loop-api: 8082→8081, loop-auth: 8084→8083 |
 | Python | 3.11 (Docker) |
+
+### 아키텍처
+```
+loop-auth (8084) ─── OAuth 인증 (독립 컨테이너)
+      │                - /authorize, /token, /register
+      │                - SQLite DB, RSA keys
+      ↓
+loop-api (8082) ─── API + MCP (JWT 검증만)
+                     - Vault 접근
+                     - JWKS_URL로 loop-auth에서 공개키 fetch
+```
+
+**장점**: loop-api rebuild 시에도 인증 세션 유지 (재로그인 불필요)
 
 ## 사용자 입력
 
@@ -56,21 +69,26 @@ echo "Dkssud272902*" | sudo -S /volume1/LOOP_CORE/vault/LOOP/scripts/nas-git-syn
 
 ### 상태 확인 (status)
 ```bash
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker ps | grep loop-api'
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker ps | grep -E "loop-api|loop-auth"'
 ```
 
 ### 로그 확인 (logs)
 ```bash
+# loop-api 로그
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker logs --tail 50 loop-api 2>&1'
+
+# loop-auth 로그
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker logs --tail 50 loop-auth 2>&1'
 ```
 
 ### 재시작 (restart)
 ```bash
+# loop-api만 재시작 (인증 세션 유지)
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker restart loop-api 2>&1'
 ```
 
 ### 재빌드 (rebuild)
-코드 변경 후 Docker 이미지를 다시 빌드하고 배포합니다:
+loop-api만 재빌드합니다 (loop-auth는 유지되어 인증 세션 보존):
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 cd /volume1/LOOP_CORE/vault/LOOP
@@ -79,17 +97,46 @@ source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
 /var/packages/ContainerManager/target/usr/bin/docker stop loop-api
 /var/packages/ContainerManager/target/usr/bin/docker rm loop-api
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_DB_PATH=/vault/api/oauth/oauth.db -e TOKEN_EXPIRE_HOURS=720 -e TZ=Asia/Seoul -e OPENAI_API_KEY=\$OPENAI_API_KEY -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro -v /volume1/LOOP_CORE/vault/LOOP/api/oauth/keys:/app/api/oauth/keys:ro -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e JWKS_URL=http://loop-auth:8083/.well-known/jwks.json -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul -e OPENAI_API_KEY=\$OPENAI_API_KEY -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY --link loop-auth:loop-auth loop-api:latest
+" 2>&1'
+```
+
+### 전체 재빌드 (rebuild-all)
+loop-auth와 loop-api 모두 재빌드합니다 (인증 세션 초기화됨):
+```bash
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
+cd /volume1/LOOP_CORE/vault/LOOP
+source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
+
+# loop-auth 빌드 및 실행
+/var/packages/ContainerManager/target/usr/bin/docker build -t loop-auth:latest -f Dockerfile.auth .
+/var/packages/ContainerManager/target/usr/bin/docker stop loop-auth 2>/dev/null || true
+/var/packages/ContainerManager/target/usr/bin/docker rm loop-auth 2>/dev/null || true
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-auth --restart unless-stopped -p 8084:8083 -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e OAUTH_DB_PATH=/app/api/oauth/oauth.db -e OAUTH_KEYS_DIR=/app/api/oauth/keys -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TOKEN_EXPIRE_HOURS=720 -e TZ=Asia/Seoul loop-auth:latest
+
+# loop-auth 시작 대기
+sleep 5
+
+# loop-api 빌드 및 실행
+/var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
+/var/packages/ContainerManager/target/usr/bin/docker stop loop-api 2>/dev/null || true
+/var/packages/ContainerManager/target/usr/bin/docker rm loop-api 2>/dev/null || true
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro -v /volume1/LOOP_CORE/vault/LOOP/api/oauth/keys:/app/api/oauth/keys:ro -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e JWKS_URL=http://loop-auth:8083/.well-known/jwks.json -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul -e OPENAI_API_KEY=\$OPENAI_API_KEY -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY --link loop-auth:loop-auth loop-api:latest
 " 2>&1'
 ```
 
 > **볼륨 마운트 설명**:
 > - `/volume1/LOOP_CORE/vault/LOOP:/vault:rw` - LOOP vault (읽기/쓰기)
 > - `/volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:ro` - loop_exec vault (읽기 전용, RBAC 보호)
+> - `/volume1/LOOP_CORE/vault/LOOP/api/oauth/keys:/app/api/oauth/keys:ro` - RSA keys (JWT 검증용)
 
 ### 중지 (stop)
 ```bash
+# loop-api만 중지
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker stop loop-api 2>&1'
+
+# 전체 중지
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "/var/packages/ContainerManager/target/usr/bin/docker stop loop-api loop-auth" 2>&1'
 ```
 
 ## Health Check

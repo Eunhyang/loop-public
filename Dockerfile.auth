@@ -1,0 +1,31 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 시스템 의존성
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python 의존성 설치 (OAuth only - minimal)
+RUN pip install --no-cache-dir \
+    fastapi \
+    uvicorn \
+    python-multipart \
+    # OAuth dependencies
+    bcrypt \
+    python-jose[cryptography] \
+    jinja2 \
+    sqlalchemy
+
+# API 코드 복사 (OAuth 관련만)
+COPY api/__init__.py ./api/
+COPY api/main_auth.py ./api/
+COPY api/oauth/ ./api/oauth/
+COPY api/templates/ ./api/templates/
+
+# 포트 노출
+EXPOSE 8083
+
+# 서버 실행
+CMD ["uvicorn", "api.main_auth:app", "--host", "0.0.0.0", "--port", "8083"]

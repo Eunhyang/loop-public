@@ -39,7 +39,7 @@ priority_flag: high
 
 # Dual-Vault - exec pre-commit hook
 
-> Task ID: `tsk-019-01` | Project: `prj-019` | Status: doing
+> Task ID: `tsk-019-01` | Project: `prj-019` | Status: done
 
 ## 목표
 
