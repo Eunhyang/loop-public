@@ -44,10 +44,21 @@ class VaultCache:
         tasks = cache.get_all_tasks(status="doing")
     """
 
-    def __init__(self, vault_path: Path):
+    # exec vault에서 API 응답 시 제외할 민감 필드
+    EXEC_SENSITIVE_FIELDS = {'contract', 'salary', 'rate', 'terms', 'contact'}
+
+    def __init__(self, vault_path: Path, exec_vault_path: Optional[Path] = None):
         self.vault_path = vault_path
         self.projects_dir = vault_path / "50_Projects" / "2025"
         self.programs_dir = vault_path / "50_Projects"  # Programs are stored as subdirs in 50_Projects/
+
+        # exec vault 경로 설정 (tsk-018-01: exec vault 프로젝트 로드)
+        if exec_vault_path is None:
+            from ..utils.vault_utils import get_exec_vault_dir
+            self.exec_vault_path = get_exec_vault_dir()
+        else:
+            self.exec_vault_path = exec_vault_path
+        self.exec_projects_dir = self.exec_vault_path / "50_Projects" if self.exec_vault_path else None
 
         # 스레드 안전성을 위한 RLock (읽기/쓰기 모두 보호)
         self._lock = threading.RLock()
@@ -83,6 +94,7 @@ class VaultCache:
         self._load_time: float = 0
         self._task_count: int = 0
         self._project_count: int = 0
+        self._exec_project_count: int = 0  # tsk-018-01: exec vault 프로젝트 수
         self._program_count: int = 0
         self._hypothesis_count: int = 0
         self._evidence_count: int = 0
@@ -121,7 +133,8 @@ class VaultCache:
 
         logger.info(
             f"VaultCache: Loaded {self._task_count} tasks, "
-            f"{self._project_count} projects, "
+            f"{self._project_count} projects (public), "
+            f"{self._exec_project_count} projects (exec), "
             f"{self._program_count} programs, "
             f"{self._hypothesis_count} hypotheses, "
             f"{self._evidence_count} evidence, "
@@ -249,7 +262,7 @@ class VaultCache:
     # ============================================
 
     def _load_projects(self) -> None:
-        """모든 Project 파일 로드 (기존 + Program Rounds)"""
+        """모든 Project 파일 로드 (기존 + Program Rounds + exec vault)"""
         # 기존: 50_Projects/2025/P*
         if self.projects_dir.exists():
             for project_dir in self.projects_dir.glob("P*"):
@@ -283,6 +296,9 @@ class VaultCache:
                             self._load_project_file(pf)
                             break
 
+        # tsk-018-01: exec vault 프로젝트 로드
+        self._load_exec_projects()
+
     def _load_project_file(self, file_path: Path) -> Optional[str]:
         """단일 Project 파일 로드 (본문 포함)"""
         data, body = self._extract_frontmatter_and_body(file_path)
@@ -304,6 +320,61 @@ class VaultCache:
         )
         self._project_count += 1
 
+        return entity_id
+
+    def _load_exec_projects(self) -> None:
+        """exec vault의 프로젝트 로드 (tsk-018-01)
+
+        exec vault 프로젝트는 민감 정보를 포함할 수 있으므로
+        API 응답 시 EXEC_SENSITIVE_FIELDS에 정의된 필드를 제외함.
+
+        구조: exec/50_Projects/P{num}_{name}/_INDEX.md
+        """
+        if not self.exec_projects_dir or not self.exec_projects_dir.exists():
+            logger.debug(f"Exec vault projects dir not found: {self.exec_projects_dir}")
+            return
+
+        self._update_dir_mtime(self.exec_projects_dir, 'ExecProject')
+
+        for project_dir in self.exec_projects_dir.glob("P*"):
+            if not project_dir.is_dir():
+                continue
+
+            # exec vault는 _INDEX.md 사용
+            index_file = project_dir / "_INDEX.md"
+            if index_file.exists():
+                self._load_exec_project_file(index_file)
+
+    def _load_exec_project_file(self, file_path: Path) -> Optional[str]:
+        """단일 exec vault Project 파일 로드 (민감 정보 필터링)"""
+        data, body = self._extract_frontmatter_and_body(file_path)
+        if not data:
+            return None
+
+        entity_id = data.get('entity_id')
+        if not entity_id:
+            return None
+
+        # 민감 필드 필터링 (contract, salary, rate 등)
+        filtered_data = {
+            k: v for k, v in data.items()
+            if k not in self.EXEC_SENSITIVE_FIELDS
+        }
+
+        # exec vault 마커 추가
+        filtered_data['_vault'] = 'exec'
+        filtered_data['_path'] = str(file_path.relative_to(self.exec_vault_path))
+        filtered_data['_dir'] = str(file_path.parent.relative_to(self.exec_vault_path))
+        filtered_data['_body'] = body
+
+        self.projects[entity_id] = CacheEntry(
+            data=filtered_data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+        self._exec_project_count += 1
+
+        logger.debug(f"Loaded exec project: {entity_id}")
         return entity_id
 
     def get_project(self, project_id: str) -> Optional[Dict[str, Any]]:
@@ -1172,6 +1243,7 @@ class VaultCache:
 
             self._task_count = 0
             self._project_count = 0
+            self._exec_project_count = 0  # tsk-018-01
             self._program_count = 0
             self._hypothesis_count = 0
             self._evidence_count = 0  # tsk-n8n-12
@@ -1186,6 +1258,8 @@ class VaultCache:
             return {
                 "tasks": len(self.tasks),
                 "projects": len(self.projects),
+                "projects_public": self._project_count,
+                "projects_exec": self._exec_project_count,  # tsk-018-01
                 "programs": len(self.programs),
                 "hypotheses": len(self.hypotheses),
                 "evidence": evidence_total,  # tsk-n8n-12
@@ -1197,5 +1271,6 @@ class VaultCache:
                 "productlines": len(self.productlines),
                 "partnershipstages": len(self.partnershipstages),
                 "load_time_seconds": self._load_time,
-                "vault_path": str(self.vault_path)
+                "vault_path": str(self.vault_path),
+                "exec_vault_path": str(self.exec_vault_path) if self.exec_vault_path else None
             }

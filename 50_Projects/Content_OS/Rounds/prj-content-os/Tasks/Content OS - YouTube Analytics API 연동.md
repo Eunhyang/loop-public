@@ -4,7 +4,7 @@ entity_id: "tsk-content-os-10"
 entity_name: "Content OS - YouTube Analytics API 연동"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -86,13 +86,13 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] YouTube Analytics API 활성화 (GCP)
-- [ ] OAuth 2.0 Consent Screen 설정
-- [ ] OAuth 2.0 Client ID 생성
-- [ ] OAuth 인증 API Route 구현
-- [ ] Analytics API 서비스 구현
-- [ ] Performance Dashboard 실제 데이터 연동
-- [ ] 토큰 저장/갱신 로직
+- [x] YouTube Analytics API 활성화 (GCP)
+- [x] OAuth 2.0 Consent Screen 설정
+- [x] OAuth 2.0 Client ID 생성
+- [x] OAuth 인증 API Route 구현
+- [x] Analytics API 서비스 구현
+- [x] Performance Dashboard 실제 데이터 연동
+- [x] 토큰 저장/갱신 로직
 
 ---
 
@@ -246,50 +246,62 @@ apps/content-os/
 ### Todo
 
 #### Phase 1: OAuth 설정
-- [ ] GCP에서 YouTube Analytics API 활성화
-- [ ] OAuth Consent Screen 설정
-- [ ] OAuth Client ID 생성 (Web application)
-- [ ] `.env.local`에 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET 추가
+- [x] GCP에서 YouTube Analytics API 활성화
+- [x] OAuth Consent Screen 설정
+- [x] OAuth Client ID 생성 (Web application)
+- [x] `.env.local`에 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET 추가
 
 #### Phase 2: OAuth 구현
-- [ ] `types/youtube-analytics.ts` 생성
-- [ ] `lib/youtube/oauth-service.ts` 생성
-- [ ] `/api/auth/youtube/*` 라우트 생성
-- [ ] OAuth 플로우 테스트
+- [x] `types/youtube-analytics.ts` 생성
+- [x] `lib/youtube/oauth-service.ts` 생성
+- [x] `/api/auth/youtube/*` 라우트 생성
+- [x] OAuth 플로우 테스트
 
 #### Phase 3: Analytics 구현
-- [ ] `lib/youtube/youtube-analytics-service.ts` 생성
-- [ ] `/api/youtube/analytics/*` 라우트 생성
-- [ ] API 응답 → ContentPerformance 변환 로직
+- [x] `lib/youtube/youtube-analytics-service.ts` 생성
+- [x] `/api/youtube/analytics/*` 라우트 생성
+- [x] API 응답 → ContentPerformance 변환 로직
 
 #### Phase 4: UI 연결
-- [ ] `use-performance-data.ts` 훅 생성
-- [ ] `auth-status-banner.tsx` 컴포넌트 생성
-- [ ] `page.tsx` 수정: 더미 데이터 → API 데이터
+- [x] `use-performance-data.ts` 훅 생성
+- [x] `auth-status-banner.tsx` 컴포넌트 생성
+- [x] `page.tsx` 수정: 더미 데이터 → API 데이터
 
 #### Phase 5: Testing
-- [ ] OAuth 플로우 E2E 테스트
-- [ ] Analytics 데이터 표시 확인
-- [ ] 에러 핸들링 확인
+- [x] OAuth 플로우 E2E 테스트
+- [x] Analytics 데이터 표시 확인
+- [x] 에러 핸들링 확인
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-02 20:30
+**개요**: YouTube Analytics API와 OAuth 2.0 인증을 Content OS Performance Dashboard에 연동 완료. Google OAuth PKCE 플로우, Analytics API 서비스, UI 통합 전체 구현.
 
 **변경사항**:
 - 개발:
+  - `types/youtube-analytics.ts` - OAuth/Analytics 타입 정의
+  - `lib/youtube/oauth-service.ts` - PKCE OAuth, Token 관리 (HTTP-only Cookie)
+  - `lib/youtube/youtube-analytics-service.ts` - Analytics API 서비스
+  - `app/api/auth/youtube/login/route.ts` - OAuth 시작
+  - `app/api/auth/youtube/callback/route.ts` - OAuth 콜백
+  - `app/api/auth/youtube/logout/route.ts` - 로그아웃
+  - `app/api/auth/youtube/status/route.ts` - 인증 상태
+  - `app/api/youtube/analytics/videos/route.ts` - 영상별 성과
+  - `app/performance/hooks/use-auth-status.ts` - 인증 상태 훅
+  - `app/performance/hooks/use-performance-data.ts` - 성과 데이터 훅
+  - `app/performance/components/auth-status-banner.tsx` - 로그인 배너
 - 수정:
-- 개선:
+  - `app/performance/page.tsx` - API 데이터 연결, AuthStatusBanner 추가
+  - `next.config.ts` - YouTube 이미지 도메인 추가 (*.ytimg.com, yt3.ggpht.com)
+  - `docker-compose.yml` - GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI 환경변수
 
-**핵심 코드**: (필요시)
+**파일 변경**: 신규 11개, 수정 4개 (총 15개)
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 빌드 성공, OAuth 플로우 테스트 성공
 
 **다음 단계**:
--->
+- NAS 배포 시 docker-compose.yml에 환경변수 추가
+- 채널 선택 문제 해결 (Brand Account 연결 확인)
 
 
 ---
