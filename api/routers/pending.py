@@ -348,6 +348,41 @@ def approve_pending_review(review_id: str, approve: Optional[PendingApprove] = N
     entity_type = review.get("entity_type", "")
     source = review.get("source", "")
 
+    # === tsk-n8n-15: Evidence 승인 시 가설 연결 강제 게이트 ===
+    if entity_type == "Evidence":
+        validated = fields_to_apply.get("validated_hypotheses", [])
+        falsified = fields_to_apply.get("falsified_hypotheses", [])
+
+        # 1. 최소 하나의 가설 업데이트 필수
+        if not validated and not falsified:
+            raise HTTPException(
+                status_code=400,
+                detail="Evidence must reference at least one hypothesis. "
+                       "Set validated_hypotheses or falsified_hypotheses field."
+            )
+
+        # 2. Project.validates와 교차 검증
+        project_id = fields_to_apply.get("project")
+        if project_id:
+            from ..cache import get_cache
+            cache = get_cache()
+            project = cache.get_project(project_id)
+
+            if project:
+                project_validates = project.get("validates", [])
+                all_hyps = (validated or []) + (falsified or [])
+
+                invalid_hyps = [h for h in all_hyps if h not in project_validates]
+
+                if invalid_hyps and project_validates:
+                    # validates가 비어있으면 (아직 가설 연결 안 된 프로젝트) 경고만
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Hypotheses not in project.validates: {invalid_hyps}. "
+                               f"Valid hypotheses for this project: {project_validates}"
+                    )
+    # === END tsk-n8n-15 ===
+
     # Hypothesis 생성 처리 (tsk-n8n-11)
     # source="ai_infer" + entity_type="Hypothesis" → 파일 생성 필요
     if entity_type == "Hypothesis" and source == "ai_infer":

@@ -22,17 +22,9 @@
       "parameters": {
         "method": "POST",
         "url": "https://mcp.sosilab.synology.me/api/youtube-weekly/create-round",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
-            }
-          ]
-        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": false,
         "options": {
           "timeout": 30000
         }

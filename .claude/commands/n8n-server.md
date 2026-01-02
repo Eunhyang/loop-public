@@ -83,6 +83,28 @@ curl -s -o /dev/null -w "%{http_code}" https://n8n.sosilab.synology.me/healthz
 | `WEBHOOK_URL` | `https://n8n.sosilab.synology.me` | 웹훅 기본 URL |
 | `N8N_PROTOCOL` | `https` | HTTPS 프로토콜 사용 |
 | `N8N_PROXY_HOPS` | `1` | 리버스 프록시 홉 수 |
+| `LOOP_API_TOKEN` | `loop_2024_kanban_secret` | LOOP API 인증 (Docker 환경변수) |
+
+## LOOP API Credential 설정 (CRITICAL)
+
+> **워크플로우에서 LOOP API 호출 시 반드시 Credential 연결 필요**
+
+| Credential 이름 | 타입 | 헤더 | 값 |
+|----------------|------|------|-----|
+| `LOOP API Token` | Header Auth | `x-api-token` | `loop_2024_kanban_secret` |
+
+### 워크플로우 설정 방법
+
+1. **HTTP Request 노드** 열기
+2. **Authentication**: `Predefined Credential Type` 선택
+3. **Credential Type**: `Header Auth`
+4. **Header Auth**: `LOOP API Token` 선택
+
+### 주의사항
+
+- 워크플로우 JSON import 시 Credential 자동 연결 안 됨
+- 반드시 import 후 수동으로 Credential 연결 필요
+- Docker 환경변수 `LOOP_API_TOKEN`과 n8n Credential은 별개
 
 ## 트러블슈팅
 

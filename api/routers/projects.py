@@ -315,6 +315,21 @@ def update_project(project_id: str, project: ProjectUpdate):
     if project.parent_id is not None:
         frontmatter['parent_id'] = project.parent_id
     if project.status is not None:
+        # === tsk-n8n-15: 가설 필수 게이트 ===
+        # active/done으로 전환 시 가설 연결 필수
+        if project.status in ["active", "done"]:
+            has_hypothesis = (
+                frontmatter.get("primary_hypothesis_id") or
+                frontmatter.get("validates")
+            )
+            if not has_hypothesis:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Project requires at least one hypothesis before transitioning to active/done. "
+                           "Use POST /api/ai/infer/hypothesis_draft to generate a hypothesis, "
+                           "then approve it via Dashboard."
+                )
+        # === END tsk-n8n-15 ===
         frontmatter['status'] = project.status
     if project.priority_flag is not None:
         frontmatter['priority_flag'] = project.priority_flag

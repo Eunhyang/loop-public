@@ -17,9 +17,65 @@ import re
 import yaml
 from pathlib import Path
 from datetime import date
-from typing import Dict, Any, Optional, Tuple, List
+from typing import Dict, Any, Optional, Tuple, List, Set
 
 from .vault_utils import get_vault_dir, sanitize_filename
+
+
+# ============================================
+# 고객중심 가설 검증 토큰 (tsk-n8n-15)
+# ============================================
+
+CUSTOMER_TOKENS = {
+    "segment": [
+        "사용자", "고객", "코치", "참여자", "구독자", "회원", "수강생",
+        "클라이언트", "이용자", "유저", "소비자", "학습자", "수험생",
+        "환자", "내담자", "피코칭자", "졸업자", "신규"
+    ],
+    "trigger": [
+        "할 때", "직후", "상황에서", "시점에", "경우에", "시에", "후에", "전에",
+        "첫 주", "첫날", "처음", "시작", "도중에", "중간에", "마지막",
+        "아침에", "저녁에", "밤에", "주말에", "평일에"
+    ],
+    "pain": [
+        "어렵다", "못한다", "이탈", "재발", "스트레스", "포기", "실패",
+        "힘들", "불편", "불안", "걱정", "부담", "지치", "피로",
+        "감소", "하락", "떨어", "낮아", "줄어들"
+    ],
+    "change": [
+        "증가", "감소", "개선", "전환", "복귀", "완료", "지속", "향상",
+        "줄어", "높아", "늘어", "좋아", "나아", "달성", "성공",
+        "유지", "강화", "확대", "상승"
+    ]
+}
+
+
+def check_customer_centric(question: str) -> Tuple[bool, List[str], Set[str]]:
+    """
+    가설 질문이 고객 중심인지 휴리스틱으로 검증 (tsk-n8n-15)
+
+    4개 카테고리 (segment, trigger, pain, change) 중
+    최소 2개 카테고리의 토큰이 존재해야 고객중심으로 판정
+
+    Args:
+        question: hypothesis_question 문자열
+
+    Returns:
+        (is_customer_centric, found_categories, missing_categories)
+    """
+    found_categories = []
+
+    for category, tokens in CUSTOMER_TOKENS.items():
+        for token in tokens:
+            if token in question:
+                found_categories.append(category)
+                break  # 카테고리당 하나만 카운트
+
+    # 최소 2개 카테고리 필요
+    is_customer_centric = len(found_categories) >= 2
+    missing_categories = set(CUSTOMER_TOKENS.keys()) - set(found_categories)
+
+    return is_customer_centric, found_categories, missing_categories
 
 
 def extract_track_number(track_id: str) -> Optional[int]:
@@ -163,6 +219,20 @@ def validate_hypothesis_quality(draft: Dict[str, Any]) -> Tuple[float, List[str]
             if year < 2024 or year > 2030:
                 issues.append("horizon_year_out_of_range")
                 score -= deduction * 0.5
+
+    # 8. 고객중심 검증 (tsk-n8n-15)
+    question = draft.get("hypothesis_question", "")
+    if question:
+        is_customer_centric, found_categories, missing_categories = check_customer_centric(question)
+
+        if not is_customer_centric:
+            issues.append("not_customer_centric")
+            score -= 0.25  # 중요 감점
+
+            # 디버깅용: 어떤 카테고리가 부족한지
+            if missing_categories:
+                missing_str = ",".join(sorted(missing_categories))
+                issues.append(f"missing_customer_elements:{missing_str}")
 
     # 점수 범위 제한
     score = max(0.0, min(1.0, score))

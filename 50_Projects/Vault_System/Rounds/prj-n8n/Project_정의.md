@@ -83,6 +83,30 @@ n8n 워크플로우 엔진을 활용하여 LOOP Vault의 다양한 자동화 작
 
 ---
 
+## n8n Credential 설정 (CRITICAL)
+
+> **모든 LOOP API 호출 워크플로우는 반드시 아래 Credential 연결 필요**
+
+| Credential 이름 | 타입 | 헤더 | 용도 |
+|----------------|------|------|------|
+| `LOOP API Token` | Header Auth | `x-api-token` | LOOP API 인증 |
+
+### 워크플로우 설정 방법
+
+1. **HTTP Request 노드** 열기
+2. **Authentication**: `Predefined Credential Type` 선택
+3. **Credential Type**: `Header Auth`
+4. **Header Auth**: `LOOP API Token` 선택
+5. 저장
+
+### 주의사항
+
+- 워크플로우 JSON import 시 Credential은 자동 연결되지 않음
+- 반드시 import 후 수동으로 Credential 연결 필요
+- `{{ $env.LOOP_API_TOKEN }}`은 n8n 환경변수로, Credential과 다름
+
+---
+
 ## Tasks
 
 | ID | Name | Status |
