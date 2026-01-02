@@ -1454,20 +1454,16 @@ async def get_program_rounds(
         updated=_normalize_date(program.get('updated'))
     )
 
-    # 4. exec vault에서 program_id 일치하는 Project 스캔 (비동기)
-    try:
-        exec_vault = get_exec_vault_dir()
-        round_data_list, total_available = await _scan_exec_rounds(exec_vault, pgm_id, limit=limit)
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to access exec vault: {str(e)}"
-        )
+    # 4. VaultCache에서 program_id 일치하는 프로젝트 조회 (exec vault 포함)
+    # tsk-018-01: VaultCache 사용으로 변경 (exec vault 프로젝트도 캐시에서 조회)
+    all_matching_projects = cache.get_projects_by_program_id(pgm_id)
+    total_available = len(all_matching_projects)
+    round_data_list = all_matching_projects[:limit]  # limit 적용
 
     # 5. RoundSummary 모델로 변환
     rounds = [
         RoundSummary(
-            project_id=r.get('project_id', ''),
+            project_id=r.get('entity_id', ''),  # entity_id를 project_id로 매핑
             entity_name=r.get('entity_name', ''),
             status=r.get('status', 'unknown'),
             owner=r.get('owner', ''),

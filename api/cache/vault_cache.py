@@ -399,6 +399,18 @@ class VaultCache:
                 results.append(entry.data.copy())
             return sorted(results, key=lambda x: x.get('entity_id', ''))
 
+    def get_projects_by_program_id(self, program_id: str) -> List[Dict[str, Any]]:
+        """program_id로 프로젝트 조회 (exec vault 포함)
+
+        tsk-018-01: exec vault 프로젝트도 포함하여 반환
+        """
+        with self._lock:
+            results = []
+            for entry in self.projects.values():
+                if entry.data.get('program_id') == program_id:
+                    results.append(entry.data.copy())
+            return sorted(results, key=lambda x: x.get('entity_id', ''))
+
     def get_project_dir(self, project_id: str) -> Optional[Path]:
         """Project 디렉토리 경로 조회"""
         with self._lock:
