@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/calendar.css">
     <link rel="stylesheet" href="css/quick-search.css">
     <link rel="stylesheet" href="css/program-rounds.css">
+    <link rel="stylesheet" href="css/pdf-viewer.css">
     <!-- D3.js for Graph Visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- FullCalendar for Calendar View -->
@@ -362,6 +363,54 @@
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- PDF Viewer Modal (tsk-dashboard-ux-v1-20) -->
+    <div class="pdf-viewer-overlay" id="pdfViewerOverlay" role="dialog" aria-modal="true" aria-labelledby="pdfViewerFilename">
+        <div class="pdf-viewer-modal">
+            <!-- Toolbar -->
+            <div class="pdf-viewer-toolbar">
+                <div class="pdf-viewer-toolbar-left">
+                    <span class="pdf-viewer-filename" id="pdfViewerFilename">document.pdf</span>
+                </div>
+                <div class="pdf-viewer-toolbar-center">
+                    <button class="pdf-viewer-btn" id="pdfViewerPrev" title="Previous page (←)" aria-label="Previous page">
+                        <span>&lt;</span>
+                    </button>
+                    <span class="pdf-viewer-page-info">
+                        <input type="number" id="pdfViewerPageInput" class="pdf-viewer-page-input" min="1" value="1" aria-label="Current page">
+                        <span>/</span>
+                        <span id="pdfViewerTotalPages">1</span>
+                    </span>
+                    <button class="pdf-viewer-btn" id="pdfViewerNext" title="Next page (→)" aria-label="Next page">
+                        <span>&gt;</span>
+                    </button>
+                </div>
+                <div class="pdf-viewer-toolbar-right">
+                    <button class="pdf-viewer-btn" id="pdfViewerZoomOut" title="Zoom out (-)" aria-label="Zoom out">
+                        <span>−</span>
+                    </button>
+                    <span class="pdf-viewer-zoom-level" id="pdfViewerZoomLevel">100%</span>
+                    <button class="pdf-viewer-btn" id="pdfViewerZoomIn" title="Zoom in (+)" aria-label="Zoom in">
+                        <span>+</span>
+                    </button>
+                    <button class="pdf-viewer-btn" id="pdfViewerDownload" title="Download" aria-label="Download PDF">
+                        <span>⬇</span>
+                    </button>
+                    <button class="pdf-viewer-btn pdf-viewer-close" id="pdfViewerClose" title="Close (ESC)" aria-label="Close viewer">
+                        <span>✕</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Canvas Container -->
+            <div class="pdf-viewer-container" id="pdfViewerContainer">
+                <div class="pdf-viewer-loading" id="pdfViewerLoading">
+                    <div class="pdf-viewer-spinner"></div>
+                    <span>Loading PDF...</span>
+                </div>
+                <canvas id="pdfViewerCanvas"></canvas>
+            </div>
+        </div>
+    </div>
 
     <!-- Filter Side Panel -->
     <div class="panel-overlay" id="filterPanelOverlay"></div>
@@ -758,6 +807,9 @@
         </div>
     </aside>
 
+    <!-- PDF.js Library (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs" type="module"></script>
+
     <!-- Scripts -->
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
@@ -780,6 +832,7 @@
     <script src="js/components/quick-search.js"></script>
     <script src="js/components/pending-panel.js"></script>
     <script src="js/components/program-rounds-view.js"></script>
+    <script src="js/components/pdf-viewer.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
