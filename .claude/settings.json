@@ -42,6 +42,7 @@
       "Bash(mkdir:*)",
       "Bash(chmod:*)",
       "Bash(node:*)",
+      "Bash(grep:*)",
       "Bash(#:*)"
     ]
   },

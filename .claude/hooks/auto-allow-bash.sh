@@ -28,6 +28,7 @@ ALLOW_PATTERNS=(
   "^find "                 # find 명령어
   "^chmod "                # chmod 명령어
   "^node "                 # node 명령어
+  "^grep "                 # grep 명령어
 )
 
 # 패턴 매칭 체크
