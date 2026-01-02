@@ -39,7 +39,7 @@ priority_flag: high
 
 # Content OS - Video Explorer Live Search
 
-> Task ID: `tsk-content-os-07` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-content-os-07` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
