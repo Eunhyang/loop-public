@@ -5,7 +5,7 @@
 
 set -e
 
-VAULT_DIR="/Users/gim-eunhyang/dev/LOOP_WORK"
+VAULT_DIR="/Users/gim-eunhyang/dev/loop/public"
 LOG_FILE="$VAULT_DIR/_build/local-sync.log"
 MAX_LOG_LINES=1000
 

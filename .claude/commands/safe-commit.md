@@ -7,8 +7,8 @@ description: 로컬 SSD에서 직접 커밋/푸시 후 NAS로 rsync 백업 - 두
 로컬 SSD에서 직접 git commit/push 후 NAS로 rsync 백업합니다.
 
 **두 Vault 동시 커밋:**
-- `~/dev/LOOP_WORK` (Shared Vault)
-- `~/dev/loop_exec_WORK` (Exec Vault)
+- `~/dev/loop/public` (Shared Vault)
+- `~/dev/loop/exec` (Exec Vault)
 
 ## 사용자 입력
 
@@ -22,22 +22,22 @@ $ARGUMENTS
 
 ```bash
 # Shared Vault (LOOP)
-cd ~/dev/LOOP_WORK && git status --short
+cd ~/dev/loop/public && git status --short
 
 # Exec Vault (loop_exec)
-cd ~/dev/loop_exec_WORK && git status --short
+cd ~/dev/loop/exec && git status --short
 ```
 
 ### 2. 로컬에서 직접 커밋/푸시
 
 #### Shared Vault (LOOP) 커밋
 ```bash
-cd ~/dev/LOOP_WORK && git add -A && git commit -m "커밋메시지" && git push origin main
+cd ~/dev/loop/public && git add -A && git commit -m "커밋메시지" && git push origin main
 ```
 
 #### Exec Vault (loop_exec) 커밋
 ```bash
-cd ~/dev/loop_exec_WORK && git add -A && git commit -m "커밋메시지" && git push origin main
+cd ~/dev/loop/exec && git add -A && git commit -m "커밋메시지" && git push origin main
 ```
 
 ### 3. NAS로 rsync 백업
@@ -49,10 +49,10 @@ cd ~/dev/loop_exec_WORK && git add -A && git commit -m "커밋메시지" && git 
 ### 4. 결과 확인
 ```bash
 # Shared Vault
-cd ~/dev/LOOP_WORK && git log -1 --oneline
+cd ~/dev/loop/public && git log -1 --oneline
 
 # Exec Vault
-cd ~/dev/loop_exec_WORK && git log -1 --oneline
+cd ~/dev/loop/exec && git log -1 --oneline
 ```
 
 ## 커밋 메시지 규칙
@@ -69,19 +69,19 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 
 | Vault | 로컬 경로 | NAS 백업 경로 |
 |-------|---------|--------------|
-| Shared (LOOP) | `~/dev/LOOP_WORK` | `/Volumes/LOOP_CORE/vault/LOOP` |
-| Exec (loop_exec) | `~/dev/loop_exec_WORK` | `/Volumes/LOOP_CLevel/vault/loop_exec` |
+| Shared (LOOP) | `~/dev/loop/public` | `/Volumes/LOOP_CORE/vault/LOOP` |
+| Exec (loop_exec) | `~/dev/loop/exec` | `/Volumes/LOOP_CLevel/vault/loop_exec` |
 
 ## 통합 명령 템플릿
 
 두 vault를 한 번에 처리:
 ```bash
 # LOOP
-cd ~/dev/LOOP_WORK
+cd ~/dev/loop/public
 git add -A && git commit -m "커밋메시지" && git push origin main || echo "LOOP: no changes"
 
 # loop_exec
-cd ~/dev/loop_exec_WORK
+cd ~/dev/loop/exec
 git add -A && git commit -m "커밋메시지" && git push origin main || echo "loop_exec: no changes"
 
 # NAS 백업
@@ -113,8 +113,8 @@ git add -A && git commit -m "커밋메시지" && git push origin main || echo "l
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  로컬 Mac (SSD) - 작업 + Git                                │
-│  ~/dev/LOOP_WORK          ← Claude Code + Obsidian + Git    │
-│  ~/dev/loop_exec_WORK     ← Claude Code + Git               │
+│  ~/dev/loop/public        ← Claude Code + Obsidian + Git    │
+│  ~/dev/loop/exec          ← Claude Code + Git               │
 │         │                                                   │
 │         │ git push → GitHub                                 │
 │         │                                                   │

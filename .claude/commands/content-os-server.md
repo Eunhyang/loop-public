@@ -31,7 +31,7 @@ rebuild 실행 전에 로컬에 커밋되지 않은 변경사항이 있는지 �
 변경사항이 있으면 NAS에 반영되지 않은 상태이므로 sync 먼저 실행할지 물어봅니다.
 
 ```bash
-cd ~/dev/LOOP_WORK && git status --short
+cd ~/dev/loop/public && git status --short
 ```
 
 변경사항이 있으면 사용자에게 질문:
@@ -40,7 +40,7 @@ cd ~/dev/LOOP_WORK && git status --short
 **Yes인 경우:**
 1. 로컬에서 커밋 & push:
 ```bash
-cd ~/dev/LOOP_WORK && git add -A && git commit -m "chore: sync before rebuild" && git push origin main
+cd ~/dev/loop/public && git add -A && git commit -m "chore: sync before rebuild" && git push origin main
 ```
 
 2. NAS에서 pull:

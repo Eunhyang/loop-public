@@ -25,6 +25,7 @@ ALLOW_PATTERNS=(
   "^head "                 # head 명령어
   "^tail "                 # tail 명령어
   "^codex "                # codex 명령어
+  "^find "                 # find 명령어
 )
 
 # 패턴 매칭 체크
