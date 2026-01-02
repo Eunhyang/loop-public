@@ -4,7 +4,8 @@ entity_id: "tsk-vault-gpt-08"
 entity_name: "LOOP API - YouTube Weekly Round 자동 생성 엔드포인트"
 created: 2026-01-03
 updated: 2026-01-03
-status: doing
+status: done
+closed: 2026-01-03
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # LOOP API - YouTube Weekly Round 자동 생성 엔드포인트
 
-> Task ID: `tsk-vault-gpt-08` | Project: `prj-vault-gpt` | Status: doing
+> Task ID: `tsk-vault-gpt-08` | Project: `prj-vault-gpt` | Status: done
 
 ## 목표
 

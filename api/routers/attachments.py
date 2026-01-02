@@ -509,6 +509,9 @@ def extract_attachment_text(
     result = extractor.extract(file_path, force=force)
 
     if result.error:
+        # Codex 피드백: 타임아웃은 504로 반환
+        if result.is_timeout:
+            raise HTTPException(status_code=504, detail=f"Text extraction timeout: {result.error}")
         raise HTTPException(status_code=500, detail=f"Text extraction failed: {result.error}")
 
     # 7. max_chars 적용
@@ -519,12 +522,14 @@ def extract_attachment_text(
         truncated = True
 
     # 8. 상대 경로 계산 (cache_path)
+    # Codex 피드백: VAULT_DIR 외부 경로는 노출하지 않음
     cache_path_relative = None
     if result.cache_path:
         try:
             cache_path_relative = str(result.cache_path.relative_to(VAULT_DIR))
         except ValueError:
-            cache_path_relative = str(result.cache_path)
+            # VAULT_DIR 외부 경로는 노출하지 않음 (보안)
+            cache_path_relative = None
 
     # 9. 파일 형식 추출
     file_format = os.path.splitext(safe_filename)[1].lower().lstrip('.')
