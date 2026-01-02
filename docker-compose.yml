@@ -45,8 +45,8 @@ services:
       - VAULT_DIR=/vault
       - EXEC_VAULT_DIR=/exec_vault
       - TZ=Asia/Seoul
-      # JWT 검증: loop-auth에서 JWKS fetch
-      - JWKS_URL=http://loop-auth:8083/.well-known/jwks.json
+      # OAuth: 로컬 키 사용 (loop-api가 /token도 처리하므로 키 일치 필요)
+      # JWKS_URL 제거 - 로컬 키로 서명/검증 통일
       - OAUTH_ISSUER=https://mcp.sosilab.synology.me
       # LLM API Keys (from .env or NAS environment)
       - OPENAI_API_KEY=${OPENAI_API_KEY}
