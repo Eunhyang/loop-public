@@ -35,7 +35,7 @@ priority_flag: medium
 
 # Dashboard - Task 첨부파일 업로드 API
 
-> Task ID: `tsk-dashboard-ux-v1-18` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-18` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
