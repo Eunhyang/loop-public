@@ -247,6 +247,7 @@ if MCP_AVAILABLE:
         "get_vault_context_api_mcp_vault_context_get",
         "search_and_read_api_mcp_search_and_read_get",
         "file_read_api_mcp_file_read_get",  # 파일 직접 읽기 (경로 지정)
+        "vault_full_scan_api_mcp_vault_full_scan_get",  # 슈퍼 복합 API (1회 allow로 전체 구조 파악)
         "get_project_context_api_mcp_project__project_id__context_get",
         "get_track_context_api_mcp_track__track_id__context_get",
         "get_dashboard_api_mcp_dashboard_get",

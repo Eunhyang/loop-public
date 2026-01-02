@@ -826,6 +826,254 @@ async def get_schema_info(
 
 
 # ============================================
+# Vault Full Scan (슈퍼 복합 API)
+# ============================================
+
+class VaultMeta(BaseModel):
+    """Vault 메타 정보"""
+    name: str
+    philosophy: str
+    hierarchy: str
+    id_patterns: Dict[str, str]
+    schema_version: str
+
+
+class EntityTypeInfo(BaseModel):
+    """엔티티 타입별 정보"""
+    count: int
+    required_fields: List[str]
+    known_fields: List[str]
+    field_values: Dict[str, Dict[str, int]]  # field -> {value: count}
+    samples: Optional[List[Dict[str, Any]]] = None  # depth=full 시
+
+
+class VaultFullScanResponse(BaseModel):
+    """vault-full-scan 응답"""
+    vault_meta: VaultMeta
+    entity_types: Dict[str, EntityTypeInfo]
+    active_summary: ActiveSummary
+    query_guide: Dict[str, str]
+
+
+def _get_entities_by_type(entity_type: str, cache) -> List[Dict]:
+    """타입별 엔티티 조회"""
+    type_to_method = {
+        "Task": cache.get_all_tasks,
+        "Project": cache.get_all_projects,
+        "Hypothesis": cache.get_all_hypotheses,
+        "Track": cache.get_all_tracks,
+        "Condition": cache.get_all_conditions,
+        "Program": cache.get_all_programs,
+        "NorthStar": cache.get_all_northstars,
+        "MetaHypothesis": cache.get_all_metahypotheses,
+    }
+    method = type_to_method.get(entity_type)
+    return method() if method else []
+
+
+def _calculate_field_distribution(entity_type: str, entities: List[Dict]) -> Dict[str, Dict[str, int]]:
+    """필드값 분포 계산"""
+    # 타입별 분포 수집 대상 필드
+    target_fields = {
+        "Task": ["status", "assignee", "priority", "type", "target_project"],
+        "Project": ["status", "owner"],
+        "Hypothesis": ["evidence_status", "horizon"],
+        "Track": ["status", "horizon"],
+        "Condition": ["status"],
+        "Program": ["status", "program_type"],
+        "NorthStar": ["status"],
+        "MetaHypothesis": ["status"],
+    }
+
+    fields = target_fields.get(entity_type, ["status"])
+    distribution = {}
+
+    for field in fields:
+        counter = {}
+        for entity in entities:
+            value = entity.get(field)
+            if value is not None:
+                # 리스트 값 처리
+                if isinstance(value, list):
+                    for v in value:
+                        counter[str(v)] = counter.get(str(v), 0) + 1
+                else:
+                    counter[str(value)] = counter.get(str(value), 0) + 1
+        if counter:
+            distribution[field] = counter
+
+    return distribution
+
+
+def _select_samples(entities: List[Dict], count: int) -> List[Dict[str, Any]]:
+    """샘플 엔티티 선택 (다양성 + 최신성)"""
+    if not entities:
+        return []
+
+    # doing 상태 우선, 그 다음 최신 updated 순
+    def sort_key(e):
+        status_priority = {"doing": 0, "active": 0, "validating": 0, "todo": 1, "planning": 1}.get(e.get("status", ""), 2)
+        updated = e.get("updated", "")
+        updated_str = updated.isoformat() if hasattr(updated, 'isoformat') else str(updated) if updated else ""
+        return (status_priority, updated_str)
+
+    sorted_entities = sorted(entities, key=sort_key, reverse=True)
+
+    # 샘플 선택 (frontmatter만, _body/_path 제외)
+    samples = []
+    seen_owners = set()
+
+    for entity in sorted_entities[:count * 2]:  # 후보 풀 확대
+        if len(samples) >= count:
+            break
+
+        owner = entity.get("owner") or entity.get("assignee")
+
+        # 다양성: 가능하면 다른 owner/assignee
+        if owner not in seen_owners or len(samples) == count - 1:
+            # _body, _path 등 내부 필드 제외
+            sample = {k: v for k, v in entity.items() if not k.startswith("_")}
+            # date 객체 문자열 변환
+            for key in ["created", "updated", "due", "start_date", "closed"]:
+                if key in sample and hasattr(sample[key], 'isoformat'):
+                    sample[key] = sample[key].isoformat()
+            samples.append(sample)
+            if owner:
+                seen_owners.add(owner)
+
+    return samples
+
+
+@router.get("/vault-full-scan", response_model=VaultFullScanResponse)
+async def vault_full_scan(
+    depth: str = Query("summary", regex="^(summary|full)$", description="summary 또는 full"),
+    types: Optional[str] = Query(None, description="조회할 타입들 (쉼표 구분, 예: Task,Project)"),
+    sample_count: int = Query(2, ge=1, le=5, description="타입당 샘플 수 (depth=full 시)")
+):
+    """
+    Vault 전체 스캔 - ChatGPT 1회 allow용 슈퍼 복합 API
+
+    한 번의 호출로 Vault 전체 구조를 파악:
+    - 타입 목록 + 스키마 + 샘플 + 속성 분포
+
+    depth=summary: 필드 + 분포만 (기본, < 50KB)
+    depth=full: 샘플 엔티티 포함 (< 200KB)
+    types: 특정 타입만 조회 (예: "Task,Project")
+    """
+    cache = get_cache()
+    all_constants = get_all_constants()
+
+    # 1. Vault 메타 정보 구성
+    vault_meta = VaultMeta(
+        name="LOOP Vault",
+        philosophy="결정–증거–정량화(A/B)–승인–학습 루프를 SSOT + Derived로 구현한 0→1 운영 OS",
+        hierarchy="NorthStar → MetaHypothesis → Condition → Track → Project → Task",
+        id_patterns={
+            "Project": "prj-NNN 또는 prj-name (예: prj-001, prj-vault-gpt)",
+            "Task": "tsk-{prj}-NN (예: tsk-001-01, tsk-vault-gpt-06)",
+            "Hypothesis": "hyp-N-NN (예: hyp-2-01)",
+            "Track": "trk-N (예: trk-1 ~ trk-6)",
+            "Condition": "cond-X (예: cond-a ~ cond-e)"
+        },
+        schema_version=all_constants.get("schema_version", "5.3")
+    )
+
+    # 2. 조회할 타입 결정
+    default_types = ["Task", "Project", "Hypothesis", "Track", "Condition", "Program"]
+    if types:
+        target_types = [t.strip() for t in types.split(",") if t.strip() in default_types + ["NorthStar", "MetaHypothesis"]]
+    else:
+        target_types = default_types
+
+    # 3. 엔티티 타입별 정보 수집
+    entity_types = {}
+    for entity_type in target_types:
+        entities = _get_entities_by_type(entity_type, cache)
+
+        # 필드 정보 (constants에서 가져오거나 기본값)
+        required_base = all_constants.get("required_fields", {})
+        known_base = all_constants.get("known_fields", {})
+
+        required = list(set(
+            required_base.get("all", []) +
+            required_base.get(entity_type, [])
+        ))
+        known = list(set(
+            known_base.get("all", []) +
+            known_base.get(entity_type, [])
+        ) - set(required))
+
+        # 필드값 분포
+        field_values = _calculate_field_distribution(entity_type, entities)
+
+        # 샘플 (depth=full 시에만)
+        samples = None
+        if depth == "full" and entities:
+            samples = _select_samples(entities, sample_count)
+
+        entity_types[entity_type] = EntityTypeInfo(
+            count=len(entities),
+            required_fields=required if required else ["entity_type", "entity_id", "entity_name", "status"],
+            known_fields=known if known else [],
+            field_values=field_values,
+            samples=samples
+        )
+
+    # 4. 활성 상태 요약
+    all_tasks = cache.get_all_tasks()
+    all_projects = cache.get_all_projects()
+
+    doing_tasks = [t for t in all_tasks if t.get('status') == 'doing']
+    doing_projects = [p for p in all_projects if p.get('status') == 'doing']
+
+    # 주의 필요 항목
+    today = datetime.now().date().isoformat()
+    attention_needed = []
+
+    for task in doing_tasks[:10]:
+        due = task.get('due')
+        due_str = due.isoformat() if hasattr(due, 'isoformat') else str(due) if due else None
+        if due_str and due_str < today:
+            attention_needed.append({
+                "type": "overdue_task",
+                "id": task.get('entity_id'),
+                "name": task.get('entity_name'),
+                "due": due_str
+            })
+
+    # 활성 Track
+    active_track_ids = set()
+    for project in doing_projects:
+        parent = project.get('parent_id')
+        if parent and parent.startswith('trk-'):
+            active_track_ids.add(parent)
+
+    active_summary = ActiveSummary(
+        doing_tasks=len(doing_tasks),
+        doing_projects=len(doing_projects),
+        active_tracks=list(active_track_ids)[:6],
+        attention_needed=attention_needed[:5]
+    )
+
+    # 5. 쿼리 가이드
+    query_guide = {
+        "search": "/api/mcp/search-and-read?q=키워드",
+        "file_read": "/api/mcp/file-read?paths=경로",
+        "project_detail": "/api/mcp/project/{project_id}/context?include_body=true",
+        "track_detail": "/api/mcp/track/{track_id}/context",
+        "dashboard": "/api/mcp/dashboard",
+        "entity_graph": "/api/mcp/entity/{entity_id}/graph"
+    }
+
+    return VaultFullScanResponse(
+        vault_meta=vault_meta,
+        entity_types=entity_types,
+        active_summary=active_summary,
+        query_guide=query_guide
+    )
+
+
+# ============================================
 # Exec Vault Endpoints (RBAC Protected)
 # ============================================
 
