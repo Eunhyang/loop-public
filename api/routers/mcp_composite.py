@@ -1468,8 +1468,8 @@ async def get_program_rounds(
             status=r.get('status', 'unknown'),
             owner=r.get('owner', ''),
             cycle=r.get('cycle'),
-            created=r.get('created'),
-            updated=r.get('updated'),
+            created=_normalize_date(r.get('created')),  # date → string 변환
+            updated=_normalize_date(r.get('updated')),  # date → string 변환
             hypothesis_text=r.get('hypothesis_text'),
             parent_id=r.get('parent_id'),
             conditions_3y=r.get('conditions_3y', [])

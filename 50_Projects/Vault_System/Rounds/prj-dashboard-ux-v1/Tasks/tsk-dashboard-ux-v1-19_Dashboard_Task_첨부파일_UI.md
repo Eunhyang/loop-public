@@ -84,10 +84,86 @@ Task Panel에서 첨부파일을 업로드/조회/삭제할 수 있는 UI 구현
 
 ## Notes
 
+### PRD (Product Requirements Document)
+
+#### 프로젝트 컨텍스트
+| 항목 | 값 |
+|------|-----|
+| Framework | Vanilla JavaScript (ES6+) |
+| Architecture | 모듈 패턴 (단일 객체) |
+| State | `State` 전역 객체 |
+| API Client | `API` 모듈 (`api.js`) |
+| 의존성 | tsk-18 (API), tsk-20 (PDF 뷰어) |
+
+#### UI 컴포넌트 구조
+```
+Task Panel
+├── [기존 섹션들: Basic Info, Relations, Links]
+└── Attachments 섹션 (신규)
+    ├── 업로드 영역 (드래그앤드롭 + 버튼)
+    ├── 업로드 진행 바
+    └── 첨부파일 목록
+        └── 각 파일: 아이콘, 이름, 크기, 타입, 액션(뷰어/다운로드/삭제)
+```
+
+#### 파일 타입별 아이콘
+| 타입 | 아이콘 |
+|------|--------|
+| PDF | 📄 (+ 뷰어 버튼 👁) |
+| HWP | 📋 |
+| 이미지 | 🖼 |
+| 오디오 | 🎵 |
+| 비디오 | 🎬 |
+| 기타 | 📎 |
+
+---
+
+### Tech Spec
+
+#### 파일 변경
+```
+public/_dashboard/
+├── js/
+│   ├── api.js                    # API 함수 추가
+│   └── components/task-panel.js  # Attachments 섹션 추가
+├── css/panel.css                 # 스타일 추가
+└── index.html                    # HTML 구조 추가
+```
+
+#### api.js 추가 함수
+```javascript
+uploadAttachment(taskId, file, onProgress)  // POST (XMLHttpRequest for progress)
+getAttachments(taskId)                       // GET 목록
+getAttachmentUrl(taskId, filename)           // URL 생성
+deleteAttachment(taskId, filename)           // DELETE
+```
+
+#### task-panel.js 추가 메서드
+```javascript
+renderAttachments(taskId)      // 섹션 렌더링
+renderAttachmentList(taskId)   // 파일 목록 렌더링
+getFileIcon(mimeType, filename) // 타입별 아이콘
+formatFileSize(bytes)          // 크기 포맷 (KB/MB)
+setupUploadEvents()            // 드래그앤드롭 이벤트
+uploadFiles(files)             // 업로드 처리
+bindAttachmentEvents(taskId)   // 이벤트 바인딩
+```
+
+---
+
 ### Todo
-- [ ] task-panel.js 수정
-- [ ] API 연동 함수 추가
-- [ ] 스타일 작업
+- [ ] `api.js`에 첨부파일 API 함수 추가
+- [ ] `index.html`에 Attachments 섹션 HTML 추가
+- [ ] `task-panel.js`에 `renderAttachments()` 구현
+- [ ] 드래그앤드롭 업로드 구현
+- [ ] 업로드 진행 바 표시
+- [ ] 파일 목록 렌더링 (아이콘, 크기, 타입)
+- [ ] PDF 뷰어 버튼 (tsk-20 연동 포인트)
+- [ ] 다운로드 버튼
+- [ ] 삭제 버튼 (확인 후 삭제)
+- [ ] `open()`/`openNew()` 함수에 attachments 로드 추가
+- [ ] `panel.css`에 스타일 추가
+- [ ] 모바일 반응형
 
 ### 작업 로그
 <!--
