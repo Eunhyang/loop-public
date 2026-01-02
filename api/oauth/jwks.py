@@ -159,11 +159,16 @@ def get_jwks() -> Dict[str, Any]:
     return _jwks_cache
 
 
+# Service account tokens use longer expiration (10 years default)
+SVC_TOKEN_EXPIRE_YEARS = int(os.environ.get("SVC_TOKEN_EXPIRE_YEARS", "10"))
+
+
 def create_jwt(
     sub: str,
     scope: str = "mcp:read",
     jti: Optional[str] = None,
-    additional_claims: Optional[Dict[str, Any]] = None
+    additional_claims: Optional[Dict[str, Any]] = None,
+    expire_hours: Optional[int] = None
 ) -> str:
     """Create JWT token signed with RS256
 
@@ -172,6 +177,7 @@ def create_jwt(
         scope: OAuth scopes (space-separated)
         jti: JWT ID (unique identifier, auto-generated if None)
         additional_claims: Extra claims to include
+        expire_hours: Custom expiration in hours (None = use default based on token type)
 
     Returns:
         Signed JWT string
@@ -179,13 +185,24 @@ def create_jwt(
     import secrets
 
     now = datetime.utcnow()
+
+    # Determine expiration
+    if expire_hours is not None:
+        exp_delta = timedelta(hours=expire_hours)
+    elif additional_claims and additional_claims.get("svc"):
+        # Service account tokens: long-lived (10 years default)
+        exp_delta = timedelta(days=365 * SVC_TOKEN_EXPIRE_YEARS)
+    else:
+        # Regular user tokens: short-lived
+        exp_delta = timedelta(hours=JWT_EXPIRE_HOURS)
+
     payload = {
         "iss": OAUTH_ISSUER,
         "aud": OAUTH_ISSUER,  # Self-issued token
         "sub": sub,
         "scope": scope,
         "iat": now,
-        "exp": now + timedelta(hours=JWT_EXPIRE_HOURS),
+        "exp": now + exp_delta,
         "jti": jti or secrets.token_urlsafe(16)
     }
 
@@ -211,11 +228,12 @@ def create_jwt(
     return token
 
 
-def verify_jwt(token: str) -> Optional[Dict[str, Any]]:
+def verify_jwt(token: str, check_revocation: bool = True) -> Optional[Dict[str, Any]]:
     """Verify JWT token
 
     Args:
         token: JWT string
+        check_revocation: Whether to check service account revocation (default: True)
 
     Returns:
         Decoded payload if valid, None otherwise
@@ -243,6 +261,13 @@ def verify_jwt(token: str) -> Optional[Dict[str, Any]]:
             }
         )
 
+        # Check service account revocation
+        if check_revocation and payload.get("svc"):
+            jti = payload.get("jti")
+            if jti and is_service_account_revoked(jti):
+                print(f"Service account token revoked: jti={jti}")
+                return None
+
         return payload
 
     except JWTError as e:
@@ -251,6 +276,55 @@ def verify_jwt(token: str) -> Optional[Dict[str, Any]]:
     except Exception as e:
         print(f"JWT verification error: {e}")
         return None
+
+
+def is_service_account_revoked(jti: str) -> bool:
+    """Check if service account token is revoked
+
+    Security: Fail-closed design - if record not found or error, token is invalid.
+    This prevents deleted service accounts from bypassing revocation.
+
+    Args:
+        jti: JWT ID from token
+
+    Returns:
+        True if revoked/invalid, False if active
+    """
+    try:
+        from .models import get_db_session, ServiceAccount
+
+        db = get_db_session()
+        try:
+            svc = db.query(ServiceAccount).filter(
+                ServiceAccount.jti == jti
+            ).first()
+
+            if not svc:
+                # SECURITY: JTI not found = revoked/deleted (fail-closed)
+                # This prevents deleted service accounts from bypassing revocation
+                print(f"Service account not found for jti={jti[:8]}... (treated as revoked)")
+                return True
+
+            # Check if explicitly revoked
+            if svc.revoked == 1:
+                return True
+
+            # Check DB-level expiration (separate from JWT exp)
+            if svc.expires_at and datetime.utcnow() > svc.expires_at:
+                print(f"Service account expired: {svc.name}")
+                return True
+
+            # NOTE: last_used_at update moved to async/background to avoid
+            # write contention on every request. For now, skip the update.
+            # Consider implementing a queue-based update if usage tracking is needed.
+
+            return False
+        finally:
+            db.close()
+    except Exception as e:
+        print(f"Service account revocation check error: {e}")
+        # SECURITY: Fail-closed on error
+        return True
 
 
 def init_keys():

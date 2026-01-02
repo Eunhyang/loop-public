@@ -99,6 +99,31 @@ class OAuthClient(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class ServiceAccount(Base):
+    """Service Account for machine-to-machine authentication (n8n, scripts)
+
+    Provides long-lived tokens with revocation support.
+    Unlike User accounts, these don't require password-based login.
+    """
+    __tablename__ = "service_accounts"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(64), unique=True, nullable=False, index=True)  # svc_public, svc_admin
+    jti = Column(String(64), unique=True, nullable=False, index=True)   # JWT ID for revocation
+    role = Column(String(32), default="member")  # member | exec | admin
+    scope = Column(String(256), default="api:read api:write")  # Space-separated scopes
+    description = Column(String(512), nullable=True)  # Human-readable description
+    revoked = Column(Integer, default=0)  # 0=active, 1=revoked (SQLite no boolean)
+    expires_at = Column(DateTime, nullable=True)  # null = never expires
+    created_at = Column(DateTime, default=datetime.utcnow)
+    last_used_at = Column(DateTime, nullable=True)  # Track usage
+
+    # Index for revocation check (middleware lookup)
+    __table_args__ = (
+        Index("idx_service_account_jti_revoked", "jti", "revoked"),
+    )
+
+
 def create_tables():
     """Create all tables (idempotent)"""
     Base.metadata.create_all(bind=engine)

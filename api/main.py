@@ -91,6 +91,9 @@ PUBLIC_PREFIXES = ["/css", "/js"]  # 정적 파일만 공개
 # SSE 스트리밍 경로 (BaseHTTPMiddleware와 SSE 호환성 문제로 별도 처리)
 SSE_PREFIXES = ["/mcp"]
 
+# Admin 전용 경로 (role=admin 필수)
+ADMIN_PREFIXES = ["/admin"]
+
 # MCP 내부 호출 허용 IP (Docker 컨테이너 내부 루프백)
 MCP_TRUSTED_IPS = ["127.0.0.1", "localhost", "::1"]
 
@@ -146,10 +149,13 @@ class AuthMiddleware:
                 await self.app(scope, receive, send)
                 return
 
-        # /api/* 경로는 토큰 검증
-        if path.startswith("/api"):
+        # /api/* 또는 /admin/* 경로는 토큰 검증
+        if path.startswith("/api") or path.startswith("/admin"):
             auth_header = headers.get(b"authorization", b"").decode()
             x_api_token = headers.get(b"x-api-token", b"").decode()
+
+            # Admin 경로 체크 플래그
+            is_admin_path = any(path.startswith(prefix) for prefix in ADMIN_PREFIXES)
 
             if auth_header.startswith("Bearer "):
                 bearer_token = auth_header[7:]
@@ -160,7 +166,7 @@ class AuthMiddleware:
                     # RBAC: 정적 토큰은 admin 권한 (exec vault 접근 가능)
                     scope["state"] = {
                         "role": "admin",
-                        "scope": "mcp:read mcp:write mcp:exec mcp:admin",
+                        "scope": "mcp:read mcp:write mcp:exec mcp:admin admin:read admin:write",
                         "user_id": "static_token",
                     }
                     await self.app(scope, receive, send)
@@ -169,28 +175,49 @@ class AuthMiddleware:
                 # 2. OAuth Bearer 토큰 확인 (RS256 JWT)
                 jwt_payload = verify_jwt(bearer_token)
                 if jwt_payload:
+                    user_role = jwt_payload.get("role", "member")
+                    user_scope = jwt_payload.get("scope", "mcp:read")
+
+                    # Admin 경로 접근 시 role=admin 필수
+                    if is_admin_path and user_role != "admin":
+                        log_oauth_access(
+                            "admin",
+                            client_ip,
+                            user_id=jwt_payload.get("sub"),
+                            success=False,
+                            details=f"path={path}, role={user_role} (admin required)"
+                        )
+                        await self._send_403(send, "Admin role required for /admin/* paths")
+                        return
+
                     log_oauth_access(
                         "api",
                         client_ip,
                         user_id=jwt_payload.get("sub"),
                         success=True,
-                        details=f"scope={jwt_payload.get('scope')}, role={jwt_payload.get('role')}"
+                        details=f"scope={user_scope}, role={user_role}"
                     )
                     # RBAC: scope에 role/scope 저장 (files.py 등에서 접근)
                     scope["state"] = {
-                        "role": jwt_payload.get("role", "member"),
-                        "scope": jwt_payload.get("scope", "mcp:read"),
+                        "role": user_role,
+                        "scope": user_scope,
                         "user_id": jwt_payload.get("sub"),
                     }
                     await self.app(scope, receive, send)
                     return
 
-            # 3. x-api-token 헤더 확인 (대시보드용)
-            if x_api_token == API_TOKEN:
+            # 3. x-api-token 헤더 확인 (대시보드용 - admin 경로는 허용 안함)
+            if x_api_token == API_TOKEN and not is_admin_path:
                 await self.app(scope, receive, send)
                 return
 
-            # 인증 실패
+            # Admin 경로에서 인증 실패
+            if is_admin_path:
+                log_oauth_access("admin", client_ip, success=False, details=f"path={path}")
+                await self._send_403(send, "Admin role required. Use service account with role=admin")
+                return
+
+            # 일반 API 경로에서 인증 실패
             log_oauth_access("api", client_ip, success=False, details=f"path={path}")
             await self._send_401(send, "Use Bearer token or x-api-token header")
             return
@@ -205,6 +232,23 @@ class AuthMiddleware:
         await send({
             "type": "http.response.start",
             "status": 401,
+            "headers": [
+                (b"content-type", b"application/json"),
+                (b"content-length", str(len(body)).encode()),
+            ],
+        })
+        await send({
+            "type": "http.response.body",
+            "body": body,
+        })
+
+    async def _send_403(self, send, hint: str):
+        """403 Forbidden 응답 전송"""
+        import json
+        body = json.dumps({"detail": "Forbidden", "hint": hint}).encode()
+        await send({
+            "type": "http.response.start",
+            "status": 403,
             "headers": [
                 (b"content-type", b"application/json"),
                 (b"content-length", str(len(body)).encode()),

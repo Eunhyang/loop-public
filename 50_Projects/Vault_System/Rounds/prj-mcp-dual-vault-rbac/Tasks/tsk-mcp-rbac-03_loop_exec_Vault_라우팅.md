@@ -50,7 +50,7 @@ notes: "# MCP - loop_exec Vault 라우팅 구현\n\n> Task ID: `tsk-mcp-rbac-03`
   \ 테스트\n\n---\n\n## Notes\n\n### PRD (Product Requirements Document)\n\n**목적**: ChatGPT\
   \ MCP에서 `exec/` prefix 경로 접근 시 loop_exec vault를 서빙\n\n**주요 기능**:\n1. `exec/` prefix\
   \ 경로 시 loop_exec vault로 라우팅\n2. role=admin 또는 exec 사용자만 접근 허용 (이미 구현됨)\n3. Docker\
-  \ 볼륨 마운트로 loop_exec vault 접근\n\n**성공 기준**:\n- ChatGPT MCP에서 `exec/50_Projects_Exec/...`\
+  \ 볼륨 마운트로 loop_exec vault 접근\n\n**성공 기준**:\n- ChatGPT MCP에서 `exec/50_Projects/...`\
   \ 경로 접근 가능\n- role=member 사용자가 `exec/` 접근 시 403 반환\n- 기존 LOOP vault 접근이 영향받지 않음\n\
   \n### Tech Spec\n\n**프로젝트 컨텍스트**:\n- Framework: FastAPI + Python 3.x\n- Auth: OAuth\
   \ 2.0 (RS256 JWT + PKCE)\n- RBAC: role-based (`member` | `exec` | `admin`)\n- Deployment:\
@@ -145,7 +145,7 @@ ChatGPT에서 `R001_단님_파일럿_회고.md` 등 loop_exec 파일 접근 시 
 3. Docker 볼륨 마운트로 loop_exec vault 접근
 
 **성공 기준**:
-- ChatGPT MCP에서 `exec/50_Projects_Exec/...` 경로 접근 가능
+- ChatGPT MCP에서 `exec/50_Projects/...` 경로 접근 가능
 - role=member 사용자가 `exec/` 접근 시 403 반환
 - 기존 LOOP vault 접근이 영향받지 않음
 

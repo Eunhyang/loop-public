@@ -24,8 +24,9 @@ import sys
 import getpass
 from datetime import datetime
 
-from .models import create_tables, get_db_session, User, OAuthClient, Session, AuthCode
+from .models import create_tables, get_db_session, User, OAuthClient, Session, AuthCode, ServiceAccount
 from .security import hash_password, cleanup_expired, validate_redirect_uri
+from .jwks import create_jwt
 
 
 VALID_ROLES = ("member", "exec", "admin")
@@ -227,6 +228,8 @@ def show_stats() -> None:
         session_count = db.query(Session).count()
         active_sessions = db.query(Session).filter(Session.expires_at > now).count()
         pending_codes = db.query(AuthCode).filter(AuthCode.expires_at > now).count()
+        svc_account_count = db.query(ServiceAccount).count()
+        active_svc_accounts = db.query(ServiceAccount).filter(ServiceAccount.revoked == 0).count()
 
         print("OAuth Statistics:")
         print(f"  Users: {user_count}")
@@ -234,6 +237,199 @@ def show_stats() -> None:
         print(f"  Total Sessions: {session_count}")
         print(f"  Active Sessions: {active_sessions}")
         print(f"  Pending Auth Codes: {pending_codes}")
+        print(f"  Service Accounts: {svc_account_count} (active: {active_svc_accounts})")
+
+    finally:
+        db.close()
+
+
+# ============================================
+# Service Account Management
+# ============================================
+
+# Role to scope mapping
+ROLE_SCOPES = {
+    "member": "api:read api:write",
+    "exec": "api:read api:write mcp:exec",
+    "admin": "api:read api:write mcp:exec mcp:admin admin:read admin:write",
+}
+
+
+def create_service_account(name: str, role: str = "member", description: str = None, expires_days: int = None) -> None:
+    """Create a new service account with long-lived token
+
+    Args:
+        name: Unique service account name (e.g., svc_public, svc_admin)
+        role: Role (member, exec, admin)
+        description: Human-readable description
+        expires_days: Token expiration in days (None = never expires)
+    """
+    import secrets
+    from datetime import timedelta
+
+    if role not in VALID_ROLES:
+        print(f"Error: Invalid role '{role}'. Valid roles: {VALID_ROLES}")
+        sys.exit(1)
+
+    create_tables()
+    db = get_db_session()
+
+    try:
+        # Check if service account exists
+        existing = db.query(ServiceAccount).filter(ServiceAccount.name == name).first()
+        if existing:
+            print(f"Error: Service account '{name}' already exists")
+            print("Use 'revoke-service-account' to revoke it first, or choose a different name.")
+            sys.exit(1)
+
+        # Generate unique JTI (JWT ID)
+        jti = secrets.token_urlsafe(24)
+
+        # Determine scope based on role
+        scope = ROLE_SCOPES.get(role, ROLE_SCOPES["member"])
+
+        # Calculate expiration
+        expires_at = None
+        if expires_days:
+            expires_at = datetime.utcnow() + timedelta(days=expires_days)
+
+        # Create service account record
+        svc = ServiceAccount(
+            name=name,
+            jti=jti,
+            role=role,
+            scope=scope,
+            description=description,
+            expires_at=expires_at,
+        )
+        db.add(svc)
+        db.commit()
+        db.refresh(svc)
+
+        # Generate JWT token
+        additional_claims = {
+            "role": role,
+            "svc": name,  # Mark as service account
+        }
+
+        # For service accounts, we override expiration in JWT
+        # by passing long-lived token (or never-expire pattern)
+        token = create_jwt(
+            sub=f"svc:{name}",
+            scope=scope,
+            jti=jti,
+            additional_claims=additional_claims
+        )
+
+        print(f"Service account created successfully:")
+        print(f"  Name: {name}")
+        print(f"  Role: {role}")
+        print(f"  Scope: {scope}")
+        print(f"  JTI: {jti}")
+        print(f"  Expires: {expires_at.isoformat() if expires_at else 'Never'}")
+        print()
+        print("=" * 60)
+        print("TOKEN (save securely - cannot be recovered):")
+        print("=" * 60)
+        print(token)
+        print("=" * 60)
+        print()
+        print("Usage in n8n:")
+        print(f'  Authorization: Bearer {token[:20]}...')
+        print()
+        print("IMPORTANT: This token is valid until revoked. Store it securely!")
+
+    finally:
+        db.close()
+
+
+def list_service_accounts() -> None:
+    """List all service accounts"""
+    create_tables()
+    db = get_db_session()
+
+    try:
+        accounts = db.query(ServiceAccount).all()
+
+        if not accounts:
+            print("No service accounts found")
+            print("Create one with: python -m api.oauth.cli create-service-account --name svc_public --role member")
+            return
+
+        print(f"{'Name':<20} {'Role':<10} {'Status':<10} {'Created':<20} {'Last Used':<20}")
+        print("-" * 80)
+        for svc in accounts:
+            created = svc.created_at.strftime("%Y-%m-%d %H:%M") if svc.created_at else "N/A"
+            last_used = svc.last_used_at.strftime("%Y-%m-%d %H:%M") if svc.last_used_at else "Never"
+            status = "REVOKED" if svc.revoked else "Active"
+            print(f"{svc.name:<20} {svc.role:<10} {status:<10} {created:<20} {last_used:<20}")
+
+        print(f"\nTotal: {len(accounts)} service account(s)")
+
+    finally:
+        db.close()
+
+
+def revoke_service_account(name: str) -> None:
+    """Revoke a service account (token becomes invalid immediately)"""
+    create_tables()
+    db = get_db_session()
+
+    try:
+        svc = db.query(ServiceAccount).filter(ServiceAccount.name == name).first()
+        if not svc:
+            print(f"Error: Service account '{name}' not found")
+            sys.exit(1)
+
+        if svc.revoked:
+            print(f"Service account '{name}' is already revoked")
+            return
+
+        svc.revoked = 1
+        db.commit()
+
+        print(f"Service account revoked:")
+        print(f"  Name: {name}")
+        print(f"  JTI: {svc.jti}")
+        print()
+        print("The token is now invalid. Any requests using it will be rejected.")
+
+    finally:
+        db.close()
+
+
+def delete_service_account(name: str, force: bool = False) -> None:
+    """Delete a service account permanently
+
+    SECURITY NOTE: Deleting a service account record would cause fail-closed
+    behavior in the revocation check (is_service_account_revoked returns True
+    when record not found). So deletion is safe from a security perspective.
+    However, we recommend keeping records for audit purposes.
+    """
+    create_tables()
+    db = get_db_session()
+
+    try:
+        svc = db.query(ServiceAccount).filter(ServiceAccount.name == name).first()
+        if not svc:
+            print(f"Error: Service account '{name}' not found")
+            sys.exit(1)
+
+        if not svc.revoked and not force:
+            print(f"Error: Service account '{name}' is still active")
+            print(f"Revoke it first with: python -m api.oauth.cli revoke-service-account --name {name}")
+            print("Or use --force to delete anyway")
+            sys.exit(1)
+
+        jti = svc.jti
+        db.delete(svc)
+        db.commit()
+
+        print(f"Service account deleted: {name}")
+        print(f"  JTI: {jti}")
+        print()
+        print("Note: The token is permanently invalid (fail-closed security).")
+        print("If you need to recreate this account, use create-service-account with the same name.")
 
     finally:
         db.close()
@@ -241,14 +437,27 @@ def show_stats() -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="OAuth CLI - User and Client Management",
+        description="OAuth CLI - User, Client, and Service Account Management",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+    # User management
     python -m api.oauth.cli create-user --email admin@sosilab.com
     python -m api.oauth.cli list-users
+    python -m api.oauth.cli set-role --email admin@sosilab.com --role admin
+
+    # OAuth client management
     python -m api.oauth.cli create-client --name "ChatGPT" --redirect-uri "https://chatgpt.com/..."
     python -m api.oauth.cli list-clients
+
+    # Service account management (for n8n, scripts)
+    python -m api.oauth.cli create-service-account --name svc_public --role member
+    python -m api.oauth.cli create-service-account --name svc_admin --role admin --description "n8n admin workflows"
+    python -m api.oauth.cli list-service-accounts
+    python -m api.oauth.cli revoke-service-account --name svc_public
+    python -m api.oauth.cli delete-service-account --name svc_public
+
+    # Maintenance
     python -m api.oauth.cli cleanup
     python -m api.oauth.cli stats
         """
@@ -286,6 +495,26 @@ Examples:
     # stats
     subparsers.add_parser("stats", help="Show OAuth statistics")
 
+    # create-service-account
+    svc_parser = subparsers.add_parser("create-service-account", help="Create service account with long-lived token")
+    svc_parser.add_argument("--name", "-n", required=True, help="Service account name (e.g., svc_public)")
+    svc_parser.add_argument("--role", "-r", default="member", choices=VALID_ROLES,
+                           help="Role: member (default), exec, admin")
+    svc_parser.add_argument("--description", "-d", help="Human-readable description")
+    svc_parser.add_argument("--expires-days", type=int, help="Token expiration in days (default: never)")
+
+    # list-service-accounts
+    subparsers.add_parser("list-service-accounts", help="List all service accounts")
+
+    # revoke-service-account
+    revoke_svc_parser = subparsers.add_parser("revoke-service-account", help="Revoke service account token")
+    revoke_svc_parser.add_argument("--name", "-n", required=True, help="Service account name")
+
+    # delete-service-account
+    delete_svc_parser = subparsers.add_parser("delete-service-account", help="Delete service account permanently")
+    delete_svc_parser.add_argument("--name", "-n", required=True, help="Service account name")
+    delete_svc_parser.add_argument("--force", "-f", action="store_true", help="Force delete even if not revoked")
+
     args = parser.parse_args()
 
     if args.command == "create-user":
@@ -315,6 +544,23 @@ Examples:
 
     elif args.command == "stats":
         show_stats()
+
+    elif args.command == "create-service-account":
+        create_service_account(
+            args.name,
+            args.role,
+            args.description,
+            args.expires_days
+        )
+
+    elif args.command == "list-service-accounts":
+        list_service_accounts()
+
+    elif args.command == "revoke-service-account":
+        revoke_service_account(args.name)
+
+    elif args.command == "delete-service-account":
+        delete_service_account(args.name, args.force)
 
 
 if __name__ == "__main__":

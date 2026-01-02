@@ -1127,7 +1127,7 @@ async def exec_read(
     """
     Exec Vault 파일 읽기
 
-    경로 예시: `_ENTRY_POINT.md` 또는 `50_Projects_Exec/some_file.md`
+    경로 예시: `_ENTRY_POINT.md` 또는 `50_Projects/P015/Tasks/some_file.md`
     여러 파일: `paths=file1.md,file2.md`
     """
     # RBAC 권한 확인
