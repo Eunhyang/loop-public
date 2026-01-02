@@ -43,6 +43,7 @@
       "Bash(chmod:*)",
       "Bash(node:*)",
       "Bash(grep:*)",
+      "Bash(poetry:*)",
       "Bash(#:*)"
     ]
   },
