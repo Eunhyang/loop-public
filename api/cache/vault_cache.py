@@ -214,6 +214,8 @@ class VaultCache:
                 self.tasks.clear()
                 self._task_count = 0
                 self._load_tasks()
+                # tsk-018-01: exec vault task도 다시 로드
+                self._load_exec_projects()  # exec vault project + task 함께 로드
 
             results = []
 
