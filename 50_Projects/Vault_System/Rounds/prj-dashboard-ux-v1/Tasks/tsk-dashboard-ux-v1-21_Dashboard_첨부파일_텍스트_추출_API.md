@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-21"
 entity_name: "Dashboard - 첨부파일 텍스트 추출 API"
 created: 2026-01-02
 updated: 2026-01-03
-status: todo
+status: done
+closed: 2026-01-03
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: medium
 
 # Dashboard - 첨부파일 텍스트 추출 API
 
-> Task ID: `tsk-dashboard-ux-v1-21` | Project: `prj-dashboard-ux-v1` | Status: todo
+> Task ID: `tsk-dashboard-ux-v1-21` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -97,16 +98,16 @@ priority_flag: medium
 
 ## 체크리스트
 
-- [ ] pdfplumber 의존성 추가 (pyproject.toml)
-- [ ] Dockerfile에 LibreOffice 설치 추가
-- [ ] GET /text 엔드포인트 구현
-- [ ] PDF 텍스트 추출 함수 (pdfplumber)
-- [ ] HWP/HWPX/DOC/DOCX 텍스트 추출 함수 (LibreOffice CLI)
-- [ ] TXT/MD 직접 읽기 함수
-- [ ] 추출 결과 `.txt` 파일 저장
-- [ ] `?force=true` 재추출 파라미터
-- [ ] 지원 형식 검사 및 에러 처리
-- [ ] n8n 연동 테스트
+- [x] pdfplumber 의존성 추가 (pyproject.toml)
+- [x] Dockerfile에 LibreOffice 설치 추가
+- [x] GET /text 엔드포인트 구현
+- [x] PDF 텍스트 추출 함수 (pdfplumber)
+- [x] HWP/HWPX/DOC/DOCX 텍스트 추출 함수 (LibreOffice CLI)
+- [x] TXT/MD 직접 읽기 함수
+- [x] 추출 결과 `.txt` 파일 저장
+- [x] `?force=true` 재추출 파라미터
+- [x] 지원 형식 검사 및 에러 처리
+- [ ] n8n 연동 테스트 (별도 진행)
 
 ---
 
@@ -274,9 +275,44 @@ api = [
 - [ ] n8n 워크플로우 테스트
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-03 구현 완료
+**개요**: 첨부파일 텍스트 추출 API 완전 구현 및 배포
+
+**구현 내용**:
+1. **의존성 추가**
+   - `pyproject.toml`: pdfplumber >= 0.10.0 추가
+   - `Dockerfile`: LibreOffice (libreoffice-writer, libreoffice-calc) 설치
+
+2. **Response 모델 생성** (`api/models/entities.py:257-269`)
+   - `TextExtractionResponse`: success, task_id, filename, format, text, chars, cached, cache_path, truncated, error 필드
+
+3. **TextExtractor 서비스 생성** (`api/services/text_extractor.py`)
+   - `TextExtractor` 클래스: PDF/HWP/HWPX/DOC/DOCX/TXT/MD 지원
+   - `_extract_pdf()`: pdfplumber 사용
+   - `_extract_with_libreoffice()`: soffice --headless CLI
+   - `_extract_text_file()`: 직접 읽기 (UTF-8 fallback)
+   - `.txt` 캐시 저장/읽기 로직
+
+4. **API 엔드포인트 추가** (`api/routers/attachments.py`)
+   - `GET /api/tasks/{task_id}/attachments/{filename}/text`
+   - `force` 파라미터: 캐시 무시 재추출
+   - `max_chars` 파라미터: LLM 토큰 절약
+
+**Codex 코드 리뷰 피드백 반영** (5개 이슈):
+1. **Race condition 방지**: 원자적 캐시 쓰기 (`tempfile.mkstemp` + `os.replace`)
+2. **Stale 캐시 방지**: mtime 검증 (`_is_cache_valid()`)
+3. **인코딩 fallback**: UTF-8 → CP949 → errors="replace"
+4. **타임아웃 처리**: LibreOffice 60초 타임아웃, `TimeoutError` 예외, 504 반환
+5. **보안**: 서버 절대 경로 노출 방지 (VAULT_DIR 상대 경로만 반환)
+
+**배포**:
+- Docker 이미지 리빌드 (~689MB LibreOffice 추가)
+- NAS 서버 재시작 완료
+- Health check 통과
+- OpenAPI 스키마에 엔드포인트 등록 확인
+
+**최종 상태**: done
 
 
 ---

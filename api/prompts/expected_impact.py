@@ -2,10 +2,58 @@
 Expected Impact (A Score) Prompts
 
 Project의 Impact 필드를 제안하는 LLM 프롬프트.
-기존: .claude/skills/auto-fill-project-impact/prompts/suggest_impact.md
+SSOT: impact_model_config.yml에서 판단 기준을 동적 로드
 """
 
 from typing import Dict, Any, Optional, List
+from ..utils.impact_calculator import load_impact_config
+
+
+def _build_criteria_from_config() -> str:
+    """
+    impact_model_config.yml에서 판단 기준을 동적으로 로드하여 프롬프트 텍스트 생성
+
+    Returns:
+        프롬프트에 삽입할 판단 기준 텍스트
+    """
+    try:
+        config = load_impact_config()
+    except FileNotFoundError:
+        return "(판단 기준 로드 실패 - impact_model_config.yml 확인 필요)"
+
+    # Tier 정의
+    tiers = config.get("tiers", {})
+    tier_text = "**tier 판단:**\n"
+    for tier_name in ["strategic", "enabling", "operational"]:
+        tier_def = tiers.get(tier_name, {})
+        tier_text += f"- {tier_name}: {tier_def.get('description', 'N/A')}\n"
+
+    # Magnitude 정의
+    magnitude_levels = config.get("magnitude_levels", {})
+    magnitude_text = "\n**impact_magnitude 판단:**\n"
+    for mag_name in ["high", "mid", "low"]:
+        mag_def = magnitude_levels.get(mag_name, {})
+        threshold = mag_def.get("threshold", "")
+        magnitude_text += f"- {mag_name}: {mag_def.get('description', 'N/A')} ({threshold})\n"
+
+    # Confidence 정의
+    confidence_cfg = config.get("confidence", {})
+    guidelines = confidence_cfg.get("guidelines", {})
+    confidence_text = "\n**confidence 조정:**\n"
+    confidence_text += f"- 범위: {confidence_cfg.get('min', 0.0)} ~ {confidence_cfg.get('max', 1.0)}\n"
+    confidence_text += f"- 기본값: {confidence_cfg.get('default', 0.7)}\n"
+    for level, value in guidelines.items():
+        confidence_text += f"- {level}: {value}\n"
+
+    # Magnitude Points 테이블
+    magnitude_points = config.get("magnitude_points", {})
+    points_text = "\n**magnitude_points 테이블 (점수 계산용):**\n"
+    points_text += "| tier | high | mid | low |\n|------|------|-----|-----|\n"
+    for tier_name in ["strategic", "enabling", "operational"]:
+        tier_points = magnitude_points.get(tier_name, {})
+        points_text += f"| {tier_name} | {tier_points.get('high', '-')} | {tier_points.get('mid', '-')} | {tier_points.get('low', '-')} |\n"
+
+    return tier_text + magnitude_text + confidence_text + points_text
 
 EXPECTED_IMPACT_SYSTEM_PROMPT = """당신은 프로젝트의 전략적 가치를 분석하여 Impact 필드를 제안하는 전문가입니다.
 
@@ -94,65 +142,55 @@ def build_expected_impact_prompt(
     else:
         similar_info = "## 유사 프로젝트 참조\n없음\n"
 
+    # 판단 기준을 yml에서 동적 로드
+    criteria_text = _build_criteria_from_config()
+
     # 출력 형식 가이드 (v5.3 정합: contributes -> condition_contributes)
-    output_format = """
+    output_format = f"""
 ## 요청
 
 위 프로젝트를 분석하여 Impact 필드를 제안해주세요.
 
 ### 출력 형식 (JSON)
 
-{
-  "tier": {
+{{
+  "tier": {{
     "value": "strategic|enabling|operational",
     "reasoning": "판단 근거"
-  },
-  "impact_magnitude": {
+  }},
+  "impact_magnitude": {{
     "value": "high|mid|low",
     "reasoning": "판단 근거"
-  },
-  "confidence": {
+  }},
+  "confidence": {{
     "value": 0.0-1.0,
     "reasoning": "판단 근거",
     "adjustments": [
-      {"factor": "요인", "adjustment": -0.1}
+      {{"factor": "요인", "adjustment": -0.1}}
     ]
-  },
+  }},
   "condition_contributes": [
-    {
+    {{
       "to": "cond-X",
       "weight": 0.0-1.0,
       "description": "Condition 기여 설명"
-    }
+    }}
   ],
   "track_contributes": [
-    {
+    {{
       "to": "trk-N",
       "weight": 0.0-1.0,
       "description": "Secondary Track 기여 설명 (선택사항)"
-    }
+    }}
   ],
   "validates": ["hyp-X-XX"],
   "primary_hypothesis_id": "hyp-X-XX",
   "summary": "1-2문장 핵심 요약"
-}
+}}
 
-### 판단 기준
+### 판단 기준 (SSOT: impact_model_config.yml)
 
-**tier 판단:**
-- strategic: 비전/전략에 직접 기여, 3년 Condition 달성에 필수
-- enabling: 전략 실행을 가속, 다른 프로젝트 성공에 기여
-- operational: 일상 운영 유지, 없으면 운영이 멈춤
-
-**impact_magnitude 판단:**
-- high: 핵심 지표에 직접적 큰 영향, 목표 달성의 30% 이상 기여
-- mid: 중간 수준 영향, 목표 달성의 10-30% 기여
-- low: 간접적/작은 영향, 목표 달성의 10% 미만 기여
-
-**confidence 조정:**
-- 감점: 첫 시도(-0.2), 외부 의존성(-0.1~-0.2), 일정 촉박(-0.1), 기술적 불확실성(-0.2)
-- 가점: 유사 성공 경험(+0.1), 명확한 마일스톤(+0.1), 충분한 리소스(+0.1)
-- 기본값: 0.7 (보통)
+{criteria_text}
 
 **v5.3 신규 필드:**
 - condition_contributes: 3년 Condition (cond-a~e)에 대한 기여

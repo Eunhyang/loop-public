@@ -36,7 +36,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -280,6 +280,7 @@ app.include_router(ai.router)
 app.include_router(build.router)  # tsk-n8n-12: Impact 빌드 API
 app.include_router(attachments.router)  # tsk-dashboard-ux-v1-18: Task 첨부파일 API
 app.include_router(youtube_weekly.router)  # tsk-vault-gpt-08: YouTube Weekly Round 자동 생성
+app.include_router(config.router)  # tsk-n8n-14: Impact Model Config SSOT
 
 # OAuth 2.0 Router (키는 loop-auth와 공유됨)
 app.include_router(oauth_router)

@@ -2,8 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Version 8.5** | Last updated: 2026-01-01
-> Schema v5.3 | Impact Model v1.3.0
+> **Version 8.6** | Last updated: 2026-01-03
+> Schema v5.3 | Impact Model v1.3.1 (SSOT 구조 개선)
 
 ---
 
@@ -113,10 +113,11 @@ api/
 │   ├── pending.py       # /api/pending (pending reviews)
 │   ├── mcp_composite.py # /api/mcp/* (LLM-optimized compound endpoints)
 │   ├── autofill.py      # /api/autofill (LLM-powered field suggestions)
-│   └── audit.py         # /api/audit (run logs, decision logs)
+│   ├── audit.py         # /api/audit (run logs, decision logs)
+│   └── config.py        # /api/config/* (설정 SSOT 노출)
 ├── services/
 │   └── llm_service.py   # LLM integration (Claude API)
-├── prompts/             # LLM prompt templates
+├── prompts/             # LLM prompt templates (yml에서 동적 로드)
 │   ├── expected_impact.py
 │   └── realized_impact.py
 ├── utils/
@@ -261,14 +262,31 @@ Pre-commit hook (`.git/hooks/pre-commit`) runs:
 - **B Score (Realized)**: `normalized_delta × strength_mult × attribution_share`
 - **Windows**: monthly (Project), quarterly (Track), half-yearly (Condition)
 
-Config: `impact_model_config.yml` | Output: `_build/impact.json`
+### SSOT 구조 (tsk-n8n-14)
+```
+impact_model_config.yml (유일한 SSOT)
+    │
+    ├──→ GET /api/config/impact-model (API 노출)
+    │         │
+    │         └──→ n8n workflows (API fetch)
+    │
+    ├──→ impact_calculator.py (점수 계산)
+    │
+    └──→ prompts/*.py (yml에서 동적 로드)
+          ├── expected_impact.py
+          └── realized_impact.py
+```
+
+- **Config**: `impact_model_config.yml` (tier, magnitude, confidence 판단 기준)
+- **Output**: `_build/impact.json` (계산된 점수)
+- **API**: `/api/config/impact-model` (n8n/외부에서 SSOT 조회)
 
 ### LLM Autofill
 Uses Claude API to suggest Impact fields. Config in `impact_model_config.yml`:
 - Model: `claude-sonnet-4-20250514`
 - Temperature: 0.3
 - Endpoints: `/api/autofill/expected-impact`, `/api/autofill/realized-impact`
-- Prompts: `api/prompts/expected_impact.py`, `api/prompts/realized_impact.py`
+- Prompts: `api/prompts/expected_impact.py`, `api/prompts/realized_impact.py` (yml에서 판단 기준 동적 로드)
 
 ### Evidence Quality Meta (v5.3)
 Required for trustworthy B scores:

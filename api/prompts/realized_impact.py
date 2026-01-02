@@ -2,10 +2,56 @@
 Realized Impact (B Score) Prompts
 
 회고 문서에서 Evidence 필드를 추출하는 LLM 프롬프트.
-기존: .claude/skills/retrospective-to-evidence/prompts/extract_evidence.md
+SSOT: impact_model_config.yml에서 판단 기준을 동적 로드
 """
 
 from typing import Dict, Any, Optional
+from ..utils.impact_calculator import load_impact_config
+
+
+def _build_realized_criteria_from_config() -> str:
+    """
+    impact_model_config.yml에서 Realized Impact 판단 기준을 동적으로 로드
+
+    Returns:
+        프롬프트에 삽입할 판단 기준 텍스트
+    """
+    try:
+        config = load_impact_config()
+    except FileNotFoundError:
+        return "(판단 기준 로드 실패 - impact_model_config.yml 확인 필요)"
+
+    # Normalized Delta
+    normalized_delta = config.get("normalized_delta", {})
+    delta_text = "**normalized_delta 계산:**\n"
+    delta_text += f"- 범위: {normalized_delta.get('min', 0.0)} ~ {normalized_delta.get('max', 1.0)}\n"
+    delta_text += f"- 설명: {normalized_delta.get('description', 'N/A')}\n"
+    delta_text += "- 1.0 초과 → 1.0으로 cap\n"
+    delta_text += "- 정보 없으면 → null\n"
+
+    # Strength Multipliers
+    strength_mult = config.get("strength_multipliers", {})
+    strength_text = "\n**evidence_strength 판단:**\n"
+    for strength in ["strong", "medium", "weak"]:
+        mult = strength_mult.get(strength, "N/A")
+        strength_text += f"- {strength} (×{mult})\n"
+
+    # Learning Value
+    learning_value = config.get("learning_value", {})
+    learning_text = "\n**learning_value 판단:**\n"
+    for level in ["high", "medium", "low"]:
+        level_def = learning_value.get(level, {})
+        learning_text += f"- {level}: {level_def.get('description', 'N/A')}\n"
+
+    # Realized Status
+    realized_status = config.get("realized_status", {})
+    status_text = "\n**realized_status 판정:**\n"
+    for status in ["succeeded", "failed_but_high_signal", "failed_low_signal", "inconclusive"]:
+        status_def = realized_status.get(status, {})
+        if status_def.get("can_have_evidence"):
+            status_text += f"- {status}: {status_def.get('description', 'N/A')}\n"
+
+    return delta_text + strength_text + learning_text + status_text
 
 REALIZED_IMPACT_SYSTEM_PROMPT = """당신은 프로젝트 회고 문서를 분석하여 구조화된 Evidence 객체로 변환하는 전문가입니다.
 
@@ -74,8 +120,11 @@ def build_realized_impact_prompt(
 (회고 문서 없음 - 프로젝트 정보만으로 판단)
 """
 
+    # 판단 기준을 yml에서 동적 로드
+    criteria_text = _build_realized_criteria_from_config()
+
     # 출력 형식 가이드
-    output_format = """
+    output_format = f"""
 ---
 
 ## 요청
@@ -84,66 +133,46 @@ def build_realized_impact_prompt(
 
 ### 출력 형식 (JSON)
 
-{
-  "normalized_delta": {
+{{
+  "normalized_delta": {{
     "value": 0.0-1.0,
     "reasoning": "계산 근거 (실제값/목표값)"
-  },
-  "evidence_strength": {
+  }},
+  "evidence_strength": {{
     "value": "strong|medium|weak",
     "reasoning": "판단 근거"
-  },
-  "attribution_share": {
+  }},
+  "attribution_share": {{
     "value": 0.0-1.0,
     "reasoning": "기여도 판단 근거"
-  },
+  }},
   "impact_metric": "측정 지표명 (예: revenue, retention_d7, nps)",
-  "learning_value": {
+  "learning_value": {{
     "value": "high|medium|low",
     "reasoning": "학습 가치 판단 근거"
-  },
+  }},
   "falsified_hypotheses": [
-    {
+    {{
       "hypothesis": "반증된 가설",
       "evidence": "반증 근거"
-    }
+    }}
   ],
   "confirmed_insights": [
-    {
+    {{
       "insight": "확인된 인사이트",
       "evidence": "확인 근거"
-    }
+    }}
   ],
-  "realized_status": {
+  "realized_status": {{
     "value": "succeeded|failed_but_high_signal|failed_low_signal|inconclusive",
     "reasoning": "판정 근거"
-  },
+  }},
   "summary": "1-2문장 핵심 요약"
-}
+}}
 
-### 판단 기준
+### 판단 기준 (SSOT: impact_model_config.yml)
 
-**normalized_delta 계산:**
-- normalized_delta = 실제값 / 목표값
-- 목표 없으면 → 합리적 기대치 기준
-- 1.0 초과 → 1.0으로 cap
-- 정보 없으면 → null
-
-**evidence_strength 판단:**
-- strong (×1.0): 정량 데이터 명확, 인과관계 분명, A/B 테스트 등 통제된 실험
-- medium (×0.7): 정성적 증거, 합리적 추론 가능, 통계적 유의성 부족
-- weak (×0.4): 간접 증거만, 외부 변수 영향 큼, 데이터 품질 문제
-
-**learning_value 판단:**
-- high: 가설이 명확히 반증됨, 전략 옵션 줄어듦, 다음 의사결정이 쉬워짐
-- medium: 일부 가설만 검증됨, 추가 실험 필요
-- low: 외부 변수 영향 큼, 데이터 품질 낮음, 실험 설계 오류
-
-**realized_status 판정:**
-- succeeded: normalized_delta >= 0.8
-- failed_but_high_signal: normalized_delta < 0.5 AND learning_value = high
-- failed_low_signal: normalized_delta < 0.5 AND learning_value = low
-- inconclusive: attribution_share < 0.3 OR 데이터 불충분
+{criteria_text}
 
 JSON만 반환하세요. Markdown 코드블록을 사용하지 마세요."""
 
