@@ -4,11 +4,13 @@ import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { Calendar, Loader2, RefreshCw, AlertCircle } from "lucide-react";
 import {
   PerformanceFiltersComponent,
   PerformanceTable,
+  AuthStatusBanner,
 } from "./components";
+import { usePerformanceData } from "./hooks";
 import { dummyPerformanceData } from "./data/dummy-performance";
 import {
   ContentPerformance,
@@ -95,11 +97,32 @@ export default function PerformancePage() {
     order: "desc",
   });
 
+  // Fetch performance data from API
+  const {
+    data: performanceResult,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+  } = usePerformanceData({ maxResults: 30 });
+
+  // Use API data or fallback to dummy data
+  const rawData = useMemo(() => {
+    if (performanceResult?.data && performanceResult.data.length > 0) {
+      return performanceResult.data;
+    }
+    return dummyPerformanceData;
+  }, [performanceResult?.data]);
+
+  const dataSource = performanceResult?.source || "dummy";
+  const warning = performanceResult?.warning;
+
   // Memoized filtered and sorted data
   const processedData = useMemo(() => {
-    const filtered = filterPerformanceData(dummyPerformanceData, filters);
+    const filtered = filterPerformanceData(rawData, filters);
     return sortPerformanceData(filtered, sortState);
-  }, [filters, sortState]);
+  }, [rawData, filters, sortState]);
 
   // Handler for sort change
   const handleSortChange = useCallback((field: PerformanceSortField) => {
@@ -127,6 +150,11 @@ export default function PerformancePage() {
     };
   }, [processedData]);
 
+  // Handle refresh
+  const handleRefresh = () => {
+    refetch();
+  };
+
   return (
     <>
       <Header
@@ -134,6 +162,27 @@ export default function PerformancePage() {
         description="콘텐츠 성과 분석 - 24시간/7일 지표 비교"
       />
       <div className="flex-1 overflow-auto p-6">
+        {/* Auth Status Banner */}
+        <AuthStatusBanner dataSource={dataSource} warning={warning} />
+
+        {/* Error State */}
+        {isError && (
+          <div className="mb-4 flex items-center gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-3">
+            <AlertCircle className="h-5 w-5 text-destructive" />
+            <span className="text-sm text-destructive">
+              {error instanceof Error ? error.message : "Failed to load data"}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              className="ml-auto"
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+
         {/* Summary Stats */}
         <div className="flex flex-wrap items-center gap-6 mb-6 text-sm">
           <div>
@@ -153,6 +202,18 @@ export default function PerformancePage() {
             개
           </div>
           <div className="flex-1" />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleRefresh}
+            disabled={isFetching}
+          >
+            {isFetching ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="h-4 w-4" />
+            )}
+          </Button>
           <Link href="/performance/weekly">
             <Button variant="outline" size="sm">
               <Calendar className="h-4 w-4 mr-2" />
@@ -169,15 +230,28 @@ export default function PerformancePage() {
 
         {/* Results Count */}
         <div className="mb-2 text-sm text-muted-foreground">
-          {processedData.length}개 콘텐츠
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading...
+            </span>
+          ) : (
+            `${processedData.length}개 콘텐츠`
+          )}
         </div>
 
         {/* Table */}
-        <PerformanceTable
-          data={processedData}
-          sortState={sortState}
-          onSortChange={handleSortChange}
-        />
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : (
+          <PerformanceTable
+            data={processedData}
+            sortState={sortState}
+            onSortChange={handleSortChange}
+          />
+        )}
       </div>
     </>
   );

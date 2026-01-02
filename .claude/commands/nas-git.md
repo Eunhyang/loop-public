@@ -1,10 +1,11 @@
 ---
-description: NAS Git 동기화 관리 (sync, pull, push, reset)
+description: NAS Git 동기화 관리 (sync, pull, push, reset) - public + exec 동시 처리
 ---
 
 # NAS Git 관리
 
 NAS와 GitHub 간 Git 동기화를 수동으로 실행합니다.
+**두 Vault 동시 처리**: public (LOOP) + exec (loop_exec)
 
 ## 사용자 입력
 
@@ -16,8 +17,8 @@ $ARGUMENTS
 
 | 명령 | 설명 |
 |------|------|
-| `local-sync` | **로컬 → GitHub → NAS 전체 동기화** (권장) |
-| `nas-to-local` | **NAS → GitHub → 로컬 동기화** |
+| `local-sync` | **로컬 → GitHub → NAS 전체 동기화** (권장) - 양쪽 vault |
+| `nas-to-local` | **NAS → GitHub → 로컬 동기화** - 양쪽 vault |
 | `sync` | NAS만 동기화 (commit → pull → push) |
 | `pull` | GitHub → NAS pull만 |
 | `push` | NAS → GitHub push만 |
@@ -25,20 +26,40 @@ $ARGUMENTS
 | `logs` | 동기화 로그 확인 |
 | `status` | NAS git status 확인 |
 
+## Vault 경로
+
+| Vault | 로컬 | NAS |
+|-------|------|-----|
+| public (LOOP) | `~/dev/loop/public` | `/volume1/LOOP_CORE/vault/LOOP` |
+| exec (loop_exec) | `~/dev/loop/exec` | `/volume1/LOOP_CLevel/vault/loop_exec` |
+
 ## 실행 절차
 
 ### local-sync - 로컬 → GitHub → NAS 전체 동기화 (권장)
 
-안전한 순서로 로컬 변경사항을 NAS까지 동기화합니다:
-1. NAS uncommitted 변경 먼저 commit + push
-2. 로컬 commit (pull 전에 먼저!)
-3. 로컬 pull --rebase (충돌 시 여기서 해결)
-4. 로컬 push
-5. NAS pull
+안전한 순서로 **양쪽 vault** 로컬 변경사항을 NAS까지 동기화합니다:
+1. NAS uncommitted 변경 먼저 commit + push (양쪽)
+2. 로컬 commit (양쪽)
+3. 로컬 pull --rebase (양쪽)
+4. 로컬 push (양쪽)
+5. NAS pull (양쪽)
 
 ```bash
-# Step 1: NAS 변경사항 먼저 올림
-echo "=== Step 1: NAS 변경사항 commit + push ==="
+echo "╔════════════════════════════════════════════╗"
+echo "║  Local Sync: public + exec                ║"
+echo "╚════════════════════════════════════════════╝"
+
+# ============================================
+# PUBLIC (LOOP) VAULT
+# ============================================
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  PUBLIC VAULT (LOOP)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Step 1: NAS public 변경사항 먼저 올림
+echo ""
+echo "=== [PUBLIC] Step 1: NAS commit + push ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
 cd /volume1/LOOP_CORE/vault/LOOP
@@ -50,27 +71,28 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: 로컬 commit (pull 전에 먼저!)
+# Step 2: 로컬 public commit
 echo ""
-echo "=== Step 2: 로컬 commit ==="
+echo "=== [PUBLIC] Step 2: 로컬 commit ==="
+cd ~/dev/loop/public
 git add -A
 if [ -n "$(git status --porcelain)" ]; then
   git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
 fi
 
-# Step 3: 로컬 pull --rebase (충돌 시 여기서 해결)
+# Step 3: 로컬 public pull --rebase
 echo ""
-echo "=== Step 3: 로컬 pull --rebase ==="
+echo "=== [PUBLIC] Step 3: 로컬 pull --rebase ==="
 git pull --rebase origin main
 
-# Step 4: 로컬 push
+# Step 4: 로컬 public push
 echo ""
-echo "=== Step 4: 로컬 push ==="
+echo "=== [PUBLIC] Step 4: 로컬 push ==="
 git push origin main
 
-# Step 5: NAS pull
+# Step 5: NAS public pull
 echo ""
-echo "=== Step 5: NAS pull ==="
+echo "=== [PUBLIC] Step 5: NAS pull ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
 cd /volume1/LOOP_CORE/vault/LOOP
@@ -78,19 +100,85 @@ git config --global --add safe.directory /volume1/LOOP_CORE/vault/LOOP 2>/dev/nu
 git pull --rebase origin main 2>&1
 "
 
+# ============================================
+# EXEC (loop_exec) VAULT
+# ============================================
 echo ""
-echo "=== 동기화 완료 ==="
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  EXEC VAULT (loop_exec)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Step 1: NAS exec 변경사항 먼저 올림
+echo ""
+echo "=== [EXEC] Step 1: NAS commit + push ==="
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
+export HOME=/tmp
+cd /volume1/LOOP_CLevel/vault/loop_exec
+git config --global --add safe.directory /volume1/LOOP_CLevel/vault/loop_exec 2>/dev/null
+git add -A
+if [ -n \"\$(git status --porcelain)\" ]; then
+  git commit --no-verify -m 'nas-auto: \$(date +%Y-%m-%d\ %H:%M)'
+fi
+git push origin main 2>&1 || true
+"
+
+# Step 2: 로컬 exec commit
+echo ""
+echo "=== [EXEC] Step 2: 로컬 commit ==="
+cd ~/dev/loop/exec
+git add -A
+if [ -n "$(git status --porcelain)" ]; then
+  git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
+fi
+
+# Step 3: 로컬 exec pull --rebase
+echo ""
+echo "=== [EXEC] Step 3: 로컬 pull --rebase ==="
+git pull --rebase origin main
+
+# Step 4: 로컬 exec push
+echo ""
+echo "=== [EXEC] Step 4: 로컬 push ==="
+git push origin main
+
+# Step 5: NAS exec pull
+echo ""
+echo "=== [EXEC] Step 5: NAS pull ==="
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
+export HOME=/tmp
+cd /volume1/LOOP_CLevel/vault/loop_exec
+git config --global --add safe.directory /volume1/LOOP_CLevel/vault/loop_exec 2>/dev/null
+git pull --rebase origin main 2>&1
+"
+
+echo ""
+echo "╔════════════════════════════════════════════╗"
+echo "║  동기화 완료: public + exec               ║"
+echo "╚════════════════════════════════════════════╝"
 ```
 
 ### nas-to-local - NAS → GitHub → 로컬 동기화
 
-NAS 변경사항을 로컬로 가져옵니다:
-1. NAS uncommitted 변경 commit + push
-2. 로컬 pull
+**양쪽 vault** NAS 변경사항을 로컬로 가져옵니다:
+1. NAS uncommitted 변경 commit + push (양쪽)
+2. 로컬 pull (양쪽)
 
 ```bash
-# Step 1: NAS 변경사항 commit + push
-echo "=== Step 1: NAS 변경사항 commit + push ==="
+echo "╔════════════════════════════════════════════╗"
+echo "║  NAS to Local: public + exec              ║"
+echo "╚════════════════════════════════════════════╝"
+
+# ============================================
+# PUBLIC (LOOP) VAULT
+# ============================================
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  PUBLIC VAULT (LOOP)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Step 1: NAS public commit + push
+echo ""
+echo "=== [PUBLIC] Step 1: NAS commit + push ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
 cd /volume1/LOOP_CORE/vault/LOOP
@@ -102,13 +190,44 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: 로컬 pull
+# Step 2: 로컬 public pull
 echo ""
-echo "=== Step 2: 로컬 pull ==="
+echo "=== [PUBLIC] Step 2: 로컬 pull ==="
+cd ~/dev/loop/public
+git pull --rebase origin main
+
+# ============================================
+# EXEC (loop_exec) VAULT
+# ============================================
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  EXEC VAULT (loop_exec)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Step 1: NAS exec commit + push
+echo ""
+echo "=== [EXEC] Step 1: NAS commit + push ==="
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
+export HOME=/tmp
+cd /volume1/LOOP_CLevel/vault/loop_exec
+git config --global --add safe.directory /volume1/LOOP_CLevel/vault/loop_exec 2>/dev/null
+git add -A
+if [ -n \"\$(git status --porcelain)\" ]; then
+  git commit --no-verify -m 'nas-auto: \$(date +%Y-%m-%d\ %H:%M)'
+fi
+git push origin main 2>&1 || true
+"
+
+# Step 2: 로컬 exec pull
+echo ""
+echo "=== [EXEC] Step 2: 로컬 pull ==="
+cd ~/dev/loop/exec
 git pull --rebase origin main
 
 echo ""
-echo "=== 동기화 완료 ==="
+echo "╔════════════════════════════════════════════╗"
+echo "║  동기화 완료: public + exec               ║"
+echo "╚════════════════════════════════════════════╝"
 ```
 
 ### logs - 동기화 로그 확인
