@@ -14,8 +14,8 @@ Content OS는 Docker 컨테이너로 NAS에서 실행됩니다.
 | URL | `https://contentos.sosilab.synology.me` |
 | 컨테이너 이름 | `content-os` |
 | 이미지 이름 | `loop-content-os` |
-| 포트 | 8083 (내부 8081) |
-| 소스 경로 | `/volume1/LOOP_CORE/vault/LOOP/50_Projects/Content_OS` |
+| 포트 | 8083 (내부 3000) |
+| 소스 경로 | `/volume1/LOOP_CORE/vault/LOOP/apps/content-os` |
 
 ## 사용자 입력
 
