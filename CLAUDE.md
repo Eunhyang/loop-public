@@ -431,7 +431,6 @@ This vault manages **specifications only**. Real code repositories:
 | `auto_fix_schema.py` | Auto-fix common schema issues (dates, missing fields) |
 | `archive_task.py` | Move completed Tasks to `90_Archive/` |
 | `build_archive_catalog.py` | Generate `90_Archive/00_Catalog/catalog.jsonl` |
-| `backfill_conditions_3y.py` | Backfill conditions_3y field from parent hierarchy |
 | `local-git-sync.sh` | Local auto-sync via launchd (15min, 7min offset) |
 | `nas-git-sync.sh` | NAS auto-sync via cron (15min) |
 | `migrate_*.py` | One-time migration scripts (check before running) |

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-02T18:13:18.666571",
-  "total_entities": 241,
+  "generated": "2026-01-02T19:14:58.310913",
+  "total_entities": 246,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -356,9 +356,6 @@
       "name": "Loop OS V0 데이터 설계 – 6. 저장 전략 결정",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -368,9 +365,6 @@
       "name": "Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -380,9 +374,6 @@
       "name": "Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -392,9 +383,6 @@
       "name": "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -404,9 +392,6 @@
       "name": "Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -416,9 +401,6 @@
       "name": "Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -428,9 +410,6 @@
       "name": "Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계",
       "status": "todo",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -452,9 +431,6 @@
       "name": "[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결",
       "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -464,9 +440,6 @@
       "name": "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기",
       "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -476,9 +449,6 @@
       "name": "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차",
       "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -488,9 +458,6 @@
       "name": "[LoopOS 데이터] Day 6 — 최소 구현 시작",
       "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -500,9 +467,6 @@
       "name": "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기",
       "status": "todo",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -524,9 +488,6 @@
       "name": "외부 비서 채용 – 3. 공고용 업무·요건 문단 작성",
       "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -536,9 +497,6 @@
       "name": "외부 비서 채용 – 1. 역할·권한 정책 문서 고정",
       "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -548,9 +506,6 @@
       "name": "외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리",
       "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -572,9 +527,6 @@
       "name": "Episode 엔티티 검증",
       "status": "todo",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -584,9 +536,6 @@
       "name": "스키마 문서화",
       "status": "done",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -596,9 +545,6 @@
       "name": "Event 엔티티 검증",
       "status": "todo",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -621,10 +567,6 @@
       "name": "혜영 코치에게 인수인계 받기",
       "status": "doing",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/혜영 코치에게 인수인계 받기.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -634,10 +576,6 @@
       "name": "기본 프로토콜 및 교육 프로세스 정하기",
       "status": "done",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/기본 프로토콜 및 교육 프로세스 정하기.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -655,10 +593,6 @@
       "name": "코치 규칙 정하기",
       "status": "done",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-01_코치_규칙_정하기.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -668,10 +602,6 @@
       "name": "채용 및 계약서 작성",
       "status": "done",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-02_채용_및_계약서_작성.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -694,10 +624,6 @@
       "name": "꼭꼭Fit 3기 환급 검토",
       "status": "done",
       "path": "50_Projects/2025/P014_코칭 운영 체계/Tasks/꼭꼭Fit 3기 환급 검토.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -728,10 +654,6 @@
       "name": "리크루팅 사이트) 원택님 피드백 반영",
       "status": "todo",
       "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
-      "conditions_3y": [
-        "cond-a",
-        "cond-e"
-      ],
       "priority_flag": "low",
       "assignee": "김은향"
     },
@@ -753,9 +675,6 @@
       "name": "Hiring - 파일럿 프로젝트 계약서 작성",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -765,9 +684,6 @@
       "name": "Hiring - 개발자 온보딩 문서 v1 작성",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -777,9 +693,6 @@
       "name": "Hiring - 주니어 개발자 기술 과제 설계 초안 작성",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -789,9 +702,6 @@
       "name": "Hiring - 실전 과제 평가기준 작성",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -801,9 +711,6 @@
       "name": "커피챗 대상자 확정 및 연락",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -813,9 +720,6 @@
       "name": "Hiring - 개발 환경 세팅 문서",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -825,9 +729,6 @@
       "name": "Hiring - 실전 과제 제안 및 안내 발송",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -837,9 +738,6 @@
       "name": "Hiring - 주니어 개발자 과제 제출물 기술 평가",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -849,9 +747,6 @@
       "name": "Hiring - Day1 Onboarding 진행",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -861,9 +756,6 @@
       "name": "Hiring - 기술 리뷰 1:1 면접 진행",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -873,9 +765,6 @@
       "name": "Hiring - 주니어 개발자 커피챗 진행",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -885,9 +774,6 @@
       "name": "Hiring - 커피챗 일정 조율 & 진행",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -940,10 +826,6 @@
       "name": "꼭꼭 앱 1년 구독권 QA",
       "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭 앱 1년 구독권 QA.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -953,10 +835,6 @@
       "name": "꼭꼭FIT 페이지 UI 업데이트",
       "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -966,10 +844,6 @@
       "name": "꼭꼭FIT 관련 과제 내용과 AI 통합",
       "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -979,10 +853,6 @@
       "name": "꼭꼭FIT 강의 페이지 + 과제 페이지 만들기",
       "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -992,10 +862,6 @@
       "name": "12/17: 본펀딩 공개",
       "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1217 본펀딩 공개.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1005,9 +871,6 @@
       "name": "와디즈 새소식 초안 작성 - 브랜드 방향성 위주",
       "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1017,10 +880,6 @@
       "name": "11/22: 심사 통과, 광고 소재 제작 (크)",
       "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1030,9 +889,6 @@
       "name": "와디즈 오픈 후 고객 대응",
       "status": "doing",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/와디즈 오픈 후 고객 대응.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1042,10 +898,6 @@
       "name": "12/31: 펀딩 종료",
       "status": "doing",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1231 펀딩 종료.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1055,10 +907,6 @@
       "name": "꼭꼭FIT 음식편향테스트 특정 주차에 노출",
       "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1068,10 +916,6 @@
       "name": "11/25: 오픈예정 공개",
       "status": "done",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1081,10 +925,6 @@
       "name": "꼭꼭FIT+꼭꼭 앱 로그인 통합",
       "status": "todo",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1107,10 +947,6 @@
       "name": "[고객 관리] 카카오톡 채널 활성화 방안 기획",
       "status": "doing",
       "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1141,10 +977,6 @@
       "name": "꼭꼭 앱 iOS/Android 배포",
       "status": "todo",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 iOS Android 배포.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1154,10 +986,6 @@
       "name": "[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계",
       "status": "todo",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "임단"
     },
@@ -1167,10 +995,6 @@
       "name": "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안",
       "status": "todo",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "임단"
     },
@@ -1180,10 +1004,6 @@
       "name": "꼭꼭 앱 Onboarding UI/UX 리뷰",
       "status": "done",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/꼭꼭 앱 Onboarding 리뷰.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1193,10 +1013,6 @@
       "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
       "status": "doing",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
-      "conditions_3y": [
-        "cond-b",
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "임단"
     },
@@ -1242,9 +1058,6 @@
       "name": "W33 촬영",
       "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1321,6 +1134,36 @@
       "assignee": "한명학"
     },
     {
+      "id": "pgm-kkokkkok-app-release",
+      "type": "Program",
+      "name": "꼭꼭앱 Release Train",
+      "status": "doing",
+      "path": "50_Projects/KkokKkok_Release/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "은향"
+    },
+    {
+      "id": "prj-kkokkkok-v1028",
+      "type": "Project",
+      "name": "KkokKkok App v1.0.28 - Hotfix",
+      "status": "done",
+      "path": "50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/Project_정의.md",
+      "conditions_3y": [
+        "cond-a"
+      ],
+      "priority_flag": "high",
+      "owner": "은향"
+    },
+    {
+      "id": "tsk-kkokkkok-v1028-01",
+      "type": "Task",
+      "name": "Calendar - 2026년 캘린더 표시 버그 수정",
+      "status": "done",
+      "path": "50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/Tasks/tsk-kkokkkok-v1028-01.md",
+      "priority_flag": "critical",
+      "assignee": "은향"
+    },
+    {
       "id": "pgm-vault-system",
       "type": "Program",
       "name": "Vault 시스템 체계화",
@@ -1347,9 +1190,6 @@
       "name": "대시보드 키보드 단축키",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1359,9 +1199,6 @@
       "name": "Dashboard Reset Filter 전체 초기화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-06_Dashboard_Reset_Filter_전체_초기화.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1371,9 +1208,6 @@
       "name": "loop-entity-creator 문서 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-09_loop-entity-creator_문서_수정.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "low",
       "assignee": "김은향"
     },
@@ -1383,9 +1217,6 @@
       "name": "schema_registry.md 상수 분리",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-11_schema_registry.md_상수_분리.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "low",
       "assignee": "김은향"
     },
@@ -1395,9 +1226,6 @@
       "name": "state.js YAML 일원화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-12_state.js_YAML_일원화.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1407,9 +1235,6 @@
       "name": "Schema 상수 중앙화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-05_Schema_상수_중앙화.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1419,9 +1244,6 @@
       "name": "Week/Month 필터 담당자 탭 이동",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1431,9 +1253,6 @@
       "name": "validate_schema.py YAML 일원화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-07_validate_schema.py_YAML_일원화.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1443,9 +1262,6 @@
       "name": "캘린더뷰 Task Type 필터링 UI 구현",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1455,9 +1271,6 @@
       "name": "build_graph_index.py YAML 일원화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-08_build_graph_index.py_YAML_일원화.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1467,9 +1280,6 @@
       "name": "Schema 상수 하드코딩 제거 및 일원화 강제",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1479,9 +1289,6 @@
       "name": "Dashboard - Google Calendar 연동 (읽기 전용)",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-17_Dashboard_Google_Calendar_연동.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1491,9 +1298,6 @@
       "name": "뷰 전환 단축키 (1/2/3)",
       "status": "todo",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -1503,9 +1307,6 @@
       "name": "사이드바 엔티티 상세 패널 구현",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1515,9 +1316,6 @@
       "name": "Dashboard Links Field - Task/Project에 외부 링크 필드 추가",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-13_Dashboard_Links_Field.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1527,9 +1325,6 @@
       "name": "Quick Date Filter 초기화 버그 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "은향"
     },
@@ -1539,9 +1334,6 @@
       "name": "api/constants.py 응답 확장",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1563,9 +1355,6 @@
       "name": "v1 HTTP MCP 설정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1575,9 +1364,6 @@
       "name": "API - Tree + Batch 엔드포인트 추가",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1587,9 +1373,6 @@
       "name": "MCP API TaskUpdate 모델 확장",
       "status": "hold",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1599,21 +1382,15 @@
       "name": "MCP - vault-full-scan API 개발",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-06_MCP_vault-full-scan_API.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
     {
       "id": "tsk-vault-gpt-07",
       "type": "Task",
-      "name": "OAuth 인증 서버 분리 (loop-auth)",
-      "status": "doing",
+      "name": "OAuth 인증 세션 유지 (볼륨 영구 저장)",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1623,9 +1400,6 @@
       "name": "MCP Bearer Token 인증 추가",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1635,9 +1409,6 @@
       "name": "MCP - 전용 복합 API 엔드포인트 개발",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1659,9 +1430,6 @@
       "name": "대시보드 OAuth 로그인 통합",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1671,9 +1439,6 @@
       "name": "MCP - loop_exec Vault 라우팅 구현",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-03_loop_exec_Vault_라우팅.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1683,9 +1448,6 @@
       "name": "User 모델 role 필드 + CLI",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1707,9 +1469,6 @@
       "name": "Dual-Vault - exec 경로 표준 확정",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-017-08_exec_경로_표준_확정.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1731,9 +1490,6 @@
       "name": "Schema - Hypothesis validated_by 필드 마이그레이션",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-03_validated_by_마이그레이션.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1743,9 +1499,6 @@
       "name": "Impact - Realized 필드 확장",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1755,9 +1508,6 @@
       "name": "Schema - Hypothesis-Evidence 연결 설계",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-04_Hypothesis_Evidence_설계.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1767,9 +1517,6 @@
       "name": "Schema - autofill infer - audit + decision_log + n8n 연동",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-07_autofill_infer_audit_decision_log.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1779,9 +1526,6 @@
       "name": "build_impact.py window 지원 (Phase 2)",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-05_build_impact_window.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1791,9 +1535,6 @@
       "name": "Schema - Derived 필드 롤업 로직 완성",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-02_Derived_롤업_로직.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1803,9 +1544,6 @@
       "name": "Evidence - 품질 메타 표준화 + 승인 로그 구현",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-06_Evidence_품질메타_승인로그.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "assignee": "김은향"
     },
     {
@@ -1814,9 +1552,6 @@
       "name": "Dual-Vault - exec pre-commit hook",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1838,9 +1573,6 @@
       "name": "Hypothesis - Seeder 워크플로우 API 개발",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1850,9 +1582,6 @@
       "name": "Dashboard - Pending Reviews 3단 레이아웃 UX 개선",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1862,9 +1591,6 @@
       "name": "n8n - Project Impact Score 자동화 n8n 워크플로우",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1874,9 +1600,6 @@
       "name": "AI Router - Evidence 추론 엔드포인트 구현",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1886,9 +1609,6 @@
       "name": "n8n - Phase 1/2 AI Router 통합",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1898,9 +1618,6 @@
       "name": "n8n - Workflow v4 구현 및 E2E 테스트",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-08_Workflow_v4_구현_및_E2E_테스트.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1910,9 +1627,6 @@
       "name": "n8n 자동화 워크플로우 구축",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1922,9 +1636,6 @@
       "name": "n8n Docker 배포 및 파이프라인 구축",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1934,9 +1645,6 @@
       "name": "n8n LLM 프롬프트 템플릿 개선",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1946,9 +1654,6 @@
       "name": "API 비즈니스 로직 통합 - 스킬→API 공통화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1958,9 +1663,6 @@
       "name": "Evidence 자동화 - 운영 완성 (Workflow C + Server Skip)",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1970,9 +1672,6 @@
       "name": "vault-hygiene - API 엔드포인트 개발",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-06_vault-hygiene_API_엔드포인트_개발.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1982,9 +1681,15 @@
       "name": "Dashboard - Pending Reviews 필드 선택 UX 개선",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-017-12",
+      "type": "Task",
+      "name": "Dual-Vault - Program-Round 대시보드 통합",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-12_Program-Round_대시보드_통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1994,9 +1699,6 @@
       "name": "Dual-Vault - n8n 토큰 분리 설정",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-11_n8n_토큰_분리_설정.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2004,11 +1706,8 @@
       "id": "tsk-017-09",
       "type": "Task",
       "name": "Dual-Vault - Program-Round 조인 API",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md",
-      "conditions_3y": [
-        "cond-b"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2044,9 +1743,6 @@
       "name": "사업계획서 작성",
       "status": "done",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "critical",
       "assignee": "한명학"
     },
@@ -2056,9 +1752,6 @@
       "name": "사업계획서 틀 작성",
       "status": "doing",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-02_사업계획서틀작성.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -2068,9 +1761,6 @@
       "name": "사업계획서 리뷰(은향)",
       "status": "todo",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-03_사업계획서리뷰.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2080,9 +1770,6 @@
       "name": "제출 서류 준비",
       "status": "done",
       "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-01_제출서류준비.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -2147,9 +1834,6 @@
       "name": "Content OS - Task Pipeline UI",
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2159,9 +1843,6 @@
       "name": "Content OS - Opportunity 대시보드 UI",
       "status": "todo",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2171,9 +1852,6 @@
       "name": "Content OS - 프로젝트 초기 세팅",
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2181,11 +1859,8 @@
       "id": "tsk-content-os-07",
       "type": "Task",
       "name": "Content OS - Video Explorer Live Search",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2195,9 +1870,6 @@
       "name": "Content OS - 회고 대시보드 UI",
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2207,9 +1879,15 @@
       "name": "Content OS - DB 스키마 구축",
       "status": "doing",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-content-os-09",
+      "type": "Task",
+      "name": "Content OS - YouTube API Integration",
+      "status": "done",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2219,9 +1897,6 @@
       "name": "Content OS - Video Explorer UI",
       "status": "todo",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2231,9 +1906,6 @@
       "name": "ContentOS - Performance Dashboard Phase 1",
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2744,6 +2416,11 @@
     },
     {
       "source": "trk-1",
+      "target": "prj-kkokkkok-v1028",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-1",
       "target": "pgm-coaching",
       "type": "parent_of"
     },
@@ -3218,6 +2895,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-kkokkkok-v1028",
+      "target": "tsk-kkokkkok-v1028-01",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-02",
       "type": "parent_of"
@@ -3360,6 +3042,11 @@
     {
       "source": "prj-019",
       "target": "tsk-019-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-017-12",
       "type": "parent_of"
     },
     {
@@ -3520,6 +3207,11 @@
     {
       "source": "prj-content-os",
       "target": "tsk-content-os-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-content-os",
+      "target": "tsk-content-os-09",
       "type": "parent_of"
     },
     {
@@ -3686,6 +3378,21 @@
       "source": "tsk-008-04",
       "target": "tsk-008-01",
       "type": "depends_on"
+    },
+    {
+      "source": "pgm-kkokkkok-app-release",
+      "target": "trk-1",
+      "type": "supports"
+    },
+    {
+      "source": "pgm-kkokkkok-app-release",
+      "target": "trk-4",
+      "type": "supports"
+    },
+    {
+      "source": "prj-kkokkkok-v1028",
+      "target": "trk-4",
+      "type": "supports"
     },
     {
       "source": "prj-mcp-dual-vault-rbac",
@@ -4276,118 +3983,25 @@
   "conditions_3y_index": {
     "cond-b": [
       "prj-003",
-      "tsk-003-07",
-      "tsk-003-03",
-      "tsk-003-01",
-      "tsk-003-02",
-      "tsk-003-04",
-      "tsk-003-05",
-      "tsk-003-06",
       "prj-005",
-      "tsk-005-03",
-      "tsk-005-05",
-      "tsk-005-01",
-      "tsk-005-04",
-      "tsk-005-02",
       "prj-001",
-      "tsk-001-02",
-      "tsk-001-03",
-      "tsk-001-01",
       "prj-006",
-      "tsk-006-03",
-      "tsk-006-04",
-      "tsk-006-01",
-      "tsk-006-02",
       "prj-014",
-      "tsk-014-01",
       "prj-002",
-      "tsk-002-05",
-      "tsk-002-09",
-      "tsk-002-08",
-      "tsk-002-10",
-      "tsk-002-01",
-      "tsk-002-04",
-      "tsk-002-02",
-      "tsk-002-06",
-      "tsk-002-03",
-      "tsk-002-07",
       "prj-012",
-      "tsk-012-01",
       "prj-008",
-      "tsk-008-05",
-      "tsk-008-03",
-      "tsk-008-02",
-      "tsk-008-04",
-      "tsk-008-01",
       "prj-vault-gpt",
-      "tsk-vault-gpt-01",
-      "tsk-vault-gpt-03",
-      "tsk-vault-gpt-06",
-      "tsk-vault-gpt-07",
-      "tsk-vault-gpt-05",
       "prj-mcp-dual-vault-rbac",
-      "tsk-mcp-rbac-02",
-      "tsk-mcp-rbac-03",
-      "tsk-mcp-rbac-01",
       "prj-019",
-      "tsk-017-08",
       "prj-impact-schema-v2",
-      "tsk-impact-schema-v2-04",
-      "tsk-impact-schema-v2-01",
-      "tsk-impact-schema-v2-03",
-      "tsk-impact-schema-v2-02",
-      "tsk-impact-schema-v2-05",
-      "tsk-019-01",
-      "tsk-017-11",
-      "tsk-017-09",
       "trk-4",
       "trk-2"
     ],
     "cond-e": [
       "prj-007",
-      "tsk-007-01",
-      "tsk-007-03",
-      "tsk-007-02",
       "prj-014",
-      "tsk-011-01",
-      "tsk-002-12",
-      "tsk-002-11",
-      "tsk-014-03",
       "prj-dashboard-ux-v1",
-      "tsk-dashboard-ux-v1-02",
-      "tsk-dashboard-ux-v1-06",
-      "tsk-dashboard-ux-v1-09",
-      "tsk-dashboard-ux-v1-11",
-      "tsk-dashboard-ux-v1-12",
-      "tsk-dashboard-ux-v1-05",
-      "tsk-dashboard-ux-v1-14",
-      "tsk-dashboard-ux-v1-07",
-      "tsk-dashboard-ux-v1-16",
-      "tsk-dashboard-ux-v1-08",
-      "tsk-dashboard-ux-v1-15",
-      "tsk-dashboard-ux-v1-17",
-      "tsk-dashboard-ux-v1-01",
-      "tsk-dashboard-ux-v1-03",
-      "tsk-dashboard-ux-v1-13",
-      "tsk-dashboard-ux-v1-04",
-      "tsk-dashboard-ux-v1-10",
-      "tsk-vault-gpt-02",
-      "tsk-vault-gpt-04",
-      "tsk-impact-v2-07",
-      "tsk-impact-v2-06",
       "prj-n8n",
-      "tsk-n8n-11",
-      "tsk-n8n-10",
-      "tsk-n8n-03",
-      "tsk-n8n-07",
-      "tsk-n8n-09",
-      "tsk-n8n-08",
-      "tsk-n8n-02",
-      "tsk-n8n-01",
-      "tsk-n8n-04",
-      "tsk-n8n-05",
-      "tsk-n8n-06",
-      "tsk-n8n-13",
       "pgm-tips",
       "prj-017",
       "prj-018",
@@ -4395,53 +4009,16 @@
     ],
     "cond-d": [
       "prj-006",
-      "tsk-006-03",
-      "tsk-006-04",
-      "tsk-006-01",
-      "tsk-006-02",
-      "tsk-014-01",
       "prj-011",
       "prj-015",
-      "tsk-015-10",
-      "tsk-015-11",
-      "tsk-015-04",
-      "tsk-015-06",
-      "tsk-015-01",
-      "tsk-015-12",
-      "tsk-015-05",
-      "tsk-015-07",
-      "tsk-015-13",
-      "tsk-015-09",
-      "tsk-015-03",
-      "tsk-015-02",
       "prj-016",
       "prj-002",
-      "tsk-002-05",
-      "tsk-002-09",
-      "tsk-002-08",
-      "tsk-002-10",
-      "tsk-002-01",
-      "tsk-002-04",
-      "tsk-002-02",
-      "tsk-002-06",
-      "tsk-002-03",
-      "tsk-002-07",
       "prj-012",
-      "tsk-012-01",
       "prj-008",
-      "tsk-008-05",
-      "tsk-008-03",
-      "tsk-008-02",
-      "tsk-008-04",
-      "tsk-008-01",
       "prj-grants-jemi",
       "prj-grants-youth",
       "pgm-tips",
       "prj-017",
-      "tsk-017-04",
-      "tsk-017-02",
-      "tsk-017-03",
-      "tsk-017-01",
       "prj-018",
       "trk-5",
       "trk-4"
@@ -4451,19 +4028,10 @@
       "trk-5"
     ],
     "cond-a": [
-      "tsk-011-01",
       "prj-yt-wegovy",
-      "tsk-n8n-12",
+      "prj-kkokkkok-v1028",
       "pgm-content-os",
       "prj-content-os",
-      "tsk-content-os-04",
-      "tsk-content-os-02",
-      "tsk-content-os-01",
-      "tsk-content-os-07",
-      "tsk-content-os-05",
-      "tsk-content-os-08",
-      "tsk-content-os-03",
-      "tsk-content-os-06",
       "trk-1",
       "trk-3"
     ]
@@ -4541,6 +4109,7 @@
       "prj-yt-wegovy",
       "prj-grants-jemi",
       "prj-grants-youth",
+      "prj-kkokkkok-v1028",
       "prj-dashboard-ux-v1",
       "prj-vault-gpt",
       "prj-mcp-dual-vault-rbac",
@@ -4617,6 +4186,7 @@
       "tsk-yt-wegovy-01",
       "tsk-grants-jemi-01",
       "tsk-grants-youth-01",
+      "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-06",
       "tsk-dashboard-ux-v1-09",
@@ -4666,6 +4236,7 @@
       "tsk-n8n-12",
       "tsk-n8n-06",
       "tsk-n8n-13",
+      "tsk-017-12",
       "tsk-017-11",
       "tsk-017-09",
       "tsk-017-04",
@@ -4678,12 +4249,14 @@
       "tsk-content-os-07",
       "tsk-content-os-05",
       "tsk-content-os-08",
+      "tsk-content-os-09",
       "tsk-content-os-03",
       "tsk-content-os-06"
     ],
     "Program": [
       "pgm-youtube-weekly",
       "pgm-grants",
+      "pgm-kkokkkok-app-release",
       "pgm-vault-system",
       "pgm-tips",
       "pgm-hiring",
@@ -4855,12 +4428,12 @@
       "prj-yt-w33",
       "pgm-grants",
       "prj-grants-youth",
+      "pgm-kkokkkok-app-release",
       "pgm-vault-system",
       "tsk-dashboard-ux-v1-17",
       "tsk-dashboard-ux-v1-10",
       "prj-vault-gpt",
       "tsk-vault-gpt-06",
-      "tsk-vault-gpt-07",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-03",
       "prj-019",
@@ -4869,13 +4442,11 @@
       "tsk-n8n-06",
       "tsk-n8n-13",
       "tsk-017-11",
-      "tsk-017-09",
       "pgm-tips",
       "tsk-017-02",
       "pgm-hiring",
       "pgm-coaching",
       "pgm-content-os",
-      "tsk-content-os-07",
       "tsk-content-os-08",
       "cond-b",
       "cond-d",
@@ -4937,6 +4508,8 @@
       "tsk-yt-wegovy-01",
       "tsk-grants-jemi-01",
       "tsk-grants-youth-01",
+      "prj-kkokkkok-v1028",
+      "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-06",
       "tsk-dashboard-ux-v1-09",
@@ -4953,6 +4526,7 @@
       "tsk-dashboard-ux-v1-04",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-03",
+      "tsk-vault-gpt-07",
       "tsk-vault-gpt-04",
       "tsk-vault-gpt-05",
       "tsk-mcp-rbac-02",
@@ -4975,11 +4549,15 @@
       "tsk-n8n-04",
       "tsk-n8n-05",
       "tsk-n8n-12",
+      "tsk-017-12",
+      "tsk-017-09",
       "tsk-017-04",
       "tsk-017-01",
       "tsk-content-os-04",
       "tsk-content-os-01",
+      "tsk-content-os-07",
       "tsk-content-os-05",
+      "tsk-content-os-09",
       "tsk-content-os-06",
       "retro:2025-annual"
     ],

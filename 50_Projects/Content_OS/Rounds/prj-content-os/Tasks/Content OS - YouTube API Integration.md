@@ -4,7 +4,7 @@ entity_id: "tsk-content-os-09"
 entity_name: "Content OS - YouTube API Integration"
 created: 2026-01-02
 updated: 2026-01-02
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -82,13 +82,13 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] YouTube Data API 키 설정
-- [ ] 검색 API 연동 (/search)
-- [ ] 영상 통계 API 연동 (/videos)
-- [ ] 채널 구독자 API 연동 (/channels)
-- [ ] API 응답 → Video 타입 매핑
-- [ ] Rate Limiting 처리
-- [ ] 에러 핸들링 및 UI 피드백
+- [x] YouTube Data API 키 설정
+- [x] 검색 API 연동 (/search)
+- [x] 영상 통계 API 연동 (/videos)
+- [x] 채널 구독자 API 연동 (/channels)
+- [x] API 응답 → Video 타입 매핑
+- [x] Rate Limiting 처리
+- [x] 에러 핸들링 및 UI 피드백
 
 ---
 
@@ -232,53 +232,65 @@ apps/content-os/
 ### Todo
 
 #### Phase 1: Foundation
-- [ ] `.env.local` 파일 생성, `YOUTUBE_API_KEY` 설정
-- [ ] `types/youtube-api.ts` 생성 (YouTube API response types)
-- [ ] `types/youtube.ts` 생성 (internal types)
-- [ ] `types/video.ts` 확장 (YouTube 필드 추가)
-- [ ] `@tanstack/react-query` 설치 및 Provider 설정
+- [x] `.env.local` 파일 생성, `YOUTUBE_API_KEY` 설정
+- [x] `types/youtube-api.ts` 생성 (YouTube API response types)
+- [x] `types/youtube.ts` 생성 (internal types)
+- [x] `types/video.ts` 확장 (YouTube 필드 추가)
+- [x] `@tanstack/react-query` 설치 및 Provider 설정
 
 #### Phase 2: Backend Implementation
-- [ ] `lib/youtube/youtube-service.ts` 생성
-- [ ] `lib/youtube/video-transformer.ts` 생성
-- [ ] `lib/youtube/errors.ts` 생성
-- [ ] `/api/youtube/search/route.ts` 생성
-- [ ] API 테스트 (curl)
+- [x] `lib/youtube/youtube-service.ts` 생성
+- [x] `lib/youtube/video-transformer.ts` 생성
+- [x] `lib/youtube/errors.ts` 생성
+- [x] `/api/youtube/search/route.ts` 생성
+- [x] API 테스트 (curl)
 
 #### Phase 3: Frontend Integration
-- [ ] `app/explorer/hooks/use-youtube-search.ts` 생성
-- [ ] `page.tsx` 수정: 더미 데이터 → YouTube 검색 전환
-- [ ] 로딩/에러 UI 추가
+- [x] `app/explorer/hooks/use-youtube-search.ts` 생성
+- [x] `page.tsx` 수정: 더미 데이터 → YouTube 검색 전환
+- [x] 로딩/에러 UI 추가
 
 #### Phase 4: UX Enhancement
-- [ ] 스켈레톤 UI 또는 로딩 인디케이터
-- [ ] 할당량 초과 에러 메시지
-- [ ] 페이지네이션 (Optional)
+- [x] 스켈레톤 UI 또는 로딩 인디케이터
+- [x] 할당량 초과 에러 메시지
+- [ ] 페이지네이션 (Optional) - 향후 구현
 
 #### Phase 5: Testing & Polish
-- [ ] 검색 → 결과 표시 플로우 테스트
-- [ ] Score 계산 정확성 확인
-- [ ] Collection/Block 호환성 확인
-- [ ] `USE_DUMMY_DATA` fallback 로직
+- [x] 검색 → 결과 표시 플로우 테스트
+- [x] Score 계산 정확성 확인
+- [x] Collection/Block 호환성 확인
+- [x] `USE_DUMMY_DATA` fallback 로직
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-02 19:00
+**개요**: YouTube Data API v3를 Content OS Video Explorer에 연동 완료. 실시간 영상 검색, Score 계산, 에러 핸들링 전체 구현.
 
 **변경사항**:
 - 개발:
+  - `types/youtube-api.ts` - YouTube API response types (Search, Video, Channel)
+  - `types/youtube.ts` - Internal types (SearchParams, SearchResult, APIErrorCode)
+  - `lib/youtube/youtube-service.ts` - YouTube API 서비스 (search.list, videos.list, channels.list)
+  - `lib/youtube/video-transformer.ts` - API → Video 타입 변환, Duration 파싱, Velocity 계산
+  - `lib/youtube/errors.ts` - Custom error classes (QuotaExceeded, InvalidAPIKey 등)
+  - `app/api/youtube/search/route.ts` - API Route Handler (서버 사이드)
+  - `app/explorer/hooks/use-youtube-search.ts` - React Query 기반 검색 훅
+  - `components/providers/query-provider.tsx` - TanStack Query Provider
+  - `components/ui/alert.tsx` - 에러 표시 컴포넌트
 - 수정:
-- 개선:
+  - `types/video.ts` - YouTube 필드 추가 (youtubeId, channelId, likeCount 등)
+  - `app/layout.tsx` - QueryProvider 래핑
+  - `app/explorer/page.tsx` - 더미 데이터 → YouTube 검색 전환 (2자 이상 입력 시)
+  - `package.json` - @tanstack/react-query 추가
+  - `.gitignore` - .env.local.example 예외 추가
 
-**핵심 코드**: (필요시)
+**파일 변경**: 신규 11개, 수정 5개 (총 16개)
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 빌드 성공, API 테스트 성공 (curl로 검증)
 
 **다음 단계**:
--->
+- NAS 배포 시 docker-compose.yml에 YOUTUBE_API_KEY 환경변수 추가
+- 페이지네이션 구현 (Optional)
 
 
 ---

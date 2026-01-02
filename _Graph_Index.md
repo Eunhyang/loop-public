@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-02
 updated: 2026-01-02
-total_entities: 241
+total_entities: 246
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 241개
+- **총 엔티티**: 246개
 - **마지막 업데이트**: 2026-01-02
 
 ### 타입별
@@ -27,9 +27,9 @@ tags: ["meta", "graph", "index"]
 | MetaHypothesis | 4 |
 | Condition | 5 |
 | Track | 6 |
-| Program | 7 |
-| Project | 25 |
-| Task | 128 |
+| Program | 8 |
+| Project | 26 |
+| Task | 131 |
 | Hypothesis | 46 |
 
 ### 상태별
@@ -38,8 +38,8 @@ tags: ["meta", "graph", "index"]
 |  | 5 |
 | active | 4 |
 | assumed | 1 |
-| doing | 51 |
-| done | 82 |
+| doing | 49 |
+| done | 89 |
 | fixed | 1 |
 | hold | 1 |
 | todo | 87 |
@@ -88,7 +88,7 @@ tags: ["meta", "graph", "index"]
 | `trk-6` | Track_6_Revenue | doing | `20_Strategy/12M_Tracks/2026/Track_6_Revenue.md` |
 
 
-## Program (7개)
+## Program (8개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -96,12 +96,13 @@ tags: ["meta", "graph", "index"]
 | `pgm-content-os` | Content OS | doing | `50_Projects/Content_OS/_PROGRAM.md` |
 | `pgm-grants` | 정부지원사업 | doing | `50_Projects/Grants/_PROGRAM.md` |
 | `pgm-hiring` | 채용 | doing | `50_Projects/Hiring/_PROGRAM.md` |
+| `pgm-kkokkkok-app-release` | 꼭꼭앱 Release Train | doing | `50_Projects/KkokKkok_Release/_PROGRAM.md` |
 | `pgm-tips` | 투자/TIPS 준비 | doing | `50_Projects/TIPS_Batch/_PROGRAM.md` |
 | `pgm-vault-system` | Vault 시스템 체계화 | doing | `50_Projects/Vault_System/_PROGRAM.md` |
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (25개)
+## Project (26개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -125,6 +126,7 @@ tags: ["meta", "graph", "index"]
 | `prj-grants-jemi` | JEMI디딤돌 지원사업 | todo | `50_Projects/Grants/Rounds/prj-grants-jemi/Project_정의.md` |
 | `prj-grants-youth` | 청년창업사관학교 | doing | `50_Projects/Grants/Rounds/prj-grants-youth/Project_정의.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | active | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Project_정의.md` |
+| `prj-kkokkkok-v1028` | KkokKkok App v1.0.28 - Hotfix | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/Project_정의.md` |
 | `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md` |
 | `prj-n8n` | n8n Vault 자동화 | active | `50_Projects/Vault_System/Rounds/prj-n8n/Project_정의.md` |
 | `prj-vault-gpt` | ChatGPT Vault MCP 연결 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
@@ -132,7 +134,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (128개)
+## Task (131개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -203,8 +205,9 @@ tags: ["meta", "graph", "index"]
 | `tsk-017-05` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/고객_관리_새해_인사_전달유튜브_오픈톡방_꼭꼭Fit_참여인원_등.md` |
 | `tsk-017-06` | 12주 과정 후 실제 변화/미해결 패턴 검증 - 꼭꼭Fit 졸업자들 대상 사후 설문 전달(워크북/다이어리 배송 포함) | done | `50_Projects/2025/P014_코칭 운영 체계/Tasks/12주_과정_후_실제_변화미해결_패턴_검증_꼭꼭Fit_졸업자들_대상_사후_설문_전달워크북다이어리_배송_포함.md` |
 | `tsk-017-08` | Dual-Vault - exec 경로 표준 확정 | doing | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-017-08_exec_경로_표준_확정.md` |
-| `tsk-017-09` | Dual-Vault - Program-Round 조인 API | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md` |
+| `tsk-017-09` | Dual-Vault - Program-Round 조인 API | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md` |
 | `tsk-017-11` | Dual-Vault - n8n 토큰 분리 설정 | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-11_n8n_토큰_분리_설정.md` |
+| `tsk-017-12` | Dual-Vault - Program-Round 대시보드 통합 | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-12_Program-Round_대시보드_통합.md` |
 | `tsk-019-01` | Dual-Vault - exec pre-commit hook | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md` |
 | `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
 | `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
@@ -212,8 +215,9 @@ tags: ["meta", "graph", "index"]
 | `tsk-content-os-04` | Content OS - Task Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
 | `tsk-content-os-05` | Content OS - 회고 대시보드 UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
 | `tsk-content-os-06` | ContentOS - Performance Dashboard Phase 1 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md` |
-| `tsk-content-os-07` | Content OS - Video Explorer Live Search | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md` |
+| `tsk-content-os-07` | Content OS - Video Explorer Live Search | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md` |
 | `tsk-content-os-08` | Content OS - DB 스키마 구축 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md` |
+| `tsk-content-os-09` | Content OS - YouTube API Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md` |
 | `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
 | `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
 | `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
@@ -240,6 +244,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-impact-schema-v2-05` | Schema - Derived 필드 롤업 로직 완성 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-02_Derived_롤업_로직.md` |
 | `tsk-impact-v2-06` | Evidence - 품질 메타 표준화 + 승인 로그 구현 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-06_Evidence_품질메타_승인로그.md` |
 | `tsk-impact-v2-07` | Schema - autofill infer - audit + decision_log + n8n 연동 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-07_autofill_infer_audit_decision_log.md` |
+| `tsk-kkokkkok-v1028-01` | Calendar - 2026년 캘린더 표시 버그 수정 | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/Tasks/tsk-kkokkkok-v1028-01.md` |
 | `tsk-mcp-rbac-01` | User 모델 role 필드 + CLI | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md` |
 | `tsk-mcp-rbac-02` | 대시보드 OAuth 로그인 통합 | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md` |
 | `tsk-mcp-rbac-03` | MCP - loop_exec Vault 라우팅 구현 | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-03_loop_exec_Vault_라우팅.md` |
@@ -262,7 +267,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-vault-gpt-04` | MCP Bearer Token 인증 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md` |
 | `tsk-vault-gpt-05` | MCP - 전용 복합 API 엔드포인트 개발 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md` |
 | `tsk-vault-gpt-06` | MCP - vault-full-scan API 개발 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-06_MCP_vault-full-scan_API.md` |
-| `tsk-vault-gpt-07` | OAuth 인증 서버 분리 (loop-auth) | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md` |
+| `tsk-vault-gpt-07` | OAuth 인증 세션 유지 (볼륨 영구 저장) | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md` |
 | `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
 
 
@@ -442,6 +447,7 @@ tags: ["meta", "graph", "index"]
   - tsk-017-08 (Dual-Vault - exec 경로 표준 확정)
   - tsk-017-09 (Dual-Vault - Program-Round 조인 API)
   - tsk-017-11 (Dual-Vault - n8n 토큰 분리 설정)
+  - tsk-017-12 (Dual-Vault - Program-Round 대시보드 통합)
   - tsk-019-01 (Dual-Vault - exec pre-commit hook)
 - **prj-content-os** (Content OS - MVP 개발)
   - tsk-content-os-01 (Content OS - 프로젝트 초기 세팅)
@@ -452,6 +458,7 @@ tags: ["meta", "graph", "index"]
   - tsk-content-os-06 (ContentOS - Performance Dashboard Phase 1)
   - tsk-content-os-07 (Content OS - Video Explorer Live Search)
   - tsk-content-os-08 (Content OS - DB 스키마 구축)
+  - tsk-content-os-09 (Content OS - YouTube API Integration)
 - **prj-dashboard-ux-v1** (대시보드 UX 개선 v1)
   - tsk-dashboard-ux-v1-01 (뷰 전환 단축키 (1/2/3))
   - tsk-dashboard-ux-v1-02 (대시보드 키보드 단축키)
@@ -482,6 +489,8 @@ tags: ["meta", "graph", "index"]
   - tsk-impact-schema-v2-05 (Schema - Derived 필드 롤업 로직 완성)
   - tsk-impact-v2-06 (Evidence - 품질 메타 표준화 + 승인 로그 구현)
   - tsk-impact-v2-07 (Schema - autofill infer - audit + decision_log + n8n 연동)
+- **prj-kkokkkok-v1028** (KkokKkok App v1.0.28 - Hotfix)
+  - tsk-kkokkkok-v1028-01 (Calendar - 2026년 캘린더 표시 버그 수정)
 - **prj-mcp-dual-vault-rbac** (MCP Dual-Vault RBAC)
   - tsk-mcp-rbac-01 (User 모델 role 필드 + CLI)
   - tsk-mcp-rbac-02 (대시보드 OAuth 로그인 통합)
@@ -507,7 +516,7 @@ tags: ["meta", "graph", "index"]
   - tsk-vault-gpt-04 (MCP Bearer Token 인증 추가)
   - tsk-vault-gpt-05 (MCP - 전용 복합 API 엔드포인트 개발)
   - tsk-vault-gpt-06 (MCP - vault-full-scan API 개발)
-  - tsk-vault-gpt-07 (OAuth 인증 서버 분리 (loop-auth))
+  - tsk-vault-gpt-07 (OAuth 인증 세션 유지 (볼륨 영구 저장))
 - **prj-yt-w33** (YouTube W33)
   - tsk-014-02 (W33 대본작성)
   - tsk-014-03 (W33 촬영)
@@ -527,6 +536,7 @@ tags: ["meta", "graph", "index"]
   - hyp-1-10 (결제 전 가치 인지)
   - hyp-1-11 (상품 메시지 2~3개로 수렴)
   - pgm-coaching (코칭서비스)
+  - prj-kkokkkok-v1028 (KkokKkok App v1.0.28 - Hotfix)
 - **trk-2** (Track_2_Data)
   - hyp-2-01 (스키마 최소세트가 충분)
   - hyp-2-02 (스키마 안정성)
@@ -600,6 +610,7 @@ tags: ["meta", "graph", "index"]
 ### Critical 엔티티
 
 - **prj-001**: Ontology v0.1 (status: doing)
+- **tsk-kkokkkok-v1028-01**: Calendar - 2026년 캘린더 표시 버그 수정 (status: done)
 - **tsk-017-04**: 사업계획서 작성 (status: done)
 - **mh-3**: MH3_데이터_모델링_가능 (status: validating)
 - **ns-001**: 10년 비전 (status: fixed)
