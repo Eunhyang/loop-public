@@ -1,0 +1,156 @@
+{
+  "name": "youtube-weekly-round-creator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 5"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every Friday 09:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mcp.sosilab.synology.me/api/youtube-weekly/create-round",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "http-create-round",
+      "name": "Create Round API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-success",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-success",
+      "name": "Check Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Success notification message\nconst data = $input.first().json;\n\nconst message = `✅ YouTube ${data.cycle} 라운드 생성됨!\n\n📁 Project: ${data.project_id}\n📋 Tasks: ${data.tasks_created}개\n📅 시작일: ${data.start_date}\n\nTask IDs:\n${data.task_ids.map(id => `- ${id}`).join('\\n')}`;\n\nreturn [{ json: { message, success: true, data } }];"
+      },
+      "id": "code-success-msg",
+      "name": "Success Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Failure notification message\nconst data = $input.first().json;\n\nconst message = `⚠️ YouTube Weekly 라운드 생성 실패\n\nError: ${data.detail || data.message || JSON.stringify(data)}`;\n\nreturn [{ json: { message, success: false, error: data } }];"
+      },
+      "id": "code-failure-msg",
+      "name": "Failure Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 400]
+    }
+  ],
+  "connections": {
+    "Every Friday 09:00": {
+      "main": [
+        [
+          {
+            "node": "Create Round API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Round API": {
+      "main": [
+        [
+          {
+            "node": "Check Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Success": {
+      "main": [
+        [
+          {
+            "node": "Success Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Failure Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "name": "youtube"
+    },
+    {
+      "name": "automation"
+    }
+  ]
+}

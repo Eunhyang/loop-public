@@ -4,7 +4,7 @@ entity_id: "tsk-vault-gpt-09"
 entity_name: "LOOP n8n - YouTube Weekly 자동 트리거 워크플로우"
 created: 2026-01-03
 updated: 2026-01-03
-status: todo
+status: doing
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -25,8 +25,8 @@ estimated_hours: 1
 actual_hours: null
 
 # === Task 유형 ===
-type: ops
-target_project: null
+type: dev
+target_project: loop-api
 
 # === 분류 ===
 tags: ["n8n", "youtube", "automation"]
@@ -81,12 +81,9 @@ tsk-vault-gpt-08에서 구현한 `/api/youtube-weekly/create-round` API를 n8n�
 
 ## 체크리스트
 
-- [ ] n8n 접속
-- [ ] 새 워크플로우 생성
-- [ ] Schedule Trigger 노드 추가 (금요일 09:00)
-- [ ] HTTP Request 노드 추가
-- [ ] IF 노드 추가 (성공/실패 분기)
-- [ ] 알림 노드 추가 (선택)
+- [x] 워크플로우 JSON 생성 (`_build/n8n_workflows/youtube_weekly_round_creator.json`)
+- [ ] n8n UI에서 워크플로우 import
+- [ ] 환경변수 확인 (LOOP_API_TOKEN)
 - [ ] 워크플로우 활성화
 - [ ] 테스트 실행
 
@@ -94,10 +91,87 @@ tsk-vault-gpt-08에서 구현한 `/api/youtube-weekly/create-round` API를 n8n�
 
 ## Notes
 
+### Tech Spec
+
+**n8n 워크플로우 아키텍처**:
+```
+[Schedule Trigger: 0 9 * * 5]
+    ↓
+[HTTP Request: POST /api/youtube-weekly/create-round]
+    ↓
+[IF: success == true]
+    ├── Yes → [Code: Success Message] → (알림 준비)
+    └── No  → [Code: Failure Message] → (알림 준비)
+```
+
+**기술 스택**:
+- n8n (워크플로우 자동화)
+- n8n-nodes-base.scheduleTrigger (Cron 스케줄러)
+- n8n-nodes-base.httpRequest (API 호출)
+- n8n-nodes-base.if (조건부 분기)
+- n8n-nodes-base.code (JavaScript 메시지 생성)
+
+**인증 방식**:
+- 환경변수 `LOOP_API_TOKEN`을 Authorization 헤더에 포함
+- Bearer Token 형식: `Authorization: Bearer {token}`
+
+**API 응답 구조** (CreateRoundResponse):
+```json
+{
+  "success": true,
+  "project_id": "prj-yt-W03-26",
+  "project_name": "YouTube - W03-26",
+  "cycle": "W03-26",
+  "directory": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26",
+  "tasks_created": 10,
+  "task_ids": ["tsk-yt-w03-26-01", ...],
+  "start_date": "2026-01-17",
+  "message": "Round W03-26 created with 10 tasks"
+}
+```
+
+**에러 응답**:
+```json
+{
+  "detail": "Round already exists: prj-yt-W03-26"
+}
+```
+
+### Todo
+
+- [x] 워크플로우 JSON 기본 구조 생성
+- [ ] Success/Failure 메시지 코드 개선 (null 체크)
+- [ ] n8n UI import 및 Credential 설정
+- [ ] 테스트 실행
+
 ### 환경변수
 
-n8n에서 사용할 Credential 설정:
-- `LOOP_API_TOKEN`: API 인증 토큰
+n8n에서 사용할 환경변수:
+- `LOOP_API_TOKEN`: API 인증 토큰 (n8n 환경변수에 설정)
+
+### 작업 로그
+
+#### 2026-01-03 02:00
+**개요**: n8n 워크플로우 JSON 파일 생성
+
+**변경사항**:
+- 신규: `_build/n8n_workflows/youtube_weekly_round_creator.json`
+
+**워크플로우 구조**:
+```
+[Schedule Trigger: Every Friday 09:00]
+    ↓
+[HTTP Request: POST /api/youtube-weekly/create-round]
+    ↓
+[IF: success == true]
+    ├── Yes → [Code: Success Message]
+    └── No  → [Code: Failure Message]
+```
+
+**다음 단계**:
+- n8n UI에서 워크플로우 import
+- 워크플로우 활성화
+- 테스트 실행
 
 ---
 
