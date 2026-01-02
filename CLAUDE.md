@@ -100,7 +100,8 @@ NorthStar (10-year Vision) - Immutable
 ### API Architecture
 ```
 api/
-├── main.py              # FastAPI entry, ASGI auth middleware, MCP mount
+├── main.py              # FastAPI entry (API + MCP), ASGI auth middleware
+├── main_auth.py         # OAuth 전용 서버 (loop-auth 컨테이너용)
 ├── constants.py         # Loads schema_constants.yaml (SSOT)
 ├── routers/             # REST endpoints
 │   ├── tasks.py         # CRUD /api/tasks
@@ -123,7 +124,10 @@ api/
 │   └── impact_calculator.py
 ├── models/entities.py   # Pydantic schemas
 ├── cache/vault_cache.py # In-memory cache (O(1) lookups)
-└── oauth/               # OAuth 2.0 (RS256 + PKCE)
+└── oauth/               # OAuth 2.0 (RS256 + PKCE) - loop-auth에서 실행
+    ├── routes.py        # OAuth endpoints (/authorize, /token, etc.)
+    ├── jwks.py          # RS256 키 관리 + JWKS_URL fetch 지원
+    └── security.py      # 인증 로직
 ```
 
 **Endpoints** (IMPORTANT):
@@ -282,10 +286,26 @@ Required for trustworthy B scores:
 ### Docker Services (NAS)
 | Service | Port | Purpose |
 |---------|------|---------|
+| `loop-auth` | 8084 → 8083 | OAuth 인증 서버 (독립) |
 | `loop-api` | 8082 → 8081 | FastAPI + MCP server |
 | `n8n` | 5678 | Workflow automation |
 
-**Volume mounts**: LOOP Vault (rw), loop_exec (ro - sensitive data protection)
+**OAuth 분리 아키텍처** (tsk-vault-gpt-07):
+```
+loop-auth (8084) ─── OAuth 인증 (독립 컨테이너)
+      │                - /authorize, /token, /register
+      │                - SQLite DB, RS256 keys
+      ↓
+loop-api (8082) ─── API + MCP (JWT 검증만)
+                     - JWKS_URL로 loop-auth에서 공개키 fetch
+```
+- **장점**: loop-api rebuild 시에도 인증 세션 유지 (ChatGPT 재로그인 불필요)
+- **배포**: `/mcp-server rebuild` (API만) vs `/mcp-server rebuild-all` (전체)
+
+**Volume mounts**:
+- LOOP Vault: `/vault` (rw)
+- loop_exec: `/vault/exec` (ro - 민감 데이터 보호)
+- OAuth keys: `/app/api/oauth/keys` (ro - JWT 검증용)
 
 ### NAS Git Auto-Sync (15분마다)
 

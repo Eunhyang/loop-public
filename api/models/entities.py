@@ -166,3 +166,55 @@ class HypothesisResponse(BaseModel):
     validation: Optional[ValidationResult] = Field(default=None, description="auto_validate=True 시 검증 결과")
     # Project 연결 결과
     linked_projects: List[str] = Field(default_factory=list, description="validates에 연결된 프로젝트 IDs")
+
+
+# ============================================
+# Program-Round Join Models (tsk-017-09)
+# ============================================
+
+class ProgramSummary(BaseModel):
+    """Program 요약 - 안전한 필드만 노출 (민감 정보 제외)"""
+    entity_id: str = Field(..., description="Program ID (예: pgm-vault-system)")
+    entity_name: str = Field(..., description="Program 이름")
+    entity_type: str = Field(default="Program", description="엔티티 타입")
+    status: Optional[str] = Field(default=None, description="상태")
+    program_type: Optional[str] = Field(default=None, description="Program 유형")
+    parent_id: Optional[str] = Field(default=None, description="부모 Track ID")
+    tags: List[str] = Field(default_factory=list, description="태그")
+    created: Optional[str] = Field(default=None, description="생성일")
+    updated: Optional[str] = Field(default=None, description="수정일")
+
+
+class RoundSummary(BaseModel):
+    """Round(Project) 요약 - 민감 필드 제외
+
+    exec vault에서 조회된 Project 정보 중 안전한 필드만 포함.
+    salary, contract_terms, budget_details 등 민감 필드 제외.
+    """
+    project_id: str = Field(..., description="Project ID")
+    entity_name: str = Field(..., description="Project 이름")
+    status: str = Field(..., description="상태")
+    owner: str = Field(..., description="책임자")
+    cycle: Optional[str] = Field(default=None, description="사이클/라운드 (예: W33, 2026Q1)")
+    created: Optional[str] = Field(default=None, description="생성일 (YYYY-MM-DD)")
+    updated: Optional[str] = Field(default=None, description="수정일 (YYYY-MM-DD)")
+    hypothesis_text: Optional[str] = Field(default=None, description="프로젝트 가설")
+    parent_id: Optional[str] = Field(default=None, description="부모 Track ID")
+    conditions_3y: List[str] = Field(default_factory=list, description="3년 조건 연결")
+
+
+class ProgramRoundsResponse(BaseModel):
+    """Program + Rounds 조인 응답
+
+    GET /api/admin/programs/{pgm_id}/rounds 엔드포인트 응답.
+    Program 정보와 연결된 Round(Project) 목록을 함께 반환.
+
+    total_count vs returned_count:
+    - total_count: 실제 존재하는 전체 Round 수
+    - returned_count: limit 적용 후 반환된 Round 수
+    """
+    program: ProgramSummary = Field(..., description="Program 요약 정보")
+    rounds: List[RoundSummary] = Field(default_factory=list, description="연결된 Round(Project) 목록")
+    total_count: int = Field(..., description="실제 존재하는 전체 Round 수 (페이지네이션용)")
+    returned_count: int = Field(..., description="이번 응답에서 반환된 Round 수 (limit 적용)")
+    limit_applied: int = Field(..., description="적용된 limit 값")

@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-02
 updated: 2026-01-02
-total_entities: 240
+total_entities: 241
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 240개
+- **총 엔티티**: 241개
 - **마지막 업데이트**: 2026-01-02
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 7 |
 | Project | 25 |
-| Task | 127 |
+| Task | 128 |
 | Hypothesis | 46 |
 
 ### 상태별
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 4 |
 | assumed | 1 |
 | doing | 51 |
-| done | 81 |
+| done | 82 |
 | fixed | 1 |
 | hold | 1 |
 | todo | 87 |
@@ -132,7 +132,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (127개)
+## Task (128개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -202,10 +202,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-017-04` | 사업계획서 작성 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-04_사업계획서작성.md` |
 | `tsk-017-05` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/고객_관리_새해_인사_전달유튜브_오픈톡방_꼭꼭Fit_참여인원_등.md` |
 | `tsk-017-06` | 12주 과정 후 실제 변화/미해결 패턴 검증 - 꼭꼭Fit 졸업자들 대상 사후 설문 전달(워크북/다이어리 배송 포함) | done | `50_Projects/2025/P014_코칭 운영 체계/Tasks/12주_과정_후_실제_변화미해결_패턴_검증_꼭꼭Fit_졸업자들_대상_사후_설문_전달워크북다이어리_배송_포함.md` |
-| `tsk-017-07` | Content OS - Video Explorer Live Search | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content_OS_Video_Explorer_Live_Search.md` |
 | `tsk-017-08` | Dual-Vault - exec 경로 표준 확정 | doing | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-017-08_exec_경로_표준_확정.md` |
+| `tsk-017-09` | Dual-Vault - Program-Round 조인 API | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md` |
 | `tsk-017-11` | Dual-Vault - n8n 토큰 분리 설정 | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-11_n8n_토큰_분리_설정.md` |
-| `tsk-019-01` | Dual-Vault - exec pre-commit hook | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md` |
+| `tsk-019-01` | Dual-Vault - exec pre-commit hook | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md` |
 | `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
 | `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
 | `tsk-content-os-03` | Content OS - Video Explorer UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer UI.md` |
@@ -262,6 +262,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-vault-gpt-04` | MCP Bearer Token 인증 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md` |
 | `tsk-vault-gpt-05` | MCP - 전용 복합 API 엔드포인트 개발 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md` |
 | `tsk-vault-gpt-06` | MCP - vault-full-scan API 개발 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-06_MCP_vault-full-scan_API.md` |
+| `tsk-vault-gpt-07` | OAuth 인증 서버 분리 (loop-auth) | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md` |
 | `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
 
 
@@ -439,10 +440,10 @@ tags: ["meta", "graph", "index"]
   - tsk-017-04 (사업계획서 작성)
 - **prj-019** (Dual-Vault - 정비)
   - tsk-017-08 (Dual-Vault - exec 경로 표준 확정)
+  - tsk-017-09 (Dual-Vault - Program-Round 조인 API)
   - tsk-017-11 (Dual-Vault - n8n 토큰 분리 설정)
   - tsk-019-01 (Dual-Vault - exec pre-commit hook)
 - **prj-content-os** (Content OS - MVP 개발)
-  - tsk-017-07 (Content OS - Video Explorer Live Search)
   - tsk-content-os-01 (Content OS - 프로젝트 초기 세팅)
   - tsk-content-os-02 (Content OS - Opportunity 대시보드 UI)
   - tsk-content-os-03 (Content OS - Video Explorer UI)
@@ -506,6 +507,7 @@ tags: ["meta", "graph", "index"]
   - tsk-vault-gpt-04 (MCP Bearer Token 인증 추가)
   - tsk-vault-gpt-05 (MCP - 전용 복합 API 엔드포인트 개발)
   - tsk-vault-gpt-06 (MCP - vault-full-scan API 개발)
+  - tsk-vault-gpt-07 (OAuth 인증 서버 분리 (loop-auth))
 - **prj-yt-w33** (YouTube W33)
   - tsk-014-02 (W33 대본작성)
   - tsk-014-03 (W33 촬영)
