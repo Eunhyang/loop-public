@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-02T17:54:40.949229",
-  "total_entities": 240,
+  "generated": "2026-01-02T18:13:18.666571",
+  "total_entities": 241,
   "nodes": [
     {
       "id": "idx:60_hypotheses",
@@ -1606,6 +1606,18 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-vault-gpt-07",
+      "type": "Task",
+      "name": "OAuth 인증 서버 분리 (loop-auth)",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-vault-gpt-04",
       "type": "Task",
       "name": "MCP Bearer Token 인증 추가",
@@ -1800,7 +1812,7 @@
       "id": "tsk-019-01",
       "type": "Task",
       "name": "Dual-Vault - exec pre-commit hook",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md",
       "conditions_3y": [
         "cond-b"
@@ -1982,6 +1994,18 @@
       "name": "Dual-Vault - n8n 토큰 분리 설정",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-11_n8n_토큰_분리_설정.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-017-09",
+      "type": "Task",
+      "name": "Dual-Vault - Program-Round 조인 API",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md",
       "conditions_3y": [
         "cond-b"
       ],
@@ -2187,14 +2211,6 @@
         "cond-a"
       ],
       "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-017-07",
-      "type": "Task",
-      "name": "Content OS - Video Explorer Live Search",
-      "status": "doing",
-      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content_OS_Video_Explorer_Live_Search.md",
       "assignee": "김은향"
     },
     {
@@ -3308,6 +3324,11 @@
     },
     {
       "source": "prj-vault-gpt",
+      "target": "tsk-vault-gpt-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-vault-gpt",
       "target": "tsk-vault-gpt-04",
       "type": "parent_of"
     },
@@ -3344,6 +3365,11 @@
     {
       "source": "prj-019",
       "target": "tsk-017-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-017-09",
       "type": "parent_of"
     },
     {
@@ -3494,11 +3520,6 @@
     {
       "source": "prj-content-os",
       "target": "tsk-content-os-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-017-07",
       "type": "parent_of"
     },
     {
@@ -4302,6 +4323,7 @@
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-03",
       "tsk-vault-gpt-06",
+      "tsk-vault-gpt-07",
       "tsk-vault-gpt-05",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-02",
@@ -4317,6 +4339,7 @@
       "tsk-impact-schema-v2-05",
       "tsk-019-01",
       "tsk-017-11",
+      "tsk-017-09",
       "trk-4",
       "trk-2"
     ],
@@ -4615,6 +4638,7 @@
       "tsk-vault-gpt-03",
       "tsk-vault-gpt-02",
       "tsk-vault-gpt-06",
+      "tsk-vault-gpt-07",
       "tsk-vault-gpt-04",
       "tsk-vault-gpt-05",
       "tsk-mcp-rbac-02",
@@ -4643,6 +4667,7 @@
       "tsk-n8n-06",
       "tsk-n8n-13",
       "tsk-017-11",
+      "tsk-017-09",
       "tsk-017-04",
       "tsk-017-02",
       "tsk-017-03",
@@ -4653,7 +4678,6 @@
       "tsk-content-os-07",
       "tsk-content-os-05",
       "tsk-content-os-08",
-      "tsk-017-07",
       "tsk-content-os-03",
       "tsk-content-os-06"
     ],
@@ -4836,15 +4860,16 @@
       "tsk-dashboard-ux-v1-10",
       "prj-vault-gpt",
       "tsk-vault-gpt-06",
+      "tsk-vault-gpt-07",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-03",
       "prj-019",
       "tsk-017-08",
       "tsk-impact-schema-v2-05",
-      "tsk-019-01",
       "tsk-n8n-06",
       "tsk-n8n-13",
       "tsk-017-11",
+      "tsk-017-09",
       "pgm-tips",
       "tsk-017-02",
       "pgm-hiring",
@@ -4852,7 +4877,6 @@
       "pgm-content-os",
       "tsk-content-os-07",
       "tsk-content-os-08",
-      "tsk-017-07",
       "cond-b",
       "cond-d",
       "cond-a",
@@ -4939,6 +4963,7 @@
       "tsk-impact-v2-07",
       "tsk-impact-schema-v2-02",
       "tsk-impact-v2-06",
+      "tsk-019-01",
       "tsk-n8n-11",
       "tsk-n8n-10",
       "tsk-n8n-03",

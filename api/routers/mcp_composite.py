@@ -1254,3 +1254,239 @@ async def exec_search(
             "scope": scope
         }
     }
+
+
+# ============================================
+# Admin Endpoints (tsk-017-09: Program-Round Join)
+# ============================================
+
+# 민감 필드 목록 - 응답에서 제외
+SENSITIVE_FIELDS = {
+    "salary", "contract_terms", "budget_details", "personal_info",
+    "bank_account", "ssn", "password", "token", "secret"
+}
+
+# Program 응답에 포함할 안전한 필드 (화이트리스트)
+PROGRAM_SAFE_FIELDS = {
+    "entity_id", "entity_name", "entity_type", "status", "program_type",
+    "parent_id", "tags", "created", "updated", "aliases"
+}
+
+# Round(Project) 응답에 포함할 안전한 필드 (화이트리스트)
+ROUND_SAFE_FIELDS = {
+    "entity_id", "entity_name", "status", "owner", "cycle",
+    "created", "updated", "hypothesis_text", "parent_id", "conditions_3y"
+}
+
+
+def _normalize_date(value) -> Optional[str]:
+    """날짜 값을 문자열로 정규화 (None 처리 포함)"""
+    if value is None:
+        return None
+    if hasattr(value, 'isoformat'):
+        return value.isoformat()
+    str_val = str(value)
+    if str_val in ('None', 'null', ''):
+        return None
+    return str_val
+
+
+def _filter_sensitive_fields(data: Dict[str, Any], safe_fields: set) -> Dict[str, Any]:
+    """안전한 필드만 필터링하여 반환"""
+    return {k: v for k, v in data.items() if k in safe_fields}
+
+
+def _scan_exec_rounds_sync(exec_vault: Path, program_id: str, limit: int = 100) -> Tuple[List[Dict[str, Any]], int]:
+    """
+    exec vault에서 program_id 일치하는 Project(Round) 스캔 (동기 버전)
+
+    Codex 피드백 반영:
+    - 개별 파일 파싱 에러 catch (전체 실패 방지)
+    - limit 적용하여 무한 스캔 방지
+    - 민감 필드 화이트리스트 적용
+    - total_available 반환하여 페이지네이션 지원
+
+    Returns:
+        (rounds, total_available): 매칭된 rounds 리스트와 전체 개수
+    """
+    import logging
+    logger = logging.getLogger(__name__)
+
+    rounds = []
+    total_available = 0
+
+    if not exec_vault.exists():
+        return rounds, 0
+
+    for md_file in exec_vault.rglob("*.md"):
+        # 숨김 파일/폴더 제외
+        if any(part.startswith('.') for part in md_file.parts):
+            continue
+
+        try:
+            frontmatter, _ = extract_frontmatter_and_body(md_file)
+            if not frontmatter:
+                continue
+
+            # Project 타입이 아니면 스킵
+            if frontmatter.get('entity_type') != 'Project':
+                continue
+
+            # program_id 일치 확인
+            if frontmatter.get('program_id') != program_id:
+                continue
+
+            # 매칭된 Round 발견
+            total_available += 1
+
+            # limit 이후는 count만 하고 데이터는 수집하지 않음
+            if len(rounds) >= limit:
+                continue
+
+            # 안전한 필드만 추출
+            conditions_3y = frontmatter.get('conditions_3y', [])
+            if not isinstance(conditions_3y, list):
+                conditions_3y = []
+
+            round_data = {
+                "project_id": frontmatter.get('entity_id', ''),
+                "entity_name": frontmatter.get('entity_name', ''),
+                "status": frontmatter.get('status', 'unknown'),
+                "owner": frontmatter.get('owner', ''),
+                "cycle": frontmatter.get('cycle'),
+                "created": _normalize_date(frontmatter.get('created')),
+                "updated": _normalize_date(frontmatter.get('updated')),
+                "hypothesis_text": frontmatter.get('hypothesis_text'),
+                "parent_id": frontmatter.get('parent_id'),
+                "conditions_3y": conditions_3y
+            }
+
+            rounds.append(round_data)
+
+        except Exception as e:
+            # 개별 파일 에러는 로그만 남기고 계속 진행
+            logger.warning(f"Error parsing {md_file}: {e}")
+            continue
+
+    sorted_rounds = sorted(rounds, key=lambda x: x.get('project_id', ''))
+    return sorted_rounds, total_available
+
+
+async def _scan_exec_rounds(exec_vault: Path, program_id: str, limit: int = 100) -> Tuple[List[Dict[str, Any]], int]:
+    """
+    exec vault에서 program_id 일치하는 Project(Round) 스캔 (비동기 버전)
+
+    Codex 피드백: 파일 I/O를 threadpool에서 실행하여 이벤트 루프 블로킹 방지
+    """
+    import asyncio
+    return await asyncio.to_thread(_scan_exec_rounds_sync, exec_vault, program_id, limit)
+
+
+@router.get("/admin/programs/{pgm_id}/rounds")
+async def get_program_rounds(
+    request: Request,
+    pgm_id: str,
+    limit: int = Query(100, ge=1, le=500, description="최대 반환 Round 수")
+):
+    """
+    Program + 연결된 Round(Project) 조인 조회
+
+    LOOP vault에서 Program 정보를 조회하고,
+    exec vault에서 해당 program_id를 가진 Project(Round)들을 스캔하여 조인.
+
+    **권한 요구사항**:
+    - role: admin (exec 또는 admin role 필요)
+    - scope: mcp:exec (exec vault 접근 권한)
+
+    **민감 필드 제외**:
+    - salary, contract_terms, budget_details 등 민감 정보는 응답에서 제외
+
+    **에러 코드**:
+    - 403: 권한 없음 (admin role 아님)
+    - 404: Program을 찾을 수 없음
+    - 500: exec vault 접근 실패
+
+    Args:
+        pgm_id: Program ID (예: pgm-vault-system)
+        limit: 최대 반환 Round 수 (기본 100, 최대 500)
+
+    Returns:
+        ProgramRoundsResponse: Program 정보 + Round 목록
+    """
+    # 1. Admin 권한 검증
+    role, scope = require_exec_access(request)
+
+    # Codex 피드백: 명시적 admin role 체크
+    # require_exec_access는 exec 또는 admin을 허용하지만,
+    # 이 엔드포인트는 admin 전용으로 제한
+    if role != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail=f"Admin role required for this endpoint (current role: {role})"
+        )
+
+    # 2. LOOP vault에서 Program 조회
+    cache = get_cache()
+    program = cache.get_program(pgm_id)
+
+    if not program:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Program not found: {pgm_id}"
+        )
+
+    # 3. Program 정보에서 안전한 필드만 추출
+    from ..models.entities import ProgramSummary, RoundSummary, ProgramRoundsResponse
+
+    program_tags = program.get('tags', [])
+    if not isinstance(program_tags, list):
+        program_tags = []
+
+    program_summary = ProgramSummary(
+        entity_id=program.get('entity_id', ''),
+        entity_name=program.get('entity_name', ''),
+        entity_type=program.get('entity_type', 'Program'),
+        status=program.get('status'),
+        program_type=program.get('program_type'),
+        parent_id=program.get('parent_id'),
+        tags=program_tags,
+        created=_normalize_date(program.get('created')),
+        updated=_normalize_date(program.get('updated'))
+    )
+
+    # 4. exec vault에서 program_id 일치하는 Project 스캔 (비동기)
+    try:
+        exec_vault = get_exec_vault_dir()
+        round_data_list, total_available = await _scan_exec_rounds(exec_vault, pgm_id, limit=limit)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to access exec vault: {str(e)}"
+        )
+
+    # 5. RoundSummary 모델로 변환
+    rounds = [
+        RoundSummary(
+            project_id=r.get('project_id', ''),
+            entity_name=r.get('entity_name', ''),
+            status=r.get('status', 'unknown'),
+            owner=r.get('owner', ''),
+            cycle=r.get('cycle'),
+            created=r.get('created'),
+            updated=r.get('updated'),
+            hypothesis_text=r.get('hypothesis_text'),
+            parent_id=r.get('parent_id'),
+            conditions_3y=r.get('conditions_3y', [])
+        )
+        for r in round_data_list
+    ]
+
+    # 6. 응답 반환
+    # Codex 피드백: total_count는 전체 개수, returned_count는 반환된 개수
+    return ProgramRoundsResponse(
+        program=program_summary,
+        rounds=rounds,
+        total_count=total_available,
+        returned_count=len(rounds),
+        limit_applied=limit
+    )

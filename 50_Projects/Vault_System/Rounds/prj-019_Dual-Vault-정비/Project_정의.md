@@ -123,6 +123,7 @@ Dual-Vault (LOOP + loop_exec) 구조에서 접근 권한을 명확히 분리해�
 
 | ID | Name | Assignee | Status | Due |
 |----|------|----------|--------|-----|
+| tsk-017-09 | Dual-Vault - Program-Round 조인 API | 김은향 | doing | 2026-01-02 |
 | tsk-017-11 | Dual-Vault - n8n 토큰 분리 설정 | 김은향 | todo | |
 
 ---
