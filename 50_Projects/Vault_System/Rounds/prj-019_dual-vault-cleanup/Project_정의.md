@@ -33,6 +33,9 @@ expected_impact:
   impact_magnitude: mid
   confidence: 0.8
   contributes: []
+  statement: "exec vault와 public vault의 경로 구조 통일로 API/스크립트 재사용성 향상"
+  metric: "경로 통일 완료율"
+  target: "100%"
 
 # === Realized Impact (B) ===
 realized_impact:
