@@ -323,12 +323,14 @@ class VaultCache:
         return entity_id
 
     def _load_exec_projects(self) -> None:
-        """exec vault의 프로젝트 로드 (tsk-018-01)
+        """exec vault의 프로젝트 및 Task 로드 (tsk-018-01)
 
         exec vault 프로젝트는 민감 정보를 포함할 수 있으므로
         API 응답 시 EXEC_SENSITIVE_FIELDS에 정의된 필드를 제외함.
 
-        구조: exec/50_Projects/P{num}_{name}/_INDEX.md
+        구조:
+        - 프로젝트: exec/50_Projects/P{num}_{name}/_INDEX.md
+        - Task: exec/50_Projects/P{num}_{name}/Tasks/*.md
         """
         if not self.exec_projects_dir or not self.exec_projects_dir.exists():
             logger.debug(f"Exec vault projects dir not found: {self.exec_projects_dir}")
@@ -344,6 +346,12 @@ class VaultCache:
             index_file = project_dir / "_INDEX.md"
             if index_file.exists():
                 self._load_exec_project_file(index_file)
+
+            # exec vault Task 로드
+            tasks_dir = project_dir / "Tasks"
+            if tasks_dir.exists():
+                for task_file in tasks_dir.glob("*.md"):
+                    self._load_exec_task_file(task_file)
 
     def _load_exec_project_file(self, file_path: Path) -> Optional[str]:
         """단일 exec vault Project 파일 로드 (민감 정보 필터링)"""
@@ -375,6 +383,41 @@ class VaultCache:
         self._exec_project_count += 1
 
         logger.debug(f"Loaded exec project: {entity_id}")
+        return entity_id
+
+    def _load_exec_task_file(self, file_path: Path) -> Optional[str]:
+        """단일 exec vault Task 파일 로드 (민감 정보 필터링)
+
+        tsk-018-01: exec vault Task도 캐시에 로드하여 칸반보드에 표시
+        """
+        data, body = self._extract_frontmatter_and_body(file_path)
+        if not data:
+            return None
+
+        entity_id = data.get('entity_id')
+        if not entity_id:
+            return None
+
+        # 민감 필드 필터링 (contract, salary, rate 등)
+        filtered_data = {
+            k: v for k, v in data.items()
+            if k not in self.EXEC_SENSITIVE_FIELDS
+        }
+
+        # exec vault 마커 추가
+        filtered_data['_vault'] = 'exec'
+        filtered_data['_path'] = str(file_path.relative_to(self.exec_vault_path))
+        filtered_data['_dir'] = str(file_path.parent.relative_to(self.exec_vault_path))
+        filtered_data['_body'] = body
+
+        self.tasks[entity_id] = CacheEntry(
+            data=filtered_data,
+            path=file_path,
+            mtime=file_path.stat().st_mtime
+        )
+        self._task_count += 1
+
+        logger.debug(f"Loaded exec task: {entity_id}")
         return entity_id
 
     def get_project(self, project_id: str) -> Optional[Dict[str, Any]]:
