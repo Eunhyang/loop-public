@@ -28,7 +28,7 @@ LOOP Vault Schema Validator v7.1
 - Task: validates 관계 금지 (역할 분리)
 
 변경사항 (v4.0):
-- conditions_3y 필드 검증 추가 (Task, Project, Track 필수)
+- conditions_3y 필드 검증 추가 (Project, Track 필수)
 - VALID_CONDITION_IDS 상수 추가
 """
 
@@ -143,8 +143,8 @@ def validate_conditions_3y(frontmatter: Dict, entity_type: str) -> List[str]:
     """conditions_3y 필드 검증"""
     errors = []
 
-    # Task, Project, Track만 필수
-    if entity_type not in ["Task", "Project", "Track"]:
+    # Project, Track만 필수 (Task는 선택)
+    if entity_type not in ["Project", "Track"]:
         return errors
 
     conditions = frontmatter.get("conditions_3y")
@@ -504,7 +504,7 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
                     if not isinstance(v, str):
                         errors.append(f"{field} must contain only strings, got: {type(v)}")
 
-    # conditions_3y 검증 (Task, Project, Track)
+    # conditions_3y 검증 (Project, Track만 필수)
     conditions_errors = validate_conditions_3y(frontmatter, entity_type)
     errors.extend(conditions_errors)
 
@@ -613,7 +613,7 @@ def _load_required_fields_from_yaml() -> None:
             "Condition": ["if_broken"],
             "Track": ["owner", "horizon", "conditions_3y"],
             "Project": ["owner", "parent_id", "conditions_3y", "expected_impact"],
-            "Task": ["assignee", "project_id", "parent_id", "conditions_3y"],
+            "Task": ["assignee", "project_id", "parent_id"],
             "Hypothesis": [],
             "Experiment": ["hypothesis_id", "metrics"],
         }

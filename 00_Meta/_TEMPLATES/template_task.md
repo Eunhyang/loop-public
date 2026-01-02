@@ -28,9 +28,6 @@ actual_hours: null
 type: {{TYPE}}                   # dev | strategy | research | ops | null
 target_project: {{TARGET_PROJECT}}  # type=dev일 때만: sosi | kkokkkok | loop-api | null
 
-# === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
-
 # === 분류 ===
 tags: []
 priority_flag: medium

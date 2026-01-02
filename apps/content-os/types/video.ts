@@ -23,6 +23,13 @@ export interface Video {
   exposureGrade?: ExposureGrade; // Great/Good/Normal/Bad
   isCollected?: boolean; // whether video is in collection
   isBlocked?: boolean; // whether video/channel is blocked
+  // YouTube API specific fields
+  youtubeId?: string; // YouTube video ID
+  channelId?: string; // YouTube channel ID
+  likeCount?: number; // Like count (may be hidden)
+  commentCount?: number; // Comment count (may be disabled)
+  categoryId?: string; // YouTube category ID
+  description?: string; // Video description (truncated)
 }
 
 // Extended Video with calculated scores (used after processing)

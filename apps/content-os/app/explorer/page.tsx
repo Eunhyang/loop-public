@@ -7,17 +7,22 @@ import { VideoFilters } from "./components/video-filters";
 import { BulkActions } from "./components/bulk-actions";
 import { ExplorerTabs, ExplorerTabContent, ExplorerTab } from "./components/explorer-tabs";
 import { CollectionList, BlockedList } from "./components/collection/collection-list";
-import { dummyVideos, channelList } from "./data/dummy-videos";
+import { dummyVideos, channelList as dummyChannelList } from "./data/dummy-videos";
 import { ProcessedVideo, SortState, SortField, FilterState } from "@/types/video";
 import { processVideos, exposureGradeToNumber } from "./lib/score-calculator";
 import { useCollection } from "./hooks/use-collection";
 import { useSearchHistory } from "./hooks/use-search-history";
+import { useYouTubeSearch } from "./hooks/use-youtube-search";
+import { useDebounce } from "./hooks/use-debounce";
+import { Loader2, AlertCircle, Youtube } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 function filterVideos(
   videos: ProcessedVideo[],
   filters: FilterState,
   isBlocked: (video: ProcessedVideo) => boolean,
-  showBlocked: boolean
+  showBlocked: boolean,
+  skipSearchFilter: boolean = false
 ): ProcessedVideo[] {
   return videos.filter((video) => {
     // Hide blocked videos unless showBlocked is true
@@ -25,8 +30,8 @@ function filterVideos(
       return false;
     }
 
-    // Search filter
-    if (filters.search) {
+    // Search filter (skip if using YouTube API search)
+    if (!skipSearchFilter && filters.search) {
       const searchLower = filters.search.toLowerCase();
       const matchesSearch =
         video.title.toLowerCase().includes(searchLower) ||
@@ -123,6 +128,23 @@ export default function ExplorerPage() {
   // Show blocked toggle
   const [showBlocked, setShowBlocked] = useState(false);
 
+  // Debounce search query for API calls (300ms)
+  const debouncedSearchQuery = useDebounce(filters.search, 300);
+
+  // YouTube search hook
+  const {
+    videos: youtubeVideos,
+    channelList: youtubeChannelList,
+    isLoading: isSearching,
+    isFetching,
+    error: searchError,
+    totalResults,
+  } = useYouTubeSearch({
+    query: debouncedSearchQuery,
+    maxResults: 50,
+    enabled: debouncedSearchQuery.trim().length >= 2,
+  });
+
   // Collection hook (with localStorage persistence)
   const {
     collectedVideos,
@@ -150,14 +172,28 @@ export default function ExplorerPage() {
     clearHistory: clearSearchHistory,
   } = useSearchHistory();
 
+  // Determine if we're using YouTube search or fallback to dummy data
+  const isUsingYouTubeSearch = debouncedSearchQuery.trim().length >= 2;
+
   // Process videos with calculated scores
-  const processedVideos = useMemo(() => processVideos(dummyVideos), []);
+  const processedDummyVideos = useMemo(() => processVideos(dummyVideos), []);
+
+  // Choose data source based on search state
+  const sourceVideos = isUsingYouTubeSearch ? youtubeVideos : processedDummyVideos;
+  const channelList = isUsingYouTubeSearch ? youtubeChannelList : dummyChannelList;
 
   // Memoized filtered and sorted videos
   const displayVideos = useMemo(() => {
-    const filtered = filterVideos(processedVideos, filters, isBlocked, showBlocked);
+    // When using YouTube search, skip the search filter (already applied by API)
+    const filtered = filterVideos(
+      sourceVideos,
+      filters,
+      isBlocked,
+      showBlocked,
+      isUsingYouTubeSearch
+    );
     return sortVideos(filtered, sortState);
-  }, [processedVideos, filters, isBlocked, showBlocked, sortState]);
+  }, [sourceVideos, filters, isBlocked, showBlocked, sortState, isUsingYouTubeSearch]);
 
   // Handler for sort change
   const handleSortChange = useCallback((field: SortField) => {
@@ -203,8 +239,8 @@ export default function ExplorerPage() {
 
   // Get selected videos
   const selectedVideos = useMemo(
-    () => processedVideos.filter((v) => selectedIds.has(v.id)),
-    [processedVideos, selectedIds]
+    () => sourceVideos.filter((v) => selectedIds.has(v.id)),
+    [sourceVideos, selectedIds]
   );
 
   // Check selection state for bulk actions
@@ -246,6 +282,20 @@ export default function ExplorerPage() {
     );
   }, [selectedVideos, selectedIds.size]);
 
+  // Result status message
+  const getResultStatusMessage = () => {
+    if (isSearching) {
+      return "Searching YouTube...";
+    }
+    if (isUsingYouTubeSearch && totalResults > 0) {
+      return `${displayVideos.length} of ${totalResults.toLocaleString()} YouTube results`;
+    }
+    if (isUsingYouTubeSearch && displayVideos.length === 0) {
+      return "No videos found";
+    }
+    return `${displayVideos.length} video${displayVideos.length !== 1 ? "s" : ""} found`;
+  };
+
   return (
     <>
       <Header
@@ -275,9 +325,36 @@ export default function ExplorerPage() {
               useSearchPanel
             />
 
-            <div className="mb-2 text-sm text-muted-foreground">
-              {displayVideos.length} video{displayVideos.length !== 1 ? "s" : ""}{" "}
-              found
+            {/* Search Error Alert */}
+            {searchError && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Search Error</AlertTitle>
+                <AlertDescription>
+                  {searchError.message}
+                  {searchError.message.includes("quota") && (
+                    <span className="block mt-1 text-sm">
+                      Daily API limit reached. Try again tomorrow or use shorter search terms.
+                    </span>
+                  )}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {/* Status bar */}
+            <div className="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
+              {(isSearching || isFetching) && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+              {isUsingYouTubeSearch && !isSearching && (
+                <Youtube className="h-4 w-4 text-red-500" />
+              )}
+              <span>{getResultStatusMessage()}</span>
+              {!isUsingYouTubeSearch && filters.search.trim().length > 0 && (
+                <span className="text-xs text-muted-foreground/70">
+                  (type at least 2 characters to search YouTube)
+                </span>
+              )}
             </div>
 
             <VideoTable

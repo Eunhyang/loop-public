@@ -27,7 +27,6 @@ TASK_SCHEMA_SYSTEM_PROMPT = """당신은 LOOP Vault Task 스키마 전문가입�
    - type: dev, bug, strategy, research, ops
    - target_project: sosi, kkokkkok, loop-api, loop (type이 dev/bug일 때만)
 3. **assignee는 정해진 목록에서만 선택**: 김은향, 한명학
-4. **conditions_3y는 1개 이상 필수**: cond-a, cond-b, cond-c, cond-d, cond-e
 
 ## 출력 형식
 반드시 JSON 형식으로 출력하세요. Markdown 코드블록 없이 순수 JSON만 반환합니다."""
@@ -106,7 +105,6 @@ def build_task_schema_prompt(
 
 {{
   "suggested_fields": {{
-    "conditions_3y": ["cond-X"],
     "assignee": "김은향 또는 한명학",
     "due": "YYYY-MM-DD",
     "priority": "critical|high|medium|low",
@@ -114,22 +112,12 @@ def build_task_schema_prompt(
     "target_project": "sosi|kkokkkok|loop-api|loop"
   }},
   "reasoning": {{
-    "conditions_3y": "판단 근거",
     "assignee": "판단 근거",
     "due": "판단 근거"
   }}
 }}
 
 ### 판단 기준
-
-**conditions_3y 선택:**
-- cond-a: Product-Market Fit (제품-시장 적합성)
-- cond-b: Revenue Model (수익 모델)
-- cond-c: Scalability (확장성)
-- cond-d: Team (팀)
-- cond-e: Tech/Infrastructure (기술/인프라)
-
-Task 이름, notes, project_id, tags를 분석하여 가장 관련 있는 Condition을 선택하세요.
 
 **assignee 선택:**
 - 김은향: 전략, 시스템 설계, 데이터, 개발, 기술 인프라 작업

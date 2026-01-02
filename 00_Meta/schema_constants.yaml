@@ -296,7 +296,6 @@ required_fields:
     - assignee
     - project_id
     - parent_id
-    - conditions_3y
   Hypothesis: []   # hypothesis_question OR hypothesis_text 별도 검증
   Experiment:
     - hypothesis_id
