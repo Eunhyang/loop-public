@@ -4,7 +4,8 @@ entity_id: "tsk-017-14"
 entity_name: "Dual-Vault - exec ID 체계 정비"
 created: 2026-01-03
 updated: 2026-01-03
-status: doing
+status: done
+closed: 2026-01-03
 
 # === 계층 ===
 parent_id: "prj-019"
