@@ -325,14 +325,21 @@ class VaultCache:
         return entity_id
 
     def _load_exec_projects(self) -> None:
-        """exec vault의 프로젝트 및 Task 로드 (tsk-018-01)
+        """exec vault의 프로젝트 및 Task 로드 (tsk-018-02: 재귀적 스캔)
 
         exec vault 프로젝트는 민감 정보를 포함할 수 있으므로
         API 응답 시 EXEC_SENSITIVE_FIELDS에 정의된 필드를 제외함.
 
-        구조:
-        - 기존: exec/50_Projects/P{num}_{name}/_INDEX.md
-        - Program Rounds: exec/50_Projects/{Program}/prj-*/{Project_정의.md|_INDEX.md}
+        tsk-018-02 리팩토링:
+        - 하드코딩된 P* 패턴 제거
+        - 재귀적으로 Project 폴더 스캔
+        - entity_type: Project 검증으로 오인식 방지
+        - 새 Program 폴더 추가 시 코드 수정 불필요
+
+        Codex 피드백 반영:
+        - Tasks 폴더 직속 파일만 로드 (하위 폴더 제외)
+        - Project_정의.md 우선, 없으면 _INDEX.md fallback
+        - 이중 스캔/파싱 최소화
         """
         if not self.exec_projects_dir or not self.exec_projects_dir.exists():
             logger.debug(f"Exec vault projects dir not found: {self.exec_projects_dir}")
@@ -340,53 +347,71 @@ class VaultCache:
 
         self._update_dir_mtime(self.exec_projects_dir, 'ExecProject')
 
-        # 1. 기존 패턴: P* 폴더 (P015, P016_다온_영상편집자 등)
-        for project_dir in self.exec_projects_dir.glob("P*"):
-            if not project_dir.is_dir():
+        # 재귀적으로 모든 디렉토리 스캔하여 Project 폴더 찾기
+        loaded_project_dirs: set = set()
+
+        for item in self.exec_projects_dir.rglob('*'):
+            # 숨김/시스템 폴더 제외 (.obsidian, @eaDir 등)
+            if any(part.startswith(('.', '@')) for part in item.parts):
                 continue
 
-            # exec vault는 _INDEX.md 사용
-            index_file = project_dir / "_INDEX.md"
-            if index_file.exists():
-                self._load_exec_project_file(index_file)
+            if not item.is_dir():
+                continue
 
-            # exec vault Task 로드
-            tasks_dir = project_dir / "Tasks"
-            if tasks_dir.exists():
-                for task_file in tasks_dir.glob("*.md"):
-                    self._load_exec_task_file(task_file)
+            # Project 폴더 판별: Project_정의.md 또는 _INDEX.md 존재
+            project_file = None
 
-        # 2. Program Rounds 패턴: {Program}/prj-* 폴더 (Grants, TIPS_Batch 등)
-        for program_dir in self.exec_projects_dir.iterdir():
-            if not program_dir.is_dir() or program_dir.name.startswith(('P', '.', '@')):
-                continue  # P* 폴더는 위에서 처리, 숨김/시스템 폴더 제외
-
-            for project_dir in program_dir.glob("prj-*"):
-                if not project_dir.is_dir():
-                    continue
-
-                # Project_정의.md 또는 _INDEX.md
-                for index_name in ["Project_정의.md", "_INDEX.md"]:
-                    index_file = project_dir / index_name
-                    if index_file.exists():
-                        self._load_exec_project_file(index_file)
+            # 우선순위: Project_정의.md > _INDEX.md
+            for candidate in ('Project_정의.md', '_INDEX.md'):
+                candidate_path = item / candidate
+                if candidate_path.exists():
+                    # entity_type 검증
+                    data = self._extract_frontmatter(candidate_path)
+                    if data and data.get('entity_type') == 'Project':
+                        project_file = candidate_path
                         break
 
-                # Task 로드
-                tasks_dir = project_dir / "Tasks"
-                if tasks_dir.exists():
-                    for task_file in tasks_dir.glob("*.md"):
-                        self._load_exec_task_file(task_file)
+            if project_file and data:
+                # 이미 로드한 디렉토리 스킵 (부모/자식 중복 방지)
+                if item in loaded_project_dirs:
+                    continue
+                loaded_project_dirs.add(item)
+
+                # Project 로드 (이미 파싱한 data 재사용으로 이중 파싱 방지)
+                self._load_exec_project_file_with_data(project_file, data)
+
+                # Task 로드: Tasks 폴더 직속 .md 파일만 (하위 폴더 제외)
+                tasks_dir = item / 'Tasks'
+                if tasks_dir.exists() and tasks_dir.is_dir():
+                    for task_file in tasks_dir.glob('*.md'):
+                        if task_file.is_file() and not task_file.name.startswith('_'):
+                            self._load_exec_task_file(task_file)
 
     def _load_exec_project_file(self, file_path: Path) -> Optional[str]:
         """단일 exec vault Project 파일 로드 (민감 정보 필터링)"""
         data, body = self._extract_frontmatter_and_body(file_path)
         if not data:
             return None
+        return self._load_exec_project_file_with_data(file_path, data, body)
 
+    def _load_exec_project_file_with_data(
+        self,
+        file_path: Path,
+        data: Dict[str, Any],
+        body: Optional[str] = None
+    ) -> Optional[str]:
+        """단일 exec vault Project 파일 로드 (이미 파싱된 data 사용)
+
+        tsk-018-02: 이중 파싱 방지를 위해 data를 직접 받음
+        body가 None이면 파일에서 다시 읽음
+        """
         entity_id = data.get('entity_id')
         if not entity_id:
             return None
+
+        # body가 없으면 파일에서 읽기
+        if body is None:
+            _, body = self._extract_frontmatter_and_body(file_path)
 
         # 민감 필드 필터링 (contract, salary, rate 등)
         filtered_data = {
