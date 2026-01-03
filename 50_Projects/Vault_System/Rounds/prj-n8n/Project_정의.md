@@ -66,12 +66,51 @@ n8n 워크플로우 엔진을 활용하여 LOOP Vault의 다양한 자동화 작
 
 ---
 
+## 워크플로우 JSON 위치
+
+> **`_build/n8n_workflows/`** - 모든 n8n 워크플로우 JSON 파일
+
+```
+_build/n8n_workflows/
+├── entity_validator_autofiller.json   # Entity 스키마 검증 + LLM 추론
+├── workflow_c_impact_rebuild.json     # Impact Score 재계산
+├── workflow_d_hypothesis_seeder.json  # Hypothesis 초안 생성
+├── youtube_weekly_round_creator.json  # YouTube Weekly Round 자동 생성
+└── _archive/                          # 이전 버전 백업
+```
+
+---
+
 ## 현재 워크플로우
 
-| 워크플로우 | 설명 | 상태 |
-|-----------|------|------|
-| Entity Validator/Autofiller | Task/Project 빠진 필드 LLM 추론 | 개발 중 |
-| Impact Score Calculator | Project A/B Score 계산 | 계획 |
+| 워크플로우 | 파일명 | 설명 | 상태 |
+|-----------|--------|------|------|
+| Entity Validator/Autofiller | `entity_validator_autofiller.json` | Task/Project 빠진 필드 LLM 추론 | 운영 중 |
+| Impact Rebuild | `workflow_c_impact_rebuild.json` | Decision 기반 Impact Score 재계산 | 운영 중 |
+| Hypothesis Seeder | `workflow_d_hypothesis_seeder.json` | Project에서 Hypothesis 초안 생성 | 운영 중 |
+| YouTube Weekly | `youtube_weekly_round_creator.json` | 매주 금요일 09:00 Round 자동 생성 | 운영 중 |
+
+---
+
+## LOOP API 엔드포인트 (n8n용)
+
+> **Base URL**: `https://mcp.sosilab.synology.me`
+
+| 엔드포인트 | Method | 용도 | 사용 워크플로우 |
+|-----------|--------|------|----------------|
+| `/api/tasks` | GET | Task 목록 조회 | Entity Validator |
+| `/api/projects` | GET | Project 목록 조회 | Entity Validator, Hypothesis Seeder |
+| `/api/projects/{id}` | GET | 단일 Project 조회 | Entity Validator |
+| `/api/strategy/context` | GET | 전략 컨텍스트 조회 | Entity Validator |
+| `/api/pending` | POST | Pending Review 생성 | Entity Validator |
+| `/api/ai/infer/task_schema` | POST | Task 스키마 LLM 추론 | Entity Validator |
+| `/api/ai/infer/project_schema` | POST | Project 스키마 LLM 추론 | Entity Validator |
+| `/api/ai/infer/project_impact` | POST | Expected Impact LLM 추론 | Entity Validator |
+| `/api/ai/infer/evidence` | POST | Evidence LLM 추론 | Entity Validator |
+| `/api/ai/infer/hypothesis_draft` | POST | Hypothesis 초안 생성 | Hypothesis Seeder |
+| `/api/audit/decisions` | GET | Decision 로그 조회 | Impact Rebuild |
+| `/api/build/impact` | POST | Impact Score 재계산 | Impact Rebuild |
+| `/api/youtube-weekly/create-round` | POST | YouTube Round 생성 | YouTube Weekly |
 
 ---
 
@@ -104,6 +143,61 @@ n8n 워크플로우 엔진을 활용하여 LOOP Vault의 다양한 자동화 작
 - 워크플로우 JSON import 시 Credential은 자동 연결되지 않음
 - 반드시 import 후 수동으로 Credential 연결 필요
 - `{{ $env.LOOP_API_TOKEN }}`은 n8n 환경변수로, Credential과 다름
+
+---
+
+## 워크플로우 개발 가이드
+
+### 새 워크플로우 추가 절차
+
+1. **JSON 파일 생성**
+   ```
+   _build/n8n_workflows/{workflow_name}.json
+   ```
+
+2. **필수 설정**
+   - HTTP Request 노드: `authentication: predefinedCredentialType`
+   - `nodeCredentialType: httpHeaderAuth`
+   - `onError: continueRegularOutput` (에러 시에도 워크플로우 계속)
+
+3. **n8n에서 import**
+   - n8n UI → Import from file
+   - `LOOP API Token` credential 수동 연결
+   - 활성화 및 테스트
+
+4. **문서 업데이트**
+   - 이 파일의 "현재 워크플로우" 테이블에 추가
+   - 사용하는 API 엔드포인트 기록
+
+### HTTP Request 노드 템플릿
+
+```json
+{
+  "parameters": {
+    "method": "POST",
+    "url": "https://mcp.sosilab.synology.me/api/...",
+    "authentication": "predefinedCredentialType",
+    "nodeCredentialType": "httpHeaderAuth",
+    "sendBody": true,
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify($json.body) }}",
+    "options": {
+      "timeout": 30000
+    }
+  },
+  "type": "n8n-nodes-base.httpRequest",
+  "typeVersion": 4.2,
+  "onError": "continueRegularOutput"
+}
+```
+
+### 네이밍 컨벤션
+
+| 구분 | 형식 | 예시 |
+|------|------|------|
+| 워크플로우 파일 | `{기능명}.json` | `youtube_weekly_round_creator.json` |
+| 워크플로우 이름 | `{기능}-{동작}` | `youtube-weekly-round-creator` |
+| 노드 ID | `{타입}-{용도}` | `http-create-round`, `code-success-msg` |
 
 ---
 
