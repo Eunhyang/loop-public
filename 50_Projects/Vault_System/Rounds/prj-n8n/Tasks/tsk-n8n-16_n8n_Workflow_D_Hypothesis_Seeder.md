@@ -323,7 +323,7 @@ n8n Credentials에서 생성 필요:
 
 ### Workflow File
 
-**JSON 파일 경로**: `n8n-workflows/workflow_d_hypothesis_seeder.json`
+**JSON 파일 경로**: `_build/n8n_workflows/workflow_d_hypothesis_seeder.json`
 
 **import 방법**:
 1. n8n UI (https://n8n.sosilab.synology.me) 접속

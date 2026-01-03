@@ -71,7 +71,7 @@
         "nodeCredentialType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"project_id\": \"{{ $json.entity_id }}\",\n  \"mode\": \"pending\",\n  \"provider\": \"openai\",\n  \"actor\": \"n8n-workflow-d\"\n}",
+        "jsonBody": "={{ JSON.stringify({ project_id: $json.entity_id, mode: 'pending', provider: 'openai', actor: 'n8n-workflow-d' }) }}",
         "options": {
           "timeout": 60000
         }
@@ -88,6 +88,7 @@
         }
       },
       "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
       "notes": "Hypothesis draft 생성 API 호출"
     },
     {
@@ -282,7 +283,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "timezone": "Asia/Seoul"
   },
-  "versionId": "tsk-n8n-16-v2",
+  "versionId": "tsk-n8n-16-v3",
   "meta": {
     "templateCredsSetupCompleted": false,
     "instanceId": "loop-vault"

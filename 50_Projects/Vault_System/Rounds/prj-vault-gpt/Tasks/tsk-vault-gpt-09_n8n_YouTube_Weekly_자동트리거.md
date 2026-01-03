@@ -4,7 +4,7 @@ entity_id: "tsk-vault-gpt-09"
 entity_name: "LOOP n8n - YouTube Weekly 자동 트리거 워크플로우"
 created: 2026-01-03
 updated: 2026-01-03
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -82,10 +82,10 @@ tsk-vault-gpt-08에서 구현한 `/api/youtube-weekly/create-round` API를 n8n�
 ## 체크리스트
 
 - [x] 워크플로우 JSON 생성 (`_build/n8n_workflows/youtube_weekly_round_creator.json`)
-- [ ] n8n UI에서 워크플로우 import
-- [ ] 환경변수 확인 (LOOP_API_TOKEN)
-- [ ] 워크플로우 활성화
-- [ ] 테스트 실행
+- [x] n8n UI에서 워크플로우 import
+- [x] LOOP API Token credential 연결
+- [x] 워크플로우 활성화
+- [x] 테스트 실행 (중복 체크 정상 작동 확인)
 
 ---
 
@@ -141,8 +141,10 @@ tsk-vault-gpt-08에서 구현한 `/api/youtube-weekly/create-round` API를 n8n�
 
 - [x] 워크플로우 JSON 기본 구조 생성
 - [x] Success/Failure 메시지 코드 개선 (null 체크, 에러 타입 분류)
-- [ ] n8n UI import 및 Credential 설정
-- [ ] 테스트 실행
+- [x] n8n UI import 및 Credential 설정
+- [x] 테스트 실행
+- [x] Manual Trigger 추가 (Year/Week 수동 입력)
+- [x] cycle 형식: W02-26 (연도 포함)
 
 ### 환경변수
 
@@ -191,6 +193,29 @@ n8n에서 사용할 환경변수:
 - 알림 노드 미포함 (의도적): 사용자가 n8n에서 Slack/Email 노드 연결하여 사용
 - 타임존: NAS 서버 KST 기준 (09:00 KST)
 - 토큰: n8n 환경변수 LOOP_API_TOKEN 설정 필요
+
+#### 2026-01-03 17:50
+**개요**: 워크플로우 v4 완료 및 테스트
+
+**변경사항 (v4)**:
+- Manual Trigger 추가 (formTrigger로 Year/Week 입력)
+- Prepare Body 노드 추가 (입력값 → API body 변환)
+- HTTP Request에 sendBody 설정 추가
+- cycle 형식 확정: `W02-26` (연도 포함)
+
+**최종 워크플로우 구조**:
+```
+[Every Friday 09:00] ──┐
+                       ├──→ [Prepare Body] → [Create Round API] → [Check Success]
+[Manual Trigger] ──────┘                                              ├── Yes → [Success Message]
+    (Year, Week 폼)                                                   └── No  → [Failure Message]
+```
+
+**테스트 결과**:
+- API 호출: ✅ 성공
+- 인증 (LOOP API Token): ✅ 정상
+- 중복 체크: ✅ "Round already exists: prj-yt-W02-26"
+- 실패 메시지 생성: ✅ 정상
 
 ---
 

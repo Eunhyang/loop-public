@@ -16,7 +16,44 @@
       "name": "Every Friday 09:00",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [400, 300]
+      "position": [400, 200]
+    },
+    {
+      "parameters": {
+        "formTitle": "YouTube Weekly Round 생성",
+        "formDescription": "특정 주차의 라운드를 수동 생성합니다. 비워두면 현재 주차로 생성.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Year",
+              "fieldType": "number",
+              "placeholder": "2026"
+            },
+            {
+              "fieldLabel": "Week",
+              "fieldType": "text",
+              "placeholder": "W01"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [400, 400],
+      "webhookId": "youtube-weekly-manual"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare request body from trigger input\nconst item = $input.first();\nconst json = item?.json || {};\n\nconst body = {};\n\n// From Manual Trigger form\nif (json.Year) body.year = parseInt(json.Year);\nif (json.Week) body.week = json.Week.toUpperCase();\n\n// From Schedule Trigger (no input = use current week)\nreturn [{ json: { body: Object.keys(body).length > 0 ? body : null } }];"
+      },
+      "id": "prepare-body",
+      "name": "Prepare Body",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 300]
     },
     {
       "parameters": {
@@ -24,7 +61,9 @@
         "url": "https://mcp.sosilab.synology.me/api/youtube-weekly/create-round",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
-        "sendHeaders": false,
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body ? JSON.stringify($json.body) : '{}' }}",
         "options": {
           "timeout": 30000
         }
@@ -33,7 +72,7 @@
       "name": "Create Round API",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [600, 300],
+      "position": [800, 300],
       "onError": "continueRegularOutput"
     },
     {
@@ -63,7 +102,7 @@
       "name": "Check Success",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [800, 300]
+      "position": [1000, 300]
     },
     {
       "parameters": {
@@ -73,7 +112,7 @@
       "name": "Success Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1000, 200]
+      "position": [1200, 200]
     },
     {
       "parameters": {
@@ -83,11 +122,33 @@
       "name": "Failure Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1000, 400]
+      "position": [1200, 400]
     }
   ],
   "connections": {
     "Every Friday 09:00": {
+      "main": [
+        [
+          {
+            "node": "Prepare Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Body": {
       "main": [
         [
           {
@@ -136,8 +197,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3",
-  "triggerCount": 1,
+  "versionId": "4",
+  "triggerCount": 2,
   "tags": [
     {
       "name": "youtube"
