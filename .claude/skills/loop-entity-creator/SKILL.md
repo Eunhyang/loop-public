@@ -47,7 +47,45 @@ This skill ensures Task, Project, and Hypothesis entities follow strict schema r
 | Vault | Base Path | ID Pattern | Use Case |
 |-------|-----------|------------|----------|
 | `public` (default) | `public/50_Projects/` | `prj-NNN`, `tsk-NNN-NN` | 일반 프로젝트, 공개 태스크 |
-| `exec` | `exec/50_Projects/` | `prj-exec-NNN`, `tsk-exec-NNN` | 민감 정보 (계약, 단가, 평가) |
+| `exec` | `exec/50_Projects/` | **아래 참조** | 민감 정보 (계약, 단가, 평가) |
+
+### Exec Vault ID 규칙 (SSOT: schema_constants.yaml v5.4)
+
+> **⚠️ CRITICAL: exec vault에서 순차 번호(prj-NNN, tsk-NNN-NN) 절대 금지**
+>
+> public vault와 ID 충돌 방지를 위해 키워드 기반 체계 사용
+
+**1. 민감 단독 프로젝트 (standalone)**
+
+민감한 개인/계약 관련 프로젝트 (채용 후보, 프리랜서 등):
+
+| Entity | Pattern | Example |
+|--------|---------|---------|
+| Project | `prj-exec-NNN` | `prj-exec-001` (다온 영상편집자) |
+| Task | `tsk-exec-NNN` | `tsk-exec-001` (다온 첫 연락) |
+
+**2. Program Round 프로젝트 (program_round)**
+
+상위 Program이 있는 Round 프로젝트 (지원사업 배치, TIPS 등):
+
+| Entity | Pattern | Example |
+|--------|---------|---------|
+| Project | `prj-{program}-{round}` | `prj-tips-primer`, `prj-grants-jemi` |
+| Task | `tsk-{keyword}-NN` | `tsk-primer-01`, `tsk-grants-jemi-02` |
+
+**키워드 결정 방법:**
+```yaml
+Program: pgm-tips-batch → tips (or tips-batch)
+Round:
+  - primer      # 프라이머
+  - idp         # 아이디어파트너스
+  - jemi        # JEMI 디딤돌
+  - youth       # 청년창업사관학교
+```
+
+**금지 패턴 (충돌 방지):**
+- ❌ `prj-017`, `prj-018` - public vault와 충돌
+- ❌ `tsk-017-01`, `tsk-019-09` - public vault와 충돌
 
 ### Program exec_rounds_path 자동 라우팅 (NEW)
 
@@ -701,16 +739,28 @@ Optional fields:
 
 **Step 2: Generate next Exec Project ID**
 
-1. Use Glob to find existing exec projects:
+> **SSOT 참조: `00_Meta/schema_constants.yaml` > `cross_vault.exec_id_patterns`**
+
+**Case A: Standalone (program_id 없음)**
+1. Use Grep to find existing `prj-exec-*` IDs:
+   ```bash
+   grep -rh "entity_id: prj-exec-" exec/50_Projects/
    ```
-   pattern: exec/50_Projects/P*/_INDEX.md
+2. Find the highest number (e.g., `prj-exec-001`)
+3. Increment by 1: `prj-exec-002`
+
+**Case B: Program Round (program_id 있음)**
+1. Program 키워드 추출:
    ```
-
-2. Find the highest P number (e.g., P015)
-
-3. Increment by 1: P016
-
-4. Generate ID: `prj-exec-001` (또는 순차 증가)
+   pgm-tips-batch → tips
+   pgm-grants → grants
+   ```
+2. Round 키워드 결정 (entity_name에서 추출):
+   ```
+   "프라이머 배치" → primer
+   "JEMI 디딤돌" → jemi
+   ```
+3. 조합: `prj-{program}-{round}` → `prj-tips-primer`
 
 **Step 3: Create folder structure**
 
@@ -773,14 +823,27 @@ Required fields:
 
 **Step 2: Generate next Exec Task ID**
 
-1. Use Glob to find existing exec tasks:
-   ```
-   pattern: exec/50_Projects/**/Tasks/*.md
-   ```
+> **SSOT 참조: `00_Meta/schema_constants.yaml` > `cross_vault.exec_id_patterns`**
 
-2. Find the highest tsk-exec number
-
+**Case A: Standalone Project (prj-exec-NNN)**
+1. Use Grep to find existing `tsk-exec-*` IDs:
+   ```bash
+   grep -rh "entity_id: tsk-exec-" exec/50_Projects/
+   ```
+2. Find the highest number
 3. Increment by 1: `tsk-exec-002`
+
+**Case B: Program Round Project (prj-{program}-{round})**
+1. Project 키워드 추출:
+   ```
+   prj-tips-primer → primer
+   prj-grants-jemi → jemi (또는 grants-jemi)
+   ```
+2. 기존 Task 번호 확인:
+   ```bash
+   grep -rh "entity_id: tsk-primer-" exec/50_Projects/
+   ```
+3. Increment by 1: `tsk-primer-08`
 
 **Step 3: Create Task file**
 

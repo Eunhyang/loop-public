@@ -34,8 +34,12 @@ from .vault_utils import (
 class EntityGenerator:
     """Entity 생성 통합 유틸리티"""
 
-    def __init__(self, vault_path: Optional[Path] = None):
+    def __init__(self, vault_path: Optional[Path] = None, exec_vault_path: Optional[Path] = None):
         self.vault_path = vault_path or get_vault_dir()
+        self.exec_vault_path = exec_vault_path or Path(os.environ.get(
+            "LOOP_EXEC_PATH",
+            "/Volumes/LOOP_CLevel/vault/loop_exec"
+        ))
         self.templates_dir = self.vault_path / "00_Meta/_TEMPLATES"
 
     def generate_project_id(self, prefix: str = "prj") -> str:
@@ -62,6 +66,175 @@ class EntityGenerator:
             새 Task ID (예: "tsk-003-05")
         """
         return get_next_task_id(self.vault_path)
+
+    # ============================================
+    # Exec Vault ID 생성 (SSOT: schema_constants.yaml v5.4)
+    # ============================================
+
+    def generate_exec_project_id(
+        self,
+        program_id: Optional[str] = None,
+        round_keyword: Optional[str] = None
+    ) -> str:
+        """
+        Exec vault용 Project ID 생성
+
+        SSOT 참조: 00_Meta/schema_constants.yaml > cross_vault.exec_id_patterns
+
+        Args:
+            program_id: 상위 Program ID (예: "pgm-tips-batch")
+            round_keyword: Round 키워드 (예: "primer", "jemi")
+
+        Returns:
+            - Standalone: "prj-exec-NNN" (program_id 없을 때)
+            - Program Round: "prj-{program}-{round}" (program_id 있을 때)
+        """
+        if program_id and round_keyword:
+            # Program Round 패턴: prj-tips-primer
+            program_keyword = self._extract_program_keyword(program_id)
+            return f"prj-{program_keyword}-{round_keyword}"
+        else:
+            # Standalone 패턴: prj-exec-NNN
+            return self._get_next_exec_standalone_project_id()
+
+    def generate_exec_task_id(
+        self,
+        project_id: str,
+        task_keyword: Optional[str] = None
+    ) -> str:
+        """
+        Exec vault용 Task ID 생성
+
+        SSOT 참조: 00_Meta/schema_constants.yaml > cross_vault.exec_id_patterns
+
+        Args:
+            project_id: 부모 Project ID
+            task_keyword: Task 키워드 (Program Round 시 사용)
+
+        Returns:
+            - Standalone Project: "tsk-exec-NNN"
+            - Program Round Project: "tsk-{keyword}-NN"
+        """
+        if project_id.startswith("prj-exec-"):
+            # Standalone 프로젝트
+            return self._get_next_exec_standalone_task_id()
+        else:
+            # Program Round 프로젝트
+            keyword = task_keyword or self._extract_round_keyword(project_id)
+            return self._get_next_exec_round_task_id(keyword)
+
+    def _extract_program_keyword(self, program_id: str) -> str:
+        """pgm-tips-batch → tips"""
+        if program_id.startswith("pgm-"):
+            rest = program_id[4:]
+            # 첫 번째 부분만 추출 (tips-batch → tips)
+            # 또는 전체 사용 결정 필요
+            parts = rest.split("-")
+            return parts[0]
+        return program_id
+
+    def _extract_round_keyword(self, project_id: str) -> str:
+        """prj-tips-primer → primer, prj-grants-jemi → jemi"""
+        if project_id.startswith("prj-"):
+            parts = project_id[4:].split("-")
+            if len(parts) >= 2:
+                return parts[-1]  # 마지막 부분
+            return parts[0]
+        return project_id
+
+    def _get_next_exec_standalone_project_id(self) -> str:
+        """다음 prj-exec-NNN ID 생성"""
+        exec_projects = self.exec_vault_path / "50_Projects"
+        if not exec_projects.exists():
+            return "prj-exec-001"
+
+        max_num = 0
+        for md_file in exec_projects.rglob("*.md"):
+            fm = extract_frontmatter(md_file)
+            if not fm or 'entity_id' not in fm:
+                continue
+            entity_id = fm['entity_id']
+            match = re.match(r'prj-exec-(\d{3})', entity_id)
+            if match:
+                num = int(match.group(1))
+                max_num = max(max_num, num)
+
+        return f"prj-exec-{max_num + 1:03d}"
+
+    def _get_next_exec_standalone_task_id(self) -> str:
+        """다음 tsk-exec-NNN ID 생성"""
+        exec_projects = self.exec_vault_path / "50_Projects"
+        if not exec_projects.exists():
+            return "tsk-exec-001"
+
+        max_num = 0
+        for md_file in exec_projects.rglob("*.md"):
+            fm = extract_frontmatter(md_file)
+            if not fm or 'entity_id' not in fm:
+                continue
+            entity_id = fm['entity_id']
+            match = re.match(r'tsk-exec-(\d{3})', entity_id)
+            if match:
+                num = int(match.group(1))
+                max_num = max(max_num, num)
+
+        return f"tsk-exec-{max_num + 1:03d}"
+
+    def _get_next_exec_round_task_id(self, keyword: str) -> str:
+        """다음 tsk-{keyword}-NN ID 생성"""
+        exec_projects = self.exec_vault_path / "50_Projects"
+        if not exec_projects.exists():
+            return f"tsk-{keyword}-01"
+
+        max_num = 0
+        pattern = re.compile(rf'tsk-{re.escape(keyword)}-(\d{{2}})')
+
+        for md_file in exec_projects.rglob("*.md"):
+            fm = extract_frontmatter(md_file)
+            if not fm or 'entity_id' not in fm:
+                continue
+            entity_id = fm['entity_id']
+            match = pattern.match(entity_id)
+            if match:
+                num = int(match.group(1))
+                max_num = max(max_num, num)
+
+        return f"tsk-{keyword}-{max_num + 1:02d}"
+
+    def validate_exec_id(self, entity_id: str, entity_type: str = "project") -> Tuple[bool, str]:
+        """
+        Exec vault ID 유효성 검증
+
+        Args:
+            entity_id: 검증할 ID
+            entity_type: "project" 또는 "task"
+
+        Returns:
+            (is_valid, error_message)
+        """
+        if entity_type == "project":
+            # 허용: prj-exec-NNN, prj-{keyword}-{keyword}
+            if re.match(r'^prj-exec-\d{3}$', entity_id):
+                return True, ""
+            if re.match(r'^prj-[a-z]+-[a-z0-9-]+$', entity_id):
+                return True, ""
+            # 금지: prj-NNN (public과 충돌)
+            if re.match(r'^prj-\d{3}$', entity_id):
+                return False, f"'{entity_id}'는 exec vault에서 금지된 패턴입니다. prj-NNN은 public vault와 충돌합니다."
+            return False, f"'{entity_id}'는 유효한 exec Project ID 패턴이 아닙니다."
+
+        elif entity_type == "task":
+            # 허용: tsk-exec-NNN, tsk-{keyword}-NN
+            if re.match(r'^tsk-exec-\d{3}$', entity_id):
+                return True, ""
+            if re.match(r'^tsk-[a-z]+-\d{2}$', entity_id):
+                return True, ""
+            # 금지: tsk-NNN-NN (public과 충돌)
+            if re.match(r'^tsk-\d{3}-\d{2}$', entity_id):
+                return False, f"'{entity_id}'는 exec vault에서 금지된 패턴입니다. tsk-NNN-NN은 public vault와 충돌합니다."
+            return False, f"'{entity_id}'는 유효한 exec Task ID 패턴이 아닙니다."
+
+        return False, f"알 수 없는 entity_type: {entity_type}"
 
     def generate_task_id_for_project(self, project_id: str) -> str:
         """
@@ -288,3 +461,67 @@ def render_template(
 def get_today() -> str:
     """오늘 날짜 (YYYY-MM-DD)"""
     return date.today().isoformat()
+
+
+# ============================================
+# Exec Vault 편의 함수
+# ============================================
+
+def generate_exec_project_id(
+    program_id: Optional[str] = None,
+    round_keyword: Optional[str] = None,
+    vault_path: Optional[Path] = None
+) -> str:
+    """
+    Exec vault용 Project ID 생성
+
+    Args:
+        program_id: 상위 Program ID (예: "pgm-tips-batch")
+        round_keyword: Round 키워드 (예: "primer")
+        vault_path: public vault 경로
+
+    Returns:
+        Exec Project ID
+    """
+    gen = EntityGenerator(vault_path)
+    return gen.generate_exec_project_id(program_id, round_keyword)
+
+
+def generate_exec_task_id(
+    project_id: str,
+    task_keyword: Optional[str] = None,
+    vault_path: Optional[Path] = None
+) -> str:
+    """
+    Exec vault용 Task ID 생성
+
+    Args:
+        project_id: 부모 Project ID
+        task_keyword: Task 키워드 (Program Round 시 사용)
+        vault_path: public vault 경로
+
+    Returns:
+        Exec Task ID
+    """
+    gen = EntityGenerator(vault_path)
+    return gen.generate_exec_task_id(project_id, task_keyword)
+
+
+def validate_exec_id(
+    entity_id: str,
+    entity_type: str = "project",
+    vault_path: Optional[Path] = None
+) -> Tuple[bool, str]:
+    """
+    Exec vault ID 유효성 검증
+
+    Args:
+        entity_id: 검증할 ID
+        entity_type: "project" 또는 "task"
+        vault_path: public vault 경로
+
+    Returns:
+        (is_valid, error_message)
+    """
+    gen = EntityGenerator(vault_path)
+    return gen.validate_exec_id(entity_id, entity_type)

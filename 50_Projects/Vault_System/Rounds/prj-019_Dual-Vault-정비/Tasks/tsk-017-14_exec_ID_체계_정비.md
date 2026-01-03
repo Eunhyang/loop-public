@@ -101,25 +101,48 @@ exec_program_round:
 
 ## 체크리스트
 
-- [ ] schema_constants.yaml에 exec_id_patterns 추가
-- [ ] 기존 exec 파일들 ID 마이그레이션 스크립트 작성/실행
-- [ ] loop-entity-creator SKILL.md 수정
-- [ ] API entity_generator.py 수정
+- [x] schema_constants.yaml에 exec_id_patterns 추가
+- [ ] 기존 exec 파일들 ID 마이그레이션 (별도 Task로 분리)
+- [x] loop-entity-creator SKILL.md 수정
+- [x] API entity_generator.py 수정
 - [ ] 테스트: exec vault에 새 Project/Task 생성
 
 ---
 
 ## Notes
 
-### PRD
-
-_(prompt-enhancer 실행 후 작성)_
-
 ### 작업 로그
 
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+#### 2026-01-03 20:30
+**개요**: exec vault ID 체계 SSOT 정의 및 API/스킬 반영 완료
+
+**변경사항**:
+1. **schema_constants.yaml v5.4**
+   - `cross_vault.exec_id_patterns` 섹션 추가
+   - standalone 패턴: `prj-exec-NNN`, `tsk-exec-NNN`
+   - program_round 패턴: `prj-{program}-{round}`, `tsk-{keyword}-NN`
+   - 금지 패턴 명시: `prj-NNN`, `tsk-NNN-NN` (public 충돌)
+
+2. **loop-entity-creator SKILL.md**
+   - Exec Vault ID 규칙 섹션 추가
+   - Exec Project/Task ID 생성 Step 수정
+
+3. **api/utils/entity_generator.py**
+   - `generate_exec_project_id()` 메서드 추가
+   - `generate_exec_task_id()` 메서드 추가
+   - `validate_exec_id()` 메서드 추가
+   - 편의 함수 3개 추가
+
+**파일 변경**:
+- `00_Meta/schema_constants.yaml` - exec_id_patterns 섹션 (+55 lines)
+- `.claude/skills/loop-entity-creator/SKILL.md` - ID 규칙 섹션 (+50 lines)
+- `api/utils/entity_generator.py` - exec ID 생성 로직 (+200 lines)
+
+**결과**: ✅ SSOT 정의 + API/스킬 반영 완료
+
+**남은 작업**:
+- 기존 exec 파일들 ID 마이그레이션 (prj-017 → prj-tips-idp 등) - 별도 Task로 분리 권장
+- 테스트 실행
 
 ---
 
