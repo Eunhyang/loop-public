@@ -30,6 +30,7 @@ ALLOW_PATTERNS=(
   "^node "                 # node 명령어
   "^grep "                 # grep 명령어
   "^poetry "               # poetry 명령어
+  "^source "               # source 명령어
 )
 
 # 패턴 매칭 체크

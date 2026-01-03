@@ -4,7 +4,7 @@ entity_id: tsk-018-02
 entity_name: "API - exec vault 프로젝트 스캔 로직 리팩토링"
 created: 2026-01-03
 updated: 2026-01-03
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: null
@@ -35,7 +35,7 @@ priority_flag: high
 
 # API - exec vault 프로젝트 스캔 로직 리팩토링
 
-> Task ID: `tsk-018-02` | Project: `prj-api-exec-vault` | Status: doing
+> Task ID: `tsk-018-02` | Project: `prj-api-exec-vault` | Status: done
 
 ## 목표
 
@@ -74,12 +74,14 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] 공통 함수 `_find_project_files()` 작성
-- [ ] 공통 함수 `_find_task_files()` 작성
-- [ ] `_load_exec_projects()` 리팩토링
-- [ ] `_load_projects()` 리팩토링 (public vault)
-- [ ] API 재빌드 및 health check
-- [ ] 모든 프로젝트 로드 확인
+- [x] `_load_exec_projects()` 리팩토링 - 재귀적 스캔으로 변경
+- [x] `_load_exec_project_file_with_data()` 추가 - 이중 파싱 방지
+- [x] Codex 코드 리뷰 2회 완료
+- [x] API 재빌드 및 health check
+- [x] 모든 프로젝트 로드 확인 (5개 exec vault 프로젝트)
+- [ ] ~~공통 함수 `_find_project_files()` 작성~~ (불필요 - exec만 리팩토링)
+- [ ] ~~공통 함수 `_find_task_files()` 작성~~ (불필요 - exec만 리팩토링)
+- [ ] ~~`_load_projects()` 리팩토링~~ (불필요 - public vault 로직 유지)
 
 ---
 

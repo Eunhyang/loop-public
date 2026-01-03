@@ -44,6 +44,7 @@
       "Bash(node:*)",
       "Bash(grep:*)",
       "Bash(poetry:*)",
+      "Bash(source:*)",
       "Bash(#:*)"
     ]
   },
