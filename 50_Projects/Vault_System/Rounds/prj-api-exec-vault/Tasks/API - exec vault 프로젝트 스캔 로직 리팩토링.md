@@ -155,6 +155,38 @@ def _find_task_files(self, base_dir: Path) -> List[Path]:
 
 ### 작업 로그
 
+**2026-01-03 완료**
+
+#### 개요
+exec vault 프로젝트 스캔 로직을 재귀적 스캔으로 리팩토링. 하드코딩된 `P*` 패턴 제거하여 새 Program 폴더 자동 인식 가능하도록 개선.
+
+#### 변경사항
+1. **`_load_exec_projects()` 리팩토링** (lines 327-388)
+   - `exec_projects_dir.glob("P*")` → `rglob('*')` 재귀 스캔으로 변경
+   - `entity_type: Project` 검증으로 오인식 방지
+   - Project_정의.md > _INDEX.md 우선순위 적용
+   - Tasks 폴더 직속 파일만 로드 (하위 폴더 제외)
+
+2. **`_load_exec_project_file_with_data()` 신규** (lines 397-436)
+   - 이중 파싱 방지를 위해 이미 파싱된 data 전달
+   - 기존 `_load_exec_project_file()`와 동일 로직
+
+#### Codex 리뷰 피드백 반영
+- Round 1: Tasks 하위 폴더 제외, 중복 로드 방지, rglob 최적화
+- Round 2: 이중 파싱 방지 (data passthrough 패턴)
+
+#### 검증 결과
+- Health check: 178 tasks, 30 projects, 2.39s load time
+- Exec vault 5개 프로젝트 정상 로드:
+  - prj-017: 아이디어파트너스 배치 프로그램 지원
+  - prj-018: 프라이머 배치 프로그램 지원
+  - prj-exec-001: 다온 - 영상 편집자 협업
+  - prj-grants-jemi: JEMI 디딤돌 지원사업
+  - prj-grants-youth: 청년창업사관학교
+
+#### 설계 결정
+- **exec vault만 리팩토링**: public vault는 기존 로직 유지 (Codex 피드백: 안정성 우선)
+- **공통 함수 미추출**: public/exec 로직 차이가 커서 별도 유지가 적합
 
 ---
 
