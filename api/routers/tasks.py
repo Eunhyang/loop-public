@@ -224,14 +224,6 @@ def update_task(task_id: str, task: TaskUpdate):
     if not task_file:
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
 
-    # exec vault 태스크는 API를 통한 수정 불가 (읽기 전용 마운트)
-    task_path_str = str(task_file)
-    if '/exec/' in task_path_str or task_path_str.startswith('/vault/exec'):
-        raise HTTPException(
-            status_code=403,
-            detail=f"Exec vault tasks cannot be modified through the API. Please edit directly in Obsidian. Task: {task_id}"
-        )
-
     # 파일 읽기
     try:
         with open(task_file, 'r', encoding='utf-8') as f:
@@ -337,14 +329,6 @@ def delete_task(task_id: str):
     task_file = cache.get_task_path(task_id)
     if not task_file:
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
-
-    # exec vault 태스크는 API를 통한 삭제 불가 (읽기 전용 마운트)
-    task_path_str = str(task_file)
-    if '/exec/' in task_path_str or task_path_str.startswith('/vault/exec'):
-        raise HTTPException(
-            status_code=403,
-            detail=f"Exec vault tasks cannot be deleted through the API. Please delete directly in Obsidian. Task: {task_id}"
-        )
 
     # Task 정보 백업 (감사 로그용)
     task_data = cache.get_task(task_id)
