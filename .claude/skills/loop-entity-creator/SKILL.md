@@ -18,13 +18,28 @@ This skill ensures Task, Project, and Hypothesis entities follow strict schema r
 ### Decision Tree
 
 ```
-민감 정보 포함? (단가, 계약, 평가, 급여 등)
-├── YES → vault: exec
-│   └── exec/50_Projects/ 에 생성
-│   └── ID: prj-exec-NNN, tsk-exec-NNN
-└── NO → vault: public
-    └── public/50_Projects/ 에 생성
-    └── ID: prj-NNN, tsk-NNN-NN
+┌─ Project 생성 시 ─────────────────────────────────────────────────┐
+│                                                                    │
+│  program_id 지정됨?                                                │
+│  ├── YES → Program 파일 읽기 (public/50_Projects/{Program}/_PROGRAM.md) │
+│  │   └── exec_rounds_path != null?                                │
+│  │       ├── YES → vault: exec (자동 라우팅)                      │
+│  │       │   └── exec/50_Projects/ 에 생성                        │
+│  │       └── NO → vault: public                                   │
+│  └── NO → 민감 정보 포함?                                         │
+│      ├── YES → vault: exec                                        │
+│      └── NO → vault: public                                       │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ Task 생성 시 ────────────────────────────────────────────────────┐
+│                                                                    │
+│  project_id로 Project 파일 찾기                                    │
+│  └── Project 경로가 exec/50_Projects/?                            │
+│      ├── YES → Task도 exec에 생성 (부모 vault 따름)               │
+│      └── NO → Task도 public에 생성                                │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Vault Parameter
@@ -33,6 +48,24 @@ This skill ensures Task, Project, and Hypothesis entities follow strict schema r
 |-------|-----------|------------|----------|
 | `public` (default) | `public/50_Projects/` | `prj-NNN`, `tsk-NNN-NN` | 일반 프로젝트, 공개 태스크 |
 | `exec` | `exec/50_Projects/` | `prj-exec-NNN`, `tsk-exec-NNN` | 민감 정보 (계약, 단가, 평가) |
+
+### Program exec_rounds_path 자동 라우팅 (NEW)
+
+> **Program 설정에 따라 자동으로 vault 결정**
+
+**확인 방법:**
+```bash
+# Program 파일에서 exec_rounds_path 필드 확인
+grep "exec_rounds_path:" public/50_Projects/{Program}/_PROGRAM.md
+```
+
+**예시 - Hiring Program:**
+```yaml
+# public/50_Projects/Hiring/_PROGRAM.md
+exec_rounds_path: "exec/50_Projects/Hiring_Rounds"  # 설정됨 → exec vault
+```
+
+이 경우, `program_id: pgm-hiring`을 지정하면 자동으로 exec vault에 Project 생성.
 
 ### Exec Vault 규칙
 
@@ -175,6 +208,30 @@ fi
 - **Project** → Follow "Creating a Project" workflow below
 
 ### Creating a Task
+
+**Step 0: Determine target vault (NEW - MANDATORY)**
+
+> ⚠️ **CRITICAL: Task는 부모 Project의 vault를 따름**
+
+1. `project_id`로 Project 파일 찾기:
+   ```bash
+   # public vault 검색
+   grep -rl "entity_id: \"$PROJECT_ID\"" public/50_Projects/
+
+   # exec vault 검색 (없으면)
+   grep -rl "entity_id: \"$PROJECT_ID\"" exec/50_Projects/
+   ```
+
+2. Project 경로 확인:
+   ```
+   경로가 exec/50_Projects/...?
+   ├── YES → Task도 exec vault에 생성
+   │   └── ID 패턴: tsk-exec-NNN
+   │   └── 경로: exec/50_Projects/{Project}/Tasks/
+   └── NO → Task도 public vault에 생성
+       └── ID 패턴: tsk-NNN-NN
+       └── 경로: public/50_Projects/{Project}/Tasks/
+   ```
 
 **Step 1: Collect required information**
 
@@ -356,6 +413,43 @@ Run validation (see "Validation Workflow" section below).
 - **Fallback 사용 시**: 전체 Validation Workflow 실행.
 
 ### Creating a Project
+
+**Step 0: Determine target vault (NEW - MANDATORY)**
+
+> ⚠️ **CRITICAL: program_id가 있으면 Program의 exec_rounds_path 확인**
+
+1. `program_id` 지정됨?
+   - YES → Step 0a (Program 확인)
+   - NO → Step 0b (수동 결정)
+
+**Step 0a: Program exec_rounds_path 확인**
+```bash
+# Program 파일 읽기
+PROGRAM_FILE="public/50_Projects/{Program}/_PROGRAM.md"
+
+# exec_rounds_path 필드 확인
+EXEC_PATH=$(grep "exec_rounds_path:" "$PROGRAM_FILE" | awk '{print $2}')
+
+if [ "$EXEC_PATH" != "null" ] && [ -n "$EXEC_PATH" ]; then
+    # exec vault에 생성
+    VAULT="exec"
+    BASE_PATH="exec/50_Projects/"
+    ID_PATTERN="prj-exec-NNN"
+    echo "📍 Program exec_rounds_path 설정됨 → exec vault"
+else
+    # public vault에 생성
+    VAULT="public"
+    BASE_PATH="public/50_Projects/"
+    ID_PATTERN="prj-NNN"
+fi
+```
+
+**Step 0b: 수동 결정 (program_id 없을 때)**
+```
+민감 정보 포함? (단가, 계약, 평가, 급여 등)
+├── YES → vault: exec
+└── NO → vault: public
+```
 
 **Step 1: Collect required information**
 
