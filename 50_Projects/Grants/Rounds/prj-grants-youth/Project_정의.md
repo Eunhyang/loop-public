@@ -1,51 +1,42 @@
 ---
 entity_type: Project
 entity_id: prj-grants-youth
-entity_name: 청년창업사관학교
+entity_name: 청창사 - 청년창업사관학교
 created: 2025-12-26
-updated: 2025-12-26
-status: doing
-
-# === 소속 Program ===
+updated: '2026-01-03'
+status: ''
 program_id: pgm-grants
-cycle: "2025"
-
-# === 프로젝트 정보 ===
+cycle: '2025'
 owner: 한명학
 budget: null
 deadline: null
-
-# === Impact 판정 ===
 expected_impact:
   statement: null
   metric: null
   target: null
-
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: pgm-grants
-conditions_3y: ["cond-d"]
+conditions_3y:
+- cond-d
 aliases:
-  - prj-grants-youth
-  - 청년창업사관학교
-  - 창사
-
+- prj-grants-youth
+- 청년창업사관학교
+- 창사
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "grants", "청년창업사관학교"]
+tags:
+- project
+- grants
+- 청년창업사관학교
 priority_flag: medium
 ---
-
 # 청년창업사관학교
 
 > Project ID: `prj-grants-youth` | Program: [[pgm-grants]] | Status: active

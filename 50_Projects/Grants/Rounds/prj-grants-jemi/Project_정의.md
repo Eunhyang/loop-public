@@ -1,51 +1,43 @@
 ---
 entity_type: Project
 entity_id: prj-grants-jemi
-entity_name: JEMI디딤돌 지원사업
+entity_name: JEMI - JEMI 디딤돌 지원사업
 created: 2025-12-23
-updated: 2025-12-23
-status: todo
-
-# === 소속 Program ===
+updated: '2026-01-03'
+status: ''
 program_id: pgm-grants
-cycle: "2025"
-
-# === 프로젝트 정보 ===
+cycle: '2025'
 owner: 한명학
 budget: null
 deadline: null
-
-# === Impact 판정 ===
 expected_impact:
   statement: null
   metric: null
   target: null
-
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: trk-6
-conditions_3y: ["cond-d"]
+conditions_3y:
+- cond-d
 aliases:
-  - prj-grants-jemi
-  - JEMI디딤돌 지원사업
-  - JEMI디딤돌
-
+- prj-grants-jemi
+- JEMI디딤돌 지원사업
+- JEMI디딤돌
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "grants", "jemi", "디딤돌"]
+tags:
+- project
+- grants
+- jemi
+- 디딤돌
 priority_flag: medium
 ---
-
 # JEMI디딤돌 지원사업
 
 > Project ID: `prj-grants-jemi` | Program: [[pgm-grants]] | Status: planning
