@@ -4,7 +4,7 @@ entity_id: tsk-n8n-15
 entity_name: "Hypothesis - 고객중심 가설 강제 시스템"
 created: 2026-01-03
 updated: 2026-01-03
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: prj-n8n
