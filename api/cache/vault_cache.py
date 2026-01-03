@@ -163,8 +163,8 @@ class VaultCache:
         self._update_dir_mtime(self.programs_dir, 'Task_Rounds')
 
     def _load_task_file(self, file_path: Path) -> Optional[str]:
-        """단일 Task 파일 로드하여 캐시에 저장"""
-        data = self._extract_frontmatter(file_path)
+        """단일 Task 파일 로드하여 캐시에 저장 (body 포함)"""
+        data, body = self._extract_frontmatter_and_body(file_path)
         if not data:
             return None
 
@@ -173,6 +173,7 @@ class VaultCache:
             return None
 
         data['_path'] = str(file_path.relative_to(self.vault_path))
+        data['_body'] = body  # body 포함
 
         self.tasks[entity_id] = CacheEntry(
             data=data,
