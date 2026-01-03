@@ -35,7 +35,7 @@ kpis:
     description: "연간 확보한 지원금 총액"
 
 # === Cross-Vault ===
-exec_rounds_path: null
+exec_rounds_path: "exec/50_Projects/Grants/"
 
 # === 계층 ===
 parent_id: null
@@ -89,11 +89,12 @@ priority_flag: high
 
 ## Rounds (지원사업별 프로젝트)
 
-| Round | Cycle | Status | Link |
-|-------|-------|--------|------|
-| JEMI디딤돌 | 2025 | doing | [[prj-grants-jemi]] |
-| 스타트업베이 | 2025 | doing | [[prj-020]] |
-| 청년창업사관학교 | 2025 | doing | [[prj-grants-youth]] |
+> **Note**: Round 프로젝트들은 민감 정보 포함으로 `exec/50_Projects/Grants/`에 위치
+
+| Round | Cycle | Status | Location |
+|-------|-------|--------|----------|
+| JEMI디딤돌 | 2025 | doing | exec (prj-grants-jemi) |
+| 청년창업사관학교 | 2025 | doing | exec (prj-grants-youth) |
 
 ---
 

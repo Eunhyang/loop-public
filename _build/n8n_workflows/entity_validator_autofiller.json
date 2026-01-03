@@ -2,6 +2,87 @@
   "name": "LOOP Entity Validator & Auto-filler",
   "nodes": [
     {
+      "id": "manual-trigger-test",
+      "name": "Manual Trigger (Test)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        200
+      ],
+      "notes": "v7: 수동 테스트용 트리거. 특정 프로젝트만 테스트할 때 사용."
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "test_project_id",
+              "value": "prj-dashboard-ux-v1"
+            }
+          ],
+          "options": {
+            "string": [
+              {
+                "name": "test_phase",
+                "value": "realized_impact"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "id": "set-test-project",
+      "name": "Set Test Project",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        300,
+        200
+      ],
+      "notes": "v7: 테스트할 project_id와 phase 설정. 값을 수정 후 Manual Trigger 실행."
+    },
+    {
+      "parameters": {
+        "url": "=https://mcp.sosilab.synology.me/api/projects/{{ $json.test_project_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.LOOP_API_TOKEN }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-single-project",
+      "name": "Get Single Project",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        200
+      ],
+      "notes": "v7: 단일 프로젝트 조회 (테스트용)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// v7: Build test item for single project\n// Manual Trigger 경로에서 단일 프로젝트를 Filter Impact Needed 형식으로 변환\n\nconst input = $input.first().json;\nconst testPhase = $('Set Test Project').first().json.test_phase || 'realized_impact';\n\n// API 응답에서 project 추출\nconst project = input.project || input;\n\nif (!project.entity_id) {\n  throw new Error('Project not found or invalid response');\n}\n\n// run_id 생성\nfunction generateRunId() {\n  const iso = new Date().toISOString();\n  const datePart = iso.slice(0, 10).replace(/-/g, '');\n  const timePart = iso.slice(11, 19).replace(/:/g, '');\n  const rand = Math.random().toString(36).slice(2, 8);\n  return `run-${datePart}-${timePart}-${rand}-test`;\n}\n\nconst run_id = generateRunId();\n\n// Filter Impact Needed 출력 형식으로 변환\nconst result = {\n  meta_entity_id: project.entity_id,\n  meta_entity_name: project.entity_name,\n  meta_phase: testPhase,\n  meta_run_id: run_id,\n  entity_id: project.entity_id,\n  entity_name: project.entity_name,\n  entity_type: 'Project',\n  phase: testPhase,\n  needs_llm: true,\n  api_request: {\n    project_id: project.entity_id,\n    run_id: run_id,\n    mode: 'pending',\n    provider: 'openai',\n    actor: 'n8n-test',\n    create_pending: true,\n    schema_version: '5.3',\n    retrospective_content: null,\n    actual_result: null\n  },\n  original_entity: project,\n  is_test: true\n};\n\nreturn [{ json: result }];"
+      },
+      "id": "build-test-item",
+      "name": "Build Test Item",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        200
+      ],
+      "notes": "v7: 단일 프로젝트를 Impact 테스트 형식으로 변환"
+    },
+    {
       "id": "schedule-trigger",
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
@@ -484,6 +565,50 @@
     }
   ],
   "connections": {
+    "Manual Trigger (Test)": {
+      "main": [
+        [
+          {
+            "node": "Set Test Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Test Project": {
+      "main": [
+        [
+          {
+            "node": "Get Single Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Single Project": {
+      "main": [
+        [
+          {
+            "node": "Build Test Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Test Item": {
+      "main": [
+        [
+          {
+            "node": "Route by Phase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Schedule Trigger": {
       "main": [
         [
@@ -712,10 +837,10 @@
   },
   "staticData": null,
   "meta": {
-    "templateId": "entity-validator-autofiller-v6",
+    "templateId": "entity-validator-autofiller-v7",
     "created": "2025-12-27",
     "updated": "2026-01-03",
     "schemaVersion": "5.3",
-    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v6: 첨부파일 텍스트 추출 연동 (tsk-dashboard-ux-v1-21). Realized Impact 경로에서 Extract Attachment Texts 노드 추가 - GET /api/tasks/{id}/attachments/{filename}/text 호출 후 retrospective_content로 Evidence API에 전달. Phase 1-3 AI Router 통합 유지."
+    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v7: Manual Trigger 추가 - 특정 프로젝트만 테스트 가능. Set Test Project 노드에서 project_id와 phase(expected_impact/realized_impact) 설정 후 수동 실행. v6: 첨부파일 텍스트 추출 연동 (tsk-dashboard-ux-v1-21). Phase 1-3 AI Router 통합 유지."
   }
 }

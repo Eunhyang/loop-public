@@ -35,7 +35,7 @@ kpis:
     description: "배치 → TIPS/후속투자 연계 건수"
 
 # === Cross-Vault ===
-exec_rounds_path: null
+exec_rounds_path: "exec/50_Projects/TIPS_Batch/"
 
 # === 계층 ===
 parent_id: null
@@ -93,10 +93,12 @@ TIPS 추천 및 후속 투자 확보를 목표로, 배치 프로그램 지원 �
 
 ## Rounds (지원 프로젝트)
 
-| Round | Status | Link |
-|-------|--------|------|
-| 아이디어파트너스 배치 | todo | [[prj-017]] |
-| 프라이머 배치 | todo | [[prj-018]] |
+> **Note**: Round 프로젝트들은 민감 정보 포함으로 `exec/50_Projects/TIPS_Batch/`에 위치
+
+| Round | Status | Location |
+|-------|--------|----------|
+| 아이디어파트너스 배치 | todo | exec (prj-017) |
+| 프라이머 배치 | todo | exec (prj-018) |
 
 ---
 
