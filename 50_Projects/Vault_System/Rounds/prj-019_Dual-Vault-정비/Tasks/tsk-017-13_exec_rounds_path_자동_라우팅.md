@@ -93,9 +93,9 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] SKILL.md "Vault Selection" 섹션 수정
-- [ ] Program exec_rounds_path 확인 로직 추가
-- [ ] Task 생성 시 부모 Project vault 확인 로직 추가
+- [x] SKILL.md "Vault Selection" 섹션 수정
+- [x] Program exec_rounds_path 확인 로직 추가
+- [x] Task 생성 시 부모 Project vault 확인 로직 추가
 - [ ] 테스트: exec_rounds_path가 설정된 Program 하위 Project 생성
 - [ ] 테스트: exec Project 하위 Task 생성
 
@@ -104,16 +104,45 @@ priority_flag: high
 ## Notes
 
 ### Todo
-- [ ] SKILL.md 읽기
-- [ ] Vault Selection 섹션 수정
-- [ ] Creating a Project 섹션에 Program 확인 로직 추가
-- [ ] Creating a Task 섹션에 Project vault 확인 로직 추가
-- [ ] 예시 추가
+- [x] SKILL.md 읽기
+- [x] Vault Selection 섹션 수정
+- [x] Creating a Project 섹션에 Program 확인 로직 추가
+- [x] Creating a Task 섹션에 Project vault 확인 로직 추가
+- [ ] 테스트
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-03 19:30
+**개요**: loop-entity-creator 스킬에 exec_rounds_path 자동 라우팅 로직 추가 완료
+
+**변경사항**:
+- 수정: `SKILL.md` "Vault Selection" 섹션 - Decision Tree를 Project/Task별 분기로 재설계
+- 추가: "Program exec_rounds_path 자동 라우팅 (NEW)" 섹션 - Program 설정 기반 vault 자동 결정
+- 추가: "Creating a Task" > "Step 0: Determine target vault" - 부모 Project vault 확인 로직
+- 추가: "Creating a Project" > "Step 0: Determine target vault" - Program exec_rounds_path 확인 로직
+
+**핵심 로직**:
+```
+Project 생성 시:
+1. program_id 있음?
+   ├── YES → Program의 exec_rounds_path 확인
+   │   ├── 설정됨 → exec vault
+   │   └── null → public vault
+   └── NO → 민감 정보 여부로 수동 결정
+
+Task 생성 시:
+1. project_id로 Project 찾기
+2. Project 경로가 exec/? → Task도 exec에 생성
+```
+
+**파일 변경**:
+- `/Volumes/LOOP_CORE/vault/LOOP/.claude/skills/loop-entity-creator/SKILL.md` - 3개 섹션 수정 (+60 lines)
+
+**결과**: ✅ 스킬 문서 수정 완료
+
+**다음 단계**:
+- [ ] Hiring Program에 exec_rounds_path 설정 후 테스트
+- [ ] exec vault에 프로젝트/태스크 생성 테스트
 
 
 ---
