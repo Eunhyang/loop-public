@@ -6,6 +6,8 @@
       "Grep",
       "Glob",
       "Skill",
+      "WebSearch",
+      "WebFetch",
       "Edit(~/.claude/**)",
       "Write(~/.claude/**)",
       "Bash(codex:*)",
