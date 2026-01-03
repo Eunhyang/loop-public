@@ -124,9 +124,9 @@ def create_round(request: CreateRoundRequest = CreateRoundRequest()):
         week_str = f"W{week_num:02d}"
 
     year_short = year % 100
-    cycle = week_str  # W34 (연도 suffix 제거)
+    cycle = f"{week_str}-{year_short}"  # W02-26
 
-    # 2. Project ID 생성 (ID에는 연도 유지 - 고유성)
+    # 2. Project ID 생성
     project_id = f"prj-yt-{week_str}-{year_short}"
     project_name = f"YouTube - {cycle}"
 

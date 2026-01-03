@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: "tsk-dashboard-ux-v1-19"
 entity_name: "Dashboard - Task 첨부파일 UI"
 created: 2026-01-02
-updated: 2026-01-02
-status: todo
+updated: 2026-01-03
+status: done
+closed: 2026-01-03
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: medium
 
 # Dashboard - Task 첨부파일 UI
 
-> Task ID: `tsk-dashboard-ux-v1-19` | Project: `prj-dashboard-ux-v1` | Status: todo
+> Task ID: `tsk-dashboard-ux-v1-19` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -71,14 +72,14 @@ Task Panel에서 첨부파일을 업로드/조회/삭제할 수 있는 UI 구현
 
 ## 체크리스트
 
-- [ ] task-panel.js에 Attachments 섹션 HTML 추가
-- [ ] 파일 업로드 UI 구현 (input + 드래그앤드롭)
-- [ ] API 연동 (upload, list, delete)
-- [ ] 첨부파일 목록 렌더링
-- [ ] 다운로드 링크 동작
-- [ ] 삭제 버튼 동작
-- [ ] 업로드 진행 상태 UI
-- [ ] CSS 스타일 추가
+- [x] task-panel.js에 Attachments 섹션 HTML 추가
+- [x] 파일 업로드 UI 구현 (input + 드래그앤드롭)
+- [x] API 연동 (upload, list, delete)
+- [x] 첨부파일 목록 렌더링
+- [x] 다운로드 링크 동작
+- [x] 삭제 버튼 동작
+- [x] 업로드 진행 상태 UI
+- [x] CSS 스타일 추가
 
 ---
 
@@ -152,23 +153,43 @@ bindAttachmentEvents(taskId)   // 이벤트 바인딩
 ---
 
 ### Todo
-- [ ] `api.js`에 첨부파일 API 함수 추가
-- [ ] `index.html`에 Attachments 섹션 HTML 추가
-- [ ] `task-panel.js`에 `renderAttachments()` 구현
-- [ ] 드래그앤드롭 업로드 구현
-- [ ] 업로드 진행 바 표시
-- [ ] 파일 목록 렌더링 (아이콘, 크기, 타입)
-- [ ] PDF 뷰어 버튼 (tsk-20 연동 포인트)
-- [ ] 다운로드 버튼
-- [ ] 삭제 버튼 (확인 후 삭제)
-- [ ] `open()`/`openNew()` 함수에 attachments 로드 추가
-- [ ] `panel.css`에 스타일 추가
-- [ ] 모바일 반응형
+- [x] `api.js`에 첨부파일 API 함수 추가
+- [x] `index.html`에 Attachments 섹션 HTML 추가
+- [x] `task-panel.js`에 `renderAttachments()` 구현
+- [x] 드래그앤드롭 업로드 구현
+- [x] 업로드 진행 바 표시
+- [x] 파일 목록 렌더링 (아이콘, 크기, 타입)
+- [x] PDF 뷰어 버튼 (tsk-20 연동 포인트)
+- [x] 다운로드 버튼
+- [x] 삭제 버튼 (확인 후 삭제)
+- [x] `open()`/`openNew()` 함수에 attachments 로드 추가
+- [x] `panel.css`에 스타일 추가
+- [x] 모바일 반응형
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-03 완료
+
+**개요**: Task Panel에 첨부파일 업로드/조회/삭제 UI 전체 구현 완료
+
+**변경 파일**:
+| 파일 | 변경 내용 |
+|------|----------|
+| `_dashboard/js/api.js:377-481` | 첨부파일 API 함수 4개 추가 (getAttachments, getAttachmentUrl, uploadAttachment, deleteAttachment) |
+| `_dashboard/js/components/task-panel.js:960-1376` | Attachments 섹션 전체 구현 (setupAttachmentEvents, loadAttachments, renderAttachmentList, downloadAttachment, deleteAttachment 등) |
+| `_dashboard/index.html:700-724` | Attachments 섹션 HTML 구조 (dropzone, progress bar, list) |
+| `_dashboard/css/panel.css:2618-2880` | 첨부파일 UI 스타일 (262줄, 모바일 반응형 포함) |
+
+**구현 기능**:
+- 드래그앤드롭 + 클릭 파일 업로드
+- XMLHttpRequest 기반 업로드 진행률 표시
+- 파일 타입별 아이콘 (PDF, HWP, 이미지, 오디오, 비디오 등)
+- 파일 크기 포맷팅 (KB/MB)
+- PDF 뷰어 버튼 (tsk-20 연동 준비)
+- 다운로드/삭제 버튼
+- 모바일 반응형 CSS
+
+**의존성**: tsk-dashboard-ux-v1-18 (첨부파일 API) 완료 필요
 
 
 ---

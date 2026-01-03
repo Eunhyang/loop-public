@@ -4,8 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-21"
 entity_name: "Dashboard - 첨부파일 텍스트 추출 API"
 created: 2026-01-02
 updated: 2026-01-03
-status: done
-closed: 2026-01-03
+status: doing
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -107,7 +106,7 @@ priority_flag: medium
 - [x] 추출 결과 `.txt` 파일 저장
 - [x] `?force=true` 재추출 파라미터
 - [x] 지원 형식 검사 및 에러 처리
-- [ ] n8n 연동 테스트 (별도 진행)
+- [x] n8n 워크플로우 연동 구현
 
 ---
 
@@ -312,8 +311,174 @@ api = [
 - Health check 통과
 - OpenAPI 스키마에 엔드포인트 등록 확인
 
-**최종 상태**: done
+**최종 상태**: doing (n8n 연동 추가 작업 중)
 
+---
+
+### n8n 워크플로우 연동 PRD
+
+#### 목표
+
+n8n 워크플로우에서 Evidence 생성 시 첨부파일 텍스트를 자동으로 추출하여 LLM에 전달.
+
+**연동 흐름**:
+```
+1. Filter Impact Needed → Realized Impact 필요한 Project 감지
+2. Get Project Tasks → 해당 Project의 Task 목록 조회
+3. Get Task Attachments → Task별 첨부파일 목록 조회
+4. Extract Attachment Text → 첨부파일 텍스트 추출 API 호출
+5. Build Evidence Context → 추출된 텍스트를 retrospective_content로 구성
+6. Call AI Router (Evidence) → LLM에 텍스트 전달 → B Score 분석
+```
+
+#### API 호출 순서
+
+| Step | Endpoint | 설명 |
+|------|----------|------|
+| 1 | `GET /api/projects/{id}/tasks` | Project의 Task 목록 |
+| 2 | `GET /api/tasks/{id}/attachments` | Task의 첨부파일 목록 |
+| 3 | `GET /api/tasks/{id}/attachments/{filename}/text` | 첨부파일 텍스트 추출 |
+| 4 | `POST /api/ai/infer/evidence` | Evidence 추론 (텍스트 포함) |
+
+#### 첨부파일 텍스트 처리 규칙
+
+1. **파일 형식 필터링**: PDF, HWP, HWPX, DOC, DOCX, TXT, MD만 처리
+2. **최대 문자 수 제한**: `max_chars=50000` (LLM 토큰 절약)
+3. **텍스트 병합**: 여러 첨부파일이 있으면 `---` 구분자로 병합
+4. **실패 시 건너뛰기**: 추출 실패 파일은 로그만 남기고 진행
+
+#### n8n 워크플로우 수정 사항
+
+**Filter Impact Needed 노드**:
+```javascript
+// 기존 api_request 구조 유지
+api_request: {
+  project_id: project.entity_id,
+  run_id: run_id,
+  mode: 'pending',
+  provider: 'openai',
+  actor: 'n8n',
+  create_pending: true,
+  schema_version: '5.3',
+  retrospective_content: null,  // -> 텍스트 추출 후 채움
+  actual_result: null
+}
+```
+
+**새 노드 추가**:
+1. `Get Project Tasks` - HTTP Request
+2. `Get Task Attachments` - Code (Loop over tasks)
+3. `Extract Attachment Text` - HTTP Request (Loop)
+4. `Build Evidence Context` - Code (텍스트 병합)
+
+### n8n 워크플로우 연동 Tech Spec
+
+#### 워크플로우 구조 변경
+
+```
+Before (현재):
+Filter Impact Needed → Route by Phase → Call AI Router (Evidence)
+
+After (수정 후):
+Filter Impact Needed → Route by Phase (Realized)
+    → Get Project Tasks
+    → Extract Attachment Texts (Code)
+    → Build Evidence Context (Code)
+    → Call AI Router (Evidence)
+```
+
+#### Extract Attachment Texts 노드 (Code)
+
+```javascript
+// Loop over tasks and extract text from attachments
+const project = $input.first().json;
+const projectId = project.entity_id;
+const API_URL = $env.LOOP_API_URL || 'https://mcp.sosilab.synology.me';
+const TOKEN = $env.LOOP_API_TOKEN;
+
+// 1. Get project tasks
+const tasksResp = await $http.get(`${API_URL}/api/projects/${projectId}/tasks`, {
+  headers: { 'Authorization': `Bearer ${TOKEN}` }
+});
+const tasks = tasksResp.body.tasks || [];
+
+const extractedTexts = [];
+
+for (const task of tasks) {
+  // 2. Get task attachments
+  const attachResp = await $http.get(`${API_URL}/api/tasks/${task.entity_id}/attachments`, {
+    headers: { 'Authorization': `Bearer ${TOKEN}` }
+  });
+  const attachments = attachResp.body.attachments || [];
+
+  // 3. Filter extractable formats
+  const extractable = attachments.filter(a => {
+    const ext = a.filename.split('.').pop().toLowerCase();
+    return ['pdf', 'hwp', 'hwpx', 'doc', 'docx', 'txt', 'md'].includes(ext);
+  });
+
+  // 4. Extract text from each attachment
+  for (const att of extractable) {
+    try {
+      const textResp = await $http.get(
+        `${API_URL}/api/tasks/${task.entity_id}/attachments/${encodeURIComponent(att.filename)}/text?max_chars=50000`,
+        { headers: { 'Authorization': `Bearer ${TOKEN}` } }
+      );
+      if (textResp.body.success) {
+        extractedTexts.push({
+          task_id: task.entity_id,
+          filename: att.filename,
+          text: textResp.body.text,
+          chars: textResp.body.chars
+        });
+      }
+    } catch (e) {
+      // Log error and continue
+      console.log(`Failed to extract ${att.filename}: ${e.message}`);
+    }
+  }
+}
+
+// 5. Build retrospective_content
+let retrospectiveContent = null;
+if (extractedTexts.length > 0) {
+  retrospectiveContent = extractedTexts.map(t =>
+    `## ${t.task_id} / ${t.filename}\n\n${t.text}`
+  ).join('\n\n---\n\n');
+
+  // Truncate if too long
+  if (retrospectiveContent.length > 100000) {
+    retrospectiveContent = retrospectiveContent.slice(0, 100000) + '\n\n[... truncated ...]';
+  }
+}
+
+// 6. Update api_request
+const apiRequest = project.api_request || {};
+apiRequest.retrospective_content = retrospectiveContent;
+apiRequest.actual_result = extractedTexts.length > 0
+  ? `${extractedTexts.length}개 첨부파일에서 텍스트 추출 완료`
+  : null;
+
+return [{
+  json: {
+    ...project,
+    api_request: apiRequest,
+    attachment_stats: {
+      total_tasks: tasks.length,
+      total_attachments: extractedTexts.length,
+      total_chars: extractedTexts.reduce((sum, t) => sum + t.chars, 0)
+    }
+  }
+}];
+```
+
+#### 수정된 워크플로우 JSON 변경 사항
+
+| 노드 ID | 변경 내용 |
+|---------|----------|
+| `route-by-phase` | Realized 분기 후 새 노드 연결 |
+| `extract-attachment-texts` (신규) | Code 노드 추가 |
+| `call-ai-router-evidence` | 기존 노드 유지, 입력만 변경 |
 
 ---
 

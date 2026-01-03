@@ -22,7 +22,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.LOOP_API_URL }}/api/projects",
+        "url": "https://mcp.sosilab.synology.me/api/projects",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "options": {}
@@ -34,7 +34,7 @@
       "position": [440, 300],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "LOOP_API_TOKEN_CREDENTIAL_ID",
+          "id": "",
           "name": "LOOP API Token"
         }
       },
@@ -42,7 +42,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Filter: status in [planning, active] AND validates empty\nconst projects = $input.all()[0].json.projects || [];\n\nconst filtered = projects.filter(p => {\n  // 1. status 조건: planning 또는 active\n  const validStatus = ['planning', 'active'].includes(p.status);\n  \n  // 2. validates 빈 배열 조건\n  const noHypothesis = !p.validates || p.validates.length === 0;\n  \n  // 3. primary_hypothesis_id도 없어야 함\n  const noPrimaryHyp = !p.primary_hypothesis_id;\n  \n  return validStatus && noHypothesis && noPrimaryHyp;\n});\n\n// 디버그용 로그\nconsole.log(`Found ${filtered.length} projects without hypothesis out of ${projects.length} total`);\n\nreturn filtered.map(p => ({ json: p }));"
+        "jsCode": "// Filter: status in [planning, active] AND validates empty\nconst projects = $input.all()[0].json.projects || [];\n\nconst filtered = projects.filter(p => {\n  // 1. status 조건: planning 또는 active\n  const validStatus = ['planning', 'active'].includes(p.status);\n  \n  // 2. validates 빈 배열 조건\n  const noHypothesis = !p.validates || p.validates.length === 0;\n  \n  // 3. primary_hypothesis_id도 없어야 함\n  const noPrimaryHyp = !p.primary_hypothesis_id;\n  \n  return validStatus && noHypothesis && noPrimaryHyp;\n});\n\nconsole.log(`Found ${filtered.length} projects without hypothesis out of ${projects.length} total`);\n\nreturn filtered.map(p => ({ json: p }));"
       },
       "id": "filter-projects",
       "name": "Filter Projects Without Hypothesis",
@@ -66,7 +66,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.LOOP_API_URL }}/api/ai/infer/hypothesis_draft",
+        "url": "https://mcp.sosilab.synology.me/api/ai/infer/hypothesis_draft",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "sendBody": true,
@@ -83,7 +83,7 @@
       "position": [1100, 300],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "LOOP_API_TOKEN_CREDENTIAL_ID",
+          "id": "",
           "name": "LOOP API Token"
         }
       },
@@ -118,7 +118,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const results = $input.all();\n\n// 성공/실패 카운트\nlet success = 0;\nlet failed = 0;\nlet skipped = 0;\n\nconst details = [];\n\nfor (const item of results) {\n  const data = item.json;\n  \n  // 결과가 배열인 경우 (aggregate 결과)\n  if (Array.isArray(data.results)) {\n    for (const r of data.results) {\n      if (r.ok) {\n        success++;\n        details.push({\n          project_id: r.project_id,\n          status: 'success',\n          hypothesis_id: r.hypothesis_draft?.entity_id,\n          pending_id: r.pending?.review_id\n        });\n      } else if (r.error) {\n        failed++;\n        details.push({\n          project_id: r.project_id,\n          status: 'failed',\n          error: r.error\n        });\n      }\n    }\n  } else if (data.ok !== undefined) {\n    // 단일 결과\n    if (data.ok) {\n      success++;\n      details.push({\n        project_id: data.project_id,\n        status: 'success',\n        hypothesis_id: data.hypothesis_draft?.entity_id,\n        pending_id: data.pending?.review_id\n      });\n    } else {\n      failed++;\n      details.push({\n        project_id: data.project_id,\n        status: 'failed',\n        error: data.error\n      });\n    }\n  }\n}\n\nconst summary = {\n  timestamp: new Date().toISOString(),\n  total_processed: success + failed,\n  success,\n  failed,\n  skipped,\n  details\n};\n\nconsole.log('Workflow D Summary:', JSON.stringify(summary, null, 2));\n\nreturn [{ json: summary }];"
+        "jsCode": "const results = $input.all();\n\nlet success = 0;\nlet failed = 0;\nlet skipped = 0;\n\nconst details = [];\n\nfor (const item of results) {\n  const data = item.json;\n  \n  if (Array.isArray(data.results)) {\n    for (const r of data.results) {\n      if (r.ok) {\n        success++;\n        details.push({\n          project_id: r.project_id,\n          status: 'success',\n          hypothesis_id: r.hypothesis_draft?.entity_id,\n          pending_id: r.pending?.review_id\n        });\n      } else if (r.error) {\n        failed++;\n        details.push({\n          project_id: r.project_id,\n          status: 'failed',\n          error: r.error\n        });\n      }\n    }\n  } else if (data.ok !== undefined) {\n    if (data.ok) {\n      success++;\n      details.push({\n        project_id: data.project_id,\n        status: 'success',\n        hypothesis_id: data.hypothesis_draft?.entity_id,\n        pending_id: data.pending?.review_id\n      });\n    } else {\n      failed++;\n      details.push({\n        project_id: data.project_id,\n        status: 'failed',\n        error: data.error\n      });\n    }\n  }\n}\n\nconst summary = {\n  timestamp: new Date().toISOString(),\n  total_processed: success + failed,\n  success,\n  failed,\n  skipped,\n  details\n};\n\nconsole.log('Workflow D Summary:', JSON.stringify(summary, null, 2));\n\nreturn [{ json: summary }];"
       },
       "id": "summarize",
       "name": "Summarize Results",
@@ -282,7 +282,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "timezone": "Asia/Seoul"
   },
-  "versionId": "tsk-n8n-16-v1",
+  "versionId": "tsk-n8n-16-v2",
   "meta": {
     "templateCredsSetupCompleted": false,
     "instanceId": "loop-vault"
