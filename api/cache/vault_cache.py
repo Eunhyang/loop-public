@@ -331,8 +331,8 @@ class VaultCache:
         API 응답 시 EXEC_SENSITIVE_FIELDS에 정의된 필드를 제외함.
 
         구조:
-        - 프로젝트: exec/50_Projects/P{num}_{name}/_INDEX.md
-        - Task: exec/50_Projects/P{num}_{name}/Tasks/*.md
+        - 기존: exec/50_Projects/P{num}_{name}/_INDEX.md
+        - Program Rounds: exec/50_Projects/{Program}/prj-*/{Project_정의.md|_INDEX.md}
         """
         if not self.exec_projects_dir or not self.exec_projects_dir.exists():
             logger.debug(f"Exec vault projects dir not found: {self.exec_projects_dir}")
@@ -340,6 +340,7 @@ class VaultCache:
 
         self._update_dir_mtime(self.exec_projects_dir, 'ExecProject')
 
+        # 1. 기존 패턴: P* 폴더 (P015, P016_다온_영상편집자 등)
         for project_dir in self.exec_projects_dir.glob("P*"):
             if not project_dir.is_dir():
                 continue
@@ -354,6 +355,28 @@ class VaultCache:
             if tasks_dir.exists():
                 for task_file in tasks_dir.glob("*.md"):
                     self._load_exec_task_file(task_file)
+
+        # 2. Program Rounds 패턴: {Program}/prj-* 폴더 (Grants, TIPS_Batch 등)
+        for program_dir in self.exec_projects_dir.iterdir():
+            if not program_dir.is_dir() or program_dir.name.startswith(('P', '.', '@')):
+                continue  # P* 폴더는 위에서 처리, 숨김/시스템 폴더 제외
+
+            for project_dir in program_dir.glob("prj-*"):
+                if not project_dir.is_dir():
+                    continue
+
+                # Project_정의.md 또는 _INDEX.md
+                for index_name in ["Project_정의.md", "_INDEX.md"]:
+                    index_file = project_dir / index_name
+                    if index_file.exists():
+                        self._load_exec_project_file(index_file)
+                        break
+
+                # Task 로드
+                tasks_dir = project_dir / "Tasks"
+                if tasks_dir.exists():
+                    for task_file in tasks_dir.glob("*.md"):
+                        self._load_exec_task_file(task_file)
 
     def _load_exec_project_file(self, file_path: Path) -> Optional[str]:
         """단일 exec vault Project 파일 로드 (민감 정보 필터링)"""
