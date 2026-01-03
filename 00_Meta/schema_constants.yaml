@@ -627,6 +627,59 @@ cross_vault:
       - source_task       # → Task
       - source_vault      # "LOOP"
 
+  # ============================================
+  # Exec Vault ID 패턴 (SSOT v5.4)
+  # ============================================
+  # public vault와 절대 충돌하지 않는 ID 체계
+  #
+  # 핵심 규칙: exec vault에서 순차 번호(prj-NNN, tsk-NNN-NN) 절대 금지
+  #
+  exec_id_patterns:
+    # 1. 민감 단독 프로젝트 (다온, 채용 후보 등)
+    #    - 숫자 prefix 없음, exec- prefix 사용
+    standalone:
+      project: "^prj-exec-\\d{3}$"    # prj-exec-001
+      task: "^tsk-exec-\\d{3}$"       # tsk-exec-001
+      examples:
+        - prj-exec-001   # 다온 영상편집자
+        - tsk-exec-001   # 다온 첫 연락
+
+    # 2. Program Round 프로젝트 (지원사업, 채용 라운드 등)
+    #    - Program 키워드 + Round 키워드 조합
+    #    - Program은 public vault에 존재, Round는 exec에 존재
+    program_round:
+      project: "^prj-[a-z]+-[a-z0-9-]+$"  # prj-tips-primer, prj-grants-jemi
+      task: "^tsk-[a-z]+-\\d{2}$"          # tsk-primer-01, tsk-grants-jemi-02
+      examples:
+        - prj-tips-primer     # TIPS 배치 - 프라이머
+        - prj-tips-idp        # TIPS 배치 - 아이디어파트너스
+        - prj-grants-jemi     # 지원사업 - JEMI 디딤돌
+        - prj-grants-youth    # 지원사업 - 청년창업사관학교
+        - tsk-primer-01       # 프라이머 사업계획서 작성
+        - tsk-grants-jemi-01  # JEMI 정산증빙자료 수집
+
+    # 3. 키워드 결정 규칙
+    #    - Program: pgm-xxx → xxx (pgm- 제거)
+    #    - Round: 프로젝트 고유 키워드 (예: primer, idp, jemi)
+    keyword_rules:
+      program_from: "pgm-{keyword} → {keyword}"
+      round_examples:
+        tips-batch:
+          - primer      # 프라이머
+          - idp         # 아이디어파트너스
+          - spark       # 스파크
+        grants:
+          - jemi        # JEMI 디딤돌
+          - youth       # 청년창업사관학교
+        hiring:
+          - daon        # 다온 (영상편집자)
+          - freelancer  # 프리랜서 일반
+
+    # 금지 패턴 (충돌 방지)
+    forbidden:
+      - "^prj-\\d{3}$"        # prj-017 금지 (public과 충돌)
+      - "^tsk-\\d{3}-\\d{2}$" # tsk-017-01 금지 (public과 충돌)
+
 # ============================================
 # Role Rules (역할 분리 규칙)
 # ============================================
@@ -731,8 +784,13 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.3"
-last_updated: "2025-12-28"
+schema_version: "5.4"
+last_updated: "2026-01-03"
+# v5.4 변경:
+# - cross_vault.exec_id_patterns 섹션 추가 (exec vault 전용 ID 체계 SSOT)
+# - standalone 패턴: prj-exec-NNN, tsk-exec-NNN
+# - program_round 패턴: prj-{program}-{round}, tsk-{keyword}-NN
+# - 금지 패턴 명시: exec에서 prj-NNN, tsk-NNN-NN 사용 금지
 # v5.3 변경:
 # - Evidence 품질 메타 필드 7개 추가 (provenance, source_refs, sample_size, measurement_quality, counterfactual, confounders, query_version)
 # - field_structures.evidence_quality_meta 구조 정의

@@ -4,7 +4,8 @@ entity_id: "tsk-017-13"
 entity_name: "Dual-Vault - exec_rounds_path 자동 라우팅"
 created: 2026-01-03
 updated: 2026-01-03
-status: doing
+status: done
+closed: 2026-01-03
 
 # === 계층 ===
 parent_id: "prj-019"

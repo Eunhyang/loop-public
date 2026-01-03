@@ -126,7 +126,8 @@ Dual-Vault (LOOP + loop_exec) 구조에서 접근 권한을 명확히 분리해�
 | tsk-017-09 | Dual-Vault - Program-Round 조인 API | 김은향 | done | 2026-01-02 |
 | tsk-017-11 | Dual-Vault - n8n 토큰 분리 설정 | 김은향 | doing | |
 | tsk-017-12 | Dual-Vault - Program-Round 대시보드 통합 | 김은향 | done | 2026-01-02 |
-| tsk-017-13 | Dual-Vault - exec_rounds_path 자동 라우팅 | 김은향 | doing | 2026-01-03 |
+| tsk-017-13 | Dual-Vault - exec_rounds_path 자동 라우팅 | 김은향 | done | 2026-01-03 |
+| tsk-017-14 | Dual-Vault - exec ID 체계 정비 | 김은향 | doing | 2026-01-03 |
 
 ---
 
