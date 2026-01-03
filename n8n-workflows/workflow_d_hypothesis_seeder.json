@@ -1,0 +1,303 @@
+{
+  "name": "Workflow D - Hypothesis Seeder",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 300],
+      "notes": "매일 09:00 KST 실행"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.LOOP_API_URL }}/api/projects",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "get-projects",
+      "name": "Get Projects",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "LOOP_API_TOKEN_CREDENTIAL_ID",
+          "name": "LOOP API Token"
+        }
+      },
+      "notes": "모든 프로젝트 조회"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter: status in [planning, active] AND validates empty\nconst projects = $input.all()[0].json.projects || [];\n\nconst filtered = projects.filter(p => {\n  // 1. status 조건: planning 또는 active\n  const validStatus = ['planning', 'active'].includes(p.status);\n  \n  // 2. validates 빈 배열 조건\n  const noHypothesis = !p.validates || p.validates.length === 0;\n  \n  // 3. primary_hypothesis_id도 없어야 함\n  const noPrimaryHyp = !p.primary_hypothesis_id;\n  \n  return validStatus && noHypothesis && noPrimaryHyp;\n});\n\n// 디버그용 로그\nconsole.log(`Found ${filtered.length} projects without hypothesis out of ${projects.length} total`);\n\nreturn filtered.map(p => ({ json: p }));"
+      },
+      "id": "filter-projects",
+      "name": "Filter Projects Without Hypothesis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300],
+      "notes": "validates=[] AND status in [planning, active]"
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-projects",
+      "name": "Loop Projects",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [880, 300],
+      "notes": "프로젝트별 순차 처리"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.LOOP_API_URL }}/api/ai/infer/hypothesis_draft",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"project_id\": \"{{ $json.entity_id }}\",\n  \"mode\": \"pending\",\n  \"provider\": \"openai\",\n  \"actor\": \"n8n-workflow-d\"\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "create-hypothesis-draft",
+      "name": "Create Hypothesis Draft",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "LOOP_API_TOKEN_CREDENTIAL_ID",
+          "name": "LOOP API Token"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Hypothesis draft 생성 API 호출"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "wait-rate-limit",
+      "name": "Wait (Rate Limit)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1320, 300],
+      "webhookId": "wait-rate-limit",
+      "notes": "Rate limiting: 2초 대기"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "results",
+        "include": "allFieldsExceptBinary"
+      },
+      "id": "aggregate-results",
+      "name": "Aggregate Results",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [1540, 300],
+      "notes": "모든 결과 집계"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = $input.all();\n\n// 성공/실패 카운트\nlet success = 0;\nlet failed = 0;\nlet skipped = 0;\n\nconst details = [];\n\nfor (const item of results) {\n  const data = item.json;\n  \n  // 결과가 배열인 경우 (aggregate 결과)\n  if (Array.isArray(data.results)) {\n    for (const r of data.results) {\n      if (r.ok) {\n        success++;\n        details.push({\n          project_id: r.project_id,\n          status: 'success',\n          hypothesis_id: r.hypothesis_draft?.entity_id,\n          pending_id: r.pending?.review_id\n        });\n      } else if (r.error) {\n        failed++;\n        details.push({\n          project_id: r.project_id,\n          status: 'failed',\n          error: r.error\n        });\n      }\n    }\n  } else if (data.ok !== undefined) {\n    // 단일 결과\n    if (data.ok) {\n      success++;\n      details.push({\n        project_id: data.project_id,\n        status: 'success',\n        hypothesis_id: data.hypothesis_draft?.entity_id,\n        pending_id: data.pending?.review_id\n      });\n    } else {\n      failed++;\n      details.push({\n        project_id: data.project_id,\n        status: 'failed',\n        error: data.error\n      });\n    }\n  }\n}\n\nconst summary = {\n  timestamp: new Date().toISOString(),\n  total_processed: success + failed,\n  success,\n  failed,\n  skipped,\n  details\n};\n\nconsole.log('Workflow D Summary:', JSON.stringify(summary, null, 2));\n\nreturn [{ json: summary }];"
+      },
+      "id": "summarize",
+      "name": "Summarize Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1760, 300],
+      "notes": "실행 결과 요약"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.total_processed }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-has-results",
+      "name": "Has Results?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1980, 300],
+      "notes": "처리된 프로젝트가 있는지 확인"
+    },
+    {
+      "parameters": {},
+      "id": "no-action",
+      "name": "No Projects to Process",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [2200, 400],
+      "notes": "처리할 프로젝트 없음"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Projects": {
+      "main": [
+        [
+          {
+            "node": "Filter Projects Without Hypothesis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Projects Without Hypothesis": {
+      "main": [
+        [
+          {
+            "node": "Loop Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Projects": {
+      "main": [
+        [
+          {
+            "node": "Create Hypothesis Draft",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Hypothesis Draft": {
+      "main": [
+        [
+          {
+            "node": "Wait (Rate Limit)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait (Rate Limit)": {
+      "main": [
+        [
+          {
+            "node": "Loop Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Results": {
+      "main": [
+        [
+          {
+            "node": "Summarize Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Results": {
+      "main": [
+        [
+          {
+            "node": "Has Results?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Results?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "No Projects to Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "timezone": "Asia/Seoul"
+  },
+  "versionId": "tsk-n8n-16-v1",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "loop-vault"
+  },
+  "tags": [
+    {
+      "name": "hypothesis",
+      "createdAt": "2026-01-03T00:00:00.000Z",
+      "updatedAt": "2026-01-03T00:00:00.000Z"
+    },
+    {
+      "name": "automation",
+      "createdAt": "2026-01-03T00:00:00.000Z",
+      "updatedAt": "2026-01-03T00:00:00.000Z"
+    }
+  ],
+  "pinData": {}
+}
