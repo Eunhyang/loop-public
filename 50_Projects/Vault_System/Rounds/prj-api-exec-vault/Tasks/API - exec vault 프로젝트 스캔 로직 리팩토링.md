@@ -85,8 +85,71 @@ priority_flag: high
 
 ## Notes
 
-### PRD
-(prompt-enhancer에서 생성 예정)
+### PRD / Tech Spec
+
+#### 문제 정의
+현재 `vault_cache.py`의 exec vault 프로젝트 스캔 로직이:
+- `P*` 패턴만 하드코딩으로 스캔 (line 344: `glob("P*")`)
+- Program 폴더는 `P`, `.`, `@`로 시작하지 않는 것만 스캔 (line 361)
+- public vault와 유사한 로직이 중복됨
+
+#### 현재 코드 구조
+```python
+# _load_exec_projects() - lines 327-379
+1. P* 폴더 스캔: exec_projects_dir.glob("P*")
+2. Program Rounds: program_dir not startswith(('P', '.', '@'))
+   → program_dir.glob("prj-*")
+```
+
+```python
+# _load_projects() - lines 266-302
+1. 기존 패턴: projects_dir.glob("P*")
+2. Program Rounds: programs_dir.iterdir() → rounds_dir.glob("prj-*")
+```
+
+#### 설계 결정
+
+**1. 공통 함수 설계**
+```python
+def _find_project_files(self, base_dir: Path, vault_type: str = 'public') -> List[Path]:
+    """
+    재귀적으로 Project 파일 검색
+
+    Returns:
+        Project_정의.md 또는 _INDEX.md 파일 경로 리스트
+
+    제외 조건:
+        - 파일명이 '_'로 시작 (단, _INDEX.md는 포함)
+        - 'Tasks/' 하위 파일
+        - '.', '@' 시작 폴더 (숨김/시스템)
+    """
+
+def _find_task_files(self, base_dir: Path) -> List[Path]:
+    """
+    재귀적으로 Task 파일 검색
+
+    Pattern: **/Tasks/*.md
+    제외: _*.md (템플릿 등)
+    """
+```
+
+**2. 파일 인식 패턴**
+- Project 파일: `Project_정의.md`, `_INDEX.md` (우선순위 순)
+- Task 파일: `Tasks/*.md` (단, `_*.md` 제외)
+
+**3. 제외 규칙**
+- 숨김 폴더: `.obsidian`, `.git` 등
+- 시스템 폴더: `@eaDir` (Synology)
+- 메타 폴더: `00_Meta`, `_TEMPLATES`
+
+#### 구현 Todo
+- [x] `_find_project_files(base_dir, vault_type)` 작성
+- [x] `_find_task_files(base_dir)` 작성
+- [x] `_load_projects()` 리팩토링 - 공통 함수 사용
+- [x] `_load_exec_projects()` 리팩토링 - 공통 함수 사용
+- [ ] `_load_tasks()` 리팩토링 - 공통 함수 사용
+- [ ] 테스트: 기존 프로젝트 모두 로드 확인
+- [ ] 테스트: 새 Program 폴더 자동 인식 확인
 
 ### 작업 로그
 
