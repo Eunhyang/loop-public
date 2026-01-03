@@ -30,6 +30,7 @@ Endpoints:
 
 from pathlib import Path
 from datetime import datetime
+import traceback
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -73,6 +74,33 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# ============================================
+# Global Exception Handler
+# ============================================
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    모든 예외를 JSON으로 반환하고 상세 로그 출력
+    500 에러 발생 시 디버깅을 위한 traceback 로그
+    """
+    # Traceback 출력 (서버 로그)
+    error_traceback = traceback.format_exc()
+    print(f"❌ UNHANDLED EXCEPTION at {request.url.path}")
+    print(f"   Method: {request.method}")
+    print(f"   Error: {type(exc).__name__}: {exc}")
+    print(f"   Traceback:\n{error_traceback}")
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "detail": str(exc),
+            "error_type": type(exc).__name__,
+            "path": str(request.url.path),
+        }
+    )
 
 # ============================================
 # Authentication

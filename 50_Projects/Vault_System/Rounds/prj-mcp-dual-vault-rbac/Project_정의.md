@@ -119,6 +119,8 @@ ChatGPT MCP를 통해 코어팀 멤버가 접근할 수 있으면 안 됨.
 |----|------|----------|--------|-----|
 | tsk-mcp-rbac-01 | User 모델 role 필드 + CLI | 김은향 | done | |
 | tsk-mcp-rbac-02 | 대시보드 OAuth 로그인 통합 | 김은향 | planning | 2025-12-26 |
+| tsk-mcp-rbac-03 | loop_exec Vault 라우팅 | 김은향 | doing | |
+| tsk-mcp-rbac-04 | 복합 API exec vault 필터링 | 김은향 | doing | |
 
 ---
 

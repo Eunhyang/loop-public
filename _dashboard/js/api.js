@@ -264,6 +264,14 @@ const API = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task)
         });
+
+        // Handle non-JSON responses (e.g., plain text error from server)
+        const contentType = res.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await res.text();
+            return { success: false, message: text || `Server error: ${res.status}` };
+        }
+
         return res.json();
     },
 

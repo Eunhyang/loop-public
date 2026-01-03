@@ -231,67 +231,87 @@ def update_task(task_id: str, task: TaskUpdate):
     except FileNotFoundError:
         cache.remove_task(task_id)
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
+    except PermissionError as e:
+        raise HTTPException(status_code=500, detail=f"Permission denied reading task file: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error reading task file: {type(e).__name__}: {e}")
 
     # Frontmatter 파싱
     match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
     if not match:
         raise HTTPException(status_code=500, detail="Invalid frontmatter format")
 
-    frontmatter = yaml.safe_load(match.group(1))
+    try:
+        frontmatter = yaml.safe_load(match.group(1))
+    except yaml.YAMLError as e:
+        raise HTTPException(status_code=500, detail=f"YAML parsing error: {e}")
+
     body = match.group(2)
 
     # 업데이트
-    if task.entity_name:
-        frontmatter['entity_name'] = task.entity_name
-    if task.assignee:
-        frontmatter['assignee'] = task.assignee
-    if task.priority:
-        frontmatter['priority'] = task.priority
-    if task.start_date:
-        frontmatter['start_date'] = task.start_date
-    if task.due:
-        frontmatter['due'] = task.due
-    if task.status:
-        frontmatter['status'] = task.status
-    if task.notes is not None:
-        frontmatter['notes'] = task.notes if task.notes else None
-    if task.tags is not None:
-        frontmatter['tags'] = task.tags
-    # Agent Builder 파이프라인용 추가 필드
-    if task.conditions_3y is not None:
-        frontmatter['conditions_3y'] = task.conditions_3y
-    if task.closed is not None:
-        frontmatter['closed'] = task.closed
-    if task.closed_inferred is not None:
-        frontmatter['closed_inferred'] = task.closed_inferred
-    if task.project_id is not None:
-        frontmatter['project_id'] = task.project_id
-    # 외부 링크
-    if task.links is not None:
-        frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in task.links]
+    try:
+        if task.entity_name:
+            frontmatter['entity_name'] = task.entity_name
+        if task.assignee:
+            frontmatter['assignee'] = task.assignee
+        if task.priority:
+            frontmatter['priority'] = task.priority
+        if task.start_date:
+            frontmatter['start_date'] = task.start_date
+        if task.due:
+            frontmatter['due'] = task.due
+        if task.status:
+            frontmatter['status'] = task.status
+        if task.notes is not None:
+            frontmatter['notes'] = task.notes if task.notes else None
+        if task.tags is not None:
+            frontmatter['tags'] = task.tags
+        # Agent Builder 파이프라인용 추가 필드
+        if task.conditions_3y is not None:
+            frontmatter['conditions_3y'] = task.conditions_3y
+        if task.closed is not None:
+            frontmatter['closed'] = task.closed
+        if task.closed_inferred is not None:
+            frontmatter['closed_inferred'] = task.closed_inferred
+        if task.project_id is not None:
+            frontmatter['project_id'] = task.project_id
+        # 외부 링크
+        if task.links is not None:
+            frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in task.links]
 
-    frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
+        frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error updating frontmatter: {type(e).__name__}: {e}")
 
     # 파일 다시 쓰기
-    new_content = f"""---
+    try:
+        new_content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
 {body}"""
 
-    with open(task_file, 'w', encoding='utf-8') as f:
-        f.write(new_content)
+        with open(task_file, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+    except PermissionError as e:
+        raise HTTPException(status_code=500, detail=f"Permission denied writing task file: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error writing task file: {type(e).__name__}: {e}")
 
     # 캐시 업데이트
     cache.set_task(task_id, frontmatter, task_file)
 
     # 감사 로그
-    changed_fields = {k: v for k, v in task.model_dump().items() if v is not None}
-    log_entity_action(
-        action="update",
-        entity_type="Task",
-        entity_id=task_id,
-        entity_name=frontmatter.get("entity_name", ""),
-        details={"changed_fields": changed_fields}
-    )
+    try:
+        changed_fields = {k: v for k, v in task.model_dump().items() if v is not None}
+        log_entity_action(
+            action="update",
+            entity_type="Task",
+            entity_id=task_id,
+            entity_name=frontmatter.get("entity_name", ""),
+            details={"changed_fields": changed_fields}
+        )
+    except Exception as e:
+        # 감사 로그 실패는 무시 (메인 로직에 영향 주지 않음)
+        print(f"Warning: Failed to log task update: {e}")
 
     return TaskResponse(
         success=True,

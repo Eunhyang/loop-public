@@ -920,7 +920,12 @@ const TaskPanel = {
             }
         } catch (err) {
             console.error('Save task error:', err);
-            showToast('Error saving task: ' + err.message, 'error');
+            // 에러 객체에서 상세 정보 추출
+            let errorMsg = err.message;
+            if (err.detail) {
+                errorMsg = err.detail;
+            }
+            showToast('Error saving task: ' + errorMsg, 'error');
             // 에러 시에도 패널 닫기 (오버레이 stuck 방지)
             this.close();
         } finally {

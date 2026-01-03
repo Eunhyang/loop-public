@@ -75,6 +75,7 @@ LOOP API가 exec vault (민감 정보 vault)의 프로젝트도 로드하여 대
 | Task ID | Task Name | Assignee | Status |
 |---------|-----------|----------|--------|
 | tsk-018-01 | API - VaultCache exec vault 프로젝트 로드 | 김은향 | doing |
+| tsk-018-02 | API - exec vault 프로젝트 스캔 로직 리팩토링 | 김은향 | doing |
 
 ---
 

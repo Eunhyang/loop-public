@@ -259,20 +259,21 @@ api = [
 ---
 
 ### Todo
-- [ ] `pdfplumber` 의존성 추가 (pyproject.toml)
-- [ ] Dockerfile에 LibreOffice 설치 추가
-- [ ] `TextExtractionResponse` 모델 추가 (entities.py)
-- [ ] `services/text_extractor.py` 생성
-- [ ] `_extract_pdf()` 구현 (pdfplumber)
-- [ ] `_extract_with_libreoffice()` 구현 (subprocess)
-- [ ] `_extract_text_file()` 구현
-- [ ] `.txt` 캐시 저장/읽기 로직
-- [ ] `tasks.py`에 `/text` 엔드포인트 추가
-- [ ] `force` 파라미터 처리
-- [ ] `max_chars` 파라미터 처리
-- [ ] 에러 핸들링 (404, 415, 500)
-- [ ] Docker 이미지 리빌드 테스트
-- [ ] n8n 워크플로우 테스트
+- [x] `pdfplumber` 의존성 추가 (pyproject.toml)
+- [x] Dockerfile에 LibreOffice 설치 추가
+- [x] `TextExtractionResponse` 모델 추가 (entities.py)
+- [x] `services/text_extractor.py` 생성
+- [x] `_extract_pdf()` 구현 (pdfplumber)
+- [x] `_extract_with_libreoffice()` 구현 (subprocess)
+- [x] `_extract_text_file()` 구현
+- [x] `.txt` 캐시 저장/읽기 로직
+- [x] `tasks.py`에 `/text` 엔드포인트 추가
+- [x] `force` 파라미터 처리
+- [x] `max_chars` 파라미터 처리
+- [x] 에러 핸들링 (404, 415, 500)
+- [x] Docker 이미지 리빌드 테스트
+- [x] n8n 워크플로우 테스트
+- [x] n8n Manual Trigger 테스트 기능 추가 (v7)
 
 ### 작업 로그
 
@@ -343,6 +344,42 @@ api = [
    - `Parse Impact Response`: (1800, 1000)
 
 **참고한 기존 n8n 태스크**:
+
+#### 2026-01-03 Manual Trigger 테스트 기능 추가 (v7)
+
+**개요**: 특정 프로젝트만 테스트할 수 있는 Manual Trigger 경로 추가
+
+**구현 내용**:
+
+1. **n8n 워크플로우 수정** (`_build/n8n_workflows/entity_validator_autofiller.json`)
+   - v6 → v7 버전 업그레이드
+   - 4개 노드 추가: `Manual Trigger (Test)`, `Set Test Project`, `Get Single Project`, `Build Test Item`
+
+2. **테스트 경로**:
+   ```
+   Manual Trigger (Test)
+           ↓
+   Set Test Project (project_id, phase 설정)
+           ↓
+   Get Single Project (API로 해당 프로젝트 조회)
+           ↓
+   Build Test Item (테스트 형식으로 변환)
+           ↓
+   Route by Phase → Extract Attachment Texts → Call AI Router (Evidence)
+   ```
+
+3. **사용 방법**:
+   - n8n 대시보드에서 `Set Test Project` 노드 클릭
+   - `test_project_id`: 테스트할 프로젝트 ID (기본값: `prj-dashboard-ux-v1`)
+   - `test_phase`: `expected_impact` 또는 `realized_impact`
+   - `Manual Trigger (Test)` 노드에서 Execute 클릭
+
+4. **장점**:
+   - 전체 프로젝트 스캔 없이 특정 프로젝트만 테스트 가능
+   - 첨부파일 텍스트 추출 연동 검증 용이
+   - `actor: 'n8n-test'`로 테스트 실행 구분
+
+**기존 n8n 태스크 참고**:
 - tsk-n8n-07: AI Router Evidence 추론 엔드포인트
 - tsk-n8n-12: Evidence 자동화 운영 완성 (Server Skip)
 - tsk-n8n-03: Project Impact Score 자동화 워크플로우
