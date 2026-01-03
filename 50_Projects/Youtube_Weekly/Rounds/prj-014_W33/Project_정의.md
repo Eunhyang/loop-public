@@ -1,49 +1,39 @@
 ---
 entity_type: Project
 entity_id: prj-yt-w33
-entity_name: YouTube W33
+entity_name: YouTube - W33
 created: 2025-12-23
-updated: 2025-12-23
-status: doing
-
-# === Program-Round 연결 ===
+updated: '2026-01-03'
+status: ''
 program_id: pgm-youtube-weekly
-cycle: "W33"
-
-# === 계층 (전략 연결) ===
+cycle: W33
 parent_id: trk-3
-conditions_3y: ["cond-a"]
+conditions_3y: []
 aliases:
-  - prj-yt-w33
-  - YouTube W33
-
-# === Project 정보 ===
+- prj-yt-w33
+- YouTube W33
 owner: 한명학
 budget: null
 deadline: 2025-12-31
-
-# === Impact 판정 ===
 expected_impact:
-  statement: "W33 영상이 예정대로 업로드되면 주간 업로드 일관성이 유지됨이 증명된다"
-  metric: "업로드 완료 여부"
-  target: "12/31까지 1개 영상 업로드"
-
+  statement: W33 영상이 예정대로 업로드되면 주간 업로드 일관성이 유지됨이 증명된다
+  metric: 업로드 완료 여부
+  target: 12/31까지 1개 영상 업로드
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 관계 ===
 outgoing_relations: []
 validates: []
 validated_by: []
 experiments: []
-conditions_3y: []
-tags: ["youtube", "w33", "round"]
+tags:
+- youtube
+- w33
+- round
 priority_flag: medium
 ---
-
 # YouTube W33
 
 > Project ID: `prj-014` | Program: `pgm-youtube-weekly` | Cycle: W33
