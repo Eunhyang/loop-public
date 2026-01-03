@@ -351,8 +351,8 @@ const TaskPanel = {
 
             this.currentTask = task;
 
-            // 본문 표시
-            const notesContent = task.notes || task._body || '';
+            // 본문 표시 (notes + _body 합쳐서)
+            const notesContent = [task.notes, task._body].filter(Boolean).join('\n\n---\n\n');
             document.getElementById('panelTaskNotes').value = notesContent;
             this.updateNotesPreview(notesContent);
 
@@ -369,7 +369,7 @@ const TaskPanel = {
             console.error('Error loading task detail:', err);
             // 폴백: 캐시된 정보 사용
             this.currentTask = cachedTask;
-            const notesContent = cachedTask.notes || cachedTask._body || '';
+            const notesContent = [cachedTask.notes, cachedTask._body].filter(Boolean).join('\n\n---\n\n');
             document.getElementById('panelTaskNotes').value = notesContent;
             this.updateNotesPreview(notesContent);
             this.renderRelations(cachedTask);
