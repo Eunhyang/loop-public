@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-21"
 entity_name: "Dashboard - 첨부파일 텍스트 추출 API"
 created: 2026-01-02
 updated: 2026-01-03
-status: doing
+status: done
+closed: 2026-01-03
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -311,7 +312,40 @@ api = [
 - Health check 통과
 - OpenAPI 스키마에 엔드포인트 등록 확인
 
-**최종 상태**: doing (n8n 연동 추가 작업 중)
+**최종 상태**: done
+
+#### 2026-01-03 n8n 워크플로우 연동 완료
+
+**개요**: n8n 워크플로우에 첨부파일 텍스트 추출 연동 추가
+
+**구현 내용**:
+
+1. **n8n 워크플로우 수정** (`_build/n8n_workflows/entity_validator_autofiller.json`)
+   - v5 → v6 버전 업그레이드
+   - `Extract Attachment Texts` 노드 추가 (Code 노드)
+   - Route by Phase (Realized) → Extract Attachment Texts → Call AI Router (Evidence) 연결
+
+2. **Extract Attachment Texts 노드**:
+   - `GET /api/projects/{id}/tasks` - Project의 Task 목록 조회
+   - `GET /api/tasks/{id}/attachments` - Task별 첨부파일 목록 조회
+   - `GET /api/tasks/{id}/attachments/{filename}/text?max_chars=50000` - 텍스트 추출
+   - 추출된 텍스트를 `retrospective_content`로 병합
+   - `api_request`에 `retrospective_content`, `actual_result` 채움
+   - 에러 처리: 개별 파일 추출 실패 시 건너뛰고 계속 진행
+
+3. **연결 변경**:
+   - Before: `Route by Phase` → `Call AI Router (Evidence)`
+   - After: `Route by Phase` → `Extract Attachment Texts` → `Call AI Router (Evidence)`
+
+4. **Node positions 조정**:
+   - `Extract Attachment Texts`: (1400, 1100)
+   - `Call AI Router (Evidence)`: (1600, 1100)
+   - `Parse Impact Response`: (1800, 1000)
+
+**참고한 기존 n8n 태스크**:
+- tsk-n8n-07: AI Router Evidence 추론 엔드포인트
+- tsk-n8n-12: Evidence 자동화 운영 완성 (Server Skip)
+- tsk-n8n-03: Project Impact Score 자동화 워크플로우
 
 ---
 

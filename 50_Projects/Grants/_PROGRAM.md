@@ -91,8 +91,9 @@ priority_flag: high
 
 | Round | Cycle | Status | Link |
 |-------|-------|--------|------|
-| JEMI디딤돌 | 2025 | planning | [[prj-grants-jemi]] |
-| 청년창업사관학교 | 2025 | active | [[prj-grants-youth]] |
+| JEMI디딤돌 | 2025 | doing | [[prj-grants-jemi]] |
+| 스타트업베이 | 2025 | doing | [[prj-020]] |
+| 청년창업사관학교 | 2025 | doing | [[prj-grants-youth]] |
 
 ---
 
