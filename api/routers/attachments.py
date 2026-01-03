@@ -13,6 +13,7 @@ Storage: {VAULT_DIR}/_attachments/{task_id}/{filename}
 import os
 import re
 import mimetypes
+import unicodedata
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
@@ -106,6 +107,43 @@ def get_task_attachments_dir(task_id: str) -> Path:
     # Task ID도 sanitize (path traversal 방지)
     safe_task_id = re.sub(r'[^\w\-]', '', task_id)
     return ATTACHMENTS_DIR / safe_task_id
+
+
+def find_file_with_unicode_normalization(task_dir: Path, filename: str) -> Optional[Path]:
+    """
+    Unicode 정규화를 고려한 파일 찾기
+
+    macOS는 파일명을 NFD(분해형)로 저장하지만,
+    API 요청은 NFC(조합형)로 들어올 수 있음.
+    양쪽 형태로 검색하여 파일을 찾음.
+    """
+    if not task_dir.exists():
+        return None
+
+    # 1. 원본 파일명으로 시도
+    file_path = task_dir / filename
+    if file_path.exists():
+        return file_path
+
+    # 2. NFC 정규화로 시도
+    nfc_filename = unicodedata.normalize('NFC', filename)
+    file_path = task_dir / nfc_filename
+    if file_path.exists():
+        return file_path
+
+    # 3. NFD 정규화로 시도
+    nfd_filename = unicodedata.normalize('NFD', filename)
+    file_path = task_dir / nfd_filename
+    if file_path.exists():
+        return file_path
+
+    # 4. 디렉토리 내 파일들과 정규화 비교
+    nfc_target = unicodedata.normalize('NFC', filename)
+    for existing_file in task_dir.iterdir():
+        if unicodedata.normalize('NFC', existing_file.name) == nfc_target:
+            return existing_file
+
+    return None
 
 
 def get_unique_filename(target_dir: Path, filename: str) -> str:
@@ -366,17 +404,19 @@ def get_attachment(task_id: str, filename: str):
     safe_filename = secure_filename(filename)
 
     task_dir = get_task_attachments_dir(task_id)
-    file_path = task_dir / safe_filename
+
+    # Unicode 정규화를 고려한 파일 찾기 (macOS NFD 대응)
+    file_path = find_file_with_unicode_normalization(task_dir, safe_filename)
+
+    if not file_path:
+        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
 
     # Path safety 검증
     if not validate_path_safety(ATTACHMENTS_DIR, file_path):
         raise HTTPException(status_code=400, detail="Invalid file path")
 
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
-
     # Content-Type 추론
-    content_type, _ = mimetypes.guess_type(safe_filename)
+    content_type, _ = mimetypes.guess_type(file_path.name)
     if not content_type:
         content_type = "application/octet-stream"
 
@@ -407,14 +447,16 @@ def delete_attachment(task_id: str, filename: str):
     safe_filename = secure_filename(filename)
 
     task_dir = get_task_attachments_dir(task_id)
-    file_path = task_dir / safe_filename
+
+    # Unicode 정규화를 고려한 파일 찾기 (macOS NFD 대응)
+    file_path = find_file_with_unicode_normalization(task_dir, safe_filename)
+
+    if not file_path:
+        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
 
     # Path safety 검증
     if not validate_path_safety(ATTACHMENTS_DIR, file_path):
         raise HTTPException(status_code=400, detail="Invalid file path")
-
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
 
     # 파일 정보 백업 (로그용)
     file_size = file_path.stat().st_size
@@ -485,20 +527,22 @@ def extract_attachment_text(
     # 2. 파일명 sanitize
     safe_filename = secure_filename(filename)
 
-    # 3. 파일 경로 확인
+    # 3. 파일 경로 확인 (Unicode 정규화 고려)
     task_dir = get_task_attachments_dir(task_id)
-    file_path = task_dir / safe_filename
+
+    # Unicode 정규화를 고려한 파일 찾기 (macOS NFD 대응)
+    file_path = find_file_with_unicode_normalization(task_dir, safe_filename)
+
+    if not file_path:
+        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
 
     # 4. Path safety 검증
     if not validate_path_safety(ATTACHMENTS_DIR, file_path):
         raise HTTPException(status_code=400, detail="Invalid file path")
 
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
-
     # 5. 지원 형식 확인
-    if not extractor.is_supported(safe_filename):
-        ext = os.path.splitext(safe_filename)[1].lower()
+    if not extractor.is_supported(file_path.name):
+        ext = os.path.splitext(file_path.name)[1].lower()
         raise HTTPException(
             status_code=415,
             detail=f"Unsupported format for text extraction: {ext}. "
