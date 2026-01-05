@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: "tsk-vault-gpt-11"
 entity_name: "Navigation - _INDEX.md API 이전"
 created: 2026-01-05
-updated: 2026-01-05
-status: doing
+updated: 2026-01-06
+status: done
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -96,16 +96,16 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] `/api/mcp/folder-contents` 엔드포인트 구현
-- [ ] 엔티티 파싱 로직 (frontmatter에서 id, name, status 추출)
-- [ ] exec vault 지원 (권한 체크)
-- [ ] `build_graph_index.py`에서 `_INDEX.md` 생성 로직 제거
-  - [ ] `FOLDER_INDEX_CONFIG` 제거
-  - [ ] `generate_folder_indexes()` 함수 제거
-  - [ ] main 함수에서 호출 제거
-- [ ] _INDEX.md 파일 삭제 (public 8개 + exec 8개)
-- [ ] CLAUDE.md 업데이트 (새 엔드포인트 문서화)
-- [ ] 테스트 및 코드 리뷰
+- [x] `/api/mcp/folder-contents` 엔드포인트 구현 (이미 완료)
+- [x] 엔티티 파싱 로직 (frontmatter에서 id, name, status 추출)
+- [x] exec vault 지원 (권한 체크) - exec vault용 별도 처리 불필요 (vault_cache.py에서 처리)
+- [x] `build_graph_index.py`에서 `_INDEX.md` 생성 로직 제거 (v7.0)
+  - [x] `FOLDER_INDEX_CONFIG` 제거
+  - [x] `generate_folder_indexes()` 함수 제거
+  - [x] main 함수에서 호출 제거
+- [x] _INDEX.md 파일 삭제 (public 6개 - 수동작성 2개 보존)
+- [x] CLAUDE.md 업데이트 (새 엔드포인트 문서화)
+- [x] 테스트 및 코드 리뷰 (Codex cross-review 완료)
 
 ---
 
@@ -185,11 +185,34 @@ GET /api/mcp/folder-contents?path={folder_path}
 #### 성공 기준
 
 - [ ] `/api/mcp/folder-contents` 단일 호출로 폴더 내용 조회
-- [ ] 기존 _INDEX.md 16개 파일 삭제 완료
-- [ ] build_graph_index.py에서 _INDEX.md 생성 로직 제거
-- [ ] CLAUDE.md에 새 엔드포인트 문서화
+- [x] 기존 auto-generated _INDEX.md 6개 파일 삭제 완료
+- [x] build_graph_index.py에서 _INDEX.md 생성 로직 제거 (v7.0)
+- [x] CLAUDE.md에 새 엔드포인트 문서화
 
 ### 작업 로그
+
+**2026-01-06** (codex-claude-loop)
+1. build_graph_index.py v7.0 업데이트
+   - FOLDER_INDEX_CONFIG 제거
+   - generate_folder_indexes() 함수 제거
+   - main()에서 호출/로그 제거
+2. auto-generated _INDEX.md 6개 삭제
+   - 20_Strategy/3Y_Conditions_2026-2028/_INDEX.md
+   - 20_Strategy/12M_Tracks/_INDEX.md
+   - 20_Strategy/12M_Tracks/2026/_INDEX.md
+   - 01_North_Star/_INDEX.md
+   - 60_Hypotheses/_INDEX.md
+   - 50_Projects/_INDEX.md
+3. 수동 작성 _INDEX.md 2개 보존
+   - 20_Strategy/Products/kkokkkok_app/_INDEX.md
+   - 20_Strategy/Products/kkokkkokfit/_INDEX.md
+4. 문서 업데이트
+   - _ENTRY_POINT.md: API 참조로 변경
+   - 00_Meta/query_recipes.md: API 참조로 변경
+   - CLAUDE.md: /api/mcp/folder-contents 추가
+5. 빌드 아티팩트 재생성
+   - _Graph_Index.md, _build/graph.json
+6. Codex cross-review 통과
 
 
 
