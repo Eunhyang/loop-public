@@ -1,52 +1,42 @@
 ---
 entity_type: Project
-entity_id: "prj-015"
-entity_name: "Hiring - 주니어 개발자 채용"
+entity_id: prj-015
+entity_name: Hiring - 주니어 개발자 채용
 created: 2025-12-25
-updated: 2025-12-25
-status: doing
-
-# === 계층 ===
-parent_id: "trk-6"
-program_id: "pgm-hiring"
-aliases: ["prj-015", "주니어 개발자 채용"]
-
-# === 관계 ===
+updated: '2026-01-06'
+status: ''
+parent_id: trk-6
+program_id: pgm-hiring
+aliases:
+- prj-015
+- 주니어 개발자 채용
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "한명학"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "주니어 개발자를 채용하여 제품 개발 속도를 높일 수 있다"
+hypothesis_text: 주니어 개발자를 채용하여 제품 개발 속도를 높일 수 있다
 experiments: []
-
-# === Expected Impact (A) ===
 expected_impact:
   tier: enabling
   impact_magnitude: high
   confidence: 0.7
   contributes:
-    - condition_id: "cond-d"
-      weight: 0.3
-
-# === Realized Impact (B) ===
+  - condition_id: cond-d
+    weight: 0.3
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-d"]
-
-# === 분류 ===
-tags: ["hiring", "developer"]
+conditions_3y:
+- cond-d
+tags:
+- hiring
+- developer
 priority_flag: high
 ---
-
 # 주니어 개발자 채용
 
 > Project ID: `prj-015` | Track: `trk-6` | Status: in_progress
