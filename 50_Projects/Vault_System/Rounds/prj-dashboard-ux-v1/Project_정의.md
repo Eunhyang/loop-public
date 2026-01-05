@@ -77,7 +77,8 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 | tsk-dashboard-ux-v1-08 | build_graph_index.py YAML 일원화 | 김은향 | done | |
 | tsk-dashboard-ux-v1-09 | loop-entity-creator 문서 수정 | 김은향 | done | |
 | tsk-dashboard-ux-v1-22 | Dashboard - PDF 첨부파일 500 에러 진단 | 김은향 | done | 2026-01-05 |
-| tsk-019-25 | Schema - Task type에 meeting 추가 | 김은향 | doing | |
+| tsk-019-25 | Schema - Task type에 meeting 추가 | 김은향 | done | 2026-01-06 |
+| tsk-dashboard-ux-v1-23 | Dashboard - 캘린더 우클릭 미팅 추가 | 김은향 | doing | 2026-01-06 |
 
 ---
 

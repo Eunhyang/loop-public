@@ -4,7 +4,8 @@ entity_id: tsk-019-25
 entity_name: "Schema - Task type에 meeting 추가"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: prj-dashboard-ux-v1
@@ -40,7 +41,7 @@ priority_flag: medium
 
 # Schema - Task type에 meeting 추가
 
-> Task ID: `tsk-019-25` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-019-25` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -100,7 +101,7 @@ Task의 type enum에 `meeting` 값을 추가하여 미팅/약속/일정 유형�
 - [x] schema_constants.yaml 수정
 - [x] template_task.md 수정
 - [x] 검증 스크립트 실행
-- [ ] API 서버 rebuild 확인 (NAS에서 수동 실행 필요)
+- [x] API 서버 rebuild 확인 (/mcp-server rebuild 완료)
 
 ### 작업 로그
 
@@ -114,6 +115,15 @@ Task의 type enum에 `meeting` 값을 추가하여 미팅/약속/일정 유형�
 **결과**: ✅ validate_schema.py 검증 통과
 
 **다음 단계**: API 서버 rebuild 후 Dashboard에서 meeting type 사용 가능
+
+#### 2026-01-06 00:25
+**개요**: API 서버 rebuild 완료. Task 완료 처리.
+
+**변경사항**:
+- `/mcp-server rebuild` 실행 완료
+- Health check 통과 (Tasks: 199, Projects: 33)
+
+**결과**: ✅ meeting type 정상 적용됨
 
 
 ---
