@@ -142,11 +142,12 @@ api/
 **Public**: `/`, `/health`, `/docs`, `/api/constants`, OAuth endpoints
 
 **MCP Composite Endpoints** (LLM-optimized, single-call):
+- `/api/mcp/vault-navigation` - Dual-vault navigation (replaces _HOME.md, _VAULT_REGISTRY.md)
 - `/api/mcp/vault-context` - Vault structure + current status (recommended first call)
 - `/api/mcp/search-and-read?q=keyword` - Search + read in one call
-- `/api/mcp/file-read?paths=path1,path2` - Direct file read by path (NEW)
+- `/api/mcp/file-read?paths=path1,path2` - Direct file read by path
 - `/api/mcp/project/{id}/context` - Project + Tasks + Hypotheses
-- `/api/mcp/project/{id}/context?include_body=true` - With body content (NEW)
+- `/api/mcp/project/{id}/context?include_body=true` - With body content
 - `/api/mcp/dashboard` - Full status dashboard
 
 ---

@@ -6,6 +6,7 @@ GPT가 MCP 도구를 호출할 때 권한 요청 횟수를 최소화하기 위�
 
 Endpoints:
     GET /api/mcp/vault-context      - Vault 구조 + 현황 (GPT 첫 호출용)
+    GET /api/mcp/vault-navigation   - Dual-vault 통합 네비게이션 (NEW)
     GET /api/mcp/search-and-read    - 검색 + 파일 내용 한 번에 반환
     GET /api/mcp/project/{id}/context - 프로젝트 + Tasks + Hypotheses
     GET /api/mcp/track/{id}/context   - Track + 하위 Projects
@@ -111,6 +112,36 @@ class EntityGraphResponse(BaseModel):
     parents: List[Dict[str, Any]]
     children: List[Dict[str, Any]]
     related: List[Dict[str, Any]]
+
+
+class VaultFolderInfo(BaseModel):
+    """Vault 폴더 정보"""
+    count: Optional[int] = None
+    purpose: str
+
+
+class VaultInfo(BaseModel):
+    """개별 Vault 정보"""
+    description: str
+    access: str
+    folders: Dict[str, VaultFolderInfo]
+
+
+class RoutingGuideItem(BaseModel):
+    """라우팅 가이드 항목"""
+    question: str
+    vault: str
+    path: str
+    api: Optional[str] = None
+
+
+class VaultNavigationResponse(BaseModel):
+    """Vault Navigation 응답 - dual-vault 통합 네비게이션"""
+    dual_vault: Dict[str, VaultInfo]
+    routing_guide: List[RoutingGuideItem]
+    entity_stats: Dict[str, Dict[str, Any]]  # public은 int, exec는 note 문자열
+    quick_links: Dict[str, str]
+    generated_at: str
 
 
 # ============================================
@@ -1070,6 +1101,154 @@ async def vault_full_scan(
         entity_types=entity_types,
         active_summary=active_summary,
         query_guide=query_guide
+    )
+
+
+# ============================================
+# Vault Navigation (tsk-vault-gpt-10)
+# ============================================
+
+# 정적 라우팅 가이드 (VAULT_REGISTRY.md 기반)
+ROUTING_GUIDE = [
+    {"question": "프로젝트/태스크 상태?", "vault": "public", "path": "50_Projects/", "api": "/api/tasks"},
+    {"question": "Track 상태?", "vault": "public", "path": "20_Strategy/12M_Tracks/", "api": "/api/tracks"},
+    {"question": "가설 검증 현황?", "vault": "public", "path": "60_Hypotheses/", "api": "/api/hypotheses"},
+    {"question": "온톨로지 스키마?", "vault": "public", "path": "30_Ontology/Schema/", "api": None},
+    {"question": "런웨이 몇 개월?", "vault": "exec", "path": "10_Runway/Current_Status.md", "api": "/api/mcp/exec-read?paths=10_Runway/Current_Status.md"},
+    {"question": "채용 가능?", "vault": "exec", "path": "40_People/Hiring_Gate.md", "api": "/api/mcp/exec-read?paths=40_People/Hiring_Gate.md"},
+    {"question": "이번 달 지출?", "vault": "exec", "path": "20_Cashflow/", "api": "/api/mcp/exec-context"},
+    {"question": "투자 파이프라인?", "vault": "exec", "path": "30_Pipeline/Investment_Pipeline.md", "api": "/api/mcp/exec-read?paths=30_Pipeline/Investment_Pipeline.md"},
+    {"question": "최악 시나리오?", "vault": "exec", "path": "60_Contingency/Worst_Case.md", "api": "/api/mcp/exec-read?paths=60_Contingency/Worst_Case.md"},
+]
+
+# 정적 Exec Vault 폴더 정보 (민감 데이터 보호 - count 제외)
+EXEC_VAULT_FOLDERS = {
+    "10_Runway": {"purpose": "Runway status, decision triggers"},
+    "20_Cashflow": {"purpose": "Monthly income/expense tracking"},
+    "30_Pipeline": {"purpose": "Investment, grants, B2B pipeline"},
+    "40_People": {"purpose": "Team roster, hiring, contracts"},
+    "50_Projects": {"purpose": "Exec-only sensitive projects"},
+    "60_Contingency": {"purpose": "Worst case scenarios, contingency plans"},
+}
+
+
+def _count_folder_entities(vault_dir: Path, folder_name: str) -> int:
+    """폴더 내 .md 파일 수 카운트 (템플릿 제외)"""
+    folder_path = vault_dir / folder_name
+    if not folder_path.exists():
+        return 0
+    count = 0
+    for md_file in folder_path.rglob("*.md"):
+        # 템플릿, 숨김 파일 제외
+        if "template" in md_file.name.lower() or md_file.name.startswith("_"):
+            continue
+        if any(part.startswith('.') for part in md_file.parts):
+            continue
+        count += 1
+    return count
+
+
+@router.get("/vault-navigation", response_model=VaultNavigationResponse)
+async def get_vault_navigation():
+    """
+    Dual-Vault 통합 네비게이션 - 분산된 navigation 문서를 대체하는 단일 API
+
+    한 번의 호출로 vault 전체 구조 파악:
+    - dual-vault 구조 (public + exec)
+    - 질문별 라우팅 가이드
+    - 실시간 엔티티 통계
+    - 빠른 접근 링크
+
+    기존 분산 문서 대체:
+    - _HOME.md, _ENTRY_POINT.md → dual_vault
+    - _VAULT_REGISTRY.md → routing_guide
+    - _Graph_Index.md → entity_stats
+    """
+    cache = get_cache()
+    vault_dir = get_vault_dir()
+
+    # 1. Public vault 폴더 정보 (실시간 count)
+    public_folders = {
+        "01_North_Star": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "01_North_Star"),
+            purpose="10-year vision, MetaHypotheses (MH1-4)"
+        ),
+        "20_Strategy": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "20_Strategy"),
+            purpose="3Y Conditions (A-E), 12M Tracks (1-6)"
+        ),
+        "50_Projects": VaultFolderInfo(
+            count=len(cache.get_all_projects()),
+            purpose="Projects and Tasks"
+        ),
+        "60_Hypotheses": VaultFolderInfo(
+            count=len(cache.get_all_hypotheses()),
+            purpose="Hypothesis validation"
+        ),
+        "30_Ontology": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "30_Ontology"),
+            purpose="Product ontology schema (ILOS)"
+        ),
+    }
+
+    # 2. Exec vault 폴더 정보 (정적, 보안상 count 제외)
+    exec_folders = {
+        name: VaultFolderInfo(count=None, purpose=info["purpose"])
+        for name, info in EXEC_VAULT_FOLDERS.items()
+    }
+
+    # 3. Dual vault 구조
+    dual_vault = {
+        "public": VaultInfo(
+            description="Shared vault - Projects, Tasks, Strategy, Ontology",
+            access="team + c-level",
+            folders=public_folders
+        ),
+        "exec": VaultInfo(
+            description="Executive vault - Runway, Budget, People (sensitive)",
+            access="c-level only (requires role=exec/admin + mcp:exec scope)",
+            folders=exec_folders
+        )
+    }
+
+    # 4. 라우팅 가이드
+    routing_guide = [
+        RoutingGuideItem(**item) for item in ROUTING_GUIDE
+    ]
+
+    # 5. 엔티티 통계 (public만 실시간, exec는 보안상 제외)
+    entity_stats = {
+        "public": {
+            "Project": len(cache.get_all_projects()),
+            "Task": len(cache.get_all_tasks()),
+            "Hypothesis": len(cache.get_all_hypotheses()),
+            "Track": len(cache.get_all_tracks()),
+            "Condition": len(cache.get_all_conditions()),
+            "Program": len(cache.get_all_programs()),
+        },
+        "exec": {
+            "note": "Use /api/mcp/exec-context for exec vault stats (requires auth)"
+        }
+    }
+
+    # 6. 빠른 접근 링크
+    quick_links = {
+        "search": "/api/mcp/search-and-read?q={keyword}",
+        "file_read": "/api/mcp/file-read?paths={path}",
+        "project_detail": "/api/mcp/project/{project_id}/context?include_body=true",
+        "track_detail": "/api/mcp/track/{track_id}/context",
+        "status_summary": "/api/mcp/status-summary",
+        "vault_full_scan": "/api/mcp/vault-full-scan?depth=summary",
+        "exec_context": "/api/mcp/exec-context (requires mcp:exec scope)",
+        "exec_read": "/api/mcp/exec-read?paths={path} (requires mcp:exec scope)",
+    }
+
+    return VaultNavigationResponse(
+        dual_vault=dual_vault,
+        routing_guide=routing_guide,
+        entity_stats=entity_stats,
+        quick_links=quick_links,
+        generated_at=datetime.now().isoformat()
     )
 
 
