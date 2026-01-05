@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-003-03
 entity_name: Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화
 created: 2025-12-18
-updated: '2025-12-23'
+updated: '2026-01-05'
 status: todo
 parent_id: prj-003
 project_id: prj-003
@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-05'
+due: '2026-01-07'
 priority: high
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-05'
+start_date: '2026-01-07'
 ---
 # Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화
 

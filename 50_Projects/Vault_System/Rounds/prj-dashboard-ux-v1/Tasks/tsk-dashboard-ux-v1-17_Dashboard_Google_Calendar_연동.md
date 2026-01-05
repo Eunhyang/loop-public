@@ -1,39 +1,32 @@
 ---
 entity_type: Task
-entity_id: "tsk-dashboard-ux-v1-17"
-entity_name: "Dashboard - Google Calendar 연동 (읽기 전용)"
+entity_id: tsk-dashboard-ux-v1-17
+entity_name: Dashboard - Google Calendar 연동 (읽기 전용)
 created: 2025-12-29
-updated: 2025-12-29
+updated: '2026-01-05'
 status: doing
-
-# === 계층 ===
-parent_id: "prj-dashboard-ux-v1"
-project_id: "prj-dashboard-ux-v1"
-aliases: ["tsk-dashboard-ux-v1-17"]
-
-# === 관계 ===
+parent_id: prj-dashboard-ux-v1
+project_id: prj-dashboard-ux-v1
+aliases:
+- tsk-dashboard-ux-v1-17
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
-start_date: 2025-12-29
-due: 2025-12-29
+assignee: 김은향
+start_date: '2026-01-06'
+due: '2026-01-06'
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
-# === 분류 ===
-tags: [dashboard, calendar, google, integration]
+tags:
+- dashboard
+- calendar
+- google
+- integration
 priority_flag: medium
 ---
-
 # Dashboard - Google Calendar 연동 (읽기 전용)
 
 > Task ID: `tsk-dashboard-ux-v1-17` | Project: `prj-dashboard-ux-v1` | Status: doing

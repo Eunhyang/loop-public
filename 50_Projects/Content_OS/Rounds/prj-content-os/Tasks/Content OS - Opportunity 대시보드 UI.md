@@ -1,39 +1,32 @@
 ---
 entity_type: Task
-entity_id: "tsk-content-os-02"
-entity_name: "Content OS - Opportunity 대시보드 UI"
+entity_id: tsk-content-os-02
+entity_name: Content OS - Opportunity 대시보드 UI
 created: 2025-12-31
-updated: 2025-12-31
+updated: '2026-01-05'
 status: todo
-
-# === 계층 ===
-parent_id: "prj-content-os"
-project_id: "prj-content-os"
-aliases: ["tsk-content-os-02"]
-
-# === 관계 ===
+parent_id: prj-content-os
+project_id: prj-content-os
+aliases:
+- tsk-content-os-02
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
-start_date: 2025-12-31
-due: null
+assignee: 김은향
+start_date: '2026-01-16'
+due: '2026-01-16'
 priority: high
 estimated_hours: 6
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
-# === 분류 ===
-tags: ["content-os", "ui", "dashboard", "opportunity"]
+tags:
+- content-os
+- ui
+- dashboard
+- opportunity
 priority_flag: high
 ---
-
 # Content OS - Opportunity 대시보드 UI
 
 > Task ID: `tsk-content-os-02` | Project: `prj-content-os` | Status: todo

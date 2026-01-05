@@ -1,39 +1,31 @@
 ---
 entity_type: Task
-entity_id: "tsk-n8n-06"
-entity_name: "vault-hygiene - API 엔드포인트 개발"
+entity_id: tsk-n8n-06
+entity_name: vault-hygiene - API 엔드포인트 개발
 created: 2025-12-29
-updated: 2025-12-29
+updated: '2026-01-05'
 status: doing
-
-# === 계층 ===
-parent_id: "prj-n8n"
-project_id: "prj-n8n"
-aliases: ["tsk-n8n-06"]
-
-# === 관계 ===
+parent_id: prj-n8n
+project_id: prj-n8n
+aliases:
+- tsk-n8n-06
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
-start_date: 2025-12-29
-due: 2025-12-30
+assignee: 김은향
+start_date: '2026-01-12'
+due: '2026-01-13'
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop-api
-
-# === 3Y 전략 연결 ===
-# === 분류 ===
-tags: [vault-system, api, automation]
+tags:
+- vault-system
+- api
+- automation
 priority_flag: medium
 ---
-
 # vault-hygiene - API 엔드포인트 개발
 
 > Task ID: `tsk-n8n-06` | Project: `prj-n8n` | Status: doing
