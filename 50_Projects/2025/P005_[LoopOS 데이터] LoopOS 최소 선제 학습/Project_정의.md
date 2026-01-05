@@ -4,12 +4,11 @@ entity_id: prj-005
 entity_name: LoopOS - 최소 선제 학습
 created: 2025-12-18
 updated: '2025-12-27'
-status: ''
+status: planning
 parent_id: trk-2
 aliases:
 - prj-005
 - '[LoopOS 데이터] LoopOS 최소 선제 학습'
-- prj-005
 outgoing_relations: []
 validates:
 - hyp-2-01
@@ -44,7 +43,7 @@ priority_flag: medium
 ---
 # [LoopOS 데이터] LoopOS 최소 선제 학습
 
-> Project ID: `prj-005` | Track: `trk-2` | Status: active
+> Project ID: `prj-005` | Track: `trk-2` | Status: planning
 
 ## 프로젝트 개요
 

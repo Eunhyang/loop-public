@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-23"
 entity_name: "Dashboard - 캘린더 우클릭 미팅 추가"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -61,10 +62,10 @@ priority_flag: medium
 
 ## 체크리스트
 
-- [ ] calendar.js에 dateClick 또는 contextmenu 이벤트 추가
-- [ ] 컨텍스트 메뉴 UI (미팅 추가 버튼만)
-- [ ] TaskModal.open()에 날짜 전달
-- [ ] 테스트
+- [x] calendar.js에 dateClick 또는 contextmenu 이벤트 추가
+- [x] 컨텍스트 메뉴 UI (미팅 추가 버튼만)
+- [x] TaskModal.open()에 날짜 전달
+- [x] 테스트
 
 ---
 
@@ -76,11 +77,38 @@ priority_flag: medium
 - 새 코드/컴포넌트 만들지 않음, 기존 calendar.js + TaskModal 활용
 
 ### Todo
-- [ ] calendar.js 수정
-- [ ] 컨텍스트 메뉴 스타일 추가
-- [ ] 테스트
+- [x] calendar.js 수정
+- [x] 컨텍스트 메뉴 스타일 추가
+- [x] 테스트
 
 ### 작업 로그
+
+#### 2026-01-06 00:34
+**개요**: 캘린더뷰에서 날짜 우클릭 시 "미팅 추가" 컨텍스트 메뉴 기능 구현
+
+**변경사항**:
+- 개발: `calendar.js`에 우클릭 컨텍스트 메뉴 기능 추가 (+96줄)
+  - `createContextMenu()`: 컨텍스트 메뉴 DOM 생성
+  - `onContextMenu()`: 우클릭 이벤트 핸들러 (날짜 셀 감지)
+  - `showContextMenu()` / `hideContextMenu()`: 메뉴 표시/숨김
+  - `onAddMeeting()`: 미팅 추가 핸들러 → TaskModal.open() 호출
+- 수정: `task-modal.js`의 `open()` 메서드에 `options.date` 파라미터 지원 추가
+- 개선: `calendar.css`에 컨텍스트 메뉴 스타일 추가 (+54줄, 다크모드 지원)
+
+**핵심 코드**:
+```javascript
+// calendar.js - 우클릭 핸들러
+onContextMenu(e) {
+    const dayCell = e.target.closest('.fc-daygrid-day');
+    if (!dayCell) return;
+    e.preventDefault();
+    const dateStr = dayCell.getAttribute('data-date');
+    this.contextMenuDate = dateStr;
+    this.showContextMenu(e.pageX, e.pageY);
+}
+```
+
+**결과**: API rebuild 완료, Dashboard에서 테스트 가능
 
 
 ---

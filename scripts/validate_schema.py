@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Schema Validator v7.1
+LOOP Vault Schema Validator v7.2
 모든 마크다운 파일의 frontmatter를 검증합니다.
+
+변경사항 (v7.2):
+- aliases 중복 검사 추가
+- assignee 유효성 검사 추가 (members.yaml 기준)
+- VALID_ASSIGNEES 로드 기능 추가
 
 변경사항 (v7.1):
 - Derived 필드 검증 추가 (v5.2 SSOT 원칙)
@@ -108,6 +113,36 @@ VALID_STATUSES = None
 VALID_TASK_TYPES = None
 VALID_TARGET_PROJECTS = None
 VALID_PROGRAM_TYPES = None
+VALID_ASSIGNEES = None  # v7.2: loaded from members.yaml
+
+
+def _load_valid_assignees(vault_root: Path) -> Set[str]:
+    """Load valid assignees from 00_Meta/members.yaml"""
+    members_path = vault_root / "00_Meta" / "members.yaml"
+    valid = set()
+
+    if members_path.exists():
+        try:
+            with open(members_path, 'r', encoding='utf-8') as f:
+                data = yaml.safe_load(f)
+
+            for member in data.get('members', []):
+                # id는 항상 유효
+                member_id = member.get('id')
+                if member_id:
+                    valid.add(member_id)
+
+                # aliases도 유효 (정규화 용도)
+                for alias in member.get('aliases', []):
+                    valid.add(alias)
+        except Exception:
+            pass
+
+    # Fallback defaults
+    if not valid:
+        valid = {"김은향", "한명학", "임단", "미정", "외주"}
+
+    return valid
 
 
 def extract_frontmatter(content: str) -> Optional[Dict]:
@@ -305,6 +340,41 @@ def validate_program(frontmatter: Dict) -> List[str]:
         errors.append("Program requires 'owner' field")
 
     return errors
+
+
+def validate_aliases_duplicates(frontmatter: Dict) -> List[str]:
+    """aliases 중복 검사 (v7.2)"""
+    warnings = []
+    aliases = frontmatter.get("aliases")
+
+    if not aliases or not isinstance(aliases, list):
+        return warnings
+
+    seen = set()
+    for alias in aliases:
+        if alias in seen:
+            warnings.append(f"⚠️  Duplicate alias: '{alias}'")
+        seen.add(alias)
+
+    return warnings
+
+
+def validate_assignee(frontmatter: Dict, entity_type: str) -> List[str]:
+    """assignee 유효성 검사 (v7.2) - members.yaml 기준"""
+    warnings = []
+
+    # Task만 검사
+    if entity_type != "Task":
+        return warnings
+
+    assignee = frontmatter.get("assignee")
+    if not assignee:
+        return warnings
+
+    if VALID_ASSIGNEES and assignee not in VALID_ASSIGNEES:
+        warnings.append(f"⚠️  Unknown assignee: '{assignee}' (not in members.yaml)")
+
+    return warnings
 
 
 def validate_derived_fields(frontmatter: Dict, entity_type: str) -> List[str]:
@@ -542,6 +612,14 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
     derived_warnings = validate_derived_fields(frontmatter, entity_type)
     errors.extend(derived_warnings)
 
+    # aliases 중복 검사 (v7.2) - 모든 엔티티 대상
+    alias_warnings = validate_aliases_duplicates(frontmatter)
+    errors.extend(alias_warnings)
+
+    # assignee 유효성 검사 (v7.2) - Task 대상
+    assignee_warnings = validate_assignee(frontmatter, entity_type)
+    errors.extend(assignee_warnings)
+
     return errors
 
 
@@ -650,7 +728,7 @@ def _load_known_fields_from_yaml() -> None:
 
 def main(vault_path: str, check_freshness: bool = True, single_file: Optional[str] = None) -> int:
     """메인 검증 함수"""
-    global _SCHEMA_CONSTANTS, VALID_CONDITION_IDS, VALID_STATUSES, VALID_TASK_TYPES, VALID_TARGET_PROJECTS, VALID_PROGRAM_TYPES
+    global _SCHEMA_CONSTANTS, VALID_CONDITION_IDS, VALID_STATUSES, VALID_TASK_TYPES, VALID_TARGET_PROJECTS, VALID_PROGRAM_TYPES, VALID_ASSIGNEES
 
     vault_root = Path(vault_path).resolve()
 
@@ -672,6 +750,7 @@ def main(vault_path: str, check_freshness: bool = True, single_file: Optional[st
     VALID_TASK_TYPES = _get_valid_task_types()
     VALID_TARGET_PROJECTS = _get_valid_target_projects()
     VALID_PROGRAM_TYPES = _get_valid_program_types()
+    VALID_ASSIGNEES = _load_valid_assignees(vault_root)
 
     # 단일 파일 검증 모드
     if single_file:

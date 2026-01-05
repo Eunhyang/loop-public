@@ -9,7 +9,6 @@ parent_id: ns-001
 aliases:
 - mh-4
 - MH4_단계적_확장_가능
-- mh-4
 outgoing_relations: []
 validates: []
 validated_by:

@@ -4,12 +4,11 @@ entity_id: prj-012
 entity_name: CS·운영 - 고객관리/대응
 created: 2025-12-18
 updated: '2025-12-27'
-status: ''
+status: planning
 parent_id: trk-4
 aliases:
 - prj-012
 - '[CS·운영] 고객관리/대응'
-- prj-012
 outgoing_relations: []
 validates: []
 validated_by: []
@@ -46,7 +45,7 @@ priority_flag: medium
 ---
 # [CS·운영] 고객관리/대응
 
-> Project ID: `prj-012` | Track: `trk-2` | Status: active
+> Project ID: `prj-012` | Track: `trk-4` | Status: planning
 
 ## 프로젝트 개요
 

@@ -12,7 +12,6 @@ cycle: "2025-12"
 aliases:
 - prj-007
 - 외부 비서
-- prj-007
 outgoing_relations: []
 validates: []
 validated_by: []
@@ -36,7 +35,7 @@ priority_flag: medium
 ---
 # 외부 비서
 
-> Project ID: `prj-007` | Track: `trk-2` | Status: active
+> Project ID: `prj-007` | Track: `trk-6` | Status: done
 
 ## 프로젝트 개요
 

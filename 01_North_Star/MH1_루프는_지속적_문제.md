@@ -9,7 +9,6 @@ parent_id: ns-001
 aliases:
 - mh-1
 - MH1_루프는_지속적_문제
-- mh-1
 outgoing_relations: []
 validates: []
 validated_by:

@@ -210,6 +210,7 @@ _build/n8n_workflows/
 | tsk-n8n-03 | Project Impact Score 자동화 | doing |
 | tsk-n8n-04 | LLM 프롬프트 템플릿 개선 | todo |
 | tsk-n8n-05 | API 비즈니스 로직 통합 | todo |
+| tsk-n8n-17 | Ontology-Lite - 무결성 검증 시스템 구축 | done |
 
 ---
 

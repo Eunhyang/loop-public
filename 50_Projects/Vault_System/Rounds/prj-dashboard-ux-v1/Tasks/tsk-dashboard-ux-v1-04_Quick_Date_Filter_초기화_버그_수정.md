@@ -13,7 +13,7 @@ aliases:
 outgoing_relations: []
 validates: []
 validated_by: []
-assignee: 은향
+assignee: 김은향
 due: 2025-12-26
 priority: high
 estimated_hours: 1
@@ -29,7 +29,7 @@ priority_flag: high
 ---
 # Quick Date Filter 초기화 버그 수정
 
-> Task ID: `tsk-dashboard-ux-v1-04` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-04` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -84,5 +84,5 @@ if (mode === 'week' && selectedWeeks.length === 0) return true;  // 모든 태�
 ---
 
 **Created**: 2025-12-26
-**Assignee**: 은향
+**Assignee**: 김은향
 **Due**: 2025-12-26

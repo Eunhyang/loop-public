@@ -4,12 +4,11 @@ entity_id: prj-002
 entity_name: 와디즈 - 12주 코칭 습관팩 런칭
 created: 2025-12-18
 updated: '2025-12-28'
-status: ''
+status: planning
 parent_id: trk-6
 aliases:
 - prj-002
 - '[와디즈] 12주 코칭 습관팩 런칭'
-- prj-002
 outgoing_relations: []
 validates:
 - hyp-4-01
@@ -48,7 +47,7 @@ priority_flag: medium
 ---
 # [와디즈] 12주 코칭 습관팩 런칭
 
-> Project ID: `prj-002` | Track: `trk-2` | Status: active
+> Project ID: `prj-002` | Track: `trk-6` | Status: planning
 
 ## 프로젝트 개요
 

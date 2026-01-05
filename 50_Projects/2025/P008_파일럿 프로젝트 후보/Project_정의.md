@@ -4,12 +4,11 @@ entity_id: prj-008
 entity_name: 파일럿 프로젝트 후보
 created: 2025-12-18
 updated: '2025-12-27'
-status: ''
+status: planning
 parent_id: trk-4
 aliases:
 - prj-008
 - 파일럿 프로젝트 후보
-- prj-008
 outgoing_relations: []
 validates: []
 validated_by: []
@@ -46,7 +45,7 @@ priority_flag: medium
 ---
 # 파일럿 프로젝트 후보
 
-> Project ID: `prj-008` | Track: `trk-2` | Status: active
+> Project ID: `prj-008` | Track: `trk-4` | Status: planning
 
 ## 프로젝트 개요
 

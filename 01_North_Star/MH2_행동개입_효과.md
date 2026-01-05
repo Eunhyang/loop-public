@@ -9,7 +9,6 @@ parent_id: ns-001
 aliases:
 - mh-2
 - MH2_행동개입_효과
-- mh-2
 outgoing_relations: []
 validates: []
 validated_by:
