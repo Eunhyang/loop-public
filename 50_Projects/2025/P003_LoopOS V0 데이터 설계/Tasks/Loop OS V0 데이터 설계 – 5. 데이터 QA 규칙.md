@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-003-04
 entity_name: Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙
 created: 2025-12-18
-updated: '2025-12-23'
+updated: '2026-01-06'
 status: todo
 parent_id: prj-003
 project_id: prj-003
@@ -22,6 +22,8 @@ actual_hours: null
 tags: []
 priority_flag: medium
 start_date: '2026-01-03'
+type: research
+target_project: null
 ---
 # Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙
 

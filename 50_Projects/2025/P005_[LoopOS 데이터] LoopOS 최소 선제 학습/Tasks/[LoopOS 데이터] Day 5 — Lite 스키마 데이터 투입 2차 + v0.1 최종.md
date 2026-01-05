@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-005-03
 entity_name: '[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결'
 created: 2025-12-18
-updated: '2025-12-26'
+updated: '2026-01-06'
 status: todo
 parent_id: prj-005
 project_id: prj-005
@@ -22,6 +22,8 @@ actual_hours: null
 tags: []
 priority_flag: high
 start_date: '2026-01-10'
+type: strategy
+target_project: null
 ---
 # [LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결
 

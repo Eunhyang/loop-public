@@ -1,40 +1,28 @@
 ---
 entity_type: Task
 entity_id: tsk-n8n-16
-entity_name: "n8n - Workflow D Hypothesis Seeder"
+entity_name: n8n - Workflow D Hypothesis Seeder
 created: 2026-01-03
-updated: 2026-01-03
+updated: '2026-01-06'
 status: doing
-
-# === 계층 ===
 parent_id: prj-n8n
 project_id: prj-n8n
 aliases:
 - tsk-n8n-16
-
-# === 관계 ===
 outgoing_relations:
 - tsk-n8n-15
 - tsk-n8n-11
 validates: []
-
-# === Task 전용 ===
 assignee: 김은향
-start_date: 2026-01-03
-due: 2026-01-07
+start_date: '2026-01-07'
+due: '2026-01-11'
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
 conditions_3y:
 - cond-e
-
-# === 분류 ===
 tags:
 - n8n
 - workflow
@@ -42,7 +30,6 @@ tags:
 - automation
 priority_flag: high
 ---
-
 # n8n - Workflow D Hypothesis Seeder
 
 > Task ID: `tsk-n8n-16` | Project: `prj-n8n` | Status: doing
