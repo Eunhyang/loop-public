@@ -246,6 +246,15 @@ const PDFViewer = {
                 console.log('PDF fetch aborted');
                 return;
             }
+
+            // 인증 관련 에러 구분 (Codex 피드백 반영: authFetch가 이미 throw)
+            const isAuthError = err.message === 'Unauthorized' || err.message === 'Token expired';
+            if (isAuthError) {
+                console.log('PDF load failed due to authentication:', err.message);
+                this.showError('Authentication required', 'Please log in again to view this file.');
+                return;
+            }
+
             console.error('Error loading PDF:', err);
             this.showError('Failed to load PDF', err.message);
         }
@@ -484,6 +493,14 @@ const PDFViewer = {
 
             showToast('Download started', 'success');
         } catch (err) {
+            // 인증 관련 에러 구분 (Codex 피드백 반영: authFetch가 이미 throw)
+            const isAuthError = err.message === 'Unauthorized' || err.message === 'Token expired';
+            if (isAuthError) {
+                console.log('PDF download failed due to authentication:', err.message);
+                showToast('Please log in again to download this file.', 'error');
+                return;
+            }
+
             console.error('Download error:', err);
             showToast('Download failed', 'error');
         }

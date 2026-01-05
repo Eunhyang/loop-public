@@ -1190,13 +1190,29 @@ async def get_vault_navigation():
 
     # 1. Public vault 폴더 정보 (실시간 count)
     public_folders = {
+        "00_Inbox": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "00_Inbox"),
+            purpose="임시 메모, 아이디어 (Inbox)"
+        ),
         "01_North_Star": VaultFolderInfo(
             count=_count_folder_entities(vault_dir, "01_North_Star"),
             purpose="10-year vision, MetaHypotheses (MH1-4)"
         ),
+        "10_Study": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "10_Study"),
+            purpose="온톨로지 학습, 연구 노트"
+        ),
         "20_Strategy": VaultFolderInfo(
             count=_count_folder_entities(vault_dir, "20_Strategy"),
             purpose="3Y Conditions (A-E), 12M Tracks (1-6)"
+        ),
+        "30_Ontology": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "30_Ontology"),
+            purpose="Product ontology schema (ILOS)"
+        ),
+        "40_LOOP_OS": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "40_LOOP_OS"),
+            purpose="LOOP OS 정의, Inner Loop 운영 원칙"
         ),
         "50_Projects": VaultFolderInfo(
             count=len(cache.get_all_projects()),
@@ -1206,11 +1222,35 @@ async def get_vault_navigation():
             count=len(cache.get_all_hypotheses()),
             purpose="Hypothesis validation"
         ),
-        "30_Ontology": VaultFolderInfo(
-            count=_count_folder_entities(vault_dir, "30_Ontology"),
-            purpose="Product ontology schema (ILOS)"
+        "90_Archive": VaultFolderInfo(
+            count=_count_folder_entities(vault_dir, "90_Archive"),
+            purpose="아카이브 (완료된 엔티티, 과거 증거)"
         ),
     }
+
+    # Public vault 핵심 문서
+    public_key_documents = [
+        KeyDocument(
+            path="30_Ontology/Schema/v0.1/Ontology-lite v0.1 (ILOS).md",
+            purpose="온톨로지 스키마 정의 (Event, Episode, LoopStateWindow)"
+        ),
+        KeyDocument(
+            path="40_LOOP_OS/Inner Loop OS 정의v1.md",
+            purpose="LOOP OS 운영 원칙"
+        ),
+        KeyDocument(
+            path="00_Meta/LOOP_PHILOSOPHY.md",
+            purpose="Vault 설계 철학 (SSOT, Decision-Evidence-Loop)"
+        ),
+        KeyDocument(
+            path="00_Meta/schema_constants.yaml",
+            purpose="스키마 상수 SSOT (entity ID 패턴, status 값)"
+        ),
+        KeyDocument(
+            path="00_Meta/schema_registry.md",
+            purpose="엔티티별 필드 정의, 검증 규칙"
+        ),
+    ]
 
     # 2. Exec vault 폴더 정보 (정적, 보안상 count 제외)
     exec_folders = {
@@ -1218,17 +1258,61 @@ async def get_vault_navigation():
         for name, info in EXEC_VAULT_FOLDERS.items()
     }
 
+    # Exec vault 최우선 파일 (진입 시 먼저 읽을 파일)
+    exec_priority_files = [
+        PriorityFile(
+            path="10_Runway/Current_Status.md",
+            purpose="런웨이 상태 (Green/Yellow/Red)"
+        ),
+        PriorityFile(
+            path="10_Runway/Decision_Triggers.md",
+            purpose="의사결정 조건 정의 (runway_green/yellow/red)"
+        ),
+        PriorityFile(
+            path="20_Cashflow/_INDEX.md",
+            purpose="캐시플로우 인덱스 → 최신 월간 보고서 링크"
+        ),
+        PriorityFile(
+            path="30_Pipeline/Investment_Pipeline.md",
+            purpose="투자/지원사업/B2B 파이프라인"
+        ),
+        PriorityFile(
+            path="40_People/Team_Roster.md",
+            purpose="팀 현황 (인원, 역할)"
+        ),
+    ]
+
+    # Exec vault 공개 원칙 (외부에 어떤 정보를 노출할 수 있는가)
+    exec_disclosure_policy = DisclosurePolicy(
+        allowed=[
+            "상태 (Green/Yellow/Red)",
+            "트리거 조건 (숫자 없이)",
+            "정책 원칙 (Hiring Gate 열림/닫힘)",
+            "파이프라인 단계 (confirmed/negotiating 등)",
+        ],
+        forbidden=[
+            "구체적 금액 (매출, 비용, 급여, 잔고)",
+            "개인 계약 조건 (단가, 계약서)",
+            "투자자/파트너 협상 상세",
+            "계좌번호, 세금 상세",
+            "개인정보 (주민번호, 연락처 등)",
+        ]
+    )
+
     # 3. Dual vault 구조
     dual_vault = {
         "public": VaultInfo(
             description="Shared vault - Projects, Tasks, Strategy, Ontology",
             access="team + c-level",
-            folders=public_folders
+            folders=public_folders,
+            key_documents=public_key_documents
         ),
         "exec": VaultInfo(
             description="Executive vault - Runway, Budget, People (sensitive)",
             access="c-level only (requires role=exec/admin + mcp:exec scope)",
-            folders=exec_folders
+            folders=exec_folders,
+            priority_files=exec_priority_files,
+            disclosure_policy=exec_disclosure_policy
         )
     }
 

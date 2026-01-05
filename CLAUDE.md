@@ -2,8 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Version 8.6** | Last updated: 2026-01-03
-> Schema v5.3 | Impact Model v1.3.1 (SSOT 구조 개선)
+> **Version 8.7** | Last updated: 2026-01-05
+> Schema v5.3 | Impact Model v1.3.1 | Navigation API (SSOT)
 
 ---
 
@@ -64,7 +64,10 @@ docker compose up -d && docker compose logs -f loop-api
 | Projects, Tasks, Strategy, Ontology | **LOOP** (this vault) | `/Volumes/LOOP_CORE/vault/LOOP` |
 | Runway, Budget, Hiring, Cashflow | **loop_exec** | `/Volumes/LOOP_CLevel/vault/loop_exec` |
 
-See `00_Meta/_VAULT_REGISTRY.md` for cross-vault routing rules.
+**Navigation SSOT**: `GET /api/mcp/vault-navigation` - 단일 API로 dual-vault 전체 구조 파악
+- `dual_vault`: public/exec 폴더 구조 + 실시간 엔티티 count
+- `routing_guide`: 질문별 vault/path 매핑
+- `disclosure_policy`: exec vault 공개 원칙 (allowed/forbidden)
 
 ---
 
@@ -142,13 +145,14 @@ api/
 **Public**: `/`, `/health`, `/docs`, `/api/constants`, OAuth endpoints
 
 **MCP Composite Endpoints** (LLM-optimized, single-call):
-- `/api/mcp/vault-navigation` - Dual-vault navigation (replaces _HOME.md, _VAULT_REGISTRY.md)
-- `/api/mcp/vault-context` - Vault structure + current status (recommended first call)
+- `/api/mcp/vault-navigation` - **Navigation SSOT** (dual-vault 구조, routing_guide, disclosure_policy)
+- `/api/mcp/vault-context` - Vault structure + current status
 - `/api/mcp/search-and-read?q=keyword` - Search + read in one call
 - `/api/mcp/file-read?paths=path1,path2` - Direct file read by path
 - `/api/mcp/project/{id}/context` - Project + Tasks + Hypotheses
 - `/api/mcp/project/{id}/context?include_body=true` - With body content
 - `/api/mcp/dashboard` - Full status dashboard
+- `/api/mcp/exec-context` - Exec vault 상세 (requires mcp:exec scope)
 
 ---
 

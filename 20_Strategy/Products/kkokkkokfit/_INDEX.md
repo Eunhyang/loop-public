@@ -11,6 +11,7 @@
 | 플랫폼 | Web (Flutter) |
 | URL | https://fit.kkokkkok.app |
 | 기술 스택 | Flutter Web, Firebase, Toss Payments, OpenAI GPT-4.1 |
+| 코드 저장소 | /Users/gim-eunhyang/dev/flutter/kkokkkokfit_web |
 
 ---
 

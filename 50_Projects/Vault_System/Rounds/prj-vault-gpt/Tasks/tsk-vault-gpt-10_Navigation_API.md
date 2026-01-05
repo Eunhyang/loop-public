@@ -4,7 +4,8 @@ entity_id: "tsk-vault-gpt-10"
 entity_name: "Navigation - vault-navigation API 엔드포인트 구현"
 created: 2026-01-05
 updated: 2026-01-05
-status: doing
+status: done
+closed: 2026-01-05
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -199,10 +200,10 @@ GET /api/mcp/vault-navigation
 - 라우팅 가이드는 `_VAULT_REGISTRY.md` 내용 기반 정적 정의
 
 #### 성공 기준
-- [ ] 한 번의 API 호출로 dual-vault 전체 구조 파악
-- [ ] 질문별 vault/path 라우팅 가이드 제공
-- [ ] 실시간 엔티티 통계 (VaultCache 기반)
-- [ ] exec vault 접근 가이드 포함
+- [x] 한 번의 API 호출로 dual-vault 전체 구조 파악
+- [x] 질문별 vault/path 라우팅 가이드 제공
+- [x] 실시간 엔티티 통계 (VaultCache 기반)
+- [x] exec vault 접근 가이드 포함
 
 ### 작업 로그
 
@@ -228,13 +229,28 @@ GET /api/mcp/vault-navigation
 - NAS 배포 후 프로덕션 테스트
 - CLAUDE.md에 새 엔드포인트 문서화
 
+#### 2026-01-05 15:30
+**개요**: SSOT 마이그레이션 완료 - legacy navigation 파일 삭제
+
+**변경사항**:
+- API 보완: 누락된 폴더 4개 추가 (00_Inbox, 10_Study, 40_LOOP_OS, 90_Archive)
+- API 보완: key_documents (public), priority_files (exec), disclosure_policy (exec) 추가
+- 삭제: public/_HOME.md, exec/_HOME.md, exec/_ENTRY_POINT.md, 00_Meta/_VAULT_REGISTRY.md
+- 문서: CLAUDE.md v8.7 업데이트 (Navigation SSOT 명시)
+
+**결과**: ✅ SSOT 원칙 준수 - 단일 API가 모든 navigation 정보 제공
+
+**유지 파일**:
+- `_Graph_Index.md` - build 스크립트로 자동 생성 (navigation과 별개)
+- `*/_INDEX.md` - 폴더별 인덱스 (엔티티 목록용)
+
 ---
 
 ## 참고 문서
 
 - [[prj-vault-gpt]] - 소속 Project
-- `public/00_Meta/_VAULT_REGISTRY.md` - 기존 라우팅 문서
-- `api/routers/mcp_composite.py` - MCP composite 엔드포인트
+- `api/routers/mcp_composite.py` - MCP composite 엔드포인트 (vault-navigation 구현)
+- `GET /api/mcp/vault-navigation` - Navigation SSOT API
 
 ---
 

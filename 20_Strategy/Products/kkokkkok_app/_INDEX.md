@@ -7,6 +7,7 @@
 | 현재 버전 | v1.0.28 |
 | 플랫폼 | iOS, Android |
 | 기술 스택 | Flutter, Firebase, RevenueCat, Amplitude |
+| 코드 저장소 | /Users/gim-eunhyang/dev/flutter/sosi |
 
 ---
 
