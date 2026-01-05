@@ -111,7 +111,7 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 
 | Query | Files to Read | Expected Reads |
 |-------|---------------|----------------|
-| "3년 전략 전부" | `_ENTRY_POINT.md` → `3Y_Conditions/_INDEX.md` → `Condition_*.md` | 3-5 |
+| "3년 전략 전부" | `_ENTRY_POINT.md` → API `/api/mcp/folder-contents?path=20_Strategy/3Y_Conditions_2026-2028` | 2-3 |
 | "Condition B 관련 작업" | `Condition_B_*.md` → `_Graph_Index.md` | 2-3 |
 | "현재 진행중인 프로젝트" | `_Graph_Index.md` (status: active 필터) | 1 |
 | "MH3 깨지면?" | `MH3_데이터_모델링_가능.md` (if_broken 필드) | 1 |
@@ -146,11 +146,11 @@ tags: ["meta", "entry", "llm", "boot-protocol"]
 | [[01_North_Star/MH3_데이터_모델링_가능.md]] | `mh-3` | Ontology가 검증 |
 | [[20_Strategy/3Y_Conditions_2026-2028/Condition_B_Loop_Dataset.md]] | `cond-b` | 재현 패턴 10개 조건 |
 
-### Index Files (인덱스)
-| 문서 | 설명 |
+### Index API (인덱스)
+| API 엔드포인트 | 설명 |
 |------|------|
-| [[20_Strategy/3Y_Conditions_2026-2028/_INDEX.md]] | 모든 Conditions 목록 |
-| [[50_Projects/_INDEX.md]] | 모든 Projects 목록 (conditions_3y별 그룹) |
+| `/api/mcp/folder-contents?path=20_Strategy/3Y_Conditions_2026-2028` | 모든 Conditions 목록 |
+| `/api/mcp/folder-contents?path=50_Projects` | 모든 Projects 목록 |
 
 ### Meta (메타)
 | 문서 | 설명 |

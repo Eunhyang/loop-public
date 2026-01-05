@@ -1358,6 +1358,174 @@ async def get_vault_navigation():
 
 
 # ============================================
+# Folder Contents (tsk-vault-gpt-11)
+# ============================================
+
+class FolderEntity(BaseModel):
+    """폴더 내 엔티티 정보"""
+    id: str
+    name: str
+    type: str
+    status: Optional[str] = None
+
+
+class FolderStats(BaseModel):
+    """폴더 통계"""
+    total_entities: int
+    by_status: Dict[str, int]
+    by_type: Dict[str, int]
+
+
+class FolderContentsResponse(BaseModel):
+    """폴더 내용 응답 - _INDEX.md 대체"""
+    path: str
+    description: Optional[str] = None
+    entities: List[FolderEntity]
+    subfolders: List[str]
+    files: List[str]
+    stats: FolderStats
+    generated_at: str
+
+
+# 폴더별 설명 (vault-navigation의 folders에서 가져옴)
+FOLDER_DESCRIPTIONS = {
+    "00_Inbox": "임시 메모, 아이디어 (Inbox)",
+    "01_North_Star": "10-year vision, MetaHypotheses (MH1-4)",
+    "10_Study": "온톨로지 학습, 연구 노트",
+    "20_Strategy": "3Y Conditions (A-E), 12M Tracks (1-6)",
+    "30_Ontology": "Product ontology schema (ILOS)",
+    "40_LOOP_OS": "LOOP OS 정의, Inner Loop 운영 원칙",
+    "50_Projects": "Projects and Tasks",
+    "60_Hypotheses": "Hypothesis validation",
+    "90_Archive": "아카이브 (완료된 엔티티, 과거 증거)",
+}
+
+
+def _parse_entity_from_file(file_path: Path) -> Optional[FolderEntity]:
+    """파일에서 엔티티 정보 추출 (frontmatter 파싱)"""
+    try:
+        content = file_path.read_text(encoding="utf-8")
+        if not content.startswith("---"):
+            return None
+
+        # frontmatter 추출
+        parts = content.split("---", 2)
+        if len(parts) < 3:
+            return None
+
+        import yaml
+        frontmatter = yaml.safe_load(parts[1])
+        if not frontmatter:
+            return None
+
+        entity_id = frontmatter.get("entity_id")
+        entity_type = frontmatter.get("entity_type")
+        entity_name = frontmatter.get("entity_name")
+
+        if not entity_id or not entity_type:
+            return None
+
+        return FolderEntity(
+            id=entity_id,
+            name=entity_name or file_path.stem,
+            type=entity_type,
+            status=frontmatter.get("status")
+        )
+    except Exception:
+        return None
+
+
+@router.get("/folder-contents", response_model=FolderContentsResponse)
+async def get_folder_contents(
+    path: str = "",
+    include_files: bool = True,
+    entity_only: bool = False
+):
+    """
+    폴더 내용 조회 - _INDEX.md를 대체하는 API
+
+    한 번의 호출로 폴더 내 엔티티, 하위 폴더, 파일 목록 제공.
+
+    Parameters:
+    - path: 폴더 경로 (예: "50_Projects", "20_Strategy/12M_Tracks")
+    - include_files: 파일 목록 포함 여부 (기본: true)
+    - entity_only: 엔티티만 반환 (기본: false)
+
+    Examples:
+    - GET /api/mcp/folder-contents?path=50_Projects
+    - GET /api/mcp/folder-contents?path=60_Hypotheses&entity_only=true
+    """
+    vault_dir = get_vault_dir()
+    target_path = vault_dir / path if path else vault_dir
+
+    if not target_path.exists():
+        raise HTTPException(status_code=404, detail=f"Folder not found: {path}")
+
+    if not target_path.is_dir():
+        raise HTTPException(status_code=400, detail=f"Not a directory: {path}")
+
+    # 1. 엔티티 파싱 (.md 파일에서)
+    entities: List[FolderEntity] = []
+    files: List[str] = []
+    subfolders: List[str] = []
+
+    for item in sorted(target_path.iterdir()):
+        if item.name.startswith("."):
+            continue
+
+        if item.is_dir():
+            subfolders.append(item.name)
+        elif item.is_file() and item.suffix == ".md":
+            # 엔티티 파싱 시도
+            entity = _parse_entity_from_file(item)
+            if entity:
+                entities.append(entity)
+            elif include_files and not entity_only:
+                files.append(item.name)
+        elif include_files and not entity_only:
+            files.append(item.name)
+
+    # 2. 하위 폴더의 엔티티도 수집 (재귀 1단계만)
+    if not entity_only:
+        for subfolder in subfolders:
+            subfolder_path = target_path / subfolder
+            for md_file in subfolder_path.glob("*.md"):
+                if md_file.name.startswith(".") or md_file.name.startswith("_"):
+                    continue
+                entity = _parse_entity_from_file(md_file)
+                if entity:
+                    entities.append(entity)
+
+    # 3. 통계 계산
+    status_counts: Dict[str, int] = {}
+    type_counts: Dict[str, int] = {}
+    for entity in entities:
+        if entity.status:
+            status_counts[entity.status] = status_counts.get(entity.status, 0) + 1
+        type_counts[entity.type] = type_counts.get(entity.type, 0) + 1
+
+    stats = FolderStats(
+        total_entities=len(entities),
+        by_status=status_counts,
+        by_type=type_counts
+    )
+
+    # 4. 설명 가져오기
+    folder_name = Path(path).name if path else ""
+    description = FOLDER_DESCRIPTIONS.get(folder_name)
+
+    return FolderContentsResponse(
+        path=path or "/",
+        description=description,
+        entities=entities,
+        subfolders=subfolders if not entity_only else [],
+        files=files if not entity_only else [],
+        stats=stats,
+        generated_at=datetime.now().isoformat()
+    )
+
+
+# ============================================
 # Exec Vault Endpoints (RBAC Protected)
 # ============================================
 

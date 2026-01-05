@@ -149,6 +149,7 @@ api/
 - `/api/mcp/vault-context` - Vault structure + current status
 - `/api/mcp/search-and-read?q=keyword` - Search + read in one call
 - `/api/mcp/file-read?paths=path1,path2` - Direct file read by path
+- `/api/mcp/folder-contents?path=50_Projects` - **Folder index API** (replaces _INDEX.md files)
 - `/api/mcp/project/{id}/context` - Project + Tasks + Hypotheses
 - `/api/mcp/project/{id}/context?include_body=true` - With body content
 - `/api/mcp/dashboard` - Full status dashboard

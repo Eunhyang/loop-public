@@ -21,11 +21,11 @@ tags: ["meta", "llm", "query", "recipes"]
 
 **Reading Order**:
 1. `_ENTRY_POINT.md` - 전체 구조 파악
-2. `20_Strategy/3Y_Conditions_2026-2028/_INDEX.md` - 모든 Condition 목록
+2. API `/api/mcp/folder-contents?path=20_Strategy/3Y_Conditions_2026-2028` - 모든 Condition 목록
 3. 각 `Condition_*.md` 파일 (현재 cond-b만 존재)
 4. `_Graph_Index.md` - conditions_3y로 연결된 Project/Task 확인
 
-**Expected Reads**: 3-5
+**Expected Reads**: 2-4 (API 사용 시 더 효율적)
 
 ---
 
@@ -148,9 +148,9 @@ tags: ["meta", "llm", "query", "recipes"]
 
 ## 쿼리 효율성 요약
 
-| Query Type | Avg Reads | Key File |
+| Query Type | Avg Reads | Key Source |
 |------------|-----------|----------|
-| 전략 전체 | 3-5 | `_INDEX.md` files |
+| 전략 전체 | 2-4 | API `/api/mcp/folder-contents` |
 | 특정 Condition | 2-3 | `Condition_*.md` + `_Graph_Index.md` |
 | 특정 엔티티 | 1 | `_Graph_Index.md` |
 | 관계 추적 | 2 | `_Graph_Index.md` → 개별 파일 |
@@ -163,7 +163,7 @@ tags: ["meta", "llm", "query", "recipes"]
 1. **항상 `_Graph_Index.md`부터**: 대부분의 쿼리는 여기서 해결됨
 2. **`conditions_3y` 활용**: Condition 관련 쿼리는 이 필드로 필터링
 3. **`if_broken` 확인**: 전략적 의사결정은 이 필드에 답이 있음
-4. **`_INDEX.md` 파일**: 특정 영역의 전체 목록이 필요할 때
+4. **API 활용**: 폴더 내용 조회는 `/api/mcp/folder-contents` API 사용 (실시간 데이터)
 
 ---
 

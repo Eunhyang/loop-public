@@ -47,6 +47,9 @@ from .oauth.routes import router as oauth_router, init_oauth
 from .oauth.jwks import verify_jwt
 from .oauth.security import log_oauth_access
 
+# Navigation Injector Middleware (tsk-vault-gpt-12)
+from .middleware import NavigationInjectorMiddleware
+
 # MCP (Model Context Protocol) 지원
 try:
     from fastapi_mcp import FastApiMCP
@@ -289,6 +292,9 @@ class AuthMiddleware:
 
 
 # ASGI 미들웨어 등록 (CORS 다음에 추가)
+# 순서 중요: AuthMiddleware → NavigationInjectorMiddleware
+# (Auth가 먼저 실행되어 user_id를 scope에 설정해야 Navigation이 클라이언트 식별 가능)
+app.add_middleware(NavigationInjectorMiddleware)  # tsk-vault-gpt-12: Navigation 자동 주입
 app.add_middleware(AuthMiddleware)
 
 # Routers 등록
@@ -320,6 +326,7 @@ if MCP_AVAILABLE:
     # 복합 API만 MCP 도구로 노출 (개별 API 숨김 → 권한 팝업 최소화)
     MCP_ALLOWED_OPERATIONS = [
         "get_vault_context_api_mcp_vault_context_get",
+        "get_vault_navigation_api_mcp_vault_navigation_get",  # tsk-vault-gpt-12: Navigation API 추가
         "search_and_read_api_mcp_search_and_read_get",
         "file_read_api_mcp_file_read_get",  # 파일 직접 읽기 (경로 지정)
         "vault_full_scan_api_mcp_vault_full_scan_get",  # 슈퍼 복합 API (1회 allow로 전체 구조 파악)
@@ -379,26 +386,32 @@ Runway(상태) → Cashflow(근거) → Pipeline(확률) → People(결정) → 
 - "금액/잔고/개인계약/급여?" → exec만, LOOP로 숫자/개인정보 절대 노출 금지
 - "결정(채용/예산/피봇)?" → exec 트리거 확인 → LOOP에는 결론만 반영
 
-## 12가지 복합 API 도구
+## 14가지 복합 API 도구
 
-### LOOP Vault (9개)
-1. vault-context - Vault 철학 + 구조 + 현황 (⭐ 첫 호출 필수)
-2. search-and-read - 검색+읽기 통합 (q=키워드)
-3. file-read - 파일 직접 읽기 (paths=경로, 쉼표 구분) ⭐NEW
-4. project-context - 프로젝트+Tasks+Hypotheses (include_body=true로 본문 포함)
-5. track-context - Track+하위 Projects
-6. status-summary - 전체 현황 요약
-7. entity-graph - 엔티티 관계 그래프
-8. strategy - 전략 계층 (NorthStar→Track)
-9. schema - 스키마/상수 정보
+### LOOP Vault (10개)
+1. vault-navigation - ⭐ **Navigation SSOT** (dual-vault 구조 + 라우팅 가이드, 첫 호출 시 자동 주입됨)
+2. vault-context - Vault 철학 + 구조 + 현황
+3. vault-full-scan - 슈퍼 복합 API (1회 allow로 전체 구조 파악)
+4. search-and-read - 검색+읽기 통합 (q=키워드)
+5. file-read - 파일 직접 읽기 (paths=경로, 쉼표 구분)
+6. project-context - 프로젝트+Tasks+Hypotheses (include_body=true로 본문 포함)
+7. track-context - Track+하위 Projects
+8. status-summary - 전체 현황 요약
+9. entity-graph - 엔티티 관계 그래프
+10. strategy - 전략 계층 (NorthStar→Track)
 
 ### Exec Vault (3개, role=admin/exec 전용)
-10. exec-context - Exec Vault 구조 + 현황 (⭐ exec 첫 호출 필수)
-11. exec-read - Exec Vault 파일 읽기 (paths=경로)
-12. exec-search - Exec Vault 검색 (q=키워드)
+11. exec-context - Exec Vault 구조 + 현황 (⭐ exec 첫 호출 필수)
+12. exec-read - Exec Vault 파일 읽기 (paths=경로)
+13. exec-search - Exec Vault 검색 (q=키워드)
+
+## 자동 Navigation 주입
+첫 MCP API 호출 시 vault-navigation 데이터가 자동으로 응답에 포함됩니다.
+- _auto_navigation 필드에 vault 구조 + 라우팅 가이드
+- vault-navigation을 직접 호출하면 다음 호출부터는 자동 주입 안 함 (TTL 1시간)
 
 ## 사용 가이드
-1. 첫 연결 시: vault-context 호출 → 전체 구조 파악
+1. 첫 연결 시: 자동 주입된 navigation 확인 또는 vault-navigation 직접 호출
 2. 검색 필요: search-and-read(q="키워드") → 파일까지 한 번에
 3. 특정 파일 읽기: file-read(paths="50_Projects/.../file.md") → 직접 경로로 읽기
 4. 프로젝트 상세: project-context(id, include_body=true) → 본문 포함

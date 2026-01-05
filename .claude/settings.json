@@ -47,7 +47,8 @@
       "Bash(grep:*)",
       "Bash(poetry:*)",
       "Bash(source:*)",
-      "Bash(#:*)"
+      "Bash(#:*)",
+      "Bash(for:*)"
     ]
   },
   "hooks": {
