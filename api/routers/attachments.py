@@ -421,13 +421,12 @@ def get_attachment(task_id: str, filename: str):
         content_type = "application/octet-stream"
 
     # FileResponse로 스트리밍 (대용량 파일 처리)
+    # Note: FileResponse가 filename 파라미터로 RFC 5987 인코딩 자동 처리
+    # 커스텀 Content-Disposition 헤더 사용 시 한글 파일명 UnicodeEncodeError 발생
     return FileResponse(
         path=file_path,
         media_type=content_type,
-        filename=safe_filename,
-        headers={
-            "Content-Disposition": f'attachment; filename="{safe_filename}"'
-        }
+        filename=safe_filename
     )
 
 

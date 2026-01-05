@@ -59,6 +59,7 @@ task:
     - strategy   # 전략 작업
     - research   # 리서치
     - ops        # 운영
+    - meeting    # 미팅/약속/일정
   # 외부 프로젝트 (type=dev|bug일 때)
   target_projects:
     - sosi       # SoSi 앱

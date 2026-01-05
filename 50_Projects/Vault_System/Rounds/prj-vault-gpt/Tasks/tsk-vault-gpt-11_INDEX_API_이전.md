@@ -5,6 +5,7 @@ entity_name: "Navigation - _INDEX.md API 이전"
 created: 2026-01-05
 updated: 2026-01-06
 status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # Navigation - _INDEX.md API 이전
 
-> Task ID: `tsk-vault-gpt-11` | Project: `prj-vault-gpt` | Status: doing
+> Task ID: `tsk-vault-gpt-11` | Project: `prj-vault-gpt` | Status: done
 
 ## 목표
 
@@ -184,7 +185,7 @@ GET /api/mcp/folder-contents?path={folder_path}
 
 #### 성공 기준
 
-- [ ] `/api/mcp/folder-contents` 단일 호출로 폴더 내용 조회
+- [x] `/api/mcp/folder-contents` 단일 호출로 폴더 내용 조회
 - [x] 기존 auto-generated _INDEX.md 6개 파일 삭제 완료
 - [x] build_graph_index.py에서 _INDEX.md 생성 로직 제거 (v7.0)
 - [x] CLAUDE.md에 새 엔드포인트 문서화

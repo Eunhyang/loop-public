@@ -25,7 +25,7 @@ estimated_hours: null
 actual_hours: null
 
 # === Task 유형 (dev Task 연동용) ===
-type: {{TYPE}}                   # dev | strategy | research | ops | null
+type: {{TYPE}}                   # dev | bug | strategy | research | ops | meeting | null
 target_project: {{TARGET_PROJECT}}  # type=dev일 때만: sosi | kkokkkok | loop-api | null
 
 # === 분류 ===

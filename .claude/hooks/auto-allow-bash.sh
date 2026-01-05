@@ -31,6 +31,7 @@ ALLOW_PATTERNS=(
   "^grep "                 # grep 명령어
   "^poetry "               # poetry 명령어
   "^source "               # source 명령어
+  "^for "                  # for 루프
 )
 
 # 패턴 매칭 체크
