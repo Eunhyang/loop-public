@@ -110,8 +110,15 @@ const Calendar = {
         return tasks
             .filter(task => {
                 // 날짜가 없는 Task는 제외
-                const hasDate = task.start_date || task.due;
-                return hasDate;
+                const dateStr = task.start_date || task.due;
+                if (!dateStr) return false;
+                // 유효한 날짜인지 확인
+                const date = new Date(dateStr);
+                if (isNaN(date.getTime())) {
+                    console.warn('Invalid date in task:', task.entity_id, dateStr);
+                    return false;
+                }
+                return true;
             })
             .map(task => {
                 const startDate = task.start_date || task.due;
@@ -174,6 +181,11 @@ const Calendar = {
     getEndDateForCalendar(dateStr) {
         if (!dateStr) return null;
         const date = new Date(dateStr);
+        // Invalid Date 체크
+        if (isNaN(date.getTime())) {
+            console.warn('Invalid date string:', dateStr);
+            return null;
+        }
         date.setDate(date.getDate() + 1);
         return date.toISOString().split('T')[0];
     },
@@ -295,7 +307,9 @@ const Calendar = {
         if (this.instance) {
             // 모든 이벤트 소스 제거 후 새로 추가 (중복 방지)
             this.instance.removeAllEventSources();
-            this.instance.addEventSource(this.getEvents());
+            // LOOP 이벤트 소스와 Google Calendar 소스 모두 추가
+            this.instance.addEventSource(this.getLoopEventSource());
+            this.instance.addEventSource(this.getGoogleCalendarEventSource());
         }
     },
 

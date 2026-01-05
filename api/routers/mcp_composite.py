@@ -120,11 +120,32 @@ class VaultFolderInfo(BaseModel):
     purpose: str
 
 
+class KeyDocument(BaseModel):
+    """핵심 문서 정보"""
+    path: str
+    purpose: str
+
+
+class PriorityFile(BaseModel):
+    """최우선 파일 정보"""
+    path: str
+    purpose: str
+
+
+class DisclosurePolicy(BaseModel):
+    """공개 원칙"""
+    allowed: List[str]
+    forbidden: List[str]
+
+
 class VaultInfo(BaseModel):
     """개별 Vault 정보"""
     description: str
     access: str
     folders: Dict[str, VaultFolderInfo]
+    key_documents: Optional[List[KeyDocument]] = None
+    priority_files: Optional[List[PriorityFile]] = None
+    disclosure_policy: Optional[DisclosurePolicy] = None
 
 
 class RoutingGuideItem(BaseModel):
