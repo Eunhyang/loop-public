@@ -97,15 +97,23 @@ Task의 type enum에 `meeting` 값을 추가하여 미팅/약속/일정 유형�
 - Dashboard는 API에서 상수를 가져오므로 추가 수정 불필요
 
 ### Todo
-- [ ] schema_constants.yaml 수정
-- [ ] template_task.md 수정
-- [ ] 검증 스크립트 실행
-- [ ] API 서버 rebuild 확인
+- [x] schema_constants.yaml 수정
+- [x] template_task.md 수정
+- [x] 검증 스크립트 실행
+- [ ] API 서버 rebuild 확인 (NAS에서 수동 실행 필요)
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-06 16:30
+**개요**: Task type enum에 meeting 추가 완료. schema_constants.yaml과 template_task.md 수정.
+
+**변경사항**:
+- `00_Meta/schema_constants.yaml`: task.types에 `- meeting # 미팅/약속/일정` 추가
+- `00_Meta/_TEMPLATES/template_task.md`: type 주석에 meeting 추가
+
+**결과**: ✅ validate_schema.py 검증 통과
+
+**다음 단계**: API 서버 rebuild 후 Dashboard에서 meeting type 사용 가능
 
 
 ---
