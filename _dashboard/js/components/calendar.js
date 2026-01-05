@@ -5,6 +5,8 @@
 const Calendar = {
     instance: null,
     initialized: false,
+    contextMenu: null,
+    contextMenuDate: null,
 
     // 트랙별 고정 색상 (6개 트랙)
     TRACK_COLORS: {
@@ -82,6 +84,7 @@ const Calendar = {
                 this.getGoogleCalendarEventSource()
             ],
             eventClick: (info) => this.onEventClick(info),
+            dateClick: (info) => this.onDateClick(info),
             editable: true,  // 기본값 (개별 소스에서 override)
             eventDrop: (info) => this.onEventDrop(info),
             eventResize: (info) => this.onEventResize(info),
@@ -97,6 +100,99 @@ const Calendar = {
 
         this.instance.render();
         this.initialized = true;
+
+        // 컨텍스트 메뉴 생성
+        this.createContextMenu();
+
+        // 우클릭 이벤트 핸들러 등록
+        calendarEl.addEventListener('contextmenu', (e) => this.onContextMenu(e));
+
+        // 문서 클릭 시 컨텍스트 메뉴 닫기
+        document.addEventListener('click', () => this.hideContextMenu());
+    },
+
+    /**
+     * 컨텍스트 메뉴 생성
+     */
+    createContextMenu() {
+        // 이미 존재하면 제거
+        if (this.contextMenu) {
+            this.contextMenu.remove();
+        }
+
+        const menu = document.createElement('div');
+        menu.id = 'calendarContextMenu';
+        menu.className = 'calendar-context-menu';
+        menu.innerHTML = `
+            <button class="context-menu-item" data-action="add-meeting">
+                <span class="context-menu-icon">+</span>
+                미팅 추가
+            </button>
+        `;
+        menu.style.display = 'none';
+        document.body.appendChild(menu);
+        this.contextMenu = menu;
+
+        // 메뉴 항목 클릭 이벤트
+        menu.addEventListener('click', (e) => {
+            const item = e.target.closest('.context-menu-item');
+            if (item && item.dataset.action === 'add-meeting') {
+                this.onAddMeeting();
+            }
+        });
+    },
+
+    /**
+     * 우클릭 이벤트 핸들러
+     */
+    onContextMenu(e) {
+        // 날짜 셀인지 확인
+        const dayCell = e.target.closest('.fc-daygrid-day');
+        if (!dayCell) return;
+
+        e.preventDefault();
+
+        // 날짜 추출
+        const dateStr = dayCell.getAttribute('data-date');
+        if (!dateStr) return;
+
+        this.contextMenuDate = dateStr;
+        this.showContextMenu(e.pageX, e.pageY);
+    },
+
+    /**
+     * 컨텍스트 메뉴 표시
+     */
+    showContextMenu(x, y) {
+        if (!this.contextMenu) return;
+
+        this.contextMenu.style.left = `${x}px`;
+        this.contextMenu.style.top = `${y}px`;
+        this.contextMenu.style.display = 'block';
+    },
+
+    /**
+     * 컨텍스트 메뉴 숨기기
+     */
+    hideContextMenu() {
+        if (this.contextMenu) {
+            this.contextMenu.style.display = 'none';
+        }
+    },
+
+    /**
+     * 미팅 추가 핸들러
+     */
+    onAddMeeting() {
+        this.hideContextMenu();
+        TaskModal.open({ date: this.contextMenuDate });
+    },
+
+    /**
+     * 날짜 클릭 핸들러 (좌클릭)
+     */
+    onDateClick(info) {
+        // 좌클릭은 현재 동작 없음 (필요시 확장 가능)
     },
 
     /**

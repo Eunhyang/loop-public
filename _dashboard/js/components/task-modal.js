@@ -38,8 +38,10 @@ const TaskModal = {
 
     /**
      * 새 Task 모달 열기
+     * @param {Object} options - 옵션 객체
+     * @param {string} options.date - 시작/마감 날짜 (YYYY-MM-DD)
      */
-    open() {
+    open(options = {}) {
         State.editingTask = null;
         document.getElementById('taskModalTitle').textContent = 'New Task';
         document.getElementById('taskId').value = '';
@@ -47,10 +49,10 @@ const TaskModal = {
         document.getElementById('taskPriority').value = 'medium';
         document.getElementById('taskStatus').value = 'todo';
 
-        // 기본값: 오늘 날짜
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('taskStartDate').value = today;
-        document.getElementById('taskDue').value = today;
+        // 날짜 설정: 옵션으로 전달된 날짜 또는 오늘 날짜
+        const dateValue = options.date || new Date().toISOString().split('T')[0];
+        document.getElementById('taskStartDate').value = dateValue;
+        document.getElementById('taskDue').value = dateValue;
 
         // 현재 필터된 프로젝트 선택 (단일 선택인 경우에만)
         if (State.currentProjects.length === 1) {

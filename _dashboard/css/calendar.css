@@ -198,6 +198,60 @@
     }
 }
 
+/* Context Menu */
+.calendar-context-menu {
+    position: fixed;
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 140px;
+    padding: 4px;
+}
+
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary, #374151);
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.context-menu-item:hover {
+    background-color: var(--bg-hover, #f3f4f6);
+}
+
+.context-menu-icon {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color, #3b82f6);
+}
+
+/* Dark Mode Support for Context Menu */
+@media (prefers-color-scheme: dark) {
+    .calendar-context-menu {
+        background: var(--bg-primary-dark, #1f2937);
+        border-color: var(--border-color-dark, #4b5563);
+    }
+
+    .context-menu-item {
+        color: var(--text-primary-dark, #f9fafb);
+    }
+
+    .context-menu-item:hover {
+        background-color: var(--bg-hover-dark, #374151);
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .calendar-view {
