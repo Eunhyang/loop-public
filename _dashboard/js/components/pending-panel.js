@@ -805,7 +805,7 @@ const PendingPanel = {
             const currentValue = runIdSelect.value;
             runIdSelect.innerHTML = '<option value="">All Runs</option>' +
                 this.availableRunIds.map(r =>
-                    `<option value="${this.escapeHtml(r)}">${this.escapeHtml(r.substring(0, 8))}...</option>`
+                    `<option value="${this.escapeHtml(r)}">${this.escapeHtml(r.length > 24 ? r.substring(0, 24) + '...' : r)}</option>`
                 ).join('');
             // 기존 선택 유지
             if (currentValue && this.availableRunIds.includes(currentValue)) {
@@ -852,7 +852,7 @@ const PendingPanel = {
         // 확인 다이얼로그
         const filterDesc = [];
         if (this.filterWorkflow) filterDesc.push(`workflow: ${this.filterWorkflow}`);
-        if (this.filterRunId) filterDesc.push(`run: ${this.filterRunId.substring(0, 8)}...`);
+        if (this.filterRunId) filterDesc.push(`run: ${this.filterRunId.length > 24 ? this.filterRunId.substring(0, 24) + '...' : this.filterRunId}`);
 
         const confirmed = confirm(
             `Delete ${filteredReviews.length} reviews?\n\nFilter: ${filterDesc.join(', ')}\nStatus: ${currentStatus}\n\nThis cannot be undone.`
@@ -1005,7 +1005,7 @@ const PendingPanel = {
             ? `<span class="review-workflow-badge" title="Workflow: ${this.escapeHtml(review.source_workflow)}">${this.escapeHtml(review.source_workflow)}</span>`
             : '';
         const runIdBadge = review.run_id
-            ? `<span class="review-runid-badge" title="Run ID: ${this.escapeHtml(review.run_id)}">${this.escapeHtml(review.run_id.substring(0, 8))}</span>`
+            ? `<span class="review-runid-badge" title="Run ID: ${this.escapeHtml(review.run_id)}">${this.escapeHtml(review.run_id.length > 16 ? review.run_id.substring(0, 16) + '...' : review.run_id)}</span>`
             : '';
 
         return `
@@ -1539,154 +1539,27 @@ const PendingPanel = {
     },
 
     /**
-     * Project 미리보기 (ProjectPanel 스타일)
+     * Project 미리보기 (ProjectPanel.renderReadOnlyHTML 재사용)
      */
     renderProjectPreview(project) {
-        let html = '';
-
-        // Status
-        if (project.status) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Status</div>
-                    <div class="entity-status-badge ${project.status.replace(/\s+/g, '_')}">${this.escapeHtml(project.status)}</div>
-                </div>
-            `;
+        // ProjectPanel의 읽기 전용 렌더러 재사용
+        if (typeof ProjectPanel !== 'undefined' && ProjectPanel.renderReadOnlyHTML) {
+            return ProjectPanel.renderReadOnlyHTML(project);
         }
-
-        // Owner
-        if (project.owner) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Owner</div>
-                    <div class="entity-section-content">${this.escapeHtml(project.owner)}</div>
-                </div>
-            `;
-        }
-
-        // Expected Impact
-        const expectedImpact = project.expected_impact;
-        if (expectedImpact && expectedImpact.tier) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Expected Impact</div>
-                    <div class="impact-meta">
-                        <div class="impact-meta-item"><span class="impact-label">Tier</span><span class="impact-value tier-${expectedImpact.tier}">${this.escapeHtml(expectedImpact.tier)}</span></div>
-                        ${expectedImpact.impact_magnitude ? `<div class="impact-meta-item"><span class="impact-label">Magnitude</span><span class="impact-value">${this.escapeHtml(expectedImpact.impact_magnitude)}</span></div>` : ''}
-                        ${expectedImpact.confidence !== undefined ? `<div class="impact-meta-item"><span class="impact-label">Confidence</span><span class="impact-value">${(expectedImpact.confidence * 100).toFixed(0)}%</span></div>` : ''}
-                    </div>
-                </div>
-            `;
-        }
-
-        // conditions_3y
-        if (project.conditions_3y && project.conditions_3y.length > 0) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Conditions (3Y)</div>
-                    <div class="field-value-badges">
-                        ${project.conditions_3y.map(c => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(c)}">${this.escapeHtml(c)}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Parent Track
-        if (project.parent_id) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Parent Track</div>
-                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(project.parent_id)}">${this.escapeHtml(project.parent_id)}</span>
-                </div>
-            `;
-        }
-
-        // Validates
-        if (project.validates && project.validates.length > 0) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Validates</div>
-                    <div class="field-value-badges">
-                        ${project.validates.map(h => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(h)}">${this.escapeHtml(h)}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        return html;
+        // 폴백: 기본 렌더링
+        return `<div class="entity-section"><div class="entity-section-content">Project: ${this.escapeHtml(project.entity_name || project.entity_id)}</div></div>`;
     },
 
     /**
-     * Task 미리보기 (TaskPanel 스타일)
+     * Task 미리보기 (TaskPanel.renderReadOnlyHTML 재사용)
      */
     renderTaskPreview(task) {
-        let html = '';
-
-        // Status
-        if (task.status) {
-            const statusIcon = { done: '✅', doing: '🔄', todo: '⬜', blocked: '🚫' }[task.status] || '⬜';
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Status</div>
-                    <div class="entity-status-badge ${task.status.replace(/\s+/g, '_')}">${statusIcon} ${this.escapeHtml(task.status)}</div>
-                </div>
-            `;
+        // TaskPanel의 읽기 전용 렌더러 재사용
+        if (typeof TaskPanel !== 'undefined' && TaskPanel.renderReadOnlyHTML) {
+            return TaskPanel.renderReadOnlyHTML(task);
         }
-
-        // Assignee
-        if (task.assignee) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Assignee</div>
-                    <div class="entity-section-content">${this.escapeHtml(task.assignee)}</div>
-                </div>
-            `;
-        }
-
-        // Due Date
-        if (task.due) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Due Date</div>
-                    <div class="entity-section-content">${this.escapeHtml(task.due)}</div>
-                </div>
-            `;
-        }
-
-        // Priority
-        if (task.priority_flag || task.priority) {
-            const priority = task.priority_flag || task.priority;
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Priority</div>
-                    <div class="entity-status-badge priority-${priority}">${this.escapeHtml(priority)}</div>
-                </div>
-            `;
-        }
-
-        // Project
-        if (task.project_id) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Project</div>
-                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(task.project_id)}">${this.escapeHtml(task.project_id)}</span>
-                </div>
-            `;
-        }
-
-        // conditions_3y
-        if (task.conditions_3y && task.conditions_3y.length > 0) {
-            html += `
-                <div class="entity-section">
-                    <div class="entity-section-title">Conditions (3Y)</div>
-                    <div class="field-value-badges">
-                        ${task.conditions_3y.map(c => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(c)}">${this.escapeHtml(c)}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        return html;
+        // 폴백: 기본 렌더링
+        return `<div class="entity-section"><div class="entity-section-content">Task: ${this.escapeHtml(task.entity_name || task.entity_id)}</div></div>`;
     },
 
     /**

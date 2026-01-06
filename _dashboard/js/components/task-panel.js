@@ -1392,5 +1392,112 @@ const TaskPanel = {
         }
 
         this.loadAttachments(taskId);
+    },
+
+    /**
+     * 읽기 전용 HTML 렌더링 (Pending Panel Entity Preview용)
+     * @param {Object} task - Task 엔티티
+     * @returns {string} HTML 문자열
+     */
+    renderReadOnlyHTML(task) {
+        if (!task) return '<div class="empty-state">No task data</div>';
+
+        let html = '';
+
+        // Status
+        if (task.status) {
+            const statusIcon = { done: '✅', doing: '🔄', todo: '⬜', blocked: '🚫' }[task.status] || '⬜';
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${task.status.replace(/\s+/g, '_')}">${statusIcon} ${this.escapeHtml(task.status)}</div>
+                </div>
+            `;
+        }
+
+        // Assignee
+        if (task.assignee) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Assignee</div>
+                    <div class="entity-section-content">${this.escapeHtml(task.assignee)}</div>
+                </div>
+            `;
+        }
+
+        // Due Date
+        if (task.due) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Due Date</div>
+                    <div class="entity-section-content">${this.escapeHtml(task.due)}</div>
+                </div>
+            `;
+        }
+
+        // Priority
+        if (task.priority_flag || task.priority) {
+            const priority = task.priority_flag || task.priority;
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Priority</div>
+                    <div class="entity-status-badge priority-${priority}">${this.escapeHtml(priority)}</div>
+                </div>
+            `;
+        }
+
+        // Project
+        if (task.project_id) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Project</div>
+                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(task.project_id)}">${this.escapeHtml(task.project_id)}</span>
+                </div>
+            `;
+        }
+
+        // Conditions (3Y)
+        if (task.conditions_3y && task.conditions_3y.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Conditions (3Y)</div>
+                    <div class="field-value-badges">
+                        ${task.conditions_3y.map(c => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(c)}">${this.escapeHtml(c)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Links
+        if (task.links && task.links.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Links</div>
+                    <div class="entity-links-list">
+                        ${task.links.map(link => {
+                            const label = this.escapeHtml(link.label || 'Link');
+                            const url = link.url || '';
+                            if (!this.isSafeUrl(url)) return '';
+                            return `<a href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="entity-link-item">${label}</a>`;
+                        }).filter(Boolean).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Notes + Body (마크다운 렌더링)
+        const notesContent = [task.notes, task._body].filter(Boolean).join('\n\n---\n\n');
+        if (notesContent) {
+            html += `
+                <div class="entity-section entity-notes-section">
+                    <div class="entity-section-title">Notes</div>
+                    <div class="entity-notes-content markdown-body">
+                        ${this.renderMarkdown(notesContent)}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
     }
 };

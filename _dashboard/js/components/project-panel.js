@@ -1001,5 +1001,119 @@ const ProjectPanel = {
             console.error('Delete project error:', err);
             showToast('Error deleting project', 'error');
         }
+    },
+
+    /**
+     * 읽기 전용 HTML 렌더링 (Pending Panel Entity Preview용)
+     * @param {Object} project - Project 엔티티
+     * @returns {string} HTML 문자열
+     */
+    renderReadOnlyHTML(project) {
+        if (!project) return '<div class="empty-state">No project data</div>';
+
+        let html = '';
+
+        // Status
+        if (project.status) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Status</div>
+                    <div class="entity-status-badge ${project.status.replace(/\s+/g, '_')}">${this.escapeHtml(project.status)}</div>
+                </div>
+            `;
+        }
+
+        // Owner
+        if (project.owner) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Owner</div>
+                    <div class="entity-section-content">${this.escapeHtml(project.owner)}</div>
+                </div>
+            `;
+        }
+
+        // Parent Track
+        if (project.parent_id) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Parent Track</div>
+                    <span class="entity-id-link" data-entity-id="${this.escapeHtml(project.parent_id)}">${this.escapeHtml(project.parent_id)}</span>
+                </div>
+            `;
+        }
+
+        // Expected Impact
+        const expectedImpact = project.expected_impact;
+        if (expectedImpact && expectedImpact.tier) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Expected Impact</div>
+                    <div class="impact-meta">
+                        <div class="impact-meta-item"><span class="impact-label">Tier</span><span class="impact-value tier-${expectedImpact.tier}">${this.escapeHtml(expectedImpact.tier)}</span></div>
+                        ${expectedImpact.impact_magnitude ? `<div class="impact-meta-item"><span class="impact-label">Magnitude</span><span class="impact-value">${this.escapeHtml(expectedImpact.impact_magnitude)}</span></div>` : ''}
+                        ${expectedImpact.confidence !== undefined ? `<div class="impact-meta-item"><span class="impact-label">Confidence</span><span class="impact-value">${(expectedImpact.confidence * 100).toFixed(0)}%</span></div>` : ''}
+                    </div>
+                    ${expectedImpact.statement ? `<div class="impact-statement">${this.escapeHtml(expectedImpact.statement)}</div>` : ''}
+                </div>
+            `;
+        }
+
+        // Conditions (3Y)
+        if (project.conditions_3y && project.conditions_3y.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Conditions (3Y)</div>
+                    <div class="field-value-badges">
+                        ${project.conditions_3y.map(c => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(c)}">${this.escapeHtml(c)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Validates (Hypotheses)
+        if (project.validates && project.validates.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Validates</div>
+                    <div class="field-value-badges">
+                        ${project.validates.map(h => `<span class="field-value-badge entity-id-link" data-entity-id="${this.escapeHtml(h)}">${this.escapeHtml(h)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Links
+        if (project.links && project.links.length > 0) {
+            html += `
+                <div class="entity-section">
+                    <div class="entity-section-title">Links</div>
+                    <div class="entity-links-list">
+                        ${project.links.map(link => {
+                            const label = this.escapeHtml(link.label || 'Link');
+                            const url = link.url || '';
+                            const lower = url.toLowerCase().trim();
+                            if (!lower.startsWith('https://') && !lower.startsWith('http://')) return '';
+                            return `<a href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="entity-link-item">${label}</a>`;
+                        }).filter(Boolean).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Notes + Body (마크다운 렌더링)
+        const notesContent = [project.notes, project.description, project._body].filter(Boolean).join('\n\n---\n\n');
+        if (notesContent) {
+            html += `
+                <div class="entity-section entity-notes-section">
+                    <div class="entity-section-title">Notes</div>
+                    <div class="entity-notes-content markdown-body">
+                        ${this.renderMarkdown(notesContent)}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
     }
 };
