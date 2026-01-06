@@ -4,7 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-25"
 entity_name: "Dashboard - 캘린더 Google Calendar 연동"
 created: 2026-01-06
 updated: 2026-01-06
-status: todo
+status: doing
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -37,7 +37,7 @@ priority_flag: high
 
 # Dashboard - 캘린더 Google Calendar 연동
 
-> Task ID: `tsk-dashboard-ux-v1-25` | Project: `prj-dashboard-ux-v1` | Status: todo
+> Task ID: `tsk-dashboard-ux-v1-25` | Project: `prj-dashboard-ux-v1` | Status: doing
 
 ## 목표
 

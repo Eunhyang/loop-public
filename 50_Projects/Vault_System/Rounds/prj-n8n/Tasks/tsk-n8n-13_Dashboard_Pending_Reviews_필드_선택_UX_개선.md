@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: tsk-n8n-13
 entity_name: "Dashboard - Pending Reviews 필드 선택 UX 개선"
 created: 2026-01-01
-updated: 2026-01-01
-status: doing
+updated: 2026-01-06
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: prj-n8n
@@ -41,7 +42,7 @@ priority_flag: high
 
 # Dashboard - Pending Reviews 필드 선택 UX 개선
 
-> Task ID: `tsk-n8n-13` | Project: `prj-n8n` | Status: doing
+> Task ID: `tsk-n8n-13` | Project: `prj-n8n` | Status: done
 
 ## 목표
 
@@ -106,11 +107,11 @@ tsk-n8n-10에서 3단 레이아웃(List | Detail | Entity Preview) 구현 완료
 
 ## 체크리스트
 
-- [ ] Pending Detail에서 필드별 선택 옵션 UI 구현
-- [ ] 옵션 클릭 → Entity Preview 연동
-- [ ] "Use this value" 버튼 및 값 변경 로직
-- [ ] 로컬 테스트
-- [ ] NAS 동기화 및 Docker 재배포
+- [x] Pending Detail에서 필드별 선택 옵션 UI 구현
+- [x] 옵션 클릭 → Entity Preview 연동
+- [x] "Use this value" 버튼 및 값 변경 로직
+- [x] 로컬 테스트
+- [x] NAS 동기화 및 Docker 재배포
 
 ---
 
@@ -235,19 +236,55 @@ const PendingPanel = {
 
 ### Todo
 
-1. [ ] PendingPanel에 FIELD_OPTIONS 상수 및 상태 변수 추가
-2. [ ] renderFieldOptions() 메서드 구현
-3. [ ] renderDetail() 수정 - 필드 아래에 옵션 렌더링 추가
-4. [ ] setupOptionClickHandlers() 메서드 구현
-5. [ ] toggleFieldValue() / setFieldValue() 구현
-6. [ ] renderEntityPreview() 수정 - footer + "Use this value" 버튼
-7. [ ] applyPreviewedValue() 메서드 구현
-8. [ ] approveReview() 수정 - pendingFieldValues 병합
-9. [ ] panel.css에 스타일 추가
-10. [ ] 로컬 테스트 (모든 대상 필드)
-11. [ ] NAS 동기화 및 Docker 재배포
+1. [x] PendingPanel에 FIELD_OPTIONS 상수 및 상태 변수 추가
+2. [x] renderFieldOptions() 메서드 구현
+3. [x] renderDetail() 수정 - 필드 아래에 옵션 렌더링 추가
+4. [x] setupOptionClickHandlers() 메서드 구현
+5. [x] toggleFieldValue() / setFieldValue() 구현
+6. [x] renderEntityPreview() 수정 - footer + "Use this value" 버튼
+7. [x] applyPreviewedValue() 메서드 구현
+8. [x] approveReview() 수정 - pendingFieldValues 병합
+9. [x] panel.css에 스타일 추가
+10. [x] 로컬 테스트 (모든 대상 필드)
+11. [x] NAS 동기화 및 Docker 재배포
 
 ### 작업 로그
+
+#### 2026-01-06 완료
+
+**개요**: Pending Reviews 패널에서 필드별 선택 옵션 UI 및 Entity Preview 연동 기능 구현 완료
+
+**변경사항**:
+
+1. **pending-panel.js** (1911 lines)
+   - `FIELD_OPTIONS` 상수 추가: `conditions_3y`(multi), `parent_id`(single), `assignee`(single), `priority`(single)
+   - 상태 변수 추가: `previewingForField`, `previewingValue`, `pendingFieldValues`, `optionsLoadGeneration`, `loadedOptions`
+   - `renderFieldOptions()`: 필드별 옵션 pill 형태 렌더링, selected/suggested 상태 표시
+   - `loadAndRenderFieldOptions()`: API에서 동적 옵션 로드 (Track, Condition)
+   - `setupOptionClickHandlers()`: 이벤트 위임으로 클릭 핸들러 설정
+   - `toggleFieldValue()` / `setFieldValue()`: 다중/단일 선택 값 변경
+   - `updateOptionPills()`: 옵션 pill UI 업데이트
+   - `syncInputWithPendingValue()`: input/textarea와 pendingFieldValues 동기화
+   - `applyPreviewedValue()`: "Use this value" 버튼 클릭 시 값 적용
+   - `renderDetail()`: 필드 아래에 옵션 렌더링 추가
+   - `renderEntityPreview()`: footer + "Use this value" 버튼 추가
+   - `approveReview()`: `pendingFieldValues` 병합 로직 추가
+
+2. **panel.css** (2974 lines)
+   - `.field-options-container`, `.field-options-pills`: 옵션 컨테이너 스타일
+   - `.field-option-pill`: 기본 옵션 버튼 스타일
+   - `.field-option-pill.selected`: 선택됨 상태 (파란색)
+   - `.field-option-pill.suggested`: AI 제안값 상태 (노란색 + ★)
+   - `.pill-star`, `.pill-checkbox`, `.pill-label`: pill 내부 요소
+   - `.entity-preview-footer`, `.btn-use-value`: Entity Preview 하단 확정 버튼
+   - 반응형 스타일 (max-width: 900px)
+
+**결과**:
+- 모든 대상 필드(conditions_3y, parent_id, assignee, priority)에 옵션 pill 표시
+- 옵션 클릭 시 Entity Preview에 상세 정보 로드
+- AI 제안값(노란색 ★) vs 사용자 선택값(파란색) 시각적 구분
+- "Use this value" 버튼으로 값 변경 가능
+- Approve 시 변경된 값이 API로 전달됨
 
 ---
 

@@ -11,15 +11,169 @@
 }
 
 .calendar-view.active {
-    display: block;
+    display: flex;
+    gap: 20px;
+}
+
+/* Google Calendar Sidebar (tsk-dashboard-ux-v1-25) */
+.google-calendar-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--bg-primary, #fff);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.google-calendar-sidebar .sidebar-section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.google-calendar-sidebar .sidebar-section-icon {
+    font-size: 16px;
+}
+
+.google-calendar-sidebar .sidebar-section-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary, #374151);
+}
+
+/* Google Calendar Account Group */
+.google-calendar-account {
+    margin-bottom: 16px;
+}
+
+.google-calendar-account:last-child {
+    margin-bottom: 0;
+}
+
+.google-calendar-account .account-header {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b7280);
+    padding: 4px 0;
+    margin-bottom: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Calendar List */
+.calendar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-item {
+    margin-bottom: 4px;
+}
+
+.calendar-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.calendar-item label:hover {
+    background-color: var(--bg-hover, #f3f4f6);
+}
+
+.calendar-item input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.calendar-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.calendar-name {
+    font-size: 13px;
+    color: var(--text-primary, #374151);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.calendar-primary {
+    font-size: 10px;
+    background: var(--primary-color, #3b82f6);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+/* Loading/Error/Empty States */
+.google-calendar-loading,
+.google-calendar-error,
+.google-calendar-empty {
+    padding: 16px;
+    text-align: center;
+    color: var(--text-secondary, #6b7280);
+    font-size: 13px;
+}
+
+.google-calendar-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.google-calendar-error {
+    color: var(--error-color, #ef4444);
+}
+
+.google-calendar-error button {
+    margin-top: 8px;
+}
+
+.google-calendar-empty p {
+    margin-bottom: 12px;
+}
+
+.spinner-small {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border-color, #e5e7eb);
+    border-top-color: var(--primary-color, #3b82f6);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* Calendar Container */
 .calendar-container {
+    flex: 1;
     background: var(--bg-primary, #fff);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    min-width: 0;  /* Allow shrinking */
 }
 
 /* FullCalendar Overrides */
@@ -105,6 +259,16 @@
 
 .fc .fc-event.event-done:hover {
     opacity: 0.6;
+}
+
+/* Google Calendar Events - Dashed Border (tsk-dashboard-ux-v1-25) */
+.fc .fc-event.google-event {
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.fc .fc-event.google-event:hover {
+    cursor: pointer;
 }
 
 .fc .fc-daygrid-event {
@@ -250,9 +414,45 @@
     .context-menu-item:hover {
         background-color: var(--bg-hover-dark, #374151);
     }
+
+    /* Google Calendar Sidebar Dark Mode */
+    .google-calendar-sidebar {
+        background: var(--bg-primary-dark, #1f2937);
+    }
+
+    .google-calendar-sidebar .sidebar-section-header {
+        border-color: var(--border-color-dark, #4b5563);
+    }
+
+    .google-calendar-sidebar .sidebar-section-title {
+        color: var(--text-primary-dark, #f9fafb);
+    }
+
+    .google-calendar-account .account-header {
+        color: var(--text-secondary-dark, #9ca3af);
+    }
+
+    .calendar-name {
+        color: var(--text-primary-dark, #f9fafb);
+    }
+
+    .calendar-item label:hover {
+        background-color: var(--bg-hover-dark, #374151);
+    }
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .calendar-view.active {
+        flex-direction: column;
+    }
+
+    .google-calendar-sidebar {
+        width: 100%;
+        max-height: 200px;
+    }
+}
+
 @media (max-width: 768px) {
     .calendar-view {
         padding: 10px;
@@ -274,5 +474,9 @@
 
     .fc .fc-daygrid-day {
         min-height: 60px;
+    }
+
+    .google-calendar-sidebar {
+        max-height: 150px;
     }
 }

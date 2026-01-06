@@ -1,12 +1,24 @@
 /**
  * Calendar Component
  * FullCalendar를 사용한 Task 캘린더 뷰
+ *
+ * Google Calendar 연동 (tsk-dashboard-ux-v1-25):
+ * - /api/google/calendars: 연결된 Google 계정의 캘린더 목록
+ * - /api/google/events: 선택된 캘린더의 이벤트 조회
+ * - 캘린더별 표시/숨김 토글 (localStorage 저장)
  */
 const Calendar = {
     instance: null,
     initialized: false,
     contextMenu: null,
     contextMenuDate: null,
+
+    // Google Calendar 상태 (tsk-dashboard-ux-v1-25)
+    googleCalendars: [],           // 연결된 Google 캘린더 목록
+    enabledCalendars: new Set(),   // 활성화된 캘린더 ID들
+    googleEventsCache: [],         // 캐시된 Google 이벤트
+    googleCalendarsLoading: false, // 로딩 상태
+    googleCalendarsError: null,    // 오류 메시지
 
     // 트랙별 고정 색상 (6개 트랙)
     TRACK_COLORS: {
@@ -21,13 +33,8 @@ const Calendar = {
     // 기본 색상 (트랙 없는 경우)
     DEFAULT_COLOR: '#E0E0E0',
 
-    // Google Calendar 설정
-    GOOGLE_CALENDAR_CONFIG: {
-        apiKey: 'AIzaSyDhdIFvqgVcnOCsp2vkG_KC5nD7cBawkAk',
-        calendarId: 'sosilab2020@gmail.com', // Primary calendar (변경 필요시 수정)
-        color: '#4285F4',     // Google Blue
-        className: 'google-event'
-    },
+    // localStorage 키
+    STORAGE_KEY: 'loop_calendar_enabled_gcal',
 
     /**
      * 프로젝트/태스크의 트랙 기반 색상 반환
@@ -51,7 +58,7 @@ const Calendar = {
     /**
      * Calendar 초기화
      */
-    init() {
+    async init() {
         if (this.initialized) {
             this.refresh();
             return;
@@ -62,6 +69,12 @@ const Calendar = {
             console.error('Calendar container not found');
             return;
         }
+
+        // localStorage에서 활성화된 캘린더 목록 로드
+        this.loadEnabledCalendars();
+
+        // Google 캘린더 목록 로드 (비동기)
+        this.loadGoogleCalendars();
 
         this.instance = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -76,15 +89,13 @@ const Calendar = {
                 month: '월',
                 week: '주'
             },
-            // Google Calendar API Key
-            googleCalendarApiKey: this.GOOGLE_CALENDAR_CONFIG.apiKey,
-            // 이벤트 소스: LOOP Tasks + Google Calendar
+            // 이벤트 소스: LOOP Tasks만 초기화 (Google은 비동기 로드)
             eventSources: [
-                this.getLoopEventSource(),
-                this.getGoogleCalendarEventSource()
+                this.getLoopEventSource()
             ],
             eventClick: (info) => this.onEventClick(info),
             dateClick: (info) => this.onDateClick(info),
+            datesSet: (info) => this.onDatesSet(info),  // 날짜 범위 변경 시 호출
             editable: true,  // 기본값 (개별 소스에서 override)
             eventDrop: (info) => this.onEventDrop(info),
             eventResize: (info) => this.onEventResize(info),
@@ -109,6 +120,257 @@ const Calendar = {
 
         // 문서 클릭 시 컨텍스트 메뉴 닫기
         document.addEventListener('click', () => this.hideContextMenu());
+    },
+
+    /**
+     * 날짜 범위 변경 시 호출 (월/주 변경)
+     */
+    onDatesSet(info) {
+        // 현재 보고 있는 날짜 범위로 Google 이벤트 로드
+        if (this.enabledCalendars.size > 0) {
+            this.loadGoogleEvents(info.startStr, info.endStr);
+        }
+    },
+
+    /**
+     * localStorage에서 활성화된 캘린더 목록 로드
+     */
+    loadEnabledCalendars() {
+        try {
+            const saved = localStorage.getItem(this.STORAGE_KEY);
+            if (saved) {
+                const ids = JSON.parse(saved);
+                this.enabledCalendars = new Set(ids);
+            }
+        } catch (e) {
+            console.warn('Failed to load enabled calendars from localStorage:', e);
+        }
+    },
+
+    /**
+     * localStorage에 활성화된 캘린더 목록 저장
+     */
+    saveEnabledCalendars() {
+        try {
+            const ids = Array.from(this.enabledCalendars);
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(ids));
+        } catch (e) {
+            console.warn('Failed to save enabled calendars to localStorage:', e);
+        }
+    },
+
+    /**
+     * Google 캘린더 목록 API 호출
+     */
+    async loadGoogleCalendars() {
+        this.googleCalendarsLoading = true;
+        this.googleCalendarsError = null;
+
+        try {
+            const response = await fetch('/api/google/calendars', {
+                headers: API.getHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            this.googleCalendars = data.calendars || [];
+
+            // 처음 로드 시 primary 캘린더 자동 활성화
+            if (this.enabledCalendars.size === 0 && this.googleCalendars.length > 0) {
+                this.googleCalendars.forEach(cal => {
+                    if (cal.primary) {
+                        const calKey = `${cal.account_id}:${cal.id}`;
+                        this.enabledCalendars.add(calKey);
+                    }
+                });
+                this.saveEnabledCalendars();
+            }
+
+            // 캘린더 사이드바 렌더링
+            this.renderGoogleCalendarSidebar();
+
+            // 활성화된 캘린더가 있으면 이벤트 로드
+            if (this.enabledCalendars.size > 0 && this.instance) {
+                const view = this.instance.view;
+                this.loadGoogleEvents(
+                    view.activeStart.toISOString().split('T')[0],
+                    view.activeEnd.toISOString().split('T')[0]
+                );
+            }
+
+        } catch (error) {
+            console.error('Failed to load Google calendars:', error);
+            this.googleCalendarsError = 'Google 캘린더 목록을 불러오지 못했습니다';
+            this.renderGoogleCalendarSidebar();
+        } finally {
+            this.googleCalendarsLoading = false;
+        }
+    },
+
+    /**
+     * Google 이벤트 API 호출
+     */
+    async loadGoogleEvents(start, end) {
+        if (this.enabledCalendars.size === 0) {
+            this.googleEventsCache = [];
+            this.refreshGoogleEventSource();
+            return;
+        }
+
+        try {
+            const calendarIds = Array.from(this.enabledCalendars).join(',');
+            const response = await fetch(
+                `/api/google/events?start=${start}&end=${end}&calendar_ids=${encodeURIComponent(calendarIds)}`,
+                { headers: API.getHeaders() }
+            );
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            this.googleEventsCache = data.events || [];
+
+            // Google 이벤트 소스 갱신
+            this.refreshGoogleEventSource();
+
+        } catch (error) {
+            console.error('Failed to load Google events:', error);
+            showToast('Google Calendar 이벤트를 불러오지 못했습니다', 'warning');
+        }
+    },
+
+    /**
+     * Google 이벤트 소스 갱신
+     */
+    refreshGoogleEventSource() {
+        if (!this.instance) return;
+
+        // 기존 Google 이벤트 소스 제거
+        const existingSource = this.instance.getEventSourceById('google');
+        if (existingSource) {
+            existingSource.remove();
+        }
+
+        // 새 이벤트 소스 추가
+        if (this.googleEventsCache.length > 0) {
+            this.instance.addEventSource({
+                id: 'google',
+                events: this.googleEventsCache,
+                editable: false
+            });
+        }
+    },
+
+    /**
+     * Google 캘린더 사이드바 렌더링
+     */
+    renderGoogleCalendarSidebar() {
+        const container = document.getElementById('googleCalendarList');
+        if (!container) return;
+
+        // 로딩 중
+        if (this.googleCalendarsLoading) {
+            container.innerHTML = `
+                <div class="google-calendar-loading">
+                    <span class="spinner-small"></span>
+                    Google Calendar 로드 중...
+                </div>
+            `;
+            return;
+        }
+
+        // 오류 발생
+        if (this.googleCalendarsError) {
+            container.innerHTML = `
+                <div class="google-calendar-error">
+                    <span>${this.googleCalendarsError}</span>
+                    <button onclick="Calendar.loadGoogleCalendars()" class="btn btn-sm">재시도</button>
+                </div>
+            `;
+            return;
+        }
+
+        // 연결된 계정 없음
+        if (this.googleCalendars.length === 0) {
+            container.innerHTML = `
+                <div class="google-calendar-empty">
+                    <p>연결된 Google 계정이 없습니다</p>
+                    <a href="/api/google/authorize?redirect_after=/" class="btn btn-sm btn-primary">
+                        Google 계정 연결
+                    </a>
+                </div>
+            `;
+            return;
+        }
+
+        // 캘린더 목록 렌더링
+        const accountGroups = {};
+        this.googleCalendars.forEach(cal => {
+            if (!accountGroups[cal.account_email]) {
+                accountGroups[cal.account_email] = [];
+            }
+            accountGroups[cal.account_email].push(cal);
+        });
+
+        let html = '';
+        for (const [email, calendars] of Object.entries(accountGroups)) {
+            html += `
+                <div class="google-calendar-account">
+                    <div class="account-header">${email}</div>
+                    <ul class="calendar-list">
+            `;
+
+            calendars.forEach(cal => {
+                const calKey = `${cal.account_id}:${cal.id}`;
+                const isEnabled = this.enabledCalendars.has(calKey);
+                html += `
+                    <li class="calendar-item">
+                        <label>
+                            <input type="checkbox"
+                                   ${isEnabled ? 'checked' : ''}
+                                   data-calendar-key="${calKey}"
+                                   onchange="Calendar.toggleCalendar('${calKey}')">
+                            <span class="calendar-color" style="background-color: ${cal.color}"></span>
+                            <span class="calendar-name">${cal.summary}</span>
+                            ${cal.primary ? '<span class="calendar-primary">기본</span>' : ''}
+                        </label>
+                    </li>
+                `;
+            });
+
+            html += `
+                    </ul>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+    },
+
+    /**
+     * 캘린더 토글
+     */
+    toggleCalendar(calKey) {
+        if (this.enabledCalendars.has(calKey)) {
+            this.enabledCalendars.delete(calKey);
+        } else {
+            this.enabledCalendars.add(calKey);
+        }
+
+        this.saveEnabledCalendars();
+
+        // 이벤트 새로고침
+        if (this.instance) {
+            const view = this.instance.view;
+            this.loadGoogleEvents(
+                view.activeStart.toISOString().split('T')[0],
+                view.activeEnd.toISOString().split('T')[0]
+            );
+        }
     },
 
     /**
@@ -241,26 +503,6 @@ const Calendar = {
     },
 
     /**
-     * Google Calendar 이벤트 소스 반환
-     * 읽기 전용으로 설정 (editable: false)
-     */
-    getGoogleCalendarEventSource() {
-        const config = this.GOOGLE_CALENDAR_CONFIG;
-        return {
-            id: 'google',
-            googleCalendarId: config.calendarId,
-            color: config.color,
-            textColor: '#fff',
-            className: config.className,
-            editable: false,  // 읽기 전용 - 드래그/리사이즈 불가
-            failure: () => {
-                console.warn('Google Calendar 로드 실패');
-                showToast('Google Calendar를 불러오지 못했습니다', 'warning');
-            }
-        };
-    },
-
-    /**
      * LOOP Task 이벤트 소스 반환
      */
     getLoopEventSource() {
@@ -301,7 +543,7 @@ const Calendar = {
     /**
      * 이벤트 클릭 핸들러
      * - LOOP 이벤트: Task 패널 열기
-     * - Google 이벤트: Toast로 정보만 표시 (읽기 전용)
+     * - Google 이벤트: 상세 정보 표시 (읽기 전용)
      */
     onEventClick(info) {
         const sourceId = info.event.source?.id;
@@ -310,10 +552,35 @@ const Calendar = {
         if (sourceId === 'google') {
             info.jsEvent.preventDefault();
             const event = info.event;
+            const props = event.extendedProps || {};
+
+            // 시간 정보
             const startTime = event.start ? event.start.toLocaleString('ko-KR') : '';
             const endTime = event.end ? event.end.toLocaleString('ko-KR') : '';
-            const timeRange = endTime ? `${startTime} ~ ${endTime}` : startTime;
-            showToast(`📅 ${event.title}\n${timeRange}`, 'info', 4000);
+            const timeRange = endTime && endTime !== startTime
+                ? `${startTime} ~ ${endTime}`
+                : startTime;
+
+            // 상세 정보 구성
+            let details = `${event.title}\n${timeRange}`;
+            if (props.calendar_name) {
+                details += `\n캘린더: ${props.calendar_name}`;
+            }
+            if (props.location) {
+                details += `\n장소: ${props.location}`;
+            }
+
+            // Google Calendar 링크가 있으면 새 창에서 열기 옵션 제공
+            if (props.html_link) {
+                showToast(details, 'info', 5000);
+                // 5초 후 자동으로 닫히지만, 클릭하면 Google Calendar로 이동
+                const openLink = confirm(`Google Calendar에서 이벤트를 열까요?\n\n${event.title}`);
+                if (openLink) {
+                    window.open(props.html_link, '_blank');
+                }
+            } else {
+                showToast(details, 'info', 4000);
+            }
             return;
         }
 
@@ -397,15 +664,19 @@ const Calendar = {
 
     /**
      * Calendar 새로고침
-     * Codex 피드백: removeAllEventSources()로 이전 소스 제거 후 추가
+     * LOOP Task 소스 갱신 + Google 이벤트 캐시 갱신
      */
     refresh() {
         if (this.instance) {
-            // 모든 이벤트 소스 제거 후 새로 추가 (중복 방지)
-            this.instance.removeAllEventSources();
-            // LOOP 이벤트 소스와 Google Calendar 소스 모두 추가
+            // LOOP 이벤트 소스만 제거 후 새로 추가
+            const loopSource = this.instance.getEventSourceById('loop');
+            if (loopSource) {
+                loopSource.remove();
+            }
             this.instance.addEventSource(this.getLoopEventSource());
-            this.instance.addEventSource(this.getGoogleCalendarEventSource());
+
+            // Google 이벤트 소스도 갱신 (캐시된 이벤트 사용)
+            this.refreshGoogleEventSource();
         }
     },
 

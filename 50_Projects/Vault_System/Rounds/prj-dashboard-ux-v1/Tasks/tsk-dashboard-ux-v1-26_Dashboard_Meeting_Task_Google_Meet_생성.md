@@ -4,7 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-26"
 entity_name: "Dashboard - Meeting Task Google Meet 생성"
 created: 2026-01-06
 updated: 2026-01-06
-status: todo
+status: doing
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -37,7 +37,7 @@ priority_flag: high
 
 # Dashboard - Meeting Task Google Meet 생성
 
-> Task ID: `tsk-dashboard-ux-v1-26` | Project: `prj-dashboard-ux-v1` | Status: todo
+> Task ID: `tsk-dashboard-ux-v1-26` | Project: `prj-dashboard-ux-v1` | Status: doing
 
 ## 목표
 
@@ -84,14 +84,14 @@ meeting 타입 Task 생성 시 별도로 Google Meet 접속해서 링크 만드�
 
 ## 체크리스트
 
-- [ ] Schema: Task.meeting_link 필드 추가
-- [ ] API `/api/google/meet/create` 엔드포인트
-- [ ] Calendar API events.insert with conferenceData
-- [ ] TaskModal UI 확장 (meeting 옵션)
-- [ ] 계정 선택 드롭다운
-- [ ] Meet 링크 복사 기능
-- [ ] Task 저장 시 links 필드에 Meet URL 추가
-- [ ] 테스트
+- [x] Schema: Task.links 필드 활용 (meeting_link 별도 필드 대신)
+- [x] API `POST /api/google/meet` 엔드포인트
+- [x] Calendar API events.insert with conferenceData
+- [x] TaskModal UI 확장 (meeting 옵션)
+- [x] 계정 선택 드롭다운
+- [x] Meet 링크 복사 기능
+- [x] Task 저장 시 links 필드에 Meet URL 추가
+- [ ] 테스트 (API 서버 배포 후)
 
 ---
 
@@ -193,6 +193,51 @@ calendar.events.insert({
 - [[tsk-dashboard-ux-v1-24]] - 의존 Task (OAuth)
 - `public/_dashboard/js/components/task-modal.js`
 - Google Calendar API conferenceData: https://developers.google.com/calendar/api/guides/create-events#conferencing
+
+---
+
+### Implementation Summary (2026-01-06)
+
+#### Files Created
+1. **`api/services/google_calendar.py`**
+   - `create_meet_event()`: Google Calendar API로 Meet 링크 생성
+   - conferenceDataVersion=1로 Meet 자동 생성
+   - 에러 핸들링, 로깅 포함
+
+#### Files Modified
+1. **`api/routers/google_accounts.py`**
+   - `POST /api/google/meet` 엔드포인트 추가
+   - MeetCreateRequest/MeetCreateResponse Pydantic 모델
+
+2. **`_dashboard/js/api.js`**
+   - `getGoogleAccounts()`: 연결된 Google 계정 목록 조회
+   - `createGoogleMeet(options)`: Meet 링크 생성 API 호출
+
+3. **`_dashboard/js/components/task-modal.js`**
+   - `init()`: 이벤트 리스너 초기화
+   - `handleTypeChange()`: type=meeting 선택 시 Meet 옵션 표시
+   - `loadGoogleAccounts()`: 계정 목록 로드
+   - `generateMeetLink()`: Meet 링크 생성
+   - Task 저장 시 links 필드에 Meet URL 추가
+
+4. **`_dashboard/index.html`**
+   - Task Type 선택 (dev/meeting/doc/design/review/research/other)
+   - Duration 선택 (30/60/90/120분)
+   - Meeting Options 섹션 (Google Meet 생성 체크박스, 계정 선택, 시간 입력)
+
+5. **`_dashboard/css/modal.css`**
+   - .meeting-options 스타일
+   - .meet-link-result 스타일
+
+6. **`_dashboard/js/app.js`**
+   - `TaskModal.init()` 호출 추가
+
+#### Data Flow
+1. User selects type=meeting in TaskModal
+2. Meeting options section appears
+3. User checks "Google Meet" and selects account
+4. On save: API.createGoogleMeet() creates Calendar event with Meet
+5. Meet link stored in Task.links array as `{label: "Google Meet", url: "..."}`
 
 ---
 

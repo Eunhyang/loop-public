@@ -516,5 +516,38 @@ const API = {
             { method: 'DELETE' }
         );
         return res.json();
+    },
+
+    // ============================================
+    // Google OAuth & Meet (tsk-dashboard-ux-v1-26)
+    // ============================================
+
+    /**
+     * 연결된 Google 계정 목록 조회
+     * @returns {Promise<Array>} Google 계정 목록
+     */
+    async getGoogleAccounts() {
+        const res = await this.authFetch(`${this.baseUrl}/api/google/accounts`);
+        return res.json();
+    },
+
+    /**
+     * Google Meet 링크 생성
+     * @param {Object} options - 옵션
+     * @param {number} options.account_id - Google 계정 ID
+     * @param {string} options.title - 미팅 제목
+     * @param {string} options.start_time - 시작 시간 (ISO 8601)
+     * @param {number} options.duration_minutes - 미팅 시간 (분)
+     * @param {string} options.description - 설명
+     * @param {boolean} options.create_calendar_event - 캘린더 이벤트 생성 여부
+     * @returns {Promise<Object>} { success, meet_link, calendar_event_id, ... }
+     */
+    async createGoogleMeet(options) {
+        const res = await this.authFetch(`${this.baseUrl}/api/google/meet`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(options)
+        });
+        return res.json();
     }
 };

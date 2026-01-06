@@ -159,6 +159,9 @@ async function init() {
         TaskModal.populateSelects();
         ProjectModal.populateSelects();
 
+        // Initialize TaskModal event listeners (tsk-dashboard-ux-v1-26)
+        TaskModal.init();
+
         // Initialize Panels
         TaskPanel.init();
         ProjectPanel.init();

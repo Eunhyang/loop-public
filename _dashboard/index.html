@@ -179,6 +179,18 @@
 
             <!-- Calendar View -->
             <div class="calendar-view" id="calendarView">
+                <!-- Google Calendar Sidebar (tsk-dashboard-ux-v1-25) -->
+                <div class="google-calendar-sidebar" id="googleCalendarSidebar">
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-header">
+                            <span class="sidebar-section-icon">&#128197;</span>
+                            <span class="sidebar-section-title">Google Calendar</span>
+                        </div>
+                        <div id="googleCalendarList">
+                            <!-- Dynamically populated by Calendar.renderGoogleCalendarSidebar() -->
+                        </div>
+                    </div>
+                </div>
                 <div class="calendar-container" id="calendarContainer">
                     <!-- FullCalendar will be rendered here -->
                 </div>
@@ -234,6 +246,59 @@
                         <input type="date" id="taskDue">
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Task Type</label>
+                        <select id="taskType">
+                            <option value="dev">Dev</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="doc">Doc</option>
+                            <option value="design">Design</option>
+                            <option value="review">Review</option>
+                            <option value="research">Research</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (min)</label>
+                        <select id="taskDuration">
+                            <option value="30">30 min</option>
+                            <option value="60" selected>60 min</option>
+                            <option value="90">90 min</option>
+                            <option value="120">120 min</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Google Meet Options (tsk-dashboard-ux-v1-26) -->
+                <div id="meetingOptions" class="meeting-options" style="display: none;">
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="generateMeet" checked>
+                            Google Meet
+                        </label>
+                    </div>
+                    <div class="form-row" id="meetAccountRow">
+                        <div class="form-group">
+                            <label>Google Account</label>
+                            <select id="meetGoogleAccount">
+                                <option value="">Select account...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="time" id="meetStartTime" value="14:00">
+                        </div>
+                    </div>
+                    <div id="meetLinkResult" class="meet-link-result" style="display: none;">
+                        <label>Meet Link</label>
+                        <div class="meet-link-row">
+                            <input type="text" id="meetLinkDisplay" readonly>
+                            <button type="button" class="btn btn-sm" id="copyMeetLink" title="Copy">Copy</button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="taskMeetLink">
+                <input type="hidden" id="taskCalendarEventId">
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="taskModalCancel">Cancel</button>

@@ -23,7 +23,8 @@ def get_vault_dir() -> Path:
     4. NAS: /volume1/LOOP_CORE/vault/LOOP
     5. Mac mount: /Volumes/LOOP_CORE/vault/LOOP
     6. Local: ~/dev/loop/public
-    7. Fallback: cwd
+    7. Module-relative: shared/utils/vault_utils.py 기준 parents[2]
+    8. Fallback: cwd (with warning)
 
     Returns:
         Path to LOOP Vault directory
@@ -44,20 +45,31 @@ def get_vault_dir() -> Path:
 
     # Priority 4: NAS path (Synology)
     nas_path = Path("/volume1/LOOP_CORE/vault/LOOP")
-    if nas_path.exists():
+    if nas_path.is_dir():
         return nas_path
 
     # Priority 5: Mac mount path
     mac_path = Path("/Volumes/LOOP_CORE/vault/LOOP")
-    if mac_path.exists():
+    if mac_path.is_dir():
         return mac_path
 
     # Priority 6: Local development
     local_path = Path.home() / "dev" / "loop" / "public"
-    if local_path.exists():
+    if local_path.is_dir():
         return local_path
 
-    # Fallback
+    # Priority 7: Module-relative fallback (shared/utils/vault_utils.py → public/)
+    module_path = Path(__file__).resolve().parents[2]  # shared/utils/vault_utils.py → public
+    if (module_path / "00_Meta").is_dir():  # Validate it's actually a vault
+        return module_path
+
+    # Fallback: cwd with warning
+    import warnings
+    warnings.warn(
+        f"LOOP Vault path not detected. Using cwd: {Path.cwd()}. "
+        "Set LOOP_VAULT_PATH or VAULT_DIR environment variable.",
+        RuntimeWarning
+    )
     return Path.cwd()
 
 
@@ -71,7 +83,9 @@ def get_exec_vault_dir() -> Path:
     4. NAS: /volume1/LOOP_CLevel/vault/loop_exec
     5. Mac mount: /Volumes/LOOP_CLevel/vault/loop_exec
     6. Local: ~/dev/loop/exec
-    7. Fallback: relative to vault
+    7. Module-relative: shared/utils/vault_utils.py 기준 parents[2].parent / exec
+    8. Relative to vault: vault_dir.parent / exec
+    9. Fallback: vault_dir.parent / exec (with warning)
 
     Returns:
         Path to Exec Vault directory
@@ -92,22 +106,39 @@ def get_exec_vault_dir() -> Path:
 
     # Priority 4: NAS path (Synology)
     nas_path = Path("/volume1/LOOP_CLevel/vault/loop_exec")
-    if nas_path.exists():
+    if nas_path.is_dir():
         return nas_path
 
     # Priority 5: Mac mount path
     mac_path = Path("/Volumes/LOOP_CLevel/vault/loop_exec")
-    if mac_path.exists():
+    if mac_path.is_dir():
         return mac_path
 
     # Priority 6: Local development
     local_path = Path.home() / "dev" / "loop" / "exec"
-    if local_path.exists():
+    if local_path.is_dir():
         return local_path
 
-    # Fallback: relative to vault
+    # Priority 7: Module-relative fallback (shared/utils/vault_utils.py → public → loop → exec)
+    module_path = Path(__file__).resolve().parents[2]  # shared/utils/vault_utils.py → public
+    module_exec_path = module_path.parent / "exec"  # public → loop → exec
+    if module_exec_path.is_dir():
+        return module_exec_path
+
+    # Fallback: relative to vault (with validation)
     vault_dir = get_vault_dir()
-    return vault_dir.parent / "exec"
+    exec_fallback = vault_dir.parent / "exec"
+    if exec_fallback.is_dir():
+        return exec_fallback
+
+    # Final fallback with warning
+    import warnings
+    warnings.warn(
+        f"LOOP Exec Vault path not detected. Using fallback: {exec_fallback}. "
+        "Set LOOP_EXEC_PATH or EXEC_VAULT_DIR environment variable.",
+        RuntimeWarning
+    )
+    return exec_fallback
 
 
 def extract_frontmatter(content: str) -> Tuple[Optional[Dict[str, Any]], str]:

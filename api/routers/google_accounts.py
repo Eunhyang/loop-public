@@ -31,6 +31,11 @@ from ..services.google_oauth import (
     get_google_config,
     get_encryption_key,
 )
+from ..services.google_calendar import (
+    get_all_calendars,
+    get_all_events,
+    invalidate_calendar_cache,
+)
 
 # Logging
 logger = logging.getLogger("google_accounts")
@@ -368,12 +373,17 @@ async def delete_google_account(
             )
 
     email = account.google_email
+    deleted_user_id = account.user_id
 
     # Revoke and delete
     success, error_msg = revoke_account(db, account)
 
     if not success:
         raise HTTPException(status_code=500, detail=error_msg)
+
+    # Invalidate calendar cache for this user (tsk-dashboard-ux-v1-25)
+    if deleted_user_id:
+        invalidate_calendar_cache(user_id=deleted_user_id)
 
     logger.info(f"Deleted Google account: {email}")
 
@@ -433,6 +443,232 @@ async def update_google_account_label(
     }
 
 
+# ============================================
+# Calendar List & Events (tsk-dashboard-ux-v1-25)
+# ============================================
+
+class CalendarInfo(BaseModel):
+    """Calendar info response model"""
+    id: str
+    summary: str
+    color: str
+    primary: bool
+    account_id: int
+    account_email: str
+    access_role: str
+
+
+class CalendarListResponse(BaseModel):
+    """Response for calendar list endpoint"""
+    calendars: List[CalendarInfo]
+    errors: List[dict] = []
+
+
+class GoogleEvent(BaseModel):
+    """Google Calendar event for FullCalendar"""
+    id: str
+    title: str
+    start: str
+    end: str
+    allDay: bool
+    backgroundColor: str
+    borderColor: str
+    textColor: str
+    editable: bool
+    classNames: List[str]
+    extendedProps: dict
+
+
+class EventsResponse(BaseModel):
+    """Response for events endpoint"""
+    events: List[GoogleEvent]
+    errors: List[dict] = []
+
+
+def _get_user_accounts(
+    request: Request,
+    db: SQLSession
+) -> tuple[Optional[int], str, List[GoogleAccount]]:
+    """Get Google accounts accessible by current user
+
+    Returns:
+        (user_id, user_role, accounts)
+    """
+    user_id = None
+    user_role = "member"
+    if hasattr(request, "state") and isinstance(request.state._state, dict):
+        user_id = request.state._state.get("user_id")
+        user_role = request.state._state.get("role", "member")
+
+    # Query accounts based on role
+    if user_role in ("admin", "exec"):
+        accounts = db.query(GoogleAccount).all()
+    elif user_id:
+        accounts = db.query(GoogleAccount).filter(GoogleAccount.user_id == user_id).all()
+    else:
+        accounts = []
+
+    return user_id, user_role, accounts
+
+
+@router.get("/calendars", response_model=CalendarListResponse)
+async def list_google_calendars(
+    request: Request,
+    db: SQLSession = Depends(get_google_db)
+):
+    """Get all calendars from connected Google accounts
+
+    Returns calendars from all connected Google accounts for the current user.
+    Includes primary calendars and shared calendars.
+
+    Response:
+        {
+            "calendars": [
+                {
+                    "id": "calendar@gmail.com",
+                    "summary": "Calendar Name",
+                    "color": "#4285F4",
+                    "primary": true,
+                    "account_id": 1,
+                    "account_email": "user@gmail.com",
+                    "access_role": "owner"
+                }
+            ],
+            "errors": []
+        }
+    """
+    user_id, user_role, accounts = _get_user_accounts(request, db)
+
+    if not accounts:
+        return CalendarListResponse(
+            calendars=[],
+            errors=[{"error": "No Google accounts connected"}] if user_id else []
+        )
+
+    # Fetch calendars from all accounts
+    calendars, errors = get_all_calendars(db, accounts, user_id)
+
+    # Convert to response model
+    calendar_list = [
+        CalendarInfo(
+            id=cal["id"],
+            summary=cal["summary"],
+            color=cal["color"],
+            primary=cal["primary"],
+            account_id=cal["account_id"],
+            account_email=cal["account_email"],
+            access_role=cal["access_role"]
+        )
+        for cal in calendars
+    ]
+
+    logger.info(f"Retrieved {len(calendar_list)} calendars for user={user_id}")
+
+    return CalendarListResponse(calendars=calendar_list, errors=errors)
+
+
+@router.get("/events", response_model=EventsResponse)
+async def get_google_events(
+    request: Request,
+    start: str = Query(..., description="Start date YYYY-MM-DD"),
+    end: str = Query(..., description="End date YYYY-MM-DD"),
+    calendar_ids: str = Query(..., description="Comma-separated calendar IDs (format: account_id:calendar_id)"),
+    db: SQLSession = Depends(get_google_db)
+):
+    """Get events from selected Google calendars
+
+    Fetches events from specified calendars within the date range.
+    Calendar IDs should include account_id prefix: "1:calendar@gmail.com"
+
+    Args:
+        start: Start date in YYYY-MM-DD format
+        end: End date in YYYY-MM-DD format
+        calendar_ids: Comma-separated list of "account_id:calendar_id"
+
+    Response:
+        {
+            "events": [
+                {
+                    "id": "gcal_1_abc123",
+                    "title": "Meeting",
+                    "start": "2026-01-06T10:00:00",
+                    "end": "2026-01-06T11:00:00",
+                    "allDay": false,
+                    "backgroundColor": "#4285F4",
+                    "editable": false,
+                    "extendedProps": {
+                        "source": "google",
+                        "calendar_id": "calendar@gmail.com",
+                        ...
+                    }
+                }
+            ],
+            "errors": []
+        }
+    """
+    user_id, user_role, accounts = _get_user_accounts(request, db)
+
+    if not accounts:
+        return EventsResponse(
+            events=[],
+            errors=[{"error": "No Google accounts connected"}]
+        )
+
+    # Parse calendar_ids
+    cal_id_list = [cid.strip() for cid in calendar_ids.split(",") if cid.strip()]
+
+    if not cal_id_list:
+        return EventsResponse(events=[], errors=[{"error": "No calendars specified"}])
+
+    # Validate date format
+    try:
+        from datetime import datetime
+        datetime.strptime(start, "%Y-%m-%d")
+        datetime.strptime(end, "%Y-%m-%d")
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid date format: {e}. Use YYYY-MM-DD.")
+
+    # Security: Validate that requested calendars belong to user's accounts
+    account_ids = {acc.id for acc in accounts}
+    for cal_spec in cal_id_list:
+        if ":" in cal_spec:
+            try:
+                acc_id_str, _ = cal_spec.split(":", 1)
+                acc_id = int(acc_id_str)
+                if acc_id not in account_ids:
+                    raise HTTPException(
+                        status_code=403,
+                        detail=f"Calendar {cal_spec} does not belong to your accounts"
+                    )
+            except ValueError:
+                raise HTTPException(status_code=400, detail=f"Invalid calendar ID format: {cal_spec}")
+
+    # Fetch events from all calendars
+    events, errors = get_all_events(db, accounts, cal_id_list, start, end, user_id)
+
+    # Convert to response model
+    event_list = [
+        GoogleEvent(
+            id=evt["id"],
+            title=evt["title"],
+            start=evt["start"],
+            end=evt["end"],
+            allDay=evt["allDay"],
+            backgroundColor=evt["backgroundColor"],
+            borderColor=evt["borderColor"],
+            textColor=evt["textColor"],
+            editable=evt["editable"],
+            classNames=evt["classNames"],
+            extendedProps=evt["extendedProps"]
+        )
+        for evt in events
+    ]
+
+    logger.info(f"Retrieved {len(event_list)} events for user={user_id}")
+
+    return EventsResponse(events=event_list, errors=errors)
+
+
 @router.post("/cleanup")
 async def cleanup_oauth_states(
     db: SQLSession = Depends(get_google_db)
@@ -448,3 +684,96 @@ async def cleanup_oauth_states(
         "success": True,
         "states_deleted": deleted
     }
+
+
+# ============================================
+# Google Meet Creation (tsk-dashboard-ux-v1-26)
+# ============================================
+
+class MeetCreateRequest(BaseModel):
+    """Request body for creating Google Meet"""
+    account_id: int
+    title: str
+    start_time: Optional[str] = None  # ISO 8601 format
+    duration_minutes: int = 60
+    description: Optional[str] = None
+    create_calendar_event: bool = True
+
+
+class MeetCreateResponse(BaseModel):
+    """Response for Google Meet creation"""
+    success: bool
+    meet_link: Optional[str] = None
+    calendar_event_id: Optional[str] = None
+    calendar_link: Optional[str] = None
+    google_email: Optional[str] = None
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
+    error: Optional[str] = None
+
+
+@router.post("/meet", response_model=MeetCreateResponse)
+async def create_google_meet(
+    request_body: MeetCreateRequest,
+    request: Request,
+    db: SQLSession = Depends(get_google_db)
+):
+    """Create a Google Meet link with optional Calendar event
+
+    Creates a Google Calendar event with conferenceData to generate
+    a Google Meet link automatically.
+
+    Args:
+        account_id: ID of connected Google account
+        title: Meeting title
+        start_time: Start time in ISO 8601 format (default: now)
+        duration_minutes: Duration in minutes (default: 60)
+        description: Optional meeting description
+        create_calendar_event: If True, creates visible calendar event
+
+    Returns:
+        {
+            success: true,
+            meet_link: "https://meet.google.com/xxx-xxxx-xxx",
+            calendar_event_id: "xxx",
+            calendar_link: "https://calendar.google.com/..."
+        }
+    """
+    from ..services.google_calendar import create_meet_event
+
+    # Get user info from auth middleware for logging
+    user_id = None
+    if hasattr(request, "state") and isinstance(request.state._state, dict):
+        user_id = request.state._state.get("user_id")
+
+    # Verify account ownership (for multi-user mode)
+    account = db.query(GoogleAccount).filter(GoogleAccount.id == request_body.account_id).first()
+    if not account:
+        return MeetCreateResponse(success=False, error="Google account not found")
+
+    # Create Meet event
+    result, error = create_meet_event(
+        db=db,
+        account_id=request_body.account_id,
+        title=request_body.title,
+        start_time=request_body.start_time,
+        duration_minutes=request_body.duration_minutes,
+        description=request_body.description,
+        create_calendar_event=request_body.create_calendar_event
+    )
+
+    if error:
+        logger.error(f"Failed to create Meet: {error}")
+        return MeetCreateResponse(success=False, error=error)
+
+    logger.info(f"Created Meet link for user={user_id}: {result.get('meet_link')}")
+
+    return MeetCreateResponse(
+        success=True,
+        meet_link=result.get("meet_link"),
+        calendar_event_id=result.get("calendar_event_id"),
+        calendar_link=result.get("calendar_link"),
+        google_email=result.get("google_email"),
+        start_time=result.get("start_time"),
+        end_time=result.get("end_time")
+    )

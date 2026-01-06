@@ -6,6 +6,9 @@
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
+# 디버그 로그
+echo "[DEBUG] COMMAND first line: $(echo "$COMMAND" | head -n1)" >> /tmp/hook-debug.log
+
 # 자동 승인할 패턴들
 ALLOW_PATTERNS=(
   "^# "                    # 주석으로 시작하는 스크립트
@@ -32,6 +35,7 @@ ALLOW_PATTERNS=(
   "^poetry "               # poetry 명령어
   "^source "               # source 명령어
   "^for "                  # for 루프
+  "^which "                # which 명령어
 )
 
 # 첫 줄만 추출 (멀티라인 명령어 대응)

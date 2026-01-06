@@ -4,7 +4,8 @@ entity_id: "tsk-018-04"
 entity_name: "API - exec MCP mount 구현"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-api-exec-vault"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # API - exec MCP mount 구현
 
-> Task ID: `tsk-018-04` | Project: `prj-api-exec-vault` | Status: doing
+> Task ID: `tsk-018-04` | Project: `prj-api-exec-vault` | Status: done
 
 ## 목표
 
@@ -130,7 +131,32 @@ exec/api/main.py
 
 ### 작업 로그
 
-**2026-01-06**:
+#### 2026-01-06 15:00
+**개요**: exec/api에 FastApiMCP를 통합하여 MCP 프로토콜로 KPI 데이터에 접근할 수 있도록 구현했습니다. mcp:exec scope 검증 미들웨어를 추가하여 권한 없는 접근을 차단합니다.
+
+**변경사항**:
+- 개발: FastApiMCP 인스턴스 생성 및 /mcp 엔드포인트 마운트
+- 개발: ExecScopeMiddleware (mcp:exec scope 검증)
+- 개발: MCP_ALLOWED_OPERATIONS 정의 (KPI 엔드포인트 5개)
+
+**파일 변경**:
+- `exec/api/main.py` - FastApiMCP 통합, 미들웨어 추가
+
+**MCP 도구**:
+- `get_kpi_overview_api_kpi_overview_get`
+- `get_mau_api_kpi_mau_get`
+- `get_conversion_api_kpi_conversion_get`
+- `get_user_journey_api_kpi_user__user_id__get`
+- `analyze_refunds_api_kpi_refund_analysis_post`
+
+**결과**: ✅ 코드 리뷰 통과, MCP 엔드포인트 마운트 완료
+
+**다음 단계**:
+- 없음 (완료)
+
+---
+
+**2026-01-06 (상세)**:
 - exec/api/main.py에 FastApiMCP 통합 완료
 - ExecScopeMiddleware 구현 (/mcp에 mcp:exec scope 검증)
 - MCP_ALLOWED_OPERATIONS 정의 (KPI 엔드포인트 5개)

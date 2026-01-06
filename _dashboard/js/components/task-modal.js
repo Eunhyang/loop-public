@@ -1,8 +1,13 @@
 /**
  * TaskModal Component
  * Task 생성/수정 모달
+ *
+ * tsk-dashboard-ux-v1-26: Google Meet 생성 기능 추가
  */
 const TaskModal = {
+    // Google accounts cache
+    googleAccounts: [],
+
     /**
      * Select 옵션들 채우기
      */
@@ -37,9 +42,111 @@ const TaskModal = {
     },
 
     /**
+     * Initialize event listeners (call once on app init)
+     */
+    init() {
+        // Task Type change handler
+        const taskTypeEl = document.getElementById('taskType');
+        if (taskTypeEl) {
+            taskTypeEl.addEventListener('change', (e) => {
+                this.handleTypeChange(e.target.value);
+            });
+        }
+
+        // Generate Meet checkbox handler
+        const generateMeetEl = document.getElementById('generateMeet');
+        if (generateMeetEl) {
+            generateMeetEl.addEventListener('change', (e) => {
+                const accountRow = document.getElementById('meetAccountRow');
+                if (accountRow) {
+                    accountRow.style.display = e.target.checked ? 'flex' : 'none';
+                }
+            });
+        }
+
+        // Copy Meet link button
+        const copyBtn = document.getElementById('copyMeetLink');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                const linkInput = document.getElementById('meetLinkDisplay');
+                if (linkInput && linkInput.value) {
+                    navigator.clipboard.writeText(linkInput.value);
+                    showToast('Meet link copied!', 'success');
+                }
+            });
+        }
+    },
+
+    /**
+     * Handle task type change
+     */
+    handleTypeChange(type) {
+        const meetingOptions = document.getElementById('meetingOptions');
+        if (!meetingOptions) return;
+
+        if (type === 'meeting') {
+            meetingOptions.style.display = 'block';
+            this.loadGoogleAccounts();
+        } else {
+            meetingOptions.style.display = 'none';
+        }
+    },
+
+    /**
+     * Load connected Google accounts for Meet
+     */
+    async loadGoogleAccounts() {
+        try {
+            const accounts = await API.getGoogleAccounts();
+            this.googleAccounts = accounts || [];
+
+            const selectEl = document.getElementById('meetGoogleAccount');
+            if (!selectEl) return;
+
+            if (this.googleAccounts.length === 0) {
+                selectEl.innerHTML = '<option value="">No connected accounts</option>';
+            } else {
+                selectEl.innerHTML = this.googleAccounts.map(acc =>
+                    `<option value="${acc.id}">${acc.google_email} (${acc.label})</option>`
+                ).join('');
+            }
+        } catch (err) {
+            console.error('Failed to load Google accounts:', err);
+            const selectEl = document.getElementById('meetGoogleAccount');
+            if (selectEl) {
+                selectEl.innerHTML = '<option value="">Failed to load accounts</option>';
+            }
+        }
+    },
+
+    /**
+     * Reset meeting options to default state
+     */
+    resetMeetingOptions() {
+        const meetingOptions = document.getElementById('meetingOptions');
+        const generateMeet = document.getElementById('generateMeet');
+        const meetAccountRow = document.getElementById('meetAccountRow');
+        const meetLinkResult = document.getElementById('meetLinkResult');
+        const meetLinkDisplay = document.getElementById('meetLinkDisplay');
+        const taskMeetLink = document.getElementById('taskMeetLink');
+        const taskType = document.getElementById('taskType');
+        const meetStartTime = document.getElementById('meetStartTime');
+
+        if (meetingOptions) meetingOptions.style.display = 'none';
+        if (generateMeet) generateMeet.checked = true;
+        if (meetAccountRow) meetAccountRow.style.display = 'flex';
+        if (meetLinkResult) meetLinkResult.style.display = 'none';
+        if (meetLinkDisplay) meetLinkDisplay.value = '';
+        if (taskMeetLink) taskMeetLink.value = '';
+        if (taskType) taskType.value = 'dev';
+        if (meetStartTime) meetStartTime.value = '14:00';
+    },
+
+    /**
      * 새 Task 모달 열기
      * @param {Object} options - 옵션 객체
      * @param {string} options.date - 시작/마감 날짜 (YYYY-MM-DD)
+     * @param {string} options.type - Task type (meeting for auto-open meet options)
      */
     open(options = {}) {
         State.editingTask = null;
@@ -57,6 +164,18 @@ const TaskModal = {
         // 현재 필터된 프로젝트 선택 (단일 선택인 경우에만)
         if (State.currentProjects.length === 1) {
             document.getElementById('taskProject').value = State.currentProjects[0];
+        }
+
+        // Reset meeting options
+        this.resetMeetingOptions();
+
+        // If type is meeting, show meeting options
+        if (options.type === 'meeting') {
+            const taskType = document.getElementById('taskType');
+            if (taskType) {
+                taskType.value = 'meeting';
+                this.handleTypeChange('meeting');
+            }
         }
 
         document.getElementById('taskModal').classList.add('active');
@@ -81,8 +200,43 @@ const TaskModal = {
         document.getElementById('taskStartDate').value = task.start_date || task.due || '';
         document.getElementById('taskDue').value = task.due || '';
 
+        // Reset meeting options
+        this.resetMeetingOptions();
+
+        // Set task type if present
+        const taskType = document.getElementById('taskType');
+        if (taskType && task.type) {
+            taskType.value = task.type;
+            if (task.type === 'meeting') {
+                this.handleTypeChange('meeting');
+
+                // If task has existing meeting link, show it
+                const meetLink = this.findMeetLink(task.links);
+                if (meetLink) {
+                    const meetLinkResult = document.getElementById('meetLinkResult');
+                    const meetLinkDisplay = document.getElementById('meetLinkDisplay');
+                    const generateMeet = document.getElementById('generateMeet');
+
+                    if (meetLinkResult) meetLinkResult.style.display = 'block';
+                    if (meetLinkDisplay) meetLinkDisplay.value = meetLink;
+                    if (generateMeet) generateMeet.checked = false;
+                }
+            }
+        }
+
         document.getElementById('taskModal').classList.add('active');
         document.getElementById('taskName').focus();
+    },
+
+    /**
+     * Find Meet link from task.links array
+     */
+    findMeetLink(links) {
+        if (!links || !Array.isArray(links)) return null;
+        const meetLink = links.find(l =>
+            l.url && l.url.includes('meet.google.com')
+        );
+        return meetLink ? meetLink.url : null;
     },
 
     /**
@@ -94,10 +248,77 @@ const TaskModal = {
     },
 
     /**
+     * Generate Google Meet link
+     */
+    async generateMeetLink() {
+        const accountId = document.getElementById('meetGoogleAccount')?.value;
+        const taskName = document.getElementById('taskName')?.value || 'Meeting';
+        const startDate = document.getElementById('taskStartDate')?.value;
+        const startTime = document.getElementById('meetStartTime')?.value || '14:00';
+        const duration = parseInt(document.getElementById('taskDuration')?.value || '60');
+
+        if (!accountId) {
+            showToast('Please select a Google account', 'error');
+            return null;
+        }
+
+        // Construct start time in ISO format
+        let startDateTime;
+        if (startDate) {
+            startDateTime = `${startDate}T${startTime}:00`;
+        }
+
+        try {
+            const result = await API.createGoogleMeet({
+                account_id: parseInt(accountId),
+                title: taskName,
+                start_time: startDateTime,
+                duration_minutes: duration,
+                create_calendar_event: true
+            });
+
+            if (result.success && result.meet_link) {
+                // Show the generated link
+                const meetLinkResult = document.getElementById('meetLinkResult');
+                const meetLinkDisplay = document.getElementById('meetLinkDisplay');
+                const taskMeetLink = document.getElementById('taskMeetLink');
+
+                if (meetLinkResult) meetLinkResult.style.display = 'block';
+                if (meetLinkDisplay) meetLinkDisplay.value = result.meet_link;
+                if (taskMeetLink) taskMeetLink.value = result.meet_link;
+
+                return result.meet_link;
+            } else {
+                showToast(result.error || 'Failed to generate Meet link', 'error');
+                return null;
+            }
+        } catch (err) {
+            console.error('Generate Meet error:', err);
+            showToast('Error generating Meet link', 'error');
+            return null;
+        }
+    },
+
+    /**
      * Task 저장
      */
     async save() {
         const taskId = document.getElementById('taskId').value;
+        const taskType = document.getElementById('taskType')?.value || 'dev';
+        const generateMeet = document.getElementById('generateMeet')?.checked;
+        const existingMeetLink = document.getElementById('taskMeetLink')?.value;
+
+        // For meeting tasks, generate Meet link if requested
+        let meetLink = existingMeetLink;
+        if (taskType === 'meeting' && generateMeet && !existingMeetLink) {
+            meetLink = await this.generateMeetLink();
+            if (!meetLink) {
+                // Failed to generate, but user can still save without link
+                const proceed = confirm('Failed to generate Meet link. Save task without link?');
+                if (!proceed) return;
+            }
+        }
+
         const taskData = {
             entity_name: document.getElementById('taskName').value.trim(),
             project_id: document.getElementById('taskProject').value,
@@ -107,6 +328,13 @@ const TaskModal = {
             start_date: document.getElementById('taskStartDate').value || null,
             due: document.getElementById('taskDue').value || null
         };
+
+        // Add meeting link to links array if present
+        if (meetLink) {
+            taskData.links = [
+                { label: 'Google Meet', url: meetLink }
+            ];
+        }
 
         // Validation
         if (!taskData.entity_name) {

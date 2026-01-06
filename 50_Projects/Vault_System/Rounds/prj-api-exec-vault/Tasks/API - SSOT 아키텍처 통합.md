@@ -163,7 +163,31 @@ from shared.auth.middleware import AuthMiddleware
 
 ### 작업 로그
 
-**2026-01-06**:
+#### 2026-01-06 14:30
+**개요**: public/shared/ 모듈을 생성하여 public/api와 exec/api에서 공통으로 사용할 수 있는 인증, 유틸리티, 모델 코드를 분리했습니다. OAuth scope 기반 접근 제어를 구현하여 mcp:exec, kpi:read scope로 권한을 관리합니다.
+
+**변경사항**:
+- 개발: public/shared/ 모듈 (9개 파일, 791줄)
+- 개발: OAuth scope 정의 (mcp:read, mcp:exec, kpi:read)
+- 수정: exec/api/main.py에 shared 모듈 import 연동
+
+**파일 변경**:
+- `public/shared/__init__.py` - 모듈 초기화
+- `public/shared/auth/middleware.py` - AuthMiddleware (ASGI, SSE 호환)
+- `public/shared/auth/oauth_verify.py` - JWT 검증, 접근 로깅
+- `public/shared/auth/scope_checker.py` - OAuth scope 기반 접근 제어
+- `public/shared/utils/vault_utils.py` - vault 경로, frontmatter 파싱
+- `public/shared/models/common.py` - HealthResponse, ErrorResponse
+
+**결과**: ✅ Import 테스트 통과 (shared.auth, shared.utils, shared.models 모두 정상)
+
+**다음 단계**:
+- [x] exec/api MCP mount 구현 (tsk-018-04)
+- [x] public/api import 경로 수정 (tsk-018-05)
+
+---
+
+**2026-01-06 (상세)**:
 - `public/shared/` 폴더 구조 생성:
   - `shared/__init__.py` - 모듈 초기화
   - `shared/auth/__init__.py` - 인증 모듈 초기화
