@@ -139,7 +139,7 @@ def init_google_oauth():
 # Endpoints
 # ============================================
 
-@router.get("/authorize", response_model=AuthorizeResponse)
+@router.get("/authorize")
 async def google_authorize(
     request: Request,
     redirect_after: Optional[str] = Query(None, description="URL to redirect after auth"),
@@ -147,13 +147,13 @@ async def google_authorize(
 ):
     """Start Google OAuth flow
 
-    Returns authorization URL to redirect user to.
+    Browser navigates here directly, so we redirect to Google OAuth.
 
     Args:
         redirect_after: Optional URL to redirect after successful auth
 
     Returns:
-        {authorization_url: "https://accounts.google.com/..."}
+        RedirectResponse to Google OAuth consent page
     """
     # Check if Google OAuth is configured
     config = get_google_config()
@@ -180,7 +180,8 @@ async def google_authorize(
 
         logger.info(f"Generated Google OAuth URL for user={user_id}")
 
-        return {"authorization_url": authorization_url}
+        # Browser direct navigation - redirect to Google OAuth
+        return RedirectResponse(url=authorization_url, status_code=302)
 
     except Exception as e:
         logger.error(f"Failed to create authorization URL: {e}")
