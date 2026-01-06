@@ -4,6 +4,7 @@ entity_id: "tsk-content-os-13"
 entity_name: "ContentOS - Firebase 스키마 설계"
 created: 2026-01-06
 updated: 2026-01-06
+closed: 2026-01-06
 status: done
 
 # === 계층 ===
@@ -343,6 +344,17 @@ loop/main/
 
 **결과**: ✅ 코드 리뷰 통과, 배포 준비 완료
 
+---
+
+#### 2026-01-06 22:00
+**개요**: Task 완료 처리
+
+**결과**:
+- Task 상태: doing → done
+- closed 필드 추가: 2026-01-06
+- 모든 완료 조건 충족 확인
+
+**최종 상태**: done
 
 ---
 
