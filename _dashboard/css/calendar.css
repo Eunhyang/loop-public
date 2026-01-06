@@ -391,6 +391,23 @@
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
+/* 확장 토글 버튼 스타일 (tsk-dashboard-ux-v1-33) */
+.fc .fc-expandToggle-button {
+    background-color: var(--bg-secondary, #f3f4f6) !important;
+    border: 1px solid var(--border-color, #e5e7eb) !important;
+    color: var(--text-primary, #374151) !important;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.fc .fc-expandToggle-button:hover {
+    background-color: var(--bg-hover, #e5e7eb) !important;
+}
+
+.fc .fc-expandToggle-button:active {
+    background-color: var(--border-color, #d1d5db) !important;
+}
+
 /* Day Grid */
 .fc .fc-daygrid-day {
     min-height: 100px;
@@ -515,6 +532,21 @@
 
     .fc .fc-button:hover {
         background-color: var(--bg-hover-dark, #4b5563);
+    }
+
+    /* 확장 토글 버튼 다크 모드 (tsk-dashboard-ux-v1-33) */
+    .fc .fc-expandToggle-button {
+        background-color: var(--bg-secondary-dark, #374151) !important;
+        border-color: var(--border-color-dark, #4b5563) !important;
+        color: var(--text-primary-dark, #f9fafb) !important;
+    }
+
+    .fc .fc-expandToggle-button:hover {
+        background-color: var(--bg-hover-dark, #4b5563) !important;
+    }
+
+    .fc .fc-expandToggle-button:active {
+        background-color: var(--border-color-dark, #6b7280) !important;
     }
 
     .fc .fc-daygrid-day-number {

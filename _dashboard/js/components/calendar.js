@@ -40,6 +40,11 @@ const Calendar = {
     // localStorage 키
     STORAGE_KEY: 'loop_calendar_enabled_gcal',
     COLLAPSED_ACCOUNTS_KEY: 'loop_calendar_collapsed_accounts',
+    EXPAND_MODE_KEY: 'loop_calendar_expand_mode',
+
+    // 월뷰 확장 모드 상태 (tsk-dashboard-ux-v1-33)
+    // false = +more 모드 (축소), true = 모든 태스크 표시 (확장)
+    expandedMode: false,
 
     /**
      * 프로젝트/태스크의 트랙 기반 색상 반환
@@ -81,16 +86,29 @@ const Calendar = {
         // localStorage에서 접힌 계정 목록 로드 (tsk-dashboard-ux-v1-28)
         this.loadCollapsedAccounts();
 
+        // localStorage에서 확장 모드 설정 로드 (tsk-dashboard-ux-v1-33)
+        this.loadExpandMode();
+
         // Google 캘린더 목록 로드 (비동기)
         this.loadGoogleCalendars();
+
+        // expandedMode에 따른 초기 dayMaxEvents 값 결정
+        const initialDayMaxEvents = this.expandedMode ? false : true;
 
         this.instance = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             locale: 'ko',
+            // 커스텀 버튼 정의 (tsk-dashboard-ux-v1-33)
+            customButtons: {
+                expandToggle: {
+                    text: this.expandedMode ? '+more' : '모두 표시',
+                    click: () => this.toggleExpandMode()
+                }
+            },
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek'
+                right: 'expandToggle dayGridMonth,timeGridWeek'
             },
             buttonText: {
                 today: '오늘',
@@ -108,7 +126,7 @@ const Calendar = {
             eventDrop: (info) => this.onEventDrop(info),
             eventResize: (info) => this.onEventResize(info),
             height: 'auto',
-            dayMaxEvents: true,  // 월간뷰: 셀 높이에 맞춰 자동 조절
+            dayMaxEvents: initialDayMaxEvents,  // 월간뷰: expandedMode에 따라 설정 (tsk-dashboard-ux-v1-33)
             eventDisplay: 'block',
             // 뷰별 설정 (tsk-dashboard-ux-v1-32: 주간뷰 모든 태스크 표시)
             views: {
@@ -125,6 +143,9 @@ const Calendar = {
 
         this.instance.render();
         this.initialized = true;
+
+        // 초기 렌더링 후 버튼 텍스트 동기화 (tsk-dashboard-ux-v1-33)
+        this.updateExpandButtonText();
 
         // 컨텍스트 메뉴 생성
         this.createContextMenu();
@@ -143,6 +164,77 @@ const Calendar = {
         // 현재 보고 있는 날짜 범위로 Google 이벤트 로드
         if (this.enabledCalendars.size > 0) {
             this.loadGoogleEvents(info.startStr, info.endStr);
+        }
+
+        // 뷰 변경 시 dayMaxEvents 상태 동기화 (tsk-dashboard-ux-v1-33)
+        // Codex 피드백: 주간뷰에서 토글 후 월간뷰로 돌아올 때 상태 적용 필요
+        if (this.instance) {
+            const currentView = this.instance.view.type;
+            if (currentView === 'dayGridMonth') {
+                // 월간뷰로 전환 시 expandedMode에 따라 dayMaxEvents 재적용
+                this.instance.setOption('dayMaxEvents', this.expandedMode ? false : true);
+            }
+            // 버튼 텍스트도 동기화
+            this.updateExpandButtonText();
+        }
+    },
+
+    /**
+     * localStorage에서 확장 모드 설정 로드 (tsk-dashboard-ux-v1-33)
+     */
+    loadExpandMode() {
+        try {
+            const saved = localStorage.getItem(this.EXPAND_MODE_KEY);
+            this.expandedMode = saved === 'true';
+        } catch (e) {
+            console.warn('Failed to load expand mode from localStorage:', e);
+            this.expandedMode = false;
+        }
+    },
+
+    /**
+     * localStorage에 확장 모드 설정 저장 (tsk-dashboard-ux-v1-33)
+     */
+    saveExpandMode() {
+        try {
+            localStorage.setItem(this.EXPAND_MODE_KEY, String(this.expandedMode));
+        } catch (e) {
+            console.warn('Failed to save expand mode to localStorage:', e);
+        }
+    },
+
+    /**
+     * 확장 모드 토글 (tsk-dashboard-ux-v1-33)
+     * +more 모드 ↔ 모든 태스크 표시 모드 전환
+     */
+    toggleExpandMode() {
+        this.expandedMode = !this.expandedMode;
+        this.saveExpandMode();
+
+        if (this.instance) {
+            // 월간뷰에서만 dayMaxEvents 변경 (주간뷰는 항상 false)
+            const currentView = this.instance.view.type;
+            if (currentView === 'dayGridMonth') {
+                // expandedMode=true이면 dayMaxEvents=false (모든 태스크 표시)
+                // expandedMode=false이면 dayMaxEvents=true (+more 모드)
+                this.instance.setOption('dayMaxEvents', this.expandedMode ? false : true);
+            }
+
+            // 버튼 텍스트 업데이트
+            this.updateExpandButtonText();
+        }
+    },
+
+    /**
+     * 확장 토글 버튼 텍스트 업데이트 (tsk-dashboard-ux-v1-33)
+     * Codex 피드백: DOM 직접 업데이트로 버튼 텍스트 동기화
+     */
+    updateExpandButtonText() {
+        const button = document.querySelector('.fc-expandToggle-button');
+        if (button) {
+            // expandedMode=true이면 현재 모든 태스크 표시 중 → "+more"로 전환 가능
+            // expandedMode=false이면 현재 +more 모드 → "모두 표시"로 전환 가능
+            button.textContent = this.expandedMode ? '+more' : '모두 표시';
         }
     },
 

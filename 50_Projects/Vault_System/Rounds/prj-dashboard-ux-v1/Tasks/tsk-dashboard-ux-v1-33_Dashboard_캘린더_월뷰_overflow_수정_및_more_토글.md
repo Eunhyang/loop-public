@@ -83,12 +83,40 @@ dayMaxEvents: true,  // 월간뷰: 셀 높이에 맞춰 자동 조절
    - overflow 처리
 
 ### Todo
-- [ ] Calendar.expandedMode 상태 변수 추가
-- [ ] localStorage 저장/로드 함수 추가
-- [ ] headerToolbar에 커스텀 버튼 추가
-- [ ] 토글 함수 구현 (setOption으로 dayMaxEvents 변경)
-- [ ] CSS 조정 (확장 모드 높이 처리)
+- [x] Calendar.expandedMode 상태 변수 추가
+- [x] localStorage 저장/로드 함수 추가 (loadExpandMode, saveExpandMode)
+- [x] headerToolbar에 커스텀 버튼 추가 (customButtons.expandToggle)
+- [x] 토글 함수 구현 (toggleExpandMode - setOption으로 dayMaxEvents 변경)
+- [x] updateExpandButtonText() 함수로 DOM 버튼 텍스트 동기화
+- [x] onDatesSet()에서 뷰 변경 시 dayMaxEvents 상태 재적용 (Codex 피드백 반영)
+- [x] CSS 조정 (확장 토글 버튼 스타일 + 다크 모드)
 - [ ] 빌드 확인 (브라우저 테스트)
+
+### 구현 완료 내용
+
+#### calendar.js 변경사항
+1. **상태 변수**: `expandedMode`, `EXPAND_MODE_KEY` 추가
+2. **함수 추가**:
+   - `loadExpandMode()`: localStorage에서 설정 로드
+   - `saveExpandMode()`: localStorage에 설정 저장
+   - `toggleExpandMode()`: 모드 토글 + dayMaxEvents 변경
+   - `updateExpandButtonText()`: 버튼 텍스트 DOM 업데이트
+3. **init() 수정**:
+   - loadExpandMode() 호출
+   - customButtons.expandToggle 정의
+   - headerToolbar에 버튼 추가
+   - 초기 렌더링 후 버튼 텍스트 동기화
+4. **onDatesSet() 수정**:
+   - 뷰 변경 시 dayMaxEvents 상태 재적용 (Codex 피드백)
+   - 버튼 텍스트 동기화
+
+#### calendar.css 변경사항
+1. `.fc-expandToggle-button` 스타일 추가 (hover, active 포함)
+2. 다크 모드 지원 추가
+
+### Codex 리뷰 피드백 반영
+- **버그 수정**: 주간뷰에서 토글 후 월간뷰로 돌아올 때 dayMaxEvents 상태가 적용되지 않던 문제
+- **해결**: onDatesSet()에서 월간뷰 전환 시 expandedMode에 따라 dayMaxEvents 재적용
 
 ---
 
