@@ -4,7 +4,8 @@ entity_id: "tsk-018-06"
 entity_name: "API - Members SSOT 통합"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-api-exec-vault"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # API - Members SSOT 통합
 
-> Task ID: `tsk-018-06` | Project: `prj-api-exec-vault` | Status: doing
+> Task ID: `tsk-018-06` | Project: `prj-api-exec-vault` | Status: done
 
 ## 목표
 
@@ -79,11 +80,11 @@ priority_flag: high
 
 ## 체크리스트
 
-- [ ] VaultCache._load_members() 구현
-- [ ] Team_Roster.md 테이블 파싱 로직
-- [ ] /api/members scope 기반 응답 분기
-- [ ] 레거시 코드 정리
-- [ ] 테스트
+- [x] VaultCache._load_members() 구현
+- [x] exec/40_People/members.yaml SSOT 생성
+- [x] /api/members scope 기반 응답 분기
+- [x] 레거시 코드 정리 (public/00_Meta/members.yaml 삭제)
+- [x] 테스트 완료
 
 ---
 
@@ -95,6 +96,36 @@ priority_flag: high
 
 ### 작업 로그
 
+**2026-01-06** - tsk-018-06 완료
+
+**변경 사항:**
+
+1. **SSOT 단일화**: `exec/40_People/members.yaml` 생성
+   - 기존 2개 소스 (public members.yaml + exec Team_Roster.md) → 1개로 통합
+   - 7명 멤버 정보 (Core Team 2, Former 1, Advisors 2, Placeholders 2)
+   - 기본 정보 + 민감 정보 (salary, contract_type, start_date, note) 통합 관리
+
+2. **VaultCache 수정** (`api/cache/vault_cache.py`)
+   - `_load_members()`: exec vault에서만 로드
+   - `get_all_members(include_sensitive)`: scope 기반 필터링
+   - `get_member()`: aliases 지원 추가
+
+3. **API 수정** (`api/main.py`)
+   - `/api/members`: `include_sensitive` 파라미터로 변경
+   - mcp:read → 기본 정보 (6개 필드)
+   - mcp:exec → 전체 정보 (10개 필드)
+
+4. **validate_schema.py 수정**
+   - `_load_valid_assignees()`: exec vault 경로로 변경
+   - 13개 유효 assignee (7 id + 6 aliases)
+
+5. **레거시 삭제**
+   - `public/00_Meta/members.yaml` 삭제
+
+**테스트 결과:**
+- 7명 멤버 로드 확인
+- scope 기반 민감 필드 필터링 정상
+- validate_schema.py assignee 검증 정상
 
 ---
 

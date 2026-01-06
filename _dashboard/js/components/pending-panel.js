@@ -56,12 +56,15 @@ const PendingPanel = {
         },
         assignee: {
             type: 'single',
-            options: [
-                { value: '김은향', label: '김은향 (Founder)' },
-                { value: '한명학', label: '한명학 (Member)' },
-                { value: '외주', label: '외주 (External)' },
-                { value: '미정', label: '미정 (Unassigned)' }
-            ],
+            loadOptions: async () => {
+                const data = await API.getMembers();
+                return Object.values(data.members)
+                    .filter(m => m.active !== false)  // 비활성 멤버 제외
+                    .map(m => ({
+                        value: m.id,
+                        label: `${m.name} (${m.role})`
+                    }));
+            },
             entityPreviewable: false
         },
         priority: {
