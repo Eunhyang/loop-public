@@ -1027,6 +1027,10 @@ const PendingPanel = {
         const runIdBadge = review.run_id
             ? `<span class="review-runid-badge" title="Run ID: ${this.escapeHtml(review.run_id)}">${this.escapeHtml(review.run_id.length > 16 ? review.run_id.substring(0, 16) + '...' : review.run_id)}</span>`
             : '';
+        // tsk-n8n-22: AUTO-SYNTH 뱃지 (Retro Synth에서 생성된 Evidence)
+        const autoSynthBadge = review.source_workflow === 'retro-synth'
+            ? `<span class="review-autosynth-badge" title="Auto-synthesized from attachments">AUTO-SYNTH</span>`
+            : '';
 
         return `
             <div class="pending-review-card ${statusClass}"

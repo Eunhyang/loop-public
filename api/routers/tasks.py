@@ -150,6 +150,9 @@ async def create_task(task: TaskCreate):
         "tags": task.tags if task.tags else [],
     }
 
+    if task.type:
+        frontmatter["type"] = task.type
+
     if task.notes:
         frontmatter["notes"] = task.notes
 
@@ -277,6 +280,9 @@ def update_task(task_id: str, task: TaskUpdate):
         # 외부 링크
         if task.links is not None:
             frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in task.links]
+        # Task 타입
+        if task.type is not None:
+            frontmatter['type'] = task.type
 
         frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
     except Exception as e:

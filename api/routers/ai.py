@@ -331,11 +331,15 @@ def create_pending_review(
     reasoning: Dict[str, str],
     run_id: str,
     actor: str,
-    source_workflow: Optional[str] = None  # tsk-n8n-18: n8n 워크플로우 이름
+    source_workflow: Optional[str] = None,  # tsk-n8n-18: n8n 워크플로우 이름
+    audit_log_path: Optional[str] = None  # tsk-n8n-22: Retro Synth audit log 경로
 ) -> Dict[str, Any]:
     """
     pending_reviews.json에 저장 (기존 pending.py 헬퍼 재사용)
     + decision_log에 pending_created 기록
+
+    Args:
+        audit_log_path: tsk-n8n-22 Retro Synth에서 생성된 audit log 경로 (첨부파일)
 
     Returns:
         생성된 review 정보
@@ -363,7 +367,8 @@ def create_pending_review(
         "source": "ai_infer",
         "run_id": run_id,
         "actor": actor,
-        "source_workflow": source_workflow  # tsk-n8n-18
+        "source_workflow": source_workflow,  # tsk-n8n-18
+        "audit_log_path": audit_log_path  # tsk-n8n-22: Retro Synth
     }
 
     if existing_idx is not None:
@@ -1259,7 +1264,8 @@ async def infer_evidence(request: InferEvidenceRequest):
             reasoning=reasoning,
             run_id=run_id,
             actor=request.actor,
-            source_workflow=request.source_workflow  # tsk-n8n-18
+            source_workflow=request.source_workflow,  # tsk-n8n-18
+            audit_log_path=request.synth_audit_log_path  # tsk-n8n-22: Retro Synth
         )
 
         pending_info = {
