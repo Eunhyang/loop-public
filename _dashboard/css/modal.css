@@ -204,6 +204,19 @@
     border-radius: 8px;
 }
 
+/* Modal 내 버튼 스타일 오버라이드 (tsk-019-02) */
+.modal .btn-primary,
+.meeting-options .btn-primary {
+    background: #667eea;
+    color: white;
+    border: none;
+}
+
+.modal .btn-primary:hover,
+.meeting-options .btn-primary:hover {
+    background: #4c5fd5;
+}
+
 .meeting-options .form-group {
     margin-bottom: 12px;
 }

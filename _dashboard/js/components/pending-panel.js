@@ -1045,9 +1045,9 @@ const PendingPanel = {
                 </div>
                 <div class="review-card-title">${this.escapeHtml(review.entity_name)}</div>
                 <div class="review-card-id">${this.escapeHtml(review.entity_id)}</div>
-                <!-- tsk-n8n-18: Workflow/Run badges -->
+                <!-- tsk-n8n-18: Workflow/Run badges, tsk-n8n-22: AUTO-SYNTH badge -->
                 <div class="review-card-source">
-                    ${workflowBadge}${runIdBadge}
+                    ${autoSynthBadge}${workflowBadge}${runIdBadge}
                 </div>
                 <div class="review-card-fields">
                     ${fieldTypes.map(field => {
@@ -1152,6 +1152,18 @@ const PendingPanel = {
                 </div>
             </div>
             <div class="detail-pane-footer">
+                ${review.audit_log_path ? `
+                    <button class="btn btn-secondary btn-audit-log" id="btnViewAuditLog" aria-label="View audit log" title="View Retro Synth audit log">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        Audit Log
+                    </button>
+                ` : ''}
                 ${review.status === 'pending' ? `
                     <button class="btn btn-secondary" id="btnRejectReview" aria-label="Reject this review">Reject</button>
                     <button class="btn btn-secondary btn-refresh" id="btnRefreshReview" aria-label="Refresh suggestion" title="Re-run LLM inference for new suggestion">
@@ -1175,6 +1187,10 @@ const PendingPanel = {
             document.getElementById('btnRefreshReview')?.addEventListener('click', () => this.refreshReview());
         } else {
             document.getElementById('btnDeleteReview')?.addEventListener('click', () => this.deleteReview());
+        }
+        // tsk-n8n-22: Audit Log button
+        if (review.audit_log_path) {
+            document.getElementById('btnViewAuditLog')?.addEventListener('click', () => this.viewAuditLog(review));
         }
 
         // Setup entity ID click handlers
@@ -1924,5 +1940,100 @@ const PendingPanel = {
             badge.textContent = count;
             badge.style.display = count > 0 ? 'inline-flex' : 'none';
         }
+    },
+
+    // ============================================
+    // tsk-n8n-22: Audit Log Viewer
+    // ============================================
+
+    /**
+     * View Retro Synth audit log
+     * Fetches the audit log file from task attachments and displays in modal
+     */
+    async viewAuditLog(review) {
+        if (!review.audit_log_path) {
+            showToast('No audit log available', 'warning');
+            return;
+        }
+
+        try {
+            // Parse path: _attachments/{task_id}/{filename}
+            const pathMatch = review.audit_log_path.match(/_attachments\/([^\/]+)\/(.+)/);
+            if (!pathMatch) {
+                showToast('Invalid audit log path format', 'error');
+                return;
+            }
+
+            const [, taskId, filename] = pathMatch;
+
+            // Fetch attachment content
+            const response = await fetch(
+                `${API.baseUrl}/api/tasks/${taskId}/attachments/${encodeURIComponent(filename)}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${API.token}`
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch audit log: ${response.status}`);
+            }
+
+            const markdown = await response.text();
+
+            // Show modal with markdown content
+            this.showAuditLogModal(filename, markdown);
+
+        } catch (e) {
+            console.error('Failed to load audit log:', e);
+            showToast('Failed to load audit log: ' + e.message, 'error');
+        }
+    },
+
+    /**
+     * Show audit log modal
+     */
+    showAuditLogModal(filename, content) {
+        // Remove existing modal if any
+        const existing = document.getElementById('auditLogModal');
+        if (existing) existing.remove();
+
+        // Create modal
+        const modal = document.createElement('div');
+        modal.id = 'auditLogModal';
+        modal.className = 'audit-log-modal';
+        modal.innerHTML = `
+            <div class="audit-log-modal-backdrop" onclick="PendingPanel.closeAuditLogModal()"></div>
+            <div class="audit-log-modal-content">
+                <div class="audit-log-modal-header">
+                    <h3>Retro Synth Audit Log</h3>
+                    <span class="audit-log-filename">${this.escapeHtml(filename)}</span>
+                    <button class="audit-log-modal-close" onclick="PendingPanel.closeAuditLogModal()">&times;</button>
+                </div>
+                <div class="audit-log-modal-body">
+                    <pre class="audit-log-content">${this.escapeHtml(content)}</pre>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Add escape key handler
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                this.closeAuditLogModal();
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        document.addEventListener('keydown', escHandler);
+    },
+
+    /**
+     * Close audit log modal
+     */
+    closeAuditLogModal() {
+        const modal = document.getElementById('auditLogModal');
+        if (modal) modal.remove();
     }
 };

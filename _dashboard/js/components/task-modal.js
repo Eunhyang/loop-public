@@ -9,6 +9,18 @@ const TaskModal = {
     googleAccounts: [],
 
     /**
+     * Escape HTML to prevent XSS attacks
+     * @param {string} text - Text to escape
+     * @returns {string} Escaped text
+     */
+    escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    },
+
+    /**
      * Select 옵션들 채우기
      */
     populateSelects() {
@@ -104,7 +116,7 @@ const TaskModal = {
                 selectEl.innerHTML = '<option value="">No connected accounts</option>';
             } else {
                 selectEl.innerHTML = this.googleAccounts.map((acc, index) =>
-                    `<option value="${acc.id}" ${index === 0 ? 'selected' : ''}>${acc.google_email} (${acc.label})</option>`
+                    `<option value="${acc.id}" ${index === 0 ? 'selected' : ''}>${this.escapeHtml(acc.google_email)} (${this.escapeHtml(acc.label)})</option>`
                 ).join('');
             }
         } catch (err) {

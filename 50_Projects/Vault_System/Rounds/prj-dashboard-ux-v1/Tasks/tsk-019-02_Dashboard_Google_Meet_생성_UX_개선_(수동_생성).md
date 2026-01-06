@@ -216,6 +216,19 @@ Google Meet 링크 생성
 
 **최종 상태**: done
 
+#### 2026-01-06 (보안 패치)
+**개요**: XSS 취약점 수정
+
+**수정된 파일:**
+- `_dashboard/js/components/task-modal.js`
+
+**변경 사항:**
+1. `escapeHtml()` 헬퍼 함수 추가 - XSS 방지를 위한 HTML 이스케이프
+2. `loadGoogleAccounts()`: `acc.google_email`, `acc.label` 렌더링 시 `escapeHtml()` 적용
+
+**보안 개선**:
+- Google 계정 이메일/라벨 렌더링 시 XSS 공격 방지
+
 ---
 
 ## 참고 문서
