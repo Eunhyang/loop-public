@@ -4,7 +4,8 @@ entity_id: tsk-n8n-21
 entity_name: Pending Review - 새로고침 기능 (개별 엔티티 재추론 API 및 Dashboard UI)
 created: 2026-01-06
 updated: '2026-01-06'
-status: doing
+closed: '2026-01-06'
+status: done
 project_id: prj-n8n
 parent_project: prj-n8n
 assignee: 김은향
@@ -24,7 +25,7 @@ tags:
 
 # Pending Review - 새로고침 기능 (개별 엔티티 재추론 API 및 Dashboard UI)
 
-> Task ID: `tsk-n8n-21` | Project: `prj-n8n` | Status: doing
+> Task ID: `tsk-n8n-21` | Project: `prj-n8n` | Status: done
 
 ---
 
@@ -141,6 +142,30 @@ class RefreshResponse(BaseModel):
 - entity_type이 Evidence인 경우 entity_id가 project_id임 (evidence는 approve 시 생성)
 - refresh 후에도 pending 상태 유지 (approve/reject는 별도)
 - run_id를 새로 생성하여 audit log에 기록
+
+---
+
+### 작업 로그
+
+#### 2026-01-06 완료
+**개요**: Pending Review 새로고침 기능 구현 완료. 사용자가 suggested_fields가 마음에 안 들 때 개별 엔티티에 대해 LLM 추론을 재실행할 수 있는 기능을 API와 Dashboard UI에 추가.
+
+**변경사항**:
+- 개발: `POST /api/pending/{review_id}/refresh` 엔드포인트 구현
+- 개발: source_workflow별 재추론 API 매핑 로직 구현
+- 개발: pending review 갱신 로직 (suggested_fields, reasoning, updated_at)
+- 개발: Dashboard API.refreshPendingReview 메서드 추가
+- 개발: PendingPanel.refreshReview 메서드 구현
+- 개발: Refresh 버튼 UI 추가 (상세 패널 헤더)
+- 개발: 로딩 상태 및 에러 처리 구현
+
+**파일 변경**:
+- `api/routers/pending.py` - refresh 엔드포인트 및 워크플로우 매핑 로직
+- `_dashboard/js/api.js` - refreshPendingReview API 메서드
+- `_dashboard/js/components/pending-panel.js` - refreshReview 핸들러 및 Refresh 버튼 UI
+- `_dashboard/css/panel.css` - Refresh 버튼 스타일
+
+**결과**: Task 완료 (status: doing -> done)
 
 ---
 

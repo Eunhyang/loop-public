@@ -4,7 +4,8 @@ entity_id: tsk-n8n-20
 entity_name: "Dashboard - Pending Panel Entity Preview UX 개선"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+closed: 2026-01-06
+status: done
 
 # === 계층 ===
 parent_id: prj-n8n
@@ -41,7 +42,7 @@ priority_flag: high
 
 # Dashboard - Pending Panel Entity Preview UX 개선
 
-> Task ID: `tsk-n8n-20` | Project: `prj-n8n` | Status: doing
+> Task ID: `tsk-n8n-20` | Project: `prj-n8n` | Status: done
 
 ## 목표
 
@@ -82,8 +83,8 @@ tsk-n8n-10에서 3단 레이아웃 구현, tsk-n8n-13에서 필드 선택 UX 개
 - [x] 마크다운 렌더링 적용 (renderMarkdown() 메서드 추가)
 - [x] CSS: .pending-entity-pane 너비 확장 (350px -> 450px)
 - [x] CSS: 반응형 미디어 쿼리 추가 (1400px, 1200px)
-- [ ] 로컬 테스트
-- [ ] NAS 배포
+- [x] 로컬 테스트
+- [x] NAS 배포
 
 ---
 
@@ -214,16 +215,29 @@ renderMarkdown(text) {
 
 ### Todo
 
-1. [ ] PendingPanel에 renderMarkdown() 메서드 추가
-2. [ ] renderTaskPreview() 수정 - Notes 섹션 추가
-3. [ ] renderProjectPreview() 수정 - Notes 섹션 추가
-4. [ ] panel.css: .pending-entity-pane 너비 확장
-5. [ ] 로컬 테스트 (Task/Project Notes 렌더링 확인)
-6. [ ] NAS 배포
+1. [x] PendingPanel에 renderMarkdown() 메서드 추가
+2. [x] renderTaskPreview() 수정 - Notes 섹션 추가
+3. [x] renderProjectPreview() 수정 - Notes 섹션 추가
+4. [x] panel.css: .pending-entity-pane 너비 확장
+5. [x] 로컬 테스트 (Task/Project Notes 렌더링 확인)
+6. [x] NAS 배포
 
 ### 작업 로그
 
-#### 2026-01-06
+#### 2026-01-06 (완료)
+**개요**: Task 완료 처리 - Pending Panel Entity Preview UX 개선 완료
+
+**결과**:
+- 모든 기능 구현 완료
+- Notes/body 마크다운 렌더링 정상 작동
+- 패널 너비 확장 적용 완료
+- 반응형 미디어 쿼리 적용 완료
+
+**최종 상태**: done
+
+---
+
+#### 2026-01-06 (구현)
 **개요**: Pending Panel Entity Preview에서 Notes 마크다운 렌더링 추가 및 패널 너비 확장
 
 **변경사항**:
@@ -247,7 +261,7 @@ renderMarkdown(text) {
 }
 ```
 
-**결과**: 코드 구현 완료, 로컬 테스트 대기 중
+**결과**: 코드 구현 완료
 
 ---
 
