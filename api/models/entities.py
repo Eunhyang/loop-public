@@ -4,7 +4,7 @@ Pydantic Models for LOOP Entities
 Task/Project 생성 및 수정을 위한 데이터 모델
 """
 
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -103,6 +103,7 @@ class TaskResponse(BaseModel):
     file_path: Optional[str] = None
     message: str
     validation: Optional[ValidationResult] = Field(default=None, description="auto_validate=True 시 검증 결과")
+    task: Optional[Dict[str, Any]] = Field(default=None, description="tsk-dashboard-ux-v1-31: 업데이트된 Task 정보 반환")
 
 
 class ProjectResponse(BaseModel):

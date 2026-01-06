@@ -108,8 +108,14 @@ const Calendar = {
             eventDrop: (info) => this.onEventDrop(info),
             eventResize: (info) => this.onEventResize(info),
             height: 'auto',
-            dayMaxEvents: 3,
+            dayMaxEvents: true,  // 월간뷰: 셀 높이에 맞춰 자동 조절
             eventDisplay: 'block',
+            // 뷰별 설정 (tsk-dashboard-ux-v1-32: 주간뷰 모든 태스크 표시)
+            views: {
+                timeGridWeek: {
+                    dayMaxEvents: false  // 주간뷰: 제한 없음, 모든 태스크 표시
+                }
+            },
             eventTimeFormat: {
                 hour: '2-digit',
                 minute: '2-digit',

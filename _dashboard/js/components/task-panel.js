@@ -138,13 +138,23 @@ const TaskPanel = {
         const taskId = this.currentTask.entity_id;
 
         try {
+            // tsk-dashboard-ux-v1-31: Debug logging
+            console.log('[updateTaskType] Sending:', { taskId, type: newType });
+
             const result = await API.updateTask(taskId, { type: newType });
 
+            // tsk-dashboard-ux-v1-31: Log full response
+            console.log('[updateTaskType] Response:', result);
+
             if (result.success) {
+                // tsk-dashboard-ux-v1-31: API 응답에서 task.type 확인
+                const savedType = result.task?.type || newType;
+                console.log('[updateTaskType] Saved type from response:', savedType);
+
                 // 성공 시 currentTask 업데이트
-                this.currentTask.type = newType;
-                this.renderTypeChips(newType);
-                showToast(`Type changed to ${newType}`, 'success');
+                this.currentTask.type = savedType;
+                this.renderTypeChips(savedType);
+                showToast(`Type changed to ${savedType}`, 'success');
 
                 // State 갱신
                 await State.reloadTasks();

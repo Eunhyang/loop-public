@@ -75,25 +75,38 @@ Task Detail에서 타입 칩(dev, bug, strategy 등)을 클릭하면:
 
 ## 체크리스트
 
-- [ ] api/routers/tasks.py - update_task에서 type 필드 저장 확인
-- [ ] api/cache/vault_cache.py - type 필드 파싱/반환 확인
-- [ ] _dashboard/js/components/task-detail.js - type 저장 로직 확인
-- [ ] 테스트: 타입 변경 후 새로고침하여 유지 확인
+- [x] api/routers/tasks.py - update_task에서 type 필드 저장 확인
+- [x] api/cache/vault_cache.py - type 필드 파싱/반환 확인
+- [x] _dashboard/js/components/task-panel.js - type 저장 로직 확인
+- [ ] 테스트: NAS 서버에서 타입 변경 후 새로고침하여 유지 확인
 
 ---
 
 ## Notes
 
 ### Todo
-- [ ] API 엔드포인트 분석
-- [ ] 파일 저장 로직 디버깅
-- [ ] Cache 로직 확인
-- [ ] Dashboard JS 확인
+- [x] API 엔드포인트 분석
+- [x] 파일 저장 로직 디버깅 (로깅 추가)
+- [x] Cache 로직 확인
+- [x] Dashboard JS 확인
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+**2026-01-06 (tsk-dashboard-ux-v1-31)**
+
+수정된 파일:
+1. `api/routers/tasks.py` - 디버그 로깅 추가, 응답에 task 필드 포함
+2. `api/models/entities.py` - TaskResponse에 task 필드 추가
+3. `_dashboard/js/components/task-panel.js` - 클라이언트 로깅 추가
+
+변경 내용:
+- API에서 type 필드 처리 전후 로깅 추가
+- TaskResponse에 frontmatter 반환하여 저장된 값 확인 가능
+- Dashboard에서 API 응답의 task.type으로 UI 업데이트
+
+다음 단계:
+- NAS 서버에 배포 후 실제 테스트 필요
+- 로그를 통해 type 필드가 None으로 전달되는지 확인
 
 
 ---

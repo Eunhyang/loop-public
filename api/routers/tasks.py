@@ -218,7 +218,14 @@ async def create_task(task: TaskCreate):
 
 @router.put("/{task_id}", response_model=TaskResponse)
 def update_task(task_id: str, task: TaskUpdate):
-    """Task 수정"""
+    """Task 수정
+
+    tsk-dashboard-ux-v1-31: Added debug logging for type field
+    """
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"[update_task] task_id={task_id}, received type={task.type!r}")
+
     cache = get_cache()
 
     # 캐시에서 경로 조회
@@ -283,6 +290,9 @@ def update_task(task_id: str, task: TaskUpdate):
         # Task 타입
         if task.type is not None:
             frontmatter['type'] = task.type
+            logger.info(f"[update_task] task_id={task_id}, type added to frontmatter: {task.type!r}")
+        else:
+            logger.info(f"[update_task] task_id={task_id}, type is None, skipping frontmatter update")
 
         frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
     except Exception as e:
@@ -296,6 +306,7 @@ def update_task(task_id: str, task: TaskUpdate):
 
         with open(task_file, 'w', encoding='utf-8') as f:
             f.write(new_content)
+        logger.info(f"[update_task] task_id={task_id}, file written successfully, type in frontmatter: {frontmatter.get('type')!r}")
     except PermissionError as e:
         raise HTTPException(status_code=500, detail=f"Permission denied writing task file: {e}")
     except Exception as e:
@@ -318,10 +329,12 @@ def update_task(task_id: str, task: TaskUpdate):
         # 감사 로그 실패는 무시 (메인 로직에 영향 주지 않음)
         print(f"Warning: Failed to log task update: {e}")
 
+    # tsk-dashboard-ux-v1-31: 업데이트된 Task 정보도 반환
     return TaskResponse(
         success=True,
         task_id=task_id,
-        message="Task updated successfully"
+        message="Task updated successfully",
+        task=frontmatter
     )
 
 
