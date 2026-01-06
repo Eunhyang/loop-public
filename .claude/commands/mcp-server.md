@@ -75,7 +75,7 @@ source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
 /var/packages/ContainerManager/target/usr/bin/docker stop loop-api
 /var/packages/ContainerManager/target/usr/bin/docker rm loop-api
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:rw -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul -e OPENAI_API_KEY=\$OPENAI_API_KEY -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 --env-file /volume1/LOOP_CORE/vault/LOOP/.env -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:rw -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul loop-api:latest
 " 2>&1'
 ```
 
@@ -94,7 +94,7 @@ rm -f /volume1/LOOP_CORE/vault/LOOP/api/oauth/oauth.db
 /var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
 /var/packages/ContainerManager/target/usr/bin/docker stop loop-api 2>/dev/null || true
 /var/packages/ContainerManager/target/usr/bin/docker rm loop-api 2>/dev/null || true
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:rw -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul -e OPENAI_API_KEY=\$OPENAI_API_KEY -e ANTHROPIC_API_KEY=\$ANTHROPIC_API_KEY loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 --env-file /volume1/LOOP_CORE/vault/LOOP/.env -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:rw -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul loop-api:latest
 " 2>&1'
 ```
 

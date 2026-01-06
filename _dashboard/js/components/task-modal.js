@@ -103,8 +103,8 @@ const TaskModal = {
             if (this.googleAccounts.length === 0) {
                 selectEl.innerHTML = '<option value="">No connected accounts</option>';
             } else {
-                selectEl.innerHTML = this.googleAccounts.map(acc =>
-                    `<option value="${acc.id}">${acc.google_email} (${acc.label})</option>`
+                selectEl.innerHTML = this.googleAccounts.map((acc, index) =>
+                    `<option value="${acc.id}" ${index === 0 ? 'selected' : ''}>${acc.google_email} (${acc.label})</option>`
                 ).join('');
             }
         } catch (err) {
@@ -321,6 +321,7 @@ const TaskModal = {
         // Use existing Meet link if present (from manual generation)
         const meetLink = existingMeetLink;
 
+        const taskType = document.getElementById('taskType')?.value || 'dev';
         const taskData = {
             entity_name: document.getElementById('taskName').value.trim(),
             project_id: document.getElementById('taskProject').value,
@@ -328,7 +329,8 @@ const TaskModal = {
             priority: document.getElementById('taskPriority').value,
             status: document.getElementById('taskStatus').value,
             start_date: document.getElementById('taskStartDate').value || null,
-            due: document.getElementById('taskDue').value || null
+            due: document.getElementById('taskDue').value || null,
+            type: taskType
         };
 
         // Add meeting link to links array if present
