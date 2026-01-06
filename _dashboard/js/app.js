@@ -451,6 +451,11 @@ function setupEventListeners() {
                 setMemberFilter('all');
                 return;
             }
+            // Shift+C: Reload Cache
+            if (e.code === 'KeyC') {
+                document.getElementById('btnReloadCache')?.click();
+                return;
+            }
         }
     });
 

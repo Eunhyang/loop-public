@@ -90,6 +90,19 @@ const TaskPanel = {
         // Expand button
         document.getElementById('taskPanelExpand')?.addEventListener('click', () => this.toggleExpand());
 
+        // Keyboard shortcut: Shift+Cmd+F to toggle fullscreen
+        document.addEventListener('keydown', (e) => {
+            // Check if panel is active
+            const panel = document.getElementById('taskPanel');
+            if (!panel?.classList.contains('active')) return;
+
+            // Shift+Cmd+F (Mac) or Shift+Ctrl+F (Windows)
+            if (e.shiftKey && (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'f') {
+                e.preventDefault();
+                this.toggleExpand();
+            }
+        });
+
         // Notes toggle button
         document.getElementById('notesToggleBtn')?.addEventListener('click', () => this.toggleNotesEdit());
 
