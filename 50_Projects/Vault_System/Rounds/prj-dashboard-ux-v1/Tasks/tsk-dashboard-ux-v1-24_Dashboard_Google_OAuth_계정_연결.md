@@ -4,7 +4,7 @@ entity_id: "tsk-dashboard-ux-v1-24"
 entity_name: "Dashboard - Google OAuth 계정 연결"
 created: 2026-01-06
 updated: 2026-01-06
-status: todo
+status: doing
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -186,6 +186,58 @@ cryptography
 - [[prj-dashboard-ux-v1]] - 소속 Project
 - `public/api/oauth/` - 기존 OAuth 구현 참고
 - Google OAuth 2.0 문서: https://developers.google.com/identity/protocols/oauth2
+
+---
+
+## Implementation Log (2026-01-06)
+
+### 구현 완료 파일
+
+1. **api/models/google_accounts.py** (신규)
+   - `GoogleAccount` 모델: 암호화된 토큰 저장
+   - `GoogleOAuthState` 모델: CSRF 방지용 state 저장
+   - SQLite DB 초기화
+
+2. **api/services/google_oauth.py** (신규)
+   - AES-256-GCM 토큰 암호화/복호화
+   - PKCE 지원 OAuth 플로우
+   - 토큰 자동 갱신 로직
+   - Google API 토큰 revoke
+
+3. **api/routers/google_accounts.py** (신규)
+   - `GET /api/google/authorize` - OAuth 시작
+   - `GET /api/google/callback` - 콜백 처리
+   - `GET /api/google/accounts` - 계정 목록
+   - `DELETE /api/google/accounts/{id}` - 계정 삭제
+   - `PATCH /api/google/accounts/{id}` - 라벨 수정
+
+4. **api/main.py** (수정)
+   - google_accounts 라우터 등록
+   - `/api/google/callback` PUBLIC_PATHS 추가
+   - startup에서 init_google_oauth() 호출
+
+### 보안 조치
+
+- Open redirect 방지 (allowlist 기반 redirect_after 검증)
+- Multi-tenant 소유권 체크 (user_id 기반)
+- HTTP 요청 timeout (30초)
+- Encryption key 검증 (startup 시 경고)
+- CSRF 방지 (state + PKCE)
+
+### 필요 환경변수
+
+```bash
+GOOGLE_CLIENT_ID="xxx.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="xxx"
+GOOGLE_REDIRECT_URI="https://mcp.sosilab.synology.me/api/google/callback"
+TOKEN_ENCRYPTION_KEY="64-char-hex-or-44-char-base64"
+```
+
+### 다음 단계
+
+- Google Cloud Console에서 OAuth 클라이언트 생성
+- 환경변수 설정
+- Dashboard UI에 계정 연결 버튼 추가
 
 ---
 

@@ -37,7 +37,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config, google_accounts
 from .utils.vault_utils import load_members, get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -115,7 +115,9 @@ PUBLIC_PATHS = [
     "/", "/health", "/docs", "/openapi.json", "/redoc",
     # OAuth endpoints
     "/.well-known/oauth-authorization-server", "/.well-known/jwks.json",
-    "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout"
+    "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout",
+    # Google OAuth callback (receives redirect from Google)
+    "/api/google/callback"
 ]
 PUBLIC_PREFIXES = ["/css", "/js"]  # 정적 파일만 공개
 
@@ -315,6 +317,7 @@ app.include_router(build.router)  # tsk-n8n-12: Impact 빌드 API
 app.include_router(attachments.router)  # tsk-dashboard-ux-v1-18: Task 첨부파일 API
 app.include_router(youtube_weekly.router)  # tsk-vault-gpt-08: YouTube Weekly Round 자동 생성
 app.include_router(config.router)  # tsk-n8n-14: Impact Model Config SSOT
+app.include_router(google_accounts.router)  # tsk-dashboard-ux-v1-24: Google OAuth 계정 연결
 
 # OAuth 2.0 Router (키는 loop-auth와 공유됨)
 app.include_router(oauth_router)
@@ -559,4 +562,6 @@ def openapi_lite():
 async def startup_event():
     """Initialize OAuth module on startup (keys/DB stored in volume)"""
     init_oauth()
-    print("LOOP Dashboard API started with OAuth 2.0")
+    # Google OAuth initialization (tsk-dashboard-ux-v1-24)
+    google_accounts.init_google_oauth()
+    print("LOOP Dashboard API started with OAuth 2.0 + Google OAuth")

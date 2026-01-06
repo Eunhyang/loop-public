@@ -300,10 +300,18 @@ const API = {
     // ============================================
     // Pending Reviews (n8n 자동화)
     // ============================================
-    async getPendingReviews(status = null) {
-        const url = status
-            ? `${this.baseUrl}/api/pending?status=${encodeURIComponent(status)}`
+    async getPendingReviews(status = null, sourceWorkflow = null, runId = null) {
+        // tsk-n8n-18: 필터 파라미터 지원
+        const params = new URLSearchParams();
+        if (status) params.append('status', status);
+        if (sourceWorkflow) params.append('source_workflow', sourceWorkflow);
+        if (runId) params.append('run_id', runId);
+
+        const queryString = params.toString();
+        const url = queryString
+            ? `${this.baseUrl}/api/pending?${queryString}`
             : `${this.baseUrl}/api/pending`;
+
         const res = await this.authFetch(url);
         const data = await res.json();
         return data.reviews || [];
@@ -331,6 +339,29 @@ const API = {
     async deletePendingReview(reviewId) {
         const res = await this.authFetch(`${this.baseUrl}/api/pending/${encodeURIComponent(reviewId)}`, {
             method: 'DELETE'
+        });
+        return res.json();
+    },
+
+    /**
+     * 일괄 삭제 (tsk-n8n-18)
+     * @param {string|null} sourceWorkflow - 워크플로우 이름으로 필터
+     * @param {string|null} runId - run_id로 필터
+     * @param {string|null} status - pending, approved, rejected로 필터
+     * @param {string[]|null} ids - 명시적 ID 목록
+     * @returns {Promise<{deleted_count: number, deleted_ids: string[]}>}
+     */
+    async deletePendingBatch(sourceWorkflow = null, runId = null, status = null, ids = null) {
+        const body = {};
+        if (sourceWorkflow) body.source_workflow = sourceWorkflow;
+        if (runId) body.run_id = runId;
+        if (status) body.status = status;
+        if (ids && ids.length > 0) body.ids = ids;
+
+        const res = await this.authFetch(`${this.baseUrl}/api/pending/batch`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
         });
         return res.json();
     },

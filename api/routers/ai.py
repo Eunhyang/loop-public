@@ -323,7 +323,8 @@ def create_pending_review(
     suggested_fields: Dict[str, Any],
     reasoning: Dict[str, str],
     run_id: str,
-    actor: str
+    actor: str,
+    source_workflow: Optional[str] = None  # tsk-n8n-18: n8n 워크플로우 이름
 ) -> Dict[str, Any]:
     """
     pending_reviews.json에 저장 (기존 pending.py 헬퍼 재사용)
@@ -354,7 +355,8 @@ def create_pending_review(
         "status": "pending",
         "source": "ai_infer",
         "run_id": run_id,
-        "actor": actor
+        "actor": actor,
+        "source_workflow": source_workflow  # tsk-n8n-18
     }
 
     if existing_idx is not None:

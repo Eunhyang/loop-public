@@ -2,8 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Version 8.7** | Last updated: 2026-01-05
-> Schema v5.3 | Impact Model v1.3.1 | Navigation API (SSOT)
+> **Version 8.8** | Last updated: 2026-01-06
+> Schema v5.3 | validate_schema v7.2 | Impact Model v1.3.1 | Navigation API (SSOT)
 
 ---
 
@@ -46,7 +46,7 @@ docker compose up -d && docker compose logs -f loop-api
 # N8N_USER, N8N_PASSWORD, N8N_ENCRYPTION_KEY
 ```
 
-**Key files**: `00_Meta/schema_constants.yaml` (SSOT), `impact_model_config.yml`, `_Graph_Index.md`
+**Key files**: `00_Meta/schema_constants.yaml` (SSOT), `00_Meta/members.yaml` (assignee aliases), `impact_model_config.yml`, `_Graph_Index.md`
 
 ### Entity Naming Convention (MANDATORY)
 > **All Task/Project names MUST follow: `주제 - 내용` format**
@@ -231,9 +231,37 @@ Steps 2, 3 only (Task already exists)
 
 Pre-commit hook (`.git/hooks/pre-commit`) runs:
 1. **Hardcode detection** - Warns if schema constants are hardcoded in `.py`/`.js` files
-2. `validate_schema.py` (blocks on error)
-3. `check_orphans.py` (warns only)
-4. `build_graph_index.py` (auto-stages `_Graph_Index.md`)
+2. `validate_schema.py` (blocks on error) - Schema + aliases duplicates + assignee validation
+3. `check_frontmatter_body_sync.py` (blocks on error) - frontmatter ↔ body meta-line sync
+4. `check_orphans.py` (warns only)
+5. `build_graph_index.py` (auto-stages `_Graph_Index.md`)
+
+### Ontology-Lite 무결성 검증 (v7.2)
+
+| 검증 항목 | 스크립트 | 심각도 |
+|-----------|----------|--------|
+| frontmatter ↔ 본문 sync | `check_frontmatter_body_sync.py` | CRITICAL |
+| aliases 중복 | `validate_schema.py` | WARNING |
+| assignee 유효성 | `validate_schema.py` | WARNING |
+| status enum 검증 | `validate_schema.py` | ERROR |
+
+**SSOT 원칙**: frontmatter가 권위 있는 소스, 본문 메타라인은 반드시 일치해야 함
+```markdown
+# frontmatter (권위)
+entity_id: prj-003
+parent_id: trk-6
+status: active
+
+# 본문 메타라인 (반드시 일치)
+> Project ID: `prj-003` | Track: `trk-6` | Status: active
+```
+
+**Assignee 정규화**: `00_Meta/members.yaml`의 `aliases` 필드로 동일인 다른 표기 관리
+```yaml
+# 00_Meta/members.yaml
+- id: "김은향"
+  aliases: ["은향", "김은향", "eunhyang"]  # 모두 유효
+```
 
 **Scanned**: `01_North_Star/`, `20_Strategy/`, `50_Projects/`, `60_Hypotheses/`, `70_Experiments/`
 **Excluded**: `00_Meta/_TEMPLATES/`, `10_Study/`, `30_Ontology/`, `40_LOOP_OS/`, `90_Archive/`, `00_Inbox/`
@@ -448,7 +476,8 @@ This vault manages **specifications only**. Real code repositories:
 
 | Script | Purpose |
 |--------|---------|
-| `validate_schema.py` | Validate frontmatter against schema_constants.yaml |
+| `validate_schema.py` | Validate frontmatter (v7.2: aliases duplicates + assignee check) |
+| `check_frontmatter_body_sync.py` | Verify frontmatter ↔ body meta-line sync (SSOT) |
 | `build_graph_index.py` | Regenerate `_Graph_Index.md` with entity relationships |
 | `build_impact.py` | Calculate A/B scores, output to `_build/impact.json` |
 | `check_orphans.py` | Find entities with missing parent references |

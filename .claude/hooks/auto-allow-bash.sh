@@ -34,9 +34,12 @@ ALLOW_PATTERNS=(
   "^for "                  # for 루프
 )
 
+# 첫 줄만 추출 (멀티라인 명령어 대응)
+FIRST_LINE=$(echo "$COMMAND" | head -n1)
+
 # 패턴 매칭 체크
 for pattern in "${ALLOW_PATTERNS[@]}"; do
-  if echo "$COMMAND" | grep -qE "$pattern"; then
+  if echo "$FIRST_LINE" | grep -qE "$pattern"; then
     # 자동 승인 - 올바른 형식
     echo '{"hookSpecificOutput": {"hookEventName": "PermissionRequest", "decision": {"behavior": "allow"}}}'
     exit 0

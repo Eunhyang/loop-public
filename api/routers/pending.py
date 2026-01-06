@@ -12,7 +12,7 @@ import re
 import yaml
 from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Literal
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
@@ -41,6 +41,7 @@ class PendingCreate(BaseModel):
     entity_name: str
     suggested_fields: Dict[str, Any]
     reasoning: Dict[str, str]
+    source_workflow: Optional[str] = None  # n8n 워크플로우 이름 (tsk-n8n-18)
 
 
 class PendingApprove(BaseModel):
@@ -54,6 +55,14 @@ class PendingReject(BaseModel):
     """거부 시 요청 모델"""
     reason: str = Field(..., description="거부 사유 (필수)")
     user: str = Field(default="dashboard", description="거부자")
+
+
+class BatchDeleteRequest(BaseModel):
+    """일괄 삭제 요청 모델 (tsk-n8n-18)"""
+    source_workflow: Optional[str] = None  # 워크플로우 이름으로 필터
+    run_id: Optional[str] = None  # run_id로 필터
+    status: Optional[Literal["pending", "approved", "rejected"]] = None  # 상태 필터 (Codex fix: 타입 검증)
+    ids: Optional[List[str]] = None  # 명시적 ID 목록으로 삭제
 
 
 # ============================================
@@ -236,18 +245,29 @@ def update_entity_frontmatter(file_path: Path, fields: Dict[str, Any]) -> bool:
 # ============================================
 
 @router.get("")
-def get_pending_reviews(status: Optional[str] = None):
+def get_pending_reviews(
+    status: Optional[str] = Query(None, description="pending, approved, rejected 필터"),
+    source_workflow: Optional[str] = Query(None, description="n8n 워크플로우 이름으로 필터 (tsk-n8n-18)"),
+    run_id: Optional[str] = Query(None, description="run_id로 필터 (tsk-n8n-18)")
+):
     """
     Pending review 목록 조회
 
     Query Parameters:
         status: pending, approved, rejected 필터
+        source_workflow: n8n 워크플로우 이름으로 필터 (tsk-n8n-18)
+        run_id: run_id로 필터 (tsk-n8n-18)
     """
     data = load_pending()
     reviews = data.get("reviews", [])
 
+    # 필터 적용 (AND 조건)
     if status:
         reviews = [r for r in reviews if r.get("status") == status]
+    if source_workflow:
+        reviews = [r for r in reviews if r.get("source_workflow") == source_workflow]
+    if run_id:
+        reviews = [r for r in reviews if r.get("run_id") == run_id]
 
     return {"reviews": reviews, "count": len(reviews)}
 
@@ -289,7 +309,8 @@ def create_pending_review(pending: PendingCreate):
         "suggested_fields": pending.suggested_fields,
         "reasoning": pending.reasoning,
         "created_at": datetime.now().isoformat(),
-        "status": "pending"
+        "status": "pending",
+        "source_workflow": pending.source_workflow  # tsk-n8n-18: n8n 워크플로우 이름
     }
 
     if existing_idx is not None:
@@ -513,6 +534,83 @@ def reject_pending_review(review_id: str, reject: PendingReject):
         "review_id": review_id,
         "reason": reject.reason,
         "decision_id": decision_id
+    }
+
+
+@router.delete("/batch")
+def batch_delete_pending(request: BatchDeleteRequest):
+    """
+    일괄 삭제 (tsk-n8n-18)
+
+    필터 조건에 맞는 pending review들을 일괄 삭제합니다.
+    안전을 위해 최소 하나의 필터 조건이 필요합니다.
+
+    Body:
+        source_workflow: 워크플로우 이름으로 필터
+        run_id: run_id로 필터
+        status: pending, approved, rejected로 필터
+        ids: 명시적 ID 목록으로 삭제 (다른 필터와 AND 조건)
+
+    Response:
+        deleted_count: 삭제된 개수
+        deleted_ids: 삭제된 ID 목록
+    """
+    # 안전 체크: 최소 하나의 필터 필요 (Codex 피드백)
+    has_filter = (
+        request.source_workflow is not None or
+        request.run_id is not None or
+        request.status is not None or
+        (request.ids is not None and len(request.ids) > 0)
+    )
+    if not has_filter:
+        raise HTTPException(
+            status_code=400,
+            detail="At least one filter is required (source_workflow, run_id, status, or ids)"
+        )
+
+    data = load_pending()
+    reviews = data.get("reviews", [])
+
+    # Codex fix: ids를 set으로 변환하여 O(1) lookup
+    ids_set = set(request.ids) if request.ids else None
+
+    # 삭제 대상 판정 (한 번만 순회)
+    to_delete = []
+    new_reviews = []
+
+    for r in reviews:
+        should_delete = True
+
+        # ids가 지정된 경우 우선 확인
+        if ids_set is not None and len(ids_set) > 0:
+            if r.get("id") not in ids_set:
+                should_delete = False
+
+        # 나머지 필터 (AND 조건)
+        if should_delete and request.source_workflow is not None:
+            if r.get("source_workflow") != request.source_workflow:
+                should_delete = False
+        if should_delete and request.run_id is not None:
+            if r.get("run_id") != request.run_id:
+                should_delete = False
+        if should_delete and request.status is not None:
+            if r.get("status") != request.status:
+                should_delete = False
+
+        if should_delete:
+            to_delete.append(r)
+        else:
+            new_reviews.append(r)
+
+    deleted_ids = [r.get("id") for r in to_delete]
+
+    data["reviews"] = new_reviews
+    save_pending(data)
+
+    return {
+        "message": f"Deleted {len(deleted_ids)} reviews",
+        "deleted_count": len(deleted_ids),
+        "deleted_ids": deleted_ids
     }
 
 

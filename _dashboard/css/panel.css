@@ -2883,3 +2883,89 @@
         font-size: 0.9em;
     }
 }
+
+/* ============================================
+   tsk-n8n-18: Workflow Filter Styles
+   ============================================ */
+.pending-workflow-filters {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.pending-filter-select {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #374151;
+    background: #ffffff;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.pending-filter-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.btn-delete-filtered {
+    padding: 6px 12px;
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-delete-filtered:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+.btn-delete-filtered:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Workflow/Run badges on review cards */
+.review-card-source {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.review-workflow-badge,
+.review-runid-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 4px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.review-workflow-badge {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.review-runid-badge {
+    background: #f3e8ff;
+    color: #7c3aed;
+    font-family: monospace;
+}

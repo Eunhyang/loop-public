@@ -12,6 +12,14 @@ const PendingPanel = {
     isExpanded: false,
 
     // ============================================
+    // Workflow Filter (tsk-n8n-18)
+    // ============================================
+    filterWorkflow: null,       // 선택된 워크플로우 필터
+    filterRunId: null,          // 선택된 run_id 필터
+    availableWorkflows: [],     // 사용 가능한 워크플로우 목록
+    availableRunIds: [],        // 사용 가능한 run_id 목록
+
+    // ============================================
     // Field Selection UX (tsk-n8n-13)
     // ============================================
     previewingForField: null,   // Current field being previewed
@@ -49,10 +57,10 @@ const PendingPanel = {
         assignee: {
             type: 'single',
             options: [
-                { value: 'Alice', label: 'Alice' },
-                { value: 'Bob', label: 'Bob' },
-                { value: 'Claude', label: 'Claude' },
-                { value: 'Diana', label: 'Diana' }
+                { value: '김은향', label: '김은향 (Founder)' },
+                { value: '한명학', label: '한명학 (Member)' },
+                { value: '외주', label: '외주 (External)' },
+                { value: '미정', label: '미정 (Unassigned)' }
             ],
             entityPreviewable: false
         },
@@ -600,6 +608,18 @@ const PendingPanel = {
                         <button class="pending-tab" data-status="approved" role="tab" aria-selected="false">Approved</button>
                         <button class="pending-tab" data-status="rejected" role="tab" aria-selected="false">Rejected</button>
                     </div>
+                    <!-- tsk-n8n-18: Workflow Filters -->
+                    <div class="pending-workflow-filters">
+                        <select id="filterWorkflow" class="pending-filter-select" title="Filter by workflow">
+                            <option value="">All Workflows</option>
+                        </select>
+                        <select id="filterRunId" class="pending-filter-select" title="Filter by run ID">
+                            <option value="">All Runs</option>
+                        </select>
+                        <button id="btnDeleteFiltered" class="btn-delete-filtered" disabled title="Delete filtered reviews">
+                            Delete Filtered
+                        </button>
+                    </div>
                     <div id="pendingReviewsList" class="pending-reviews-list" role="listbox" aria-label="Reviews">
                         <!-- Reviews will be rendered here -->
                     </div>
@@ -661,6 +681,25 @@ const PendingPanel = {
             });
         });
 
+        // tsk-n8n-18: Workflow filter events
+        document.getElementById('filterWorkflow')?.addEventListener('change', (e) => {
+            this.filterWorkflow = e.target.value || null;
+            const activeTab = document.querySelector('.pending-tab.active');
+            this.renderReviews(activeTab?.dataset.status || 'pending');
+            this.updateDeleteButtonState();
+        });
+
+        document.getElementById('filterRunId')?.addEventListener('change', (e) => {
+            this.filterRunId = e.target.value || null;
+            const activeTab = document.querySelector('.pending-tab.active');
+            this.renderReviews(activeTab?.dataset.status || 'pending');
+            this.updateDeleteButtonState();
+        });
+
+        document.getElementById('btnDeleteFiltered')?.addEventListener('click', () => {
+            this.deleteFiltered();
+        });
+
         // Keyboard navigation for ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && document.getElementById('pendingPanel')?.classList.contains('active')) {
@@ -702,6 +741,7 @@ const PendingPanel = {
      */
     async open() {
         await State.loadPendingReviews();
+        this.updateFilterDropdowns();  // tsk-n8n-18
         this.renderReviews('pending');
         this.show();
     },
@@ -713,10 +753,142 @@ const PendingPanel = {
         const btn = document.getElementById('pendingPanelRefresh');
         btn.classList.add('spinning');
         await State.loadPendingReviews();
+        this.updateFilterDropdowns();  // tsk-n8n-18
         const activeTab = document.querySelector('.pending-tab.active');
         this.renderReviews(activeTab?.dataset.status || 'pending');
         btn.classList.remove('spinning');
         showToast('Reviews refreshed', 'success');
+    },
+
+    // ============================================
+    // Workflow Filter Methods (tsk-n8n-18)
+    // ============================================
+
+    /**
+     * 필터 드롭다운 옵션 업데이트
+     */
+    updateFilterDropdowns() {
+        const reviews = State.pendingReviews || [];
+
+        // 고유 워크플로우 수집
+        const workflows = new Set();
+        const runIds = new Set();
+
+        reviews.forEach(r => {
+            if (r.source_workflow) workflows.add(r.source_workflow);
+            if (r.run_id) runIds.add(r.run_id);
+        });
+
+        this.availableWorkflows = Array.from(workflows).sort();
+        this.availableRunIds = Array.from(runIds).sort();
+
+        // 워크플로우 드롭다운 업데이트
+        const workflowSelect = document.getElementById('filterWorkflow');
+        if (workflowSelect) {
+            const currentValue = workflowSelect.value;
+            workflowSelect.innerHTML = '<option value="">All Workflows</option>' +
+                this.availableWorkflows.map(w =>
+                    `<option value="${this.escapeHtml(w)}">${this.escapeHtml(w)}</option>`
+                ).join('');
+            // 기존 선택 유지
+            if (currentValue && this.availableWorkflows.includes(currentValue)) {
+                workflowSelect.value = currentValue;
+            }
+        }
+
+        // run_id 드롭다운 업데이트
+        const runIdSelect = document.getElementById('filterRunId');
+        if (runIdSelect) {
+            const currentValue = runIdSelect.value;
+            runIdSelect.innerHTML = '<option value="">All Runs</option>' +
+                this.availableRunIds.map(r =>
+                    `<option value="${this.escapeHtml(r)}">${this.escapeHtml(r.substring(0, 8))}...</option>`
+                ).join('');
+            // 기존 선택 유지
+            if (currentValue && this.availableRunIds.includes(currentValue)) {
+                runIdSelect.value = currentValue;
+            }
+        }
+
+        this.updateDeleteButtonState();
+    },
+
+    /**
+     * Delete Filtered 버튼 상태 업데이트
+     */
+    updateDeleteButtonState() {
+        const btn = document.getElementById('btnDeleteFiltered');
+        if (!btn) return;
+
+        const hasFilter = this.filterWorkflow || this.filterRunId;
+        btn.disabled = !hasFilter;
+        btn.title = hasFilter
+            ? 'Delete all filtered reviews'
+            : 'Select a filter to enable batch delete';
+    },
+
+    /**
+     * 필터된 리뷰 일괄 삭제
+     */
+    async deleteFiltered() {
+        if (!this.filterWorkflow && !this.filterRunId) {
+            showToast('Select a filter first', 'warning');
+            return;
+        }
+
+        // 현재 필터로 삭제될 개수 확인
+        const activeTab = document.querySelector('.pending-tab.active');
+        const currentStatus = activeTab?.dataset.status || 'pending';
+        const filteredReviews = this.getFilteredReviews(currentStatus);
+
+        if (filteredReviews.length === 0) {
+            showToast('No reviews match current filter', 'info');
+            return;
+        }
+
+        // 확인 다이얼로그
+        const filterDesc = [];
+        if (this.filterWorkflow) filterDesc.push(`workflow: ${this.filterWorkflow}`);
+        if (this.filterRunId) filterDesc.push(`run: ${this.filterRunId.substring(0, 8)}...`);
+
+        const confirmed = confirm(
+            `Delete ${filteredReviews.length} reviews?\n\nFilter: ${filterDesc.join(', ')}\nStatus: ${currentStatus}\n\nThis cannot be undone.`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const result = await API.deletePendingBatch(
+                this.filterWorkflow,
+                this.filterRunId,
+                currentStatus
+            );
+            showToast(`Deleted ${result.deleted_count} reviews`, 'success');
+
+            // 상태 새로고침
+            await State.loadPendingReviews();
+            this.updateFilterDropdowns();
+            this.renderReviews(currentStatus);
+            this.updateBadge();
+        } catch (e) {
+            showToast('Failed to delete: ' + e.message, 'error');
+        }
+    },
+
+    /**
+     * 현재 필터로 필터링된 리뷰 반환
+     */
+    getFilteredReviews(status) {
+        let reviews = State.getPendingReviewsByStatus(status);
+
+        if (this.filterWorkflow) {
+            reviews = reviews.filter(r => r.source_workflow === this.filterWorkflow);
+        }
+        if (this.filterRunId) {
+            reviews = reviews.filter(r => r.run_id === this.filterRunId);
+        }
+
+        return reviews;
     },
 
     /**
@@ -724,12 +896,14 @@ const PendingPanel = {
      */
     renderReviews(status = 'pending') {
         const container = document.getElementById('pendingReviewsList');
-        const reviews = State.getPendingReviewsByStatus(status);
+        // tsk-n8n-18: 필터 적용
+        const reviews = this.getFilteredReviews(status);
 
         if (reviews.length === 0) {
+            const hasFilter = this.filterWorkflow || this.filterRunId;
             container.innerHTML = `
                 <div class="empty-message">
-                    No ${status} reviews
+                    ${hasFilter ? 'No reviews match filter' : `No ${status} reviews`}
                 </div>
             `;
             // Clear detail pane when no reviews
@@ -823,6 +997,14 @@ const PendingPanel = {
         const fieldTypes = Object.keys(review.suggested_fields || {});
         const primaryFieldType = this.getPrimaryFieldType(fieldTypes);
 
+        // tsk-n8n-18: 워크플로우/run_id 뱃지
+        const workflowBadge = review.source_workflow
+            ? `<span class="review-workflow-badge" title="Workflow: ${this.escapeHtml(review.source_workflow)}">${this.escapeHtml(review.source_workflow)}</span>`
+            : '';
+        const runIdBadge = review.run_id
+            ? `<span class="review-runid-badge" title="Run ID: ${this.escapeHtml(review.run_id)}">${this.escapeHtml(review.run_id.substring(0, 8))}</span>`
+            : '';
+
         return `
             <div class="pending-review-card ${statusClass}"
                  data-review-id="${this.escapeHtml(review.id)}"
@@ -836,6 +1018,10 @@ const PendingPanel = {
                 </div>
                 <div class="review-card-title">${this.escapeHtml(review.entity_name)}</div>
                 <div class="review-card-id">${this.escapeHtml(review.entity_id)}</div>
+                <!-- tsk-n8n-18: Workflow/Run badges -->
+                <div class="review-card-source">
+                    ${workflowBadge}${runIdBadge}
+                </div>
                 <div class="review-card-fields">
                     ${fieldTypes.map(field => {
                         const color = this.getFieldTypeColor(field);
