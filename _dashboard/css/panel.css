@@ -2886,14 +2886,16 @@
 
 /* ============================================
    tsk-n8n-18: Workflow Filter Styles
+   (Located at top of Detail Pane)
    ============================================ */
 .pending-workflow-filters {
     display: flex;
     gap: 8px;
     align-items: center;
-    padding: 10px 0;
-    margin-bottom: 12px;
+    padding: 12px 20px;
+    background: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
 }
 
 .pending-filter-select {

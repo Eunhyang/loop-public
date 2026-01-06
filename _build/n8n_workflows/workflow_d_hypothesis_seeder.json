@@ -65,7 +65,7 @@
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n-workflow-d\" } }}",
+        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n-workflow-d\", \"source_workflow\": \"hypothesis-seeder\" } }}",
         "options": {
           "timeout": 120000
         }

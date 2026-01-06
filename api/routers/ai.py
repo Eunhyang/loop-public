@@ -104,6 +104,7 @@ class InferProjectImpactRequest(BaseModel):
     actor: str = Field(default="n8n", description="요청자 (n8n, api, claude)")
     run_id: Optional[str] = Field(default=None, description="외부에서 제공하는 run_id")
     provider: str = Field(default="openai", description="LLM provider (openai, anthropic)")
+    source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
 
 
 class InferProjectImpactResponse(BaseModel):
@@ -132,6 +133,7 @@ class InferEvidenceRequest(BaseModel):
     run_id: Optional[str] = Field(default=None, description="외부에서 제공하는 run_id")
     schema_version: str = Field(default="5.3", description="스키마 버전")
     create_pending: bool = Field(default=True, description="mode=pending 시 pending 생성 여부")
+    source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
 
 
 class InferEvidenceResponse(BaseModel):
@@ -168,6 +170,7 @@ class InferTaskSchemaRequest(BaseModel):
     run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
     schema_version: str = Field(default="5.3", description="스키마 버전")
     create_pending: bool = Field(default=True, description="pending 생성 여부")
+    source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
     # n8n에서 전달하는 원본 데이터
     original_entity: Optional[Dict[str, Any]] = Field(default=None, description="n8n에서 전달한 원본 Task")
     strategy_context: Optional[Dict[str, Any]] = Field(default=None, description="전략 컨텍스트")
@@ -195,6 +198,7 @@ class InferProjectSchemaRequest(BaseModel):
     run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
     schema_version: str = Field(default="5.3", description="스키마 버전")
     create_pending: bool = Field(default=True, description="pending 생성 여부")
+    source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
     # n8n에서 전달하는 원본 데이터
     original_entity: Optional[Dict[str, Any]] = Field(default=None, description="n8n에서 전달한 원본 Project")
     strategy_context: Optional[Dict[str, Any]] = Field(default=None, description="전략 컨텍스트")
@@ -225,6 +229,7 @@ class InferHypothesisDraftRequest(BaseModel):
     run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
     schema_version: str = Field(default="5.3", description="스키마 버전")
     create_pending: bool = Field(default=True, description="pending 생성 여부")
+    source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
 
 
 class InferHypothesisDraftResponse(BaseModel):
@@ -870,7 +875,8 @@ async def infer_project_impact(request: InferProjectImpactRequest):
             suggested_fields=suggested_fields,
             reasoning=reasoning,
             run_id=run_id,
-            actor=request.actor
+            actor=request.actor,
+            source_workflow=request.source_workflow  # tsk-n8n-18
         )
 
         pending_info = {
@@ -1250,7 +1256,8 @@ async def infer_evidence(request: InferEvidenceRequest):
             suggested_fields={"evidence": evidence_fields},
             reasoning=reasoning,
             run_id=run_id,
-            actor=request.actor
+            actor=request.actor,
+            source_workflow=request.source_workflow  # tsk-n8n-18
         )
 
         pending_info = {
@@ -1476,7 +1483,8 @@ async def infer_task_schema(request: InferTaskSchemaRequest):
             suggested_fields=suggested_fields,
             reasoning=reasoning,
             run_id=run_id,
-            actor=request.actor
+            actor=request.actor,
+            source_workflow=request.source_workflow  # tsk-n8n-18
         )
 
         pending_info = {
@@ -1643,7 +1651,8 @@ async def infer_project_schema(request: InferProjectSchemaRequest):
             suggested_fields=suggested_fields,
             reasoning=reasoning,
             run_id=run_id,
-            actor=request.actor
+            actor=request.actor,
+            source_workflow=request.source_workflow  # tsk-n8n-18
         )
 
         pending_info = {
@@ -2126,7 +2135,8 @@ async def infer_hypothesis_draft(request: InferHypothesisDraftRequest):
             },
             reasoning=content.get("reasoning", {}),
             run_id=run_id,
-            actor=request.actor
+            actor=request.actor,
+            source_workflow=request.source_workflow  # tsk-n8n-18
         )
 
         pending_info = {

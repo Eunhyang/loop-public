@@ -608,7 +608,14 @@ const PendingPanel = {
                         <button class="pending-tab" data-status="approved" role="tab" aria-selected="false">Approved</button>
                         <button class="pending-tab" data-status="rejected" role="tab" aria-selected="false">Rejected</button>
                     </div>
-                    <!-- tsk-n8n-18: Workflow Filters -->
+                    <div id="pendingReviewsList" class="pending-reviews-list" role="listbox" aria-label="Reviews">
+                        <!-- Reviews will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Center Pane: Pending Detail -->
+                <div class="pending-detail-pane" role="region" aria-label="Review Detail">
+                    <!-- tsk-n8n-18: Workflow Filters (moved to detail pane top) -->
                     <div class="pending-workflow-filters">
                         <select id="filterWorkflow" class="pending-filter-select" title="Filter by workflow">
                             <option value="">All Workflows</option>
@@ -620,13 +627,6 @@ const PendingPanel = {
                             Delete Filtered
                         </button>
                     </div>
-                    <div id="pendingReviewsList" class="pending-reviews-list" role="listbox" aria-label="Reviews">
-                        <!-- Reviews will be rendered here -->
-                    </div>
-                </div>
-
-                <!-- Center Pane: Pending Detail -->
-                <div class="pending-detail-pane" role="region" aria-label="Review Detail">
                     <div id="pendingDetailContent" class="pane-content">
                         <div class="pane-empty-state">
                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
