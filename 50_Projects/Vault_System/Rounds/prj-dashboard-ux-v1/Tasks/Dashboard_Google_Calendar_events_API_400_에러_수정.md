@@ -16,7 +16,6 @@ aliases:
 tags: []
 type: bug
 ---
-
 # Dashboard - Google Calendar events API 400 에러 수정
 
 ## 설명
