@@ -42,14 +42,39 @@ const ProjectModal = {
     /**
      * 새 Project 모달 열기
      */
-    open() {
+    /**
+     * 초기화 (모달 준비)
+     */
+    init() {
+        // Track selection change handler (tsk-022-02: trigger pattern defaults)
+        const trackEl = document.getElementById('projectTrack');
+        if (trackEl) {
+            trackEl.addEventListener('change', async (e) => {
+                const trackId = e.target.value;
+                if (trackId && trackId !== '') {
+                    await this.applyPatternDefaults('track', trackId);
+                }
+            });
+        }
+    },
+
+    async open(options = {}) {
         State.editingProject = null;
         document.getElementById('projectModalTitle').textContent = 'New Project';
         document.getElementById('projectId').value = '';
         document.getElementById('projectName').value = '';
+        document.getElementById('projectOwner').value = '';  // Reset owner for pattern defaults
         document.getElementById('projectTrack').value = '';
         document.getElementById('projectPriority').value = 'medium';
         document.getElementById('projectStatus').value = 'todo';
+
+        // Pattern-based autofill (tsk-022-02)
+        // If track is selected (via options), apply pattern defaults
+        const trackId = options.trackId;
+        if (trackId && !options.projectId) {
+            document.getElementById('projectTrack').value = trackId;
+            await this.applyPatternDefaults('track', trackId);
+        }
 
         document.getElementById('projectModal').classList.add('active');
         document.getElementById('projectName').focus();
@@ -81,6 +106,47 @@ const ProjectModal = {
     close() {
         document.getElementById('projectModal').classList.remove('active');
         State.editingProject = null;
+    },
+
+    /**
+     * 패턴 기반 폼 기본값 자동 채움 (tsk-022-02)
+     * 부모 엔티티의 하위 엔티티 패턴을 분석하여 폼 필드 자동 설정
+     * @param {string} parentType - 'track' | 'program'
+     * @param {string} parentId - 부모 엔티티 ID
+     */
+    async applyPatternDefaults(parentType, parentId) {
+        try {
+            const result = await API.getPatternDefaults(parentType, parentId, 'project');
+
+            if (!result || !result.success || !result.defaults) {
+                return; // Silently fail if no patterns available
+            }
+
+            const defaults = result.defaults;
+
+            // Only fill if field is still at default value (don't overwrite user changes)
+            const ownerField = document.getElementById('projectOwner');
+            if (defaults.owner && ownerField && !ownerField.value) {
+                ownerField.value = defaults.owner;
+            }
+
+            const priorityField = document.getElementById('projectPriority');
+            if (defaults.priority && priorityField && priorityField.value === 'medium') {
+                priorityField.value = defaults.priority;
+            }
+
+            const statusField = document.getElementById('projectStatus');
+            if (defaults.status && statusField && statusField.value === 'todo') {
+                statusField.value = defaults.status;
+            }
+
+            // Debug log (can be removed in production)
+            console.log(`Pattern defaults applied from ${parentType} ${parentId}:`, defaults);
+
+        } catch (error) {
+            console.error('Failed to apply pattern defaults:', error);
+            // Silently fail - don't block modal opening
+        }
     },
 
     /**

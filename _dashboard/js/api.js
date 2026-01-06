@@ -591,5 +591,30 @@ const API = {
             body: JSON.stringify(options)
         });
         return res.json();
+    },
+
+    // ============================================
+    // Pattern-based Autofill (tsk-022-02)
+    // ============================================
+
+    /**
+     * 패턴 기반 폼 기본값 자동 채움
+     * 부모 엔티티의 하위 엔티티들을 분석하여 가장 빈번한 필드 값 반환
+     * @param {string} parentType - 'project' | 'program' | 'track'
+     * @param {string} parentId - 부모 엔티티 ID
+     * @param {string} childType - 'task' | 'project'
+     * @returns {Promise<Object>} { success, defaults: {...}, sample_size }
+     */
+    async getPatternDefaults(parentType, parentId, childType) {
+        try {
+            const res = await this.authFetch(
+                `${this.baseUrl}/api/autofill/pattern-defaults?parent_type=${parentType}&parent_id=${parentId}&child_type=${childType}`
+            );
+            if (!res.ok) return null;
+            return await res.json();
+        } catch (error) {
+            console.error('Pattern defaults fetch error:', error);
+            return null;
+        }
     }
 };

@@ -485,6 +485,141 @@ def get_available_providers():
     }
 
 
+@router.get("/pattern-defaults")
+async def get_pattern_defaults(
+    parent_type: str = Query(..., regex="^(project|program|track)$"),
+    parent_id: str = Query(...),
+    child_type: str = Query(..., regex="^(task|project)$")
+):
+    """
+    패턴 기반 폼 기본값 자동 채움
+
+    부모 엔티티의 하위 엔티티들을 분석하여 가장 빈번한 필드 값을 반환
+
+    Args:
+        parent_type: project | program | track
+        parent_id: 부모 엔티티 ID
+        child_type: task | project
+
+    Returns:
+        {
+            "success": true,
+            "defaults": {
+                "assignee": "김은향",
+                "status": "doing",
+                "priority": "high",
+                "type": "dev"
+            },
+            "sample_size": 15
+        }
+
+    Supports:
+        - project → task
+        - program → task
+        - program → project
+        - track → project
+    """
+    from collections import Counter
+
+    cache = get_cache()
+
+    # 1. Validate parent exists
+    parent_exists = False
+
+    if parent_type == "project":
+        parent_exists = cache.get_project(parent_id) is not None
+    elif parent_type == "program":
+        parent_exists = cache.get_program(parent_id) is not None
+    elif parent_type == "track":
+        parent_exists = cache.get_track(parent_id) is not None
+
+    if not parent_exists:
+        raise HTTPException(status_code=404, detail=f"Parent {parent_type} not found: {parent_id}")
+
+    # 2. Get child entities (exclude archived)
+    all_children = []
+
+    if child_type == "task":
+        if parent_type == "project":
+            all_children = [t for t in cache.get_all_tasks()
+                           if t.get("project_id") == parent_id
+                           and t.get("status") != "archived"]
+        elif parent_type == "program":
+            all_children = [t for t in cache.get_all_tasks()
+                           if t.get("program_id") == parent_id
+                           and t.get("status") != "archived"]
+    elif child_type == "project":
+        if parent_type == "track":
+            # Handle both parent_id and track_id (some projects use track_id)
+            all_children = [p for p in cache.get_all_projects()
+                           if (p.get("parent_id") == parent_id or p.get("track_id") == parent_id)
+                           and p.get("status") != "archived"]
+        elif parent_type == "program":
+            all_children = [p for p in cache.get_all_projects()
+                           if p.get("program_id") == parent_id
+                           and p.get("status") != "archived"]
+
+    sample_size = len(all_children)
+
+    # If no children, return empty defaults
+    if not all_children:
+        return {
+            "success": True,
+            "defaults": {},
+            "sample_size": 0
+        }
+
+    # 3. Analyze patterns
+    defaults = {}
+
+    # Define fields to analyze based on child type
+    fields_to_analyze = {
+        "task": ["assignee", "status", "priority", "type"],
+        "project": ["owner", "status", "priority_flag"]
+    }
+
+    for field in fields_to_analyze.get(child_type, []):
+        values = []
+        for child in all_children:
+            val = child.get(field)
+            # Filter out null, empty, placeholder values
+            if val and val not in ["", "미정", "null", None]:
+                values.append(val)
+
+        if values:
+            counter = Counter(values)
+            most_common = counter.most_common()
+
+            # Handle ties: if multiple values have same count, sort alphabetically
+            if len(most_common) > 1 and most_common[0][1] == most_common[1][1]:
+                # Get all values with max count
+                max_count = most_common[0][1]
+                tied_values = [val for val, count in most_common if count == max_count]
+                defaults[field] = sorted(tied_values)[0]  # Pick first alphabetically
+            else:
+                defaults[field] = most_common[0][0]
+
+    # Special handling for tags: flatten and count individual tags
+    if child_type == "task":
+        all_tags = []
+        for child in all_children:
+            tags = child.get("tags", [])
+            if isinstance(tags, list):
+                all_tags.extend([t for t in tags if t and t != ""])
+
+        if all_tags:
+            tag_counter = Counter(all_tags)
+            # Get top 3 most common tags
+            top_tags = [tag for tag, count in tag_counter.most_common(3)]
+            defaults["tags"] = top_tags
+
+    return {
+        "success": True,
+        "defaults": defaults,
+        "sample_size": sample_size
+    }
+
+
 @router.get("/health")
 def autofill_health():
     """Autofill API 상태 체크"""
@@ -497,6 +632,7 @@ def autofill_health():
         "endpoints": [
             "/api/autofill/expected-impact",
             "/api/autofill/realized-impact",
+            "/api/autofill/pattern-defaults",
             "/api/autofill/providers"
         ]
     }

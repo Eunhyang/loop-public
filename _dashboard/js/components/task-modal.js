@@ -153,13 +153,15 @@ const TaskModal = {
      * @param {string} options.date - 시작/마감 날짜 (YYYY-MM-DD)
      * @param {string} options.type - Task type (meeting for auto-open meet options)
      */
-    open(options = {}) {
+    async open(options = {}) {
         State.editingTask = null;
         document.getElementById('taskModalTitle').textContent = 'New Task';
         document.getElementById('taskId').value = '';
         document.getElementById('taskName').value = '';
+        document.getElementById('taskAssignee').value = '';  // Reset assignee for pattern defaults
         document.getElementById('taskPriority').value = 'medium';
         document.getElementById('taskStatus').value = 'todo';
+        document.getElementById('taskType').value = '';  // Reset type for pattern defaults
 
         // 날짜 설정: 옵션으로 전달된 날짜 또는 오늘 날짜
         const dateValue = options.date || new Date().toISOString().split('T')[0];
@@ -167,19 +169,27 @@ const TaskModal = {
         document.getElementById('taskDue').value = dateValue;
 
         // 현재 필터된 프로젝트 선택 (단일 선택인 경우에만)
+        let selectedProjectId = null;
         if (State.currentProjects.length === 1) {
-            document.getElementById('taskProject').value = State.currentProjects[0];
+            selectedProjectId = State.currentProjects[0];
+            document.getElementById('taskProject').value = selectedProjectId;
         }
 
         // Reset meeting options
         this.resetMeetingOptions();
 
-        // If type is meeting, show meeting options
+        // If type is meeting, show meeting options (override pattern defaults)
         if (options.type === 'meeting') {
             const taskType = document.getElementById('taskType');
             if (taskType) {
                 taskType.value = 'meeting';
                 this.handleTypeChange('meeting');
+            }
+        } else {
+            // Pattern-based autofill (tsk-022-02)
+            // Only for new tasks (not editing) and when project is selected
+            if (selectedProjectId && !options.taskId) {
+                await this.applyPatternDefaults('project', selectedProjectId);
             }
         }
 
@@ -250,6 +260,58 @@ const TaskModal = {
     close() {
         document.getElementById('taskModal').classList.remove('active');
         State.editingTask = null;
+    },
+
+    /**
+     * 패턴 기반 폼 기본값 자동 채움 (tsk-022-02)
+     * 부모 엔티티의 하위 엔티티 패턴을 분석하여 폼 필드 자동 설정
+     * @param {string} parentType - 'project' | 'program' | 'track'
+     * @param {string} parentId - 부모 엔티티 ID
+     */
+    async applyPatternDefaults(parentType, parentId) {
+        try {
+            const result = await API.getPatternDefaults(parentType, parentId, 'task');
+
+            if (!result || !result.success || !result.defaults) {
+                return; // Silently fail if no patterns available
+            }
+
+            const defaults = result.defaults;
+
+            // Only fill if field is still at default value (don't overwrite user changes)
+            const assigneeField = document.getElementById('taskAssignee');
+            if (defaults.assignee && assigneeField && !assigneeField.value) {
+                assigneeField.value = defaults.assignee;
+            }
+
+            const priorityField = document.getElementById('taskPriority');
+            if (defaults.priority && priorityField && priorityField.value === 'medium') {
+                priorityField.value = defaults.priority;
+            }
+
+            const statusField = document.getElementById('taskStatus');
+            if (defaults.status && statusField && statusField.value === 'todo') {
+                statusField.value = defaults.status;
+            }
+
+            const typeField = document.getElementById('taskType');
+            // Treat empty string or 'dev' as default values (tsk-022-02: fix Codex issue)
+            if (defaults.type && typeField && (!typeField.value || typeField.value === 'dev')) {
+                typeField.value = defaults.type;
+
+                // Trigger type change handler if type is meeting
+                if (defaults.type === 'meeting') {
+                    this.handleTypeChange('meeting');
+                }
+            }
+
+            // Debug log (can be removed in production)
+            console.log(`Pattern defaults applied from ${parentType} ${parentId}:`, defaults);
+
+        } catch (error) {
+            console.error('Failed to apply pattern defaults:', error);
+            // Silently fail - don't block modal opening
+        }
     },
 
     /**
