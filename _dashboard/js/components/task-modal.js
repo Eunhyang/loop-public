@@ -333,10 +333,18 @@ const TaskModal = {
             type: taskType
         };
 
-        // Add meeting link to links array if present
+        // Add meeting link to links array if present (preserve existing non-Meet links)
         if (meetLink) {
+            // Get existing links from the task being edited (if any)
+            const existingLinks = State.editingTask?.links || [];
+            // Filter out any existing Meet links (to avoid duplicates)
+            const nonMeetLinks = existingLinks.filter(link =>
+                !link.url?.includes('meet.google.com')
+            );
+            // Add new Meet link at the beginning
             taskData.links = [
-                { label: 'Google Meet', url: meetLink }
+                { label: 'Google Meet', url: meetLink },
+                ...nonMeetLinks
             ];
         }
 
