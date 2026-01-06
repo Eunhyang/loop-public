@@ -253,6 +253,8 @@ _build/n8n_workflows/
 | tsk-n8n-17 | Ontology-Lite - 무결성 검증 시스템 구축 | done |
 | tsk-n8n-18 | Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제 | doing |
 | tsk-n8n-19 | n8n - 워크플로우 source_workflow 필드 추가 | done |
+| tsk-n8n-20 | Dashboard - Pending Panel Entity Preview UX 개선 | doing |
+| tsk-n8n-21 | Pending Review - 새로고침 기능 | doing |
 
 ---
 

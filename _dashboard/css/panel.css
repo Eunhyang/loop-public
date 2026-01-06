@@ -2156,11 +2156,11 @@
     flex-shrink: 0;
 }
 
-/* Right Pane: Entity Preview */
+/* Right Pane: Entity Preview - tsk-n8n-20: 너비 확장 (350→450px) */
 .pending-entity-pane {
-    width: 350px;
-    min-width: 300px;
-    max-width: 400px;
+    width: 450px;
+    min-width: 400px;
+    max-width: 550px;
     background: #ffffff;
     display: flex;
     flex-direction: column;
@@ -2368,6 +2368,15 @@
 }
 
 /* Responsive adjustments for 3-pane */
+/* tsk-n8n-20: 반응형 패널 너비 조정 */
+@media (max-width: 1400px) {
+    .pending-entity-pane {
+        width: 400px;
+        min-width: 350px;
+        max-width: 450px;
+    }
+}
+
 @media (max-width: 1200px) {
     .pending-list-pane {
         width: 240px;
@@ -2375,8 +2384,9 @@
     }
 
     .pending-entity-pane {
-        width: 300px;
-        min-width: 260px;
+        width: 350px;
+        min-width: 300px;
+        max-width: 400px;
     }
 }
 

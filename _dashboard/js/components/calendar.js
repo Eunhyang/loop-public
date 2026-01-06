@@ -197,10 +197,8 @@ const Calendar = {
                 this.saveEnabledCalendars();
             }
 
-            // 캘린더 사이드바 렌더링
-            this.renderGoogleCalendarSidebar();
-
             // 활성화된 캘린더가 있으면 이벤트 로드
+            // (renderGoogleCalendarSidebar는 finally에서 항상 호출됨)
             if (this.enabledCalendars.size > 0 && this.instance) {
                 const view = this.instance.view;
                 this.loadGoogleEvents(
@@ -212,9 +210,10 @@ const Calendar = {
         } catch (error) {
             console.error('Failed to load Google calendars:', error);
             this.googleCalendarsError = 'Google 캘린더 목록을 불러오지 못했습니다';
-            this.renderGoogleCalendarSidebar();
         } finally {
             this.googleCalendarsLoading = false;
+            // 항상 UI 갱신 보장 (로딩/에러/성공 모든 상태에서)
+            this.renderGoogleCalendarSidebar();
         }
     },
 

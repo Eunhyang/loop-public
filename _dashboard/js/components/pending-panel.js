@@ -723,6 +723,26 @@ const PendingPanel = {
     },
 
     /**
+     * 마크다운 텍스트를 HTML로 렌더링
+     * marked.js 라이브러리 사용 (Dashboard에서 이미 로드됨)
+     * @param {string} text - 마크다운 텍스트
+     * @returns {string} - HTML 문자열
+     */
+    renderMarkdown(text) {
+        if (!text) return '';
+        // marked.js가 로드되어 있으면 사용
+        if (typeof marked !== 'undefined') {
+            try {
+                return marked.parse(text);
+            } catch (e) {
+                console.warn('Markdown parsing failed:', e);
+            }
+        }
+        // 폴백: 기본 줄바꿈만 처리
+        return this.escapeHtml(text).replace(/\n/g, '<br>');
+    },
+
+    /**
      * 전체화면 토글
      */
     toggleExpand() {
@@ -1542,24 +1562,60 @@ const PendingPanel = {
      * Project 미리보기 (ProjectPanel.renderReadOnlyHTML 재사용)
      */
     renderProjectPreview(project) {
+        let html = '';
+
         // ProjectPanel의 읽기 전용 렌더러 재사용
         if (typeof ProjectPanel !== 'undefined' && ProjectPanel.renderReadOnlyHTML) {
-            return ProjectPanel.renderReadOnlyHTML(project);
+            html = ProjectPanel.renderReadOnlyHTML(project);
+        } else {
+            // 폴백: 기본 렌더링
+            html = `<div class="entity-section"><div class="entity-section-content">Project: ${this.escapeHtml(project.entity_name || project.entity_id)}</div></div>`;
         }
-        // 폴백: 기본 렌더링
-        return `<div class="entity-section"><div class="entity-section-content">Project: ${this.escapeHtml(project.entity_name || project.entity_id)}</div></div>`;
+
+        // Notes 섹션 추가 (body 필드)
+        const notes = project.body || project._body || '';
+        if (notes && notes.trim()) {
+            html += `
+                <div class="entity-section entity-notes-section">
+                    <div class="entity-section-title">Notes</div>
+                    <div class="entity-notes-content markdown-body">
+                        ${this.renderMarkdown(notes)}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
     },
 
     /**
      * Task 미리보기 (TaskPanel.renderReadOnlyHTML 재사용)
      */
     renderTaskPreview(task) {
+        let html = '';
+
         // TaskPanel의 읽기 전용 렌더러 재사용
         if (typeof TaskPanel !== 'undefined' && TaskPanel.renderReadOnlyHTML) {
-            return TaskPanel.renderReadOnlyHTML(task);
+            html = TaskPanel.renderReadOnlyHTML(task);
+        } else {
+            // 폴백: 기본 렌더링
+            html = `<div class="entity-section"><div class="entity-section-content">Task: ${this.escapeHtml(task.entity_name || task.entity_id)}</div></div>`;
         }
-        // 폴백: 기본 렌더링
-        return `<div class="entity-section"><div class="entity-section-content">Task: ${this.escapeHtml(task.entity_name || task.entity_id)}</div></div>`;
+
+        // Notes 섹션 추가 (body 또는 notes 필드)
+        const notes = task.body || task.notes || task._body || '';
+        if (notes && notes.trim()) {
+            html += `
+                <div class="entity-section entity-notes-section">
+                    <div class="entity-section-title">Notes</div>
+                    <div class="entity-notes-content markdown-body">
+                        ${this.renderMarkdown(notes)}
+                    </div>
+                </div>
+            `;
+        }
+
+        return html;
     },
 
     /**

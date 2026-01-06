@@ -116,8 +116,9 @@ PUBLIC_PATHS = [
     # OAuth endpoints
     "/.well-known/oauth-authorization-server", "/.well-known/jwks.json",
     "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout",
-    # Google OAuth callback (receives redirect from Google)
-    "/api/google/callback"
+    # Google OAuth (browser direct navigation - no Authorization header)
+    "/api/google/authorize",  # OAuth 시작점 (브라우저 직접 이동)
+    "/api/google/callback"    # OAuth 콜백 (Google 리다이렉트)
 ]
 PUBLIC_PREFIXES = ["/css", "/js"]  # 정적 파일만 공개
 
