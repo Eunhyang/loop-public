@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-29"
 entity_name: "Dashboard - Google Calendar 연동 버그 수정"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # Dashboard - Google Calendar 연동 버그 수정
 
-> Task ID: `tsk-dashboard-ux-v1-29` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-29` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -125,6 +126,66 @@ priority_flag: high
 - `calendar.js` 217줄: finally 블록에서 renderGoogleCalendarSidebar() 호출
 
 **결과**: 구현 완료 (테스트 대기)
+
+#### 2026-01-06 Task 완료
+**개요**: Google Calendar 연동 버그 수정 완료 - OAuth 인증 및 로딩 상태 관리 개선
+
+**컨텍스트**:
+- 버그 1: "계정 추가" 버튼 클릭 시 `{"detail": "Unauthorized"}` 에러 발생
+  - 원인: OAuth 시작점(`/api/google/authorize`)이 JWT 인증을 요구했으나, 브라우저 직접 이동(`<a href>`)으로는 Authorization 헤더 전달 불가
+- 버그 2: Google Calendar 로드 중 에러 발생 시 "로드 중..." 무한 로딩
+  - 원인: API 에러 발생 시 finally 블록에서 loading 상태만 해제하고 UI 갱신(renderGoogleCalendarSidebar) 누락
+
+**변경사항**:
+
+1. **Backend 수정** (`api/main.py`)
+   - `PUBLIC_PATHS` 배열에 `/api/google/authorize` 추가 (120번줄)
+   - OAuth 시작점을 인증 없이 접근 가능하도록 변경
+   - 브라우저 직접 이동 시에도 OAuth 흐름 시작 가능
+
+2. **Frontend 수정** (`_dashboard/js/components/calendar.js`)
+   - `loadGoogleCalendars()` 함수의 finally 블록에서 `renderGoogleCalendarSidebar()` 호출 추가 (216번줄)
+   - try 블록 내 중복 `renderGoogleCalendarSidebar()` 호출 제거
+   - 에러 발생 시에도 로딩 상태 해제 + UI 갱신 보장
+
+**코드 예시**:
+
+```python
+# api/main.py (120번줄)
+PUBLIC_PATHS = [
+    "/", "/health", "/docs", "/openapi.json", "/redoc",
+    # OAuth endpoints
+    "/.well-known/oauth-authorization-server", "/.well-known/jwks.json",
+    "/authorize", "/token", "/register", "/oauth/login", "/oauth/logout",
+    # Google OAuth (browser direct navigation - no Authorization header)
+    "/api/google/authorize",  # OAuth 시작점 (브라우저 직접 이동)
+    "/api/google/callback"    # OAuth 콜백 (Google 리다이렉트)
+]
+```
+
+```javascript
+// _dashboard/js/components/calendar.js (213-217번줄)
+} catch (error) {
+    console.error('Failed to load Google calendars:', error);
+    this.googleCalendarsError = 'Google 캘린더 목록을 불러오지 못했습니다';
+} finally {
+    this.googleCalendarsLoading = false;
+    // 항상 UI 갱신 보장 (로딩/에러/성공 모든 상태에서)
+    this.renderGoogleCalendarSidebar();
+}
+```
+
+**검증 결과**:
+- ✅ NAS 서버에 배포 완료 (`/mcp-server rebuild`)
+- ✅ Dashboard 접근 정상 동작
+- ✅ "계정 추가" 버튼 클릭 시 OAuth 흐름 정상 시작
+- ✅ Google Calendar 로드 시 에러 처리 정상 동작
+
+**최종 상태**:
+- Task 상태: doing → done
+- 프로젝트: LOOP Vault (PR merge 불필요)
+- 배포: NAS 서버 반영 완료
+- 완료일: 2026-01-06
 
 ---
 
