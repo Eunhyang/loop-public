@@ -79,6 +79,10 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 | tsk-dashboard-ux-v1-22 | Dashboard - PDF 첨부파일 500 에러 진단 | 김은향 | done | 2026-01-05 |
 | tsk-019-25 | Schema - Task type에 meeting 추가 | 김은향 | done | 2026-01-06 |
 | tsk-dashboard-ux-v1-23 | Dashboard - 캘린더 우클릭 미팅 추가 | 김은향 | done | 2026-01-06 |
+| tsk-dashboard-ux-v1-24 | Dashboard - Google OAuth 계정 연결 | 김은향 | todo | |
+| tsk-dashboard-ux-v1-25 | Dashboard - 캘린더 Google Calendar 연동 | 김은향 | todo | |
+| tsk-dashboard-ux-v1-26 | Dashboard - Meeting Task Google Meet 생성 | 김은향 | todo | |
+| tsk-dashboard-ux-v1-27 | Dashboard - Task Done 회의록 자동 추출 | 김은향 | todo | |
 
 ---
 

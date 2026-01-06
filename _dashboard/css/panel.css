@@ -1739,7 +1739,7 @@
 }
 
 /* Pending Review Modal Buttons (scoped to avoid global override) */
-.pending-panel .btn,
+.pending-3pane-container .btn,
 .pending-review-modal .btn {
     padding: 10px 20px;
     border-radius: 6px;
@@ -1749,26 +1749,26 @@
     transition: all 0.2s;
 }
 
-.pending-panel .btn-primary,
+.pending-3pane-container .btn-primary,
 .pending-review-modal .btn-primary {
     background: #3b82f6;
     color: white;
     border: none;
 }
 
-.pending-panel .btn-primary:hover,
+.pending-3pane-container .btn-primary:hover,
 .pending-review-modal .btn-primary:hover {
     background: #2563eb;
 }
 
-.pending-panel .btn-secondary,
+.pending-3pane-container .btn-secondary,
 .pending-review-modal .btn-secondary {
     background: #f3f4f6;
     color: #374151;
     border: 1px solid #d1d5db;
 }
 
-.pending-panel .btn-secondary:hover,
+.pending-3pane-container .btn-secondary:hover,
 .pending-review-modal .btn-secondary:hover {
     background: #e5e7eb;
 }
