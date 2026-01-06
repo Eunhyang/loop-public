@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-06T00:10:54.343159",
-  "total_entities": 281,
+  "generated": "2026-01-06T21:31:49.280958",
+  "total_entities": 305,
   "nodes": [
     {
       "id": "hyp-2-10",
@@ -403,7 +403,7 @@
       "id": "prj-005",
       "type": "Project",
       "name": "LoopOS - 최소 선제 학습",
-      "status": "",
+      "status": "planning",
       "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md",
       "conditions_3y": [
         "cond-b"
@@ -696,13 +696,13 @@
       "id": "prj-015",
       "type": "Project",
       "name": "Hiring - 주니어 개발자 채용",
-      "status": "doing",
+      "status": "",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md",
       "conditions_3y": [
         "cond-d"
       ],
       "priority_flag": "high",
-      "owner": "한명학"
+      "owner": "김은향"
     },
     {
       "id": "tsk-015-10",
@@ -730,6 +730,14 @@
       "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
+    },
+    {
+      "id": "tsk-019-26",
+      "type": "Task",
+      "name": "주니어 개발자 채용 - 김민서님 커피챗 15:00",
+      "status": "done",
+      "path": "50_Projects/2025/P015_주니어 개발자 채용/Tasks/주니어_개발자_채용_김민서님_커피챗_1500.md",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-015-06",
@@ -854,7 +862,7 @@
       "id": "prj-002",
       "type": "Project",
       "name": "와디즈 - 12주 코칭 습관팩 런칭",
-      "status": "",
+      "status": "planning",
       "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -875,10 +883,11 @@
     {
       "id": "tsk-019-02",
       "type": "Task",
-      "name": "콘텐츠 제작 - 워크북/다이어리 가제본 검토(다예님 미팅)",
+      "name": "Dashboard - Google Meet 생성 UX 개선 (수동 생성)",
       "status": "done",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/콘텐츠_제작_워크북다이어리_가제본_검토다예님_미팅.md",
-      "assignee": "한명학"
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-02_Dashboard_Google_Meet_생성_UX_개선_(수동_생성).md",
+      "priority_flag": "high",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-002-08",
@@ -982,7 +991,7 @@
       "id": "prj-012",
       "type": "Project",
       "name": "CS·운영 - 고객관리/대응",
-      "status": "",
+      "status": "planning",
       "path": "50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -1012,7 +1021,7 @@
       "id": "prj-008",
       "type": "Project",
       "name": "파일럿 프로젝트 후보",
-      "status": "",
+      "status": "planning",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md",
       "conditions_3y": [
         "cond-b",
@@ -1115,7 +1124,7 @@
       "id": "prj-yt-w33",
       "type": "Project",
       "name": "YouTube - W33",
-      "status": "",
+      "status": "planning",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md",
       "priority_flag": "medium",
       "owner": "한명학"
@@ -1330,7 +1339,7 @@
       "id": "prj-dashboard-ux-v1",
       "type": "Project",
       "name": "대시보드 UX 개선 v1",
-      "status": "",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md",
       "conditions_3y": [
         "cond-e"
@@ -1348,12 +1357,38 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-32",
+      "type": "Task",
+      "name": "Dashboard - 캘린더 주간뷰 모든 태스크 표시",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-32_Dashboard_캘린더_주간뷰_모든_태스크_표시.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-06",
       "type": "Task",
       "name": "Dashboard Reset Filter 전체 초기화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-06_Dashboard_Reset_Filter_전체_초기화.md",
       "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-31",
+      "type": "Task",
+      "name": "Dashboard - Task Type Chip 즉시 저장 버그 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-019-27",
+      "type": "Task",
+      "name": "Dashboard - Google Calendar events API 400 에러 수정",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/Dashboard_Google_Calendar_events_API_400_에러_수정.md",
       "assignee": "김은향"
     },
     {
@@ -1366,12 +1401,30 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-24",
+      "type": "Task",
+      "name": "Dashboard - Google OAuth 계정 연결",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-24_Dashboard_Google_OAuth_계정_연결.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-09",
       "type": "Task",
       "name": "loop-entity-creator 문서 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-09_loop-entity-creator_문서_수정.md",
       "priority_flag": "low",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-25",
+      "type": "Task",
+      "name": "Dashboard - 캘린더 Google Calendar 연동",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-25_Dashboard_캘린더_Google_Calendar_연동.md",
+      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -1393,12 +1446,29 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-29",
+      "type": "Task",
+      "name": "Dashboard - Google Calendar 연동 버그 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-21",
       "type": "Task",
       "name": "Dashboard - 첨부파일 텍스트 추출 API",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-21_Dashboard_첨부파일_텍스트_추출_API.md",
       "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-019-25",
+      "type": "Task",
+      "name": "Schema - Task type에 meeting 추가",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/Schema_Task_type에_meeting_추가.md",
       "assignee": "김은향"
     },
     {
@@ -1429,6 +1499,15 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-26",
+      "type": "Task",
+      "name": "Dashboard - Meeting Task Google Meet 생성",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-26_Dashboard_Meeting_Task_Google_Meet_생성.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-07",
       "type": "Task",
       "name": "validate_schema.py YAML 일원화",
@@ -1456,6 +1535,15 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-30",
+      "type": "Task",
+      "name": "대시보드 - 코어멤버만 기본 표시",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-30_대시보드_코어멤버만_기본_표시.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-08",
       "type": "Task",
       "name": "build_graph_index.py YAML 일원화",
@@ -1474,12 +1562,30 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-dashboard-ux-v1-27",
+      "type": "Task",
+      "name": "Dashboard - Task Done 회의록 자동 추출",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-27_Dashboard_Task_Done_회의록_자동_추출.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-dashboard-ux-v1-01",
       "type": "Task",
       "name": "뷰 전환 단축키 (1/2/3)",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md",
       "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-23",
+      "type": "Task",
+      "name": "Dashboard - 캘린더 우클릭 미팅 추가",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-23_Dashboard_캘린더_우클릭_미팅_추가.md",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -1516,7 +1622,15 @@
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md",
       "priority_flag": "high",
-      "assignee": "은향"
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-33",
+      "type": "Task",
+      "name": "Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-33_Dashboard_캘린더_월뷰_overflow_수정_및_more_토글.md",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-dashboard-ux-v1-10",
@@ -1524,6 +1638,15 @@
       "name": "api/constants.py 응답 확장",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-28",
+      "type": "Task",
+      "name": "Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-28_Dashboard_Calendar_사이드바_Google_계정_관리_UX_개선.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1561,7 +1684,7 @@
       "id": "tsk-vault-gpt-12",
       "type": "Task",
       "name": "MCP - Navigation 자동 주입 미들웨어",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-12_MCP_Navigation_자동주입_미들웨어.md",
       "priority_flag": "high",
       "assignee": "한명학"
@@ -1617,7 +1740,7 @@
       "name": "Navigation - vault-navigation API 엔드포인트 구현",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/Navigation_vault_navigation_API_엔드포인트_구현.md",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "tsk-vault-gpt-07",
@@ -1641,7 +1764,7 @@
       "id": "tsk-vault-gpt-11",
       "type": "Task",
       "name": "Navigation - _INDEX.md API 이전",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-11_INDEX_API_이전.md",
       "priority_flag": "high",
       "assignee": "한명학"
@@ -1668,7 +1791,7 @@
       "id": "prj-feedback-system",
       "type": "Project",
       "name": "Feedback - 유저 피드백 수집 시스템",
-      "status": "doing",
+      "status": "",
       "path": "50_Projects/Vault_System/Rounds/prj-feedback-system/Project_정의.md",
       "priority_flag": "high",
       "owner": "김은향"
@@ -1847,6 +1970,15 @@
       "owner": "김은향"
     },
     {
+      "id": "tsk-018-04",
+      "type": "Task",
+      "name": "API - exec MCP mount 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - exec MCP mount 구현.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-018-02",
       "type": "Task",
       "name": "API - exec vault 프로젝트 스캔 로직 리팩토링",
@@ -1856,11 +1988,38 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-018-06",
+      "type": "Task",
+      "name": "API - Members SSOT 통합",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - Members SSOT 통합.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-018-05",
+      "type": "Task",
+      "name": "API - public shared import 경로 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - public shared import 경로 수정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-018-01",
       "type": "Task",
       "name": "API - VaultCache exec vault 프로젝트 로드",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-018-03",
+      "type": "Task",
+      "name": "API - SSOT 아키텍처 통합",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - SSOT 아키텍처 통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1895,6 +2054,17 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-21",
+      "type": "Task",
+      "name": "Pending Review - 새로고침 기능 (개별 엔티티 재추론 API 및 Dashboard UI)",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-21_Pending_Review_새로고침_기능.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-15",
       "type": "Task",
       "name": "Hypothesis - 고객중심 가설 강제 시스템",
@@ -1919,6 +2089,15 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-20",
+      "type": "Task",
+      "name": "Dashboard - Pending Panel Entity Preview UX 개선",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-20_Dashboard_Pending_Panel_Entity_Preview_UX_개선.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-10",
       "type": "Task",
       "name": "Dashboard - Pending Reviews 3단 레이아웃 UX 개선",
@@ -1934,6 +2113,17 @@
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
       "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-19",
+      "type": "Task",
+      "name": "n8n - 워크플로우 source_workflow 필드 추가",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-19_n8n_워크플로우_source_workflow_필드_추가.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
       "assignee": "김은향"
     },
     {
@@ -1982,6 +2172,15 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-17",
+      "type": "Task",
+      "name": "Ontology-Lite - 무결성 검증 시스템 구축",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-17_Ontology-Lite_무결성_검증_시스템.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-04",
       "type": "Task",
       "name": "n8n LLM 프롬프트 템플릿 개선",
@@ -1996,6 +2195,15 @@
       "name": "API 비즈니스 로직 통합 - 스킬→API 공통화",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-n8n-22",
+      "type": "Task",
+      "name": "Retro Synth - B Score 계산 fallback 시스템",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-22_Retro_Synth_B_Score_계산_fallback_시스템.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2018,10 +2226,19 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-n8n-18",
+      "type": "Task",
+      "name": "Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-18_Dashboard_Pending_Reviews_워크플로우_필터링_및_일괄_삭제.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-n8n-13",
       "type": "Task",
       "name": "Dashboard - Pending Reviews 필드 선택 UX 개선",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md",
       "priority_flag": "high",
       "assignee": "김은향"
@@ -2219,7 +2436,7 @@
       "id": "tsk-content-os-08",
       "type": "Task",
       "name": "Content OS - DB 스키마 구축",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md",
       "priority_flag": "high",
       "assignee": "김은향"
@@ -2579,6 +2796,11 @@
     {
       "source": "trk-2",
       "target": "prj-vault-gpt",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-feedback-system",
       "type": "parent_of"
     },
     {
@@ -3043,6 +3265,11 @@
     },
     {
       "source": "prj-015",
+      "target": "tsk-019-26",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-015",
       "target": "tsk-015-06",
       "type": "parent_of"
     },
@@ -3108,11 +3335,6 @@
     },
     {
       "source": "prj-002",
-      "target": "tsk-019-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-002",
       "target": "tsk-002-08",
       "type": "parent_of"
     },
@@ -3164,6 +3386,176 @@
     {
       "source": "prj-002",
       "target": "tsk-002-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-019-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-32",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-31",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-019-27",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-19",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-24",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-25",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-12",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-29",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-21",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-019-25",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-18",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-14",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-26",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-22",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-16",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-15",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-27",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-23",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-20",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-33",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-dashboard-ux-v1",
+      "target": "tsk-dashboard-ux-v1-28",
       "type": "parent_of"
     },
     {
@@ -3307,111 +3699,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-06",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-19",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-11",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-12",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-21",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-18",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-14",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-22",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-16",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-15",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-20",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-13",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-10",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-vault-gpt",
       "target": "tsk-vault-gpt-01",
       "type": "parent_of"
@@ -3474,11 +3761,6 @@
     {
       "source": "prj-vault-gpt",
       "target": "tsk-vault-gpt-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "pgm-vault-system",
-      "target": "prj-feedback-system",
       "type": "parent_of"
     },
     {
@@ -3582,6 +3864,26 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-api-exec-vault",
+      "target": "tsk-018-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-api-exec-vault",
+      "target": "tsk-018-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-api-exec-vault",
+      "target": "tsk-018-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-api-exec-vault",
+      "target": "tsk-018-03",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-n8n",
       "target": "tsk-n8n-11",
       "type": "parent_of"
@@ -3599,6 +3901,11 @@
     {
       "source": "prj-n8n",
       "target": "tsk-n8n-16",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-20",
       "type": "parent_of"
     },
     {
@@ -3638,6 +3945,11 @@
     },
     {
       "source": "prj-n8n",
+      "target": "tsk-n8n-17",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
       "target": "tsk-n8n-04",
       "type": "parent_of"
     },
@@ -3648,12 +3960,22 @@
     },
     {
       "source": "prj-n8n",
+      "target": "tsk-n8n-22",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
       "target": "tsk-n8n-12",
       "type": "parent_of"
     },
     {
       "source": "prj-n8n",
       "target": "tsk-n8n-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-n8n",
+      "target": "tsk-n8n-18",
       "type": "parent_of"
     },
     {
@@ -3867,6 +4189,11 @@
       "type": "supports"
     },
     {
+      "source": "tsk-019-02",
+      "target": null,
+      "type": "depends_on"
+    },
+    {
       "source": "tsk-008-05",
       "target": "tsk-008-04",
       "type": "depends_on"
@@ -3890,6 +4217,21 @@
       "source": "prj-kkokkkok-v1028",
       "target": "trk-4",
       "type": "supports"
+    },
+    {
+      "source": "tsk-dashboard-ux-v1-25",
+      "target": null,
+      "type": "depends_on"
+    },
+    {
+      "source": "tsk-dashboard-ux-v1-26",
+      "target": null,
+      "type": "depends_on"
+    },
+    {
+      "source": "tsk-dashboard-ux-v1-27",
+      "target": null,
+      "type": "depends_on"
     },
     {
       "source": "prj-mcp-dual-vault-rbac",
@@ -4490,8 +4832,10 @@
       "prj-dashboard-ux-v1",
       "prj-api-exec-vault",
       "prj-n8n",
+      "tsk-n8n-21",
       "tsk-n8n-15",
       "tsk-n8n-16",
+      "tsk-n8n-19",
       "pgm-tips",
       "trk-6"
     ],
@@ -4635,6 +4979,7 @@
       "tsk-015-10",
       "tsk-015-11",
       "tsk-015-04",
+      "tsk-019-26",
       "tsk-015-06",
       "tsk-015-01",
       "tsk-015-12",
@@ -4687,26 +5032,39 @@
       "tsk-yt-wegovy-01",
       "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
+      "tsk-dashboard-ux-v1-32",
       "tsk-dashboard-ux-v1-06",
+      "tsk-dashboard-ux-v1-31",
+      "tsk-019-27",
       "tsk-dashboard-ux-v1-19",
+      "tsk-dashboard-ux-v1-24",
       "tsk-dashboard-ux-v1-09",
+      "tsk-dashboard-ux-v1-25",
       "tsk-dashboard-ux-v1-11",
       "tsk-dashboard-ux-v1-12",
+      "tsk-dashboard-ux-v1-29",
       "tsk-dashboard-ux-v1-21",
+      "tsk-019-25",
       "tsk-dashboard-ux-v1-05",
       "tsk-dashboard-ux-v1-18",
       "tsk-dashboard-ux-v1-14",
+      "tsk-dashboard-ux-v1-26",
       "tsk-dashboard-ux-v1-07",
       "tsk-dashboard-ux-v1-22",
       "tsk-dashboard-ux-v1-16",
+      "tsk-dashboard-ux-v1-30",
       "tsk-dashboard-ux-v1-08",
       "tsk-dashboard-ux-v1-15",
+      "tsk-dashboard-ux-v1-27",
       "tsk-dashboard-ux-v1-01",
+      "tsk-dashboard-ux-v1-23",
       "tsk-dashboard-ux-v1-03",
       "tsk-dashboard-ux-v1-20",
       "tsk-dashboard-ux-v1-13",
       "tsk-dashboard-ux-v1-04",
+      "tsk-dashboard-ux-v1-33",
       "tsk-dashboard-ux-v1-10",
+      "tsk-dashboard-ux-v1-28",
       "tsk-vault-gpt-01",
       "tsk-019-07",
       "tsk-vault-gpt-12",
@@ -4735,23 +5093,33 @@
       "tsk-impact-schema-v2-05",
       "tsk-impact-v2-06",
       "tsk-019-01",
+      "tsk-018-04",
       "tsk-018-02",
+      "tsk-018-06",
+      "tsk-018-05",
       "tsk-018-01",
+      "tsk-018-03",
       "tsk-n8n-11",
       "tsk-n8n-14",
+      "tsk-n8n-21",
       "tsk-n8n-15",
       "tsk-n8n-16",
+      "tsk-n8n-20",
       "tsk-n8n-10",
       "tsk-n8n-03",
+      "tsk-n8n-19",
       "tsk-n8n-07",
       "tsk-n8n-09",
       "tsk-n8n-08",
       "tsk-n8n-02",
       "tsk-n8n-01",
+      "tsk-n8n-17",
       "tsk-n8n-04",
       "tsk-n8n-05",
+      "tsk-n8n-22",
       "tsk-n8n-12",
       "tsk-n8n-06",
+      "tsk-n8n-18",
       "tsk-n8n-13",
       "tsk-017-12",
       "tsk-017-11",
@@ -4913,6 +5281,7 @@
       "tsk-yt-w02-26-04",
       "tsk-yt-w02-26-09",
       "tsk-yt-w02-26-03",
+      "tsk-dashboard-ux-v1-27",
       "tsk-feedback-01",
       "tsk-content-os-02",
       "cond-c",
@@ -4936,7 +5305,6 @@
       "tsk-006-03",
       "prj-014",
       "prj-011",
-      "prj-015",
       "tsk-002-11",
       "tsk-012-01",
       "tsk-008-01",
@@ -4944,12 +5312,12 @@
       "pgm-grants",
       "pgm-kkokkkok-app-release",
       "pgm-vault-system",
+      "tsk-019-27",
+      "tsk-dashboard-ux-v1-24",
+      "tsk-019-25",
       "tsk-dashboard-ux-v1-10",
       "prj-vault-gpt",
-      "tsk-vault-gpt-12",
       "tsk-019-21",
-      "tsk-vault-gpt-11",
-      "prj-feedback-system",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-04",
       "tsk-mcp-rbac-03",
@@ -4958,14 +5326,13 @@
       "tsk-impact-schema-v2-05",
       "prj-api-exec-vault",
       "tsk-n8n-16",
+      "tsk-n8n-22",
       "tsk-n8n-06",
-      "tsk-n8n-13",
       "tsk-017-11",
       "pgm-tips",
       "pgm-hiring",
       "pgm-coaching",
       "pgm-content-os",
-      "tsk-content-os-08",
       "cond-b",
       "cond-d",
       "cond-a",
@@ -4981,11 +5348,12 @@
       "concept-os-stickiness",
       "pl-1"
     ],
-    "": [
+    "planning": [
       "prj-005",
       "prj-002",
       "prj-012",
       "prj-008",
+      "prj-020",
       "prj-yt-w33",
       "prj-dashboard-ux-v1"
     ],
@@ -5016,6 +5384,7 @@
       "tsk-015-10",
       "tsk-015-11",
       "tsk-015-04",
+      "tsk-019-26",
       "tsk-015-06",
       "tsk-015-01",
       "tsk-015-12",
@@ -5048,33 +5417,44 @@
       "prj-kkokkkok-v1028",
       "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
+      "tsk-dashboard-ux-v1-32",
       "tsk-dashboard-ux-v1-06",
+      "tsk-dashboard-ux-v1-31",
       "tsk-dashboard-ux-v1-19",
       "tsk-dashboard-ux-v1-09",
+      "tsk-dashboard-ux-v1-25",
       "tsk-dashboard-ux-v1-11",
       "tsk-dashboard-ux-v1-12",
+      "tsk-dashboard-ux-v1-29",
       "tsk-dashboard-ux-v1-21",
       "tsk-dashboard-ux-v1-05",
       "tsk-dashboard-ux-v1-18",
       "tsk-dashboard-ux-v1-14",
+      "tsk-dashboard-ux-v1-26",
       "tsk-dashboard-ux-v1-07",
       "tsk-dashboard-ux-v1-22",
       "tsk-dashboard-ux-v1-16",
+      "tsk-dashboard-ux-v1-30",
       "tsk-dashboard-ux-v1-08",
       "tsk-dashboard-ux-v1-15",
       "tsk-dashboard-ux-v1-01",
+      "tsk-dashboard-ux-v1-23",
       "tsk-dashboard-ux-v1-03",
       "tsk-dashboard-ux-v1-20",
       "tsk-dashboard-ux-v1-13",
       "tsk-dashboard-ux-v1-04",
+      "tsk-dashboard-ux-v1-33",
+      "tsk-dashboard-ux-v1-28",
       "tsk-vault-gpt-01",
       "tsk-019-07",
+      "tsk-vault-gpt-12",
       "tsk-vault-gpt-10",
       "tsk-vault-gpt-03",
       "tsk-vault-gpt-09",
       "tsk-vault-gpt-06",
       "tsk-vault-gpt-07",
       "tsk-vault-gpt-04",
+      "tsk-vault-gpt-11",
       "tsk-vault-gpt-05",
       "tsk-vault-gpt-08",
       "tsk-mcp-rbac-02",
@@ -5086,21 +5466,31 @@
       "tsk-impact-schema-v2-02",
       "tsk-impact-v2-06",
       "tsk-019-01",
+      "tsk-018-04",
       "tsk-018-02",
+      "tsk-018-06",
+      "tsk-018-05",
       "tsk-018-01",
+      "tsk-018-03",
       "tsk-n8n-11",
       "tsk-n8n-14",
+      "tsk-n8n-21",
       "tsk-n8n-15",
+      "tsk-n8n-20",
       "tsk-n8n-10",
       "tsk-n8n-03",
+      "tsk-n8n-19",
       "tsk-n8n-07",
       "tsk-n8n-09",
       "tsk-n8n-08",
       "tsk-n8n-02",
       "tsk-n8n-01",
+      "tsk-n8n-17",
       "tsk-n8n-04",
       "tsk-n8n-05",
       "tsk-n8n-12",
+      "tsk-n8n-18",
+      "tsk-n8n-13",
       "tsk-017-12",
       "tsk-017-15",
       "tsk-017-14",
@@ -5114,12 +5504,14 @@
       "tsk-content-os-07",
       "tsk-content-os-05",
       "tsk-content-os-11",
+      "tsk-content-os-08",
       "tsk-content-os-09",
       "tsk-content-os-06",
       "retro:2025-annual"
     ],
-    "planning": [
-      "prj-020"
+    "": [
+      "prj-015",
+      "prj-feedback-system"
     ],
     "hold": [
       "tsk-vault-gpt-02"

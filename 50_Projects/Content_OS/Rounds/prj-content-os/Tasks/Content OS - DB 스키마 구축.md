@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: "tsk-content-os-08"
 entity_name: "Content OS - DB 스키마 구축"
 created: 2026-01-02
-updated: 2026-01-02
-status: doing
+updated: 2026-01-06
+closed: 2026-01-06
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -26,7 +27,7 @@ actual_hours: null
 
 # === Task 유형 (dev Task 연동용) ===
 type: dev
-target_project: content-os
+target_project: loop
 repo_path: apps/content-os
 
 # === 3Y 전략 연결 (필수) ===
@@ -37,7 +38,7 @@ priority_flag: high
 
 # Content OS - DB 스키마 구축
 
-> Task ID: `tsk-content-os-08` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-content-os-08` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
@@ -282,9 +283,18 @@ exec-pipeline/                   # 또는 n8n 워크플로우
 - [ ] FastAPI 모델 정의
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-06 (완료)
+**개요**: Task 완료 - Firebase 전환 결정으로 SQLite 설계 문서화 완료
+
+**결과**:
+- SQLite 2-DB 구조 (Vault DB + Exec KPI DB) 설계 완료
+- 서비스 분리 원칙 정립 (Content OS는 public만, exec는 별도 파이프라인)
+- PRD에 상세 스키마, 마이그레이션 전략, API 연동 구조 문서화
+- 실제 구현은 Firebase (Firestore)로 전환 예정
+
+**최종 상태**: done
+**다음 단계**: Firebase 스키마 구축 진행
 
 ---
 

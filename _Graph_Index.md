@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-06
 updated: 2026-01-06
-total_entities: 281
+total_entities: 305
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 281개
+- **총 엔티티**: 305개
 - **마지막 업데이트**: 2026-01-06
 
 ### 타입별
@@ -29,21 +29,21 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 8 |
 | Project | 27 |
-| Task | 170 |
+| Task | 194 |
 | Hypothesis | 46 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-|  | 6 |
+|  | 2 |
 | active | 6 |
 | assumed | 1 |
-| doing | 50 |
-| done | 119 |
+| doing | 48 |
+| done | 142 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 1 |
-| todo | 92 |
+| planning | 7 |
+| todo | 93 |
 | validating | 4 |
 
 ---
@@ -107,35 +107,35 @@ tags: ["meta", "graph", "index"]
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `prj-001` | Ontology v0.1 | doing | `50_Projects/2025/P001_Ontology/Project_정의.md` |
-| `prj-002` | 와디즈 - 12주 코칭 습관팩 런칭 |  | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md` |
+| `prj-002` | 와디즈 - 12주 코칭 습관팩 런칭 | planning | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Project_정의.md` |
 | `prj-003` | LoopOS V0 데이터 설계 | doing | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Project_정의.md` |
-| `prj-005` | LoopOS - 최소 선제 학습 |  | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md` |
+| `prj-005` | LoopOS - 최소 선제 학습 | planning | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Project_정의.md` |
 | `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Project_정의.md` |
 | `prj-007` | 외부 비서 | done | `50_Projects/2025/P007_외부 비서/Project_정의.md` |
-| `prj-008` | 파일럿 프로젝트 후보 |  | `50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md` |
+| `prj-008` | 파일럿 프로젝트 후보 | planning | `50_Projects/2025/P008_파일럿 프로젝트 후보/Project_정의.md` |
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | doing | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Project_정의.md` |
-| `prj-012` | CS·운영 - 고객관리/대응 |  | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md` |
+| `prj-012` | CS·운영 - 고객관리/대응 | planning | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Project_정의.md` |
 | `prj-014` | 코칭 서비스 운영 체계 재구축 | doing | `50_Projects/2025/P014_코칭 운영 체계/Project_정의.md` |
-| `prj-015` | Hiring - 주니어 개발자 채용 | doing | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
+| `prj-015` | Hiring - 주니어 개발자 채용 |  | `50_Projects/2025/P015_주니어 개발자 채용/Project_정의.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | todo | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Project_정의.md` |
 | `prj-019` | Dual-Vault - 정비 | doing | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Project_정의.md` |
 | `prj-020` | 스타트업베이 - 2025 지원사업 | planning | `50_Projects/2025/P020_스타트업베이_2025_지원사업/Project_정의.md` |
 | `prj-021` | [경영·운영] 경영 관리 | active | `50_Projects/2025/P021_[경영·운영] 경영 관리/Project_정의.md` |
 | `prj-api-exec-vault` | API - Exec Vault 통합 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Project_정의.md` |
 | `prj-content-os` | Content OS - MVP 개발 | active | `50_Projects/Content_OS/Rounds/prj-content-os/Project_정의.md` |
-| `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 |  | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
-| `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-feedback-system/Project_정의.md` |
+| `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Project_정의.md` |
+| `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 |  | `50_Projects/Vault_System/Rounds/prj-feedback-system/Project_정의.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | active | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Project_정의.md` |
 | `prj-kkokkkok-v1028` | KkokKkok App v1.0.28 - Hotfix | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/Project_정의.md` |
 | `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Project_정의.md` |
 | `prj-n8n` | n8n Vault 자동화 | active | `50_Projects/Vault_System/Rounds/prj-n8n/Project_정의.md` |
 | `prj-vault-gpt` | ChatGPT Vault MCP 연결 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Project_정의.md` |
 | `prj-yt-W02-26` | YouTube - W02 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Project_정의.md` |
-| `prj-yt-w33` | YouTube - W33 |  | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md` |
+| `prj-yt-w33` | YouTube - W33 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Project_정의.md` |
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Project_정의.md` |
 
 
-## Task (170개)
+## Task (194개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -209,8 +209,12 @@ tags: ["meta", "graph", "index"]
 | `tsk-017-15` | Dual-Vault - exec ID 마이그레이션 | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-15_exec_ID_마이그레이션.md` |
 | `tsk-018-01` | API - VaultCache exec vault 프로젝트 로드 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md` |
 | `tsk-018-02` | API - exec vault 프로젝트 스캔 로직 리팩토링 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - exec vault 프로젝트 스캔 로직 리팩토링.md` |
+| `tsk-018-03` | API - SSOT 아키텍처 통합 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - SSOT 아키텍처 통합.md` |
+| `tsk-018-04` | API - exec MCP mount 구현 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - exec MCP mount 구현.md` |
+| `tsk-018-05` | API - public shared import 경로 수정 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - public shared import 경로 수정.md` |
+| `tsk-018-06` | API - Members SSOT 통합 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - Members SSOT 통합.md` |
 | `tsk-019-01` | Dual-Vault - exec pre-commit hook | done | `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md` |
-| `tsk-019-02` | 콘텐츠 제작 - 워크북/다이어리 가제본 검토(다예님 미팅) | done | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/콘텐츠_제작_워크북다이어리_가제본_검토다예님_미팅.md` |
+| `tsk-019-02` | Dashboard - Google Meet 생성 UX 개선 (수동 생성) | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-02_Dashboard_Google_Meet_생성_UX_개선_(수동_생성).md` |
 | `tsk-019-03` | 콘텐츠 제작 - 가제본 확인 후 수정사항 디자이너 전달(구조, 명언, 톤 등) | done | `50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/콘텐츠_제작_가제본_확인_후_수정사항_디자이너_전달구조_명언_톤_등.md` |
 | `tsk-019-04` | 코칭서비스 졸업자 사후 설문 데이터 - 지원 내용 확인 및 답장 | done | `50_Projects/2025/P014_코칭 운영 체계/Tasks/코칭서비스_졸업자_사후_설문_데이터_지원_내용_확인_및_답장.md` |
 | `tsk-019-05` | 콘텐츠 제작 - 유튜브 숏폼 제작(W33-1) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작W33_1.md` |
@@ -225,13 +229,16 @@ tags: ["meta", "graph", "index"]
 | `tsk-019-21` | Navigation - vault-navigation API 엔드포인트 구현 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/Navigation_vault_navigation_API_엔드포인트_구현.md` |
 | `tsk-019-22` | 세금 처리 - 급여명세서 처리(임단,보윤,잔디) | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/세금_처리_급여명세서_처리임단보윤잔디.md` |
 | `tsk-019-23` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/코치_고용_잔디님_보윤님_결과_통보.md` |
+| `tsk-019-25` | Schema - Task type에 meeting 추가 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/Schema_Task_type에_meeting_추가.md` |
+| `tsk-019-26` | 주니어 개발자 채용 - 김민서님 커피챗 15:00 | done | `50_Projects/2025/P015_주니어 개발자 채용/Tasks/주니어_개발자_채용_김민서님_커피챗_1500.md` |
+| `tsk-019-27` | Dashboard - Google Calendar events API 400 에러 수정 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/Dashboard_Google_Calendar_events_API_400_에러_수정.md` |
 | `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
 | `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
 | `tsk-content-os-04` | Content OS - Task Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
 | `tsk-content-os-05` | Content OS - 회고 대시보드 UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
 | `tsk-content-os-06` | ContentOS - Performance Dashboard Phase 1 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md` |
 | `tsk-content-os-07` | Content OS - Video Explorer Live Search | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md` |
-| `tsk-content-os-08` | Content OS - DB 스키마 구축 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md` |
+| `tsk-content-os-08` | Content OS - DB 스키마 구축 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md` |
 | `tsk-content-os-09` | Content OS - YouTube API Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md` |
 | `tsk-content-os-10` | Content OS - YouTube Analytics API 연동 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md` |
 | `tsk-content-os-11` | Content OS - 하드코딩 인증 구현 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md` |
@@ -257,6 +264,17 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-20` | Dashboard - PDF 인라인 뷰어 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-20_Dashboard_PDF_인라인_뷰어.md` |
 | `tsk-dashboard-ux-v1-21` | Dashboard - 첨부파일 텍스트 추출 API | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-21_Dashboard_첨부파일_텍스트_추출_API.md` |
 | `tsk-dashboard-ux-v1-22` | Dashboard - PDF 첨부파일 500 에러 진단 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-22_Dashboard_PDF_첨부파일_500_에러_진단.md` |
+| `tsk-dashboard-ux-v1-23` | Dashboard - 캘린더 우클릭 미팅 추가 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-23_Dashboard_캘린더_우클릭_미팅_추가.md` |
+| `tsk-dashboard-ux-v1-24` | Dashboard - Google OAuth 계정 연결 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-24_Dashboard_Google_OAuth_계정_연결.md` |
+| `tsk-dashboard-ux-v1-25` | Dashboard - 캘린더 Google Calendar 연동 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-25_Dashboard_캘린더_Google_Calendar_연동.md` |
+| `tsk-dashboard-ux-v1-26` | Dashboard - Meeting Task Google Meet 생성 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-26_Dashboard_Meeting_Task_Google_Meet_생성.md` |
+| `tsk-dashboard-ux-v1-27` | Dashboard - Task Done 회의록 자동 추출 | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-27_Dashboard_Task_Done_회의록_자동_추출.md` |
+| `tsk-dashboard-ux-v1-28` | Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-28_Dashboard_Calendar_사이드바_Google_계정_관리_UX_개선.md` |
+| `tsk-dashboard-ux-v1-29` | Dashboard - Google Calendar 연동 버그 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md` |
+| `tsk-dashboard-ux-v1-30` | 대시보드 - 코어멤버만 기본 표시 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-30_대시보드_코어멤버만_기본_표시.md` |
+| `tsk-dashboard-ux-v1-31` | Dashboard - Task Type Chip 즉시 저장 버그 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md` |
+| `tsk-dashboard-ux-v1-32` | Dashboard - 캘린더 주간뷰 모든 태스크 표시 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-32_Dashboard_캘린더_주간뷰_모든_태스크_표시.md` |
+| `tsk-dashboard-ux-v1-33` | Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-33_Dashboard_캘린더_월뷰_overflow_수정_및_more_토글.md` |
 | `tsk-feedback-01` | Feedback - API 엔드포인트 + Firestore 스키마 구현 | todo | `50_Projects/Vault_System/Rounds/prj-feedback-system/Tasks/tsk-feedback-01.md` |
 | `tsk-impact-schema-v2-01` | Impact - Realized 필드 확장 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md` |
 | `tsk-impact-schema-v2-02` | build_impact.py window 지원 (Phase 2) | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-05_build_impact_window.md` |
@@ -282,10 +300,16 @@ tags: ["meta", "graph", "index"]
 | `tsk-n8n-10` | Dashboard - Pending Reviews 3단 레이아웃 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md` |
 | `tsk-n8n-11` | Hypothesis - Seeder 워크플로우 API 개발 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md` |
 | `tsk-n8n-12` | Evidence 자동화 - 운영 완성 (Workflow C + Server Skip) | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md` |
-| `tsk-n8n-13` | Dashboard - Pending Reviews 필드 선택 UX 개선 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md` |
+| `tsk-n8n-13` | Dashboard - Pending Reviews 필드 선택 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md` |
 | `tsk-n8n-14` | Impact Model - SSOT 구조 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-14_Impact_Model_SSOT_구조_개선.md` |
 | `tsk-n8n-15` | Hypothesis - 고객중심 가설 강제 시스템 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-15_Hypothesis_고객중심_가설_강제_시스템.md` |
 | `tsk-n8n-16` | n8n - Workflow D Hypothesis Seeder | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-16_n8n_Workflow_D_Hypothesis_Seeder.md` |
+| `tsk-n8n-17` | Ontology-Lite - 무결성 검증 시스템 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-17_Ontology-Lite_무결성_검증_시스템.md` |
+| `tsk-n8n-18` | Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-18_Dashboard_Pending_Reviews_워크플로우_필터링_및_일괄_삭제.md` |
+| `tsk-n8n-19` | n8n - 워크플로우 source_workflow 필드 추가 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-19_n8n_워크플로우_source_workflow_필드_추가.md` |
+| `tsk-n8n-20` | Dashboard - Pending Panel Entity Preview UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-20_Dashboard_Pending_Panel_Entity_Preview_UX_개선.md` |
+| `tsk-n8n-21` | Pending Review - 새로고침 기능 (개별 엔티티 재추론 API 및 Dashboard UI) | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-21_Pending_Review_새로고침_기능.md` |
+| `tsk-n8n-22` | Retro Synth - B Score 계산 fallback 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-22_Retro_Synth_B_Score_계산_fallback_시스템.md` |
 | `tsk-vault-gpt-01` | v1 HTTP MCP 설정 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md` |
 | `tsk-vault-gpt-02` | MCP API TaskUpdate 모델 확장 | hold | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md` |
 | `tsk-vault-gpt-03` | API - Tree + Batch 엔드포인트 추가 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md` |
@@ -296,8 +320,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-vault-gpt-08` | LOOP API - YouTube Weekly Round 자동 생성 엔드포인트 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-08_YouTube_Weekly_Round_자동생성_API.md` |
 | `tsk-vault-gpt-09` | LOOP n8n - YouTube Weekly 자동 트리거 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-09_n8n_YouTube_Weekly_자동트리거.md` |
 | `tsk-vault-gpt-10` | Navigation - vault-navigation API 엔드포인트 구현 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-10_Navigation_API.md` |
-| `tsk-vault-gpt-11` | Navigation - _INDEX.md API 이전 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-11_INDEX_API_이전.md` |
-| `tsk-vault-gpt-12` | MCP - Navigation 자동 주입 미들웨어 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-12_MCP_Navigation_자동주입_미들웨어.md` |
+| `tsk-vault-gpt-11` | Navigation - _INDEX.md API 이전 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-11_INDEX_API_이전.md` |
+| `tsk-vault-gpt-12` | MCP - Navigation 자동 주입 미들웨어 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-12_MCP_Navigation_자동주입_미들웨어.md` |
 | `tsk-yt-w02-26-01` | YouTube W02 - 주제 선정 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-01_주제_선정.md` |
 | `tsk-yt-w02-26-02` | YouTube W02 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md` |
 | `tsk-yt-w02-26-03` | YouTube W02 - 원고 수정 + 촬영 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-03_원고_수정_촬영.md` |
@@ -401,8 +425,6 @@ tags: ["meta", "graph", "index"]
   - mh-4 (MH4_단계적_확장_가능)
 - **pgm-grants** (정부지원사업)
   - prj-020 (스타트업베이 - 2025 지원사업)
-- **pgm-vault-system** (Vault 시스템 체계화)
-  - prj-feedback-system (Feedback - 유저 피드백 수집 시스템)
 - **pgm-youtube-weekly** (YouTube 1주 1업로드)
   - prj-yt-wegovy (위고비 유튜브 콘텐츠 기획)
 - **pl-3** (PL3_Eating_Disorder_DTx)
@@ -425,7 +447,6 @@ tags: ["meta", "graph", "index"]
   - tsk-002-10 (꼭꼭FIT 강의 페이지 + 과제 페이지 만들기)
   - tsk-002-11 (와디즈 오픈 후 고객 대응)
   - tsk-002-12 (와디즈 새소식 초안 작성 - 브랜드 방향성 위주)
-  - tsk-019-02 (콘텐츠 제작 - 워크북/다이어리 가제본 검토(다예님 미팅))
   - tsk-019-03 (콘텐츠 제작 - 가제본 확인 후 수정사항 디자이너 전달(구조, 명언, 톤 등))
 - **prj-003** (LoopOS V0 데이터 설계)
   - tsk-003-01 (Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기)
@@ -483,6 +504,7 @@ tags: ["meta", "graph", "index"]
   - tsk-015-11 (Hiring - 개발자 온보딩 문서 v1 작성)
   - tsk-015-12 (Hiring - 개발 환경 세팅 문서)
   - tsk-015-13 (Hiring - Day1 Onboarding 진행)
+  - tsk-019-26 (주니어 개발자 채용 - 김민서님 커피챗 15:00)
 - **prj-016** (법인 전환 설립(주) 루프)
   - tsk-016-01 (법인 정관 작성 후 최종 검토)
   - tsk-016-02 (법인 신청 및 결제/추후 보완사항 대응)
@@ -500,6 +522,11 @@ tags: ["meta", "graph", "index"]
   - tsk-019-12 (스타트업베이 - 발표평가)
   - tsk-019-13 (스타트업베이 - Level-up 임팩트 IR)
   - tsk-019-14 (스타트업베이 - 최종발표)
+- **prj-api-exec-vault** (API - Exec Vault 통합)
+  - tsk-018-03 (API - SSOT 아키텍처 통합)
+  - tsk-018-04 (API - exec MCP mount 구현)
+  - tsk-018-05 (API - public shared import 경로 수정)
+  - tsk-018-06 (API - Members SSOT 통합)
 - **prj-content-os** (Content OS - MVP 개발)
   - tsk-content-os-01 (Content OS - 프로젝트 초기 세팅)
   - tsk-content-os-02 (Content OS - Opportunity 대시보드 UI)
@@ -513,6 +540,9 @@ tags: ["meta", "graph", "index"]
   - tsk-content-os-11 (Content OS - 하드코딩 인증 구현)
   - tsk-content-os-12 (Content OS - Performance Delta 툴팁 UX)
 - **prj-dashboard-ux-v1** (대시보드 UX 개선 v1)
+  - tsk-019-02 (Dashboard - Google Meet 생성 UX 개선 (수동 생성))
+  - tsk-019-25 (Schema - Task type에 meeting 추가)
+  - tsk-019-27 (Dashboard - Google Calendar events API 400 에러 수정)
   - tsk-dashboard-ux-v1-01 (뷰 전환 단축키 (1/2/3))
   - tsk-dashboard-ux-v1-02 (대시보드 키보드 단축키)
   - tsk-dashboard-ux-v1-03 (사이드바 엔티티 상세 패널 구현)
@@ -534,6 +564,16 @@ tags: ["meta", "graph", "index"]
   - tsk-dashboard-ux-v1-20 (Dashboard - PDF 인라인 뷰어)
   - tsk-dashboard-ux-v1-21 (Dashboard - 첨부파일 텍스트 추출 API)
   - tsk-dashboard-ux-v1-22 (Dashboard - PDF 첨부파일 500 에러 진단)
+  - tsk-dashboard-ux-v1-23 (Dashboard - 캘린더 우클릭 미팅 추가)
+  - tsk-dashboard-ux-v1-24 (Dashboard - Google OAuth 계정 연결)
+  - tsk-dashboard-ux-v1-25 (Dashboard - 캘린더 Google Calendar 연동)
+  - tsk-dashboard-ux-v1-26 (Dashboard - Meeting Task Google Meet 생성)
+  - tsk-dashboard-ux-v1-27 (Dashboard - Task Done 회의록 자동 추출)
+  - tsk-dashboard-ux-v1-28 (Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선)
+  - tsk-dashboard-ux-v1-29 (Dashboard - Google Calendar 연동 버그 수정)
+  - tsk-dashboard-ux-v1-31 (Dashboard - Task Type Chip 즉시 저장 버그 수정)
+  - tsk-dashboard-ux-v1-32 (Dashboard - 캘린더 주간뷰 모든 태스크 표시)
+  - tsk-dashboard-ux-v1-33 (Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가)
 - **prj-feedback-system** (Feedback - 유저 피드백 수집 시스템)
   - tsk-feedback-01 (Feedback - API 엔드포인트 + Firestore 스키마 구현)
 - **prj-impact-schema-v2** (Schema - Realized Impact 확장)
@@ -568,6 +608,10 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-14 (Impact Model - SSOT 구조 개선)
   - tsk-n8n-15 (Hypothesis - 고객중심 가설 강제 시스템)
   - tsk-n8n-16 (n8n - Workflow D Hypothesis Seeder)
+  - tsk-n8n-17 (Ontology-Lite - 무결성 검증 시스템 구축)
+  - tsk-n8n-18 (Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제)
+  - tsk-n8n-20 (Dashboard - Pending Panel Entity Preview UX 개선)
+  - tsk-n8n-22 (Retro Synth - B Score 계산 fallback 시스템)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-019-21 (Navigation - vault-navigation API 엔드포인트 구현)
   - tsk-vault-gpt-01 (v1 HTTP MCP 설정)
@@ -631,6 +675,7 @@ tags: ["meta", "graph", "index"]
   - prj-019 (Dual-Vault - 정비)
   - prj-api-exec-vault (API - Exec Vault 통합)
   - prj-dashboard-ux-v1 (대시보드 UX 개선 v1)
+  - prj-feedback-system (Feedback - 유저 피드백 수집 시스템)
   - prj-impact-schema-v2 (Schema - Realized Impact 확장)
   - prj-mcp-dual-vault-rbac (MCP Dual-Vault RBAC)
   - prj-n8n (n8n Vault 자동화)
