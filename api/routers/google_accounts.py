@@ -573,18 +573,21 @@ async def get_google_events(
     request: Request,
     start: str = Query(..., description="Start date YYYY-MM-DD"),
     end: str = Query(..., description="End date YYYY-MM-DD"),
-    calendar_ids: str = Query(..., description="Comma-separated calendar IDs (format: account_id:calendar_id)"),
+    calendar_ids: str = Query(..., description="Comma-separated calendar IDs (format: account_id__calendar_id, using double underscore)"),
     db: SQLSession = Depends(get_google_db)
 ):
     """Get events from selected Google calendars
 
     Fetches events from specified calendars within the date range.
-    Calendar IDs should include account_id prefix: "1:calendar@gmail.com"
+    Calendar IDs should include account_id prefix: "1__calendar@gmail.com" (double underscore)
+
+    Note: Uses double underscore (__) as separator instead of colon (:) to avoid
+    URL parsing issues with reverse proxies (Synology NAS).
 
     Args:
         start: Start date in YYYY-MM-DD format
         end: End date in YYYY-MM-DD format
-        calendar_ids: Comma-separated list of "account_id:calendar_id"
+        calendar_ids: Comma-separated list of "account_id__calendar_id" (double underscore)
 
     Response:
         {
@@ -630,11 +633,23 @@ async def get_google_events(
         raise HTTPException(status_code=400, detail=f"Invalid date format: {e}. Use YYYY-MM-DD.")
 
     # Security: Validate that requested calendars belong to user's accounts
+    # Note: Using double underscore (__) as separator to avoid URL parsing issues
+    # Detection order: new format (__) has priority, checked by pattern "digits__"
     account_ids = {acc.id for acc in accounts}
+    import re
     for cal_spec in cal_id_list:
-        if ":" in cal_spec:
+        # Support both old format (colon) and new format (double underscore) for backward compatibility
+        # Check new format first: must start with digits followed by __
+        if re.match(r'^\d+__', cal_spec):
+            separator = "__"
+        elif re.match(r'^\d+:', cal_spec):
+            separator = ":"
+        else:
+            separator = None
+
+        if separator:
             try:
-                acc_id_str, _ = cal_spec.split(":", 1)
+                acc_id_str, _ = cal_spec.split(separator, 1)
                 acc_id = int(acc_id_str)
                 if acc_id not in account_ids:
                     raise HTTPException(
@@ -642,7 +657,7 @@ async def get_google_events(
                         detail=f"Calendar {cal_spec} does not belong to your accounts"
                     )
             except ValueError:
-                raise HTTPException(status_code=400, detail=f"Invalid calendar ID format: {cal_spec}")
+                raise HTTPException(status_code=400, detail=f"Invalid calendar ID format: {cal_spec}. Expected: account_id__calendar_id")
 
     # Fetch events from all calendars
     events, errors = get_all_events(db, accounts, cal_id_list, start, end, user_id)

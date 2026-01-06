@@ -148,13 +148,33 @@ const Calendar = {
 
     /**
      * localStorage에서 활성화된 캘린더 목록 로드
+     * Migrates old colon format (1:email@example.com) to double underscore format (1__email@example.com)
      */
     loadEnabledCalendars() {
         try {
             const saved = localStorage.getItem(this.STORAGE_KEY);
             if (saved) {
                 const ids = JSON.parse(saved);
-                this.enabledCalendars = new Set(ids);
+                // Migrate old colon format to double underscore format
+                // Pattern: digits followed by : that isn't already in new format (digits__)
+                let needsSave = false;
+                const migratedIds = ids.map(id => {
+                    // Check if old format: starts with digits and colon, but not already in new format
+                    const oldFormatMatch = id.match(/^(\d+):(.+)$/);
+                    const newFormatMatch = id.match(/^(\d+)__(.+)$/);
+                    if (oldFormatMatch && !newFormatMatch) {
+                        // Convert digit:rest to digit__rest
+                        needsSave = true;
+                        return `${oldFormatMatch[1]}__${oldFormatMatch[2]}`;
+                    }
+                    return id;
+                });
+                this.enabledCalendars = new Set(migratedIds);
+                // Save migrated format
+                if (needsSave) {
+                    console.log('Migrated calendar IDs from colon to double underscore format');
+                    this.saveEnabledCalendars();
+                }
             }
         } catch (e) {
             console.warn('Failed to load enabled calendars from localStorage:', e);
@@ -193,10 +213,12 @@ const Calendar = {
             this.googleCalendars = data.calendars || [];
 
             // 처음 로드 시 primary 캘린더 자동 활성화
+            // Note: Using double underscore (__) as separator instead of colon (:) to avoid
+            // URL parsing issues with reverse proxies (Synology NAS)
             if (this.enabledCalendars.size === 0 && this.googleCalendars.length > 0) {
                 this.googleCalendars.forEach(cal => {
                     if (cal.primary) {
-                        const calKey = `${cal.account_id}:${cal.id}`;
+                        const calKey = `${cal.account_id}__${cal.id}`;
                         this.enabledCalendars.add(calKey);
                     }
                 });
@@ -364,7 +386,8 @@ const Calendar = {
             `;
 
             group.calendars.forEach(cal => {
-                const calKey = `${cal.account_id}:${cal.id}`;
+                // Use double underscore (__) as separator to avoid URL parsing issues
+                const calKey = `${cal.account_id}__${cal.id}`;
                 const isEnabled = this.enabledCalendars.has(calKey);
                 html += `
                     <li class="calendar-item">

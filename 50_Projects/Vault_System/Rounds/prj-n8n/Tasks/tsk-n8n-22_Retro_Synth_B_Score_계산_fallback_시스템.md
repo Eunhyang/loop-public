@@ -241,6 +241,36 @@ const validFacts = (parsed.facts || []).filter(f =>
 - n8n에서 실제 워크플로우 테스트
 - E2E 테스트 시나리오 작성
 
+#### 2026-01-06 v8.1 업데이트
+
+**개요**: 첨부파일 분기 로직 추가. 첨부파일이 없으면 Retro Synth 스킵하고 기본 Evidence API 호출.
+
+**변경사항**:
+
+1. **Evidence Quality Gate 노드 수정** (`entity_validator_autofiller.json`):
+   - `hasAttachments` 체크 추가: `item.attachment_stats?.total_extracted > 0`
+   - `needsRetroSynth` 조건 수정: `hasAttachments && verdict === 'weak'`
+   - quality_gate 출력에 `has_attachments` 필드 추가
+
+**핵심 코드**:
+```javascript
+// 첨부파일 존재 여부 확인
+const hasAttachments = item.attachment_stats?.total_extracted > 0;
+
+// Retro Synth 필요 여부 - 첨부파일이 있는 경우에만 판정
+const needsRetroSynth = hasAttachments && verdict === 'weak' && (totalChars < 1500 || numericMentions < 2);
+```
+
+**분기 로직**:
+```
+Extract Attachment Texts → Evidence Quality Gate
+                           ├─ 첨부파일 없음 (has_attachments=false) → 기본 Evidence API
+                           ├─ 첨부파일 있음 + strong/medium → 기본 Evidence API
+                           └─ 첨부파일 있음 + weak → Retro Synth 경로
+```
+
+**결과**: v8 → v8.1 버전 업그레이드
+
 
 ---
 

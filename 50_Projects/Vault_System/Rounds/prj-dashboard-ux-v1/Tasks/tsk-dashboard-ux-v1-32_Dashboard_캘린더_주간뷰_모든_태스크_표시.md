@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-32"
 entity_name: "Dashboard - 캘린더 주간뷰 모든 태스크 표시"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: medium
 
 # Dashboard - 캘린더 주간뷰 모든 태스크 표시
 
-> Task ID: `tsk-dashboard-ux-v1-32` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-32` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -132,6 +133,15 @@ views: {
 - 대시보드에서 주간뷰 테스트
 - 태스크가 많은 날짜에서 모든 태스크가 표시되는지 확인
 
+#### 2026-01-06 (완료)
+**개요**: Task 완료 - 캘린더 주간뷰 모든 태스크 표시 구현 완료
+
+**결과**:
+- calendar.js 수정 완료 (FullCalendar 뷰별 설정 적용)
+- 주간뷰(timeGridWeek): dayMaxEvents: false로 모든 태스크 표시
+- 월간뷰(dayGridMonth): dayMaxEvents: true로 자동 조절
+
+**최종 상태**: done
 
 ---
 

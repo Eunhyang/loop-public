@@ -565,7 +565,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// v8 (tsk-n8n-22): Evidence Quality Gate\n// 텍스트 품질을 판정하여 strong/medium/weak으로 분류\n// weak인 경우 Retro Synth 경로로 라우팅\n\nconst item = $input.first().json;\nconst text = item.api_request?.retrospective_content || '';\n\n// 품질 평가 지표\nconst totalChars = text.length;\nconst numericMentions = (text.match(/\\d+[.%]|\\$\\d+|₩\\d+|\\d{1,3}(,\\d{3})+/g) || []).length;\nconst kpiHits = (text.match(/매출|전환율|DAU|MAU|리텐션|NPS|ARPU|MRR|ARR|GMV|CVR|CTR|retention|revenue|growth/gi) || []).length;\nconst hasGoalActual = /목표.*?실제|달성.*?대비|expected.*?actual|target.*?result/i.test(text);\nconst hasTimeframe = /\\d{4}[-\\/]\\d{2}|\\d+월|Q[1-4]|[12]분기|[상하]반기/.test(text);\n\n// 품질 판정\nlet verdict = 'weak';\nif (totalChars >= 8000 && numericMentions >= 8 && kpiHits >= 3 && hasTimeframe) {\n  verdict = 'strong';\n} else if (totalChars >= 3000 && numericMentions >= 3 && kpiHits >= 1) {\n  verdict = 'medium';\n}\n\n// Retro Synth 필요 여부\nconst needsRetroSynth = verdict === 'weak' && (totalChars < 1500 || numericMentions < 2);\n\nreturn [{\n  json: {\n    ...item,\n    quality_gate: {\n      verdict,\n      needs_retro_synth: needsRetroSynth,\n      metrics: {\n        total_chars: totalChars,\n        numeric_mentions: numericMentions,\n        kpi_hits: kpiHits,\n        has_goal_actual: hasGoalActual,\n        has_timeframe: hasTimeframe\n      }\n    }\n  }\n}];"
+        "jsCode": "// v8.1 (tsk-n8n-22): Evidence Quality Gate\n// 텍스트 품질을 판정하여 strong/medium/weak으로 분류\n// weak인 경우 Retro Synth 경로로 라우팅\n// v8.1: 첨부파일이 없으면 Retro Synth 스킵 (기본 Evidence 경로로)\n\nconst item = $input.first().json;\nconst text = item.api_request?.retrospective_content || '';\n\n// 첨부파일 존재 여부 확인\nconst hasAttachments = item.attachment_stats?.total_extracted > 0;\n\n// 품질 평가 지표\nconst totalChars = text.length;\nconst numericMentions = (text.match(/\\d+[.%]|\\$\\d+|₩\\d+|\\d{1,3}(,\\d{3})+/g) || []).length;\nconst kpiHits = (text.match(/매출|전환율|DAU|MAU|리텐션|NPS|ARPU|MRR|ARR|GMV|CVR|CTR|retention|revenue|growth/gi) || []).length;\nconst hasGoalActual = /목표.*?실제|달성.*?대비|expected.*?actual|target.*?result/i.test(text);\nconst hasTimeframe = /\\d{4}[-\\/]\\d{2}|\\d+월|Q[1-4]|[12]분기|[상하]반기/.test(text);\n\n// 품질 판정\nlet verdict = 'weak';\nif (totalChars >= 8000 && numericMentions >= 8 && kpiHits >= 3 && hasTimeframe) {\n  verdict = 'strong';\n} else if (totalChars >= 3000 && numericMentions >= 3 && kpiHits >= 1) {\n  verdict = 'medium';\n}\n\n// Retro Synth 필요 여부\n// 첨부파일이 있는 경우에만 Retro Synth 실행 (첨부파일 없으면 기본 Evidence 경로)\nconst needsRetroSynth = hasAttachments && verdict === 'weak' && (totalChars < 1500 || numericMentions < 2);\n\nreturn [{\n  json: {\n    ...item,\n    quality_gate: {\n      verdict,\n      needs_retro_synth: needsRetroSynth,\n      has_attachments: hasAttachments,\n      metrics: {\n        total_chars: totalChars,\n        numeric_mentions: numericMentions,\n        kpi_hits: kpiHits,\n        has_goal_actual: hasGoalActual,\n        has_timeframe: hasTimeframe\n      }\n    }\n  }\n}];"
       },
       "id": "evidence-quality-gate",
       "name": "Evidence Quality Gate",
@@ -575,7 +575,7 @@
         1550,
         1100
       ],
-      "notes": "v8 (tsk-n8n-22): 텍스트 품질 판정. strong/medium은 바로 Evidence API, weak은 Retro Synth 경로로."
+      "notes": "v8.1 (tsk-n8n-22): 텍스트 품질 판정. 첨부파일 없으면 기본 Evidence API, 첨부파일 있고 weak이면 Retro Synth 경로."
     },
     {
       "parameters": {
@@ -1062,6 +1062,6 @@
     "created": "2025-12-27",
     "updated": "2026-01-06",
     "schemaVersion": "5.3",
-    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v8 (tsk-n8n-22): Retro Synth - B Score fallback 시스템 추가. 회고가 부족할 때 첨부파일에서 출처 기반 사실 자동 추출. Evidence Quality Gate로 strong/medium/weak 판정, weak인 경우 LLM으로 Facts+Unknowns 합성. 환각 방지를 위해 source_quote 없는 facts 자동 필터링. Audit Log 생성 및 Dashboard에 AUTO-SYNTH 뱃지 표시. v7: Manual Trigger 추가. v6: 첨부파일 텍스트 추출 연동."
+    "description": "Unified workflow for LOOP vault entity validation and auto-fill. v8.1 (tsk-n8n-22): Retro Synth - B Score fallback 시스템. 첨부파일 없으면 기본 Evidence API, 첨부파일 있고 weak이면 Retro Synth 경로. 출처 기반 사실 자동 추출, 환각 방지 (source_quote 없는 facts 필터링). Audit Log 생성 및 Dashboard에 AUTO-SYNTH 뱃지 표시. v7: Manual Trigger 추가. v6: 첨부파일 텍스트 추출 연동."
   }
 }

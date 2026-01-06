@@ -567,10 +567,13 @@ def get_all_events(
     Args:
         db: Database session
         accounts: List of GoogleAccounts
-        calendar_ids: List of calendar IDs to fetch (format: "{account_id}:{calendar_id}")
+        calendar_ids: List of calendar IDs to fetch (format: "{account_id}__{calendar_id}" with double underscore)
         start: Start date YYYY-MM-DD
         end: End date YYYY-MM-DD
         user_id: User ID for cache scoping
+
+    Note: Uses double underscore (__) as separator instead of colon (:) to avoid
+    URL parsing issues with reverse proxies (Synology NAS). Backward compatible with colon format.
 
     Returns:
         (events, errors)
@@ -584,11 +587,21 @@ def get_all_events(
     account_map = {acc.id: acc for acc in accounts}
 
     # Process each calendar
+    import re
     for cal_spec in calendar_ids:
-        # Parse "account_id:calendar_id" format
-        if ":" in cal_spec:
+        # Parse "account_id__calendar_id" format (double underscore preferred)
+        # Also supports legacy "account_id:calendar_id" format for backward compatibility
+        # Check new format first: must start with digits followed by __
+        if re.match(r'^\d+__', cal_spec):
+            separator = "__"
+        elif re.match(r'^\d+:', cal_spec):
+            separator = ":"
+        else:
+            separator = None
+
+        if separator:
             try:
-                acc_id_str, cal_id = cal_spec.split(":", 1)
+                acc_id_str, cal_id = cal_spec.split(separator, 1)
                 acc_id = int(acc_id_str)
             except ValueError:
                 errors.append({"calendar_id": cal_spec, "error": "Invalid format"})
