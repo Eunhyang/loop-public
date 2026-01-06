@@ -1,38 +1,38 @@
 # Build Impact
 
-> Impact 점수를 계산하고 impact.json을 업데이트합니다.
+> Calculate Impact scores and update impact.json.
 
 ---
 
-## 실행 시 동작
+## Behavior on Execution
 
-`scripts/build_impact.py` 스크립트를 실행합니다.
+Runs `scripts/build_impact.py` script.
 
-**워크플로우 위치**: [[TEAM_WORKFLOW]] 6단계 (자동 계산 & 판정)
+**Workflow position**: [[TEAM_WORKFLOW]] Step 6 (Auto calculation & judgment)
 
 ---
 
-## 수행 단계
+## Steps Performed
 
-1. **스크립트 실행**
+1. **Run Script**
    ```bash
    python3 scripts/build_impact.py .
    ```
 
-2. **자동 처리**
-   - 모든 Project의 Expected Score (A) 계산
-   - 모든 Evidence의 Realized Score (B) 계산
-   - Tier 정책 적용 (operational 제외)
-   - impact.json 파일 생성/업데이트
+2. **Auto Processing**
+   - Calculate Expected Score (A) for all Projects
+   - Calculate Realized Score (B) for all Evidence
+   - Apply Tier policy (exclude operational)
+   - Create/update impact.json file
 
-3. **결과 확인**
-   - 처리된 Project 수
-   - 계산된 점수 요약
-   - 제외된 Project 목록 (operational tier)
+3. **Verify Results**
+   - Number of Projects processed
+   - Score summary
+   - Excluded Projects list (operational tier)
 
 ---
 
-## 사용 예시
+## Usage Example
 
 ```
 /build-impact
@@ -40,7 +40,7 @@
 
 ---
 
-## 출력 파일
+## Output File
 
 **`_build/impact.json`**
 
@@ -50,7 +50,7 @@
   "generated_at": "2025-12-20T12:00:00",
   "projects": {
     "prj-010": {
-      "name": "와디즈 펀딩",
+      "name": "Wadiz Funding",
       "tier": "strategic",
       "expected_score": 7.0,
       "realized_score": 0.147,
@@ -63,24 +63,24 @@
 
 ---
 
-## 자동 실행 시점
+## Auto Execution Timing
 
-일반적으로 이 커맨드를 직접 실행할 필요 없음:
+Usually no need to run this command directly:
 
-- `/retro` 실행 후 자동으로 호출됨
-- Git commit 시 pre-commit hook으로 실행 가능
-
----
-
-## 수동 실행이 필요한 경우
-
-- Project frontmatter를 직접 수정한 후
-- Evidence 파일을 직접 수정한 후
-- 점수 재계산이 필요한 경우
+- Auto-called after `/retro` execution
+- Can run via pre-commit hook on git commit
 
 ---
 
-## 참조
+## Manual Execution Needed When
 
-- [[impact_model_config]] - 점수 계산 설정
-- `scripts/build_impact.py` - 실제 스크립트
+- After directly modifying Project frontmatter
+- After directly modifying Evidence files
+- When score recalculation is needed
+
+---
+
+## References
+
+- [[impact_model_config]] - Score calculation settings
+- `scripts/build_impact.py` - Actual script

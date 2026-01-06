@@ -1,50 +1,50 @@
 ---
-description: NAS Git 동기화 관리 (sync, pull, push, reset) - public + exec 동시 처리
+description: NAS Git sync management (sync, pull, push, reset) - handles public + exec simultaneously
 model: haiku
 ---
 
-# NAS Git 관리
+# NAS Git Management
 
-NAS와 GitHub 간 Git 동기화를 수동으로 실행합니다.
-**두 Vault 동시 처리**: public (LOOP) + exec (loop_exec)
+Manually execute Git sync between NAS and GitHub.
+**Both vaults processed together**: public (LOOP) + exec (loop_exec)
 
-## 사용자 입력
+## User Input
 
 $ARGUMENTS
 
 (sync | pull | push | reset | logs | status | local-sync | nas-to-local)
 
-## 명령어 설명
+## Command Reference
 
-| 명령 | 설명 |
+| Command | Description |
 |------|------|
-| `local-sync` | **로컬 → GitHub → NAS 전체 동기화** (권장) - 양쪽 vault |
-| `nas-to-local` | **NAS → GitHub → 로컬 동기화** - 양쪽 vault |
-| `sync` | NAS만 동기화 (commit → pull → push) |
-| `pull` | GitHub → NAS pull만 |
-| `push` | NAS → GitHub push만 |
-| `reset` | 충돌 시 GitHub 기준으로 리셋 |
-| `logs` | 동기화 로그 확인 |
-| `status` | NAS git status 확인 |
+| `local-sync` | **Local → GitHub → NAS full sync** (recommended) - both vaults |
+| `nas-to-local` | **NAS → GitHub → Local sync** - both vaults |
+| `sync` | NAS only sync (commit → pull → push) |
+| `pull` | GitHub → NAS pull only |
+| `push` | NAS → GitHub push only |
+| `reset` | Reset to GitHub state on conflict |
+| `logs` | View sync logs |
+| `status` | Check NAS git status |
 
-## Vault 경로
+## Vault Paths
 
-| Vault | 로컬 | NAS |
+| Vault | Local | NAS |
 |-------|------|-----|
 | public (LOOP) | `~/dev/loop/public` | `/volume1/LOOP_CORE/vault/LOOP` |
 | exec (loop_exec) | `~/dev/loop/exec` | `/volume1/LOOP_CLevel/vault/loop_exec` |
 
-## 실행 절차
+## Execution Steps
 
-### local-sync - 로컬 → GitHub → NAS 전체 동기화 (권장)
+### local-sync - Local → GitHub → NAS Full Sync (Recommended)
 
-안전한 순서로 **양쪽 vault** 로컬 변경사항을 NAS까지 동기화합니다:
-1. NAS uncommitted 변경 먼저 commit + push (양쪽)
-2. 로컬 commit (양쪽)
-3. 로컬 pull --rebase (양쪽)
-4. 로컬 push (양쪽)
-5. NAS pull (양쪽)
-6. API cache refresh (Dashboard 갱신)
+Safe sequence to sync **both vaults** local changes to NAS:
+1. NAS uncommitted changes commit + push first (both)
+2. Local commit (both)
+3. Local pull --rebase (both)
+4. Local push (both)
+5. NAS pull (both)
+6. API cache refresh (Dashboard update)
 
 ```bash
 echo "╔════════════════════════════════════════════╗"
@@ -59,7 +59,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "  PUBLIC VAULT (LOOP)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Step 1: NAS public 변경사항 먼저 올림
+# Step 1: NAS public changes first
 echo ""
 echo "=== [PUBLIC] Step 1: NAS commit + push ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
@@ -73,7 +73,7 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: 로컬 public commit
+# Step 2: Local public commit
 echo ""
 echo "=== [PUBLIC] Step 2: 로컬 commit ==="
 cd ~/dev/loop/public
@@ -82,12 +82,12 @@ if [ -n "$(git status --porcelain)" ]; then
   git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
 fi
 
-# Step 3: 로컬 public pull --rebase
+# Step 3: Local public pull --rebase
 echo ""
 echo "=== [PUBLIC] Step 3: 로컬 pull --rebase ==="
 git pull --rebase origin main
 
-# Step 4: 로컬 public push
+# Step 4: Local public push
 echo ""
 echo "=== [PUBLIC] Step 4: 로컬 push ==="
 git push origin main
@@ -110,7 +110,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "  EXEC VAULT (loop_exec)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Step 1: NAS exec 변경사항 먼저 올림
+# Step 1: NAS exec changes first
 echo ""
 echo "=== [EXEC] Step 1: NAS commit + push ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
@@ -124,7 +124,7 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: 로컬 exec commit
+# Step 2: Local exec commit
 echo ""
 echo "=== [EXEC] Step 2: 로컬 commit ==="
 cd ~/dev/loop/exec
@@ -133,12 +133,12 @@ if [ -n "$(git status --porcelain)" ]; then
   git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
 fi
 
-# Step 3: 로컬 exec pull --rebase
+# Step 3: Local exec pull --rebase
 echo ""
 echo "=== [EXEC] Step 3: 로컬 pull --rebase ==="
 git pull --rebase origin main
 
-# Step 4: 로컬 exec push
+# Step 4: Local exec push
 echo ""
 echo "=== [EXEC] Step 4: 로컬 push ==="
 git push origin main
@@ -173,12 +173,12 @@ echo "║  동기화 완료: public + exec               ║"
 echo "╚════════════════════════════════════════════╝"
 ```
 
-### nas-to-local - NAS → GitHub → 로컬 동기화
+### nas-to-local - NAS → GitHub → Local Sync
 
-**양쪽 vault** NAS 변경사항을 로컬로 가져옵니다:
-1. NAS uncommitted 변경 commit + push (양쪽)
-2. 로컬 pull (양쪽)
-3. API cache refresh (Dashboard 갱신)
+Pull **both vaults** NAS changes to local:
+1. NAS uncommitted changes commit + push (both)
+2. Local pull (both)
+3. API cache refresh (Dashboard update)
 
 ```bash
 echo "╔════════════════════════════════════════════╗"
@@ -207,7 +207,7 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: 로컬 public pull
+# Step 2: Local public pull
 echo ""
 echo "=== [PUBLIC] Step 2: 로컬 pull ==="
 cd ~/dev/loop/public
@@ -235,7 +235,7 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: 로컬 exec pull
+# Step 2: Local exec pull
 echo ""
 echo "=== [EXEC] Step 2: 로컬 pull ==="
 cd ~/dev/loop/exec
@@ -261,7 +261,7 @@ echo "║  동기화 완료: public + exec               ║"
 echo "╚════════════════════════════════════════════╝"
 ```
 
-### logs - 동기화 로그 확인
+### logs - View sync logs
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 '
 echo "=== 최근 동기화 로그 ==="
@@ -269,7 +269,7 @@ tail -30 /volume1/LOOP_CORE/vault/LOOP/_build/git-sync.log 2>/dev/null || echo "
 '
 ```
 
-### status - Git 상태 확인
+### status - Check Git status
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
@@ -285,7 +285,7 @@ git log --oneline -5
 "
 ```
 
-### sync - 즉시 전체 동기화
+### sync - Immediate full sync
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 '
 echo "Dkssud272902*" | sudo -S /volume1/LOOP_CORE/vault/LOOP/scripts/nas-git-sync.sh 2>&1
@@ -323,7 +323,7 @@ git push origin main 2>&1
 "
 ```
 
-### reset - GitHub 기준으로 리셋 (충돌 해결)
+### reset - Reset to GitHub state (conflict resolution)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
@@ -346,20 +346,20 @@ git log --oneline -3
 "
 ```
 
-## 주의사항
+## Important Notes
 
-- **`local-sync` 권장**: 로컬 작업 후 NAS까지 안전하게 동기화
-- `reset`은 NAS의 커밋되지 않은 변경사항을 모두 삭제합니다
-- 충돌 발생 시 `local-sync`의 Step 3에서 로컬에서 해결 (NAS보다 편함)
-- 일반적인 동기화는 15분마다 자동 실행됩니다 (cron)
+- **`local-sync` recommended**: Safe sync from local work to NAS
+- `reset` deletes all uncommitted NAS changes
+- On conflict, resolve locally in Step 3 of `local-sync` (easier than NAS)
+- Normal sync runs automatically every 15 minutes (cron)
 
-## 플로우 다이어그램
+## Flow Diagrams
 
-### local-sync (로컬 → NAS)
+### local-sync (Local → NAS)
 ```
 ┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
-│  로컬    │     │  GitHub  │     │   NAS    │     │   API    │
-│  (SSD)   │     │  (hub)   │     │ (팀원용) │     │ (캐시)   │
+│  Local   │     │  GitHub  │     │   NAS    │     │   API    │
+│  (SSD)   │     │  (hub)   │     │ (team)   │     │ (cache)  │
 └────┬─────┘     └────┬─────┘     └────┬─────┘     └────┬─────┘
      │                │                │                │
      │                │  Step 1: push ◄┤                │
@@ -371,11 +371,11 @@ git log --oneline -3
      │                │                │                │
 ```
 
-### nas-to-local (NAS → 로컬)
+### nas-to-local (NAS → Local)
 ```
 ┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
-│  로컬    │     │  GitHub  │     │   NAS    │     │   API    │
-│  (SSD)   │     │  (hub)   │     │ (팀원용) │     │ (캐시)   │
+│  Local   │     │  GitHub  │     │   NAS    │     │   API    │
+│  (SSD)   │     │  (hub)   │     │ (team)   │     │ (cache)  │
 └────┬─────┘     └────┬─────┘     └────┬─────┘     └────┬─────┘
      │                │                │                │
      │                │  Step 1: push ◄┤                │

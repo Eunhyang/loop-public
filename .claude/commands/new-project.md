@@ -1,76 +1,76 @@
 # New Project
 
-> 새 프로젝트를 생성합니다.
+> Create a new project.
 
 ---
 
-## 실행 시 동작
+## Behavior on Execution
 
-이 커맨드는 `loop-entity-creator` 스킬을 **Project 생성 모드**로 실행합니다.
+This command runs `loop-entity-creator` skill in **Project creation mode**.
 
-**워크플로우 위치**: [[TEAM_WORKFLOW]] 1단계 (일의 시작)
-
----
-
-## 수행 단계
-
-1. **정보 수집**
-   - 프로젝트 이름 (entity_name)
-   - 책임자 (owner) - members.yaml에서 선택
-   - 상위 Track ID (parent_id) - **필수**
-   - 기여 Condition (conditions_3y) - **필수** (예: ["cond-a", "cond-b"])
-   - 검증 가설 (hypothesis_id) - 선택사항
-   - 우선순위 (priority_flag) - 선택사항
-   - Program ID (program_id) - Program 하위 Round인 경우
-   - 사이클 (cycle) - Program 하위인 경우 (예: "W33", "2026Q1")
-
-   > **CRITICAL**: Program 하위 Project도 반드시 Track과 Condition 연결 필수.
-   > 연결 없으면 전략 계층에서 고아 프로젝트가 됨.
-
-2. **Expected Impact 설정** (통합됨)
-   - **자동 채우기** → LLM이 tier/magnitude/confidence 제안
-   - **None으로 설정** → Impact 계산 불필요한 operational 프로젝트
-   - **나중에 채우기** → 일단 null로 생성
-
-3. **자동 처리**
-   - 다음 Project ID 자동 생성 (prj-NNN)
-   - 프로젝트 폴더 구조 생성
-   - Project_정의.md 파일 생성 (expected_impact 포함)
-   - Schema validation 실행
-   - Graph index 업데이트
-
-4. **결과 확인**
-   - 생성된 파일 경로 표시
-   - validation 결과 표시
+**Workflow position**: [[TEAM_WORKFLOW]] Step 1 (Work initiation)
 
 ---
 
-## 사용 예시
+## Steps Performed
+
+1. **Information Collection**
+   - Project name (entity_name)
+   - Owner (owner) - select from members.yaml
+   - Parent Track ID (parent_id) - **required**
+   - Contributing Conditions (conditions_3y) - **required** (e.g., ["cond-a", "cond-b"])
+   - Validating hypothesis (hypothesis_id) - optional
+   - Priority (priority_flag) - optional
+   - Program ID (program_id) - if under a Program
+   - Cycle (cycle) - if under Program (e.g., "W33", "2026Q1")
+
+   > **CRITICAL**: Projects under Program must also connect to Track and Condition.
+   > Without connection, becomes orphan project in strategic hierarchy.
+
+2. **Expected Impact Setup** (integrated)
+   - **Auto-fill** → LLM suggests tier/magnitude/confidence
+   - **Set to None** → operational project not needing Impact calculation
+   - **Fill later** → create with null for now
+
+3. **Auto Processing**
+   - Auto-generate next Project ID (prj-NNN)
+   - Create project folder structure
+   - Create Project_정의.md file (includes expected_impact)
+   - Run Schema validation
+   - Update Graph index
+
+4. **Verify Results**
+   - Display created file path
+   - Display validation results
+
+---
+
+## Usage Examples
 
 ```
-사용자: 와디즈 펀딩 프로젝트를 진행할거야. 목표는 매출 1200만원이고,
-      코칭 서비스의 첫 크라우드펀딩 테스트야.
+User: I'm starting a Wadiz crowdfunding project. Target is 12M KRW revenue,
+      first crowdfunding test for coaching service.
 
 /new-project
 ```
 
-또는:
+Or:
 
 ```
-/new-project 패턴 발견 v2 프로젝트
+/new-project Pattern Discovery v2 project
 ```
 
 ---
 
-## 다음 단계
+## Next Steps
 
-프로젝트 생성 후:
-1. `/new-task` 로 세부 태스크 추가
-2. (선택) Impact를 "나중에"로 설정했다면 → `/auto-fill-project-impact` 실행
+After project creation:
+1. `/new-task` to add detailed tasks
+2. (Optional) If Impact set to "later" → run `/auto-fill-project-impact`
 
 ---
 
-## 참조
+## References
 
-- [[TEAM_GUIDE_Task_Project_생성#Project 만들기]] - 상세 가이드
-- `loop-entity-creator` 스킬 - 실제 실행 로직
+- [[TEAM_GUIDE_Task_Project_생성#Project 만들기]] - Detailed guide
+- `loop-entity-creator` skill - Actual execution logic

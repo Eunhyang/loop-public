@@ -94,7 +94,8 @@ const State = {
             selectedWeeks: [],      // e.g., ['2024-W52', '2025-W01']
             selectedMonths: []      // e.g., ['2024-11', '2024-12', '2025-01']
         },
-        showInactiveMembers: false  // active: false 멤버 숨김 (기본값)
+        showInactiveMembers: false,  // active: false 멤버 숨김 (기본값)
+        showNonCoreMembers: false    // 비코어 멤버(Advisor, External 등) 숨김 (기본값)
     },
     filterPanelOpen: false,
 
@@ -295,12 +296,23 @@ const State = {
         return this.members.find(m => m.id === memberId);
     },
 
-    // Get active members (respects showInactiveMembers filter)
+    // Get active members (respects showInactiveMembers and showNonCoreMembers filters)
     getActiveMembers() {
-        if (this.filters.showInactiveMembers) {
-            return this.members;
+        let filtered = this.members;
+
+        // Filter by active status
+        if (!this.filters.showInactiveMembers) {
+            filtered = filtered.filter(m => m.active !== false);
         }
-        return this.members.filter(m => m.active !== false);
+
+        // Filter by role (core members only by default)
+        if (!this.filters.showNonCoreMembers) {
+            filtered = filtered.filter(m =>
+                m.role === 'Founder' || m.role === 'Cofounder'
+            );
+        }
+
+        return filtered;
     },
 
     // Get inactive member IDs (for filtering tasks/projects)
@@ -765,7 +777,8 @@ const State = {
                 selectedWeeks: [],
                 selectedMonths: []
             },
-            showInactiveMembers: false
+            showInactiveMembers: false,
+            showNonCoreMembers: false
         };
     },
 

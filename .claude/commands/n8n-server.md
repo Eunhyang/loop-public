@@ -1,49 +1,49 @@
 ---
-description: Docker 기반 n8n 서버 관리 (재시작, 로그 확인, 환경변수 설정)
+description: Docker-based n8n server management (restart, log check, env vars)
 ---
 
-# n8n Server 관리 (Docker)
+# n8n Server Management (Docker)
 
-n8n 워크플로우 자동화 서버는 Docker 컨테이너로 NAS에서 실행됩니다.
+n8n workflow automation server runs as Docker container on NAS.
 
-## 서버 정보
+## Server Info
 
-| 항목 | 값 |
+| Item | Value |
 |-----|-----|
 | URL | `https://n8n.sosilab.synology.me` |
-| 컨테이너 이름 | `n8n` |
-| 포트 | 5678 |
-| 데이터 경로 | `/volume1/docker/n8n` |
+| Container name | `n8n` |
+| Port | 5678 |
+| Data path | `/volume1/docker/n8n` |
 
-## 사용자 입력
+## User Input
 
 $ARGUMENTS
 
 (status / logs / restart / rebuild / stop / env)
 
-## 실행 절차
+## Execution Steps
 
-### 상태 확인 (status)
+### Status check (status)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker ps | grep n8n'
 ```
 
-### 로그 확인 (logs)
+### Log check (logs)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker logs --tail 50 n8n 2>&1'
 ```
 
-### 재시작 (restart)
+### Restart (restart)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker restart n8n 2>&1'
 ```
 
-### 환경변수 확인 (env)
+### Check env vars (env)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker inspect n8n --format="{{range .Config.Env}}{{println .}}{{end}}" 2>&1'
 ```
 
-### 재빌드 (rebuild) - WebSocket 문제 해결용 환경변수 포함
+### Rebuild (rebuild) - Includes WebSocket fix env vars
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 /var/packages/ContainerManager/target/usr/bin/docker stop n8n
@@ -64,7 +64,7 @@ sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.
 " 2>&1'
 ```
 
-### 중지 (stop)
+### Stop (stop)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker stop n8n 2>&1'
 ```
@@ -74,54 +74,54 @@ sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.
 curl -s -o /dev/null -w "%{http_code}" https://n8n.sosilab.synology.me/healthz
 ```
 
-## 환경변수 설명
+## Environment Variables
 
-| 변수 | 값 | 설명 |
+| Variable | Value | Description |
 |-----|-----|------|
-| `N8N_PUSH_BACKEND` | `sse` | WebSocket 대신 SSE 사용 (프록시 호환) |
-| `N8N_EDITOR_BASE_URL` | `https://n8n.sosilab.synology.me` | 에디터 기본 URL |
-| `WEBHOOK_URL` | `https://n8n.sosilab.synology.me` | 웹훅 기본 URL |
-| `N8N_PROTOCOL` | `https` | HTTPS 프로토콜 사용 |
-| `N8N_PROXY_HOPS` | `1` | 리버스 프록시 홉 수 |
-| `LOOP_API_TOKEN` | `loop_2024_kanban_secret` | LOOP API 인증 (Docker 환경변수) |
+| `N8N_PUSH_BACKEND` | `sse` | Use SSE instead of WebSocket (proxy compatible) |
+| `N8N_EDITOR_BASE_URL` | `https://n8n.sosilab.synology.me` | Editor base URL |
+| `WEBHOOK_URL` | `https://n8n.sosilab.synology.me` | Webhook base URL |
+| `N8N_PROTOCOL` | `https` | Use HTTPS protocol |
+| `N8N_PROXY_HOPS` | `1` | Reverse proxy hop count |
+| `LOOP_API_TOKEN` | `loop_2024_kanban_secret` | LOOP API auth (Docker env var) |
 
-## LOOP API Credential 설정 (CRITICAL)
+## LOOP API Credential Setup (CRITICAL)
 
-> **워크플로우에서 LOOP API 호출 시 반드시 Credential 연결 필요**
+> **Must connect Credential when calling LOOP API in workflows**
 
-| Credential 이름 | 타입 | 헤더 | 값 |
+| Credential name | Type | Header | Value |
 |----------------|------|------|-----|
 | `LOOP API Token` | Header Auth | `x-api-token` | `loop_2024_kanban_secret` |
 
-### 워크플로우 설정 방법
+### Workflow Setup Method
 
-1. **HTTP Request 노드** 열기
-2. **Authentication**: `Predefined Credential Type` 선택
+1. Open **HTTP Request node**
+2. **Authentication**: Select `Predefined Credential Type`
 3. **Credential Type**: `Header Auth`
-4. **Header Auth**: `LOOP API Token` 선택
+4. **Header Auth**: Select `LOOP API Token`
 
-### 주의사항
+### Important Notes
 
-- 워크플로우 JSON import 시 Credential 자동 연결 안 됨
-- 반드시 import 후 수동으로 Credential 연결 필요
-- Docker 환경변수 `LOOP_API_TOKEN`과 n8n Credential은 별개
+- Credential not auto-linked on workflow JSON import
+- Must manually connect Credential after import
+- Docker env var `LOOP_API_TOKEN` and n8n Credential are separate
 
-## 트러블슈팅
+## Troubleshooting
 
-### "Connection issue or server is down" 오류
-1. `/n8n-server env`로 환경변수 확인
-2. `N8N_PUSH_BACKEND=sse` 없으면 `/n8n-server rebuild` 실행
-3. 브라우저 하드 리프레시 (Cmd+Shift+R)
+### "Connection issue or server is down" error
+1. Check env vars with `/n8n-server env`
+2. If `N8N_PUSH_BACKEND=sse` missing, run `/n8n-server rebuild`
+3. Hard refresh browser (Cmd+Shift+R)
 
-### 컨테이너 시작 실패
+### Container start failure
 ```bash
-# 상세 로그 확인
+# Check detailed logs
 /n8n-server logs
 ```
 
-## 관련 파일
+## Related Files
 
-| 파일 | 설명 |
+| File | Description |
 |-----|------|
-| `_build/n8n_workflows/` | 워크플로우 JSON 파일들 |
-| `api/routers/pending.py` | Pending Review API (n8n 연동) |
+| `_build/n8n_workflows/` | Workflow JSON files |
+| `api/routers/pending.py` | Pending Review API (n8n integration) |

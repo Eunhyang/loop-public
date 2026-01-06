@@ -1,33 +1,33 @@
 ---
-description: Pending Reviews 초기화 (NAS 서버의 pending_reviews.json 삭제/리셋)
+description: Clear Pending Reviews (delete/reset pending_reviews.json on NAS server)
 ---
 
 # Clear Pending Reviews
 
-NAS 서버의 `_build/pending_reviews.json` 파일을 초기화합니다.
-n8n AI Autofill이 생성한 pending review가 너무 많이 쌓였을 때 사용합니다.
+Reset `_build/pending_reviews.json` file on NAS server.
+Use when too many pending reviews created by n8n AI Autofill have accumulated.
 
-## 파일 정보
+## File Info
 
-| 항목 | 값 |
+| Item | Value |
 |-----|-----|
-| 파일 | `_build/pending_reviews.json` |
-| NAS 경로 | `/volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json` |
-| 컨테이너 경로 | `/vault/_build/pending_reviews.json` |
+| File | `_build/pending_reviews.json` |
+| NAS path | `/volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json` |
+| Container path | `/vault/_build/pending_reviews.json` |
 
-## 사용자 입력
+## User Input
 
 $ARGUMENTS
 
 (reset / delete / count)
 
-- **reset**: 빈 JSON으로 초기화 (파일 유지)
-- **delete**: 파일 완전 삭제
-- **count**: 현재 pending 개수만 확인
+- **reset**: Reset to empty JSON (keep file)
+- **delete**: Delete file completely
+- **count**: Check current pending count only
 
-## 실행 절차
+## Execution Steps
 
-### 현재 개수 확인 (count)
+### Check current count (count)
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -c "
 import json, sys
@@ -41,7 +41,7 @@ for status, count in status_counts.most_common():
 "
 ```
 
-### 빈 JSON으로 리셋 (reset)
+### Reset to empty JSON (reset)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 echo '"'"'{\"reviews\": [], \"metadata\": {\"version\": \"1.0.0\", \"reset_at\": \"$(date -Iseconds)\"}}'"'"' > /volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json
@@ -50,7 +50,7 @@ cat /volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json
 " 2>&1'
 ```
 
-### 파일 삭제 (delete)
+### Delete file (delete)
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 rm -f /volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json
@@ -59,13 +59,13 @@ ls -la /volume1/LOOP_CORE/vault/LOOP/_build/ | grep pending || echo \"파일 없
 " 2>&1'
 ```
 
-## 리셋 후 확인
+## Verify after reset
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -m json.tool
 ```
 
-## 주의사항
+## Important Notes
 
-- **reset**: API가 자동으로 빈 파일을 다시 생성하므로 권장
-- **delete**: API 첫 호출 시 빈 파일이 자동 생성됨
-- n8n 워크플로우가 다시 실행되면 pending이 다시 쌓일 수 있음
+- **reset**: API auto-recreates empty file, recommended
+- **delete**: API auto-creates empty file on first call
+- n8n workflows may create new pending items when run again

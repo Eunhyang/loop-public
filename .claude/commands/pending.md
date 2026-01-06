@@ -1,41 +1,41 @@
 ---
-description: Pending Reviews 통합 관리 (조회, 필터, 초기화)
+description: Pending Reviews management (list, filter, reset)
 ---
 
-# Pending Reviews 관리
+# Pending Reviews Management
 
-n8n AI Autofill 및 Hypothesis Seeder가 생성한 pending review를 관리합니다.
+Manage pending reviews created by n8n AI Autofill and Hypothesis Seeder.
 
-## 파일 정보
+## File Info
 
-| 항목 | 값 |
+| Item | Value |
 |-----|-----|
-| 파일 | `_build/pending_reviews.json` |
-| NAS 경로 | `/volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json` |
+| File | `_build/pending_reviews.json` |
+| NAS path | `/volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json` |
 | API | `https://mcp.sosilab.synology.me/api/pending` |
 
-## 사용자 입력
+## User Input
 
 $ARGUMENTS
 
-### 명령어
+### Commands
 
-| 명령 | 설명 |
+| Command | Description |
 |-----|------|
-| `status` | 전체 현황 (개수, 상태별, 타입별 분류) |
-| `list` | 상세 목록 (최근 10개) |
-| `list all` | 전체 목록 |
-| `list hypothesis` | Hypothesis Seeder 결과만 |
-| `list pending` | pending 상태만 |
-| `reset` | 빈 JSON으로 초기화 |
-| `delete` | 파일 완전 삭제 |
-| `clear-done` | approved/rejected만 삭제 (pending 유지) |
+| `status` | Overview (count, by status, by type) |
+| `list` | Detailed list (recent 10) |
+| `list all` | Full list |
+| `list hypothesis` | Hypothesis Seeder results only |
+| `list pending` | pending status only |
+| `reset` | Reset to empty JSON |
+| `delete` | Delete file completely |
+| `clear-done` | Delete approved/rejected only (keep pending) |
 
 ---
 
-## 실행 절차
+## Execution Steps
 
-### status - 전체 현황
+### status - Overview
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -c "
 import json, sys
@@ -54,20 +54,20 @@ if not reviews:
     print('\n(비어 있음)')
     sys.exit(0)
 
-# 상태별 분류
+# By status
 status_counts = Counter(r.get('status') for r in reviews)
 print('\n📌 상태별:')
 for status, count in status_counts.most_common():
     emoji = {'pending': '⏳', 'approved': '✅', 'rejected': '❌'}.get(status, '•')
     print(f'  {emoji} {status}: {count}개')
 
-# 엔티티 타입별 분류
+# By entity type
 type_counts = Counter(r.get('entity_type') for r in reviews)
 print('\n📁 엔티티 타입별:')
 for etype, count in type_counts.most_common():
     print(f'  • {etype}: {count}개')
 
-# Hypothesis Seeder 결과 (source=ai_infer)
+# Hypothesis Seeder results (source=ai_infer)
 hyp_seeder = [r for r in reviews if r.get('source') == 'ai_infer' and r.get('entity_type') == 'Hypothesis']
 if hyp_seeder:
     print(f'\n🧪 Hypothesis Seeder 결과: {len(hyp_seeder)}개')
@@ -75,23 +75,23 @@ if hyp_seeder:
     if pending_hyp:
         print(f'   → 승인 대기 중: {pending_hyp}개')
 
-# 최근 생성일
+# Date range
 dates = [r.get('created_at', '')[:10] for r in reviews if r.get('created_at')]
 if dates:
     print(f'\n📅 기간: {min(dates)} ~ {max(dates)}')
 "
 ```
 
-### list - 목록 조회
+### list - List view
 
-#### 기본 (최근 10개)
+#### Basic (recent 10)
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
 reviews = data.get('reviews', [])
 
-# 최신순 정렬
+# Sort by newest
 reviews.sort(key=lambda x: x.get('created_at', ''), reverse=True)
 reviews = reviews[:10]
 
@@ -119,7 +119,7 @@ if not reviews:
 "
 ```
 
-#### 전체 (list all)
+#### Full list (list all)
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -c "
 import json, sys
@@ -141,7 +141,7 @@ if not reviews:
 "
 ```
 
-#### Hypothesis만 (list hypothesis)
+#### Hypothesis only (list hypothesis)
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -c "
 import json, sys
@@ -160,7 +160,7 @@ for r in reviews:
     print(f\"   Entity: {r.get('entity_id')} - {r.get('entity_name', '')[:40]}\")
     print(f\"   Status: {r.get('status')} | Created: {r.get('created_at', '')[:16]}\")
 
-    # Hypothesis draft 정보
+    # Hypothesis draft info
     suggested = r.get('suggested_fields', {})
     if 'hypothesis_draft' in suggested:
         draft = suggested['hypothesis_draft']
@@ -176,7 +176,7 @@ if not reviews:
 "
 ```
 
-#### pending 상태만 (list pending)
+#### pending status only (list pending)
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending?status=pending" | python3 -c "
 import json, sys
@@ -199,7 +199,7 @@ if not reviews:
 "
 ```
 
-### reset - 빈 JSON으로 초기화
+### reset - Reset to empty JSON
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 echo '"'"'{\"reviews\": [], \"metadata\": {\"version\": \"1.0.0\", \"reset_at\": \"$(date -Iseconds)\"}}'"'"' > /volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json
@@ -209,7 +209,7 @@ cat /volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json
 " 2>&1'
 ```
 
-### delete - 파일 삭제
+### delete - Delete file
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 rm -f /volume1/LOOP_CORE/vault/LOOP/_build/pending_reviews.json
@@ -218,7 +218,7 @@ ls -la /volume1/LOOP_CORE/vault/LOOP/_build/ | grep pending || echo \"(파일 �
 " 2>&1'
 ```
 
-### clear-done - approved/rejected만 삭제
+### clear-done - Delete approved/rejected only
 ```bash
 curl -s -H "Authorization: Bearer $LOOP_API_TOKEN" "https://mcp.sosilab.synology.me/api/pending" | python3 -c "
 import json, sys
@@ -226,11 +226,11 @@ import json, sys
 data = json.load(sys.stdin)
 reviews = data.get('reviews', [])
 
-# pending만 유지
+# Keep pending only
 pending_only = [r for r in reviews if r.get('status') == 'pending']
 removed_count = len(reviews) - len(pending_only)
 
-# 새 JSON 생성
+# Create new JSON
 new_data = {
     'reviews': pending_only,
     'metadata': data.get('metadata', {'version': '1.0.0'})
@@ -240,10 +240,10 @@ print(json.dumps(new_data, ensure_ascii=False))
 print(f'# 삭제: {removed_count}개, 유지: {len(pending_only)}개', file=sys.stderr)
 " 2>/tmp/pending_clear_log.txt > /tmp/pending_cleared.json
 
-# 결과 출력
+# Output result
 cat /tmp/pending_clear_log.txt
 
-# 파일 업로드
+# Upload file
 sshpass -p 'Dkssud272902*' scp -P 22 -o StrictHostKeyChecking=no /tmp/pending_cleared.json Sosilab@100.93.242.60:/tmp/
 
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
@@ -254,19 +254,19 @@ echo \"✅ approved/rejected 삭제 완료\"
 
 ---
 
-## 관련 엔드포인트
+## Related Endpoints
 
-| 엔드포인트 | 설명 |
+| Endpoint | Description |
 |-----------|------|
-| `GET /api/pending` | 목록 조회 |
-| `GET /api/pending?status=pending` | 상태 필터 |
-| `POST /api/pending/{id}/approve` | 승인 |
-| `POST /api/pending/{id}/reject` | 거부 |
-| `DELETE /api/pending/{id}` | 개별 삭제 |
+| `GET /api/pending` | List view |
+| `GET /api/pending?status=pending` | Status filter |
+| `POST /api/pending/{id}/approve` | Approve |
+| `POST /api/pending/{id}/reject` | Reject |
+| `DELETE /api/pending/{id}` | Delete individual |
 
-## 주의사항
+## Important Notes
 
-- **reset**: API가 빈 파일을 다시 생성하므로 권장
-- **delete**: API 첫 호출 시 빈 파일 자동 생성
-- **clear-done**: pending만 남기고 처리 완료된 항목 정리
-- n8n 워크플로우가 실행되면 pending이 다시 쌓일 수 있음
+- **reset**: API recreates empty file, recommended
+- **delete**: API auto-creates empty file on first call
+- **clear-done**: Clean up completed items, keep pending
+- n8n workflows may create new pending items when run

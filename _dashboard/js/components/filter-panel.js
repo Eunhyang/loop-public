@@ -68,6 +68,12 @@ const FilterPanel = {
 
     reset() {
         State.resetFilters();
+
+        // Reset currentAssignees to core members (since showNonCoreMembers is reset to false)
+        State.currentAssignees = State.members
+            .filter(m => m.role === 'Founder' || m.role === 'Cofounder')
+            .map(m => m.id);
+
         this.render();
         this.applyFilters();
         this.updateFilterIndicator();
@@ -101,6 +107,7 @@ const FilterPanel = {
         if (!container) return;
 
         const memberChecked = State.filters.showInactiveMembers;
+        const nonCoreChecked = State.filters.showNonCoreMembers;
         const projectChecked = State.filters.project.showInactive;
         const taskChecked = State.filters.task.showInactive;
 
@@ -108,6 +115,10 @@ const FilterPanel = {
             <label class="filter-toggle ${memberChecked ? 'checked' : ''}" data-type="members">
                 <span class="toggle-switch"></span>
                 <span>Show inactive members</span>
+            </label>
+            <label class="filter-toggle ${nonCoreChecked ? 'checked' : ''}" data-type="non-core">
+                <span class="toggle-switch"></span>
+                <span>Show non-core members</span>
             </label>
             <label class="filter-toggle ${projectChecked ? 'checked' : ''}" data-type="project">
                 <span class="toggle-switch"></span>
@@ -128,6 +139,30 @@ const FilterPanel = {
                 const type = toggle.dataset.type;
                 if (type === 'members') {
                     State.filters.showInactiveMembers = !State.filters.showInactiveMembers;
+                } else if (type === 'non-core') {
+                    State.filters.showNonCoreMembers = !State.filters.showNonCoreMembers;
+
+                    // When hiding non-core members, clean currentAssignees from non-core IDs
+                    if (!State.filters.showNonCoreMembers) {
+                        const coreMembers = State.members
+                            .filter(m => m.role === 'Founder' || m.role === 'Cofounder')
+                            .map(m => m.id);
+
+                        // Identify sentinels: anything not in State.members
+                        const memberIds = State.members.map(m => m.id);
+                        const sentinels = State.currentAssignees.filter(id => !memberIds.includes(id));
+
+                        // Remove non-core IDs from currentAssignees, but keep sentinels
+                        State.currentAssignees = [
+                            ...State.currentAssignees.filter(id => coreMembers.includes(id)),
+                            ...sentinels
+                        ];
+
+                        // Fall back to core members only if no members AND no sentinels remain
+                        if (State.currentAssignees.length === 0) {
+                            State.currentAssignees = coreMembers;
+                        }
+                    }
                 } else {
                     State.filters[type].showInactive = !State.filters[type].showInactive;
                 }
@@ -289,7 +324,7 @@ const FilterPanel = {
         const hasTaskPriorityFilter = State.filters.task.priority.length < taskPriorityCount;
         const hasTaskTypeFilter = State.filters.task.types.length < taskTypeCount;
         const hasDateFilter = State.filters.task.dueDateStart || State.filters.task.dueDateEnd;
-        const hasInactiveFilter = State.filters.project.showInactive || State.filters.task.showInactive || State.filters.showInactiveMembers;
+        const hasInactiveFilter = State.filters.project.showInactive || State.filters.task.showInactive || State.filters.showInactiveMembers || State.filters.showNonCoreMembers;
         const hasQuickDateFilter = State.filters.task.selectedWeeks.length > 0 || State.filters.task.selectedMonths.length > 0;
 
         const hasFilters = hasProjectStatusFilter || hasProjectPriorityFilter ||
