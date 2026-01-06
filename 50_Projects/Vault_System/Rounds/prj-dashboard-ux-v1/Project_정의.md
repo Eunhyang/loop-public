@@ -89,6 +89,7 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 | tsk-019-02 | Dashboard - Google Meet 생성 UX 개선 (수동 생성) | 김은향 | doing | 2026-01-07 |
 | tsk-dashboard-ux-v1-31 | Dashboard - Task Type Chip 즉시 저장 버그 수정 | 김은향 | doing | 2026-01-06 |
 | tsk-dashboard-ux-v1-32 | Dashboard - 캘린더 주간뷰 모든 태스크 표시 | 김은향 | doing | 2026-01-06 |
+| tsk-019-27 | Dashboard - Google Calendar events API 400 에러 수정 | 김은향 | doing | 2026-01-06 |
 
 ---
 
