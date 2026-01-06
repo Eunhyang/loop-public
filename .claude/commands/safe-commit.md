@@ -1,24 +1,24 @@
 ---
-description: 로컬 SSD에서 직접 커밋/푸시 후 NAS로 rsync 백업 - 두 Vault 동시 처리
+description: Direct commit/push from local SSD, then rsync backup to NAS - handles both vaults
 ---
 
-# Safe Commit (로컬 SSD 운영 모드)
+# Safe Commit (Local SSD Mode)
 
-로컬 SSD에서 직접 git commit/push 후 NAS로 rsync 백업합니다.
+Direct git commit/push from local SSD, then rsync backup to NAS.
 
-**두 Vault 동시 커밋:**
+**Both vaults processed together:**
 - `~/dev/loop/public` (Shared Vault)
 - `~/dev/loop/exec` (Exec Vault)
 
-## 사용자 입력
+## User Input
 
 $ARGUMENTS
 
-(비어있으면 자동 커밋 메시지 생성)
+(Empty = auto-generate commit message)
 
-## 실행 절차
+## Execution Steps
 
-### 1. 양쪽 Vault 변경사항 확인
+### 1. Check changes in both vaults
 
 ```bash
 # Shared Vault (LOOP)
@@ -28,25 +28,25 @@ cd ~/dev/loop/public && git status --short
 cd ~/dev/loop/exec && git status --short
 ```
 
-### 2. 로컬에서 직접 커밋/푸시
+### 2. Direct commit/push from local
 
-#### Shared Vault (LOOP) 커밋
+#### Shared Vault (LOOP) commit
 ```bash
 cd ~/dev/loop/public && git add -A && git commit -m "커밋메시지" && git push origin main
 ```
 
-#### Exec Vault (loop_exec) 커밋
+#### Exec Vault (loop_exec) commit
 ```bash
 cd ~/dev/loop/exec && git add -A && git commit -m "커밋메시지" && git push origin main
 ```
 
-### 3. NAS로 rsync 백업
+### 3. rsync backup to NAS
 
 ```bash
 ~/bin/sync-to-nas.sh
 ```
 
-### 4. 결과 확인
+### 4. Verify results
 ```bash
 # Shared Vault
 cd ~/dev/loop/public && git log -1 --oneline
@@ -55,9 +55,9 @@ cd ~/dev/loop/public && git log -1 --oneline
 cd ~/dev/loop/exec && git log -1 --oneline
 ```
 
-## 커밋 메시지 규칙
+## Commit Message Rules
 
-- 커밋 메시지 끝에 다음 추가:
+- Append to end of commit message:
 
 ```
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
@@ -65,16 +65,16 @@ cd ~/dev/loop/exec && git log -1 --oneline
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ```
 
-## Vault 경로
+## Vault Paths
 
-| Vault | 로컬 경로 | NAS 백업 경로 |
+| Vault | Local Path | NAS Backup Path |
 |-------|---------|--------------|
 | Shared (LOOP) | `~/dev/loop/public` | `/Volumes/LOOP_CORE/vault/LOOP` |
 | Exec (loop_exec) | `~/dev/loop/exec` | `/Volumes/LOOP_CLevel/vault/loop_exec` |
 
-## 통합 명령 템플릿
+## Combined Command Template
 
-두 vault를 한 번에 처리:
+Process both vaults at once:
 ```bash
 # LOOP
 cd ~/dev/loop/public
@@ -84,48 +84,48 @@ git add -A && git commit -m "커밋메시지" && git push origin main || echo "L
 cd ~/dev/loop/exec
 git add -A && git commit -m "커밋메시지" && git push origin main || echo "loop_exec: no changes"
 
-# NAS 백업
+# NAS backup
 ~/bin/sync-to-nas.sh
 ```
 
-## 선택적 커밋
+## Selective Commit
 
-특정 vault만 커밋하려면:
-- `--shared`: LOOP만 커밋
-- `--exec`: loop_exec만 커밋
-- (기본): 둘 다 커밋
+To commit specific vault only:
+- `--shared`: LOOP only
+- `--exec`: loop_exec only
+- (default): both
 
-## rsync 옵션
+## rsync Options
 
 ```bash
-# LOOP만 동기화
+# LOOP only
 ~/bin/sync-to-nas.sh --loop
 
-# loop_exec만 동기화
+# loop_exec only
 ~/bin/sync-to-nas.sh --exec
 
-# 둘 다 동기화 (기본)
+# Both (default)
 ~/bin/sync-to-nas.sh --all
 ```
 
-## 아키텍처
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  로컬 Mac (SSD) - 작업 + Git                                │
+│  Local Mac (SSD) - Work + Git                               │
 │  ~/dev/loop/public        ← Claude Code + Obsidian + Git    │
 │  ~/dev/loop/exec          ← Claude Code + Git               │
 │         │                                                   │
 │         │ git push → GitHub                                 │
 │         │                                                   │
-│         │ rsync --delete → NAS (백업)                       │
+│         │ rsync --delete → NAS (backup)                     │
 │         ▼                                                   │
 ├─────────────────────────────────────────────────────────────┤
-│  NAS (SMB Mount) - 백업/공유 전용                           │
-│  /Volumes/LOOP_CORE/vault/LOOP      ← 읽기 전용 백업        │
-│  /Volumes/LOOP_CLevel/vault/loop_exec  ← 읽기 전용 백업     │
+│  NAS (SMB Mount) - Backup/Share only                        │
+│  /Volumes/LOOP_CORE/vault/LOOP      ← Read-only backup      │
+│  /Volumes/LOOP_CLevel/vault/loop_exec  ← Read-only backup   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> **Note**: NAS daemon은 더 이상 commit하지 않음 (2025-12-29 변경)
-> NAS는 rsync 수신 전용으로 운영됨
+> **Note**: NAS daemon no longer commits (changed 2025-12-29)
+> NAS operates as rsync receiver only
