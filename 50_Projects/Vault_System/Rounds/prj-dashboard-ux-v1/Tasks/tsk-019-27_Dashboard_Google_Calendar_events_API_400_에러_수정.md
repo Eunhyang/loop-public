@@ -165,6 +165,24 @@ for cal_spec in cal_id_list:
 
 **결과**: 빌드 대기 (로컬 수정 완료)
 
+#### 2026-01-06 19:30
+**개요**: 추가 버그 발견 및 수정
+
+**발견된 버그**:
+- `disconnectAccount()` 함수에서 여전히 구 형식(콜론)을 사용
+- 계정 연결 해제 시 enabledCalendars에서 해당 계정의 캘린더를 찾지 못하는 문제
+
+**변경사항**:
+- Frontend (`_dashboard/js/components/calendar.js`):
+  - 647행: `accountId + ':'` → `accountId + '__'` 변경
+  - 주석 추가로 변경 이유 명확화
+
+**코드 리뷰**:
+- 구 형식 사용 위치 전체 검색 완료
+- 더 이상 콜론 구분자 사용하는 곳 없음 확인
+
+**결과**: 빌드 및 배포 필요 (`/mcp-server rebuild`)
+
 ---
 
 ## 참고 문서

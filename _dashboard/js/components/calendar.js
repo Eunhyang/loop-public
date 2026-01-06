@@ -642,9 +642,10 @@ const Calendar = {
             showToast(`${email} 계정 연결이 해제되었습니다`, 'success');
 
             // 해당 계정의 캘린더를 enabledCalendars에서 제거
+            // Note: Using double underscore (__) as separator to match the new format
             const keysToRemove = [];
             this.enabledCalendars.forEach(key => {
-                if (key.startsWith(accountId + ':')) {
+                if (key.startsWith(accountId + '__')) {
                     keysToRemove.push(key);
                 }
             });
