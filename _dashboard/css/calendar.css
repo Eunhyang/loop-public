@@ -15,6 +15,13 @@
     gap: 20px;
 }
 
+/* 확장 모드: 높이 제한 해제 (tsk-dashboard-ux-v1-33) */
+.calendar-view.expanded {
+    height: auto;
+    min-height: calc(100vh - 230px);
+    max-height: none;
+}
+
 /* Google Calendar Sidebar (tsk-dashboard-ux-v1-25) */
 .google-calendar-sidebar {
     width: 260px;

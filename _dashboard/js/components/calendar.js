@@ -148,6 +148,14 @@ const Calendar = {
         // 초기 렌더링 후 버튼 텍스트 동기화 (tsk-dashboard-ux-v1-33)
         this.updateExpandButtonText();
 
+        // 초기 expanded 클래스 적용 (localStorage에서 로드된 상태 반영)
+        if (this.expandedMode) {
+            const calendarView = document.querySelector('.calendar-view');
+            if (calendarView) {
+                calendarView.classList.add('expanded');
+            }
+        }
+
         // 컨텍스트 메뉴 생성
         this.createContextMenu();
 
@@ -218,6 +226,12 @@ const Calendar = {
             // expandedMode=false이면 dayMaxEvents=3 (+more 모드, 3개 초과시 +more)
             const newValue = this.expandedMode ? false : 3;
             this.instance.setOption('dayMaxEvents', newValue);
+
+            // 캘린더 컨테이너에 expanded 클래스 토글 (높이 제한 해제)
+            const calendarView = document.querySelector('.calendar-view');
+            if (calendarView) {
+                calendarView.classList.toggle('expanded', this.expandedMode);
+            }
 
             // 캘린더 다시 렌더링
             this.instance.render();
