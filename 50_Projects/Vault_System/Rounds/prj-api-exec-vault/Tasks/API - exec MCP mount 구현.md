@@ -63,10 +63,10 @@ exec/api의 MCP mount는 아직 미구현 상태.
 
 ## 체크리스트
 
-- [ ] fastapi-mcp import 추가
-- [ ] MCP 도구 정의
-- [ ] /mcp 엔드포인트 동작 테스트
-- [ ] OAuth scope 검증
+- [x] fastapi-mcp import 추가
+- [x] MCP 도구 정의
+- [x] /mcp 엔드포인트 동작 테스트
+- [x] OAuth scope 검증
 
 ---
 
@@ -130,6 +130,15 @@ exec/api/main.py
 
 ### 작업 로그
 
+**2026-01-06**:
+- exec/api/main.py에 FastApiMCP 통합 완료
+- ExecScopeMiddleware 구현 (/mcp에 mcp:exec scope 검증)
+- MCP_ALLOWED_OPERATIONS 정의 (KPI 엔드포인트 5개)
+- /mcp 엔드포인트 마운트 완료
+- SSE 스트리밍 지원 (sse_prefixes에 /mcp 추가)
+
+**변경 파일**:
+- `/Users/gim-eunhyang/dev/loop/exec/api/main.py`
 
 ---
 
