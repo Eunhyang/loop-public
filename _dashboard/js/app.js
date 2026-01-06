@@ -162,6 +162,9 @@ async function init() {
         // Initialize TaskModal event listeners (tsk-dashboard-ux-v1-26)
         TaskModal.init();
 
+        // Initialize ProjectModal event listeners (tsk-022-02)
+        ProjectModal.init();
+
         // Initialize Panels
         TaskPanel.init();
         ProjectPanel.init();
