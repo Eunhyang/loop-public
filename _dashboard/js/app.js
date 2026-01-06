@@ -186,6 +186,11 @@ async function init() {
             ProgramRoundsView.init();
         }
 
+        // Initialize Program Modal (tsk-022-02)
+        if (typeof ProgramModal !== 'undefined') {
+            ProgramModal.init();
+        }
+
         // Setup event listeners
         setupEventListeners();
 

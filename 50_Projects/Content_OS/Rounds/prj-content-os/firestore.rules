@@ -1,0 +1,162 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================
+    // Helper Functions
+    // ========================================
+
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user is admin (based on custom claims)
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    // Check if user owns the resource
+    function isOwner(ownerId) {
+      return isAuthenticated() && request.auth.uid == ownerId;
+    }
+
+    // Check if user has specific role
+    function hasRole(role) {
+      return isAuthenticated() && request.auth.token.role == role;
+    }
+
+    // Validate required fields for contentos_contents
+    function isValidContent() {
+      return request.resource.data.keys().hasAll([
+        'keyword', 'videoId', 'title', 'channelName',
+        'marketScore', 'fitScore', 'saturation', 'finalScore',
+        'status', 'createdAt', 'updatedAt'
+      ])
+      && request.resource.data.status in ['candidate', 'selected', 'rejected']
+      && request.resource.data.marketScore >= 0 && request.resource.data.marketScore <= 100
+      && request.resource.data.fitScore >= 0 && request.resource.data.fitScore <= 100
+      && request.resource.data.saturation >= 0 && request.resource.data.saturation <= 1;
+    }
+
+    // Validate required fields for contentos_publishes
+    function isValidPublish() {
+      return request.resource.data.keys().hasAll([
+        'contentId', 'youtubeVideoId', 'publishedAt',
+        'status', 'createdAt', 'updatedAt'
+      ])
+      && request.resource.data.status in ['published', 'scheduled', 'failed'];
+    }
+
+    // Validate required fields for contentos_assets
+    function isValidAsset() {
+      return request.resource.data.keys().hasAll([
+        'type', 'url', 'filename', 'mimeType', 'createdAt', 'updatedAt'
+      ])
+      && request.resource.data.type in ['thumbnail', 'script', 'video', 'audio'];
+    }
+
+    // ========================================
+    // Root Collection: loop
+    // ========================================
+
+    match /loop/{document=**} {
+      // Default: deny all (explicit rules below)
+      allow read, write: if false;
+    }
+
+    // ========================================
+    // Root Document: loop/main
+    // ========================================
+
+    match /loop/main {
+      // Only admins can read/write root document
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+
+      // ========================================
+      // ContentOS Subcollections
+      // ========================================
+
+      // contentos_contents: 인증된 사용자는 읽기 가능, 쓰기는 admin만
+      match /contentos_contents/{contentId} {
+        allow read: if isAuthenticated();
+        allow create: if isAdmin() && isValidContent();
+        allow update: if isAdmin() && isValidContent();
+        allow delete: if isAdmin();
+      }
+
+      // contentos_publishes: 인증된 사용자는 읽기 가능, 쓰기는 admin만
+      match /contentos_publishes/{publishId} {
+        allow read: if isAuthenticated();
+        allow create: if isAdmin() && isValidPublish();
+        allow update: if isAdmin(); // 성과 데이터 업데이트 (validation 완화)
+        allow delete: if isAdmin();
+      }
+
+      // contentos_assets: 인증된 사용자는 읽기 가능, 쓰기는 admin만
+      match /contentos_assets/{assetId} {
+        allow read: if isAuthenticated();
+        allow create: if isAdmin() && isValidAsset();
+        allow update: if isAdmin();
+        allow delete: if isAdmin();
+      }
+
+      // ========================================
+      // Vault Sync Subcollections (Read-Only)
+      // ========================================
+
+      // vault_projects: 읽기 전용 (n8n sync 전용)
+      match /vault_projects/{projectId} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin(); // n8n이 admin 권한으로 동기화
+      }
+
+      // vault_tasks: 읽기 전용 (n8n sync 전용)
+      match /vault_tasks/{taskId} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin(); // n8n이 admin 권한으로 동기화
+      }
+
+      // vault_pending_reviews: 인증된 사용자는 읽기, admin은 쓰기
+      match /vault_pending_reviews/{reviewId} {
+        allow read: if isAuthenticated();
+        allow create: if isAdmin(); // n8n이 생성
+        allow update: if isAuthenticated(); // 사용자가 승인/거부 가능
+        allow delete: if isAdmin();
+      }
+
+      // ========================================
+      // KPI Subcollections
+      // ========================================
+
+      // kpi_defs: 읽기 전용 (admin만 수정)
+      match /kpi_defs/{kpiId} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+
+      // kpi_rollups: 읽기 전용 (n8n이 집계)
+      match /kpi_rollups/{scopeId} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin(); // n8n이 admin 권한으로 집계
+
+        // days subcollection
+        match /days/{dayId} {
+          allow read: if isAuthenticated();
+          allow write: if isAdmin(); // n8n이 admin 권한으로 집계
+        }
+      }
+    }
+
+    // ========================================
+    // Test Rules (Development Only)
+    // ========================================
+
+    // Uncomment below for testing with Firestore Emulator
+    // match /test/{document=**} {
+    //   allow read, write: if true;
+    // }
+  }
+}

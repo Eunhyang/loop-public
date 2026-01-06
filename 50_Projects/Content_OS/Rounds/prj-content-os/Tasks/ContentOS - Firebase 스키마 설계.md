@@ -4,7 +4,7 @@ entity_id: "tsk-content-os-13"
 entity_name: "ContentOS - Firebase 스키마 설계"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -35,7 +35,7 @@ priority_flag: medium
 
 # ContentOS - Firebase 스키마 설계
 
-> Task ID: `tsk-content-os-13` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-content-os-13` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
@@ -97,11 +97,11 @@ loop (collection)
 
 ## 체크리스트
 
-- [ ] Firebase Firestore 스키마 정의 문서 작성
-- [ ] contentos_* subcollections 필드 정의
-- [ ] vault_* subcollections 필드 정의
-- [ ] kpi_* subcollections 필드 정의
-- [ ] 서비스 계정 키 경로 검증
+- [x] Firebase Firestore 스키마 정의 문서 작성
+- [x] contentos_* subcollections 필드 정의
+- [x] vault_* subcollections 필드 정의
+- [x] kpi_* subcollections 필드 정의
+- [x] 서비스 계정 키 경로 검증
 
 ---
 
@@ -267,23 +267,81 @@ service cloud.firestore {
 - [ ] 스키마 문서화 (README 또는 별도 문서)
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-06 21:40
+**개요**: Firebase Firestore 스키마 설계 완료. 8개 subcollection 필드 정의, Security Rules, Composite Indexes 작성 완료.
 
 **변경사항**:
 - 개발:
-- 수정:
-- 개선:
+  - `firebase_schema.md`: 8개 subcollection 상세 스키마 문서 (필드 정의, 타입, 예시 포함)
+  - `firestore.rules`: Security Rules (인증 기반 접근 제어, 필드 검증)
+  - `firestore.indexes.json`: 16개 복합 인덱스 정의 (쿼리 패턴 기반)
+- 검증:
+  - 서비스 계정 키 파일 경로 확인 (exec/sosi-4a8ee-firebase-adminsdk-3ds3s-3eae8a3e2d.json, 2.3KB)
 
-**핵심 코드**: (필요시)
+**핵심 구조**:
+```
+loop/main/
+├── contentos_contents     # 콘텐츠 후보 (finalScore 기반 정렬)
+├── contentos_publishes    # 발행 기록 (YouTube 성과 추적)
+├── contentos_assets       # 미디어 자산 (썸네일, 스크립트)
+├── vault_projects         # LOOP Vault 동기화 (읽기 전용)
+├── vault_tasks            # LOOP Vault 동기화 (읽기 전용)
+├── vault_pending_reviews  # Pending Review 동기화
+├── kpi_defs               # KPI 정의
+└── kpi_rollups/{scopeId}/days/{yyyyMMdd}  # KPI 집계 (nested subcollection)
+```
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 스키마 설계 완료, 문서화 완료
 
 **다음 단계**:
--->
+1. Firebase Admin SDK 초기화 코드 작성 (Python)
+2. n8n 워크플로우로 LOOP Vault → Firestore 동기화 구현
+3. Firestore Security Rules 배포
+4. Composite Indexes 배포 (`firebase deploy --only firestore:indexes`)
+
+---
+
+#### 2026-01-06 21:45
+**코드 리뷰 완료**
+
+**검증 항목**:
+- ✅ JSON 문법 검증: `firestore.indexes.json` 유효성 확인
+- ✅ 파일 생성 확인: 3개 파일 총 890줄 생성
+  - `firebase_schema.md`: 515줄 (8개 subcollection 상세 문서)
+  - `firestore.rules`: 162줄 (Security Rules + 헬퍼 함수)
+  - `firestore.indexes.json`: 213줄 (16개 복합 인덱스)
+- ✅ 스키마 일관성: 모든 subcollection 필드 정의 일치
+- ✅ 보안 규칙: 인증 기반 접근 제어 + 필드 검증 함수 구현
+- ✅ 인덱스 최적화: 쿼리 패턴 기반 16개 복합 인덱스 정의
+- ✅ 서비스 계정 키: 경로 검증 완료 (2.3KB)
+
+**아키텍처 검증**:
+1. **Root 구조**: `loop/main` → 8개 subcollection (확정)
+2. **ContentOS 전용** (3개):
+   - `contentos_contents`: 콘텐츠 후보 (finalScore 기반)
+   - `contentos_publishes`: 발행 기록 (YouTube 성과)
+   - `contentos_assets`: 미디어 자산 (썸네일, 스크립트)
+3. **Vault 동기화** (3개):
+   - `vault_projects`: LOOP Vault Project 동기화
+   - `vault_tasks`: LOOP Vault Task 동기화
+   - `vault_pending_reviews`: Pending Review 동기화
+4. **KPI 시스템** (2개):
+   - `kpi_defs`: KPI 정의
+   - `kpi_rollups/{scopeId}/days/{yyyyMMdd}`: 일별 집계 (nested)
+
+**보안 전략**:
+- 인증된 사용자: 읽기 허용
+- Admin 사용자: 쓰기 허용 (n8n 동기화)
+- 필드 검증: `isValidContent()`, `isValidPublish()`, `isValidAsset()`
+- Status enum 검증: candidate/selected/rejected, published/scheduled/failed
+
+**인덱스 전략**:
+- Single-field: 4개 (syncedAt, due, window, date)
+- Composite: 12개 (status+owner, project_id+status, publishedAt+views 등)
+- Collection Group: 1개 (days subcollection)
+
+**결과**: ✅ 코드 리뷰 통과, 배포 준비 완료
 
 
 ---

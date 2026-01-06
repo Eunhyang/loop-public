@@ -188,7 +188,19 @@ Program 생성 기능이 필요한 이유:
 - [ ] 빌드 및 테스트 확인
 
 ### 작업 로그
-<!-- workthrough 스킬이 자동 생성 -->
+
+**2026-01-06** - 구현 완료
+- API Layer:
+  - `api/models/entities.py`: ProgramCreate, ProgramResponse Pydantic 모델 추가
+  - `api/routers/programs.py`: POST /api/programs 엔드포인트 구현 (SSOT 패턴)
+  - `api/cache/vault_cache.py`: set_program(), remove_program() 메서드 추가
+- Dashboard UI:
+  - `js/api.js`: createProgram() 함수 추가
+  - `js/components/program-modal.js`: 새 파일 - Program 생성 모달 컴포넌트
+  - `js/components/program-rounds-view.js`: "+ New Program" 버튼 추가
+  - `js/app.js`: ProgramModal.init() 호출 추가
+  - `index.html`: Program Modal HTML 추가
+  - `css/program-rounds.css`: 헤더 및 모달 스타일 추가
 
 
 ---

@@ -203,6 +203,47 @@
         </div>
     </div>
 
+    <!-- Program Modal (tsk-022-02) -->
+    <div class="modal-overlay" id="programModal" style="display: none;">
+        <div class="modal modal-program">
+            <div class="modal-header">
+                <h2>New Program</h2>
+                <button class="modal-close" id="programModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="programForm">
+                    <div class="form-group">
+                        <label for="programName">Program Name *</label>
+                        <input type="text" id="programName" placeholder="Enter program name (e.g., '채용' or 'YouTube Weekly')">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="programType">Program Type *</label>
+                            <select id="programType">
+                                <option value="">-- Select Type --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="programOwner">Owner *</label>
+                            <select id="programOwner">
+                                <option value="">-- Select Owner --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="programDescription">Description</label>
+                        <textarea id="programDescription" rows="3" placeholder="Program description (optional)"></textarea>
+                    </div>
+                    <p class="modal-error" id="programModalError" style="color: #e74c3c; display: none;"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="programModalCancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="programModalSubmit">Create Program</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Task Modal -->
     <div class="modal-overlay" id="taskModal">
         <div class="modal">
@@ -903,6 +944,7 @@
     <script src="js/components/quick-search.js"></script>
     <script src="js/components/pending-panel.js"></script>
     <script src="js/components/program-rounds-view.js"></script>
+    <script src="js/components/program-modal.js"></script>
     <script src="js/components/pdf-viewer.js"></script>
     <script src="js/app.js"></script>
 </body>
