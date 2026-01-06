@@ -143,6 +143,12 @@ const State = {
             this.resetFilters();
             // Project 필터에서 done 제외 (기본값: 완료된 프로젝트 숨김)
             this.filters.project.status = this.filters.project.status.filter(s => s !== 'done');
+
+            // Core member만 기본 선택 (Founder, Cofounder)
+            // tsk-018-06: Non-core (Advisor, External, Former 등)는 기본 필터에서 제외
+            this.currentAssignees = this.members
+                .filter(m => m.role === 'Founder' || m.role === 'Cofounder')
+                .map(m => m.id);
         } finally {
             this.loading = false;
         }
