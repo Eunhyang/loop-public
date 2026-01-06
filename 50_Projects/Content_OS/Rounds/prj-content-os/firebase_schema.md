@@ -1,7 +1,7 @@
 # Firebase Schema - ContentOS
 
 > **Database**: `loop` (Firestore, sosi-4a8ee 프로젝트)
-> **Root Document**: `loop/main`
+> **Root Document**: `loop/{rootId}` (현재: `main`, 향후: `prod`, `staging`, `exec` 확장 가능)
 > **Service Account**: `exec/sosi-4a8ee-firebase-adminsdk-3ds3s-3eae8a3e2d.json`
 
 ---
@@ -12,7 +12,7 @@
 Firestore Database: loop (sosi-4a8ee)
 
 loop (collection)
-└── main (document, rootId)
+└── {rootId} (document: main | prod | staging | exec)
     │
     ├── contentos_contents (subcollection)
     │   └── {contentId} (documents)

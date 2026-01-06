@@ -132,6 +132,7 @@ priority_flag: high
 | tsk-content-os-04 | Content OS - Task Pipeline UI | 김은향 | todo | |
 | tsk-content-os-05 | Content OS - 회고 대시보드 UI | 김은향 | todo | |
 | tsk-content-os-13 | ContentOS - Firebase 스키마 설계 | 김은향 | doing | 2026-01-06 |
+| tsk-022-03 | ContentOS - Firebase 스키마 보완 패치 | 김은향 | doing | 2026-01-06 |
 
 ---
 

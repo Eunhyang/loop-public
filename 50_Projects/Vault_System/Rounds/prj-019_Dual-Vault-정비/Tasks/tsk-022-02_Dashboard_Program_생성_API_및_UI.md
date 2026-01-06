@@ -185,7 +185,7 @@ Program 생성 기능이 필요한 이유:
 - [x] Dashboard: program-rounds-view.js에 생성 버튼 추가
 - [x] Dashboard: index.html에 모달 HTML 추가
 - [x] Dashboard: css/program-rounds.css 스타일 추가
-- [ ] 빌드 및 테스트 확인
+- [x] UI 수정: New Program 버튼 위치 변경 (헤더로 이동)
 
 ### 작업 로그
 
@@ -201,6 +201,19 @@ Program 생성 기능이 필요한 이유:
   - `js/app.js`: ProgramModal.init() 호출 추가
   - `index.html`: Program Modal HTML 추가
   - `css/program-rounds.css`: 헤더 및 모달 스타일 추가
+
+**2026-01-06** - UI 수정 (tsk-022-02)
+- "+ New Program" 버튼 위치 수정:
+  - 기존: `program-rounds-view.js` 내부 (Program-Round 뷰 헤더)
+  - 변경: `index.html` 메인 헤더 (+New Project 버튼 옆)
+- 보안 강화:
+  - 버튼 기본값 `display: none` (Admin만 표시)
+  - 클릭 핸들러에 `Auth.isAdmin()` 이중 체크
+  - `updateAdminUI()`에서 가시성 제어
+- 변경된 파일:
+  - `_dashboard/index.html`: btnNewProgram 버튼 추가 (line 113)
+  - `_dashboard/js/components/program-rounds-view.js`: 버튼 및 이벤트 리스너 제거
+  - `_dashboard/js/app.js`: 이벤트 리스너 및 Admin 가시성 제어 추가
 
 
 ---

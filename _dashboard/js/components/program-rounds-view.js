@@ -23,18 +23,7 @@ const ProgramRoundsView = {
                 this.onProgramSelect(e.target.value);
             });
         }
-
-        // New Program 버튼 (tsk-022-02)
-        const newProgramBtn = document.getElementById('btnNewProgram');
-        if (newProgramBtn) {
-            newProgramBtn.addEventListener('click', () => {
-                if (typeof ProgramModal !== 'undefined') {
-                    ProgramModal.open();
-                } else {
-                    console.error('ProgramModal not loaded');
-                }
-            });
-        }
+        // Note: btnNewProgram event listener moved to app.js (tsk-022-02)
     },
 
     /**
@@ -56,13 +45,11 @@ const ProgramRoundsView = {
         }
 
         // Program 선택 드롭다운 + Round 목록 렌더링
+        // Note: btnNewProgram moved to main header in index.html (tsk-022-02)
         container.innerHTML = `
             <div class="program-rounds-header">
                 <div class="header-title-row">
                     <h2>Program-Round Dashboard</h2>
-                    <button class="btn btn-primary btn-new-program" id="btnNewProgram" title="New Program">
-                        + New Program
-                    </button>
                 </div>
                 <div class="program-select-wrapper">
                     <label for="programRoundsSelect">Program 선택:</label>

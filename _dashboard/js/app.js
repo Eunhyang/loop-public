@@ -294,6 +294,16 @@ function updateAdminUI() {
             viewProgramBtn.style.display = 'none';
         }
     }
+
+    // New Program button visibility (Admin only) - tsk-022-02
+    const btnNewProgram = document.getElementById('btnNewProgram');
+    if (btnNewProgram) {
+        if (Auth.isAdmin()) {
+            btnNewProgram.style.display = 'inline-block';
+        } else {
+            btnNewProgram.style.display = 'none';
+        }
+    }
 }
 
 // ============================================
@@ -338,6 +348,24 @@ function setupEventListeners() {
     // Header buttons
     document.getElementById('btnNewTask').addEventListener('click', () => TaskPanel.openNew());
     document.getElementById('btnNewProject').addEventListener('click', () => ProjectModal.open());
+
+    // New Program button (Admin only) - tsk-022-02
+    const btnNewProgram = document.getElementById('btnNewProgram');
+    if (btnNewProgram) {
+        btnNewProgram.addEventListener('click', () => {
+            // Security: Double-check admin permission before opening modal
+            if (!Auth.isAdmin()) {
+                showToast('Admin permission required', 'error');
+                return;
+            }
+            if (typeof ProgramModal !== 'undefined') {
+                ProgramModal.open();
+            } else {
+                console.error('ProgramModal not loaded');
+                showToast('Program Modal not available', 'error');
+            }
+        });
+    }
     document.getElementById('btnPendingReviews')?.addEventListener('click', () => PendingPanel.open());
     document.getElementById('btnReloadCache').addEventListener('click', async () => {
         const btn = document.getElementById('btnReloadCache');
