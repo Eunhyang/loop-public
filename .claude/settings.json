@@ -53,7 +53,8 @@
       "Bash(find:*)",
       "Bash(bash:*)",
       "Bash(docker:*)",
-      "Bash(sudo:*)"
+      "Bash(sudo:*)",
+      "Bash(time:*)"
     ]
   },
   "hooks": {

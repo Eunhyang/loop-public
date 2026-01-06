@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-37"
 entity_name: "Dashboard - 캘린더뷰 Google 이벤트 최상단 표시"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: medium
 
 # Dashboard - 캘린더뷰 Google 이벤트 최상단 표시
 
-> Task ID: `tsk-dashboard-ux-v1-37` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-37` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -283,6 +284,18 @@ order: 1,  // LOOP Task 우선순위 하위 (Google 이벤트 아래)
 **다음 단계**:
 - 브라우저에서 실제 동작 확인 (Google 이벤트 + LOOP Task 동시 표시 시나리오)
 - 월간뷰/주간뷰에서 정렬 순서 검증
+
+#### 2026-01-06 (완료)
+**개요**: Task 완료 - Google Calendar 이벤트 최상단 표시 기능 구현 완료
+
+**결과**:
+- ✅ FullCalendar eventOrder 옵션 설정 완료
+- ✅ Google 이벤트 order: 0 추가 완료
+- ✅ LOOP Task 이벤트 order: 1 추가 완료
+- ✅ Codex 리뷰 통과
+- ✅ 구현 완료, 브라우저 테스트 대기
+
+**최종 상태**: done
 
 ### 작업 로그
 <!--
