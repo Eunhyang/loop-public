@@ -3,36 +3,30 @@ entity_type: Project
 entity_id: prj-feedback-system
 entity_name: Feedback - 유저 피드백 수집 시스템
 created: '2026-01-05'
-updated: '2026-01-05'
-status: doing
-
-# === Program 연결 ===
+updated: '2026-01-06'
+status: ''
 program_id: pgm-vault-system
-program_path: "[[50_Projects/Vault_System/_PROGRAM]]"
-
-# === 계층 ===
-parent_id: pgm-vault-system
+program_path: '[[50_Projects/Vault_System/_PROGRAM]]'
+parent_id: trk-2
 aliases:
-  - prj-feedback-system
-  - Feedback System
-  - 유저 피드백 수집
-
-# === 프로젝트 정보 ===
+- prj-feedback-system
+- Feedback System
+- 유저 피드백 수집
 owner: 김은향
 priority: high
-
-# === Tasks ===
 tasks:
-  - tsk-feedback-01
-
-# === Relations ===
+- tsk-feedback-01
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "feedback", "api", "n8n", "dashboard"]
+tags:
+- project
+- feedback
+- api
+- n8n
+- dashboard
 priority_flag: high
 ---
-
 # Feedback - 유저 피드백 수집 시스템
 
 > Project ID: `prj-feedback-system` | Program: `pgm-vault-system` | Status: doing
