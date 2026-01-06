@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-03'
+due: '2026-01-10'
 priority: medium
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: medium
-start_date: '2026-01-03'
+start_date: '2026-01-10'
 type: research
 target_project: null
 ---
