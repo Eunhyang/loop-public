@@ -4,7 +4,8 @@ entity_id: tsk-dashboard-ux-v1-33
 entity_name: Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
 assignee: 김은향
@@ -25,7 +26,7 @@ tags:
 ---
 # Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가
 
-> Task ID: `tsk-dashboard-ux-v1-33` | Project: [[prj-dashboard-ux-v1]] | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-33` | Project: [[prj-dashboard-ux-v1]] | Status: done
 
 ## 요약
 
@@ -117,6 +118,19 @@ dayMaxEvents: true,  // 월간뷰: 셀 높이에 맞춰 자동 조절
 ### Codex 리뷰 피드백 반영
 - **버그 수정**: 주간뷰에서 토글 후 월간뷰로 돌아올 때 dayMaxEvents 상태가 적용되지 않던 문제
 - **해결**: onDatesSet()에서 월간뷰 전환 시 expandedMode에 따라 dayMaxEvents 재적용
+
+### 작업 로그
+
+#### 2026-01-06
+**개요**: Task 완료 - 캘린더 월뷰 overflow 수정 및 +more 토글 기능 구현
+
+**결과**:
+- calendar.js 수정 완료 (상태 관리, 토글 함수, 버튼 UI)
+- calendar.css 스타일 추가 완료 (다크 모드 지원)
+- Codex 리뷰 피드백 반영 (onDatesSet 버그 수정)
+- LOOP Vault 작업으로 PR/merge 과정 없음
+
+**최종 상태**: done
 
 ---
 
