@@ -34,6 +34,7 @@ services:
     restart: unless-stopped
     ports:
       - "8082:8081"  # 기존 8081과 충돌 방지, 나중에 전환
+    env_file: .env  # .env 파일에서 환경변수 로드
     volumes:
       # Vault 디렉토리 마운트 (읽기/쓰기)
       - /volume1/LOOP_CORE/vault/LOOP:/vault:rw
