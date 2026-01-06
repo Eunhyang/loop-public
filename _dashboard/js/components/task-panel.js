@@ -8,6 +8,7 @@ const TaskPanel = {
     isEditingNotes: false,
     editableLinks: [], // 편집 중인 링크 목록 (Save 시 저장)
     isUploading: false, // 업로드 중 상태
+    currentTaskType: null, // 새 Task 생성 시 선택된 타입 (임시)
 
     /**
      * Obsidian URI 생성
@@ -118,6 +119,7 @@ const TaskPanel = {
     changeTaskType(newType) {
         if (!this.currentTask) {
             // 새 Task 생성 중이면 로컬 상태만 변경
+            this.currentTaskType = newType;
             this.renderTypeChips(newType);
             return;
         }
@@ -345,6 +347,7 @@ const TaskPanel = {
      */
     openNew() {
         this.currentTask = null;
+        this.currentTaskType = null;
 
         // 기본값: 오늘 날짜
         const today = new Date().toISOString().split('T')[0];
@@ -390,6 +393,9 @@ const TaskPanel = {
 
         // 첨부파일 섹션 숨김 (새 Task는 저장 후 첨부파일 추가 가능)
         this.initAttachmentsForNewTask();
+
+        // Task Type Chips 렌더링 (새 Task는 타입 없음)
+        this.renderTypeChips(null);
 
         this.show();
     },
@@ -443,6 +449,10 @@ const TaskPanel = {
 
         // URL hash를 위해 먼저 캐시된 task를 currentTask로 설정
         this.currentTask = cachedTask;
+
+        // Task Type Chips 렌더링 (캐시된 타입으로 먼저 표시)
+        this.renderTypeChips(cachedTask.type || null);
+
         this.show();
 
         // API에서 본문 포함한 상세 정보 로드
@@ -457,6 +467,9 @@ const TaskPanel = {
             const notesContent = [task.notes, task._body].filter(Boolean).join('\n\n---\n\n');
             document.getElementById('panelTaskNotes').value = notesContent;
             this.updateNotesPreview(notesContent);
+
+            // Task Type Chips 렌더링 (API에서 로드한 최신 타입으로 갱신)
+            this.renderTypeChips(task.type || null);
 
             // Relations 표시
             this.renderRelations(task);
@@ -474,6 +487,10 @@ const TaskPanel = {
             const notesContent = [cachedTask.notes, cachedTask._body].filter(Boolean).join('\n\n---\n\n');
             document.getElementById('panelTaskNotes').value = notesContent;
             this.updateNotesPreview(notesContent);
+
+            // Task Type Chips 렌더링 (폴백 시에도)
+            this.renderTypeChips(cachedTask.type || null);
+
             this.renderRelations(cachedTask);
             this.renderLinks(cachedTask);
 
@@ -980,7 +997,9 @@ const TaskPanel = {
             // 유효한 URL만 저장 (invalid 링크 필터링)
             links: this.editableLinks.filter(link => this.isSafeUrl(link.url)).length > 0
                 ? this.editableLinks.filter(link => this.isSafeUrl(link.url))
-                : null
+                : null,
+            // Task Type (새 Task인 경우 currentTaskType 사용, 기존 Task인 경우 currentTask.type 사용)
+            type: this.currentTask ? this.currentTask.type : this.currentTaskType
         };
 
         // Validation
