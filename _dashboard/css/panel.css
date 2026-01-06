@@ -1773,6 +1773,27 @@
     background: #e5e7eb;
 }
 
+/* Refresh Button (tsk-n8n-21) */
+.btn-refresh {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-refresh svg {
+    transition: transform 0.3s ease;
+}
+
+.btn-refresh.spinning svg,
+.btn-refresh .spinning-icon {
+    animation: spin 1s linear infinite;
+}
+
+.btn-refresh:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Pending Review Badge (for sidebar) */
 .pending-review-badge {
     display: inline-flex;

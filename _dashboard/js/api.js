@@ -375,6 +375,19 @@ const API = {
         return res.json();
     },
 
+    /**
+     * Pending Review 새로고침 (LLM 재추론) - tsk-n8n-21
+     * @param {string} reviewId - Review ID
+     * @returns {Promise<{success: boolean, previous_fields: Object, new_fields: Object, reasoning: Object, run_id: string, error: string|null}>}
+     */
+    async refreshPendingReview(reviewId) {
+        const res = await this.authFetch(`${this.baseUrl}/api/pending/${encodeURIComponent(reviewId)}/refresh`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return res.json();
+    },
+
     // ============================================
     // Entity API (개별 조회 - for Entity Preview)
     // ============================================

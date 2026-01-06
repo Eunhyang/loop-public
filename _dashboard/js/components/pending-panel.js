@@ -1150,6 +1150,13 @@ const PendingPanel = {
             <div class="detail-pane-footer">
                 ${review.status === 'pending' ? `
                     <button class="btn btn-secondary" id="btnRejectReview" aria-label="Reject this review">Reject</button>
+                    <button class="btn btn-secondary btn-refresh" id="btnRefreshReview" aria-label="Refresh suggestion" title="Re-run LLM inference for new suggestion">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 4v6h6M23 20v-6h-6"/>
+                            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                        </svg>
+                        Refresh
+                    </button>
                     <button class="btn btn-primary" id="btnApproveReview" aria-label="Approve this review">Approve</button>
                 ` : `
                     <button class="btn btn-secondary" id="btnDeleteReview" aria-label="Delete this review">Delete</button>
@@ -1161,6 +1168,7 @@ const PendingPanel = {
         if (review.status === 'pending') {
             document.getElementById('btnApproveReview')?.addEventListener('click', () => this.approveReview());
             document.getElementById('btnRejectReview')?.addEventListener('click', () => this.rejectReview());
+            document.getElementById('btnRefreshReview')?.addEventListener('click', () => this.refreshReview());
         } else {
             document.getElementById('btnDeleteReview')?.addEventListener('click', () => this.deleteReview());
         }
@@ -1804,6 +1812,79 @@ const PendingPanel = {
             this.updateBadge(); // Update badge count
         } catch (e) {
             showToast('Failed to delete: ' + e.message, 'error');
+        }
+    },
+
+    /**
+     * 리뷰 새로고침 (LLM 재추론) - tsk-n8n-21
+     * source_workflow 기반으로 적절한 추론 API를 호출하여 새로운 제안값 생성
+     */
+    async refreshReview() {
+        if (!this.currentReview) return;
+
+        const reviewId = this.currentReview.id;
+        const btn = document.getElementById('btnRefreshReview');
+
+        // 버튼 로딩 상태
+        if (btn) {
+            btn.disabled = true;
+            btn.classList.add('spinning');
+            btn.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spinning-icon">
+                    <path d="M1 4v6h6M23 20v-6h-6"/>
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                </svg>
+                Refreshing...
+            `;
+        }
+
+        try {
+            const result = await API.refreshPendingReview(reviewId);
+
+            if (!result.success) {
+                throw new Error(result.error || 'Refresh failed');
+            }
+
+            // State 업데이트 - 새 필드값 반영
+            await State.loadPendingReviews();
+
+            // 업데이트된 리뷰 찾기
+            const updatedReview = State.pendingReviews.find(r => r.id === reviewId);
+
+            if (updatedReview) {
+                this.currentReview = updatedReview;
+                // 상세 패널 리렌더링
+                this.renderDetail(updatedReview);
+
+                showToast(`Refreshed: ${Object.keys(result.new_fields).length} fields updated`, 'success');
+
+                // 필드 비교 정보 (개발자 콘솔)
+                console.log('Refresh result:', {
+                    reviewId,
+                    previous: result.previous_fields,
+                    new: result.new_fields,
+                    reasoning: result.reasoning,
+                    run_id: result.run_id
+                });
+            } else {
+                showToast('Review not found after refresh', 'warning');
+            }
+
+        } catch (e) {
+            showToast('Failed to refresh: ' + e.message, 'error');
+        } finally {
+            // 버튼 상태 복원
+            if (btn) {
+                btn.disabled = false;
+                btn.classList.remove('spinning');
+                btn.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 4v6h6M23 20v-6h-6"/>
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                    </svg>
+                    Refresh
+                `;
+            }
         }
     },
 
