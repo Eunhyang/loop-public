@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-31"
 entity_name: "Dashboard - Task Type Chip 즉시 저장 버그 수정"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # Dashboard - Task Type Chip 즉시 저장 버그 수정
 
-> Task ID: `tsk-dashboard-ux-v1-31` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-31` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -108,6 +109,16 @@ Task Detail에서 타입 칩(dev, bug, strategy 등)을 클릭하면:
 - NAS 서버에 배포 후 실제 테스트 필요
 - 로그를 통해 type 필드가 None으로 전달되는지 확인
 
+#### 2026-01-06 (Task 완료)
+**개요**: Task 완료 - Dashboard Task Type Chip 즉시 저장 버그 수정 완료
+
+**결과**:
+- API 엔드포인트에서 type 필드 처리 로직 추가 완료
+- 파일 저장 및 캐시 로직 확인 완료
+- Dashboard JS에서 type 저장 및 UI 업데이트 로직 확인 완료
+- 디버그 로깅 추가로 향후 이슈 추적 용이
+
+**최종 상태**: done
 
 ---
 
