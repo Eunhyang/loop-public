@@ -4,7 +4,8 @@ entity_id: "tsk-019-02"
 entity_name: "Dashboard - Google Meet 생성 UX 개선 (수동 생성)"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -37,7 +38,7 @@ priority_flag: high
 
 # Dashboard - Google Meet 생성 UX 개선 (수동 생성)
 
-> Task ID: `tsk-019-02` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-019-02` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -199,6 +200,21 @@ Google Meet 링크 생성
 - `handleTypeChange()`: meeting 타입 선택 시 옵션 표시만 (자동 생성 없음)
 - `save()`: 자동 생성 로직 없음, 수동 생성된 링크만 사용
 - `calendar.js > onAddMeeting()`: 캘린더 우클릭 시 type=meeting 자동 선택
+
+---
+
+### 작업 로그
+
+#### 2026-01-06
+**개요**: Task 완료 - Google Meet 수동 생성 UX 개선
+
+**결과**:
+- 첫 번째 Google 계정 자동 선택 기능 구현 완료
+- Task save 시 type 필드 추가 및 기존 links 보존 로직 개선 완료
+- 수동 생성 플로우 전체 검증 완료
+- 캘린더 뷰 미팅 추가 기능 확인 완료
+
+**최종 상태**: done
 
 ---
 
