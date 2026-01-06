@@ -49,7 +49,11 @@
       "Bash(source:*)",
       "Bash(#:*)",
       "Bash(for:*)",
-      "Bash(which:*)"
+      "Bash(which:*)",
+      "Bash(find:*)",
+      "Bash(bash:*)",
+      "Bash(docker:*)",
+      "Bash(sudo:*)"
     ]
   },
   "hooks": {

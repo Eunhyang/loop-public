@@ -129,6 +129,7 @@ const Calendar = {
             height: 'auto',
             dayMaxEvents: initialDayMaxEvents,  // 월간뷰: expandedMode에 따라 설정 (tsk-dashboard-ux-v1-33)
             eventDisplay: 'block',
+            eventOrder: ['order', 'start', 'duration', 'allDay', 'title'],  // tsk-dashboard-ux-v1-37: order 우선, 나머지는 기본 정렬
             // 뷰별 설정 (tsk-dashboard-ux-v1-32: 주간뷰 모든 태스크 표시)
             views: {
                 timeGridWeek: {
@@ -377,7 +378,11 @@ const Calendar = {
             }
 
             const data = await response.json();
-            this.googleEventsCache = data.events || [];
+            // tsk-dashboard-ux-v1-37: Google 이벤트에 order: 0 추가 (최상단 표시)
+            this.googleEventsCache = (data.events || []).map(event => ({
+                ...event,
+                order: 0  // Google 이벤트 우선순위 최상
+            }));
 
             // Google 이벤트 소스 갱신
             this.refreshGoogleEventSource();
@@ -802,6 +807,7 @@ const Calendar = {
                     borderColor: projectColor,
                     textColor: '#333',
                     classNames: task.status === 'done' ? ['event-done'] : [],
+                    order: 1,  // tsk-dashboard-ux-v1-37: LOOP Task 우선순위 하위 (Google 이벤트 아래)
                     extendedProps: {
                         status: task.status,
                         assignee: task.assignee,
