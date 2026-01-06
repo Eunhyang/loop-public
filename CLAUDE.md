@@ -278,6 +278,9 @@ status: active
 | `/safe-commit` | SSH commit to NAS (avoids SMB conflicts) |
 | `/mcp-server` | Docker MCP management |
 | `/validate` | Schema validation |
+| `/n8n pending` | Check recent pending reviews (with source_workflow) |
+| `/n8n audit` | Check audit decisions log |
+| `/n8n trigger <workflow>` | Manually trigger n8n workflow |
 
 ### Key Skills
 | Skill | Purpose |

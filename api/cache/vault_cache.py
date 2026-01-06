@@ -81,6 +81,12 @@ class VaultCache:
         self.productlines: Dict[str, CacheEntry] = {}
         self.partnershipstages: Dict[str, CacheEntry] = {}
 
+        # 멤버 캐시 (tsk-018-06: Members SSOT)
+        # SSOT: exec/40_People/members.yaml (유일한 소스)
+        self.members: Dict[str, Dict[str, Any]] = {}
+        # 민감 필드 목록 (mcp:exec scope에서만 노출)
+        self.MEMBER_SENSITIVE_FIELDS = {'contract_type', 'salary', 'start_date', 'note'}
+
         # 디렉토리 mtime 추적 (dir_path:entity_type -> mtime)
         # Codex 피드백: 같은 디렉토리를 공유하는 엔티티 간 간섭 방지
         self._dir_mtimes: Dict[str, float] = {}
@@ -127,6 +133,7 @@ class VaultCache:
             self._load_productlines()
             self._load_partnershipstages()
             self._load_evidence()  # tsk-n8n-12: Evidence 캐시 로드
+            self._load_members()  # tsk-018-06: Members SSOT
 
         elapsed = (datetime.now() - start).total_seconds()
         self._load_time = elapsed
@@ -139,7 +146,8 @@ class VaultCache:
             f"{self._hypothesis_count} hypotheses, "
             f"{self._evidence_count} evidence, "
             f"{len(self.tracks)} tracks, "
-            f"{len(self.conditions)} conditions in {elapsed:.2f}s"
+            f"{len(self.conditions)} conditions, "
+            f"{len(self.members)} members in {elapsed:.2f}s"
         )
 
     # ============================================
@@ -1108,6 +1116,115 @@ class VaultCache:
             return sorted(results, key=lambda x: x.get('entity_id', ''))
 
     # ============================================
+    # Members 로드/조회 (tsk-018-06: Members SSOT)
+    # ============================================
+
+    def _load_members(self) -> None:
+        """멤버 정보 로드 (exec vault SSOT)
+
+        tsk-018-06: Members SSOT 통합
+        SSOT: exec/40_People/members.yaml (유일한 소스)
+
+        - 모든 멤버 정보 (기본 + 민감)가 exec vault에 저장
+        - API 응답 시 scope에 따라 민감 필드 필터링
+        - mcp:read → 기본 정보만 (id, name, role, aliases 등)
+        - mcp:exec → 전체 정보 (salary, contract_type 등 포함)
+        """
+        if not self.exec_vault_path:
+            logger.warning("Exec vault path not set, cannot load members")
+            return
+
+        members_file = self.exec_vault_path / "40_People/members.yaml"
+        if not members_file.exists():
+            logger.warning(f"Members SSOT file not found: {members_file}")
+            return
+
+        try:
+            with open(members_file, 'r', encoding='utf-8') as f:
+                data = yaml.safe_load(f)
+
+            for member in data.get('members', []):
+                member_id = member.get('id')
+                if member_id:
+                    self.members[member_id] = member.copy()
+
+            logger.info(f"Loaded {len(self.members)} members from exec vault (SSOT)")
+        except Exception as e:
+            logger.warning(f"Error loading members.yaml: {e}")
+
+    def get_all_members(self, include_sensitive: bool = False) -> List[Dict[str, Any]]:
+        """멤버 목록 조회
+
+        tsk-018-06: Members SSOT (exec vault)
+
+        Args:
+            include_sensitive: True이면 민감 필드 포함 (mcp:exec scope 필요)
+                              False면 민감 필드 제외 (mcp:read scope)
+
+        Returns:
+            멤버 목록
+            - include_sensitive=False: 기본 정보만 (id, name, role, aliases, active)
+            - include_sensitive=True: 전체 정보 (contract_type, salary, start_date, note 포함)
+        """
+        with self._lock:
+            results = []
+
+            for member_id, member in self.members.items():
+                if include_sensitive:
+                    # mcp:exec scope: 전체 정보
+                    member_data = member.copy()
+                else:
+                    # mcp:read scope: 민감 필드 제외
+                    member_data = {
+                        k: v for k, v in member.items()
+                        if k not in self.MEMBER_SENSITIVE_FIELDS
+                    }
+
+                results.append(member_data)
+
+            return sorted(results, key=lambda x: x.get('id', ''))
+
+    def get_member(self, member_id: str, include_sensitive: bool = False) -> Optional[Dict[str, Any]]:
+        """특정 멤버 조회
+
+        tsk-018-06: Members SSOT (exec vault)
+
+        Args:
+            member_id: 멤버 ID
+            include_sensitive: True이면 민감 필드 포함 (mcp:exec scope 필요)
+
+        Returns:
+            멤버 정보 (없으면 None)
+
+        Note:
+            aliases로도 조회 가능 (예: "은향" → "김은향" 반환)
+        """
+        with self._lock:
+            # 직접 ID 매칭
+            member = self.members.get(member_id)
+
+            # aliases로 매칭 시도
+            if not member:
+                for m in self.members.values():
+                    aliases = m.get('aliases', [])
+                    if member_id in aliases:
+                        member = m
+                        break
+
+            if not member:
+                return None
+
+            if include_sensitive:
+                # mcp:exec scope: 전체 정보
+                return member.copy()
+            else:
+                # mcp:read scope: 민감 필드 제외
+                return {
+                    k: v for k, v in member.items()
+                    if k not in self.MEMBER_SENSITIVE_FIELDS
+                }
+
+    # ============================================
     # ID 생성
     # ============================================
 
@@ -1344,6 +1461,7 @@ class VaultCache:
             self.metahypotheses.clear()
             self.productlines.clear()
             self.partnershipstages.clear()
+            self.members.clear()  # tsk-018-06
             self._dir_mtimes.clear()
             self._dir_last_check.clear()
 
@@ -1376,6 +1494,7 @@ class VaultCache:
                 "metahypotheses": len(self.metahypotheses),
                 "productlines": len(self.productlines),
                 "partnershipstages": len(self.partnershipstages),
+                "members": len(self.members),  # tsk-018-06 (SSOT: exec vault)
                 "load_time_seconds": self._load_time,
                 "vault_path": str(self.vault_path),
                 "exec_vault_path": str(self.exec_vault_path) if self.exec_vault_path else None

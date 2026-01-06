@@ -45,10 +45,12 @@ FIRST_LINE=$(echo "$COMMAND" | head -n1)
 for pattern in "${ALLOW_PATTERNS[@]}"; do
   if echo "$FIRST_LINE" | grep -qE "$pattern"; then
     # 자동 승인 - 올바른 형식
+    echo "[DEBUG] MATCHED pattern: $pattern" >> /tmp/hook-debug.log
     echo '{"hookSpecificOutput": {"hookEventName": "PermissionRequest", "decision": {"behavior": "allow"}}}'
     exit 0
   fi
 done
 
 # 매칭 안 되면 기본 동작 (사용자에게 묻기)
+echo "[DEBUG] NO MATCH for: $FIRST_LINE" >> /tmp/hook-debug.log
 exit 0

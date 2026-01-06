@@ -34,7 +34,14 @@ def extract_frontmatter(file_path: Path) -> Optional[Dict[str, Any]]:
 
 
 def load_members(vault_path: Path) -> Dict[str, Dict]:
-    """멤버 목록 로드"""
+    """멤버 목록 로드
+
+    DEPRECATED (tsk-018-06): VaultCache.get_all_members() 사용 권장
+    - 캐시 기반으로 성능 향상
+    - exec vault 민감 정보도 통합 지원
+
+    이 함수는 하위 호환성을 위해 유지됩니다.
+    """
     members_file = vault_path / "00_Meta/members.yaml"
     if not members_file.exists():
         return {}

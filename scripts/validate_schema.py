@@ -117,8 +117,16 @@ VALID_ASSIGNEES = None  # v7.2: loaded from members.yaml
 
 
 def _load_valid_assignees(vault_root: Path) -> Set[str]:
-    """Load valid assignees from 00_Meta/members.yaml"""
-    members_path = vault_root / "00_Meta" / "members.yaml"
+    """Load valid assignees from exec/40_People/members.yaml (SSOT)
+
+    tsk-018-06: Members SSOT 통합
+    - 유일한 소스: exec/40_People/members.yaml
+    - public/00_Meta/members.yaml은 더 이상 사용하지 않음
+    """
+    # exec vault 경로: vault_root의 부모에서 exec로 접근
+    # 상대 경로를 절대 경로로 변환 후 parent 접근
+    exec_vault = vault_root.resolve().parent / "exec"
+    members_path = exec_vault / "40_People" / "members.yaml"
     valid = set()
 
     if members_path.exists():
@@ -138,7 +146,7 @@ def _load_valid_assignees(vault_root: Path) -> Set[str]:
         except Exception:
             pass
 
-    # Fallback defaults
+    # Fallback defaults (exec vault 접근 불가 시)
     if not valid:
         valid = {"김은향", "한명학", "임단", "미정", "외주"}
 

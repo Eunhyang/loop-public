@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-25"
 entity_name: "Dashboard - 캘린더 Google Calendar 연동"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+status: done
+closed: 2026-01-06
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -37,7 +38,7 @@ priority_flag: high
 
 # Dashboard - 캘린더 Google Calendar 연동
 
-> Task ID: `tsk-dashboard-ux-v1-25` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-25` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -175,6 +176,34 @@ GET /api/google/events?calendarIds=...&start=...&end=...
 | tsk-dashboard-ux-v1-24 (OAuth) | 필수 선행 | Google OAuth 토큰 획득 기반 |
 | Google Calendar API v3 | 외부 서비스 | `calendar.readonly` scope 필요 |
 | FullCalendar | 기존 사용 | v6.x 버전 |
+
+---
+
+### 작업 로그
+
+#### 2026-01-06 (Task 완료)
+**개요**: Google Calendar 연동 기능 구현 완료. API 엔드포인트, 서비스 레이어, Dashboard UI 통합까지 전체 구현.
+
+**변경사항**:
+- 개발: `GET /api/google/calendars` - 연결된 계정들의 캘린더 목록 조회 엔드포인트
+- 개발: `GET /api/google/events` - 기간별 이벤트 조회 엔드포인트 (start, end 파라미터)
+- 개발: `api/services/google_calendar.py` - Calendar API 연동 서비스 (calendarList.list, events.list)
+- 개발: 캘린더별 색상 구분 및 표시/숨김 토글 기능
+- 수정: Dashboard 캘린더 뷰에 Google Calendar 이벤트 렌더링 통합
+- 수정: FullCalendar에 Google 이벤트를 추가 이벤트 소스로 등록
+
+**파일 변경**:
+- `api/routers/google.py` - Google Calendar API 라우터 추가
+- `api/services/google_calendar.py` - Calendar API 연동 서비스
+- `_dashboard/js/components/calendar.js` - Google 이벤트 렌더링 통합
+- `api/main.py` - 라우터 등록
+
+**결과**:
+- API 서버 rebuild 완료
+- 캘린더 목록/이벤트 조회 동작 확인
+- LOOP Task + Google Calendar 이벤트 단일 뷰 통합 완료
+
+**최종 상태**: done
 
 ---
 

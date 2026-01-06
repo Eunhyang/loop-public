@@ -20,6 +20,10 @@ const Calendar = {
     googleCalendarsLoading: false, // 로딩 상태
     googleCalendarsError: null,    // 오류 메시지
 
+    // 계정 관리 상태 (tsk-dashboard-ux-v1-28)
+    collapsedAccounts: new Set(),  // 접힌 계정 이메일 목록
+    accountMenu: null,             // 현재 열린 계정 메뉴
+
     // 트랙별 고정 색상 (6개 트랙)
     TRACK_COLORS: {
         'trk-1': '#FFEBEE',  // 연한 빨강
@@ -35,6 +39,7 @@ const Calendar = {
 
     // localStorage 키
     STORAGE_KEY: 'loop_calendar_enabled_gcal',
+    COLLAPSED_ACCOUNTS_KEY: 'loop_calendar_collapsed_accounts',
 
     /**
      * 프로젝트/태스크의 트랙 기반 색상 반환
@@ -72,6 +77,9 @@ const Calendar = {
 
         // localStorage에서 활성화된 캘린더 목록 로드
         this.loadEnabledCalendars();
+
+        // localStorage에서 접힌 계정 목록 로드 (tsk-dashboard-ux-v1-28)
+        this.loadCollapsedAccounts();
 
         // Google 캘린더 목록 로드 (비동기)
         this.loadGoogleCalendars();
@@ -266,65 +274,91 @@ const Calendar = {
     },
 
     /**
-     * Google 캘린더 사이드바 렌더링
+     * Google 캘린더 사이드바 렌더링 (tsk-dashboard-ux-v1-28 개선)
      */
     renderGoogleCalendarSidebar() {
         const container = document.getElementById('googleCalendarList');
         if (!container) return;
 
+        // 항상 "+계정 추가" 버튼을 포함한 헤더 렌더링
+        let html = `
+            <div class="gcal-sidebar-header">
+                <a href="/api/google/authorize?redirect_after=/" class="gcal-add-account-btn">
+                    <span class="gcal-add-icon">+</span>
+                    <span>계정 추가</span>
+                </a>
+            </div>
+        `;
+
         // 로딩 중
         if (this.googleCalendarsLoading) {
-            container.innerHTML = `
+            html += `
                 <div class="google-calendar-loading">
                     <span class="spinner-small"></span>
                     Google Calendar 로드 중...
                 </div>
             `;
+            container.innerHTML = html;
             return;
         }
 
         // 오류 발생
         if (this.googleCalendarsError) {
-            container.innerHTML = `
+            html += `
                 <div class="google-calendar-error">
                     <span>${this.googleCalendarsError}</span>
                     <button onclick="Calendar.loadGoogleCalendars()" class="btn btn-sm">재시도</button>
                 </div>
             `;
+            container.innerHTML = html;
             return;
         }
 
         // 연결된 계정 없음
         if (this.googleCalendars.length === 0) {
-            container.innerHTML = `
+            html += `
                 <div class="google-calendar-empty">
                     <p>연결된 Google 계정이 없습니다</p>
-                    <a href="/api/google/authorize?redirect_after=/" class="btn btn-sm btn-primary">
-                        Google 계정 연결
-                    </a>
                 </div>
             `;
+            container.innerHTML = html;
             return;
         }
 
-        // 캘린더 목록 렌더링
+        // 캘린더 목록을 계정별로 그룹핑
         const accountGroups = {};
         this.googleCalendars.forEach(cal => {
             if (!accountGroups[cal.account_email]) {
-                accountGroups[cal.account_email] = [];
+                accountGroups[cal.account_email] = {
+                    accountId: cal.account_id,
+                    calendars: []
+                };
             }
-            accountGroups[cal.account_email].push(cal);
+            accountGroups[cal.account_email].calendars.push(cal);
         });
 
-        let html = '';
-        for (const [email, calendars] of Object.entries(accountGroups)) {
+        // 계정별 렌더링
+        for (const [email, group] of Object.entries(accountGroups)) {
+            const isCollapsed = this.collapsedAccounts.has(email);
+            const chevronIcon = isCollapsed ? '>' : 'v';
+            const accountId = group.accountId;
+
             html += `
-                <div class="google-calendar-account">
-                    <div class="account-header">${email}</div>
-                    <ul class="calendar-list">
+                <div class="google-calendar-account ${isCollapsed ? 'collapsed' : ''}">
+                    <div class="account-header" data-email="${email}">
+                        <button class="account-collapse-btn" onclick="Calendar.toggleAccountCollapse('${email}')" title="${isCollapsed ? '펼치기' : '접기'}">
+                            <span class="collapse-icon">${chevronIcon}</span>
+                        </button>
+                        <span class="account-avatar">${email.charAt(0).toUpperCase()}</span>
+                        <span class="account-email">${email}</span>
+                        <button class="account-menu-btn" onclick="Calendar.showAccountMenu('${accountId}', '${email}', event)" title="계정 옵션">
+                            <span class="menu-dots">...</span>
+                        </button>
+                    </div>
+                    <ul class="calendar-list ${isCollapsed ? 'hidden' : ''}">
             `;
 
-            calendars.forEach(cal => {
+            group.calendars.forEach(cal => {
                 const calKey = `${cal.account_id}:${cal.id}`;
                 const isEnabled = this.enabledCalendars.has(calKey);
                 html += `
@@ -333,7 +367,8 @@ const Calendar = {
                             <input type="checkbox"
                                    ${isEnabled ? 'checked' : ''}
                                    data-calendar-key="${calKey}"
-                                   onchange="Calendar.toggleCalendar('${calKey}')">
+                                   onchange="Calendar.toggleCalendar('${calKey}')"
+                                   style="accent-color: ${cal.color}">
                             <span class="calendar-color" style="background-color: ${cal.color}"></span>
                             <span class="calendar-name">${cal.summary}</span>
                             ${cal.primary ? '<span class="calendar-primary">기본</span>' : ''}
@@ -349,6 +384,142 @@ const Calendar = {
         }
 
         container.innerHTML = html;
+    },
+
+    /**
+     * 계정 접기/펼치기 토글 (tsk-dashboard-ux-v1-28)
+     */
+    toggleAccountCollapse(email) {
+        if (this.collapsedAccounts.has(email)) {
+            this.collapsedAccounts.delete(email);
+        } else {
+            this.collapsedAccounts.add(email);
+        }
+        this.saveCollapsedAccounts();
+        this.renderGoogleCalendarSidebar();
+    },
+
+    /**
+     * 접힌 계정 목록 localStorage에서 로드 (tsk-dashboard-ux-v1-28)
+     */
+    loadCollapsedAccounts() {
+        try {
+            const saved = localStorage.getItem(this.COLLAPSED_ACCOUNTS_KEY);
+            if (saved) {
+                this.collapsedAccounts = new Set(JSON.parse(saved));
+            }
+        } catch (e) {
+            console.error('Failed to load collapsed accounts:', e);
+            this.collapsedAccounts = new Set();
+        }
+    },
+
+    /**
+     * 접힌 계정 목록 localStorage에 저장 (tsk-dashboard-ux-v1-28)
+     */
+    saveCollapsedAccounts() {
+        try {
+            localStorage.setItem(
+                this.COLLAPSED_ACCOUNTS_KEY,
+                JSON.stringify(Array.from(this.collapsedAccounts))
+            );
+        } catch (e) {
+            console.error('Failed to save collapsed accounts:', e);
+        }
+    },
+
+    /**
+     * 계정 메뉴 표시 (tsk-dashboard-ux-v1-28)
+     */
+    showAccountMenu(accountId, email, event) {
+        event.stopPropagation();
+
+        // 기존 메뉴 닫기
+        this.hideAccountMenu();
+
+        const menu = document.createElement('div');
+        menu.className = 'account-popup-menu';
+        menu.innerHTML = `
+            <button class="account-menu-item" onclick="Calendar.disconnectAccount('${accountId}', '${email}')">
+                <span class="menu-item-icon">x</span>
+                <span>연결 해제</span>
+            </button>
+        `;
+
+        // 버튼 위치에 메뉴 표시
+        const rect = event.target.closest('.account-menu-btn').getBoundingClientRect();
+        menu.style.position = 'fixed';
+        menu.style.top = `${rect.bottom + 4}px`;
+        menu.style.left = `${rect.left - 100}px`;  // 메뉴를 왼쪽으로 정렬
+
+        document.body.appendChild(menu);
+        this.accountMenu = menu;
+
+        // 클릭 외부 감지로 메뉴 닫기
+        setTimeout(() => {
+            document.addEventListener('click', this.hideAccountMenuHandler);
+        }, 0);
+    },
+
+    /**
+     * 계정 메뉴 숨기기 핸들러 (tsk-dashboard-ux-v1-28)
+     */
+    hideAccountMenuHandler: function(e) {
+        if (Calendar.accountMenu && !Calendar.accountMenu.contains(e.target)) {
+            Calendar.hideAccountMenu();
+        }
+    },
+
+    /**
+     * 계정 메뉴 숨기기 (tsk-dashboard-ux-v1-28)
+     */
+    hideAccountMenu() {
+        if (this.accountMenu) {
+            this.accountMenu.remove();
+            this.accountMenu = null;
+        }
+        document.removeEventListener('click', this.hideAccountMenuHandler);
+    },
+
+    /**
+     * Google 계정 연결 해제 (tsk-dashboard-ux-v1-28)
+     */
+    async disconnectAccount(accountId, email) {
+        this.hideAccountMenu();
+
+        if (!confirm(`'${email}' 계정 연결을 해제하시겠습니까?\n\n이 계정의 캘린더는 더 이상 표시되지 않습니다.`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/google/accounts/${accountId}`, {
+                method: 'DELETE',
+                headers: API.getHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            showToast(`${email} 계정 연결이 해제되었습니다`, 'success');
+
+            // 해당 계정의 캘린더를 enabledCalendars에서 제거
+            const keysToRemove = [];
+            this.enabledCalendars.forEach(key => {
+                if (key.startsWith(accountId + ':')) {
+                    keysToRemove.push(key);
+                }
+            });
+            keysToRemove.forEach(key => this.enabledCalendars.delete(key));
+            this.saveEnabledCalendars();
+
+            // 캘린더 목록 새로고침
+            await this.loadGoogleCalendars();
+
+        } catch (error) {
+            console.error('Failed to disconnect account:', error);
+            showToast('계정 연결 해제에 실패했습니다', 'error');
+        }
     },
 
     /**

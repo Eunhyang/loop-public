@@ -54,6 +54,15 @@ const API = {
         return Date.now() >= (payload.exp * 1000) - (5 * 60 * 1000);
     },
 
+    // 인증 헤더 반환 (tsk-dashboard-ux-v1-28)
+    getHeaders() {
+        const token = this.getToken();
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    },
+
     // 인증 헤더 포함 fetch (Authorization: Bearer)
     async authFetch(url, options = {}) {
         const token = this.getToken();

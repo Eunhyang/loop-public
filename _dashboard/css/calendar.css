@@ -47,9 +47,50 @@
     color: var(--text-primary, #374151);
 }
 
-/* Google Calendar Account Group */
+/* Google Calendar Sidebar Header (tsk-dashboard-ux-v1-28) */
+.gcal-sidebar-header {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.gcal-add-account-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary, #f3f4f6);
+    border-radius: 6px;
+    color: var(--text-primary, #374151);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+.gcal-add-account-btn:hover {
+    background: var(--bg-hover, #e5e7eb);
+    transform: translateY(-1px);
+}
+
+.gcal-add-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color, #3b82f6);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Google Calendar Account Group (tsk-dashboard-ux-v1-28 개선) */
 .google-calendar-account {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .google-calendar-account:last-child {
@@ -57,14 +98,146 @@
 }
 
 .google-calendar-account .account-header {
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: var(--bg-secondary, #f9fafb);
+    border-radius: 6px;
+    cursor: default;
+}
+
+.google-calendar-account.collapsed .account-header {
+    margin-bottom: 0;
+}
+
+/* 접기/펼치기 버튼 */
+.account-collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.account-collapse-btn:hover {
+    background: var(--bg-hover, #e5e7eb);
+}
+
+.collapse-icon {
+    font-size: 10px;
     font-weight: 600;
     color: var(--text-secondary, #6b7280);
-    padding: 4px 0;
-    margin-bottom: 8px;
-    text-overflow: ellipsis;
+    transform: rotate(0deg);
+    transition: transform 0.2s;
+}
+
+.google-calendar-account.collapsed .collapse-icon {
+    transform: rotate(-90deg);
+}
+
+/* 계정 아바타 */
+.account-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #4285f4, #34a853);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* 계정 이메일 */
+.account-email {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary, #374151);
     overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* 계정 메뉴 버튼 */
+.account-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, background-color 0.15s;
+}
+
+.google-calendar-account .account-header:hover .account-menu-btn {
+    opacity: 1;
+}
+
+.account-menu-btn:hover {
+    background: var(--bg-hover, #e5e7eb);
+}
+
+.menu-dots {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary, #6b7280);
+    letter-spacing: 1px;
+}
+
+/* 계정 팝업 메뉴 (tsk-dashboard-ux-v1-28) */
+.account-popup-menu {
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 140px;
+    padding: 4px;
+    z-index: 1001;
+}
+
+.account-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--error-color, #ef4444);
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.account-menu-item:hover {
+    background: var(--bg-hover, #fef2f2);
+}
+
+.menu-item-icon {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Calendar List 접힘 상태 */
+.calendar-list.hidden {
+    display: none;
 }
 
 /* Calendar List */
@@ -428,8 +601,45 @@
         color: var(--text-primary-dark, #f9fafb);
     }
 
+    /* tsk-dashboard-ux-v1-28: 계정 관리 다크 모드 */
+    .gcal-sidebar-header {
+        border-color: var(--border-color-dark, #4b5563);
+    }
+
+    .gcal-add-account-btn {
+        background: var(--bg-secondary-dark, #374151);
+        color: var(--text-primary-dark, #f9fafb);
+    }
+
+    .gcal-add-account-btn:hover {
+        background: var(--bg-hover-dark, #4b5563);
+    }
+
     .google-calendar-account .account-header {
+        background: var(--bg-secondary-dark, #374151);
+    }
+
+    .account-email {
+        color: var(--text-primary-dark, #f9fafb);
+    }
+
+    .account-collapse-btn:hover,
+    .account-menu-btn:hover {
+        background: var(--bg-hover-dark, #4b5563);
+    }
+
+    .collapse-icon,
+    .menu-dots {
         color: var(--text-secondary-dark, #9ca3af);
+    }
+
+    .account-popup-menu {
+        background: var(--bg-primary-dark, #1f2937);
+        border-color: var(--border-color-dark, #4b5563);
+    }
+
+    .account-menu-item:hover {
+        background: var(--bg-hover-dark, #4b5563);
     }
 
     .calendar-name {
@@ -478,5 +688,24 @@
 
     .google-calendar-sidebar {
         max-height: 150px;
+    }
+
+    /* tsk-dashboard-ux-v1-28: 모바일 터치 친화적 */
+    .account-collapse-btn,
+    .account-menu-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .account-menu-btn {
+        opacity: 1;  /* 모바일에서는 항상 표시 */
+    }
+
+    .gcal-add-account-btn {
+        padding: 12px 16px;
+    }
+
+    .calendar-item label {
+        padding: 10px 8px;
     }
 }

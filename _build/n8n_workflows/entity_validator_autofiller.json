@@ -220,7 +220,7 @@
         "method": "POST",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"task_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\" } }}",
+        "jsonBody": "={{ { \"task_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\", \"source_workflow\": \"entity-validator\" } }}",
         "options": {
           "response": {
             "response": {
@@ -332,7 +332,7 @@
         "method": "POST",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\" } }}",
+        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\", \"source_workflow\": \"entity-validator\" } }}",
         "options": {
           "response": {
             "response": {
@@ -839,7 +839,7 @@
   "meta": {
     "templateId": "entity-validator-autofiller-v7",
     "created": "2025-12-27",
-    "updated": "2026-01-03",
+    "updated": "2026-01-06",
     "schemaVersion": "5.3",
     "description": "Unified workflow for LOOP vault entity validation and auto-fill. v7: Manual Trigger 추가 - 특정 프로젝트만 테스트 가능. Set Test Project 노드에서 project_id와 phase(expected_impact/realized_impact) 설정 후 수동 실행. v6: 첨부파일 텍스트 추출 연동 (tsk-dashboard-ux-v1-21). Phase 1-3 AI Router 통합 유지."
   }

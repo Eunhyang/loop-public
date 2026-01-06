@@ -38,7 +38,7 @@ from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
 from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config, google_accounts
-from .utils.vault_utils import load_members, get_vault_dir
+from .utils.vault_utils import get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
 
@@ -467,9 +467,24 @@ def api_info():
 
 
 @app.get("/api/members")
-def get_members():
-    """멤버 목록 조회"""
-    return {"members": load_members(VAULT_DIR)}
+def get_members(request: Request):
+    """멤버 목록 조회
+
+    OAuth scope에 따라 응답 범위 결정:
+    - mcp:read: 기본 멤버 정보 (id, name, role, aliases, icon, active)
+    - mcp:exec: 전체 정보 (contract_type, salary, start_date, note 포함)
+
+    tsk-018-06: Members SSOT 통합
+    SSOT: exec/40_People/members.yaml (유일한 소스)
+    """
+    # scope 확인 (Bearer token → user_scope)
+    user_scope = getattr(request.state, 'scope', 'mcp:read') if hasattr(request, 'state') else 'mcp:read'
+    include_sensitive = 'mcp:exec' in user_scope or 'mcp:admin' in user_scope
+
+    cache = get_cache()
+    members = cache.get_all_members(include_sensitive=include_sensitive)
+
+    return {"members": {m['id']: m for m in members}}
 
 
 @app.get("/api/constants")

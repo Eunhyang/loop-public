@@ -15,7 +15,6 @@ from fastapi import APIRouter, HTTPException
 from ..models.entities import TaskCreate, TaskUpdate, TaskResponse, ValidationResult
 from ..cache import get_cache
 from ..utils.vault_utils import (
-    load_members,
     sanitize_filename,
     get_vault_dir
 )
@@ -98,9 +97,9 @@ async def create_task(task: TaskCreate):
             detail="entity_name은 '주제 - 내용' 형식이어야 합니다. (예: 'CoachOS - 프로토타입 개발')"
         )
 
-    # 1b. assignee 검증
-    members = load_members(VAULT_DIR)
-    if task.assignee not in members:
+    # 1b. assignee 검증 (캐시 기반 - tsk-018-06)
+    member = cache.get_member(task.assignee)
+    if not member:
         raise HTTPException(status_code=400, detail=f"Unknown assignee: {task.assignee}")
 
     # 2. Project 디렉토리 찾기 (캐시 사용)

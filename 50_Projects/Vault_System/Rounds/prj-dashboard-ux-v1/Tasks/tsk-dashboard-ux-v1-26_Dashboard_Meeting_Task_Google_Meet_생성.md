@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-26"
 entity_name: "Dashboard - Meeting Task Google Meet 생성"
 created: 2026-01-06
 updated: 2026-01-06
-status: doing
+closed: 2026-01-06
+status: done
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -37,7 +38,7 @@ priority_flag: high
 
 # Dashboard - Meeting Task Google Meet 생성
 
-> Task ID: `tsk-dashboard-ux-v1-26` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-26` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -243,3 +244,33 @@ calendar.events.insert({
 
 **Created**: 2026-01-06
 **Assignee**: 김은향
+
+---
+
+### 작업 로그
+
+#### 2026-01-06 Task 완료
+**개요**: Meeting Task에서 Google Meet 링크 자동 생성 기능 구현 완료. API 엔드포인트, Calendar 연동, Dashboard UI 모두 구현됨.
+
+**변경사항**:
+- 개발: `api/services/google_calendar.py` (create_meet_event 함수)
+- 개발: `POST /api/google/meet` 엔드포인트 (Pydantic 모델 포함)
+- 수정: `_dashboard/js/api.js` (getGoogleAccounts, createGoogleMeet 함수 추가)
+- 수정: `_dashboard/js/components/task-modal.js` (Meeting 옵션 UI 및 Meet 생성 로직)
+- 수정: `_dashboard/index.html` (Task Type, Duration, Meeting Options 섹션)
+- 수정: `_dashboard/css/modal.css` (meeting-options, meet-link-result 스타일)
+- 수정: `_dashboard/js/app.js` (TaskModal.init 호출 추가)
+
+**파일 변경**:
+- `api/services/google_calendar.py` - Calendar API로 Meet 링크 생성 서비스
+- `api/routers/google_accounts.py` - Meet 생성 API 엔드포인트
+- `_dashboard/js/api.js` - 프론트엔드 API 클라이언트 함수
+- `_dashboard/js/components/task-modal.js` - TaskModal UI 로직
+- `_dashboard/index.html` - Meeting 옵션 HTML 마크업
+- `_dashboard/css/modal.css` - 스타일링
+- `_dashboard/js/app.js` - 초기화 코드
+
+**결과**: API 서버 rebuild 완료, 체크리스트 7/8 완료 (테스트만 배포 후 진행)
+
+**다음 단계**:
+- API 서버 배포 후 실제 Google 계정으로 테스트 진행

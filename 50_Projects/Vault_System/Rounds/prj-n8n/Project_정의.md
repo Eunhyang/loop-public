@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-n8n
 entity_name: n8n Vault 자동화
 created: 2025-12-27
-updated: '2025-12-28'
+updated: '2026-01-06'
 status: active
 program_id: pgm-vault-system
 cycle: '2025'
@@ -122,6 +122,46 @@ _build/n8n_workflows/
 
 ---
 
+## CLI 명령어 (`/n8n`)
+
+> Claude Code에서 n8n 관련 작업을 수행하는 슬래시 명령어
+
+### 로그 확인
+
+| 명령 | 설명 |
+|-----|------|
+| `/n8n pending` | 최근 pending reviews 10개 (source_workflow 포함) |
+| `/n8n pending --workflow entity-validator` | 특정 워크플로우 필터 |
+| `/n8n pending --count` | 개수만 표시 |
+| `/n8n audit` | 최근 audit decisions 확인 |
+
+### 워크플로우 트리거
+
+| 명령 | 설명 |
+|-----|------|
+| `/n8n trigger entity-validator --project prj-xxx` | Entity Validator 실행 |
+| `/n8n trigger impact-rebuild` | Impact Score 재계산 |
+| `/n8n trigger youtube-weekly` | YouTube Weekly 라운드 생성 |
+| `/n8n trigger hypothesis-seeder --project prj-xxx` | Hypothesis 초안 생성 |
+
+### 사용 예시
+
+```bash
+# pending reviews 확인 (source_workflow 포함 여부 체크)
+/n8n pending
+
+# entity-validator 워크플로우만 필터
+/n8n pending --workflow entity-validator
+
+# audit 로그 확인
+/n8n audit
+
+# 특정 프로젝트 Impact 자동 채움
+/n8n trigger entity-validator --project prj-dashboard-ux-v1
+```
+
+---
+
 ## n8n Credential 설정 (CRITICAL)
 
 > **모든 LOOP API 호출 워크플로우는 반드시 아래 Credential 연결 필요**
@@ -212,6 +252,7 @@ _build/n8n_workflows/
 | tsk-n8n-05 | API 비즈니스 로직 통합 | todo |
 | tsk-n8n-17 | Ontology-Lite - 무결성 검증 시스템 구축 | done |
 | tsk-n8n-18 | Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제 | doing |
+| tsk-n8n-19 | n8n - 워크플로우 source_workflow 필드 추가 | done |
 
 ---
 
