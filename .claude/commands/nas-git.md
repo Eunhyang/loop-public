@@ -1,5 +1,6 @@
 ---
 description: NAS Git 동기화 관리 (sync, pull, push, reset) - public + exec 동시 처리
+model: haiku
 ---
 
 # NAS Git 관리

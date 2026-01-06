@@ -1,5 +1,6 @@
 ---
 description: Docker 기반 MCP 서버 관리 (빌드, 재시작, 로그 확인)
+model: haiku
 ---
 
 # MCP Server 관리 (Docker)
