@@ -30,6 +30,7 @@ RUN pip install --no-cache-dir \
 
 # API 코드 및 설정 파일 복사
 COPY api/ ./api/
+COPY shared/ ./shared/
 COPY impact_model_config.yml ./
 
 # 포트 노출
