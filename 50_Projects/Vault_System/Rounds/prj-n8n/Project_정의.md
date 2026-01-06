@@ -255,6 +255,7 @@ _build/n8n_workflows/
 | tsk-n8n-19 | n8n - 워크플로우 source_workflow 필드 추가 | done |
 | tsk-n8n-20 | Dashboard - Pending Panel Entity Preview UX 개선 | doing |
 | tsk-n8n-21 | Pending Review - 새로고침 기능 | doing |
+| tsk-n8n-22 | Retro Synth - B Score 계산 fallback 시스템 | doing |
 
 ---
 

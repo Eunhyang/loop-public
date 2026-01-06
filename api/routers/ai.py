@@ -134,6 +134,8 @@ class InferEvidenceRequest(BaseModel):
     schema_version: str = Field(default="5.3", description="스키마 버전")
     create_pending: bool = Field(default=True, description="mode=pending 시 pending 생성 여부")
     source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
+    # tsk-n8n-22: Retro Synth 지원
+    synth_audit_log_path: Optional[str] = Field(default=None, description="Retro Synth audit log 경로 (첨부파일)")
 
 
 class InferEvidenceResponse(BaseModel):

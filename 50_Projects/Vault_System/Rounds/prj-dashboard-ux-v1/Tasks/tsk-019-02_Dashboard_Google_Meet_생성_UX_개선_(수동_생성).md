@@ -110,15 +110,15 @@ Google Meet 링크 생성
 
 ## 체크리스트
 
-- [ ] UI: 체크박스 → 버튼 방식으로 변경
-- [ ] UI: Google 계정 드롭다운 추가 (첫 번째 기본 선택)
-- [ ] UI: "링크 생성" 버튼 추가
-- [ ] 로직: Task 저장 시 자동 생성 제거
-- [ ] 로직: Meeting 타입 선택 시 자동 생성 제거
-- [ ] 로직: 버튼 클릭 시에만 `createGoogleMeet()` 호출
-- [ ] 캘린더: "미팅 추가" 버튼 구현 (type=meeting 기본값)
-- [ ] 테스트: 수동 생성 플로우 확인
-- [ ] 테스트: 캘린더 뷰 미팅 추가 확인
+- [x] UI: 체크박스 -> 버튼 방식으로 변경
+- [x] UI: Google 계정 드롭다운 추가 (첫 번째 기본 선택)
+- [x] UI: "링크 생성" 버튼 추가
+- [x] 로직: Task 저장 시 자동 생성 제거
+- [x] 로직: Meeting 타입 선택 시 자동 생성 제거
+- [x] 로직: 버튼 클릭 시에만 `createGoogleMeet()` 호출
+- [x] 캘린더: "미팅 추가" 버튼 구현 (type=meeting 기본값)
+- [x] 테스트: 수동 생성 플로우 확인
+- [x] 테스트: 캘린더 뷰 미팅 추가 확인
 
 ---
 
@@ -181,6 +181,24 @@ Google Meet 링크 생성
 
 - 기존: `tsk-dashboard-ux-v1-26` (Google Meet 생성 기능)
 - API: `GET /api/google/accounts`, `POST /api/google/meet`
+
+---
+
+### 구현 완료 (2026-01-06)
+
+**수정된 파일:**
+- `_dashboard/js/components/task-modal.js`
+
+**변경 사항:**
+1. `loadGoogleAccounts()`: 첫 번째 계정 자동 선택 (`index === 0 ? 'selected' : ''`)
+2. `save()`: type 필드 추가 (`type: taskType`)
+3. `save()`: 기존 links 보존 로직 개선 (Meet 링크만 추가/업데이트, non-Meet 링크 보존)
+
+**기존 구현 확인 완료:**
+- `generateMeetLink()`: "링크 생성" 버튼 클릭 시에만 Meet 생성
+- `handleTypeChange()`: meeting 타입 선택 시 옵션 표시만 (자동 생성 없음)
+- `save()`: 자동 생성 로직 없음, 수동 생성된 링크만 사용
+- `calendar.js > onAddMeeting()`: 캘린더 우클릭 시 type=meeting 자동 선택
 
 ---
 

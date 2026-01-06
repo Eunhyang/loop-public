@@ -25,6 +25,7 @@ class TaskCreate(BaseModel):
     status: str = Field(default="todo", description="schema_constants.yaml 참조")
     notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
     tags: List[str] = Field(default_factory=list, description="태그")
+    type: Optional[str] = Field(default=None, description="Task 타입 (dev, bug, strategy, research, ops, meeting)")
     # Auto-validation 옵션
     auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
 
@@ -39,6 +40,7 @@ class TaskUpdate(BaseModel):
     status: Optional[str] = None
     notes: Optional[str] = None
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
+    type: Optional[str] = Field(default=None, description="Task 타입 (dev, bug, strategy, research, ops, meeting)")
     # Agent Builder 파이프라인용 추가 필드
     conditions_3y: Optional[List[str]] = Field(default=None, description="3년 전략 연결 (cond-a ~ cond-e)", json_schema_extra={"items": {"type": "string"}})
     closed: Optional[str] = Field(default=None, description="완료일 (YYYY-MM-DD)")
