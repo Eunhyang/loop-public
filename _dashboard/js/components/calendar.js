@@ -93,7 +93,8 @@ const Calendar = {
         this.loadGoogleCalendars();
 
         // expandedMode에 따른 초기 dayMaxEvents 값 결정
-        const initialDayMaxEvents = this.expandedMode ? false : true;
+        // false = 모든 태스크 표시, 3 = 3개 초과시 +more
+        const initialDayMaxEvents = this.expandedMode ? false : 3;
 
         this.instance = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -172,7 +173,8 @@ const Calendar = {
             const currentView = this.instance.view.type;
             if (currentView === 'dayGridMonth') {
                 // 월간뷰로 전환 시 expandedMode에 따라 dayMaxEvents 재적용
-                this.instance.setOption('dayMaxEvents', this.expandedMode ? false : true);
+                // false = 모든 태스크 표시, 3 = 3개 초과시 +more
+                this.instance.setOption('dayMaxEvents', this.expandedMode ? false : 3);
             }
             // 버튼 텍스트도 동기화
             this.updateExpandButtonText();
@@ -212,16 +214,18 @@ const Calendar = {
         this.saveExpandMode();
 
         if (this.instance) {
-            // 월간뷰에서만 dayMaxEvents 변경 (주간뷰는 항상 false)
-            const currentView = this.instance.view.type;
-            if (currentView === 'dayGridMonth') {
-                // expandedMode=true이면 dayMaxEvents=false (모든 태스크 표시)
-                // expandedMode=false이면 dayMaxEvents=true (+more 모드)
-                this.instance.setOption('dayMaxEvents', this.expandedMode ? false : true);
-            }
+            // expandedMode=true이면 dayMaxEvents=false (모든 태스크 표시)
+            // expandedMode=false이면 dayMaxEvents=3 (+more 모드, 3개 초과시 +more)
+            const newValue = this.expandedMode ? false : 3;
+            this.instance.setOption('dayMaxEvents', newValue);
+
+            // 캘린더 다시 렌더링
+            this.instance.render();
 
             // 버튼 텍스트 업데이트
             this.updateExpandButtonText();
+
+            console.log('Toggle expand mode:', this.expandedMode, 'dayMaxEvents:', newValue);
         }
     },
 
