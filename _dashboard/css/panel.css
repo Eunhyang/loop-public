@@ -2971,3 +2971,156 @@
     color: #7c3aed;
     font-family: monospace;
 }
+
+/* ============================================
+   Entity Preview - Notes & Links Styles
+   (Pending Panel에서 사용)
+   ============================================ */
+
+.entity-notes-section {
+    margin-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 16px;
+}
+
+.entity-notes-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #374151;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.entity-notes-content.markdown-body {
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
+
+.entity-notes-content h1,
+.entity-notes-content h2,
+.entity-notes-content h3 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.entity-notes-content h1 { font-size: 1.25em; }
+.entity-notes-content h2 { font-size: 1.15em; }
+.entity-notes-content h3 { font-size: 1.05em; }
+
+.entity-notes-content p {
+    margin-bottom: 8px;
+}
+
+.entity-notes-content ul,
+.entity-notes-content ol {
+    margin-left: 20px;
+    margin-bottom: 8px;
+}
+
+.entity-notes-content li {
+    margin-bottom: 4px;
+}
+
+.entity-notes-content code {
+    background: #e5e7eb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 0.9em;
+}
+
+.entity-notes-content pre {
+    background: #1f2937;
+    color: #f9fafb;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 8px 0;
+}
+
+.entity-notes-content pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+.entity-notes-content blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 12px;
+    margin: 8px 0;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.entity-notes-content hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 16px 0;
+}
+
+.entity-notes-content a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.entity-notes-content a:hover {
+    color: #2563eb;
+}
+
+.entity-notes-content .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.entity-notes-content .checklist-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+/* Links List */
+.entity-links-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.entity-link-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-radius: 4px;
+    font-size: 12px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.entity-link-item:hover {
+    background: #dbeafe;
+    text-decoration: underline;
+}
+
+/* Impact Statement */
+.impact-statement {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fef3c7;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #92400e;
+    font-style: italic;
+}
+
+/* Notes placeholder */
+.notes-placeholder {
+    color: #9ca3af;
+    font-style: italic;
+    padding: 12px;
+    text-align: center;
+}
