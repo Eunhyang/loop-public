@@ -53,14 +53,11 @@ const TaskModal = {
             });
         }
 
-        // Generate Meet checkbox handler
-        const generateMeetEl = document.getElementById('generateMeet');
-        if (generateMeetEl) {
-            generateMeetEl.addEventListener('change', (e) => {
-                const accountRow = document.getElementById('meetAccountRow');
-                if (accountRow) {
-                    accountRow.style.display = e.target.checked ? 'flex' : 'none';
-                }
+        // Generate Meet button handler (tsk-019-02: Manual generation)
+        const generateMeetBtn = document.getElementById('generateMeetBtn');
+        if (generateMeetBtn) {
+            generateMeetBtn.addEventListener('click', async () => {
+                await this.generateMeetLink();
             });
         }
 
@@ -120,12 +117,10 @@ const TaskModal = {
     },
 
     /**
-     * Reset meeting options to default state
+     * Reset meeting options to default state (tsk-019-02)
      */
     resetMeetingOptions() {
         const meetingOptions = document.getElementById('meetingOptions');
-        const generateMeet = document.getElementById('generateMeet');
-        const meetAccountRow = document.getElementById('meetAccountRow');
         const meetLinkResult = document.getElementById('meetLinkResult');
         const meetLinkDisplay = document.getElementById('meetLinkDisplay');
         const taskMeetLink = document.getElementById('taskMeetLink');
@@ -133,8 +128,6 @@ const TaskModal = {
         const meetStartTime = document.getElementById('meetStartTime');
 
         if (meetingOptions) meetingOptions.style.display = 'none';
-        if (generateMeet) generateMeet.checked = true;
-        if (meetAccountRow) meetAccountRow.style.display = 'flex';
         if (meetLinkResult) meetLinkResult.style.display = 'none';
         if (meetLinkDisplay) meetLinkDisplay.value = '';
         if (taskMeetLink) taskMeetLink.value = '';
@@ -210,16 +203,16 @@ const TaskModal = {
             if (task.type === 'meeting') {
                 this.handleTypeChange('meeting');
 
-                // If task has existing meeting link, show it
+                // If task has existing meeting link, show it (tsk-019-02: populate hidden field)
                 const meetLink = this.findMeetLink(task.links);
                 if (meetLink) {
                     const meetLinkResult = document.getElementById('meetLinkResult');
                     const meetLinkDisplay = document.getElementById('meetLinkDisplay');
-                    const generateMeet = document.getElementById('generateMeet');
+                    const taskMeetLink = document.getElementById('taskMeetLink');
 
                     if (meetLinkResult) meetLinkResult.style.display = 'block';
                     if (meetLinkDisplay) meetLinkDisplay.value = meetLink;
-                    if (generateMeet) generateMeet.checked = false;
+                    if (taskMeetLink) taskMeetLink.value = meetLink;  // Fix: populate hidden field for save
                 }
             }
         }
@@ -248,9 +241,16 @@ const TaskModal = {
     },
 
     /**
-     * Generate Google Meet link
+     * Generate Google Meet link (tsk-019-02: Manual generation with loading state)
      */
     async generateMeetLink() {
+        // Disable button to prevent double-clicks (Codex Issue #3)
+        const generateBtn = document.getElementById('generateMeetBtn');
+        if (generateBtn) {
+            generateBtn.disabled = true;
+            generateBtn.textContent = '생성 중...';
+        }
+
         const accountId = document.getElementById('meetGoogleAccount')?.value;
         const taskName = document.getElementById('taskName')?.value || 'Meeting';
         const startDate = document.getElementById('taskStartDate')?.value;
@@ -259,6 +259,11 @@ const TaskModal = {
 
         if (!accountId) {
             showToast('Please select a Google account', 'error');
+            // Re-enable button
+            if (generateBtn) {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '링크 생성';
+            }
             return null;
         }
 
@@ -287,6 +292,7 @@ const TaskModal = {
                 if (meetLinkDisplay) meetLinkDisplay.value = result.meet_link;
                 if (taskMeetLink) taskMeetLink.value = result.meet_link;
 
+                showToast('Meet link generated!', 'success');
                 return result.meet_link;
             } else {
                 showToast(result.error || 'Failed to generate Meet link', 'error');
@@ -296,28 +302,24 @@ const TaskModal = {
             console.error('Generate Meet error:', err);
             showToast('Error generating Meet link', 'error');
             return null;
+        } finally {
+            // Re-enable button
+            if (generateBtn) {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '링크 생성';
+            }
         }
     },
 
     /**
-     * Task 저장
+     * Task 저장 (tsk-019-02: No auto-generation, use manual link only)
      */
     async save() {
         const taskId = document.getElementById('taskId').value;
-        const taskType = document.getElementById('taskType')?.value || 'dev';
-        const generateMeet = document.getElementById('generateMeet')?.checked;
         const existingMeetLink = document.getElementById('taskMeetLink')?.value;
 
-        // For meeting tasks, generate Meet link if requested
-        let meetLink = existingMeetLink;
-        if (taskType === 'meeting' && generateMeet && !existingMeetLink) {
-            meetLink = await this.generateMeetLink();
-            if (!meetLink) {
-                // Failed to generate, but user can still save without link
-                const proceed = confirm('Failed to generate Meet link. Save task without link?');
-                if (!proceed) return;
-            }
-        }
+        // Use existing Meet link if present (from manual generation)
+        const meetLink = existingMeetLink;
 
         const taskData = {
             entity_name: document.getElementById('taskName').value.trim(),

@@ -269,15 +269,9 @@
                         </select>
                     </div>
                 </div>
-                <!-- Google Meet Options (tsk-dashboard-ux-v1-26) -->
+                <!-- Google Meet Options (tsk-019-02: Manual generation UX) -->
                 <div id="meetingOptions" class="meeting-options" style="display: none;">
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="generateMeet" checked>
-                            Google Meet
-                        </label>
-                    </div>
-                    <div class="form-row" id="meetAccountRow">
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Google Account</label>
                             <select id="meetGoogleAccount">
@@ -288,6 +282,11 @@
                             <label>Start Time</label>
                             <input type="time" id="meetStartTime" value="14:00">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="generateMeetBtn">
+                            링크 생성
+                        </button>
                     </div>
                     <div id="meetLinkResult" class="meet-link-result" style="display: none;">
                         <label>Meet Link</label>
@@ -710,6 +709,11 @@
                     <div class="panel-id-row">
                         <div class="panel-field-id" id="panelTaskId"></div>
                         <button class="btn-copy-link" id="panelTaskCopyLink" title="Copy link to clipboard">🔗</button>
+                    </div>
+
+                    <!-- Task Type Chips -->
+                    <div class="task-type-chips" id="taskTypeChips">
+                        <!-- Dynamically populated -->
                     </div>
 
                     <!-- Basic Info -->

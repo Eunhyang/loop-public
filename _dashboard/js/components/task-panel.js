@@ -25,6 +25,7 @@ const TaskPanel = {
     init() {
         this.populateSelects();
         this.setupEventListeners();
+        this.setupTypeChips();
     },
 
     /**
@@ -65,6 +66,94 @@ const TaskPanel = {
             priorityEl.innerHTML = priorities.map(p =>
                 `<option value="${p}">${priorityLabels[p]}</option>`
             ).join('');
+        }
+    },
+
+    /**
+     * Task Type Chips 설정
+     */
+    setupTypeChips() {
+        // 이벤트는 renderTypeChips에서 동적으로 바인딩
+    },
+
+    /**
+     * Task Type Chips 렌더링
+     * @param {string} currentType - 현재 선택된 타입
+     */
+    renderTypeChips(currentType) {
+        const container = document.getElementById('taskTypeChips');
+        if (!container) return;
+
+        const types = State.getTaskTypes();
+        if (!types || types.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+
+        const chips = types.map(type => {
+            const isActive = type === currentType;
+            const activeClass = isActive ? 'active' : '';
+            return `
+                <span class="task-type-chip type-${type} ${activeClass}" data-type="${type}">
+                    ${type}
+                </span>
+            `;
+        }).join('');
+
+        container.innerHTML = chips;
+
+        // 클릭 이벤트 바인딩
+        container.querySelectorAll('.task-type-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const newType = chip.dataset.type;
+                this.changeTaskType(newType);
+            });
+        });
+    },
+
+    /**
+     * Task Type 변경
+     * @param {string} newType - 새 타입
+     */
+    changeTaskType(newType) {
+        if (!this.currentTask) {
+            // 새 Task 생성 중이면 로컬 상태만 변경
+            this.renderTypeChips(newType);
+            return;
+        }
+
+        // 기존 Task면 즉시 API 업데이트
+        this.updateTaskType(newType);
+    },
+
+    /**
+     * Task Type API 업데이트
+     * @param {string} newType - 새 타입
+     */
+    async updateTaskType(newType) {
+        if (!this.currentTask) return;
+
+        const taskId = this.currentTask.entity_id;
+
+        try {
+            const result = await API.updateTask(taskId, { type: newType });
+
+            if (result.success) {
+                // 성공 시 currentTask 업데이트
+                this.currentTask.type = newType;
+                this.renderTypeChips(newType);
+                showToast(`Type changed to ${newType}`, 'success');
+
+                // State 갱신
+                await State.reloadTasks();
+                Kanban.render();
+                Calendar.refresh();
+            } else {
+                showToast(result.message || 'Type update failed', 'error');
+            }
+        } catch (err) {
+            console.error('Update task type error:', err);
+            showToast('Error updating type', 'error');
         }
     },
 

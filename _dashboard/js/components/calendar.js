@@ -613,11 +613,11 @@ const Calendar = {
     },
 
     /**
-     * 미팅 추가 핸들러
+     * 미팅 추가 핸들러 (tsk-019-02: Auto-set type to meeting)
      */
     onAddMeeting() {
         this.hideContextMenu();
-        TaskModal.open({ date: this.contextMenuDate });
+        TaskModal.open({ date: this.contextMenuDate, type: 'meeting' });
     },
 
     /**
