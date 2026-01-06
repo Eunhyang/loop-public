@@ -26,6 +26,14 @@ budget: null
 deadline: null
 hypothesis_text: "Dual-Vault 구조를 정비하면 exec 데이터 보호와 팀 자동화를 동시에 달성할 수 있다"
 experiments: []
+tasks:
+  - tsk-017-09
+  - tsk-017-11
+  - tsk-017-12
+  - tsk-017-13
+  - tsk-017-14
+  - tsk-017-15
+  - tsk-022-02
 
 # === Expected Impact (A) ===
 expected_impact:

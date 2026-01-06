@@ -211,6 +211,26 @@ const API = {
         return data.programs || [];
     },
 
+    /**
+     * Program 생성 (tsk-022-02)
+     * @param {Object} program - Program 정보
+     * @param {string} program.entity_name - Program 이름
+     * @param {string} program.program_type - Program 유형 (hiring, fundraising, etc.)
+     * @param {string} program.owner - 책임자
+     * @param {string} program.description - 설명 (선택)
+     * @param {string[]} program.principles - 운영 원칙 (선택)
+     * @param {string[]} program.process_steps - 프로세스 단계 (선택)
+     * @returns {Promise<{success: boolean, program_id: string, file_path: string, message: string}>}
+     */
+    async createProgram(program) {
+        const res = await this.authFetch(`${this.baseUrl}/api/programs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(program)
+        });
+        return res.json();
+    },
+
     // ============================================
     // Projects
     // ============================================

@@ -608,6 +608,25 @@ class VaultCache:
 
             return sorted(results, key=lambda x: x.get('entity_id', ''))
 
+    def set_program(self, program_id: str, data: Dict[str, Any], path: Path) -> None:
+        """Program 캐시 업데이트 (tsk-022-02)"""
+        with self._lock:
+            data['_path'] = str(path.relative_to(self.vault_path))
+            data['_dir'] = str(path.parent.relative_to(self.vault_path))
+            self.programs[program_id] = CacheEntry(
+                data=data,
+                path=path,
+                mtime=path.stat().st_mtime
+            )
+
+    def remove_program(self, program_id: str) -> bool:
+        """Program 캐시에서 제거 (tsk-022-02)"""
+        with self._lock:
+            if program_id in self.programs:
+                del self.programs[program_id]
+                return True
+            return False
+
     # ============================================
     # Hypothesis 로드/조회/CRUD
     # ============================================

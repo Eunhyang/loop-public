@@ -269,3 +269,25 @@ class TextExtractionResponse(BaseModel):
     cache_path: Optional[str] = Field(default=None, description="저장된 .txt 캐시 경로")
     truncated: bool = Field(default=False, description="max_chars로 잘렸는지 여부")
     error: Optional[str] = Field(default=None, description="에러 메시지 (실패 시)")
+
+
+# ============================================
+# Program Models (tsk-022-02)
+# ============================================
+
+class ProgramCreate(BaseModel):
+    """Program 생성 요청"""
+    entity_name: str = Field(..., description="Program 이름 (예: '채용' 또는 '주제 - 설명')")
+    program_type: str = Field(..., description="Program 유형 (schema_constants.yaml 참조)")
+    owner: str = Field(..., description="책임자 ID")
+    description: Optional[str] = Field(default=None, description="Program 설명")
+    principles: List[str] = Field(default_factory=list, description="운영 원칙")
+    process_steps: List[str] = Field(default_factory=list, description="프로세스 단계")
+
+
+class ProgramResponse(BaseModel):
+    """Program 응답"""
+    success: bool = Field(..., description="성공 여부")
+    program_id: str = Field(..., description="생성된 Program ID")
+    file_path: Optional[str] = Field(default=None, description="생성된 파일 경로")
+    message: str = Field(..., description="결과 메시지")
