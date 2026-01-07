@@ -95,6 +95,7 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 | tsk-022-02 | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | 김은향 | doing | 2026-01-06 |
 | tsk-dashboard-ux-v1-38 | Dashboard - Project Panel 프로그램 선택 및 Auto-save | 김은향 | doing | 2026-01-07 |
 | tsk-022-17 | Dashboard - State.js FALLBACK_CONSTANTS SSOT 동기화 | 김은향 | done | 2026-01-07 |
+| tsk-dashboard-ux-v1-39 | Dashboard - 캘린더뷰 유효하지않은 날짜 필터링 | 김은향 | todo | 2026-01-07 |
 
 ---
 
