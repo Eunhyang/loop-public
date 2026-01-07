@@ -10,28 +10,28 @@ interface KanbanColumnProps {
 const STATUS_CONFIG = {
   todo: {
     title: 'To Do',
-    color: 'bg-gray-100',
-    textColor: 'text-gray-700',
+    color: 'border-b-2 border-gray-500/30',
+    textColor: 'text-gray-400',
   },
   doing: {
     title: 'Doing',
-    color: 'bg-blue-100',
-    textColor: 'text-blue-700',
+    color: 'border-b-2 border-blue-500/50',
+    textColor: 'text-blue-400',
   },
   hold: {
     title: 'Hold',
-    color: 'bg-yellow-100',
-    textColor: 'text-yellow-700',
+    color: 'border-b-2 border-yellow-500/50',
+    textColor: 'text-yellow-400',
   },
   done: {
     title: 'Done',
-    color: 'bg-green-100',
-    textColor: 'text-green-700',
+    color: 'border-b-2 border-green-500/50',
+    textColor: 'text-green-400',
   },
   blocked: {
     title: 'Blocked',
-    color: 'bg-red-100',
-    textColor: 'text-red-700',
+    color: 'border-b-2 border-red-500/50',
+    textColor: 'text-red-400',
   },
 };
 
@@ -42,19 +42,19 @@ const STATUS_CONFIG = {
 export const KanbanColumn = ({ status, tasks, onCardClick }: KanbanColumnProps) => {
   const config = STATUS_CONFIG[status] || {
     title: status.charAt(0).toUpperCase() + status.slice(1),
-    color: 'bg-gray-100',
-    textColor: 'text-gray-700',
+    color: 'border-b-2 border-gray-500/30',
+    textColor: 'text-gray-400',
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 rounded-lg">
+    <div className="flex flex-col h-full rounded-lg bg-white/5 border border-white/5">
       {/* Column header */}
-      <div className={`${config.color} p-3 rounded-t-lg`}>
+      <div className={`p-3 ${config.color}`}>
         <div className="flex items-center justify-between">
-          <h2 className={`text-sm font-semibold ${config.textColor}`}>
+          <h2 className={`text-sm font-semibold tracking-wide uppercase ${config.textColor}`}>
             {config.title}
           </h2>
-          <span className={`text-xs font-medium ${config.textColor} bg-white px-2 py-1 rounded-full`}>
+          <span className={`text-xs font-medium ${config.textColor} bg-white/10 px-2 py-1 rounded-full`}>
             {tasks.length}
           </span>
         </div>

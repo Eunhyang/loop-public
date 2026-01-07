@@ -4,7 +4,7 @@ import { Header } from './Header';
 
 export const AppLayout = () => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-gradient-to-br from-gray-900 via-[#13141b] to-black text-gray-100">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Header />
