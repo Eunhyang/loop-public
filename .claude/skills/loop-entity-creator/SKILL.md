@@ -391,13 +391,26 @@ Optional fields:
 
 **Step 4: Determine file path**
 
+> **⚠️ CRITICAL: Task filename MUST be `{task_id}.md`, NOT `{entity_name}.md`**
+> **SSOT Enforcement (tsk-022-24): All new Tasks use tsk-{id}.md pattern**
+
 Get project name from project_id:
 1. Use Grep to find project file with `entity_id: {project_id}`
 2. Read the project file to get `entity_name`
 3. Construct path:
    ```
-   50_Projects/{project_name}/Tasks/{entity_name}.md
+   50_Projects/{project_name}/Tasks/{task_id}.md
    ```
+
+**Examples**:
+- ✅ CORRECT: `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-022-24.md`
+- ❌ WRONG: `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/SSOT_Task_파일명_규칙_강제_구현.md`
+
+**Rationale**:
+- Filename = entity_id enables O(1) lookup
+- Prevents filename collisions
+- Simplifies Git tracking
+- Unified pattern across all Tasks
 
 **Step 5: Create Task (API 우선)**
 
