@@ -113,18 +113,17 @@ async def create_task(task: TaskCreate):
     # 3. Task ID 생성 (캐시 기반)
     task_id = cache.get_next_task_id()
 
-    # 4. 파일명 생성
-    filename = sanitize_filename(task.entity_name) + ".md"
+    # 4. 파일명 생성 (SSOT: tsk-{id}.md 강제 - tsk-022-24)
+    filename = f"{task_id}.md"
     task_file = tasks_dir / filename
 
-    # 파일 중복 체크
+    # entity_id는 유일하므로 충돌 불가 (이론적으로)
+    # 만약 파일이 존재한다면 심각한 오류
     if task_file.exists():
-        base_name = sanitize_filename(task.entity_name)
-        counter = 1
-        while task_file.exists():
-            filename = f"{base_name}_{counter}.md"
-            task_file = tasks_dir / filename
-            counter += 1
+        raise HTTPException(
+            status_code=500,
+            detail=f"Task file already exists: {filename} (entity_id collision)"
+        )
 
     # 5. Frontmatter 생성
     today = datetime.now().strftime("%Y-%m-%d")

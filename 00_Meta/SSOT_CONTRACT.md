@@ -4,7 +4,7 @@ entity_id: meta:ssot-contract
 entity_name: LOOP Vault SSOT Contract
 created: 2026-01-07
 updated: 2026-01-07
-version: "1.1"
+version: "1.2"
 tags: ["meta", "ssot", "contract", "governance"]
 ---
 
@@ -148,33 +148,87 @@ Project 정의 파일명: project.md (public/exec 동일)
 
 ### 4.2 Task SSOT 파일명 (2단계 강제)
 
+> **Version**: 1.2 (updated 2026-01-07)
+> **Task**: tsk-022-24
+
 **강제 규칙**:
 ```yaml
 Task 정의 파일명: tsk-{id}.md (frontmatter entity_id 기반)
 예: tsk-001-01.md, tsk-022-18.md
 ```
 
-**적용 단계**:
+**현재 상태 (2026-01-07 조사)**:
+```
+전체 통계 (public + exec):
+  Total Tasks: 264
+  - tsk-{id}.md only:      139 (52.7%) ✅ SSOT 준수
+  - tsk-{id}_desc.md:        7 ( 2.7%) ⚠️  마이그레이션 필요
+  - content-based:         118 (44.7%) ⚠️  마이그레이션 필요
 
-**Phase 1 (즉시 적용)**: 신규 생성 강제
-- 모든 생성기(`loop-entity-creator`, `/new-task`)는 **`tsk-{id}.md`만 생성**
-- 내용 기반 파일명(예: `Episode_엔티티_검증.md`) 생성 절대 금지
+public vault (232 Tasks):
+  - tsk-{id}.md only:      128 (55.2%)
+  - tsk-{id}_desc.md:        7 ( 3.0%)
+  - content-based:          97 (41.8%)
 
-**Phase 2 (마이그레이션)**: 기존 파일 rename
-- frontmatter `entity_id` 읽어서 파일명 결정
-- 자동 스크립트: `scripts/rename_task_files.py`
-- 실행: `python3 scripts/rename_task_files.py public/`
+exec vault (32 Tasks):
+  - tsk-{id}.md only:       11 (34.4%)
+  - tsk-{id}_desc.md:        0 ( 0.0%)
+  - content-based:          21 (65.6%)
 
-**현재 상태**: Tasks 폴더 안에 다양한 이름 혼재
-- `tsk-001-01.md` ✅ (표준)
-- `Episode_엔티티_검증.md` ⚠️ (Phase 2 대상)
-- `작업명.md` ⚠️ (Phase 2 대상)
+조사 스크립트: scripts/analyze_task_filenames.py
+```
+
+**목표 상태**: 100% tsk-{id}.md 통일
+
+**마이그레이션 플랜**:
+
+**Phase 1 (2026-01 W2)**: 신규 생성 강제
+- 기한: 2026-01-14
+- 책임자: 김은향
+- 작업:
+  1. `api/routers/tasks.py:117` 수정 → `f"{task_id}.md"` 강제
+  2. `api/routers/youtube_weekly.py:296` 수정 → `f"{task_id}.md"` 강제
+  3. `scripts/csv_to_loop_entities.py:148` 수정 → `f"{task_id}.md"` 강제
+  4. `loop-entity-creator` 스킬 Step 4 문서 업데이트
+  5. 검증: 신규 Task 10개 테스트 (모두 tsk-{id}.md)
+- 성공 기준:
+  - 이후 생성되는 모든 Task가 tsk-{id}.md 패턴
+  - API, YouTube Weekly, CSV importer 모든 경로 준수
+  - validate_schema.py 에러 없음
+
+**Phase 2 (2026-01 W3)**: 기존 파일 자동 rename
+- 기한: 2026-01-21
+- 책임자: 김은향
+- 작업:
+  1. `scripts/rename_task_files.py` 작성
+  2. Dry-run 실행 및 검증
+  3. public vault rename 실행
+  4. exec vault rename 실행
+  5. Git commit 및 push
+- 성공 기준:
+  - 100% 파일명 통일 (264 → 264 tsk-{id}.md)
+  - 모든 frontmatter entity_id와 파일명 일치
+  - Git history 보존 (git mv 사용)
+
+**Phase 3 (2026-01 W4)**: 통일 완료 검증
+- 기한: 2026-01-28
+- 책임자: 김은향
+- 작업:
+  1. `analyze_task_filenames.py` 재실행 (100% 확인)
+  2. API 캐시 rebuild 및 검증
+  3. Dashboard 정상 동작 확인
+  4. SSOT_CONTRACT v2.0 승격
+- 성공 기준:
+  - tsk-{id}.md only: 100%
+  - API/Dashboard 정상 동작
+  - 팀 피드백 수집 완료
 
 **통일 이점**:
 - API가 파일명으로 Task ID 추론 가능 (O(1) lookup)
 - 검색/색인 단순화
 - 파일명 충돌 방지
 - Git history 추적 용이
+- 팀 규칙 단순화 (하나의 패턴만 기억)
 
 ### 4.3 _INDEX.md 파일의 위상
 
@@ -530,11 +584,17 @@ git commit -m "Migrate: Project_정의.md → project.md"
 
 ---
 
-**Version**: 1.1
+**Version**: 1.2
 **Last Updated**: 2026-01-07
 **Status**: Active (모든 코드/API/UI가 준수해야 함)
 
 **변경 이력**:
+- v1.2 (2026-01-07): Section 4.2 - Task 파일명 규칙 상세화 (tsk-022-24)
+  - 현재 상태 통계 추가: 264 Tasks (52.7% SSOT 준수, 47.3% 마이그레이션 필요)
+  - 3-phase 마이그레이션 플랜 명시: Phase 1 (신규 강제), Phase 2 (rename), Phase 3 (검증)
+  - 각 Phase별 기한, 책임자, 작업 항목, 성공 기준 추가
+  - 조사 스크립트: `scripts/analyze_task_filenames.py` 추가
+  - 모든 Task 생성 경로 포함 (API, YouTube Weekly, CSV importer)
 - v1.1 (2026-01-07): 3가지 개선사항 반영
   - Task 파일명 규칙: "권장" → "2단계 강제" (Phase 1/2 명시)
   - 동시성/경합 방지: `expected_updated_at` + 409 Conflict 조항 추가 (Section 6.5)

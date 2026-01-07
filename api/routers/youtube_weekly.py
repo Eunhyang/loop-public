@@ -292,8 +292,8 @@ YouTube 1주 1업로드 프로그램의 {cycle} 라운드.
 **Due**: {task_due_str}
 """
 
-        # Task 파일 저장
-        task_filename = f"{task_id}_{sanitize_filename(task['name'])}.md"
+        # Task 파일 저장 (SSOT: tsk-{id}.md 강제 - tsk-022-24)
+        task_filename = f"{task_id}.md"
         task_file = tasks_dir / task_filename
         with open(task_file, 'w', encoding='utf-8') as f:
             f.write(task_content)

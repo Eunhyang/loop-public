@@ -145,8 +145,8 @@ priority_flag: medium
 
 def create_task_file(tasks_dir, task_id, task_name, project_id, assignee, priority, priority_flag, status, description, due_date, today):
     """Task 파일 생성"""
-    task_name_safe = sanitize_filename(task_name)
-    task_file = tasks_dir / f"{task_name_safe}.md"
+    # SSOT: tsk-{id}.md 강제 (tsk-022-24)
+    task_file = tasks_dir / f"{task_id}.md"
 
     # Description 정리
     description_clean = (description or '').strip()

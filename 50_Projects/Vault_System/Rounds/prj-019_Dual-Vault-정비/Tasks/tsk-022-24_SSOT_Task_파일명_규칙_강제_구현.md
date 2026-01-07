@@ -4,7 +4,8 @@ entity_id: "tsk-022-24"
 entity_name: "SSOT - Task 파일명 규칙 강제 구현"
 created: 2026-01-07
 updated: 2026-01-07
-status: doing
+closed: 2026-01-07
+status: done
 
 # === 계층 ===
 parent_id: "prj-019"
@@ -26,7 +27,7 @@ actual_hours: null
 
 # === Task 유형 (dev Task 연동용) ===
 type: dev
-target_project: null
+target_project: loop
 
 # === 분류 ===
 tags: ["ssot", "task-filename", "phase-1"]
@@ -35,7 +36,7 @@ priority_flag: high
 
 # SSOT - Task 파일명 규칙 강제 구현
 
-> Task ID: `tsk-022-24` | Project: `prj-019` | Status: doing
+> Task ID: `tsk-022-24` | Project: `prj-019` | Status: done
 
 ## 목표
 
@@ -78,12 +79,12 @@ SSOT_CONTRACT.md v1.1에서 Task 파일명 규칙 (`tsk-{id}.md`)을 정의했�
 
 ## 체크리스트
 
-- [ ] Task 파일명 패턴 조사 스크립트 작성 및 실행
-- [ ] SSOT_CONTRACT.md Section 4.2 v1.2 업데이트
-- [ ] api/routers/tasks.py 파일명 생성 로직 수정
-- [ ] loop-entity-creator 스킬 문서 업데이트
-- [ ] 신규 Task 10개 생성 테스트
-- [ ] validate_schema.py 실행 (에러 없음)
+- [x] Task 파일명 패턴 조사 스크립트 작성 및 실행
+- [x] SSOT_CONTRACT.md Section 4.2 v1.2 업데이트
+- [x] api/routers/tasks.py 파일명 생성 로직 수정
+- [x] loop-entity-creator 스킬 문서 업데이트
+- [x] 신규 Task 10개 생성 테스트
+- [x] validate_schema.py 실행 (에러 없음)
 - [ ] Git commit 완료
 
 ---
@@ -333,23 +334,35 @@ AFTER:
 - [ ] 전체 검증 실행
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-07 22:30
+**개요**: Task 파일명 규칙 `tsk-{id}.md` 강제 구현 완료. Phase 1 (신규 생성 강제) 구현 완료.
 
 **변경사항**:
 - 개발:
+  - `scripts/analyze_task_filenames.py`: Task 파일명 패턴 조사 스크립트 신규 작성
 - 수정:
+  - `api/routers/tasks.py:117`: `filename = f"{task_id}.md"` 로 변경 (SSOT 준수)
+  - `api/routers/youtube_weekly.py`: YouTube Weekly Task 생성 시 tsk-{id}.md 사용
+  - `scripts/csv_to_loop_entities.py`: CSV importer Task 생성 시 tsk-{id}.md 사용
+  - `.claude/skills/loop-entity-creator/SKILL.md:402`: Task 경로를 `{task_id}.md`로 명시
 - 개선:
+  - `00_Meta/SSOT_CONTRACT.md`: v1.2 업데이트, 3-phase 마이그레이션 플랜 추가
 
-**핵심 코드**: (필요시)
+**핵심 변경**:
+```python
+# BEFORE: Content-based filename
+filename = sanitize_filename(task.entity_name) + ".md"
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+# AFTER: ID-based filename (SSOT)
+filename = f"{task_id}.md"
+```
+
+**결과**: ✅ 검증 통과 (validate_schema.py)
 
 **다음 단계**:
--->
+- Phase 2 (2026-01 W3): 기존 파일 자동 rename (`scripts/rename_task_files.py` 실행)
+- Phase 3 (2026-01 W4): 100% 통일 검증 및 SSOT_CONTRACT v2.0 승격
 
 
 ---
