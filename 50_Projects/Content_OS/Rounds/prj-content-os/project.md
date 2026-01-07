@@ -162,9 +162,38 @@ priority_flag: high
 4. 회고 대시보드: A/B 리포트 + 학습 카드
 
 **기술 스펙**:
-- Frontend: Next.js 15 + ShadCN + Tailwind
-- Backend: FastAPI (독립 DB)
+
+**프론트엔드**:
+- Framework: Next.js 16.1.1 (App Router) + React 19.2.3 + TypeScript 5
+- UI: ShadCN UI (Radix UI), Tailwind CSS 4, Lucide React, next-themes
+- 상태관리: TanStack React Query 5
+- 차트: Recharts 3
+- 기타: dnd-kit (드래그앤드롭), Sonner (토스트)
+
+**백엔드**:
+- FastAPI (독립 DB)
 - Integration: LOOP Vault API
+
+**프로젝트 위치**:
+- `/Users/gim-eunhyang/dev/loop/public/apps/content-os/`
+
+**페이지 구조**:
+- `/` → 홈 (리다이렉트)
+- `/login` → 로그인
+- `/opportunity` → 콘텐츠 기회 발견
+- `/explorer` → 콘텐츠 라이브러리 탐색
+- `/pipeline` → 제작 파이프라인 (칸반)
+- `/retro` → 성과 분석 및 회고
+- `/performance` → 퍼포먼스 대시보드
+- `/api` → API 라우트
+
+**실행 방법**:
+```bash
+cd /Users/gim-eunhyang/dev/loop/public/apps/content-os
+pnpm dev    # 개발 서버 (포트 3000)
+pnpm build  # 프로덕션 빌드
+pnpm start  # 프로덕션 실행
+```
 
 **제약 조건**:
 - MVP 단계: UI 목업 + 더미 데이터만

@@ -4,7 +4,7 @@ entity_id: meta:ssot-contract
 entity_name: LOOP Vault SSOT Contract
 created: 2026-01-07
 updated: 2026-01-07
-version: "1.0"
+version: "1.1"
 tags: ["meta", "ssot", "contract", "governance"]
 ---
 
@@ -146,23 +146,35 @@ Project 정의 파일명: project.md (public/exec 동일)
 - [x] API 코드 업데이트: `Project_정의.md` 참조 제거 ✅ 2026-01-07
 - [x] 문서 업데이트: CLAUDE.md, TEAM_GUIDE 등 ✅ 2026-01-07
 
-### 4.2 Task SSOT 파일명 (통일 권장)
+### 4.2 Task SSOT 파일명 (2단계 강제)
 
-**권장 규칙**:
+**강제 규칙**:
 ```yaml
-Task 정의 파일명: tsk-{id}.md
+Task 정의 파일명: tsk-{id}.md (frontmatter entity_id 기반)
 예: tsk-001-01.md, tsk-022-18.md
 ```
 
+**적용 단계**:
+
+**Phase 1 (즉시 적용)**: 신규 생성 강제
+- 모든 생성기(`loop-entity-creator`, `/new-task`)는 **`tsk-{id}.md`만 생성**
+- 내용 기반 파일명(예: `Episode_엔티티_검증.md`) 생성 절대 금지
+
+**Phase 2 (마이그레이션)**: 기존 파일 rename
+- frontmatter `entity_id` 읽어서 파일명 결정
+- 자동 스크립트: `scripts/rename_task_files.py`
+- 실행: `python3 scripts/rename_task_files.py public/`
+
 **현재 상태**: Tasks 폴더 안에 다양한 이름 혼재
-- `tsk-001-01.md` ✅
-- `Episode_엔티티_검증.md` ⚠️ (파일명에 내용 포함)
-- `작업명.md` ⚠️ (ID 없음)
+- `tsk-001-01.md` ✅ (표준)
+- `Episode_엔티티_검증.md` ⚠️ (Phase 2 대상)
+- `작업명.md` ⚠️ (Phase 2 대상)
 
 **통일 이점**:
-- API가 파일명으로 Task ID 추론 가능
+- API가 파일명으로 Task ID 추론 가능 (O(1) lookup)
 - 검색/색인 단순화
 - 파일명 충돌 방지
+- Git history 추적 용이
 
 ### 4.3 _INDEX.md 파일의 위상
 
@@ -242,10 +254,44 @@ write: C-Level + 승인된 경로 (예: PR approval or 특정 관리자)
 
 **최소 요구사항** (반드시 구현):
 ```yaml
-1. Append-only 기록: _build/run_log/*.json 또는 decision_log.jsonl
-2. 변경 주체 기록: user_id, timestamp, modified_fields
+1. Append-only 기록: _build/audit_log.jsonl (SSOT)
+2. 변경 주체 기록: actor, timestamp, modified_fields
 3. 변경 전/후 값: old_value, new_value
+4. 추적 ID: run_id, entity_id
 ```
+
+**Audit Log 스키마 (강제)**:
+
+**파일 경로**: `_build/audit_log.jsonl` (append-only)
+
+**필드 스키마**:
+```json
+{
+  "run_id": "uuid-v4",              // 실행 추적 ID
+  "timestamp": "ISO-8601",          // 변경 시각
+  "actor": "user:김은향 | api:n8n | script:validate",  // 주체
+  "source": "ui | api | script | cli",  // 변경 원천
+  "entity_type": "Task | Project | Hypothesis",
+  "entity_id": "tsk-001-02",
+  "action": "create | update | delete | approve | reject",
+  "modified_fields": ["status", "assignee"],  // 변경된 필드 목록
+  "diff": {
+    "status": {"old": "todo", "new": "doing"},
+    "assignee": {"old": "은향", "new": "명학"}
+  },
+  "metadata": {
+    "ip": "127.0.0.1",              // 선택
+    "user_agent": "...",            // 선택
+    "session_id": "..."             // 선택
+  }
+}
+```
+
+**보조 로그 (선택)**:
+- `_build/run_log/`: 실행 로그 (프로세스 레벨)
+- `_build/decision_log.jsonl`: 승인/거부 전용 (Pending Review)
+
+**강제 조항**: 모든 SSOT write는 `audit_log.jsonl`에 기록 필수
 
 **이상적 요구사항** (권장):
 ```yaml
@@ -301,7 +347,59 @@ POST /api/tasks/tsk-001-02
 ```
 → 서버가 frontmatter 수정 + audit log 기록 + (선택) PR 생성
 
-### 6.5 위반 시 문제점
+### 6.5 동시성/경합 방지 (강제)
+
+**원칙**: 모든 write는 조건부로 수행하여 "늦게 온 응답이 덮어쓰기" 방지
+
+**강제 요구사항**:
+```yaml
+1. 조건부 write: expected_updated_at (또는 etag/hash) 검증
+2. 불일치 시: HTTP 409 Conflict 반환
+3. UI 대응: 최신 버전 reload 후 재시도
+```
+
+**구현 예시 (API)**:
+```python
+# Request
+PUT /api/tasks/tsk-001-02
+{
+  "status": "in_progress",
+  "expected_updated_at": "2026-01-07T10:30:00Z"  # 클라이언트가 본 마지막 버전
+}
+
+# Response (성공)
+200 OK
+{
+  "updated_at": "2026-01-07T10:35:00Z"
+}
+
+# Response (충돌)
+409 Conflict
+{
+  "error": "version_mismatch",
+  "current_updated_at": "2026-01-07T10:34:00Z",
+  "message": "Entity was modified by another user. Please reload and retry."
+}
+```
+
+**UI 처리 흐름**:
+1. 사용자가 Task 열람 → `updated_at` 기억
+2. 수정 후 저장 시 → `expected_updated_at` 전송
+3. 409 받으면 → 경고 표시 + 최신 버전 reload
+4. 사용자가 변경사항 확인 후 재시도
+
+**시나리오 예시**:
+```
+T0: Alice가 tsk-001 열람 (updated_at: 10:30)
+T1: Bob이 tsk-001 열람 (updated_at: 10:30)
+T2: Alice가 status→doing으로 변경 (expected: 10:30) ✅ 성공 → updated_at: 10:35
+T3: Bob이 assignee→Charlie로 변경 (expected: 10:30) ❌ 409 Conflict
+T4: Bob이 최신 버전 reload (Alice의 변경 확인) → 재시도
+```
+
+**적용 범위**: 모든 UPDATE 엔드포인트 (`PUT /api/tasks/*`, `PUT /api/projects/*` 등)
+
+### 6.6 위반 시 문제점
 
 **NAS/UI 수정이 Git 반영 없이 이루어지면**:
 1. 로컬 sync에 의해 변경 사항이 덮여쓰임
@@ -358,7 +456,9 @@ python3 scripts/build_archive_catalog.py public/
 | `validated_by`, `realized_sum` 직접 저장 | Derived 필드 (계산 필요) |
 | exec vault에서 `prj-NNN`, `tsk-NNN-NN` 사용 | public과 ID 충돌 |
 | `_INDEX.md`를 SSOT로 사용 | 검증 제외 대상 |
-| `Project_정의.md` 신규 생성 | Legacy 파일명 (마이그레이션 중) |
+| `Project_정의.md` 신규 생성 | Legacy 파일명 (Phase 1 완료) |
+| 내용 기반 Task 파일명 생성 | `tsk-{id}.md` 강제 (Phase 1) |
+| `expected_updated_at` 없이 UPDATE | 동시성 충돌 방지 (409 필수) |
 
 ### 8.2 강제 요구사항
 
@@ -366,9 +466,11 @@ python3 scripts/build_archive_catalog.py public/
 |----------|------|
 | 모든 SSOT 변경은 Git commit 필수 | 예외 없음 |
 | Derived 생성은 오직 스크립트만 | API/UI 쓰기 금지 |
-| Project 정의 파일명은 `project.md` | public/exec 동일 |
+| Project 정의 파일명은 `project.md` | public/exec 동일 ✅ |
+| Task 정의 파일명은 `tsk-{id}.md` | 신규 생성 강제 (Phase 1) |
 | exec vault 접근은 C-Level만 | OAuth scope 검증 |
-| UI/API 수정은 audit log 필수 | append-only 기록 |
+| UI/API 수정은 audit log 필수 | `_build/audit_log.jsonl` |
+| UPDATE 요청은 조건부 write | `expected_updated_at` + 409 처리 |
 
 ---
 
@@ -428,9 +530,13 @@ git commit -m "Migrate: Project_정의.md → project.md"
 
 ---
 
-**Version**: 1.0
+**Version**: 1.1
 **Last Updated**: 2026-01-07
 **Status**: Active (모든 코드/API/UI가 준수해야 함)
 
 **변경 이력**:
+- v1.1 (2026-01-07): 3가지 개선사항 반영
+  - Task 파일명 규칙: "권장" → "2단계 강제" (Phase 1/2 명시)
+  - 동시성/경합 방지: `expected_updated_at` + 409 Conflict 조항 추가 (Section 6.5)
+  - Audit log 스키마 확정: `_build/audit_log.jsonl` + 필드 정의 (Section 6.2)
 - v1.0 (2026-01-07): 초안 작성 - SSOT 계약 강제 조항 정의

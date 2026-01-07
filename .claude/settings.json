@@ -1,6 +1,18 @@
 {
   "permissions": {
     "defaultMode": "bypassPermissions",
+    "ask": [
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(docker system prune:*)",
+      "Bash(sudo rm:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(shutdown:*)",
+      "Bash(reboot:*)"
+    ],
     "allow": [
       "Read",
       "Grep",

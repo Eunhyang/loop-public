@@ -23,6 +23,8 @@ budget: null
 deadline: null
 hypothesis_text: "바닐라 JS 대시보드를 React+TS로 마이그레이션하면 페이지 경계 분리로 운영 복잡도가 감소하고, state.js 급팽창 없이 기능 추가 속도가 향상될 것이다"
 experiments: []
+tasks:
+  - tsk-022-20
 
 # === Expected Impact (A) ===
 tier: null
