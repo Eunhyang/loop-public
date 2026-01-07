@@ -85,7 +85,7 @@ SSOT_CONTRACT.md v1.1에서 Task 파일명 규칙 (`tsk-{id}.md`)을 정의했�
 - [x] loop-entity-creator 스킬 문서 업데이트
 - [x] 신규 Task 10개 생성 테스트
 - [x] validate_schema.py 실행 (에러 없음)
-- [ ] Git commit 완료
+- [x] Git commit 완료
 
 ---
 
