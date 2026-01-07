@@ -4,9 +4,10 @@ entity_id: tsk-022-11
 entity_name: Dashboard - 미팅 태스크 클릭/삭제 동기화 버그 수정
 created: 2026-01-07
 updated: 2026-01-07
+closed: 2026-01-07
 project_id: prj-dashboard-ux-v1
 assignee: 김은향
-status: doing
+status: done
 start_date: 2026-01-07
 due: 2026-01-07
 priority: high
@@ -26,7 +27,7 @@ tags:
 
 # Dashboard - 미팅 태스크 클릭/삭제 동기화 버그 수정
 
-> Task ID: `tsk-022-11` | Project: [[prj-dashboard-ux-v1]] | Status: doing
+> Task ID: `tsk-022-11` | Project: [[prj-dashboard-ux-v1]] | Status: done
 
 ## Notes
 
