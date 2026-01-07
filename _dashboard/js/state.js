@@ -78,14 +78,14 @@ const State = {
     // Source: 00_Meta/schema_constants.yaml
     filters: {
         project: {
-            status: ['planning', 'active', 'paused', 'cancelled'],  // done excluded by default
-            priority: ['critical', 'high', 'medium', 'low'],
+            status: FALLBACK_CONSTANTS.project.status.filter(s => s !== 'done'),  // done excluded by default
+            priority: [...FALLBACK_CONSTANTS.priority.values],
             showInactive: false  // activate: false 엔티티 숨김 (기본값)
         },
         task: {
-            status: ['todo', 'doing', 'done', 'blocked'],
-            priority: ['critical', 'high', 'medium', 'low'],
-            types: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'],  // Task type filter (SSOT: schema_constants.yaml)
+            status: [...FALLBACK_CONSTANTS.task.status],
+            priority: [...FALLBACK_CONSTANTS.priority.values],
+            types: [...FALLBACK_CONSTANTS.task.types],  // SSOT 참조
             dueDateStart: null,
             dueDateEnd: null,
             showInactive: false,  // activate: false 엔티티 숨김 (기본값)

@@ -79,13 +79,33 @@ tags:
    }
    ```
 
-3. **초기 filters.task.types** (라인 88)
+3. **초기 filters 전체** (라인 79-98) - FALLBACK_CONSTANTS 참조로 변경
    ```javascript
-   // Before
-   types: ['dev', 'strategy', 'research', 'ops'],
+   // Before (하드코딩)
+   filters: {
+       project: {
+           status: ['planning', 'active', 'paused', 'cancelled'],
+           priority: ['critical', 'high', 'medium', 'low'],
+       },
+       task: {
+           status: ['todo', 'doing', 'done', 'blocked'],
+           priority: ['critical', 'high', 'medium', 'low'],
+           types: ['dev', 'strategy', 'research', 'ops'],
+       }
+   }
 
-   // After
-   types: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'],
+   // After (SSOT 참조)
+   filters: {
+       project: {
+           status: FALLBACK_CONSTANTS.project.status.filter(s => s !== 'done'),
+           priority: [...FALLBACK_CONSTANTS.priority.values],
+       },
+       task: {
+           status: [...FALLBACK_CONSTANTS.task.status],
+           priority: [...FALLBACK_CONSTANTS.priority.values],
+           types: [...FALLBACK_CONSTANTS.task.types],
+       }
+   }
    ```
 
 #### 3. Tech Spec

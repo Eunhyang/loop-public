@@ -28,12 +28,13 @@ const ProjectPanel = {
      * Select 옵션들 채우기
      */
     populateSelects() {
-        // Owners (Members)
-        const ownerEl = document.getElementById('panelProjectOwner');
-        if (ownerEl) {
-            ownerEl.innerHTML = State.members.map(m =>
-                `<option value="${m.id}">${m.name}</option>`
-            ).join('');
+        // Programs
+        const programEl = document.getElementById('panelProjectProgram');
+        if (programEl) {
+            programEl.innerHTML = '<option value="">None</option>' +
+                (State.programs || []).map(p =>
+                    `<option value="${p.entity_id}">${p.entity_name || p.entity_id}</option>`
+                ).join('');
         }
 
         // Tracks
@@ -55,13 +56,11 @@ const ProjectPanel = {
             ).join('');
         }
 
-        // Priorities
-        const priorityEl = document.getElementById('panelProjectPriority');
-        if (priorityEl) {
-            const priorities = State.getPriorities();
-            const priorityLabels = State.getPriorityLabels();
-            priorityEl.innerHTML = priorities.map(p =>
-                `<option value="${p}">${priorityLabels[p]}</option>`
+        // Owners (Members)
+        const ownerEl = document.getElementById('panelProjectOwner');
+        if (ownerEl) {
+            ownerEl.innerHTML = State.members.map(m =>
+                `<option value="${m.id}">${m.name}</option>`
             ).join('');
         }
     },
@@ -75,12 +74,6 @@ const ProjectPanel = {
 
         // Overlay click
         document.getElementById('projectPanelOverlay')?.addEventListener('click', () => this.close());
-
-        // Cancel button
-        document.getElementById('panelProjectCancel')?.addEventListener('click', () => this.close());
-
-        // Save button
-        document.getElementById('panelProjectSave')?.addEventListener('click', () => this.save());
 
         // Delete button
         document.getElementById('panelProjectDelete')?.addEventListener('click', () => this.delete());
@@ -110,6 +103,25 @@ const ProjectPanel = {
                 Router.copyShareableUrl('project', this.currentProject.entity_id);
             }
         });
+
+        // ===== Auto-save 이벤트 =====
+        // Select 변경 시 즉시 저장
+        document.getElementById('panelProjectProgram')?.addEventListener('change', () => this.autoSave('program_id'));
+        document.getElementById('panelProjectTrack')?.addEventListener('change', () => this.autoSave('parent_id'));
+        document.getElementById('panelProjectStatus')?.addEventListener('change', () => this.autoSave('status'));
+        document.getElementById('panelProjectOwner')?.addEventListener('change', () => this.autoSave('owner'));
+
+        // Input blur 시 저장 (Project Name)
+        document.getElementById('panelProjectName')?.addEventListener('blur', () => this.autoSave('entity_name'));
+
+        // Notes blur 시 저장
+        document.getElementById('panelProjectNotes')?.addEventListener('blur', () => this.autoSave('notes'));
+
+        // Save/Cancel 버튼 숨김 (Auto-save로 대체)
+        const saveBtn = document.getElementById('panelProjectSave');
+        const cancelBtn = document.getElementById('panelProjectCancel');
+        if (saveBtn) saveBtn.style.display = 'none';
+        if (cancelBtn) cancelBtn.style.display = 'none';
     },
 
     /**
@@ -501,11 +513,14 @@ const ProjectPanel = {
         document.getElementById('panelProjectId').textContent = project.entity_id;
         document.getElementById('panelProjectId').style.display = 'block';
         document.getElementById('panelProjectName').value = project.entity_name || '';
-        document.getElementById('panelProjectOwner').value = project.owner || '';
+        document.getElementById('panelProjectProgram').value = project.program_id || '';
         document.getElementById('panelProjectTrack').value = project.parent_id || project.track_id || '';
         document.getElementById('panelProjectStatus').value = project.status || 'todo';
-        document.getElementById('panelProjectPriority').value = project.priority_flag || project.priority || 'medium';
+        document.getElementById('panelProjectOwner').value = project.owner || '';
         document.getElementById('panelProjectNotes').value = project.notes || project.description || '';
+
+        // Priority Chips 렌더링
+        this.renderPriorityChips(project.priority_flag || project.priority || 'medium');
 
         // Impact Score 표시 (A: Expected, B: Realized)
         this.renderImpactSection(project);
@@ -908,7 +923,126 @@ const ProjectPanel = {
     },
 
     /**
-     * Project 저장
+     * Priority Chips 렌더링
+     */
+    renderPriorityChips(currentPriority) {
+        const container = document.getElementById('panelProjectPriorityChips');
+        if (!container) return;
+
+        const priorities = State.getPriorities();
+        const priorityLabels = State.getPriorityLabels();
+
+        container.innerHTML = priorities.map(priority => {
+            const activeClass = priority === currentPriority ? 'active' : '';
+            return `<span class="priority-chip priority-${priority} ${activeClass}" data-priority="${priority}">${priorityLabels[priority]}</span>`;
+        }).join('');
+
+        // 클릭 이벤트 바인딩
+        container.querySelectorAll('.priority-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const newPriority = chip.dataset.priority;
+                // UI 즉시 업데이트
+                container.querySelectorAll('.priority-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                // 저장
+                this.autoSave('priority_flag', newPriority);
+            });
+        });
+    },
+
+    /**
+     * 현재 선택된 Priority 가져오기
+     */
+    getCurrentPriority() {
+        const activeChip = document.querySelector('#panelProjectPriorityChips .priority-chip.active');
+        return activeChip ? activeChip.dataset.priority : 'medium';
+    },
+
+    /**
+     * Auto-save: 필드 변경 시 즉시 저장
+     * @param {string} field - 변경된 필드명
+     * @param {string} value - 직접 지정된 값 (optional)
+     */
+    async autoSave(field, value) {
+        if (!this.currentProject) return;
+
+        // 값 가져오기
+        let fieldValue = value;
+        if (fieldValue === undefined) {
+            switch (field) {
+                case 'entity_name':
+                    fieldValue = document.getElementById('panelProjectName').value.trim();
+                    break;
+                case 'program_id':
+                    fieldValue = document.getElementById('panelProjectProgram').value || null;
+                    break;
+                case 'parent_id':
+                    fieldValue = document.getElementById('panelProjectTrack').value || null;
+                    break;
+                case 'status':
+                    fieldValue = document.getElementById('panelProjectStatus').value;
+                    break;
+                case 'owner':
+                    fieldValue = document.getElementById('panelProjectOwner').value;
+                    break;
+                case 'priority_flag':
+                    fieldValue = this.getCurrentPriority();
+                    break;
+                case 'notes':
+                    fieldValue = document.getElementById('panelProjectNotes').value || null;
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        // 값이 변경되지 않았으면 스킵
+        const currentVal = this.currentProject[field];
+        if (fieldValue === currentVal || (fieldValue === '' && currentVal === null)) {
+            return;
+        }
+
+        // Validation
+        if (field === 'entity_name' && !fieldValue) {
+            showToast('Project name is required', 'error');
+            return;
+        }
+        if (field === 'owner' && !fieldValue) {
+            showToast('Owner is required', 'error');
+            return;
+        }
+
+        // API 호출
+        const updateData = { [field]: fieldValue };
+
+        try {
+            const result = await API.updateProject(this.currentProject.entity_id, updateData);
+
+            if (result.success) {
+                // 로컬 상태 업데이트
+                this.currentProject[field] = fieldValue;
+                showToast('Saved', 'success');
+
+                // 필요한 UI 갱신
+                await State.reloadProjects();
+                if (field === 'status' || field === 'owner') {
+                    Tabs.render();
+                    Kanban.render();
+                }
+                if (field === 'program_id') {
+                    Kanban.renderProjectFilter();
+                }
+            } else {
+                showToast(result.message || result.detail || 'Save failed', 'error');
+            }
+        } catch (err) {
+            console.error('Auto-save error:', err);
+            showToast('Error saving: ' + err.message, 'error');
+        }
+    },
+
+    /**
+     * Project 저장 (레거시, Auto-save로 대체됨)
      */
     async save() {
         const saveBtn = document.getElementById('panelProjectSave');

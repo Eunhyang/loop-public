@@ -262,6 +262,72 @@
     border-color: #ec4899;
 }
 
+/* Priority Chips */
+.priority-chips {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.priority-chip {
+    font-size: 0.7em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    background: #f5f5f5;
+    color: #888;
+}
+
+.priority-chip:hover {
+    background: #e8e8e8;
+    transform: translateY(-1px);
+}
+
+.priority-chip.active {
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.priority-chip.priority-critical.active {
+    background: #ef4444;
+    border-color: #ef4444;
+}
+
+.priority-chip.priority-high.active {
+    background: #f59e0b;
+    border-color: #f59e0b;
+}
+
+.priority-chip.priority-medium.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.priority-chip.priority-low.active {
+    background: #6b7280;
+    border-color: #6b7280;
+}
+
+/* Auto-save indicator */
+.auto-save-indicator {
+    font-size: 0.75em;
+    color: #10b981;
+    margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.auto-save-indicator.visible {
+    opacity: 1;
+}
+
 .btn-copy-link:hover {
     background: #e0e0ff;
     border-color: #667eea;

@@ -93,6 +93,7 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 | tsk-dashboard-ux-v1-33 | Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가 | 김은향 | doing | 2026-01-06 |
 | tsk-dashboard-ux-v1-37 | Dashboard - 캘린더뷰 Google 이벤트 최상단 표시 | 김은향 | doing | 2026-01-06 |
 | tsk-022-02 | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | 김은향 | doing | 2026-01-06 |
+| tsk-dashboard-ux-v1-38 | Dashboard - Project Panel 프로그램 선택 및 Auto-save | 김은향 | doing | 2026-01-07 |
 
 ---
 
