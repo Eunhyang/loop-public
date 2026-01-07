@@ -25,6 +25,8 @@ hypothesis_text: "바닐라 JS 대시보드를 React+TS로 마이그레이션하
 experiments: []
 tasks:
   - tsk-022-20
+  - tsk-022-23
+  - tsk-022-25
 
 # === Expected Impact (A) ===
 tier: null

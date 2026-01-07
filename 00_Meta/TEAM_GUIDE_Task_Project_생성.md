@@ -24,10 +24,12 @@
 4. ⚪ 우선순위 (선택, 기본값: medium)
 
 **결과:**
-- ✅ Task 파일 자동 생성: `50_Projects/P001_XXX/Tasks/작업명.md`
+- ✅ Task 파일 자동 생성: `50_Projects/P001_XXX/Tasks/tsk-003-05.md` (ID 기반)
 - ✅ ID 자동 할당: `tsk-003-05` 같은 형식
 - ✅ Validation 자동 실행
 - ✅ Graph Index 자동 업데이트
+
+> **⚠️ 참고**: 파일명은 항상 `tsk-{id}.md` 형식입니다 (SSOT 규칙)
 
 ---
 
@@ -85,7 +87,7 @@ User: "high"
 
 Claude: ✅ Task 생성 완료!
 - ID: tsk-001-02
-- 파일: 50_Projects/P001_Ontology_v0.1/Tasks/Episode_엔티티_검증.md
+- 파일: 50_Projects/P001_Ontology_v0.1/Tasks/tsk-001-02.md
 - Schema validation: ✅ 통과
 - Graph index: ✅ 업데이트됨
 ```

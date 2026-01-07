@@ -1,5 +1,10 @@
+'use client';
+
 import { Header } from "@/components/layout";
 import { OpportunityDashboard } from "@/components/opportunity";
+
+// Force dynamic rendering (no static generation with Firebase)
+export const dynamic = 'force-dynamic';
 
 export default function OpportunityPage() {
   return (

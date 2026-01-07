@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { toast } from "sonner";
 import { OpportunityFiltersComponent } from "./opportunity-filters";
 import { OpportunityGrid } from "./opportunity-grid";
-import { getOpportunityData } from "@/lib/data/opportunity-data";
+import { useOpportunities } from "@/lib/api/hooks/useOpportunities";
+import { LoadingSpinner } from "@/components/firebase/loading-spinner";
+import { ErrorMessage } from "@/components/firebase/error-message";
 import { Opportunity, OpportunityFilters, Period } from "@/lib/types/opportunity";
 
 // Helper function to check if a date is within the period
@@ -26,6 +28,9 @@ function isWithinPeriod(dateStr: string, period: Period): boolean {
 }
 
 export function OpportunityDashboard() {
+  // Fetch opportunities from Firebase
+  const { data: firebaseOpportunities, isLoading, error, refetch } = useOpportunities();
+
   // Filter state
   const [filters, setFilters] = useState<OpportunityFilters>({
     purposeType: "all",
@@ -34,9 +39,47 @@ export function OpportunityDashboard() {
     period: "all",
   });
 
-  // Opportunity state for favorites and exclusions
-  // Use function initializer to ensure dates are calculated at runtime (client-side)
-  const [opportunities, setOpportunities] = useState<Opportunity[]>(() => getOpportunityData());
+  // Opportunity state for favorites and exclusions (client-side state)
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+
+  // Sync Firebase data to local state when it changes
+  // Merge with existing local state to preserve isFavorite/isExcluded flags
+  useEffect(() => {
+    if (firebaseOpportunities) {
+      setOpportunities((prevOpportunities) => {
+        // If no previous state, just use Firebase data
+        if (prevOpportunities.length === 0) {
+          return firebaseOpportunities;
+        }
+
+        // Merge: preserve local flags for existing items
+        const prevById = new Map(prevOpportunities.map((opp) => [opp.id, opp]));
+
+        return firebaseOpportunities.map((fbOpp) => {
+          const prevOpp = prevById.get(fbOpp.id);
+          if (prevOpp) {
+            // Preserve local-only flags
+            return {
+              ...fbOpp,
+              isFavorite: prevOpp.isFavorite,
+              isExcluded: prevOpp.isExcluded,
+            };
+          }
+          return fbOpp;
+        });
+      });
+    }
+  }, [firebaseOpportunities]);
+
+  // Loading state
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  // Error state
+  if (error) {
+    return <ErrorMessage error={error as Error} onRetry={() => refetch()} />;
+  }
 
   // Filter and sort opportunities
   const filteredOpportunities = useMemo(() => {
