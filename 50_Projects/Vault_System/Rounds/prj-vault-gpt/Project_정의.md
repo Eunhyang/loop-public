@@ -3,49 +3,42 @@ entity_type: Project
 entity_id: prj-vault-gpt
 entity_name: ChatGPT Vault MCP 연결
 created: 2025-12-25
-updated: 2025-12-25
+updated: '2026-01-07'
 status: doing
-
-# === 소속 Program ===
 program_id: pgm-vault-system
-cycle: "2025"
-
-# === 프로젝트 정보 ===
+cycle: '2025'
 owner: 한명학
 budget: null
 deadline: null
-
-# === Impact 판정 ===
 expected_impact:
-  statement: "ChatGPT에서 LOOP vault를 직접 탐색/검색할 수 있게 함"
-  metric: "MCP 연결 성공 여부"
-  target: "ChatGPT에서 vault 파일 읽기 가능"
-
+  statement: ChatGPT에서 LOOP vault를 직접 탐색/검색할 수 있게 함
+  metric: MCP 연결 성공 여부
+  target: ChatGPT에서 vault 파일 읽기 가능
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: trk-2
-conditions_3y: ["cond-b"]
+conditions_3y:
+- cond-b
 aliases:
-  - prj-vault-gpt
-  - ChatGPT Vault MCP 연결
-  - GPT MCP
-
+- prj-vault-gpt
+- ChatGPT Vault MCP 연결
+- GPT MCP
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "vault-system", "mcp", "chatgpt", "infrastructure"]
-priority_flag: high
+tags:
+- project
+- vault-system
+- mcp
+- chatgpt
+- infrastructure
+priority_flag: medium
 ---
-
 # ChatGPT Vault MCP 연결
 
 > Project ID: `prj-vault-gpt` | Program: [[pgm-vault-system]] | Status: in_progress
