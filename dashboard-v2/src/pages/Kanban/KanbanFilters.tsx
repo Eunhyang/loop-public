@@ -23,10 +23,10 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
   };
 
   return (
-    <div className="bg-white border-b border-gray-200 p-4">
+    <div className="glass-moderate border-b border-white/5 p-4 rounded-lg mb-4">
       {/* Assignee tabs (multi-select) */}
-      <div className="mb-3">
-        <label className="block text-xs font-medium text-gray-700 mb-2">
+      <div className="mb-4">
+        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
           Assignee
         </label>
         <div className="flex flex-wrap gap-2">
@@ -36,11 +36,7 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
               <button
                 key={member.id}
                 onClick={() => toggleAssignee(member.id)}
-                className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
-                  isActive
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
-                }`}
+                className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
               >
                 {member.name}
               </button>
@@ -50,21 +46,21 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
       </div>
 
       {/* Project and date filters */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-end gap-4">
         {/* Project select */}
-        <div className="flex-1">
-          <label htmlFor="project-filter" className="block text-xs font-medium text-gray-700 mb-1">
+        <div className="flex-1 max-w-sm">
+          <label htmlFor="project-filter" className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
             Project
           </label>
           <select
             id="project-filter"
             value={projectId}
             onChange={(e) => setProjectId(e.target.value)}
-            className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full input-filter"
           >
-            <option value="">All Projects</option>
+            <option value="" className="bg-zinc-900">All Projects</option>
             {projects.map((project) => (
-              <option key={project.entity_id} value={project.entity_id}>
+              <option key={project.entity_id} value={project.entity_id} className="bg-zinc-900">
                 {project.entity_name}
               </option>
             ))}
@@ -73,27 +69,19 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
 
         {/* Date range buttons */}
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
             Due Date
           </label>
           <div className="flex gap-2">
             <button
               onClick={() => setDateFilter(dateFilter === 'W' ? '' : 'W')}
-              className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
-                dateFilter === 'W'
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
-              }`}
+              className={`btn-filter ${dateFilter === 'W' ? 'btn-filter-active' : ''}`}
             >
               This Week
             </button>
             <button
               onClick={() => setDateFilter(dateFilter === 'M' ? '' : 'M')}
-              className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
-                dateFilter === 'M'
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
-              }`}
+              className={`btn-filter ${dateFilter === 'M' ? 'btn-filter-active' : ''}`}
             >
               This Month
             </button>
@@ -101,11 +89,11 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
         </div>
 
         {/* Clear filters */}
-        <div className="self-end">
+        <div className="self-end ml-auto">
           <button
             onClick={clearFilters}
             disabled={assignees.length === 0 && !projectId && !dateFilter}
-            className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 disabled:text-gray-400 disabled:cursor-not-allowed"
+            className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors"
           >
             Clear All
           </button>

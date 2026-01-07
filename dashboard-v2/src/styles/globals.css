@@ -2,19 +2,50 @@
 
 @layer utilities {
   .glass-strong {
-    @apply backdrop-blur-xl bg-surface/80 border border-white/10 shadow-2xl;
+    @apply backdrop-blur-xl border border-white/10 shadow-2xl;
+    background-color: rgb(var(--color-surface) / 0.8);
   }
 
   .glass-moderate {
-    @apply backdrop-blur-md bg-surface/60 border-r border-white/5;
+    @apply backdrop-blur-md border-r border-white/5;
+    background-color: rgb(var(--color-surface) / 0.6);
   }
 
   .glass-subtle {
-    @apply backdrop-blur-sm bg-surface/30 border border-white/5 hover:bg-surface/50 transition-all duration-200;
+    @apply backdrop-blur-sm border border-white/5 transition-all duration-200;
+    background-color: rgb(var(--color-surface) / 0.3);
+  }
+
+  .glass-subtle:hover {
+    background-color: rgb(var(--color-surface) / 0.5);
   }
 
   .text-glow {
     text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  }
+
+  /* Abstractions for repetitive components */
+  .btn-filter {
+    @apply px-3 py-1.5 text-sm rounded-md border transition-all duration-200;
+    @apply bg-zinc-900/80 text-gray-400 border-zinc-700;
+    @apply hover:bg-zinc-800 hover:text-gray-200 hover:border-zinc-600;
+  }
+
+  .btn-filter-active {
+    background-color: rgb(var(--color-primary) / 0.2);
+    color: rgb(var(--color-primary));
+    border-color: rgb(var(--color-primary));
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+  }
+
+  .input-filter {
+    @apply px-3 py-1.5 text-sm rounded-md outline-none transition-all duration-200;
+    @apply bg-zinc-900/80 text-gray-200 border border-zinc-700;
+  }
+
+  .input-filter:focus {
+    box-shadow: 0 0 0 1px rgb(var(--color-primary));
+    border-color: rgb(var(--color-primary));
   }
 }
 
