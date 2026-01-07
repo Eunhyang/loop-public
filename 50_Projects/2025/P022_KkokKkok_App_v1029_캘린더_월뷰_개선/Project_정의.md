@@ -1,20 +1,6 @@
 ---
 entity_type: Project
 entity_id: prj-022
-<<<<<<< HEAD
-entity_name: KkokKkok App v1.0.29 - 캘린더 월뷰 개선
-created: '2026-01-06'
-updated: '2026-01-06'
-status: planning
-owner: 김은향
-priority_flag: high
-aliases:
-- prj-022
-tags: []
-parent_id: trk-1
-conditions_3y:
-- cond-a
-=======
 entity_name: "KkokKkok App v1.0.29 - 캘린더 월뷰 개선"
 created: 2026-01-06
 updated: 2026-01-06
@@ -88,20 +74,10 @@ priority_flag: high
 # === Tasks ===
 tasks:
   - tsk-022-01
->>>>>>> 2c52d8d (auto: 2026-01-06 19:07 - 4 files)
 ---
 
 # KkokKkok App v1.0.29 - 캘린더 월뷰 개선
 
-<<<<<<< HEAD
-## 목표
-
-## 범위
-
-## 일정
-
-## 참고
-=======
 > Project ID: `prj-022` | Track: `trk-1` | Status: active
 
 ---
@@ -172,4 +148,3 @@ tasks:
 
 **Created**: 2026-01-06
 **Owner**: 김은향
->>>>>>> 2c52d8d (auto: 2026-01-06 19:07 - 4 files)
