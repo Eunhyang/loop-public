@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: "tsk-022-02"
 entity_name: "Dashboard - 패턴 기반 폼 자동 기본값 채우기"
 created: 2026-01-06
-updated: 2026-01-06
-status: doing
+updated: 2026-01-07
+status: done
+closed: 2026-01-07
 
 # === 계층 ===
 parent_id: null
@@ -35,7 +36,7 @@ priority_flag: high
 
 # Dashboard - 패턴 기반 폼 자동 기본값 채우기
 
-> Task ID: `tsk-022-02` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-022-02` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -180,9 +181,39 @@ IF 기존 하위 엔티티가 0개인 경우:
 - [ ] E2E 테스트
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
--->
+
+#### 2026-01-07
+**개요**: Dashboard 패턴 기반 폼 자동 기본값 채우기 기능 구현 완료
+
+**변경사항**:
+- 개발:
+  - Backend: `/api/autofill/pattern-defaults` 엔드포인트 구현 (140줄)
+  - Frontend: `task-modal.js`, `project-modal.js` 패턴 분석 로직 통합 (50줄씩)
+  - Frontend: `api.js`에 `getPatternDefaults()` 메서드 추가
+- 수정:
+  - Codex 리뷰로 6개 이슈 수정 (캐시 메서드, 부모 검증, Track 필터링, priority 필드명 등)
+  - assignee/owner select에 빈 옵션 추가 (패턴 기본값 작동 보장)
+- 개선:
+  - collections.Counter로 최빈값 계산
+  - 동점 시 알파벳순 정렬로 일관성 보장
+  - null/빈값/미정 필터링
+
+**핵심 코드**:
+```python
+# 패턴 분석 (최빈값 계산)
+counter = Counter(values)
+most_common = counter.most_common()
+if len(most_common) > 1 and most_common[0][1] == most_common[1][1]:
+    max_count = most_common[0][1]
+    tied_values = [val for val, count in most_common if count == max_count]
+    defaults[field] = sorted(tied_values)[0]  # 동점 시 알파벳순
+else:
+    defaults[field] = most_common[0][0]
+```
+
+**결과**: ✅ 빌드 성공, 배포 완료 (MCP 서버 rebuild)
+
+**다음 단계**: 대시보드에서 새 Task/Project 생성 시 자동으로 부모 패턴 분석하여 기본값 채워짐
 
 ---
 
