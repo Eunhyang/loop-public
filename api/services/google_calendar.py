@@ -452,14 +452,19 @@ def get_calendar_events(
         return None, error
 
     # Convert dates to RFC3339 format
+    # Support both YYYY-MM-DD and ISO 8601 formats (e.g., 2025-12-28T00:00:00+09:00)
     try:
-        start_dt = datetime.strptime(start, "%Y-%m-%d")
-        end_dt = datetime.strptime(end, "%Y-%m-%d")
+        # Extract YYYY-MM-DD from ISO format if needed
+        start_date = start.split('T')[0] if 'T' in start else start
+        end_date = end.split('T')[0] if 'T' in end else end
+
+        start_dt = datetime.strptime(start_date, "%Y-%m-%d")
+        end_dt = datetime.strptime(end_date, "%Y-%m-%d")
         # Add time to get full day range
         time_min = start_dt.strftime("%Y-%m-%dT00:00:00Z")
         time_max = end_dt.strftime("%Y-%m-%dT23:59:59Z")
     except ValueError as e:
-        return None, f"Invalid date format: {e}. Use YYYY-MM-DD."
+        return None, f"Invalid date format: {e}. Use YYYY-MM-DD or ISO 8601."
 
     # Fetch events from Google
     try:
