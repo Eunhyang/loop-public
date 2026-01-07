@@ -767,9 +767,35 @@ const Calendar = {
 
     /**
      * 날짜 클릭 핸들러 (좌클릭)
+     * tsk-022-11: 좌클릭으로 미팅 추가 컨텍스트 메뉴 표시
      */
     onDateClick(info) {
-        // 좌클릭은 현재 동작 없음 (필요시 확장 가능)
+        // Extract date (trim timezone if present for week/time views)
+        // e.g., "2024-06-04T13:30:00+09:00" → "2024-06-04"
+        const dateStr = info.dateStr.split('T')[0];
+        if (!dateStr) return;
+
+        // Save date for menu action
+        this.contextMenuDate = dateStr;
+
+        // Guard: info.jsEvent is optional (keyboard navigation, programmatic triggers)
+        // Or jsEvent.pageX/pageY may be undefined for KeyboardEvent (Enter/Space)
+        if (!info.jsEvent || typeof info.jsEvent.pageX !== 'number') {
+            // Fallback for keyboard/programmatic: open TaskModal directly
+            // Note: keyboard users bypass context menu and go straight to modal
+            this.onAddMeeting();
+            return;
+        }
+
+        // Close existing menu if open (handles clicking another date while menu is visible)
+        this.hideContextMenu();
+
+        // Prevent event from bubbling to document click handler (line 167)
+        // which would immediately close the context menu we're about to show
+        info.jsEvent.stopPropagation();
+
+        // Show context menu at click position
+        this.showContextMenu(info.jsEvent.pageX, info.jsEvent.pageY);
     },
 
     /**

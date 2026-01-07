@@ -116,8 +116,69 @@ onEventClick(info) {
 - [x] `onEventClick()` 디버깅 - sourceId 값 확인
 - [x] LOOP Task 이벤트에 식별자 추가 (tsk- 패턴 체크)
 - [x] 조건문 수정하여 LOOP Task 우선 처리
-- [ ] **버그 3: TaskPanel에서 Google Meet 링크 미표시 수정**
+- [x] **버그 3: TaskPanel에서 Google Meet 링크 미표시 수정**
+- [x] **기능 개선: 우클릭 → 좌클릭으로 미팅 추가 트리거 변경**
 - [ ] 테스트 및 검증
+
+---
+
+### 기능 개선 요청 (2026-01-07)
+
+**현재 동작:**
+- 캘린더 날짜 **우클릭** → 컨텍스트 메뉴 → "미팅 추가"
+
+**변경 요청:**
+- 캘린더 날짜 빈 곳 **좌클릭** → 컨텍스트 메뉴 → "미팅 추가"
+
+**수정 파일:**
+- `_dashboard/js/components/calendar.js`
+  - `onDateClick()` 핸들러 수정: 좌클릭 시 컨텍스트 메뉴 표시
+  - `onContextMenu()` 유지 (backwards compatibility)
+
+**구현 완료 (2026-01-07)**
+
+**수정 내용** (`calendar.js` lines 772-799):
+```javascript
+onDateClick(info) {
+    // Date extraction with timezone trim
+    const dateStr = info.dateStr.split('T')[0];
+    if (!dateStr) return;
+
+    this.contextMenuDate = dateStr;
+
+    // Guard for optional jsEvent (keyboard/programmatic triggers)
+    if (!info.jsEvent || typeof info.jsEvent.pageX !== 'number') {
+        // Keyboard fallback: direct modal open
+        this.onAddMeeting();
+        return;
+    }
+
+    // Close existing menu before opening new one
+    this.hideContextMenu();
+
+    // Prevent document click handler from immediately closing menu
+    info.jsEvent.stopPropagation();
+
+    // Show context menu at click position
+    this.showContextMenu(info.jsEvent.pageX, info.jsEvent.pageY);
+}
+```
+
+**핵심 수정사항:**
+1. **날짜 포맷 처리**: `dateStr.split('T')[0]`로 timezone 제거 (YYYY-MM-DD 보장)
+2. **이벤트 전파 차단**: `stopPropagation()`으로 document click handler 우회
+3. **키보드 접근성**: `jsEvent` 없거나 좌표 없으면 TaskModal 직접 열기
+4. **메뉴 상태 관리**: 기존 메뉴 닫고 새 메뉴 열기
+
+**Codex 리뷰 통과:**
+- ✅ Event propagation 문제 해결
+- ✅ Date format 문제 해결
+- ✅ Keyboard fallback 적용
+- ✅ Menu close/reopen 로직 검증
+
+**Backwards Compatibility:**
+- 우클릭 (`onContextMenu()`) 여전히 작동
+- 좌클릭과 우클릭 모두 같은 UX 제공
 
 ---
 
