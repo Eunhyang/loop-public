@@ -1,8 +1,5 @@
-# Obsidian workspace (개인 설정)
-.obsidian/workspace
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-.obsidian/plugins/obsidian-git/data.json
+# Obsidian (전체 폴더 - 개인 설정, 충돌 방지)
+.obsidian/
 
 # Mac 시스템 파일
 .DS_Store
