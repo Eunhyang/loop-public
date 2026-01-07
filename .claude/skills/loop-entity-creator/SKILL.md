@@ -600,7 +600,7 @@ Use AskUserQuestion to ask:
 
 1. Use Glob to find all Project files:
    ```
-   pattern: 50_Projects/P**/Project_정의.md
+   pattern: 50_Projects/P**/project.md
    ```
 
 2. Use Read to scan each file's frontmatter for `entity_id: prj-*`
