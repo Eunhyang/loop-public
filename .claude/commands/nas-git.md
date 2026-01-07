@@ -82,10 +82,10 @@ if [ -n "$(git status --porcelain)" ]; then
   git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
 fi
 
-# Step 3: Local public pull --rebase
+# Step 3: Local public pull --rebase (autostash로 uncommitted 변경 보호)
 echo ""
 echo "=== [PUBLIC] Step 3: 로컬 pull --rebase ==="
-git pull --rebase origin main
+git pull --rebase --autostash origin main
 
 # Step 4: Local public push
 echo ""
@@ -133,10 +133,10 @@ if [ -n "$(git status --porcelain)" ]; then
   git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
 fi
 
-# Step 3: Local exec pull --rebase
+# Step 3: Local exec pull --rebase (autostash로 uncommitted 변경 보호)
 echo ""
 echo "=== [EXEC] Step 3: 로컬 pull --rebase ==="
-git pull --rebase origin main
+git pull --rebase --autostash origin main
 
 # Step 4: Local exec push
 echo ""
@@ -207,11 +207,11 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: Local public pull
+# Step 2: Local public pull (autostash로 uncommitted 변경 보호)
 echo ""
 echo "=== [PUBLIC] Step 2: 로컬 pull ==="
 cd ~/dev/loop/public
-git pull --rebase origin main
+git pull --rebase --autostash origin main
 
 # ============================================
 # EXEC (loop_exec) VAULT
