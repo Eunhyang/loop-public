@@ -16,9 +16,9 @@ const FALLBACK_CONSTANTS = {
         status_colors: {
             todo: '#6b7280', doing: '#3b82f6', hold: '#f59e0b', done: '#10b981', blocked: '#ef4444'
         },
-        types: ['dev', 'strategy', 'research', 'ops'],
+        types: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'],
         type_labels: {
-            dev: 'Dev', strategy: 'Strategy', research: 'Research', ops: 'Ops'
+            dev: 'Dev', bug: 'Bug', strategy: 'Strategy', research: 'Research', ops: 'Ops', meeting: 'Meeting'
         }
     },
     project: {
@@ -85,7 +85,7 @@ const State = {
         task: {
             status: ['todo', 'doing', 'done', 'blocked'],
             priority: ['critical', 'high', 'medium', 'low'],
-            types: ['dev', 'strategy', 'research', 'ops'],  // Task type filter
+            types: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'],  // Task type filter (SSOT: schema_constants.yaml)
             dueDateStart: null,
             dueDateEnd: null,
             showInactive: false,  // activate: false 엔티티 숨김 (기본값)
