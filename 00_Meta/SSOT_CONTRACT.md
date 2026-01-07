@@ -141,10 +141,10 @@ Project 정의 파일명: project.md (public/exec 동일)
 - `build_graph_index.py`: `project.md`만 파싱
 
 **마이그레이션 계획**:
-- [ ] public vault: `Project_정의.md` → `project.md` (tsk-022-18)
-- [ ] exec vault: `Project_정의.md` → `project.md`
-- [ ] API 코드 업데이트: `Project_정의.md` 참조 제거
-- [ ] 문서 업데이트: CLAUDE.md, TEAM_GUIDE 등
+- [x] public vault: `Project_정의.md` → `project.md` (tsk-022-18) ✅ 2026-01-07
+- [x] exec vault: `Project_정의.md` → `project.md` ✅ 2026-01-07
+- [x] API 코드 업데이트: `Project_정의.md` 참조 제거 ✅ 2026-01-07
+- [x] 문서 업데이트: CLAUDE.md, TEAM_GUIDE 등 ✅ 2026-01-07
 
 ### 4.2 Task SSOT 파일명 (통일 권장)
 

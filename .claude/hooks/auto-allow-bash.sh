@@ -54,6 +54,11 @@ SAFE_COMPLEX_PATTERNS=(
   "2>/dev/null \|\| echo"                  # 안전한 fallback 패턴
   "^test -[fedrwx]"                        # test 명령어
   "^\[ -[fedrwx]"                          # [ ] 조건문
+  '^[A-Z_]+=.*curl'                        # 환경변수 + curl (API 호출)
+  '^API_URL='                              # API_URL 환경변수
+  '^LOOP_API'                              # LOOP_API 관련
+  '^[A-Z_]+="[^"]*".*&&'                   # 환경변수 설정 + chaining
+  '^[A-Z_]+=[^ ]*.*curl'                   # ENV=value curl 패턴
 )
 
 # 첫 줄만 추출 (멀티라인 명령어 대응)

@@ -16,6 +16,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > - **SSOT + Derived**: 한 곳에만 저장, 나머지는 계산
 > - **"계산은 코드가, 판단은 사람이"**: LLM은 제안, 점수 계산은 서버, 승인은 인간
 
+> **`00_Meta/SSOT_CONTRACT.md`** - SSOT 강제 규칙과 계약 조항
+>
+> 시스템 전체가 준수해야 할 SSOT(Single Source of Truth) 원칙과 금지 규칙을 정의한다.
+> - **SSOT = Frontmatter + Git**: 모든 진실은 Markdown frontmatter, 모든 변경은 Git commit
+> - **Derived 금지**: 자동 생성 파일/필드는 절대 수동 수정 불가
+> - **파일명 규칙**: Project는 `project.md`, `_INDEX.md`는 SSOT 아님
+> - **권한 분리**: exec vault는 C-Level만 접근
+
 ---
 
 ## Quick Reference
