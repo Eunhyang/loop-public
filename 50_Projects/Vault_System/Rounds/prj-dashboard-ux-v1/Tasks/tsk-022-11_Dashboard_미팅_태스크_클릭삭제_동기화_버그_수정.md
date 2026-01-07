@@ -210,5 +210,40 @@ onDateClick(info) {
 
 ---
 
+### 작업 로그
+
+#### 2026-01-07 (Task 완료)
+**개요**: Dashboard 미팅 태스크 클릭/삭제 동기화 버그 수정 완료
+
+**변경사항**:
+- 버그 1 수정: `calendar.js` onEventClick() 함수에서 tsk- 패턴으로 LOOP Task 우선 판별하도록 개선
+- 버그 3 수정: `api/models/entities.py`의 TaskCreate/TaskUpdate 모델에 links 필드 추가 (Pydantic HttpUrl, max 10개 제한)
+- 버그 3 수정: `api/routers/tasks.py`의 create_task/update_task 함수에서 links를 frontmatter에 저장하도록 수정
+- 기능 개선: 캘린더 날짜 좌클릭 → 컨텍스트 메뉴 → "미팅 추가" 트리거로 UX 개선
+
+**파일 변경**:
+- `_dashboard/js/components/calendar.js` - onEventClick() 로직 개선, onDateClick() 컨텍스트 메뉴 추가
+- `api/models/entities.py` - TaskCreate/TaskUpdate에 links 필드 추가 (보안 제약 포함)
+- `api/routers/tasks.py` - create_task/update_task에서 links frontmatter 저장
+
+**검증 결과**:
+- ✅ 미팅 태스크 클릭 시 TaskPanel 정상 열림 (tsk- 패턴 우선 판별)
+- ✅ Google Meet 링크가 TaskPanel에 정상 표시 (links 필드 저장)
+- ✅ 좌클릭 → 컨텍스트 메뉴 → "미팅 추가" UX 개선 완료
+- ✅ Codex 리뷰 통과 (Event propagation, Date format, Keyboard fallback 모두 검증)
+
+**보안 개선**:
+- HttpUrl 타입으로 javascript: 등 XSS 차단
+- 링크 개수 최대 10개 제한 (DoS 방지)
+- 라벨 최대 100자 제한
+
+**참고사항**:
+- 버그 2 (Google Calendar 삭제 동기화)는 현재 scope 외 - 뷰 변경 시 자동 재로드로 부분 해결
+- Webhook 연동은 장기 과제로 별도 Task 생성 필요
+
+**최종 상태**: done
+
+---
+
 **Created**: 2026-01-07
 **Assignee**: 김은향
