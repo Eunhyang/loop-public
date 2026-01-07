@@ -60,7 +60,7 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
             />
 
             {/* Drawer Panel */}
-            <div className="fixed inset-y-0 right-0 w-[600px] glass-panel shadow-2xl z-50 transform transition-transform duration-300 flex flex-col border-l border-glass-border">
+            <div className="fixed inset-y-0 right-0 w-[600px] glass-strong z-50 transform transition-transform duration-300 flex flex-col border-l border-white/10">
 
                 {/* Header */}
                 <div className="p-4 border-b border-glass-border flex items-center justify-between bg-black/20">

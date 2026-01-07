@@ -7,10 +7,10 @@ export default {
     theme: {
         extend: {
             colors: {
-                'dark-bg': '#0f1115',
-                'glass-border': 'rgba(255, 255, 255, 0.08)',
-                'glass-surface': 'rgba(20, 20, 25, 0.7)',
-                'primary': '#6366f1',
+                // Map to CSS variables using rgb() wrapper for opacity support
+                'main': 'rgb(var(--color-bg-main) / <alpha-value>)',
+                'surface': 'rgb(var(--color-surface) / <alpha-value>)',
+                'primary': 'rgb(var(--color-primary) / <alpha-value>)',
                 'primary-glow': 'rgba(99, 102, 241, 0.5)',
             },
             fontFamily: {

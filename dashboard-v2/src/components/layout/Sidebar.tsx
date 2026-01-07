@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export const Sidebar = () => {
   return (
-    <aside className="w-64 glass-panel p-4 border-r border-glass-border flex flex-col">
+    <aside className="w-64 glass-moderate p-4 flex flex-col">
       <h1 className="text-xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
         Dashboard v2
       </h1>

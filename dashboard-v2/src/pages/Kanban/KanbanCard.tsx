@@ -30,7 +30,7 @@ export const KanbanCard = ({ task, onClick }: KanbanCardProps) => {
     <div
       role="button"
       tabIndex={0}
-      className={`glass-card rounded-lg p-3 mb-2 cursor-pointer border-l-4 ${priorityColor} focus:outline-none focus:ring-2 focus:ring-primary`}
+      className={`glass-subtle rounded-lg p-3 mb-2 cursor-pointer border-l-4 ${priorityColor} focus:outline-none focus:ring-2 focus:ring-primary`}
       onClick={() => onClick(task)}
       onKeyDown={handleKeyDown}
       aria-label={`Task: ${task.entity_name}`}

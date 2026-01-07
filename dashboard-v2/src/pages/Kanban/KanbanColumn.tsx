@@ -47,7 +47,7 @@ export const KanbanColumn = ({ status, tasks, onCardClick }: KanbanColumnProps) 
   };
 
   return (
-    <div className="flex flex-col h-full rounded-lg bg-white/5 border border-white/5">
+    <div className="flex flex-col h-full rounded-lg glass-subtle">
       {/* Column header */}
       <div className={`p-3 ${config.color}`}>
         <div className="flex items-center justify-between">
