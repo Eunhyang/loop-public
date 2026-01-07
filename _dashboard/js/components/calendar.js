@@ -804,8 +804,53 @@ const Calendar = {
     },
 
     /**
+     * 날짜 문자열이 유효한 YYYY-MM-DD 형식인지 엄격하게 검증
+     * tsk-dashboard-ux-v1-39: FullCalendar 크래시 방지
+     *
+     * @param {string} dateStr - 검증할 날짜 문자열
+     * @returns {boolean} - 유효한 날짜이면 true
+     *
+     * Note: Codex 피드백 반영 - Date 객체 round-trip 검증 제거
+     * Regex + daysInMonth 검사로 충분하며, Date round-trip은 timezone 이슈 발생
+     */
+    isValidDateString(dateStr) {
+        // 1. 존재 및 타입 확인
+        if (!dateStr || typeof dateStr !== 'string') {
+            return false;
+        }
+
+        // 2. YYYY-MM-DD 형식 검증 (leading zero 필수)
+        const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
+        const match = dateStr.match(dateRegex);
+        if (!match) {
+            return false;
+        }
+
+        // 3. 날짜 컴포넌트 추출
+        const year = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10);
+        const day = parseInt(match[3], 10);
+
+        // 4. 월 범위 확인 (1-12)
+        if (month < 1 || month > 12) {
+            return false;
+        }
+
+        // 5. 해당 월의 최대 일수 확인 (윤년 자동 고려)
+        // new Date(year, month, 0)은 해당 year/month의 마지막 날을 반환
+        const daysInMonth = new Date(year, month, 0).getDate();
+        if (day < 1 || day > daysInMonth) {
+            return false;
+        }
+
+        // 위 검증으로 충분: regex, month range, day range (leap year 포함)
+        // Date round-trip은 timezone 이슈를 발생시키므로 제거 (Codex 피드백)
+        return true;
+    },
+
+    /**
      * Task 데이터를 FullCalendar 이벤트 형식으로 변환
-     * Codex 피드백: 날짜 없는 Task 필터링
+     * tsk-dashboard-ux-v1-39: 유효하지 않은 날짜 필터링 (Graceful degradation)
      */
     getEvents() {
         // Skip quick date filter for calendar view - show all tasks
@@ -813,15 +858,24 @@ const Calendar = {
 
         return tasks
             .filter(task => {
-                // 날짜가 없는 Task는 제외
-                const dateStr = task.start_date || task.due;
-                if (!dateStr) return false;
-                // 유효한 날짜인지 확인
-                const date = new Date(dateStr);
-                if (isNaN(date.getTime())) {
-                    console.warn('Invalid date in task:', task.entity_id, dateStr);
-                    return false;
+                // start_date가 필수 (없거나 유효하지 않으면 제외)
+                const startDate = task.start_date || task.due;
+                if (!startDate) {
+                    return false;  // 날짜가 아예 없는 Task는 제외
                 }
+
+                // start_date 유효성 검사 (엄격)
+                if (!this.isValidDateString(startDate)) {
+                    console.warn('Invalid start date in task:', task.entity_id, startDate);
+                    return false;  // start_date가 유효하지 않으면 제외
+                }
+
+                // due date 유효성 경고 (Task는 유지)
+                const dueDate = task.due || task.start_date;
+                if (dueDate && !this.isValidDateString(dueDate)) {
+                    console.warn('Invalid due date in task (will show without end):', task.entity_id, dueDate);
+                }
+
                 return true;
             })
             .map(task => {
@@ -862,15 +916,18 @@ const Calendar = {
 
     /**
      * FullCalendar는 end date를 exclusive로 처리하므로 +1일
+     * tsk-dashboard-ux-v1-39: 유효하지 않은 날짜 필터링
      */
     getEndDateForCalendar(dateStr) {
         if (!dateStr) return null;
-        const date = new Date(dateStr);
-        // Invalid Date 체크
-        if (isNaN(date.getTime())) {
-            console.warn('Invalid date string:', dateStr);
+
+        // 유효한 날짜인지 먼저 확인 (엄격한 검증)
+        if (!this.isValidDateString(dateStr)) {
+            console.warn('Invalid date string in getEndDateForCalendar:', dateStr);
             return null;
         }
+
+        const date = new Date(dateStr);
         date.setDate(date.getDate() + 1);
         return date.toISOString().split('T')[0];
     },
