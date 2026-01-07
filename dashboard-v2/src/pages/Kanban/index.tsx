@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useKanbanFilters } from './useKanbanFilters';
 import { KanbanBoard } from './KanbanBoard';
+import { TaskDrawer } from '@/components/common/TaskDrawer';
 import { KanbanFilters } from './KanbanFilters';
 import { getWeekRange, getMonthRange, isWithinRange } from './dateUtils';
 import type { Task } from '@/types';
@@ -108,44 +109,12 @@ export const KanbanPage = () => {
         onCardClick={setSelectedTask}
       />
 
-      {/* Task Drawer - TODO: Implement proper drawer component */}
-      {selectedTask && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-          onClick={() => setSelectedTask(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="task-drawer-title"
-        >
-          <div
-            className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-start mb-4">
-              <h2 id="task-drawer-title" className="text-xl font-semibold">{selectedTask.entity_name}</h2>
-              <button
-                onClick={() => setSelectedTask(null)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="space-y-2 text-sm">
-              <p><strong>ID:</strong> {selectedTask.entity_id}</p>
-              <p><strong>Project:</strong> {selectedTask.project_id}</p>
-              <p><strong>Assignee:</strong> {selectedTask.assignee}</p>
-              <p><strong>Status:</strong> {selectedTask.status}</p>
-              <p><strong>Priority:</strong> {selectedTask.priority}</p>
-              <p><strong>Due:</strong> {selectedTask.due || 'Not set'}</p>
-              {selectedTask.tags && selectedTask.tags.length > 0 && (
-                <p><strong>Tags:</strong> {selectedTask.tags.join(', ')}</p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Task Drawer */}
+      <TaskDrawer
+        taskId={selectedTask?.entity_id || null}
+        isOpen={!!selectedTask}
+        onClose={() => setSelectedTask(null)}
+      />
     </div>
   );
 };

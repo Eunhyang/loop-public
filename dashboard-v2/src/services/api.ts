@@ -28,6 +28,11 @@ export const dashboardApi = {
     httpClient.get('/api/pending'),
 
   // Individual Task Operations
-  updateTask: (id: string, data: Partial<Task>) =>
-    httpClient.patch<Task>(`/api/tasks/${id}`, data),
+  // getTask and updateTask are already defined above or effectively replaced here
+  // Ideally, I should merge them, but deleting the duplicates at the bottom is safer if the top ones are correct.
+  // Wait, let's look at the file content again in step 194.
+  // Line 13: getTask
+  // Line 16: updateTask
+  // Line 31: updateTask (duplicate!)
+  // Line 31 is the one to remove.
 };

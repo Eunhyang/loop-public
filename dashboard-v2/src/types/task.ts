@@ -13,6 +13,8 @@ export interface Task {
   actual_hours: number | null;
   created: string;
   updated: string;
+  notes?: string;
+  _body?: string; // Legacy body content
 }
 
 export interface TaskUpdatePayload {
