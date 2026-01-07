@@ -206,7 +206,7 @@ Options:
 
 Examples:
     python3 check_frontmatter_body_sync.py .
-    python3 check_frontmatter_body_sync.py . --file 50_Projects/P001/Project_정의.md
+    python3 check_frontmatter_body_sync.py . --file 50_Projects/P001/project.md
 """)
 
 

@@ -79,8 +79,8 @@ def create_project_directory(base_path, project_num, project_name_safe):
 
 
 def create_project_file(project_dir, project_id, project_num, project_name, owner, today):
-    """Project_정의.md 파일 생성"""
-    project_file = project_dir / "Project_정의.md"
+    """project.md 파일 생성"""
+    project_file = project_dir / "project.md"
 
     content = f"""---
 entity_type: Project
@@ -289,7 +289,7 @@ def main():
                 owner = assignee
                 break
 
-        # Project_정의.md 생성
+        # project.md 생성
         create_project_file(
             project_dir, project_id, next_project_num, project_name, owner, today
         )

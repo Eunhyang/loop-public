@@ -305,7 +305,7 @@ class EntityGenerator:
             if not search_path.exists():
                 continue
 
-            for project_dir in search_path.rglob("**/Project_정의.md"):
+            for project_dir in search_path.rglob("**/project.md"):
                 fm = extract_frontmatter(project_dir)
                 if fm and fm.get('entity_id') == project_id:
                     return project_dir.parent

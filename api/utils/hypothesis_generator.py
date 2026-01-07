@@ -463,7 +463,7 @@ def update_project_validates(
 
     # Project 파일 찾기
     project_file = None
-    for pattern in ["Project_정의.md", "*.md"]:
+    for pattern in ["project.md", "Project_정의.md", "*.md"]:
         files = list(project_dir.glob(pattern))
         for f in files:
             if f.name.startswith("_") or "Tasks" in str(f):

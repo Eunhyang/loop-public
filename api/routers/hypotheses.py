@@ -405,7 +405,7 @@ def _link_hypothesis_to_projects(
         if not project_dir:
             continue
 
-        project_file = project_dir / "Project_정의.md"
+        project_file = project_dir / "project.md"
         if not project_file.exists():
             continue
 

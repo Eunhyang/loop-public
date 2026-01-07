@@ -52,7 +52,7 @@
 **결과:**
 - ✅ 프로젝트 폴더 자동 생성: `50_Projects/P008_프로젝트명/`
 - ✅ 하위 폴더 생성: `Tasks/`, `Results/`
-- ✅ Project 정의 파일 생성: `Project_정의.md` (expected_impact 포함)
+- ✅ Project 정의 파일 생성: `project.md` (expected_impact 포함)
 - ✅ ID 자동 할당: `prj-008` 같은 형식
 
 ---

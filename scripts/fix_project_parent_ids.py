@@ -103,8 +103,10 @@ def main(vault_path: str, dry_run: bool = True) -> int:
         if not project_dir.is_dir():
             continue
 
-        # Project_정의.md 찾기
-        project_file = project_dir / "Project_정의.md"
+        # project.md 찾기 (fallback: Project_정의.md)
+        project_file = project_dir / "project.md"
+        if not project_file.exists():
+            project_file = project_dir / "Project_정의.md"
         if not project_file.exists():
             continue
 

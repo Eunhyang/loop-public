@@ -110,7 +110,7 @@ def find_entity_file(entity_id: str, entity_type: str) -> Optional[Path]:
     if entity_type == "Task":
         pattern = "50_Projects/**/Tasks/*.md"
     elif entity_type == "Project":
-        pattern = "50_Projects/**/Project_정의.md"
+        pattern = "50_Projects/**/project.md"
     elif entity_type == "Hypothesis":
         # Hypothesis는 60_Hypotheses 아래에 저장
         pattern = "60_Hypotheses/**/*.md"

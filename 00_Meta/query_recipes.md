@@ -86,7 +86,7 @@ tags: ["meta", "llm", "query", "recipes"]
 
 **Reading Order**:
 1. `_Graph_Index.md` - Task 테이블에서 `parent_id: prj-002` 필터
-2. (Optional) `50_Projects/2025/P002_*/Project_정의.md` - 프로젝트 상세
+2. (Optional) `50_Projects/2025/P002_*/project.md` - 프로젝트 상세
 
 **Expected Reads**: 1-2
 

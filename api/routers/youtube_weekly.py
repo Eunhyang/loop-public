@@ -314,7 +314,7 @@ YouTube 1주 1업로드 프로그램의 {cycle} 라운드.
 **Owner**: 한명학
 """
 
-    project_file = round_dir / "Project_정의.md"
+    project_file = round_dir / "project.md"
     with open(project_file, 'w', encoding='utf-8') as f:
         f.write(project_content)
 

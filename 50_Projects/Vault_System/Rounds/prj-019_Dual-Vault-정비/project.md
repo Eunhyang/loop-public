@@ -34,6 +34,7 @@ tasks:
   - tsk-017-14
   - tsk-017-15
   - tsk-022-02
+  - tsk-022-18
 
 # === Expected Impact (A) ===
 expected_impact:

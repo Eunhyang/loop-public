@@ -82,8 +82,10 @@ def find_project(vault_path: Path, project_id: str) -> tuple[Path | None, dict]:
     """
     # Search patterns for project files
     patterns = [
+        f'50_Projects/**/{project_id}*/project.md',
         f'50_Projects/**/{project_id}*/_PROJECT.md',
         f'50_Projects/**/{project_id}*/Project_정의.md',
+        f'50_Projects/**/P*_{project_id}*/project.md',
         f'50_Projects/**/P*_{project_id}*/_PROJECT.md',
         f'50_Projects/**/P*_{project_id}*/Project_정의.md',
         f'50_Projects/**/*{project_id}*/_PROJECT.md',

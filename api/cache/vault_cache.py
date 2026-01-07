@@ -280,7 +280,7 @@ class VaultCache:
                 if not project_dir.is_dir():
                     continue
 
-                for pattern in ["Project_정의.md", "Project_*.md", "*.md"]:
+                for pattern in ["project.md", "Project_정의.md", "Project_*.md", "*.md"]:
                     project_files = list(project_dir.glob(pattern))
                     for pf in project_files:
                         if pf.name.startswith("_") or "Tasks" in str(pf):
@@ -299,7 +299,7 @@ class VaultCache:
                 for round_dir in rounds_dir.glob("prj-*"):
                     if not round_dir.is_dir():
                         continue
-                    for pattern in ["Project_정의.md", "*.md"]:
+                    for pattern in ["project.md", "Project_정의.md", "*.md"]:
                         project_files = list(round_dir.glob(pattern))
                         for pf in project_files:
                             if pf.name.startswith("_") or "Tasks" in str(pf):
@@ -347,7 +347,7 @@ class VaultCache:
 
         Codex 피드백 반영:
         - Tasks 폴더 직속 파일만 로드 (하위 폴더 제외)
-        - Project_정의.md 우선, 없으면 _INDEX.md fallback
+        - project.md 우선, 없으면 Project_정의.md/_INDEX.md fallback
         - 이중 스캔/파싱 최소화
         """
         if not self.exec_projects_dir or not self.exec_projects_dir.exists():
@@ -367,11 +367,11 @@ class VaultCache:
             if not item.is_dir():
                 continue
 
-            # Project 폴더 판별: Project_정의.md 또는 _INDEX.md 존재
+            # Project 폴더 판별: project.md, Project_정의.md 또는 _INDEX.md 존재
             project_file = None
 
-            # 우선순위: Project_정의.md > _INDEX.md
-            for candidate in ('Project_정의.md', '_INDEX.md'):
+            # 우선순위: project.md > Project_정의.md > _INDEX.md
+            for candidate in ('project.md', 'Project_정의.md', '_INDEX.md'):
                 candidate_path = item / candidate
                 if candidate_path.exists():
                     # entity_type 검증

@@ -142,8 +142,8 @@ async def create_project(project: ProjectCreate):
         except ValueError:
             pass
 
-    # 6. Project_정의.md 생성
-    project_file = project_dir / "Project_정의.md"
+    # 6. project.md 생성
+    project_file = project_dir / "project.md"
     content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
 
@@ -289,7 +289,7 @@ def update_project(project_id: str, project: ProjectUpdate):
 
     # 2. 파일 경로 가져오기
     project_dir = cache.get_project_dir(project_id)
-    project_file = project_dir / "Project_정의.md"
+    project_file = project_dir / "project.md"
 
     # 3. 파일 읽기
     try:
