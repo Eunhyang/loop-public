@@ -9,7 +9,7 @@ interface KanbanCardProps {
  * Individual task card component
  * Displays task summary with click handler
  */
-export const KanbanCard = ({ task, onClick }: KanbanCardProps) => {
+export const TaskCard = ({ task, onClick }: KanbanCardProps) => {
   const priorityColors = {
     critical: 'border-l-red-600',
     high: 'border-l-orange-500',

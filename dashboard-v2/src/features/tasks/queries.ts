@@ -1,15 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { dashboardApi } from '@/services/api';
-import { queryKeys } from './keys';
-import type { Task } from '@/types/task';
+import { taskApi } from './api';
+import { queryKeys } from '@/queries/keys';
+import type { Task } from './types';
+
+export const useTasks = (filters?: { status?: string; assignee?: string }) => {
+    return useQuery({
+        queryKey: queryKeys.tasks(filters),
+        queryFn: () => taskApi.getTasks(filters).then(res => res.data),
+    });
+};
 
 export const useTask = (id: string | null) => {
     return useQuery({
         queryKey: id ? queryKeys.task(id) : [],
-        queryFn: async () => {
-            const { data } = await dashboardApi.getTask(id!);
-            return data;
-        },
+        queryFn: () => taskApi.getTask(id!).then(res => res.data),
         enabled: !!id,
     });
 };
@@ -19,7 +23,7 @@ export const useUpdateTask = () => {
 
     return useMutation({
         mutationFn: ({ id, data }: { id: string; data: Partial<Task> }) =>
-            dashboardApi.updateTask(id, data),
+            taskApi.updateTask(id, data).then(res => res.data),
         onMutate: async ({ id, data }) => {
             // Cancel outgoing refetches
             await queryClient.cancelQueries({ queryKey: queryKeys.task(id) });
@@ -45,9 +49,10 @@ export const useUpdateTask = () => {
             }
         },
         onSettled: (_data, _error, variables) => {
-            // Refetch
+            // Refetch / Invalidate
             queryClient.invalidateQueries({ queryKey: queryKeys.task(variables.id) });
             queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
+            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
         },
     });
 };

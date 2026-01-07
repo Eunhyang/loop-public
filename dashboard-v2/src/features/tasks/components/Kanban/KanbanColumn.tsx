@@ -1,5 +1,5 @@
-import type { Task } from '@/types';
-import { KanbanCard } from './KanbanCard';
+import type { Task } from '@/features/tasks/types';
+import { TaskCard } from './TaskCard';
 
 interface KanbanColumnProps {
   status: Task['status'];
@@ -68,7 +68,7 @@ export const KanbanColumn = ({ status, tasks, onCardClick }: KanbanColumnProps) 
           </div>
         ) : (
           tasks.map((task) => (
-            <KanbanCard
+            <TaskCard
               key={task.entity_id}
               task={task}
               onClick={onCardClick}

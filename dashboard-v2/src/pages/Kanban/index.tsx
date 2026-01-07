@@ -1,18 +1,12 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useKanbanFilters } from './useKanbanFilters';
-import { KanbanBoard } from './KanbanBoard';
-import { TaskDrawer } from '@/components/common/TaskDrawer';
+import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
+import { TaskDrawer } from '@/features/tasks/components/TaskDrawer';
 import { KanbanFilters } from './KanbanFilters';
-import { getWeekRange, getMonthRange, isWithinRange } from './dateUtils';
+import { buildKanbanColumns } from '@/features/tasks/selectors';
 import type { Task } from '@/types';
-import type { KanbanColumns } from './KanbanBoard';
-
-/**
- * Main Kanban page component
- * Orchestrates data loading, filtering, and rendering
- */
-// ... imports
+import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
 
 /**
  * Main Kanban page component
@@ -24,47 +18,14 @@ export const KanbanPage = () => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   // Memoized filtering and grouping
-  // MOVED UP: Must be unconditional (before returns)
   const filteredColumns: KanbanColumns = useMemo(() => {
     // Safety check inside hook
     if (!data) {
       return { todo: [], doing: [], hold: [], done: [], blocked: [] };
     }
 
-    const { tasks } = data;
-    const { assignees, projectId, dateFilter } = filters;
-
-    // Apply filters
-    let filtered = tasks;
-
-    // Assignee filter (multi-select, OR logic)
-    if (assignees.length > 0) {
-      filtered = filtered.filter(t => assignees.includes(t.assignee));
-    }
-
-    // Project filter
-    if (projectId) {
-      filtered = filtered.filter(t => t.project_id === projectId);
-    }
-
-    // Date filter
-    if (dateFilter === 'W') {
-      const range = getWeekRange();
-      filtered = filtered.filter(t => isWithinRange(t.due, range));
-    } else if (dateFilter === 'M') {
-      const range = getMonthRange();
-      filtered = filtered.filter(t => isWithinRange(t.due, range));
-    }
-
-    // Group by status
-    return {
-      todo: filtered.filter(t => t.status === 'todo'),
-      doing: filtered.filter(t => t.status === 'doing'),
-      hold: filtered.filter(t => t.status === 'hold'),
-      done: filtered.filter(t => t.status === 'done'),
-      blocked: filtered.filter(t => t.status === 'blocked'),
-    };
-  }, [data, filters.assignees, filters.projectId, filters.dateFilter]); // Depend on data, not data.tasks
+    return buildKanbanColumns(data.tasks, filters);
+  }, [data, filters.assignees, filters.projectId, filters.dateFilter]);
 
   // Handle Escape key to close modal
   useEffect(() => {

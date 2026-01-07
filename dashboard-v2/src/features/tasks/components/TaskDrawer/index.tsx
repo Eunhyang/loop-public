@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import { useTask, useUpdateTask } from '@/queries/useTask';
+import { useTask, useUpdateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
-import type { Task } from '@/types/task';
+import type { Task } from '@/features/tasks/types';
 
 interface TaskDrawerProps {
     taskId: string | null;
