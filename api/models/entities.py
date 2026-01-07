@@ -5,13 +5,13 @@ Task/Project 생성 및 수정을 위한 데이터 모델
 """
 
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl, field_validator, conlist
 
 
 class Link(BaseModel):
     """외부 링크 (Google Drive, Figma 등)"""
-    label: str = Field(..., description="표시 이름")
-    url: str = Field(..., description="전체 URL (https:// 또는 http://)")
+    label: str = Field(..., max_length=100, description="표시 이름 (최대 100자)")
+    url: HttpUrl = Field(..., description="전체 URL (https:// 또는 http:// only)")
 
 
 class TaskCreate(BaseModel):
@@ -28,6 +28,8 @@ class TaskCreate(BaseModel):
     type: Optional[str] = Field(default=None, description="Task 타입 (dev, bug, strategy, research, ops, meeting)")
     # Auto-validation 옵션
     auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
+    # 외부 링크 (tsk-022-11: Bug 3 fix + security: max 10 links)
+    links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
 
 
 class TaskUpdate(BaseModel):
@@ -46,8 +48,8 @@ class TaskUpdate(BaseModel):
     closed: Optional[str] = Field(default=None, description="완료일 (YYYY-MM-DD)")
     closed_inferred: Optional[str] = Field(default=None, description="closed 추론 출처: updated | git_commit_date | today")
     project_id: Optional[str] = Field(default=None, description="프로젝트 ID")
-    # 외부 링크
-    links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
+    # 외부 링크 (tsk-022-11: security - max 10 links)
+    links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
 
 
 class ExpectedImpactInput(BaseModel):

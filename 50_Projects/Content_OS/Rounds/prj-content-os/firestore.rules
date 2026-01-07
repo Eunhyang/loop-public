@@ -27,6 +27,12 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.token.role == role;
     }
 
+    // Check if request is from server (service account)
+    // Usage: Future migration to allow server-only writes for vault_*/kpi_*
+    function isServer() {
+      return isAuthenticated() && request.auth.token.service_account == true;
+    }
+
     // Validate required fields for contentos_contents
     function isValidContent() {
       return request.resource.data.keys().hasAll([
@@ -41,12 +47,13 @@ service cloud.firestore {
     }
 
     // Validate required fields for contentos_publishes
+    // Note: Status supports both legacy (published/scheduled/failed) and new (queued/running/success/failed) values
     function isValidPublish() {
       return request.resource.data.keys().hasAll([
         'contentId', 'youtubeVideoId', 'publishedAt',
         'status', 'createdAt', 'updatedAt'
       ])
-      && request.resource.data.status in ['published', 'scheduled', 'failed'];
+      && request.resource.data.status in ['published', 'scheduled', 'failed', 'queued', 'running', 'success'];
     }
 
     // Validate required fields for contentos_assets

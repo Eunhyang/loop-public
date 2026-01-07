@@ -156,6 +156,10 @@ async def create_task(task: TaskCreate):
     if task.notes:
         frontmatter["notes"] = task.notes
 
+    # tsk-022-11: Bug 3 fix - persist links to frontmatter (convert HttpUrl to str)
+    if task.links is not None:
+        frontmatter['links'] = [{'label': link.label, 'url': str(link.url)} for link in task.links]
+
     # 6. 파일 생성
     content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
@@ -284,9 +288,9 @@ def update_task(task_id: str, task: TaskUpdate):
             frontmatter['closed_inferred'] = task.closed_inferred
         if task.project_id is not None:
             frontmatter['project_id'] = task.project_id
-        # 외부 링크
+        # 외부 링크 (tsk-022-11: convert HttpUrl to str)
         if task.links is not None:
-            frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in task.links]
+            frontmatter['links'] = [{'label': link.label, 'url': str(link.url)} for link in task.links]
         # Task 타입
         if task.type is not None:
             frontmatter['type'] = task.type

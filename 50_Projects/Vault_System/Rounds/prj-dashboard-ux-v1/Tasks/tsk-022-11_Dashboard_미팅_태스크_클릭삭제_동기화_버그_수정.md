@@ -113,11 +113,39 @@ onEventClick(info) {
 
 #### 5. Todo
 
-- [ ] `onEventClick()` 디버깅 - sourceId 값 확인
-- [ ] LOOP Task 이벤트에 식별자 추가
-- [ ] 조건문 수정하여 LOOP Task 우선 처리
-- [ ] Google 이벤트 삭제 동기화 방안 결정
+- [x] `onEventClick()` 디버깅 - sourceId 값 확인
+- [x] LOOP Task 이벤트에 식별자 추가 (tsk- 패턴 체크)
+- [x] 조건문 수정하여 LOOP Task 우선 처리
+- [ ] **버그 3: TaskPanel에서 Google Meet 링크 미표시 수정**
 - [ ] 테스트 및 검증
+
+---
+
+### 버그 3 수정 완료 (2026-01-07)
+
+**문제:**
+- 캘린더 우클릭 → "미팅 추가" → "링크 생성" 버튼으로 Google Meet 링크 생성
+- Task 저장 후 TaskPanel에서 해당 Meet 링크가 보이지 않음
+
+**근본 원인 (Codex 분석):**
+1. `TaskCreate` 모델에 `links` 필드가 없어서 FastAPI 검증 단계에서 Meet 링크가 제거됨
+2. `create_task()` 함수가 links를 frontmatter에 저장하지 않음 (update_task는 저장)
+
+**해결 방법:**
+1. **api/models/entities.py**: `TaskCreate` 모델에 `links` 필드 추가
+   - Pydantic `HttpUrl` 타입 사용 (XSS 방지)
+   - `max_length=10` 제한 (DoS 방지)
+   - `label` 최대 100자 제한
+2. **api/routers/tasks.py**: `create_task()` 함수에서 links를 frontmatter에 저장하도록 수정
+
+**수정 파일:**
+- `api/models/entities.py` - TaskCreate/TaskUpdate에 links 필드 추가 + 보안 제약
+- `api/routers/tasks.py` - create_task/update_task에서 links frontmatter 저장 로직 추가
+
+**보안 개선 (Codex 제안):**
+- `HttpUrl` 타입으로 https/http만 허용 (javascript: 등 XSS 차단)
+- 링크 개수 최대 10개 제한 (DoS 방지)
+- 라벨 최대 100자 제한
 
 ---
 

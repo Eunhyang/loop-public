@@ -55,10 +55,14 @@ loop (collection)
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
+| `type` | string | ❌ | 콘텐츠 타입 (향후 확장) | `"youtube"`, `"blog"`, `"shorts"`, `"newsletter"` |
+| `owner` | string | ❌ | 담당자 (향후 권한 관리용) | `"김은향"` |
+| `tags` | array | ❌ | 분류 태그 | `["스트레칭", "오피스"]` |
 | `keyword` | string | ✅ | 검색 키워드 | `"5분 스트레칭"` |
-| `videoId` | string | ✅ | YouTube 영상 ID | `"dQw4w9WgXcQ"` |
-| `title` | string | ✅ | 영상 제목 | `"앉아서 하는 5분 스트레칭"` |
-| `channelName` | string | ✅ | 채널 이름 | `"힐링타임"` |
+| `videoId` | string | ✅ (legacy) | YouTube 영상 ID (deprecated: use source.youtube.videoId) | `"dQw4w9WgXcQ"` |
+| `title` | string | ✅ | 영상/콘텐츠 제목 | `"앉아서 하는 5분 스트레칭"` |
+| `channelName` | string | ✅ (legacy) | 채널 이름 (deprecated: use source.youtube.channelName) | `"힐링타임"` |
+| `source` | map | ❌ | 플랫폼별 소스 메타데이터 (향후 표준) | `{"youtube": {"videoId": "...", "channelName": "..."}}` |
 | `marketScore` | number | ✅ | 시장 점수 (0-100) | `85.5` |
 | `fitScore` | number | ✅ | 적합도 점수 (0-100) | `92.0` |
 | `saturation` | number | ✅ | 포화도 (0-1) | `0.35` |
@@ -72,7 +76,7 @@ loop (collection)
 - `finalScore DESC, createdAt DESC` - 점수 기반 정렬
 - `status ASC, finalScore DESC` - 상태별 정렬
 
-**Example Document**:
+**Example Document (Legacy Format - Current)**:
 ```json
 {
   "keyword": "5분 스트레칭",
@@ -94,6 +98,40 @@ loop (collection)
 }
 ```
 
+**Example Document (Future Format - with source map)**:
+```json
+{
+  "type": "youtube",
+  "owner": "김은향",
+  "tags": ["스트레칭", "오피스"],
+  "keyword": "5분 스트레칭",
+  "title": "앉아서 하는 5분 스트레칭",
+  "source": {
+    "youtube": {
+      "videoId": "dQw4w9WgXcQ",
+      "channelName": "힐링타임",
+      "views": 125000,
+      "likes": 3500,
+      "duration": "PT5M30S"
+    }
+  },
+  "marketScore": 85.5,
+  "fitScore": 92.0,
+  "saturation": 0.35,
+  "finalScore": 51.7,
+  "status": "candidate",
+  "createdAt": "2026-01-06T10:30:00Z",
+  "updatedAt": "2026-01-06T11:00:00Z"
+}
+```
+
+**Migration Notes**:
+- **Backward Compatibility**: Legacy `videoId`/`channelName` fields remain valid
+- **Future Migration**: New documents should use `source.youtube.*` structure
+- **Multi-platform Support**: `source.blog`, `source.shorts` structures for future expansion
+- **Security**: `owner` field for future permission enforcement (currently not enforced)
+- **Validation**: Current rules validate legacy format; update `isValidContent()` when migrating
+
 ---
 
 ### 2. contentos_publishes
@@ -107,9 +145,13 @@ loop (collection)
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `contentId` | string | ✅ | 참조할 contentos_contents 문서 ID | `"cnt-001"` |
-| `youtubeVideoId` | string | ✅ | 업로드된 YouTube 영상 ID | `"xyz123abc"` |
-| `publishedAt` | timestamp | ✅ | 발행 시각 | `2026-01-10T09:00:00Z` |
-| `status` | string | ✅ | 발행 상태 | `"published"`, `"scheduled"`, `"failed"` |
+| `youtubeVideoId` | string | ✅ (현재) | 업로드된 YouTube 영상 ID<br>**Note**: 현재 validation rule에서 필수. queued/running 상태에서는 placeholder 값 사용 필요 | `"xyz123abc"` or `"pending"` |
+| `publishedAt` | timestamp | ✅ (현재) | 발행 시각<br>**Note**: 현재 validation rule에서 필수. queued/running 상태에서는 예상 시각 사용 필요 | `2026-01-10T09:00:00Z` |
+| `status` | string | ✅ | 발행 상태 | Legacy: `"published"`, `"scheduled"`, `"failed"`<br>New: `"queued"`, `"running"`, `"success"`, `"failed"` |
+| `scheduledAt` | timestamp | ❌ | 예약 시각 (queued 상태 시) | `2026-01-10T08:00:00Z` |
+| `executedAt` | timestamp | ❌ | 실행 완료 시각 (success/failed 시) | `2026-01-10T09:05:00Z` |
+| `externalUrl` | string | ❌ | 발행된 외부 URL | `"https://youtu.be/xyz123abc"` |
+| `platformId` | string | ❌ | 타겟 플랫폼 ID | `"youtube"`, `"tiktok"`, `"instagram"` |
 | `views` | number | ❌ | 조회수 (업데이트 가능) | `5420` |
 | `ctr` | number | ❌ | 클릭률 (0-1) | `0.12` |
 | `avgViewDuration` | number | ❌ | 평균 시청 시간 (초) | `180.5` |
@@ -124,7 +166,7 @@ loop (collection)
 - `status ASC, publishedAt DESC` - 상태별 최근 발행 순
 - `views DESC` - 조회수 순
 
-**Example Document**:
+**Example Document (Legacy Format)**:
 ```json
 {
   "contentId": "cnt-001",
@@ -144,6 +186,53 @@ loop (collection)
   "updatedAt": "2026-01-10T12:00:00Z"
 }
 ```
+
+**Example Document (New Workflow Format)**:
+```json
+{
+  "contentId": "cnt-001",
+  "youtubeVideoId": "xyz123abc",
+  "platformId": "youtube",
+  "status": "success",
+  "scheduledAt": "2026-01-10T08:00:00Z",
+  "executedAt": "2026-01-10T09:05:00Z",
+  "publishedAt": "2026-01-10T09:00:00Z",
+  "externalUrl": "https://youtu.be/xyz123abc",
+  "views": 5420,
+  "ctr": 0.12,
+  "avgViewDuration": 180.5,
+  "likes": 320,
+  "comments": 45,
+  "metadata": {
+    "thumbnail_url": "https://i.ytimg.com/vi/xyz123abc/maxresdefault.jpg",
+    "description": "앉아서 하는 5분 스트레칭 루틴"
+  },
+  "createdAt": "2026-01-10T08:00:00Z",
+  "updatedAt": "2026-01-10T12:00:00Z"
+}
+```
+
+**State Transition Diagram**:
+```
+queued → running → success
+              ↘ failed
+
+Legacy mapping:
+- scheduled → queued
+- published → success
+- failed → failed (unchanged)
+```
+
+**Migration Notes**:
+- **Backward Compatibility**: Legacy status values (`published`, `scheduled`, `failed`) remain valid
+- **New Workflow**: Use `queued → running → success/failed` for automated publishing pipelines
+- **Required Fields**:
+  - `youtubeVideoId` and `publishedAt` are currently REQUIRED by validation rules
+  - For `queued`/`running` states: use placeholder values (e.g., `"pending"`) or scheduled time
+  - **Future**: Update `isValidPublish()` to make these fields optional for pre-publish states
+- **Optional Fields**: `scheduledAt`, `executedAt`, `externalUrl`, `platformId` only for new workflow
+- **Validation**: `isValidPublish()` accepts both legacy and new status values
+- **Query Updates**: Update queries filtering `status == 'published'` to include `'success'`
 
 ---
 
@@ -468,8 +557,9 @@ db.collection('loop/main/vault_pending_reviews')
 
 ### 4. 최근 발행 영상 성과 조회
 ```javascript
+// Note: Include both legacy 'published' and new 'success' status
 db.collection('loop/main/contentos_publishes')
-  .where('status', '==', 'published')
+  .where('status', 'in', ['published', 'success'])
   .orderBy('publishedAt', 'desc')
   .orderBy('views', 'desc')
   .limit(10)
