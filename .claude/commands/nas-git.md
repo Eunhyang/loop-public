@@ -235,11 +235,11 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: Local exec pull
+# Step 2: Local exec pull (autostash로 uncommitted 변경 보호)
 echo ""
 echo "=== [EXEC] Step 2: 로컬 pull ==="
 cd ~/dev/loop/exec
-git pull --rebase origin main
+git pull --rebase --autostash origin main
 
 # ============================================
 # API CACHE REFRESH

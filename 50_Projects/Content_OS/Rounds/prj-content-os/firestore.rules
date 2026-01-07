@@ -34,26 +34,44 @@ service cloud.firestore {
     }
 
     // Validate required fields for contentos_contents
+    // Supports both legacy format and future format with source map
     function isValidContent() {
-      return request.resource.data.keys().hasAll([
-        'keyword', 'videoId', 'title', 'channelName',
-        'marketScore', 'fitScore', 'saturation', 'finalScore',
-        'status', 'createdAt', 'updatedAt'
-      ])
-      && request.resource.data.status in ['candidate', 'selected', 'rejected']
-      && request.resource.data.marketScore >= 0 && request.resource.data.marketScore <= 100
-      && request.resource.data.fitScore >= 0 && request.resource.data.fitScore <= 100
-      && request.resource.data.saturation >= 0 && request.resource.data.saturation <= 1;
+      let data = request.resource.data;
+
+      // Common required fields (always at top-level)
+      let commonValid = data.keys().hasAll(['title', 'status', 'finalScore', 'createdAt', 'updatedAt'])
+        && data.status in ['candidate', 'selected', 'rejected', 'published']
+        && data.finalScore >= 0 && data.finalScore <= 100;
+
+      // Legacy structure: all fields at top level
+      let hasLegacy = data.keys().hasAll(['videoId', 'channelName', 'keyword', 'marketScore', 'fitScore', 'saturation'])
+        && data.marketScore >= 0 && data.marketScore <= 100
+        && data.fitScore >= 0 && data.fitScore <= 100
+        && data.saturation >= 0 && data.saturation <= 1;
+
+      // Future structure: scores still top-level + source map (additional metadata)
+      let hasFuture = data.keys().hasAll(['marketScore', 'fitScore', 'saturation', 'source'])
+        && data.marketScore >= 0 && data.marketScore <= 100
+        && data.fitScore >= 0 && data.fitScore <= 100
+        && data.saturation >= 0 && data.saturation <= 1
+        && data.source is map
+        && data.source.size() > 0;
+
+      return commonValid && (hasLegacy || hasFuture);
     }
 
     // Validate required fields for contentos_publishes
-    // Note: Status supports both legacy (published/scheduled/failed) and new (queued/running/success/failed) values
+    // Supports conditional validation based on publish status
     function isValidPublish() {
-      return request.resource.data.keys().hasAll([
-        'contentId', 'youtubeVideoId', 'publishedAt',
-        'status', 'createdAt', 'updatedAt'
-      ])
-      && request.resource.data.status in ['published', 'scheduled', 'failed', 'queued', 'running', 'success'];
+      let data = request.resource.data;
+      let baseValid = data.keys().hasAll(['contentId', 'status', 'createdAt', 'updatedAt'])
+        && data.status in ['published', 'scheduled', 'failed', 'queued', 'running', 'success'];
+
+      let completionFields = data.status in ['success', 'published']
+        ? data.keys().hasAll(['youtubeVideoId', 'publishedAt'])
+        : (data.status == 'scheduled' ? data.keys().hasAll(['youtubeVideoId']) : true);
+
+      return baseValid && completionFields;
     }
 
     // Validate required fields for contentos_assets

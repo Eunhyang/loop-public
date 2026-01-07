@@ -99,16 +99,6 @@
       ]
     },
     {
-      "collectionGroup": "vault_projects",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "syncedAt",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "vault_tasks",
       "queryScope": "COLLECTION",
       "fields": [
@@ -132,16 +122,6 @@
         },
         {
           "fieldPath": "status",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "vault_tasks",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "due",
           "order": "ASCENDING"
         }
       ]
@@ -185,26 +165,6 @@
         {
           "fieldPath": "metric",
           "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "kpi_defs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "window",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "days",
-      "queryScope": "COLLECTION_GROUP",
-      "fields": [
-        {
-          "fieldPath": "date",
-          "order": "DESCENDING"
         }
       ]
     }
