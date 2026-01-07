@@ -4,7 +4,8 @@ entity_id: "tsk-dashboard-ux-v1-38"
 entity_name: "Dashboard - Project Panel 프로그램 선택 및 Auto-save"
 created: 2026-01-07
 updated: 2026-01-07
-status: doing
+closed: 2026-01-07
+status: done
 
 # === 계층 ===
 parent_id: "prj-dashboard-ux-v1"
@@ -35,7 +36,7 @@ priority_flag: medium
 
 # Dashboard - Project Panel 프로그램 선택 및 Auto-save
 
-> Task ID: `tsk-dashboard-ux-v1-38` | Project: `prj-dashboard-ux-v1` | Status: doing
+> Task ID: `tsk-dashboard-ux-v1-38` | Project: `prj-dashboard-ux-v1` | Status: done
 
 ## 목표
 
@@ -90,26 +91,47 @@ Status       | Owner *         ← 2행
 
 ## 체크리스트
 
-- [ ] HTML: Program select 추가 (index.html)
-- [ ] HTML: 레이아웃 변경 (Program|Track, Status|Owner)
-- [ ] HTML: Priority dropdown → chip 변환
-- [ ] CSS: Priority chip 스타일 추가
-- [ ] JS: populateSelects()에 Program 옵션 추가
-- [ ] JS: Auto-save 로직 구현 (onChange, onBlur)
-- [ ] JS: Save/Cancel 버튼 제거 또는 숨김
-- [ ] JS: Priority chip 클릭 핸들러
-- [ ] API: updateProject에 program_id 필드 추가 확인
+- [x] HTML: Program select 추가 (index.html)
+- [x] HTML: 레이아웃 변경 (Program|Track, Status|Owner)
+- [x] HTML: Priority dropdown → chip 변환
+- [x] CSS: Priority chip 스타일 추가
+- [x] JS: populateSelects()에 Program 옵션 추가
+- [x] JS: Auto-save 로직 구현 (onChange, onBlur)
+- [x] JS: Save/Cancel 버튼 제거 또는 숨김
+- [x] JS: Priority chip 클릭 핸들러
+- [x] API: updateProject에 program_id 필드 추가 확인
 
 ---
 
 ## Notes
 
 ### Todo
-- [ ] 구현
-- [ ] 테스트
-- [ ] 코드 리뷰
+- [x] 구현
+- [x] 테스트
+- [x] 코드 리뷰
 
 ### 작업 로그
+
+#### 2026-01-07
+**개요**: Task 완료 - Dashboard Project Panel UX 개선
+
+**구현 내용**:
+- Program 선택 필드 추가 (populateSelects에 programs 옵션 구현)
+- 레이아웃 변경: Program|Track (1행), Status|Owner (2행)
+- Priority dropdown을 chip 형태로 변경 (single select 방식)
+- Auto-save 기능 구현:
+  - Select 필드: onChange 즉시 저장
+  - Input/Textarea: onBlur 시 저장
+  - Priority chip: 클릭 즉시 저장
+- Save/Cancel 버튼 숨김 처리 (display: none)
+- 저장 성공/실패 시 토스트 알림 추가
+
+**결과**:
+- Project Panel에서 모든 필드 Auto-save 동작 확인
+- Program 선택 기능 정상 동작
+- Priority chip UI/UX 개선 완료
+
+**최종 상태**: done
 
 
 ---
