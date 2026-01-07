@@ -64,7 +64,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/auto-allow-bash.sh"
+            "command": "/Users/gim-eunhyang/dev/loop/.claude/hooks/auto-allow-bash.sh"
           }
         ]
       }
@@ -75,7 +75,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/validate-agent-output.sh"
+            "command": "/Users/gim-eunhyang/dev/loop/.claude/hooks/validate-agent-output.sh"
           }
         ]
       }
