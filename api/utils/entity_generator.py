@@ -31,6 +31,8 @@ from .vault_utils import (
 )
 
 
+from api.services.ssot_service import SSOTService
+
 class EntityGenerator:
     """Entity 생성 통합 유틸리티"""
 
@@ -41,31 +43,26 @@ class EntityGenerator:
             "/Volumes/LOOP_CLevel/vault/loop_exec"
         ))
         self.templates_dir = self.vault_path / "00_Meta/_TEMPLATES"
+        self.ssot_service = SSOTService(self.vault_path)
 
     def generate_project_id(self, prefix: str = "prj") -> str:
         """
         다음 Project ID 생성
-
-        Args:
-            prefix: ID 접두사 (기본값: "prj")
-
-        Returns:
-            새 Project ID (예: "prj-007")
+        
+        Delegates to SSOTService.
         """
-        # 기존 로직 재사용
-        return get_next_project_id(self.vault_path)
+        return self.ssot_service.generate_project_id()
 
     def generate_task_id(self, project_id: Optional[str] = None) -> str:
         """
         다음 Task ID 생성
-
-        Args:
-            project_id: 소속 프로젝트 ID (현재 미사용, 향후 확장용)
-
-        Returns:
-            새 Task ID (예: "tsk-003-05")
+        
+        Delegates to SSOTService.
+        Must provide project_id (SSOT Rule).
         """
-        return get_next_task_id(self.vault_path)
+        if not project_id:
+             raise ValueError("project_id is required for Task ID generation (SSOT Rule)")
+        return self.ssot_service.generate_task_id(project_id)
 
     # ============================================
     # Exec Vault ID 생성 (SSOT: schema_constants.yaml v5.4)
@@ -239,21 +236,10 @@ class EntityGenerator:
     def generate_task_id_for_project(self, project_id: str) -> str:
         """
         특정 프로젝트 내 Task ID 생성 (prj-XXX-YY 형식)
-
-        프로젝트별 Task ID 체계를 사용하는 경우:
-        예: prj-n8n-entity-autofill → tsk-n8n-05
-
-        Args:
-            project_id: 프로젝트 ID
-
-        Returns:
-            새 Task ID
+        
+        Delegates to SSOTService.
         """
-        # 프로젝트 디렉토리 찾기
-        project_dir = self._find_project_directory(project_id)
-        if not project_dir:
-            # fallback to global ID
-            return self.generate_task_id()
+        return self.ssot_service.generate_task_id(project_id)
 
         tasks_dir = project_dir / "Tasks"
         if not tasks_dir.exists():
@@ -432,10 +418,10 @@ def generate_project_id(vault_path: Optional[Path] = None) -> str:
     return gen.generate_project_id()
 
 
-def generate_task_id(vault_path: Optional[Path] = None) -> str:
+def generate_task_id(vault_path: Optional[Path] = None, project_id: Optional[str] = None) -> str:
     """다음 Task ID 생성"""
     gen = EntityGenerator(vault_path)
-    return gen.generate_task_id()
+    return gen.generate_task_id(project_id)
 
 
 def create_project_structure(

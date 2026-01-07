@@ -98,32 +98,69 @@ class SSOTService:
 
     def generate_task_id(self, project_id: str) -> str:
         """
-        새 Task ID 생성 (tsk-{prj_num}-{seq})
+        새 Task ID 생성 (tsk-{prj_suffix}-{seq})
         
         Args:
-            project_id: prj-023
+            project_id: prj-023 or prj-n8n-automation
         Returns:
-            tsk-023-01
+            tsk-023-01 or tsk-n8n-01
         """
         # 1. Validate Input
         if not project_id:
             raise ValueError("project_id is required for Task ID generation")
-            
-        if not re.match(r"^prj-\d{3}$", project_id):
-            # prj-legacy-name 등은 자동 생성 지원 안함 (혹은 별도 로직)
-            raise ValueError(f"Auto ID generation only supported for standard Project IDs (prj-NNN). Got: {project_id}")
-
-        prj_num = project_id.split("-")[1] # 023
+        
+        # Determine prefix (023 or n8n)
+        # prj-023 -> 023
+        # prj-n8n-automation -> n8n (heuristic: first part after prj-)
+        # But schema says: prj-(\d{3}|[a-z][a-z0-9-]+)
+        # For non-numeric, we usually use the first keyword or the whole thing?
+        # entity_generator.py logic: "prj-n8n-entity-autofill → n8n" (parts[0])
+        # Let's trust that logic for consistency.
+        
+        if project_id.startswith("prj-"):
+            full_suffix = project_id[4:]
+            if re.match(r"^\d{3}$", full_suffix):
+                prj_prefix = full_suffix
+            else:
+                # prj-n8n-automation -> n8n
+                prj_prefix = full_suffix.split("-")[0]
+        else:
+            raise ValueError(f"Invalid Project ID format: {project_id}")
 
         # 2. Find Project Directory
-        # 50_Projects 내에서 P{prj_num}_* 폴더 찾기
+        # 50_Projects 내에서 P{prj_prefix}_* 또는 prj-ID와 일치하는 폴더 찾기
         projects_root = self.vault_path / "50_Projects"
         target_dir = None
         
-        for path in projects_root.rglob("*"):
-            if path.is_dir() and path.name.startswith(f"P{prj_num}_"):
-                target_dir = path
-                break
+        # Optimized search
+        # 1. Numeric: P023_*
+        if re.match(r"^\d{3}$", prj_prefix):
+             # Numeric: try P023_* and prj-023_*
+             patterns = [f"P{prj_prefix}_*", f"prj-{prj_prefix}_*"]
+             for pat in patterns:
+                 for path in projects_root.rglob(pat):
+                     if path.is_dir():
+                         target_dir = path
+                         break
+                 if target_dir: break
+        else:
+             # Alphanumeric: try prj-{prefix}_* (e.g. prj-n8n_*)
+             for path in projects_root.rglob(f"prj-{prj_prefix}*"):
+                 if path.is_dir():
+                     target_dir = path
+                     break
+
+        if not target_dir:
+             # Fallback: Search by entity_id in project.md (Safe fallback)
+             # This handles cases where folder name doesn't match ID at all
+             for proj_file in projects_root.rglob("project.md"):
+                  try:
+                      content = proj_file.read_text(encoding="utf-8")
+                      if f"entity_id: {project_id}" in content:
+                          target_dir = proj_file.parent
+                          break
+                  except:
+                      pass
         
         if not target_dir:
             raise FileNotFoundError(f"Project directory not found for ID: {project_id}")
@@ -133,21 +170,16 @@ class SSOTService:
         max_seq = 0
         
         if tasks_dir.exists():
-            # tsk-{prj_num}-{seq}.md 패턴 찾기
-            pattern = re.compile(rf"^tsk-{prj_num}-(\d{{2}})")
+            # tsk-{prj_prefix}-{seq}.md pattern
+            pattern = re.compile(rf"^tsk-{re.escape(prj_prefix)}-(\d+)")
             
             for task_file in tasks_dir.glob("*.md"):
-                # 파일명에서 시퀀스 추출 (tsk-023-04.md)
                 match = pattern.match(task_file.name)
                 if match:
                     seq = int(match.group(1))
                     if seq > max_seq:
                         max_seq = seq
-                else:
-                    # 파일명에 없으면 frontmatter 확인? (성능 이슈로 파일명 우선)
-                    # SSOT 규칙상 파일명이 ID여야 함.
-                    pass
-
+        
         # 4. Generate Next ID
         next_seq = max_seq + 1
-        return f"tsk-{prj_num}-{next_seq:02d}"
+        return f"tsk-{prj_prefix}-{next_seq:02d}"
