@@ -111,9 +111,11 @@ async def create_task(task: TaskCreate):
     tasks_dir.mkdir(exist_ok=True)
 
     # 3. Task ID 생성 (캐시 기반)
-    task_id = cache.get_next_task_id()
+    # SSOT: tsk-{project_num}-{sequence}
+    task_id = cache.get_next_task_id(task.project_id)
 
-    # 4. 파일명 생성 (SSOT: tsk-{id}.md 강제 - tsk-022-24)
+    # 4. 파일명 생성 (SSOT: tsk-{id}.md 강제 - tsk-019-01)
+    # Content-based filename (e.g. "My_Task.md") is NO LONGER ALLOWED
     filename = f"{task_id}.md"
     task_file = tasks_dir / filename
 

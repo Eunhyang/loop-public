@@ -1247,11 +1247,40 @@ class VaultCache:
     # ID 생성
     # ============================================
 
-    def get_next_task_id(self) -> str:
-        """다음 Task ID 생성"""
-        with self._lock:
-            max_id = 0
+    def get_next_task_id(self, project_id: Optional[str] = None) -> str:
+        """다음 Task ID 생성
 
+        SSOT 규칙 (tsk-019-01):
+        - 형식: tsk-{project_num}-{sequence}
+        - project_id 필수 (없으면 기존 방식 tsk-XXX-XX fallback 하지만 지양)
+        """
+        with self._lock:
+            # 1. Project ID 파싱 (prj-023 -> 023)
+            project_num = 0
+            if project_id:
+                match = re.match(r'prj-(\d+)', project_id)
+                if match:
+                    project_num = int(match.group(1))
+
+            # 2. 해당 프로젝트의 최대 시퀀스 찾기
+            max_seq = 0
+            if project_num > 0:
+                prefix = f"tsk-{project_num:03d}-"
+                # TODO: 성능 최적화 (Project별 인덱싱)
+                for entity_id in self.tasks.keys():
+                    if entity_id.startswith(prefix):
+                        try:
+                            # tsk-023-01 -> 01
+                            seq_part = entity_id.split('-')[-1]
+                            seq = int(seq_part)
+                            max_seq = max(max_seq, seq)
+                        except (ValueError, IndexError):
+                            continue
+                
+                return f"tsk-{project_num:03d}-{max_seq + 1:02d}"
+
+            # Fallback: 기존 글로벌 시퀀스 (deprecated)
+            max_id = 0
             for entity_id in self.tasks.keys():
                 match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
                 if match:
@@ -1263,10 +1292,8 @@ class VaultCache:
             next_id = max_id + 1
             main = next_id // 100
             sub = next_id % 100
-
-            if main == 0:
-                main = 1
-
+            if main == 0: main = 1
+            
             return f"tsk-{main:03d}-{sub:02d}"
 
     def get_next_project_id(self) -> str:
