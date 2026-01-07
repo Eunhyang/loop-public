@@ -26,4 +26,8 @@ export const dashboardApi = {
   // Pending reviews
   getPendingReviews: () =>
     httpClient.get('/api/pending'),
+
+  // Individual Task Operations
+  updateTask: (id: string, data: Partial<Task>) =>
+    httpClient.patch<Task>(`/api/tasks/${id}`, data),
 };

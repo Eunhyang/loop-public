@@ -14,3 +14,15 @@ export interface Task {
   created: string;
   updated: string;
 }
+
+export interface TaskUpdatePayload {
+  entity_id: string; // ID는 필수
+  entity_name?: string;
+  project_id?: string;
+  assignee?: string;
+  status?: Task['status'];
+  priority?: Task['priority'];
+  type?: Task['type'];
+  due?: string;
+  description?: string; // Notes/Description
+}
