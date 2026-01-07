@@ -366,10 +366,15 @@ const Calendar = {
             return;
         }
 
+        // tsk-022-16: ISO 형식(2025-12-28T00:00:00+09:00)을 YYYY-MM-DD로 변환
+        // API는 YYYY-MM-DD 형식만 허용함
+        const startDate = start.split('T')[0];
+        const endDate = end.split('T')[0];
+
         try {
             const calendarIds = Array.from(this.enabledCalendars).join(',');
             const response = await fetch(
-                `/api/google/events?start=${start}&end=${end}&calendar_ids=${encodeURIComponent(calendarIds)}`,
+                `/api/google/events?start=${startDate}&end=${endDate}&calendar_ids=${encodeURIComponent(calendarIds)}`,
                 { headers: API.getHeaders() }
             );
 
