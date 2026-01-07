@@ -4,7 +4,8 @@ entity_id: "tsk-022-20"
 entity_name: "Dashboard v2 - 프로젝트 초기화"
 created: 2026-01-07
 updated: 2026-01-07
-status: doing
+status: done
+closed: 2026-01-07
 
 # === 계층 ===
 parent_id: "prj-023"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # Dashboard v2 - 프로젝트 초기화
 
-> Task ID: `tsk-022-20` | Project: [[prj-023]] | Status: doing
+> Task ID: `tsk-022-20` | Project: [[prj-023]] | Status: done
 
 ## 📊 아키텍처 도식
 
@@ -676,6 +677,55 @@ mv public/_dashboard_v2 public/_dashboard
 ---
 
 ## Notes
+
+### 작업 로그
+
+#### 2026-01-07 (Task 완료)
+**개요**: Dashboard v2 프로젝트 초기화 완료 - Vite + React 19 + TypeScript 스택 구축 성공
+
+**변경사항**:
+- 개발: Vite 프로젝트 스캐폴드 생성 (React 19 + TypeScript)
+- 개발: 폴더 구조 생성 (routes/, pages/, features/, components/, services/, queries/, types/, utils/)
+- 개발: React Router v6 설정 (7개 라우트, lazy loading 포함)
+- 개발: React Query 설정 (staleTime: 5min, gcTime: 10min)
+- 개발: API 클라이언트 (http.ts with JWT interceptors, api.ts with endpoints)
+- 개발: TypeScript 타입 정의 (Task, Project, DashboardInitResponse, APIError)
+- 개발: Query hooks (queryKeys.ts, useDashboardInit.ts)
+- 개발: Layout 컴포넌트 (AppLayout, Sidebar, Header)
+- 설정: Vite 설정 (path alias @/, manualChunks, API proxy)
+- 설정: 환경 변수 템플릿 (.env.example)
+
+**파일 변경**:
+- `/Users/gim-eunhyang/dev/loop/public/dashboard-v2/` - 전체 프로젝트 생성
+- `package.json` - dependencies 설치 (React 19, React Router, React Query, Axios)
+- `vite.config.ts` - 빌드 설정 및 최적화
+- `src/main.tsx` - React Query Provider 설정
+- `src/routes/index.tsx` - 7개 라우트 정의
+- `src/services/http.ts` - Axios 클라이언트 + JWT interceptors
+- `src/services/api.ts` - API endpoint 함수
+- `src/queries/keys.ts`, `src/queries/useDashboardInit.ts` - Query hooks
+- `src/types/*.ts` - TypeScript 타입 정의
+- `src/components/layout/*.tsx` - Layout 컴포넌트
+
+**빌드 결과**: ✅ 빌드 성공
+- main: 223.79 kB
+- vendor: 74.03 kB (React, React Router)
+- query: 33.67 kB (React Query)
+
+**검증**:
+- ✅ 로컬 개발 서버 실행 성공 (`npm run dev` - http://localhost:3000)
+- ✅ 프로덕션 빌드 성공 (`npm run build`)
+- ✅ 폴더 구조 권장 패턴 준수
+- ✅ TypeScript 컴파일 에러 없음
+
+**다음 단계**:
+- Phase 2: Pending Review 페이지 구현 (tsk-022-21)
+- Phase 2: Task Drawer 구현
+- Phase 2: Kanban 보드 기능 구현
+
+**최종 상태**: done
+
+---
 
 ### 구현 완료 (2026-01-07)
 
