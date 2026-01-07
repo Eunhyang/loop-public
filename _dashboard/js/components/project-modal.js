@@ -7,9 +7,9 @@ const ProjectModal = {
      * Select 옵션들 채우기
      */
     populateSelects() {
-        // Owners
+        // Owners (tsk-022-02: 빈 옵션 추가하여 패턴 기본값 작동 보장)
         const ownerEl = document.getElementById('projectOwner');
-        ownerEl.innerHTML = State.members.map(m =>
+        ownerEl.innerHTML = '<option value="">--선택--</option>' + State.members.map(m =>
             `<option value="${m.id}">${m.name}</option>`
         ).join('');
 

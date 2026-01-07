@@ -30,9 +30,9 @@ const TaskModal = {
             `<option value="${p.entity_id}">${p.entity_name || p.entity_id}</option>`
         ).join('');
 
-        // Assignees
+        // Assignees (tsk-022-02: 빈 옵션 추가하여 패턴 기본값 작동 보장)
         const assigneeEl = document.getElementById('taskAssignee');
-        assigneeEl.innerHTML = State.members.map(m =>
+        assigneeEl.innerHTML = '<option value="">--선택--</option>' + State.members.map(m =>
             `<option value="${m.id}">${m.name}</option>`
         ).join('');
 
