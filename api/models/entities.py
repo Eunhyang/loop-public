@@ -80,10 +80,12 @@ class ProjectUpdate(BaseModel):
     entity_name: Optional[str] = None
     owner: Optional[str] = None
     parent_id: Optional[str] = None
+    program_id: Optional[str] = Field(default=None, description="소속 Program ID")
     status: Optional[str] = None
     priority_flag: Optional[str] = None
     deadline: Optional[str] = None
     hypothesis_text: Optional[str] = None
+    notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
     # 외부 링크
     links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")

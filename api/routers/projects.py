@@ -314,6 +314,9 @@ def update_project(project_id: str, project: ProjectUpdate):
         frontmatter['owner'] = project.owner
     if project.parent_id is not None:
         frontmatter['parent_id'] = project.parent_id
+    if project.program_id is not None:
+        # program_id: 빈 문자열이면 null로, 아니면 그대로
+        frontmatter['program_id'] = project.program_id if project.program_id else None
     if project.status is not None:
         # === tsk-n8n-15: 가설 필수 게이트 ===
         # active/done으로 전환 시 가설 연결 필수
@@ -339,6 +342,8 @@ def update_project(project_id: str, project: ProjectUpdate):
         frontmatter['hypothesis_text'] = project.hypothesis_text
     if project.tags is not None:
         frontmatter['tags'] = project.tags
+    if project.notes is not None:
+        frontmatter['notes'] = project.notes if project.notes else None
     # 외부 링크
     if project.links is not None:
         frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in project.links]
