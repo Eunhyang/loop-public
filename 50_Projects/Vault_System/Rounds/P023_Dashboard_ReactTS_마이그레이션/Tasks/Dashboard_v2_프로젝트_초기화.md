@@ -677,6 +677,38 @@ mv public/_dashboard_v2 public/_dashboard
 
 ## Notes
 
+### 구현 완료 (2026-01-07)
+
+**상태**: ✅ 프로젝트 초기화 완료
+**위치**: `/Users/gim-eunhyang/dev/loop/public/dashboard-v2/`
+**빌드**: 성공 (223.79 kB main, 74.03 kB vendor, 33.67 kB query)
+
+**완료 항목**:
+1. ✅ Vite + React 19 + TypeScript 프로젝트 생성
+2. ✅ 폴더 구조 생성 (routes/, pages/, features/, components/, services/, queries/, types/, utils/)
+3. ✅ React Router 7개 라우트 설정 (lazy loading 포함)
+4. ✅ React Query 설정 (staleTime: 5min, gcTime: 10min)
+5. ✅ API 클라이언트 설정 (http.ts with JWT interceptors, api.ts with endpoints)
+6. ✅ TypeScript 타입 정의 (Task, Project, DashboardInitResponse, APIError)
+7. ✅ Query hooks (queryKeys, useDashboardInit)
+8. ✅ Layout 컴포넌트 (AppLayout, Sidebar, Header)
+9. ✅ Vite 설정 (path alias @/, manualChunks, API proxy)
+10. ✅ 환경 변수 설정 (.env.example)
+
+**다음 단계** (Phase 2 - Pending 분리):
+- Pending Review 페이지 구현
+- Task Drawer 구현
+- Kanban 보드 기능 구현
+
+**실행**:
+```bash
+cd /Users/gim-eunhyang/dev/loop/public/dashboard-v2
+npm run dev  # http://localhost:3000
+npm run build  # dist/ 생성
+```
+
+---
+
 ### 핵심 철학 (v1 → v2 변화)
 
 **v1 문제**:

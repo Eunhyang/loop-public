@@ -99,30 +99,174 @@ SSOT_CONTRACT.md v1.1에서 3가지 규칙을 강제 조항으로 추가:
 
 ## Notes
 
+### Gap Analysis Report
+
+**검증 일시**: 2026-01-07 19:10
+**검증자**: Claude Code Agent
+**SSOT_CONTRACT 버전**: v1.1
+
+---
+
+#### A) Task 파일명 규칙 (Section 4.2) ❌ NOT IMPLEMENTED
+
+**요구사항**:
+```yaml
+Phase 1 (즉시): 신규 생성은 무조건 tsk-{id}.md
+Phase 2 (마이그레이션): 기존 파일 rename (scripts/rename_task_files.py)
+```
+
+**현재 상태**:
+- **API**: `api/routers/tasks.py:117` - `sanitize_filename(task.entity_name) + ".md"`
+  - entity_name 기반 파일명 사용 (예: `CoachOS_프로토타입_개발.md`)
+  - tsk-{id}.md 패턴 사용 안 함
+- **loop-entity-creator 스킬**: Step 4 - `50_Projects/{project_name}/Tasks/{entity_name}.md`
+  - entity_name 기반 경로 사용
+- **cache/vault_cache.py**: L283, L302 - 파일명으로 검색하지 않음 (frontmatter entity_id로 검색)
+  - 파일명과 무관하게 동작하므로 변경 시 영향 없음
+
+**Gap**: ❌ **완전히 미구현**
+- Phase 1: 신규 생성 시 `tsk-{id}.md` 강제 안 됨
+- Phase 2: 마이그레이션 스크립트 존재하지 않음
+
+**영향**: 파일명이 내용 기반이라 동일 이름 Task 생성 시 `_1`, `_2` 접미사 추가 (L122-127)
+
+---
+
+#### B) 동시성/경합 방지 (Section 6.5) ❌ NOT IMPLEMENTED
+
+**요구사항**:
+```python
+PUT /api/tasks/tsk-001-02
+{
+  "status": "in_progress",
+  "expected_updated_at": "2026-01-07T10:30:00Z"
+}
+
+# 409 Conflict if version mismatch
+```
+
+**현재 상태**:
+- **Pydantic models**: `api/models/entities.py`
+  - `TaskUpdate` (L35-53): `expected_updated_at` 필드 없음
+  - `ProjectUpdate` (L78-92): `expected_updated_at` 필드 없음
+- **API UPDATE 엔드포인트**:
+  - `tasks.py`: 409 Conflict 코드 없음
+  - `projects.py`: 409 Conflict 코드 없음
+- **Concurrency check**: frontmatter의 `updated` 필드 비교 로직 없음
+
+**Gap**: ❌ **완전히 미구현**
+- `expected_updated_at` 파라미터 존재하지 않음
+- Version mismatch 감지 로직 없음
+- 409 Conflict 응답 없음
+- 동시 수정 시 "last write wins" (후자가 덮어씀)
+
+**영향**: n8n + Dashboard + API 동시 수정 시 데이터 유실 위험
+
+---
+
+#### C) Audit Log 스키마 (Section 6.2) ⚠️ PARTIALLY IMPLEMENTED
+
+**요구사항**:
+```json
+{
+  "run_id": "uuid-v4",
+  "timestamp": "ISO-8601",
+  "actor": "user:김은향 | api:n8n | script:validate",
+  "source": "ui | api | script | cli",
+  "entity_type": "Task | Project | Hypothesis",
+  "entity_id": "tsk-001-02",
+  "action": "create | update | delete | approve | reject",
+  "modified_fields": ["status", "assignee"],
+  "diff": { "status": {"old": "todo", "new": "doing"} }
+}
+
+위치: _build/audit_log.jsonl
+```
+
+**현재 상태**:
+- **파일 위치**: `_build/audit.log` (✅ JSONL 형식, ❌ 파일명 불일치)
+- **스키마**: `api/routers/audit.py:52-60`
+  ```json
+  {
+    "timestamp": "ISO-8601",     # ✅ 존재
+    "action": "create|update|delete|autofill",  # ✅ 존재
+    "entity_type": "Task|Project|Hypothesis",   # ✅ 존재
+    "entity_id": "tsk-xxx",      # ✅ 존재
+    "entity_name": "...",        # ⚠️ 명세에 없음
+    "user": "api",               # ⚠️ "actor"가 아님
+    "details": {}                # ⚠️ "source", "modified_fields", "diff" 없음
+  }
+  ```
+
+**Gap**: ⚠️ **부분 구현**
+- ❌ 파일명: `audit.log` → `audit_log.jsonl`로 변경 필요
+- ❌ `run_id` 필드 없음
+- ❌ `actor` 필드 없음 (`user` 필드로 대체)
+- ❌ `source` 필드 없음
+- ❌ `modified_fields` 필드 없음
+- ❌ `diff` 필드 없음 (변경 전/후 값)
+- ✅ 기본 필드 (`timestamp`, `action`, `entity_type`, `entity_id`) 존재
+
+**영향**:
+- 감사 추적은 가능하지만 상세도 낮음
+- 변경 전/후 비교 불가 (diff 없음)
+- 실행 단위 추적 불가 (run_id 없음)
+
+---
+
+### 요약
+
+| 규칙 | 상태 | 구현도 | 핵심 누락 |
+|------|------|--------|----------|
+| A) Task 파일명 | ❌ NOT IMPLEMENTED | 0% | tsk-{id}.md 패턴, 마이그레이션 스크립트 |
+| B) 동시성 방지 | ❌ NOT IMPLEMENTED | 0% | expected_updated_at, 409 Conflict |
+| C) Audit log | ⚠️ PARTIAL | 40% | run_id, actor, source, modified_fields, diff, 파일명 |
+
+---
+
+### 수정 필요 파일 (코드 수정 불가, 참고용)
+
+**Rule A (Task 파일명)**:
+1. `api/routers/tasks.py:117` - filename 생성 로직
+2. `.claude/skills/loop-entity-creator/SKILL.md:399` - Step 4 경로 생성
+3. `scripts/rename_task_files.py` - 새 스크립트 필요
+
+**Rule B (동시성)**:
+1. `api/models/entities.py:35` - TaskUpdate 모델
+2. `api/models/entities.py:78` - ProjectUpdate 모델
+3. `api/routers/tasks.py` - UPDATE 엔드포인트 (409 추가)
+4. `api/routers/projects.py` - UPDATE 엔드포인트 (409 추가)
+
+**Rule C (Audit log)**:
+1. `api/routers/audit.py:28` - 파일명 변경 (audit.log → audit_log.jsonl)
+2. `api/routers/audit.py:52-60` - 스키마 확장 (run_id, actor, source, modified_fields, diff)
+3. 모든 로그 호출부 - `user` → `actor` + `source` 분리
+
 ### Todo
-- [ ] loop-entity-creator 스킬 파일 읽기
-- [ ] API 코드 확인 (tasks.py, projects.py)
-- [ ] Audit log 파일 확인
-- [ ] 각 규칙별 구현 상태 정리
+- [x] loop-entity-creator 스킬 파일 읽기
+- [x] API 코드 확인 (tasks.py, projects.py)
+- [x] Audit log 파일 확인
+- [x] 각 규칙별 구현 상태 정리
+- [x] Gap 분석 문서 작성
 
 ### 작업 로그
-<!--
-작업 완료 시 아래 형식으로 기록 (workthrough 스킬 자동 생성)
 
-#### YYYY-MM-DD HH:MM
-**개요**: 2-3문장 요약
+#### 2026-01-07 19:10
+**개요**: SSOT_CONTRACT.md v1.1의 3가지 규칙 구현 상태 검증 완료. 파일 읽기만 수행, 코드 수정 없음.
 
-**변경사항**:
-- 개발:
-- 수정:
-- 개선:
+**검증 결과**:
+- Rule A (Task 파일명): 완전히 미구현 (0%)
+- Rule B (동시성 방지): 완전히 미구현 (0%)
+- Rule C (Audit log): 부분 구현 (40%)
 
-**핵심 코드**: (필요시)
+**핵심 파인딩**:
+- Task 파일명은 여전히 entity_name 기반 (`CoachOS_프로토타입_개발.md`)
+- 동시성 제어 없음 (expected_updated_at, 409 Conflict 미구현)
+- Audit log 스키마 부분적 (run_id, diff 등 누락)
 
-**결과**: ✅ 빌드 성공 / ❌ 실패
+**결과**: ✅ 검증 완료 (코드 수정 없음)
 
-**다음 단계**:
--->
+**다음 단계**: 사용자에게 Gap 분석 보고 및 승인 대기
 
 
 ---
