@@ -860,9 +860,21 @@ const Calendar = {
      * 이벤트 클릭 핸들러
      * - LOOP 이벤트: Task 패널 열기
      * - Google 이벤트: 상세 정보 표시 (읽기 전용)
+     *
+     * tsk-022-11: LOOP Task ID 패턴으로 우선 판별
+     * - Google Calendar에 같은 미팅이 중복 표시될 수 있음
+     * - event.id가 tsk-로 시작하면 LOOP Task로 처리
      */
     onEventClick(info) {
+        const eventId = info.event.id;
         const sourceId = info.event.source?.id;
+
+        // tsk-022-11: LOOP Task인지 ID 패턴으로 먼저 확인
+        // Task ID는 tsk-로 시작 (예: tsk-022-11)
+        if (eventId && eventId.startsWith('tsk-')) {
+            TaskPanel.open(eventId);
+            return;
+        }
 
         // Google Calendar 이벤트인 경우
         if (sourceId === 'google') {
