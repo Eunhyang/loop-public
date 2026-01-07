@@ -4,7 +4,8 @@ entity_id: "tsk-022-15"
 entity_name: "ContentOS - Firebase Rules/Indexes 배포"
 created: 2026-01-07
 updated: 2026-01-07
-status: doing
+status: done
+closed: 2026-01-07
 
 # === 계층 ===
 parent_id: "prj-content-os"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # ContentOS - Firebase Rules/Indexes 배포
 
-> Task ID: `tsk-022-15` | Project: `prj-content-os` | Status: doing
+> Task ID: `tsk-022-15` | Project: `prj-content-os` | Status: done
 
 ## 목표
 
