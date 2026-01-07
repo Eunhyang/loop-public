@@ -6,7 +6,8 @@ created: 2026-01-07
 updated: 2026-01-07
 project_id: prj-dashboard-ux-v1
 assignee: 김은향
-status: doing
+status: done
+closed: 2026-01-07
 start_date: 2026-01-07
 due: 2026-01-07
 priority: high
