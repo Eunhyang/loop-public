@@ -584,6 +584,25 @@ git commit -m "Migrate: Project_정의.md → project.md"
 
 ---
 
+## 11. Implementation Architecture (강제 집행)
+
+**SSOT 규칙은 `api/services/ssot_service.py`를 통해 코드 레벨에서 강제된다.**
+
+**원칙**:
+1. **Logic SSOT**: 모든 ID 생성, 파일명 결정, 규칙 검증은 `SSOTService` 클래스를 통해서만 수행한다.
+2. **No Bypass**: `vault_utils.py`, `entity_generator.py` 등 다른 모듈에서 자체 로직을 구현하는 것을 금지한다.
+3. **Configuration**: 규칙의 상수(패턴, 경로 등)는 `api/constants.py` (read from `schema_constants.yaml`)를 참조한다.
+
+**책임**:
+- `SSOTService.generate_task_id(project_id)`: 프로젝트 스코프 ID 생성 강제
+- `SSOTService.get_task_filename(task_id)`: `tsk-{id}.md` 파일명 강제
+- `SSOTService.validate_id(entity_id)`: 정규식 패턴 검증
+
+**변경 규칙**:
+- `00_Meta/SSOT_CONTRACT.md` 또는 `schema_constants.yaml`의 규칙이 변경되면, 반드시 `api/services/ssot_service.py`도 이에 맞춰 업데이트해야 한다.
+
+---
+
 **Version**: 1.2
 **Last Updated**: 2026-01-07
 **Status**: Active (모든 코드/API/UI가 준수해야 함)

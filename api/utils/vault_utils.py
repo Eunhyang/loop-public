@@ -54,50 +54,27 @@ def load_members(vault_path: Path) -> Dict[str, Dict]:
         return members
 
 
-def get_next_task_id(vault_path: Path) -> str:
-    """다음 Task ID 생성"""
-    projects_dir = vault_path / "50_Projects/2025"
-    max_id = 0
+from api.services.ssot_service import SSOTService
 
-    # 모든 Task 파일 스캔
-    for task_file in projects_dir.rglob("Tasks/*.md"):
-        frontmatter = extract_frontmatter(task_file)
-        if not frontmatter or 'entity_id' not in frontmatter:
-            continue
-
-        entity_id = frontmatter['entity_id']
-        # tsk-001-01 형식에서 숫자 추출
-        match = re.match(r'tsk-(\d+)-(\d+)', entity_id)
-        if match:
-            main_num = int(match.group(1))
-            sub_num = int(match.group(2))
-            combined = main_num * 100 + sub_num
-            max_id = max(max_id, combined)
-
-    # 다음 ID 계산
-    next_id = max_id + 1
-    main = next_id // 100
-    sub = next_id % 100
-
-    if main == 0:
-        main = 1
-
-    return f"tsk-{main:03d}-{sub:02d}"
+def get_next_task_id(vault_path: Path, project_id: str) -> str:
+    """
+    다음 Task ID 생성
+    
+    Delegates to SSOTService.
+    Must provide project_id (SSOT Rule).
+    """
+    service = SSOTService(vault_path)
+    return service.generate_task_id(project_id)
 
 
 def get_next_project_id(vault_path: Path) -> str:
-    """다음 Project ID 생성"""
-    projects_dir = vault_path / "50_Projects/2025"
-    max_num = 0
-
-    for project_dir in projects_dir.glob("P*"):
-        # P001_Name 형식에서 숫자 추출
-        match = re.match(r'P(\d+)', project_dir.name)
-        if match:
-            num = int(match.group(1))
-            max_num = max(max_num, num)
-
-    return f"prj-{max_num + 1:03d}"
+    """
+    다음 Project ID 생성
+    
+    Delegates to SSOTService.
+    """
+    service = SSOTService(vault_path)
+    return service.generate_project_id()
 
 
 def find_project_dir(vault_path: Path, project_id: str) -> Optional[Path]:
