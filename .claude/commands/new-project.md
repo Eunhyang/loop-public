@@ -35,7 +35,7 @@ This command runs `loop-entity-creator` skill in **Project creation mode**.
 3. **Auto Processing**
    - Auto-generate next Project ID (prj-NNN)
    - Create project folder structure
-   - Create Project_정의.md file (includes expected_impact)
+   - Create project.md file (includes expected_impact)
    - Run Schema validation
    - Update Graph index
 
