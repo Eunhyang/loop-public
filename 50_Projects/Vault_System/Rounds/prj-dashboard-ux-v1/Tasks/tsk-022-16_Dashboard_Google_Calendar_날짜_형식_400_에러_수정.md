@@ -4,9 +4,10 @@ entity_id: tsk-022-16
 entity_name: Dashboard - Google Calendar 날짜 형식 400 에러 수정
 created: 2026-01-07
 updated: 2026-01-07
+closed: 2026-01-07
 project_id: prj-dashboard-ux-v1
 assignee: 김은향
-status: doing
+status: done
 start_date: 2026-01-07
 due: 2026-01-07
 priority: high
@@ -26,7 +27,7 @@ tags:
 
 # Dashboard - Google Calendar 날짜 형식 400 에러 수정
 
-> Task ID: `tsk-022-16` | Project: [[prj-dashboard-ux-v1]] | Status: doing
+> Task ID: `tsk-022-16` | Project: [[prj-dashboard-ux-v1]] | Status: done
 
 ## Notes
 
@@ -153,6 +154,28 @@ async loadGoogleEvents(start, end) {
 
 - [[tsk-019-27]] - Dashboard - Google Calendar events API 400 에러 수정 (calendar_ids 콜론 이슈 - 다른 문제)
 - [[tsk-022-11]] - Dashboard - 미팅 태스크 클릭/삭제 동기화 버그 수정
+
+---
+
+### 작업 로그
+
+#### 2026-01-07
+
+**개요**: Task 완료 - Google Calendar API 날짜 형식 400 에러 수정
+
+**수정 내용**:
+1. `api/services/google_calendar.py` - ISO 형식 날짜도 허용하도록 파싱 로직 유연화
+   - `dateutil.parser.parse()` 사용하여 YYYY-MM-DD와 ISO 8601 형식 모두 지원
+2. `_dashboard/index.html` - 캐시 버스팅 파라미터 추가
+   - calendar.js 파일에 버전 파라미터 추가하여 캐시 무효화
+3. exec vault Task 파일들의 잘못된 날짜 형식(예: 20260-01-07) 수정
+
+**결과**:
+- 대시보드 캘린더뷰에서 월간/주간 네비게이션 시 Google Calendar 이벤트 정상 로드
+- 400 Bad Request 에러 해결
+- Maximum call stack size exceeded 에러 해결 (무한 재시도 중단)
+
+**최종 상태**: done
 
 ---
 
