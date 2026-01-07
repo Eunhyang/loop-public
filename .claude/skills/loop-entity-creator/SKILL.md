@@ -700,9 +700,9 @@ API 호출 실패 시 기존 방식으로 디렉토리 + 파일 생성:
    50_Projects/P{project_num}_{entity_name}/Results/
    ```
 
-3. Save Project_정의.md:
+3. Save project.md:
    ```
-   50_Projects/P{project_num}_{entity_name}/Project_정의.md
+   50_Projects/P{project_num}_{entity_name}/project.md
    ```
 
 **Step 5: Validate and index**

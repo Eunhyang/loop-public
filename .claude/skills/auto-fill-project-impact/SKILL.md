@@ -176,7 +176,7 @@ set +o pipefail
 
 **1.2 Project 문서 읽기**
 
-- `50_Projects/P{num}_{name}/Project_정의.md` 읽기
+- `50_Projects/P{num}_{name}/project.md` 읽기
 - Frontmatter에서 기존 Impact 필드 확인
 - 본문에서 프로젝트 목표/범위 파악
 
@@ -458,7 +458,7 @@ contributes:
 ## 저장 완료
 
 **Project**: prj-010 (와디즈 펀딩)
-**파일**: 50_Projects/P010_Wadiz_Funding/Project_정의.md
+**파일**: 50_Projects/P010_Wadiz_Funding/project.md
 
 ### 최종 Impact 값
 | 필드 | 값 |
@@ -627,7 +627,7 @@ Claude: 저장을 진행합니다.
         ## 저장 완료
 
         **Project**: prj-010 (와디즈 펀딩)
-        **파일**: 50_Projects/P010_.../Project_정의.md
+        **파일**: 50_Projects/P010_.../project.md
 
         ### 최종 Impact 값
         | 필드 | 값 |
