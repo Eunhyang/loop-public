@@ -1,0 +1,28 @@
+---
+entity_type: Task
+entity_id: tsk-022-18
+entity_name: Vault - 프로젝트 정의 파일명 통일
+created: '2026-01-07'
+updated: '2026-01-07'
+status: doing
+project_id: prj-019
+parent_id: prj-019
+assignee: 김은향
+priority: high
+start_date: '2026-01-07'
+due: '2026-01-07'
+aliases:
+- tsk-022-18
+tags: []
+type: dev
+---
+
+# Vault - 프로젝트 정의 파일명 통일
+
+## 설명
+
+## 체크리스트
+
+- [ ]
+
+## 참고
