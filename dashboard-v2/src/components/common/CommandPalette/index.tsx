@@ -100,7 +100,7 @@ export function CommandPalette() {
   // Render content
   const content = (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           closeCommandPalette();
@@ -110,9 +110,9 @@ export function CommandPalette() {
       aria-modal="true"
       aria-labelledby="command-palette-title"
     >
-      <div className="mt-20 w-full max-w-2xl rounded-lg border border-border bg-surface shadow-2xl">
+      <div className="mt-20 w-full max-w-2xl rounded-lg border border-gray-200 bg-white shadow-2xl">
         {/* Search Input */}
-        <div className="border-b border-border p-4">
+        <div className="border-b border-gray-200 p-4">
           <label id="command-palette-title" className="sr-only">Command Palette</label>
           <input
             ref={inputRef}
@@ -121,7 +121,7 @@ export function CommandPalette() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search tasks, projects, or type > for commands..."
-            className="w-full bg-transparent text-lg text-text-main placeholder-text-subtle outline-none"
+            className="w-full bg-transparent text-lg text-gray-900 placeholder-gray-400 outline-none"
             role="combobox"
             aria-label="Search"
             aria-expanded={results.length > 0}
@@ -141,7 +141,7 @@ export function CommandPalette() {
           aria-label="Search results"
         >
           {results.length === 0 ? (
-            <div className="p-8 text-center text-text-subtle">
+            <div className="p-8 text-center text-gray-500">
               {query.trim().length > 0 ? (
                 <>
                   <div className="mb-2 text-4xl">🔍</div>
@@ -151,7 +151,7 @@ export function CommandPalette() {
                 <>
                   <div className="mb-2 text-4xl">⌨️</div>
                   <div className="mb-1">Type to search tasks, projects, and more</div>
-                  <div className="text-sm">or type <span className="rounded bg-surface-hover px-1 font-mono">&gt;</span> for commands</div>
+                  <div className="text-sm">or type <span className="rounded bg-gray-100 px-1 font-mono">&gt;</span> for commands</div>
                 </>
               )}
             </div>
@@ -163,7 +163,7 @@ export function CommandPalette() {
 
                 return (
                   <div key={type} className="mb-2">
-                    <div className="mb-1 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-text-subtle">
+                    <div className="mb-1 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
                       {typeLabels[type] || type}
                     </div>
                     {items.map(({ item, index }) => (
@@ -175,8 +175,8 @@ export function CommandPalette() {
                         data-option-index={index}
                         className={`flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 transition-colors ${
                           index === selectedIndex
-                            ? 'bg-accent text-accent-foreground'
-                            : 'hover:bg-surface-hover'
+                            ? 'bg-indigo-500 text-white'
+                            : 'text-gray-900 hover:bg-gray-100'
                         }`}
                         onClick={() => selectItem(index)}
                       >
@@ -184,17 +184,19 @@ export function CommandPalette() {
                         <div className="flex-1 min-w-0">
                           <div className="truncate font-medium">{item.title}</div>
                           {item.type === 'command' ? (
-                            <div className="truncate text-xs text-text-subtle">
+                            <div className={`truncate text-xs ${index === selectedIndex ? 'text-indigo-100' : 'text-gray-500'}`}>
                               {item.description}
                             </div>
                           ) : (
-                            <div className="truncate text-xs text-text-subtle">
+                            <div className={`truncate text-xs ${index === selectedIndex ? 'text-indigo-100' : 'text-gray-500'}`}>
                               {item.meta}
                             </div>
                           )}
                         </div>
                         {item.type !== 'command' && item.badge && (
-                          <span className="shrink-0 rounded-full bg-surface-hover px-2 py-0.5 text-xs font-medium">
+                          <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+                            index === selectedIndex ? 'bg-indigo-400 text-white' : 'bg-gray-100 text-gray-600'
+                          }`}>
                             {item.badge}
                           </span>
                         )}
@@ -208,17 +210,17 @@ export function CommandPalette() {
         </div>
 
         {/* Footer with keyboard hints */}
-        <div className="flex items-center gap-4 border-t border-border bg-surface-hover px-4 py-2 text-xs text-text-subtle">
+        <div className="flex items-center gap-4 border-t border-gray-200 bg-gray-50 px-4 py-2 text-xs text-gray-500">
           <div className="flex items-center gap-1">
-            <kbd className="rounded border border-border bg-surface px-1.5 py-0.5 font-mono">↑↓</kbd>
+            <kbd className="rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono shadow-sm">↑↓</kbd>
             <span>Navigate</span>
           </div>
           <div className="flex items-center gap-1">
-            <kbd className="rounded border border-border bg-surface px-1.5 py-0.5 font-mono">Enter</kbd>
+            <kbd className="rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono shadow-sm">Enter</kbd>
             <span>Select</span>
           </div>
           <div className="flex items-center gap-1">
-            <kbd className="rounded border border-border bg-surface px-1.5 py-0.5 font-mono">Esc</kbd>
+            <kbd className="rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono shadow-sm">Esc</kbd>
             <span>Close</span>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import type { Member, Project, Program, Task } from '@/types';
 import type { UseUrlFiltersReturn } from '@/types/filters';
-import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { getWeekOptions, getMonthOptions } from '@/utils/dateUtils';
 
 interface TaskFilterBarProps {
@@ -31,9 +30,7 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
     setDateFilter,
     setSelectedWeeks,
     setSelectedMonths,
-    clearUrlFilters
   } = filters;
-  const { togglePanel, isPanelOpen } = useFilterContext();
 
   // Quick Date mode state
   const [dateMode, setDateMode] = useState<'week' | 'month'>(() => {
@@ -308,25 +305,6 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
               );
             })}
           </div>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0">
-          <button
-            onClick={togglePanel}
-            className={`btn-filter flex items-center gap-2 ${isPanelOpen ? 'btn-filter-active' : ''}`}
-            title="Toggle Filters"
-          >
-            <span className="text-lg">⚙</span>
-            Filters
-          </button>
-
-          <button
-            onClick={clearUrlFilters}
-            disabled={assignees.length === 0 && !programId && projectIds.length === 0 && !dateFilter && selectedWeeks.length === 0 && selectedMonths.length === 0}
-            className="text-xs px-3 py-1.5 text-sm text-gray-500 hover:text-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors"
-          >
-            Clear All
-          </button>
         </div>
       </div>
     </div>

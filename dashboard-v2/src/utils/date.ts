@@ -74,3 +74,76 @@ export const isWithinRange = (
 export const formatDate = (date: Date): string => {
   return date.toISOString().split('T')[0];
 };
+
+/**
+ * Get week range by ISO week key (e.g., "2026-W01")
+ * Returns null if invalid key format
+ */
+export const getWeekRangeByKey = (weekKey: string): DateRange | null => {
+  // Parse "YYYY-Www" format
+  const match = weekKey.match(/^(\d{4})-W(\d{1,2})$/);
+  if (!match) return null;
+
+  const year = parseInt(match[1], 10);
+  const week = parseInt(match[2], 10);
+
+  // ISO week 1 is the week containing the first Thursday of the year
+  // Calculate the start of week 1
+  const jan4 = new Date(year, 0, 4);
+  const dayOfWeek = jan4.getDay() || 7; // Convert Sunday=0 to 7
+  const startOfWeek1 = new Date(jan4);
+  startOfWeek1.setDate(jan4.getDate() - dayOfWeek + 1); // Monday of week 1
+
+  // Calculate start of the requested week
+  const startOfWeek = new Date(startOfWeek1);
+  startOfWeek.setDate(startOfWeek1.getDate() + (week - 1) * 7);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  // End of week (Sunday)
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+
+  return { start: startOfWeek, end: endOfWeek };
+};
+
+/**
+ * Get month range by key (e.g., "2026-01")
+ * Returns null if invalid key format
+ */
+export const getMonthRangeByKey = (monthKey: string): DateRange | null => {
+  // Parse "YYYY-MM" format
+  const match = monthKey.match(/^(\d{4})-(\d{2})$/);
+  if (!match) return null;
+
+  const year = parseInt(match[1], 10);
+  const month = parseInt(match[2], 10) - 1; // JS months are 0-indexed
+
+  const startOfMonth = new Date(year, month, 1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const endOfMonth = new Date(year, month + 1, 0);
+  endOfMonth.setHours(23, 59, 59, 999);
+
+  return { start: startOfMonth, end: endOfMonth };
+};
+
+/**
+ * Check if a date string is within a start/end range
+ * Alternative signature for convenience
+ */
+export const isDateInRange = (
+  dateStr: string | null | undefined,
+  start: Date,
+  end: Date
+): boolean => {
+  if (!dateStr) return false;
+
+  const [year, month, day] = dateStr.split('-').map(Number);
+  if (!year || !month || !day) return false;
+
+  const date = new Date(year, month - 1, day);
+  if (isNaN(date.getTime())) return false;
+
+  return date >= start && date <= end;
+};

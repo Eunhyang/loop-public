@@ -23,6 +23,7 @@ export interface Program {
   program_type: string;
   owner: string;
   status: string;
+  description?: string;
 }
 
 export interface Hypothesis {

@@ -1,11 +1,10 @@
 /**
  * Visibility Toggles Component
  *
- * Provides 4 toggles for controlling visibility of:
+ * Provides 3 toggles for controlling visibility of:
  * - Inactive members
  * - Non-core members (default: off = core only)
  * - Inactive projects
- * - Inactive tasks
  */
 
 import { useCombinedFilters } from '@/hooks/useCombinedFilters';
@@ -71,12 +70,6 @@ export const VisibilityToggles = () => {
         label="Show Inactive Projects"
         checked={filters.showInactiveProjects}
         onChange={(checked) => filters.setFilter('showInactiveProjects', checked)}
-      />
-
-      <Toggle
-        label="Show Inactive Tasks"
-        checked={filters.showInactiveTasks}
-        onChange={(checked) => filters.setFilter('showInactiveTasks', checked)}
       />
     </div>
   );

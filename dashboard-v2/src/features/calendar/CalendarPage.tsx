@@ -5,9 +5,11 @@ import { CustomToolbar } from './components/CustomToolbar';
 import { ContextMenu } from './components/ContextMenu';
 import { EventPopover } from './components/EventPopover';
 import { TaskFilterBar } from '@/features/filters/components/TaskFilterBar';
+import { FilterPanel } from '@/features/filters/components/FilterPanel';
+import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { useCalendarEvents } from './queries/useCalendarEvents';
 import { useCalendarUi } from './hooks/useCalendarUi';
-import { useUrlFilters } from '@/hooks/useUrlFilters';
+import { useCombinedFilters } from '@/hooks/useCombinedFilters';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import type { CalendarRange, GoogleCalendarEvent } from './types/calendar';
@@ -23,7 +25,8 @@ export default function CalendarPage() {
 
     const { enabledCalendarIds, expandMode } = useCalendarUi();
     const { openEntityDrawer } = useUi();
-    const filters = useUrlFilters();
+    const filters = useCombinedFilters();
+    const panelFilters = useFilterContext();
     const { data: dashboardData } = useDashboardInit();
 
     const { events, isGoogleFetching } = useCalendarEvents({
@@ -160,6 +163,12 @@ export default function CalendarPage() {
                     onClose={() => setPopover(null)}
                 />
             )}
+
+            {/* Filter Panel */}
+            <FilterPanel
+                isOpen={panelFilters.isPanelOpen}
+                onClose={panelFilters.togglePanel}
+            />
         </div>
     );
 }

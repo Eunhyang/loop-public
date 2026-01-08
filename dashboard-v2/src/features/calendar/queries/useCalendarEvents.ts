@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useDashboardInit } from '../../../queries/useDashboardInit';
 import { useGoogleEvents } from './useGoogleEvents';
 import { transformTaskToEvent, getProjectColor } from '../utils/eventTransformers';
-import { getWeekRange, getMonthRange, isWithinRange } from '@/utils/date';
+import { getWeekRangeByKey, getMonthRangeByKey, isDateInRange } from '@/utils/date';
 import type { BaseCalendarEvent, CalendarRange } from '../types/calendar';
 import type { Task } from '@/types';
 
@@ -11,11 +11,17 @@ interface UseCalendarEventsArgs {
     enabledCalendarKeys: string[];
     expandMode: boolean;
     filters?: {
+        // URL filters
         assignees: string[];
-        projectIds: string[];
+        projectId: string | null;      // Legacy single project filter
+        projectIds: string[];          // New multi-select projects
         programId: string | null;
         selectedWeeks: string[];
         selectedMonths: string[];
+        // Local filters (from FilterPanel)
+        taskStatus?: string[];         // Filter by task status
+        taskTypes?: string[];          // Filter by task type
+        taskPriority?: string[];       // Filter by priority
     };
 }
 
@@ -42,9 +48,12 @@ export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCa
                 filteredTasks = filteredTasks.filter(t => filters.assignees.includes(t.assignee));
             }
 
-            // Project filter: projectIds takes precedence over programId
+            // Project filter: projectIds > projectId (legacy) > programId
             if (filters.projectIds.length > 0) {
                 filteredTasks = filteredTasks.filter(t => filters.projectIds.includes(t.project_id));
+            } else if (filters.projectId) {
+                // Legacy single project filter
+                filteredTasks = filteredTasks.filter(t => t.project_id === filters.projectId);
             } else if (filters.programId) {
                 // Handle special "none" value for unassigned projects
                 if (filters.programId === 'none') {
@@ -61,6 +70,21 @@ export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCa
                 }
             }
 
+            // Task status filter
+            if (filters.taskStatus && filters.taskStatus.length > 0) {
+                filteredTasks = filteredTasks.filter(t => filters.taskStatus!.includes(t.status));
+            }
+
+            // Task type filter
+            if (filters.taskTypes && filters.taskTypes.length > 0) {
+                filteredTasks = filteredTasks.filter(t => t.type && filters.taskTypes!.includes(t.type));
+            }
+
+            // Task priority filter
+            if (filters.taskPriority && filters.taskPriority.length > 0) {
+                filteredTasks = filteredTasks.filter(t => filters.taskPriority!.includes(t.priority));
+            }
+
             // Date filters
             if (filters.selectedWeeks.length > 0 || filters.selectedMonths.length > 0) {
                 filteredTasks = filteredTasks.filter(t => {
@@ -68,16 +92,16 @@ export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCa
 
                     // Check week filters
                     for (const weekKey of filters.selectedWeeks) {
-                        const weekRange = getWeekRange(weekKey);
-                        if (weekRange && isWithinRange(t.due, weekRange.start, weekRange.end)) {
+                        const weekRange = getWeekRangeByKey(weekKey);
+                        if (weekRange && isDateInRange(t.due, weekRange.start, weekRange.end)) {
                             return true;
                         }
                     }
 
                     // Check month filters
                     for (const monthKey of filters.selectedMonths) {
-                        const monthRange = getMonthRange(monthKey);
-                        if (monthRange && isWithinRange(t.due, monthRange.start, monthRange.end)) {
+                        const monthRange = getMonthRangeByKey(monthKey);
+                        if (monthRange && isDateInRange(t.due, monthRange.start, monthRange.end)) {
                             return true;
                         }
                     }

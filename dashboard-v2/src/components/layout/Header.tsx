@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useUi } from '@/contexts/UiContext';
 import { authStorage } from '@/features/auth/storage';
 import { httpClient } from '@/services/http';
+import { useFilterContext } from '@/features/filters/context/FilterContext';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -17,6 +18,7 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { openEntityDrawer } = useUi();
+  const { togglePanel, isPanelOpen } = useFilterContext();
   const [reloadState, setReloadState] = useState<ReloadState>('idle');
 
   // Use isAdmin prop in Program button visibility
@@ -97,6 +99,7 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
           <NavLink to="/kanban" className={navLinkClass}>Kanban</NavLink>
           <NavLink to="/calendar" className={navLinkClass}>Calendar</NavLink>
           <NavLink to="/graph" className={navLinkClass}>Graph</NavLink>
+          <NavLink to="/pending" className={navLinkClass}>Review</NavLink>
         </nav>
       </div>
 
@@ -139,11 +142,15 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
         </button>
 
         <button
-          onClick={() => navigate('/pending')}
-          className="p-2 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50 transition-colors relative"
-          title="Pending Reviews"
+          onClick={togglePanel}
+          className={`px-3 py-1.5 rounded transition-all flex items-center gap-2 border ${isPanelOpen
+              ? 'bg-zinc-900 border-zinc-900 text-white shadow-sm'
+              : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50 border-gray-200'
+            }`}
+          title="Toggle Filters"
         >
-          <span className="text-lg leading-none">📋</span>
+          <span className="text-lg leading-none">⚙</span>
+          <span className="text-xs font-semibold uppercase tracking-wider">Filters</span>
         </button>
 
         <div className="h-6 w-px bg-gray-300 mx-1"></div>
