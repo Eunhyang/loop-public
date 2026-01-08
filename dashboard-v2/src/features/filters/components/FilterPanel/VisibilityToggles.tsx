@@ -26,17 +26,15 @@ const Toggle = ({ label, checked, onChange }: ToggleProps) => {
         className="hidden"
       />
       <div
-        className={`w-8 h-4 rounded-full relative transition-colors duration-200 ${
-          checked ? 'bg-primary' : 'bg-zinc-700'
-        }`}
+        className={`w-8 h-4 rounded-full relative transition-colors duration-200 ${checked ? 'bg-primary' : 'bg-zinc-200'
+          }`}
       >
         <div
-          className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200 ${
-            checked ? 'translate-x-4' : 'translate-x-0'
-          }`}
+          className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200 ${checked ? 'translate-x-4' : 'translate-x-0'
+            }`}
         />
       </div>
-      <span className="text-sm text-gray-400 group-hover:text-gray-200 transition-colors">
+      <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">
         {label}
       </span>
     </label>
