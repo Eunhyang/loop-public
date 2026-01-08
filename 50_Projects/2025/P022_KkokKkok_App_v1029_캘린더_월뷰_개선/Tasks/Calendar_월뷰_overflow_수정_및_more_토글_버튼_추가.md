@@ -1,32 +1,27 @@
 ---
 entity_type: Task
 entity_id: tsk-022-01
-entity_name: "Calendar - 월뷰 overflow 수정 및 +more 토글 버튼 추가"
+entity_name: Calendar - 월뷰 overflow 수정 및 +more 토글 버튼 추가
 created: 2026-01-06
-updated: 2026-01-06
-status: doing
-
-# === 계층 ===
+updated: '2026-01-08'
+status: done
 parent_id: prj-022
 project_id: prj-022
 aliases:
-  - tsk-022-01
-
-# === 실행 ===
+- tsk-022-01
 assignee: 김은향
 start_date: 2026-01-06
 due: 2026-01-06
 priority: high
-
-# === Dev Task ===
 type: dev
 target_project: sosi
-
-# === 분류 ===
-tags: ["calendar", "overflow", "ux", "toggle-button"]
+tags:
+- calendar
+- overflow
+- ux
+- toggle-button
 priority_flag: high
 ---
-
 # Calendar - 월뷰 overflow 수정 및 +more 토글 버튼 추가
 
 > Task ID: `tsk-022-01` | Project: `prj-022` | Status: doing
