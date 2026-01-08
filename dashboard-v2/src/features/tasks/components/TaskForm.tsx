@@ -7,8 +7,6 @@ import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
 import { statusColors, priorityColors, memberColor, projectColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
-import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
-import { useReviewMode } from '@/hooks/useReviewMode';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
