@@ -90,8 +90,11 @@ export default function CalendarPage() {
                 } as GoogleCalendarEvent,
                 anchorEl: info.el
             });
-        } else if (type === 'task' && info.event.id) {
-            openEditTask(info.event.id);
+        } else if (type === 'task' && info.event.extendedProps.taskId) {
+            // Clear any open popover/context menu before opening drawer
+            setPopover(null);
+            setContextMenu(null);
+            openEditTask(info.event.extendedProps.taskId);
         }
     };
 
