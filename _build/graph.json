@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-07T18:43:36.314152",
-  "total_entities": 323,
+  "generated": "2026-01-08T19:42:07.322226",
+  "total_entities": 339,
   "nodes": [
     {
       "id": "hyp-2-10",
@@ -489,7 +489,7 @@
       "id": "tsk-022-01",
       "type": "Task",
       "name": "Calendar - 월뷰 overflow 수정 및 +more 토글 버튼 추가",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/2025/P022_KkokKkok_App_v1029_캘린더_월뷰_개선/Tasks/Calendar_월뷰_overflow_수정_및_more_토글_버튼_추가.md",
       "priority_flag": "high",
       "assignee": "김은향"
@@ -509,10 +509,11 @@
     {
       "id": "tsk-019-08",
       "type": "Task",
-      "name": "업무 분할 - 외부 비서 루틴 업무 전달(지우님)",
-      "status": "todo",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/업무_분할_외부_비서_루틴_업무_전달지우님.md",
-      "assignee": "한명학"
+      "name": "Vault - 프로젝트 정의 파일명 통일",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-08.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-007-01",
@@ -593,6 +594,39 @@
       "name": "Event 엔티티 검증",
       "status": "todo",
       "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-27",
+      "type": "Task",
+      "name": "Dashboard v2 - Kanban 보드 구현",
+      "status": "done",
+      "path": "50_Projects/2025/P023_Dashboard_ReactTS_마이그레이션/Tasks/Dashboard_v2_Kanban_보드_구현.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-26",
+      "type": "Task",
+      "name": "Dashboard v2 - Pending Review 페이지 구현",
+      "status": "done",
+      "path": "50_Projects/2025/P023_Dashboard_ReactTS_마이그레이션/Tasks/Dashboard_v2_Pending_Review_페이지_구현.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-28",
+      "type": "Task",
+      "name": "Dashboard v2 - Pending Review 페이지 구현",
+      "status": "todo",
+      "path": "50_Projects/2025/P023_Dashboard_ReactTS_마이그레이션/Tasks/Dashboard_v2_Pending_Review_페이지_구현_1.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-25",
+      "type": "Task",
+      "name": "Dashboard v2 - Pending Review 페이지 구현",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-022-25.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -692,6 +726,14 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-022-19",
+      "type": "Task",
+      "name": "꼭꼭Fit 랜딩페이지 리뉴얼 - 홍희님 사전 미팅",
+      "status": "todo",
+      "path": "50_Projects/2025/P014_코칭 운영 체계/Tasks/꼭꼭Fit_랜딩페이지_리뉴얼_홍희님_사전_미팅.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-019-19",
       "type": "Task",
       "name": "코칭 서비스 고도화 - 랜딩페이지 리뉴얼을 진행을 위한 제작 연락(최홍희)",
@@ -702,10 +744,10 @@
     {
       "id": "tsk-019-04",
       "type": "Task",
-      "name": "코칭서비스 졸업자 사후 설문 데이터 - 지원 내용 확인 및 답장",
-      "status": "done",
-      "path": "50_Projects/2025/P014_코칭 운영 체계/Tasks/코칭서비스_졸업자_사후_설문_데이터_지원_내용_확인_및_답장.md",
-      "assignee": "한명학"
+      "name": "SSOT - Task 파일명 규칙 강제 구현",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-04.md",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-017-06",
@@ -906,10 +948,11 @@
     {
       "id": "tsk-019-06",
       "type": "Task",
-      "name": "루프 출범 - 법인 진행 상황 공유 및 미팅 기획(고문_신동진)",
+      "name": "Dual-Vault - exec ID 마이그레이션",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/루프_출범_법인_진행_상황_공유_및_미팅_기획고문_신동진.md",
-      "assignee": "한명학"
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-06.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
     },
     {
       "id": "prj-002",
@@ -936,9 +979,9 @@
     {
       "id": "tsk-019-02",
       "type": "Task",
-      "name": "Dashboard - Google Meet 생성 UX 개선 (수동 생성)",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-02_Dashboard_Google_Meet_생성_UX_개선_(수동_생성).md",
+      "name": "API - Task ID 생성 project_id 기반 버그 수정",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-02.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -971,10 +1014,10 @@
     {
       "id": "tsk-019-03",
       "type": "Task",
-      "name": "콘텐츠 제작 - 가제본 확인 후 수정사항 디자이너 전달(구조, 명언, 톤 등)",
-      "status": "done",
-      "path": "50_Projects/2025/P002_[와디즈] 12주 코칭 습관팩 런칭/Tasks/콘텐츠_제작_가제본_확인_후_수정사항_디자이너_전달구조_명언_톤_등.md",
-      "assignee": "한명학"
+      "name": "Vault - 프로젝트 정의 파일명 통일",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-03.md",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-002-01",
@@ -1151,9 +1194,10 @@
     {
       "id": "tsk-019-12",
       "type": "Task",
-      "name": "스타트업베이 - 발표평가",
+      "name": "Dual-Vault - Program-Round 조인 API",
       "status": "done",
-      "path": "50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/스타트업베이_발표평가.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-12.md",
+      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -1193,10 +1237,11 @@
     {
       "id": "tsk-019-05",
       "type": "Task",
-      "name": "콘텐츠 제작 - 유튜브 숏폼 제작(W33-1)",
+      "name": "Dual-Vault - Program-Round 대시보드 통합",
       "status": "done",
-      "path": "50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작W33_1.md",
-      "assignee": "한명학"
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-05.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-014-04",
@@ -1525,10 +1570,10 @@
     {
       "id": "tsk-022-02",
       "type": "Task",
-      "name": "Dashboard - Program 생성 API 및 UI",
+      "name": "Dashboard - 패턴 기반 폼 자동 기본값 채우기",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-022-02_Dashboard_Program_생성_API_및_UI.md",
-      "priority_flag": "medium",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md",
+      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -1703,9 +1748,10 @@
     {
       "id": "tsk-022-16",
       "type": "Task",
-      "name": "Dashboard - Google Calendar 날짜 형식 400 에러 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-16_Dashboard_Google_Calendar_날짜_형식_400_에러_수정.md",
+      "name": "ContentOS - Firebase DB 통합",
+      "status": "doing",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase DB 통합.md",
+      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -1811,9 +1857,9 @@
     {
       "id": "tsk-019-07",
       "type": "Task",
-      "name": "MCP OAuth - 키 동기화 문제 해결 (OAUTH_KEY_READONLY)",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/MCP OAuth - 키 동기화 문제 해결 (OAUTH_KEY_READONLY).md",
+      "name": "SSOT - 규칙 구현 상태 검증",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-07.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1848,7 +1894,7 @@
       "id": "tsk-vault-gpt-02",
       "type": "Task",
       "name": "MCP API TaskUpdate 모델 확장",
-      "status": "hold",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md",
       "priority_flag": "high",
       "assignee": "김은향"
@@ -1921,6 +1967,116 @@
       "name": "LOOP API - YouTube Weekly Round 자동 생성 엔드포인트",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-vault-gpt-08_YouTube_Weekly_Round_자동생성_API.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-023",
+      "type": "Project",
+      "name": "Dashboard - React+TS 마이그레이션",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/project.md",
+      "conditions_3y": [
+        "cond-e"
+      ],
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-023-08",
+      "type": "Task",
+      "name": "Dashboard v2 - TaskForm Create 모드 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-08.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-20",
+      "type": "Task",
+      "name": "Dashboard v2 - 프로젝트 초기화",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/Dashboard_v2_프로젝트_초기화.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-23",
+      "type": "Task",
+      "name": "ContentOS - Firebase DB 통합",
+      "status": "doing",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS_Firebase_DB_통합_2.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-09",
+      "type": "Task",
+      "name": "Dashboard - Kanban Filter UI 마이그레이션 (Program+Project 버튼)",
+      "status": "doing",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-09.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-02",
+      "type": "Task",
+      "name": "Calendar - TaskDrawer 연동",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-02.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-06",
+      "type": "Task",
+      "name": "Dashboard - Entity Drawer 통합 시스템 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-06.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-07",
+      "type": "Task",
+      "name": "Dashboard v2 - TaskDrawer를 TaskForm으로 통합",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-07.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-03",
+      "type": "Task",
+      "name": "Dashboard - 로그인 기능 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-03.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-04",
+      "type": "Task",
+      "name": "DateFilters - 레거시 Quick Date Multi-Select 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-04.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-01",
+      "type": "Task",
+      "name": "Dashboard - 필터 시스템 통합 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-01.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-05",
+      "type": "Task",
+      "name": "Dashboard v2 - TaskDrawer 기능 완성",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-05.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2003,15 +2159,6 @@
       "owner": "김은향"
     },
     {
-      "id": "tsk-022-18",
-      "type": "Task",
-      "name": "Vault - 프로젝트 정의 파일명 통일",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-022-18_Vault_프로젝트_정의_파일명_통일.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
       "id": "prj-impact-schema-v2",
       "type": "Project",
       "name": "Schema - Realized Impact 확장",
@@ -2088,9 +2235,9 @@
     {
       "id": "tsk-019-01",
       "type": "Task",
-      "name": "Dual-Vault - exec pre-commit hook",
+      "name": "SSOT - Task 파일명 규칙 강제 구현",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault_정비/Tasks/tsk-019-01_exec_pre-commit_hook.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-01.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2381,48 +2528,30 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-017-12",
-      "type": "Task",
-      "name": "Dual-Vault - Program-Round 대시보드 통합",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-12_Program-Round_대시보드_통합.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-017-15",
-      "type": "Task",
-      "name": "Dual-Vault - exec ID 마이그레이션",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-15_exec_ID_마이그레이션.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-017-14",
+      "id": "tsk-019-09",
       "type": "Task",
       "name": "Dual-Vault - exec ID 체계 정비",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-14_exec_ID_체계_정비.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-09.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
     {
-      "id": "tsk-017-13",
+      "id": "tsk-019-11",
       "type": "Task",
       "name": "Dual-Vault - exec_rounds_path 자동 라우팅",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-13_exec_rounds_path_자동_라우팅.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-11.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
     {
-      "id": "tsk-017-09",
+      "id": "tsk-019-10",
       "type": "Task",
-      "name": "Dual-Vault - Program-Round 조인 API",
+      "name": "Dashboard - Program 생성 API 및 UI",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-017-09_Program-Round_조인_API.md",
-      "priority_flag": "high",
+      "path": "50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-019-10.md",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -2439,11 +2568,11 @@
       "owner": "김은향"
     },
     {
-      "id": "tsk-019-18",
+      "id": "tsk-017-01",
       "type": "Task",
       "name": "투자/사업계획서 - 사업계획서/IR 피칭덱 정리",
       "status": "done",
-      "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/투자사업계획서_사업계획서IR_피칭덱_정리.md",
+      "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-017-01.md",
       "assignee": "한명학"
     },
     {
@@ -2543,6 +2672,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-022-22",
+      "type": "Task",
+      "name": "ContentOS - Firebase DB 통합",
+      "status": "doing",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS_Firebase_DB_통합_1.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-content-os-07",
       "type": "Task",
       "name": "Content OS - Video Explorer Live Search",
@@ -2603,6 +2740,14 @@
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md",
       "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-022-21",
+      "type": "Task",
+      "name": "ContentOS - Firebase DB 통합",
+      "status": "doing",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS_Firebase_DB_통합.md",
       "assignee": "김은향"
     },
     {
@@ -2951,6 +3096,11 @@
     {
       "source": "trk-2",
       "target": "prj-vault-gpt",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-023",
       "type": "parent_of"
     },
     {
@@ -3319,8 +3469,63 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-007",
+      "source": "prj-019",
       "target": "tsk-019-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-12",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-019",
+      "target": "tsk-019-10",
       "type": "parent_of"
     },
     {
@@ -3361,6 +3566,76 @@
     {
       "source": "prj-001",
       "target": "tsk-001-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-022-27",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-022-26",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-022-28",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-022-25",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-022-20",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-05",
       "type": "parent_of"
     },
     {
@@ -3405,12 +3680,12 @@
     },
     {
       "source": "prj-014",
-      "target": "tsk-019-19",
+      "target": "tsk-022-19",
       "type": "parent_of"
     },
     {
       "source": "prj-014",
-      "target": "tsk-019-04",
+      "target": "tsk-019-19",
       "type": "parent_of"
     },
     {
@@ -3509,11 +3784,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-016",
-      "target": "tsk-019-06",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-002",
       "target": "tsk-002-09",
       "type": "parent_of"
@@ -3531,11 +3801,6 @@
     {
       "source": "prj-002",
       "target": "tsk-002-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-002",
-      "target": "tsk-019-03",
       "type": "parent_of"
     },
     {
@@ -3579,8 +3844,138 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-dashboard-ux-v1",
-      "target": "tsk-019-02",
+      "source": "prj-012",
+      "target": "tsk-012-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-012",
+      "target": "tsk-017-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-008",
+      "target": "tsk-008-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-grants",
+      "target": "prj-020",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-020",
+      "target": "tsk-019-14",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-020",
+      "target": "tsk-019-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-022-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-w33",
+      "target": "tsk-014-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-yt-w02-26-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "pgm-youtube-weekly",
+      "target": "prj-yt-wegovy",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-wegovy",
+      "target": "tsk-yt-wegovy-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-kkokkkok-v1028",
+      "target": "tsk-kkokkkok-v1028-01",
       "type": "parent_of"
     },
     {
@@ -3774,188 +4169,93 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-012",
-      "target": "tsk-012-01",
+      "source": "prj-content-os",
+      "target": "tsk-022-16",
       "type": "parent_of"
     },
     {
-      "source": "prj-012",
-      "target": "tsk-017-05",
+      "source": "prj-content-os",
+      "target": "tsk-022-23",
       "type": "parent_of"
     },
     {
-      "source": "prj-008",
-      "target": "tsk-008-05",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-13",
       "type": "parent_of"
     },
     {
-      "source": "prj-008",
-      "target": "tsk-008-03",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-12",
       "type": "parent_of"
     },
     {
-      "source": "prj-008",
-      "target": "tsk-008-02",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-04",
       "type": "parent_of"
     },
     {
-      "source": "prj-008",
-      "target": "tsk-008-04",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-02",
       "type": "parent_of"
     },
     {
-      "source": "prj-008",
-      "target": "tsk-008-01",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-10",
       "type": "parent_of"
     },
     {
-      "source": "pgm-grants",
-      "target": "prj-020",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-01",
       "type": "parent_of"
     },
     {
-      "source": "prj-020",
-      "target": "tsk-019-12",
+      "source": "prj-content-os",
+      "target": "tsk-022-22",
       "type": "parent_of"
     },
     {
-      "source": "prj-020",
-      "target": "tsk-019-14",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-07",
       "type": "parent_of"
     },
     {
-      "source": "prj-020",
-      "target": "tsk-019-13",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-05",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-w33",
-      "target": "tsk-019-05",
+      "source": "prj-content-os",
+      "target": "tsk-022-03",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-w33",
-      "target": "tsk-014-04",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-11",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-w33",
-      "target": "tsk-022-06",
+      "source": "prj-content-os",
+      "target": "tsk-022-15",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-w33",
-      "target": "tsk-014-02",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-08",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-w33",
-      "target": "tsk-014-03",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-09",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-08",
+      "source": "prj-content-os",
+      "target": "tsk-022-21",
       "type": "parent_of"
     },
     {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-06",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "pgm-youtube-weekly",
-      "target": "prj-yt-wegovy",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-wegovy",
-      "target": "tsk-yt-wegovy-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-kkokkkok-v1028",
-      "target": "tsk-kkokkkok-v1028-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-022-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-022-18",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-019-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-017-12",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-017-15",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-017-14",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-017-13",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-019",
-      "target": "tsk-017-09",
+      "source": "prj-content-os",
+      "target": "tsk-content-os-06",
       "type": "parent_of"
     },
     {
@@ -4205,77 +4505,7 @@
     },
     {
       "source": "prj-017",
-      "target": "tsk-019-18",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-13",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-12",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-04",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-07",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-05",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-022-03",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-11",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-022-15",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-08",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-09",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-06",
+      "target": "tsk-017-01",
       "type": "parent_of"
     },
     {
@@ -4429,9 +4659,9 @@
       "type": "supports"
     },
     {
-      "source": "tsk-019-02",
-      "target": null,
-      "type": "depends_on"
+      "source": "tsk-019-06",
+      "target": "tsk-017-14",
+      "type": "follows"
     },
     {
       "source": "tsk-008-05",
@@ -4497,11 +4727,6 @@
       "source": "prj-019",
       "target": "prj-mcp-dual-vault-rbac",
       "type": "extends"
-    },
-    {
-      "source": "tsk-017-15",
-      "target": "tsk-017-14",
-      "type": "follows"
     },
     {
       "source": "cond-b",
@@ -5080,6 +5305,7 @@
       "prj-007",
       "prj-014",
       "prj-dashboard-ux-v1",
+      "prj-023",
       "prj-api-exec-vault",
       "prj-n8n",
       "tsk-n8n-21",
@@ -5178,6 +5404,7 @@
       "prj-kkokkkok-v1028",
       "prj-dashboard-ux-v1",
       "prj-vault-gpt",
+      "prj-023",
       "prj-feedback-system",
       "prj-mcp-dual-vault-rbac",
       "prj-019",
@@ -5210,6 +5437,10 @@
       "tsk-001-02",
       "tsk-001-03",
       "tsk-001-01",
+      "tsk-022-27",
+      "tsk-022-26",
+      "tsk-022-28",
+      "tsk-022-25",
       "tsk-006-03",
       "tsk-006-04",
       "tsk-006-05",
@@ -5218,6 +5449,7 @@
       "tsk-019-23",
       "tsk-019-22",
       "tsk-014-01",
+      "tsk-022-19",
       "tsk-019-19",
       "tsk-019-04",
       "tsk-017-06",
@@ -5336,12 +5568,22 @@
       "tsk-vault-gpt-11",
       "tsk-vault-gpt-05",
       "tsk-vault-gpt-08",
+      "tsk-023-08",
+      "tsk-022-20",
+      "tsk-022-23",
+      "tsk-023-09",
+      "tsk-023-02",
+      "tsk-023-06",
+      "tsk-023-07",
+      "tsk-023-03",
+      "tsk-023-04",
+      "tsk-023-01",
+      "tsk-023-05",
       "tsk-feedback-01",
       "tsk-mcp-rbac-02",
       "tsk-mcp-rbac-04",
       "tsk-mcp-rbac-03",
       "tsk-mcp-rbac-01",
-      "tsk-022-18",
       "tsk-impact-schema-v2-04",
       "tsk-impact-schema-v2-01",
       "tsk-impact-schema-v2-03",
@@ -5378,18 +5620,17 @@
       "tsk-n8n-06",
       "tsk-n8n-18",
       "tsk-n8n-13",
-      "tsk-017-12",
-      "tsk-017-15",
-      "tsk-017-14",
-      "tsk-017-13",
-      "tsk-017-09",
-      "tsk-019-18",
+      "tsk-019-09",
+      "tsk-019-11",
+      "tsk-019-10",
+      "tsk-017-01",
       "tsk-content-os-13",
       "tsk-content-os-12",
       "tsk-content-os-04",
       "tsk-content-os-02",
       "tsk-content-os-10",
       "tsk-content-os-01",
+      "tsk-022-22",
       "tsk-content-os-07",
       "tsk-content-os-05",
       "tsk-022-03",
@@ -5397,6 +5638,7 @@
       "tsk-022-15",
       "tsk-content-os-08",
       "tsk-content-os-09",
+      "tsk-022-21",
       "tsk-content-os-06"
     ],
     "Program": [
@@ -5517,9 +5759,11 @@
       "tsk-005-01",
       "tsk-005-04",
       "tsk-005-02",
-      "tsk-019-08",
       "tsk-001-02",
       "tsk-001-01",
+      "tsk-022-28",
+      "tsk-022-25",
+      "tsk-022-19",
       "tsk-011-01",
       "prj-016",
       "tsk-002-09",
@@ -5557,13 +5801,16 @@
     ],
     "doing": [
       "prj-003",
-      "tsk-022-01",
+      "tsk-019-08",
       "tsk-022-14",
       "prj-001",
       "prj-006",
       "tsk-006-03",
       "prj-014",
+      "tsk-019-04",
       "prj-011",
+      "tsk-019-02",
+      "tsk-019-03",
       "tsk-012-01",
       "tsk-008-01",
       "pgm-youtube-weekly",
@@ -5575,16 +5822,20 @@
       "tsk-dashboard-ux-v1-24",
       "tsk-022-17",
       "tsk-019-25",
+      "tsk-022-16",
       "tsk-022-08",
       "tsk-dashboard-ux-v1-10",
       "tsk-dashboard-ux-v1-39",
       "prj-vault-gpt",
+      "tsk-019-07",
       "tsk-019-21",
+      "prj-023",
+      "tsk-022-23",
+      "tsk-023-09",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-04",
       "tsk-mcp-rbac-03",
       "prj-019",
-      "tsk-022-18",
       "tsk-impact-schema-v2-05",
       "prj-api-exec-vault",
       "tsk-n8n-16",
@@ -5594,6 +5845,8 @@
       "pgm-hiring",
       "pgm-coaching",
       "pgm-content-os",
+      "tsk-022-22",
+      "tsk-022-21",
       "cond-b",
       "cond-d",
       "cond-a",
@@ -5629,12 +5882,15 @@
     ],
     "done": [
       "tsk-022-05",
+      "tsk-022-01",
       "prj-007",
       "tsk-007-01",
       "tsk-007-03",
       "tsk-007-02",
       "tsk-022-10",
       "tsk-001-03",
+      "tsk-022-27",
+      "tsk-022-26",
       "tsk-006-04",
       "tsk-006-05",
       "tsk-006-01",
@@ -5643,7 +5899,6 @@
       "tsk-019-22",
       "tsk-014-01",
       "tsk-019-19",
-      "tsk-019-04",
       "tsk-017-06",
       "tsk-015-10",
       "tsk-015-11",
@@ -5662,9 +5917,7 @@
       "tsk-022-04",
       "tsk-016-01",
       "tsk-019-06",
-      "tsk-019-02",
       "tsk-022-13",
-      "tsk-019-03",
       "tsk-002-01",
       "tsk-002-12",
       "tsk-002-04",
@@ -5712,7 +5965,6 @@
       "tsk-dashboard-ux-v1-15",
       "tsk-dashboard-ux-v1-01",
       "tsk-dashboard-ux-v1-23",
-      "tsk-022-16",
       "tsk-dashboard-ux-v1-03",
       "tsk-dashboard-ux-v1-20",
       "tsk-dashboard-ux-v1-13",
@@ -5720,10 +5972,10 @@
       "tsk-dashboard-ux-v1-33",
       "tsk-dashboard-ux-v1-28",
       "tsk-vault-gpt-01",
-      "tsk-019-07",
       "tsk-vault-gpt-12",
       "tsk-vault-gpt-10",
       "tsk-vault-gpt-03",
+      "tsk-vault-gpt-02",
       "tsk-vault-gpt-09",
       "tsk-vault-gpt-06",
       "tsk-vault-gpt-07",
@@ -5731,6 +5983,15 @@
       "tsk-vault-gpt-11",
       "tsk-vault-gpt-05",
       "tsk-vault-gpt-08",
+      "tsk-023-08",
+      "tsk-022-20",
+      "tsk-023-02",
+      "tsk-023-06",
+      "tsk-023-07",
+      "tsk-023-03",
+      "tsk-023-04",
+      "tsk-023-01",
+      "tsk-023-05",
       "tsk-mcp-rbac-02",
       "tsk-mcp-rbac-01",
       "tsk-impact-schema-v2-04",
@@ -5765,12 +6026,10 @@
       "tsk-n8n-12",
       "tsk-n8n-18",
       "tsk-n8n-13",
-      "tsk-017-12",
-      "tsk-017-15",
-      "tsk-017-14",
-      "tsk-017-13",
-      "tsk-017-09",
-      "tsk-019-18",
+      "tsk-019-09",
+      "tsk-019-11",
+      "tsk-019-10",
+      "tsk-017-01",
       "tsk-content-os-13",
       "tsk-content-os-12",
       "tsk-content-os-04",
@@ -5789,9 +6048,6 @@
     "": [
       "prj-015",
       "prj-feedback-system"
-    ],
-    "hold": [
-      "tsk-vault-gpt-02"
     ],
     "validating": [
       "mh-3",

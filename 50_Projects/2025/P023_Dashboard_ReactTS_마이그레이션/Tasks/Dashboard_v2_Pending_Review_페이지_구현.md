@@ -3,8 +3,9 @@ entity_type: Task
 entity_id: tsk-022-26
 entity_name: Dashboard v2 - Pending Review 페이지 구현
 created: '2026-01-07'
-updated: '2026-01-07'
-status: doing
+updated: '2026-01-08'
+status: done
+closed: '2026-01-08'
 project_id: prj-023
 parent_id: prj-023
 assignee: 김은향
@@ -15,6 +16,7 @@ aliases:
 - tsk-022-26
 tags: []
 type: dev
+target_project: loop
 ---
 
 # Dashboard v2 - Pending Review 페이지 구현
@@ -126,3 +128,46 @@ type: dev
 
 - 기획 문서: `/Users/gim-eunhyang/.claude/plans/majestic-growing-kahan.md`
 - 레거시 구현: `/Users/gim-eunhyang/dev/loop/public/_dashboard/js/components/pending-panel.js`
+
+---
+
+## 작업 로그
+
+### 2026-01-08
+**개요**: Pending Review 페이지 구현 완료
+
+**구현 내용**:
+- 3-Pane Layout (ReviewList / ReviewDetail / EntityPreview) 구현
+- React Query hooks with error handling (usePendingReviews, mutations)
+- Tab filtering (Pending/Approved/Rejected) - client-side filtering
+- Approve/Reject/Delete actions with API integration
+- Entity preview for 5 types (Track, Condition, Hypothesis, Project, Task)
+- Field type별 UI 처리 (string, number, boolean, array, object)
+
+**생성된 파일** (9개):
+1. `src/features/pending/types.ts` - PendingReview, SuggestedField 타입
+2. `src/features/pending/queries/usePendingReviews.ts` - React Query hooks
+3. `src/features/pending/queries/index.ts` - barrel export
+4. `src/features/pending/components/ReviewList.tsx` - 좌측 목록 패널
+5. `src/features/pending/components/ReviewCard.tsx` - 리뷰 카드
+6. `src/features/pending/components/ReviewDetail.tsx` - 중앙 상세 패널
+7. `src/features/pending/components/EntityPreview.tsx` - 우측 프리뷰 패널
+8. `src/features/pending/components/FieldValue.tsx` - 필드값 렌더링
+9. `src/features/pending/components/index.ts` - barrel export
+
+**수정된 파일** (2개):
+1. `src/features/pending/api.ts` - approve, reject, delete 함수 추가
+2. `src/pages/Pending/index.tsx` - 3-Pane 레이아웃 구현
+
+**코드 리뷰 (Codex)**:
+- Issue #1: Error state 처리 개선 (에러 메시지 표시 추가)
+- Issue #2: Selection state 동기화 (selectedReview null 처리)
+- Issue #3: EntityPreview entityType prop 추가 (타입 안전성 개선)
+- 모든 이슈 수정 완료
+
+**빌드 결과**:
+- TypeScript 컴파일 성공 (0 errors)
+- 모든 컴포넌트 정상 작동
+- 레이아웃 스크롤 정상 (min-h-0 적용)
+
+**최종 상태**: done
