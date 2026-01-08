@@ -1,10 +1,16 @@
 import { httpClient } from '@/services/http';
 import type { Project } from '@/types';
 
-export const projectApi = {
-    getProjects: () =>
-        httpClient.get<Project[]>('/api/projects'),
+export interface CreateProjectDTO {
+    entity_name: string;
+    owner: string;
+    parent_id?: string;
+    status: string;
+    priority_flag: string;
+    description?: string;
+}
 
-    getProject: (id: string) =>
-        httpClient.get<Project>(`/api/projects/${id}`),
+export const projectApi = {
+    createProject: (data: CreateProjectDTO) =>
+        httpClient.post<{ success: boolean; project_id: string; message?: string }>('/api/projects', data),
 };

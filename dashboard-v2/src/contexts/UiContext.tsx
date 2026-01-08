@@ -9,11 +9,20 @@ interface TaskDrawerState {
     prefill?: Partial<Task>;
 }
 
+// Active Modal State Pattern
+type ActiveModalType = null | 'createProject' | 'createProgram';
+
 interface UiContextType {
     taskDrawer: TaskDrawerState;
+    activeModal: ActiveModalType;
+    // Actions
     openEditTask: (taskId: string) => void;
     openCreateTask: (prefill?: Partial<Task>) => void;
     closeTaskDrawer: () => void;
+
+    openCreateProject: () => void;
+    openCreateProgram: () => void;
+    closeAllModals: () => void;
 }
 
 const UiContext = createContext<UiContextType | undefined>(undefined);
@@ -26,6 +35,8 @@ export function UiProvider({ children }: { children: ReactNode }) {
         taskId: null,
         mode: 'edit',
     });
+
+    const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
 
     // URL Sync: On Mount, check ?task=ID
     useEffect(() => {
@@ -59,9 +70,6 @@ export function UiProvider({ children }: { children: ReactNode }) {
             mode: 'create',
             prefill
         });
-        // Create mode does not sync URL usually, or maybe ?action=create? 
-        // For now, keeping URL clean for create mode or respecting user plan
-        // Plan said: "On closeTaskDrawer, remove the task parameter".
     }, []);
 
     const closeTaskDrawer = useCallback(() => {
@@ -73,8 +81,22 @@ export function UiProvider({ children }: { children: ReactNode }) {
         });
     }, [setSearchParams]);
 
+    // Modal Actions
+    const openCreateProject = useCallback(() => setActiveModal('createProject'), []);
+    const openCreateProgram = useCallback(() => setActiveModal('createProgram'), []);
+    const closeAllModals = useCallback(() => setActiveModal(null), []);
+
     return (
-        <UiContext.Provider value={{ taskDrawer, openEditTask, openCreateTask, closeTaskDrawer }}>
+        <UiContext.Provider value={{
+            taskDrawer,
+            activeModal,
+            openEditTask,
+            openCreateTask,
+            closeTaskDrawer,
+            openCreateProject,
+            openCreateProgram,
+            closeAllModals
+        }}>
             {children}
         </UiContext.Provider>
     );

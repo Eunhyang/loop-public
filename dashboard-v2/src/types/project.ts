@@ -8,5 +8,6 @@ export interface Project {
   created: string;
   updated: string;
   deadline: string | null;
+  priority_flag?: string;
   tags: string[];
 }

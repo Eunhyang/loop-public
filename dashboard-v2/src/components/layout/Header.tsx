@@ -6,12 +6,13 @@ import { authStorage } from '@/features/auth/storage';
 interface HeaderProps {
   onToggleSidebar: () => void;
   isSidebarOpen: boolean;
+  isAdmin?: boolean;
 }
 
-export const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
+export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: HeaderProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { openCreateTask } = useUi();
+  const { openCreateTask, openCreateProject, openCreateProgram } = useUi();
 
   const handleLogout = () => {
     authStorage.clearToken();
@@ -69,6 +70,23 @@ export const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
         >
           <span>+</span> New Task
         </button>
+
+        <button
+          onClick={openCreateProject}
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors shadow-sm flex items-center gap-1"
+        >
+          <span>+</span> New Project
+        </button>
+
+        {/* Admin Only */}
+        {isAdmin && (
+          <button
+            onClick={openCreateProgram}
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm font-medium transition-colors shadow-sm flex items-center gap-1"
+          >
+            <span>+</span> New Program
+          </button>
+        )}
 
         <div className="h-6 w-px bg-gray-300 mx-1"></div>
 
