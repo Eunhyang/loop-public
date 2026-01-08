@@ -10,4 +10,7 @@ export const taskApi = {
 
     updateTask: (id: string, data: Partial<Task>) =>
         httpClient.put<Task>(`/api/tasks/${id}`, data),
+
+    deleteTask: (id: string) =>
+        httpClient.delete(`/api/tasks/${id}`),
 };

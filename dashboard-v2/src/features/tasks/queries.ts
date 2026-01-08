@@ -71,3 +71,42 @@ export const useUpdateTask = () => {
         },
     });
 };
+
+export const useDeleteTask = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) => taskApi.deleteTask(id),
+        onMutate: async (id) => {
+            // Cancel outgoing refetches
+            await queryClient.cancelQueries({ queryKey: queryKeys.task(id) });
+            await queryClient.cancelQueries({ queryKey: queryKeys.tasks() });
+            await queryClient.cancelQueries({ queryKey: queryKeys.dashboardInit });
+
+            // Snapshot for rollback
+            const previousTask = queryClient.getQueryData<Task>(queryKeys.task(id));
+            const previousDashboard = queryClient.getQueryData<any>(queryKeys.dashboardInit);
+
+            // Optimistic removal from dashboardInit
+            if (previousDashboard) {
+                queryClient.setQueryData(queryKeys.dashboardInit, {
+                    ...previousDashboard,
+                    tasks: previousDashboard.tasks.filter((t: Task) => t.entity_id !== id),
+                });
+            }
+
+            return { previousTask, previousDashboard };
+        },
+        onError: (_err, _id, context) => {
+            // Rollback on error
+            if (context?.previousDashboard) {
+                queryClient.setQueryData(queryKeys.dashboardInit, context.previousDashboard);
+            }
+        },
+        onSettled: () => {
+            // Invalidate all task-related queries
+            queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
+            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+        },
+    });
+};
