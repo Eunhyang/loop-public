@@ -1,16 +1,16 @@
 ---
 entity_type: Task
 entity_id: tsk-022-19
-entity_name: 꼭꼭Fit 랜딩페이지 리뉴얼 - 홍희님 사전 미팅
+entity_name: 꼭꼭Fit 랜딩페이지 리뉴얼 - 홍희님 사전 미팅(1.16 연기)
 created: '2026-01-07'
-updated: '2026-01-07'
+updated: '2026-01-08'
 status: todo
 project_id: prj-014
 parent_id: prj-014
 assignee: 김은향
 priority: medium
-start_date: '2026-01-09'
-due: '2026-01-09'
+start_date: '2026-01-16'
+due: '2026-01-16'
 aliases:
 - tsk-022-19
 tags: []
@@ -18,8 +18,22 @@ type: meeting
 links:
 - label: Google Meet
   url: https://meet.google.com/aks-aiaq-qne
----
+notes: '# 꼭꼭Fit 랜딩페이지 리뉴얼 - 홍희님 사전 미팅
 
+
+  ## 설명
+
+
+  ## 체크리스트
+
+
+  - [ ]
+
+
+  ## 참고
+
+  '
+---
 # 꼭꼭Fit 랜딩페이지 리뉴얼 - 홍희님 사전 미팅
 
 ## 설명
