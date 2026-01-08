@@ -1,5 +1,5 @@
 import { httpClient } from '@/services/http';
-import type { Task } from './types';
+import type { Task } from '@/types';
 
 export const taskApi = {
     getTasks: (params?: { status?: string; assignee?: string }) =>

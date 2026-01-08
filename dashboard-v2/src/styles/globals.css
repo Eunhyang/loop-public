@@ -1,51 +1,89 @@
 @import "tailwindcss";
 
 @layer utilities {
+
+  /* Notion-like Utilities */
+  .u-sidebar {
+    background-color: rgb(var(--color-surface));
+    border-right: 1px solid rgb(var(--color-border));
+  }
+
+  .u-card {
+    background-color: white;
+    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+    border-radius: 4px;
+    /* Notion uses slightly smaller radius */
+    transition: background 100ms ease-in;
+  }
+
+  .u-card:hover {
+    background-color: #f7f7f5;
+  }
+
+  /* Retain glass names for compatibility but map to solid */
   .glass-strong {
-    @apply backdrop-blur-xl border border-white/10 shadow-2xl;
-    background-color: rgb(var(--color-surface) / 0.8);
+    background-color: white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgb(var(--color-border));
   }
 
   .glass-moderate {
-    @apply backdrop-blur-md border-r border-white/5;
-    background-color: rgb(var(--color-surface) / 0.6);
+    background-color: rgb(var(--color-surface));
+    border-right: 1px solid rgb(var(--color-border));
   }
 
   .glass-subtle {
-    @apply backdrop-blur-sm border border-white/5 transition-all duration-200;
-    background-color: rgb(var(--color-surface) / 0.3);
+    background-color: white;
+    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+    border-radius: 4px;
+    /* Notion uses slightly smaller radius */
+    transition: background 100ms ease-in;
+    border: none;
+    /* Let box-shadow handle it */
   }
 
   .glass-subtle:hover {
-    background-color: rgb(var(--color-surface) / 0.5);
+    background-color: #f7f7f5;
   }
 
   .text-glow {
-    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    text-shadow: none;
   }
+}
+
+@layer components {
 
   /* Abstractions for repetitive components */
   .btn-filter {
-    @apply px-3 py-1.5 text-sm rounded-md border transition-all duration-200;
-    @apply bg-zinc-900/80 text-gray-400 border-zinc-700;
-    @apply hover:bg-zinc-800 hover:text-gray-200 hover:border-zinc-600;
+    @apply px-3 py-1 text-sm rounded-md transition-all duration-100 ease-in-out;
+    background-color: white !important;
+    color: rgb(var(--color-text-main));
+    border: 1px solid rgb(var(--color-border));
+    box-shadow: rgba(15, 15, 15, 0.05) 0px 1px 2px;
+  }
+
+  .btn-filter:hover {
+    background-color: #efefef !important;
   }
 
   .btn-filter-active {
-    background-color: rgb(var(--color-primary) / 0.2);
-    color: rgb(var(--color-primary));
-    border-color: rgb(var(--color-primary));
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+    background-color: #2e2e2e !important;
+    color: #ffffff !important;
+    border-color: #2e2e2e !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   .input-filter {
     @apply px-3 py-1.5 text-sm rounded-md outline-none transition-all duration-200;
-    @apply bg-zinc-900/80 text-gray-200 border border-zinc-700;
+    background-color: #ffffff !important;
+    color: #37352f;
+    border-color: #e5e5e5;
   }
 
   .input-filter:focus {
-    box-shadow: 0 0 0 1px rgb(var(--color-primary));
-    border-color: rgb(var(--color-primary));
+    box-shadow: 0 0 0 2px rgba(46, 46, 46, 0.1);
+    /* Subtle focus ring */
+    border-color: #2e2e2e;
   }
 }
 
@@ -57,16 +95,18 @@
   color-scheme: dark;
 
   /* CSS Variables for RGB values to allow Tailwind opacity modifiers */
-  --color-bg-main: 15, 17, 21;
-  /* #0f1115 */
-  --color-surface: 30, 30, 35;
-  /* Base surface color */
-  --color-primary: 99, 102, 241;
-  /* #6366f1 (Indigo-500) */
-  --color-text-main: 240, 240, 245;
-  /* High contrast text */
-  --color-text-muted: 156, 163, 175;
-  /* Gray-400 */
+  --color-bg-main: 255, 255, 255;
+  /* #ffffff (Main Content) */
+  --color-surface: 247, 247, 245;
+  /* #f7f7f5 (Notion Sidebar) */
+  --color-border: 227, 226, 224;
+  /* #e3e2e0 (Notion Borders) */
+  --color-primary: 46, 46, 46;
+  /* #2e2e2e (Dark Action) */
+  --color-text-main: 55, 53, 47;
+  /* #37352f (Notion Text) */
+  --color-text-muted: 120, 119, 116;
+  /* #787774 (Notion Muted) */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -79,7 +119,8 @@ body {
   min-height: 100vh;
   color: rgb(var(--color-text-main));
   background-color: rgb(var(--color-bg-main));
-  background-image: radial-gradient(circle at 50% 0%, #1a1c2e 0%, #0f1115 100%);
+  /* No gradient for clean Notion look, or very subtle */
+  background-image: none;
 }
 
 * {

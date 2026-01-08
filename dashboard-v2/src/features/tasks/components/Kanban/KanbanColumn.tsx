@@ -1,5 +1,6 @@
-import type { Task } from '@/features/tasks/types';
+import type { Task } from '@/types';
 import { TaskCard } from './TaskCard';
+import { Droppable } from '@hello-pangea/dnd';
 
 interface KanbanColumnProps {
   status: Task['status'];
@@ -10,23 +11,23 @@ interface KanbanColumnProps {
 const STATUS_CONFIG = {
   todo: {
     title: 'To Do',
-    color: 'border-b-2 border-gray-500/30',
-    textColor: 'text-gray-400',
+    color: 'border-b-2 border-zinc-200',
+    textColor: 'text-zinc-500',
   },
   doing: {
     title: 'Doing',
-    color: 'border-b-2 border-blue-500/50',
-    textColor: 'text-blue-400',
+    color: 'border-b-2 border-zinc-400',
+    textColor: 'text-zinc-800',
   },
   hold: {
-    title: 'Hold',
-    color: 'border-b-2 border-yellow-500/50',
-    textColor: 'text-yellow-400',
+    title: 'On Hold',
+    color: 'border-b-2 border-zinc-300',
+    textColor: 'text-zinc-400',
   },
   done: {
     title: 'Done',
-    color: 'border-b-2 border-green-500/50',
-    textColor: 'text-green-400',
+    color: 'border-b-2 border-zinc-200',
+    textColor: 'text-zinc-300 line-through',
   },
   blocked: {
     title: 'Blocked',
@@ -61,21 +62,32 @@ export const KanbanColumn = ({ status, tasks, onCardClick }: KanbanColumnProps) 
       </div>
 
       {/* Cards container */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-2">
-        {tasks.length === 0 ? (
-          <div className="text-center text-gray-400 text-sm py-8">
-            No tasks
+      <Droppable droppableId={status}>
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className={`flex-1 overflow-y-auto min-h-0 p-3 space-y-2 transition-colors ${snapshot.isDraggingOver ? 'bg-white/5' : ''
+              }`}
+          >
+            {tasks.length === 0 && !snapshot.isDraggingOver ? (
+              <div className="text-center text-gray-400 text-sm py-8">
+                No tasks
+              </div>
+            ) : (
+              tasks.map((task, index) => (
+                <TaskCard
+                  key={task.entity_id}
+                  task={task}
+                  index={index}
+                  onClick={onCardClick}
+                />
+              ))
+            )}
+            {provided.placeholder}
           </div>
-        ) : (
-          tasks.map((task) => (
-            <TaskCard
-              key={task.entity_id}
-              task={task}
-              onClick={onCardClick}
-            />
-          ))
         )}
-      </div>
+      </Droppable>
     </div>
   );
 };

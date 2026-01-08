@@ -4,17 +4,16 @@ import { useKanbanFilters } from './useKanbanFilters';
 import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
 import { TaskDrawer } from '@/features/tasks/components/TaskDrawer';
 import { KanbanFilters } from './KanbanFilters';
-import { buildKanbanColumns } from '@/features/tasks/selectors';
+import { buildKanbanColumns, type KanbanFiltersState } from '@/features/tasks/selectors';
+import { FilterProvider, useFilterContext } from '@/features/filters/context/FilterContext';
+import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import type { Task } from '@/types';
 import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
 
-/**
- * Main Kanban page component
- * Orchestrates data loading, filtering, and rendering
- */
-export const KanbanPage = () => {
+const KanbanPageContent = () => {
   const { data, isLoading, error } = useDashboardInit();
-  const filters = useKanbanFilters();
+  const urlFilters = useKanbanFilters();
+  const panelFilters = useFilterContext();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   // Memoized filtering and grouping
@@ -24,8 +23,14 @@ export const KanbanPage = () => {
       return { todo: [], doing: [], hold: [], done: [], blocked: [] };
     }
 
-    return buildKanbanColumns(data.tasks, filters);
-  }, [data, filters.assignees, filters.projectId, filters.dateFilter]);
+    // Combine filters
+    const combinedFilters: KanbanFiltersState = {
+      ...urlFilters,
+      ...panelFilters
+    };
+
+    return buildKanbanColumns(data.tasks, combinedFilters, data.projects);
+  }, [data, urlFilters, panelFilters]);
 
   // Handle Escape key to close modal
   useEffect(() => {
@@ -56,11 +61,11 @@ export const KanbanPage = () => {
         <div className="text-center text-red-600">
           <svg className="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <p className="font-medium">Error loading dashboard</p>
+            <p className="text-sm text-gray-500 mt-1">
+              {error instanceof Error ? error.message : 'Unknown error'}
+            </p>
           </svg>
-          <p className="font-medium">Error loading dashboard</p>
-          <p className="text-sm text-gray-500 mt-1">
-            {error instanceof Error ? error.message : 'Unknown error'}
-          </p>
         </div>
       </div>
     );
@@ -70,12 +75,13 @@ export const KanbanPage = () => {
   if (!data) return null;
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col min-h-0">
       <KanbanFilters
-        filters={filters}
+        filters={urlFilters}
         members={data.members}
         projects={data.projects}
       />
+
       <KanbanBoard
         columns={filteredColumns}
         onCardClick={setSelectedTask}
@@ -87,6 +93,23 @@ export const KanbanPage = () => {
         isOpen={!!selectedTask}
         onClose={() => setSelectedTask(null)}
       />
+
+      {/* Filter Panel */}
+      <FilterPanel
+        isOpen={panelFilters.isPanelOpen}
+        onClose={panelFilters.togglePanel}
+      />
     </div>
+  );
+};
+
+/**
+ * Main Kanban page component (Wrapper)
+ */
+export const KanbanPage = () => {
+  return (
+    <FilterProvider>
+      <KanbanPageContent />
+    </FilterProvider>
   );
 };

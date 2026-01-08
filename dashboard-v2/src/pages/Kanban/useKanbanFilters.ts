@@ -7,9 +7,16 @@ export interface KanbanFilters {
   assignees: string[];
   projectId: string;
   dateFilter: DateFilter;
+  selectedWeeks: string[];
+  selectedMonths: string[];
+  trackId: string | null;
+  hypothesisId: string | null;
+  conditionId: string | null;
   setAssignees: (values: string[]) => void;
   setProjectId: (id: string) => void;
   setDateFilter: (filter: DateFilter) => void;
+  setSelectedWeeks: (values: string[]) => void;
+  setSelectedMonths: (values: string[]) => void;
   clearFilters: () => void;
 }
 
@@ -21,10 +28,11 @@ export const useKanbanFilters = (): KanbanFilters => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Read current filter values from URL
-  // Memoize assignees array to prevent useMemo dependency changes on every render
   const assignees = useMemo(() => searchParams.getAll('assignee'), [searchParams.toString()]);
   const projectId = searchParams.get('project_id') || '';
   const dateFilter = (searchParams.get('date') || '') as DateFilter;
+  const selectedWeeks = useMemo(() => searchParams.getAll('week'), [searchParams.toString()]);
+  const selectedMonths = useMemo(() => searchParams.getAll('month'), [searchParams.toString()]);
 
   const setAssignees = (values: string[]) => {
     const newParams = new URLSearchParams(searchParams);
@@ -53,11 +61,30 @@ export const useKanbanFilters = (): KanbanFilters => {
     setSearchParams(newParams);
   };
 
+  const setSelectedWeeks = (values: string[]) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('week');
+    values.forEach(v => newParams.append('week', v));
+    setSearchParams(newParams);
+  };
+
+  const setSelectedMonths = (values: string[]) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('month');
+    values.forEach(v => newParams.append('month', v));
+    setSearchParams(newParams);
+  };
+
   const clearFilters = () => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('assignee');
     newParams.delete('project_id');
     newParams.delete('date');
+    newParams.delete('week');
+    newParams.delete('month');
+    newParams.delete('track');
+    newParams.delete('hypothesis');
+    newParams.delete('condition');
     setSearchParams(newParams);
   };
 
@@ -65,9 +92,16 @@ export const useKanbanFilters = (): KanbanFilters => {
     assignees,
     projectId,
     dateFilter,
+    selectedWeeks,
+    selectedMonths,
+    trackId: searchParams.get('track') || null,
+    hypothesisId: searchParams.get('hypothesis') || null,
+    conditionId: searchParams.get('condition') || null,
     setAssignees,
     setProjectId,
     setDateFilter,
+    setSelectedWeeks,
+    setSelectedMonths,
     clearFilters,
   };
 };

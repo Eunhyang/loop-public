@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTask, useUpdateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
-import type { Task } from '@/features/tasks/types';
+import type { Task } from '@/types';
 
 interface TaskDrawerProps {
     taskId: string | null;
@@ -55,37 +55,37 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
         <>
             {/* Backdrop */}
             <div
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity"
+                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity"
                 onClick={onClose}
             />
 
             {/* Drawer Panel */}
-            <div className="fixed inset-y-0 right-0 w-[600px] glass-strong z-50 transform transition-transform duration-300 flex flex-col border-l border-white/10">
+            <div className="fixed inset-y-0 right-0 w-[600px] glass-strong z-50 transform transition-transform duration-300 flex flex-col border-l border-black/5 bg-white/90">
 
                 {/* Header */}
-                <div className="p-4 border-b border-glass-border flex items-center justify-between bg-black/20">
+                <div className="p-4 border-b border-black/5 flex items-center justify-between bg-zinc-50/50">
                     <div className="flex items-center gap-2">
                         <span
-                            className="font-mono text-xs text-gray-500 cursor-pointer hover:text-primary px-1 transition-colors"
+                            className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-1 transition-colors"
                             onClick={copyId}
                             title="Click to copy ID"
                         >
                             {taskId}
                         </span>
                     </div>
-                    <button onClick={onClose} className="p-1 hover:bg-white/10 rounded text-gray-400 hover:text-white transition-colors">
+                    <button onClick={onClose} className="p-1 hover:bg-black/5 rounded text-zinc-400 hover:text-zinc-900 transition-colors">
                         ✕
                     </button>
                 </div>
 
                 {isLoading || !task ? (
-                    <div className="flex-1 flex items-center justify-center text-gray-500">Loading...</div>
+                    <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>
                 ) : (
                     <div className="flex-1 overflow-y-auto">
                         {/* Title Section */}
                         <div className="p-6 pb-2">
                             <input
-                                className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-gray-600 text-glow text-white"
+                                className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
                                 placeholder="Task Title"
                                 defaultValue={task.entity_name}
                                 onBlur={(e) => handleUpdate('entity_name', e.target.value)}
@@ -96,9 +96,9 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                         <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
 
                             {/* Status */}
-                            <label className="text-gray-500 py-1">Status</label>
+                            <label className="text-zinc-500 py-1">Status</label>
                             <select
-                                className="border border-glass-border p-1 rounded bg-[#0f1115] text-gray-300 text-sm w-fit focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                                 value={task.status}
                                 onChange={(e) => handleUpdate('status', e.target.value)}
                             >
@@ -110,9 +110,9 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             </select>
 
                             {/* Priority */}
-                            <label className="text-gray-500 py-1">Priority</label>
+                            <label className="text-zinc-500 py-1">Priority</label>
                             <select
-                                className="border border-glass-border p-1 rounded bg-[#0f1115] text-gray-300 text-sm w-fit focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                                 value={task.priority}
                                 onChange={(e) => handleUpdate('priority', e.target.value)}
                             >
@@ -123,9 +123,9 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             </select>
 
                             {/* Assignee */}
-                            <label className="text-gray-500 py-1">Assignee</label>
+                            <label className="text-zinc-500 py-1">Assignee</label>
                             <select
-                                className="border border-glass-border p-1 rounded bg-[#0f1115] text-gray-300 text-sm w-fit focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                                 value={task.assignee}
                                 onChange={(e) => handleUpdate('assignee', e.target.value)}
                             >
@@ -136,9 +136,9 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             </select>
 
                             {/* Project */}
-                            <label className="text-gray-500 py-1">Project</label>
+                            <label className="text-zinc-500 py-1">Project</label>
                             <select
-                                className="border border-glass-border p-1 rounded bg-[#0f1115] text-gray-300 text-sm w-full truncate focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                                 value={task.project_id}
                                 onChange={(e) => handleUpdate('project_id', e.target.value)}
                             >
@@ -151,11 +151,11 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             </select>
 
                             {/* Date Fields */}
-                            <label className="text-gray-500 py-1">Due Date</label>
+                            <label className="text-zinc-500 py-1">Due Date</label>
                             <input
                                 type="date"
-                                className="border border-glass-border p-1 rounded bg-[#0f1115] text-gray-300 text-sm w-fit focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                                defaultValue={task.due}
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                defaultValue={task.due || ''}
                                 onBlur={(e) => handleUpdate('due', e.target.value)}
                             />
 
@@ -163,22 +163,22 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             <div className="col-span-2 pt-2">
                                 <button
                                     onClick={openObsidian}
-                                    className="text-xs text-primary hover:text-primary-glow hover:underline flex items-center gap-1 transition-colors"
+                                    className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline flex items-center gap-1 transition-colors"
                                 >
                                     <span className="text-lg">💎</span> Open in Obsidian
                                 </button>
                             </div>
                         </div>
 
-                        <div className="h-px bg-glass-border mx-6 my-2" />
+                        <div className="h-px bg-zinc-200 mx-6 my-2" />
 
                         {/* Notes Section (Markdown Editor/Preview) */}
                         <div className="px-6 py-4 flex-1 flex flex-col">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-sm font-semibold text-gray-400">Notes</h3>
+                                <h3 className="text-sm font-semibold text-zinc-500">Notes</h3>
                                 <button
                                     onClick={() => setIsEditingNotes(!isEditingNotes)}
-                                    className="text-xs px-2 py-1 bg-white/10 hover:bg-white/20 text-gray-300 rounded transition-colors"
+                                    className="text-xs px-2 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded transition-colors"
                                 >
                                     {isEditingNotes ? 'Preview' : 'Edit'}
                                 </button>
@@ -187,20 +187,20 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             {isEditingNotes ? (
                                 <textarea
                                     ref={notesRef}
-                                    className="w-full min-h-[200px] border border-glass-border p-3 rounded bg-black/20 text-sm font-mono leading-relaxed focus:border-primary focus:ring-1 focus:ring-primary outline-none text-gray-300"
+                                    className="w-full min-h-[200px] border border-zinc-200 p-3 rounded bg-white text-sm font-mono leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
                                     defaultValue={task.notes || ''}
                                     onBlur={() => { }}
                                 />
                             ) : (
-                                <div className="prose prose-sm prose-invert max-w-none text-gray-300 whitespace-pre-wrap">
-                                    {task.notes || <span className="text-gray-600 italic">No notes</span>}
+                                <div className="prose prose-sm max-w-none text-zinc-800 whitespace-pre-wrap">
+                                    {task.notes || <span className="text-zinc-400 italic">No notes</span>}
                                 </div>
                             )}
                         </div>
 
                         {/* Links / Relations placeholder */}
-                        <div className="px-6 py-4 bg-white/5 rounded-lg mx-6 mb-6 border border-glass-border">
-                            <p className="text-xs text-gray-500 italic">
+                        <div className="px-6 py-4 bg-zinc-50 rounded-lg mx-6 mb-6 border border-zinc-200">
+                            <p className="text-xs text-zinc-500 italic">
                                 Relations & Links features are pending implementation.
                             </p>
                         </div>
@@ -209,10 +209,10 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                 )}
 
                 {/* Footer Actions */}
-                <div className="p-4 border-t border-glass-border flex justify-end gap-2 bg-black/20">
+                <div className="p-4 border-t border-black/5 flex justify-end gap-2 bg-zinc-50/50">
                     <button
                         onClick={onClose}
-                        className="px-3 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+                        className="px-3 py-1.5 text-sm text-zinc-500 hover:text-zinc-900 hover:bg-black/5 rounded transition-colors"
                     >
                         Cancel
                     </button>
@@ -223,7 +223,7 @@ export const TaskDrawer = ({ taskId, isOpen, onClose }: TaskDrawerProps) => {
                             }
                             onClose();
                         }}
-                        className="px-4 py-1.5 text-sm bg-primary hover:bg-indigo-500 text-white rounded font-medium shadow-[0_0_10px_rgba(99,102,241,0.3)] transition-all"
+                        className="px-4 py-1.5 text-sm bg-zinc-900 hover:bg-black text-white rounded font-medium shadow-sm transition-all"
                     >
                         Save
                     </button>

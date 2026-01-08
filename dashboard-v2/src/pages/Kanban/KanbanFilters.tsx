@@ -1,5 +1,6 @@
 import type { Member, Project } from '@/types';
 import type { KanbanFilters as Filters } from './useKanbanFilters';
+import { useFilterContext } from '@/features/filters/context/FilterContext';
 
 interface KanbanFiltersProps {
   filters: Filters;
@@ -13,6 +14,7 @@ interface KanbanFiltersProps {
  */
 export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps) => {
   const { assignees, projectId, dateFilter, setAssignees, setProjectId, setDateFilter, clearFilters } = filters;
+  const { togglePanel, isPanelOpen } = useFilterContext();
 
   const toggleAssignee = (memberId: string) => {
     if (assignees.includes(memberId)) {
@@ -54,7 +56,7 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
           </label>
           <select
             id="project-filter"
-            value={projectId}
+            value={projectId || ''}
             onChange={(e) => setProjectId(e.target.value)}
             className="w-full input-filter"
           >
@@ -88,8 +90,17 @@ export const KanbanFilters = ({ filters, members, projects }: KanbanFiltersProps
           </div>
         </div>
 
-        {/* Clear filters */}
-        <div className="self-end ml-auto">
+        {/* Action Buttons */}
+        <div className="self-end ml-auto flex items-center gap-3">
+          <button
+            onClick={togglePanel}
+            className={`btn-filter flex items-center gap-2 ${isPanelOpen ? 'btn-filter-active' : ''}`}
+            title="Toggle Filters"
+          >
+            <span className="text-lg">⚙</span>
+            Filters
+          </button>
+
           <button
             onClick={clearFilters}
             disabled={assignees.length === 0 && !projectId && !dateFilter}

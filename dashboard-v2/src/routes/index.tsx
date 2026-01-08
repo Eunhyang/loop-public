@@ -8,7 +8,7 @@ import { PendingPage } from '@/pages/Pending';
 import { ProgramPage } from '@/pages/Program';
 
 // Lazy load heavy pages
-const CalendarPage = lazy(() => import('@/pages/Calendar').then(m => ({ default: m.CalendarPage })));
+const CalendarPage = lazy(() => import('@/features/calendar').then(m => ({ default: m.CalendarPage })));
 const GraphPage = lazy(() => import('@/pages/Graph').then(m => ({ default: m.GraphPage })));
 
 export const router = createBrowserRouter([

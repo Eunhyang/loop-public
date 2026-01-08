@@ -16,6 +16,12 @@ export interface Track {
   status: string;
 }
 
+export interface Hypothesis {
+  entity_id: string;
+  entity_name: string;
+  status: string; // Assuming status exists, similar to Track/Condition
+}
+
 export interface Condition {
   entity_id: string;
   entity_name: string;
@@ -32,6 +38,7 @@ export interface DashboardInitResponse {
   constants: Record<string, any>;
   members: Member[];
   tracks: Track[];
+  hypotheses: Hypothesis[]; // Added hypotheses
   conditions: Condition[];
   projects: Project[];
   tasks: Task[];

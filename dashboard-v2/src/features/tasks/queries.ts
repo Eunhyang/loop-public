@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { taskApi } from './api';
 import { queryKeys } from '@/queries/keys';
-import type { Task } from './types';
+import type { Task } from '@/types';
 
 export const useTasks = (filters?: { status?: string; assignee?: string }) => {
     return useQuery({
@@ -28,11 +28,13 @@ export const useUpdateTask = () => {
             // Cancel outgoing refetches
             await queryClient.cancelQueries({ queryKey: queryKeys.task(id) });
             await queryClient.cancelQueries({ queryKey: queryKeys.tasks() });
+            await queryClient.cancelQueries({ queryKey: queryKeys.dashboardInit });
 
             // Snapshot previous value
             const previousTask = queryClient.getQueryData<Task>(queryKeys.task(id));
+            const previousDashboard = queryClient.getQueryData<any>(queryKeys.dashboardInit);
 
-            // Optimistic update
+            // Optimistic update for single task
             if (previousTask) {
                 queryClient.setQueryData<Task>(queryKeys.task(id), {
                     ...previousTask,
@@ -40,12 +42,25 @@ export const useUpdateTask = () => {
                 });
             }
 
-            return { previousTask };
+            // Optimistic update for dashboardInit (Kanban Board)
+            if (previousDashboard) {
+                queryClient.setQueryData(queryKeys.dashboardInit, {
+                    ...previousDashboard,
+                    tasks: previousDashboard.tasks.map((t: Task) =>
+                        t.entity_id === id ? { ...t, ...data } : t
+                    ),
+                });
+            }
+
+            return { previousTask, previousDashboard };
         },
         onError: (_err, newTodo, context) => {
             // Rollback
             if (context?.previousTask) {
                 queryClient.setQueryData(queryKeys.task(newTodo.id), context.previousTask);
+            }
+            if (context?.previousDashboard) {
+                queryClient.setQueryData(queryKeys.dashboardInit, context.previousDashboard);
             }
         },
         onSettled: (_data, _error, variables) => {
