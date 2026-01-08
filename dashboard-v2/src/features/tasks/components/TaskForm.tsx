@@ -5,12 +5,19 @@ import { useUi } from '@/contexts/UiContext';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { statusColors, priorityColors, getColor } from '@/components/common/chipColors';
+import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
+import { useReviewMode } from '@/hooks/useReviewMode';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
-    mode: 'create' | 'edit' | 'view';
+    mode: 'create' | 'edit' | 'view' | 'review';
     id?: string;
     prefill?: Partial<Task>;
+    // Review mode props (optional, only used when mode='review')
+    suggestedFields?: Record<string, unknown>;
+    reasoning?: Record<string, string>;
+    onRelationClick?: (id: string, type: string) => void;
+    onFieldChange?: (field: string, value: unknown) => void;
 }
 
 export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {

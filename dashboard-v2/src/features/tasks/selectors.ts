@@ -256,7 +256,7 @@ export const filterTasksByProjects = (tasks: Task[], allowedProjectIds: string[]
  * Core roles definition for member filtering
  * Members with these roles are considered "core" team members
  */
-const CORE_ROLES = ['Founder', 'Cofounder', 'Member'];
+export const CORE_ROLES = ['Founder', 'Cofounder', 'Member'];
 
 /**
  * Filter Visible Members for UI Display

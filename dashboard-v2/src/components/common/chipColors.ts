@@ -67,6 +67,33 @@ export const priorityColors: Record<string, ChipColor> = {
 };
 
 /**
+ * Member colors (for assignee/owner chips)
+ */
+export const memberColor: ChipColor = {
+  bg: 'bg-indigo-100',
+  text: 'text-indigo-700',
+  selected: 'bg-indigo-300 border-indigo-500',
+};
+
+/**
+ * Project colors (for project selection chips)
+ */
+export const projectColor: ChipColor = {
+  bg: 'bg-cyan-100',
+  text: 'text-cyan-700',
+  selected: 'bg-cyan-300 border-cyan-500',
+};
+
+/**
+ * Unassigned state color (low emphasis)
+ */
+export const unassignedColor: ChipColor = {
+  bg: 'bg-gray-50',
+  text: 'text-gray-400',
+  selected: 'bg-gray-200 border-gray-400',
+};
+
+/**
  * Default fallback color for undefined values
  */
 export const defaultColor: ChipColor = {
