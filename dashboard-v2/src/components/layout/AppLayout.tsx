@@ -6,14 +6,12 @@ import { UiProvider, useUi } from '@/contexts/UiContext';
 import { TaskDrawer } from '@/features/tasks/components/TaskDrawer';
 import { useState } from 'react';
 
-import { CreationDrawer } from './CreationDrawer';
-import { useDashboardInit } from '@/queries/useDashboardInit';
+import { EntityDrawer } from './EntityDrawer';
 import { authStorage } from '@/features/auth/storage';
 
 const AppLayoutContent = () => {
   const { taskDrawer, closeTaskDrawer } = useUi();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { data: dashboardData } = useDashboardInit();
 
   // Calculate Admin Role from stored role
   const isAdmin = authStorage.getRole() === 'admin';
@@ -39,8 +37,8 @@ const AppLayoutContent = () => {
         onClose={closeTaskDrawer}
       />
 
-      {/* Global Creation Drawer */}
-      <CreationDrawer members={dashboardData?.members || []} tracks={dashboardData?.tracks || []} constants={dashboardData?.constants || {}} />
+      {/* Global Entity Drawer */}
+      <EntityDrawer />
     </div>
   );
 };

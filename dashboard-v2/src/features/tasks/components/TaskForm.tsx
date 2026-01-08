@@ -1,0 +1,279 @@
+import { useState, useRef } from 'react';
+import { useTask, useUpdateTask } from '@/features/tasks/queries';
+import { useDashboardInit } from '@/queries/useDashboardInit';
+import type { Task } from '@/types';
+
+interface TaskFormProps {
+    mode: 'create' | 'edit';
+    id?: string;
+    prefill?: Partial<Task>;
+}
+
+export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
+    const { data: task, isLoading } = useTask(mode === 'edit' ? id || null : null);
+    const { mutate: updateTask } = useUpdateTask();
+    const { data: dashboardData } = useDashboardInit();
+
+    const [isEditingNotes, setIsEditingNotes] = useState(false);
+    const notesRef = useRef<HTMLTextAreaElement>(null);
+
+    // For create mode, use prefill data
+    const formData = mode === 'create' ? prefill : task;
+
+    if (mode === 'edit' && (isLoading || !task)) {
+        return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
+    }
+
+    if (mode === 'create') {
+        return (
+            <div className="p-6 text-center text-zinc-500">
+                <p>Task creation via API not yet implemented.</p>
+                <p className="text-sm mt-2">Use loop-entity-creator skill to create tasks.</p>
+            </div>
+        );
+    }
+
+    const handleUpdate = (field: keyof Task, value: any) => {
+        if (!id) return;
+        updateTask({ id, data: { [field]: value } });
+    };
+
+    const copyId = () => {
+        if (id) {
+            navigator.clipboard.writeText(id);
+        }
+    };
+
+    const copyShareLink = () => {
+        if (id) {
+            const shareLink = `${window.location.origin}/tasks/${id}`;
+            navigator.clipboard.writeText(shareLink);
+        }
+    };
+
+    const renderMarkdown = (text: string): string => {
+        if (!text) return '';
+
+        return text
+            .replace(/^### (.*$)/gim, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>')
+            .replace(/^## (.*$)/gim, '<h2 class="text-lg font-bold mt-5 mb-2">$1</h2>')
+            .replace(/^# (.*$)/gim, '<h1 class="text-xl font-bold mt-6 mb-3">$1</h1>')
+            .replace(/\*\*(.*?)\*\*/gim, '<strong class="font-semibold">$1</strong>')
+            .replace(/\*(.*?)\*/gim, '<em class="italic">$1</em>')
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" class="text-blue-600 hover:underline" target="_blank">$1</a>')
+            .replace(/\n/gim, '<br/>');
+    };
+
+    return (
+        <div className="flex-1 overflow-y-auto">
+            {/* ID Badge */}
+            <div className="px-6 pt-4 pb-2">
+                <span
+                    className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-2 py-1 bg-zinc-50 rounded transition-colors"
+                    onClick={copyId}
+                    title="Click to copy ID"
+                >
+                    {id}
+                </span>
+                <button
+                    onClick={copyShareLink}
+                    className="ml-2 text-xs text-zinc-400 hover:text-zinc-900 transition-colors"
+                    title="Copy share link"
+                >
+                    🔗 Share
+                </button>
+            </div>
+
+            {/* Title Section */}
+            <div className="px-6 pb-2">
+                <input
+                    className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
+                    placeholder="Task Title"
+                    defaultValue={formData?.entity_name}
+                    onBlur={(e) => handleUpdate('entity_name', e.target.value)}
+                />
+            </div>
+
+            {/* Task Type Chips */}
+            {dashboardData?.constants?.task_types && (
+                <div className="px-6 pb-4 flex flex-wrap gap-2">
+                    {dashboardData.constants.task_types.map((type: string) => (
+                        <button
+                            key={type}
+                            onClick={() => handleUpdate('type', type)}
+                            className={`px-3 py-1 text-xs rounded-full transition-all ${
+                                formData?.type === type
+                                    ? 'bg-zinc-900 text-white shadow-sm'
+                                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                            }`}
+                        >
+                            {type}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+            {/* Properties Grid */}
+            <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
+                {/* Status */}
+                <label className="text-zinc-500 py-1">Status</label>
+                <select
+                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                    value={formData?.status}
+                    onChange={(e) => handleUpdate('status', e.target.value)}
+                >
+                    <option value="todo">To Do</option>
+                    <option value="doing">Doing</option>
+                    <option value="hold">Hold</option>
+                    <option value="blocked">Blocked</option>
+                    <option value="done">Done</option>
+                </select>
+
+                {/* Priority */}
+                <label className="text-zinc-500 py-1">Priority</label>
+                <select
+                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                    value={formData?.priority}
+                    onChange={(e) => handleUpdate('priority', e.target.value)}
+                >
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+
+                {/* Assignee */}
+                <label className="text-zinc-500 py-1">Assignee</label>
+                <select
+                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                    value={formData?.assignee}
+                    onChange={(e) => handleUpdate('assignee', e.target.value)}
+                >
+                    <option value="">Unassigned</option>
+                    {dashboardData?.members?.map((m: any) => (
+                        <option key={m.id} value={m.name}>{m.name}</option>
+                    ))}
+                </select>
+
+                {/* Project */}
+                <label className="text-zinc-500 py-1">Project</label>
+                <select
+                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                    value={formData?.project_id}
+                    onChange={(e) => handleUpdate('project_id', e.target.value)}
+                >
+                    <option value="">No Project</option>
+                    {dashboardData?.projects?.map((p: any) => (
+                        <option key={p.entity_id} value={p.entity_id}>
+                            {p.entity_name || p.entity_id}
+                        </option>
+                    ))}
+                </select>
+
+                {/* Date Fields */}
+                <label className="text-zinc-500 py-1">Start Date</label>
+                <input
+                    type="date"
+                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                    defaultValue={formData?.start_date || ''}
+                    onBlur={(e) => handleUpdate('start_date', e.target.value)}
+                />
+
+                <label className="text-zinc-500 py-1">Due Date</label>
+                <input
+                    type="date"
+                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                    defaultValue={formData?.due || ''}
+                    onBlur={(e) => handleUpdate('due', e.target.value)}
+                />
+            </div>
+
+            <div className="h-px bg-zinc-200 mx-6 my-2" />
+
+            {/* Notes Section */}
+            <div className="px-6 py-4 flex-1 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-zinc-500">Notes</h3>
+                    <button
+                        onClick={() => setIsEditingNotes(!isEditingNotes)}
+                        className="text-xs px-2 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded transition-colors"
+                    >
+                        {isEditingNotes ? 'Preview' : 'Edit'}
+                    </button>
+                </div>
+
+                {isEditingNotes ? (
+                    <textarea
+                        ref={notesRef}
+                        className="w-full min-h-[200px] border border-zinc-200 p-3 rounded bg-white text-sm font-mono leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
+                        defaultValue={formData?.notes || ''}
+                        onBlur={(e) => handleUpdate('notes', e.target.value)}
+                    />
+                ) : (
+                    <div className="prose prose-sm max-w-none text-zinc-800">
+                        {formData?.notes ? (
+                            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(formData.notes) }} />
+                        ) : (
+                            <span className="text-zinc-400 italic">No notes</span>
+                        )}
+                    </div>
+                )}
+            </div>
+
+            {/* Relations Section */}
+            <div className="px-6 py-4 bg-zinc-50 rounded-lg mx-6 mb-6 border border-zinc-200">
+                <h3 className="text-sm font-semibold text-zinc-700 mb-3">Relations</h3>
+
+                {/* Project */}
+                {formData?.project_id && (
+                    <div className="mb-3">
+                        <span className="text-xs text-zinc-500 font-medium">Project:</span>
+                        <div className="mt-1">
+                            <span className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
+                                {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
+                            </span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Conditions */}
+                {formData?.conditions_3y && formData.conditions_3y.length > 0 && (
+                    <div className="mb-3">
+                        <span className="text-xs text-zinc-500 font-medium">Conditions (3Y):</span>
+                        <div className="mt-1 flex flex-wrap gap-1">
+                            {formData.conditions_3y.map((condId: string) => {
+                                const condition = dashboardData?.conditions?.find((c: any) => c.entity_id === condId);
+                                return (
+                                    <span key={condId} className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
+                                        {condition?.entity_name || condId}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {/* Validates */}
+                {formData?.validates && formData.validates.length > 0 && (
+                    <div className="mb-3">
+                        <span className="text-xs text-zinc-500 font-medium">Validates:</span>
+                        <div className="mt-1 flex flex-wrap gap-1">
+                            {formData.validates.map((hypId: string) => {
+                                const hypothesis = dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId);
+                                return (
+                                    <span key={hypId} className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
+                                        {hypothesis?.entity_name || hypId}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {!formData?.project_id && !formData?.conditions_3y?.length && !formData?.validates?.length && (
+                    <p className="text-xs text-zinc-500 italic">No relations defined</p>
+                )}
+            </div>
+        </div>
+    );
+};

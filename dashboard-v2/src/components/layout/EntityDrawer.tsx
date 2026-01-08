@@ -1,5 +1,11 @@
 import { useUi } from '@/contexts/UiContext';
 import { DrawerShell } from '@/components/common/DrawerShell';
+import { TaskForm } from '@/features/tasks/components/TaskForm';
+import { ProjectForm } from '@/features/projects/components/ProjectForm';
+import { ProgramForm } from '@/features/programs/components/ProgramForm';
+import { TrackForm } from '@/features/strategy/components/TrackForm';
+import { HypothesisForm } from '@/features/strategy/components/HypothesisForm';
+import { ConditionForm } from '@/features/strategy/components/ConditionForm';
 
 /**
  * EntityDrawer - Universal entity drawer router
@@ -44,6 +50,26 @@ export function EntityDrawer() {
   // Generate subtitle (entity ID for edit/view modes)
   const subtitle = mode !== 'create' && id ? id : undefined;
 
+  // Render appropriate form based on entity type
+  const renderForm = () => {
+    switch (type) {
+      case 'task':
+        return <TaskForm mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
+      case 'project':
+        return <ProjectForm mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
+      case 'program':
+        return <ProgramForm mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
+      case 'track':
+        return id ? <TrackForm id={id} /> : <div className="p-6 text-zinc-500">Track ID required</div>;
+      case 'hypothesis':
+        return <HypothesisForm mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
+      case 'condition':
+        return id ? <ConditionForm id={id} /> : <div className="p-6 text-zinc-500">Condition ID required</div>;
+      default:
+        return <div className="p-6 text-zinc-500">Unknown entity type</div>;
+    }
+  };
+
   return (
     <DrawerShell
       isOpen={true}
@@ -51,46 +77,7 @@ export function EntityDrawer() {
       title={getTitle()}
       subtitle={subtitle}
     >
-      {/* TODO: Route to actual Form components */}
-      {/* For now, render placeholder */}
-      <div className="space-y-4">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <p className="text-sm text-yellow-800">
-            <strong>Entity Drawer Placeholder</strong>
-          </p>
-          <p className="text-xs text-yellow-700 mt-2">
-            Entity Type: <code>{type}</code><br />
-            Mode: <code>{mode}</code><br />
-            ID: <code>{id || 'N/A'}</code><br />
-            Prefill: <code>{prefill ? JSON.stringify(prefill) : 'N/A'}</code>
-          </p>
-        </div>
-        <p className="text-sm text-gray-600">
-          Form components will be implemented in Phase 2.
-        </p>
-      </div>
-
-      {/* Phase 2: Uncomment and implement */}
-      {/*
-      {type === 'task' && (
-        <TaskForm mode={mode === 'view' ? 'edit' : mode} id={id} prefill={prefill} />
-      )}
-      {type === 'project' && (
-        <ProjectForm mode={mode === 'view' ? 'edit' : mode} id={id} prefill={prefill} />
-      )}
-      {type === 'program' && (
-        <ProgramForm mode={mode === 'view' ? 'edit' : mode} id={id} prefill={prefill} />
-      )}
-      {type === 'track' && id && (
-        <TrackForm id={id} />
-      )}
-      {type === 'hypothesis' && (
-        <HypothesisForm mode={mode === 'view' ? 'edit' : mode} id={id} prefill={prefill} />
-      )}
-      {type === 'condition' && id && (
-        <ConditionForm id={id} />
-      )}
-      */}
+      {renderForm()}
     </DrawerShell>
   );
 }

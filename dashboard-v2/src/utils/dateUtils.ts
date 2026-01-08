@@ -63,13 +63,24 @@ export function getISOWeek(date: Date): string {
 
   let year = d.getFullYear();
 
+  // Edge case: Date before week 1 Monday belongs to previous year's last week
+  if (week < 1) {
+    year--;
+    // Calculate last week of previous year
+    const prevJan4 = new Date(year, 0, 4, 12, 0, 0);
+    const prevJan4Day = prevJan4.getDay() || 7;
+    const prevMondayWeek1 = new Date(prevJan4);
+    prevMondayWeek1.setDate(prevJan4.getDate() - (prevJan4Day - 1));
+    const prevDaysSinceMonday = Math.floor(
+      (d.getTime() - prevMondayWeek1.getTime()) / 86400000
+    );
+    const lastWeek = Math.floor(prevDaysSinceMonday / 7) + 1;
+    return `${year}-W${String(lastWeek).padStart(2, '0')}`;
+  }
+
   // Edge case: Dec 29-31 might be week 1 of next year
   if (d.getMonth() === 11 && week === 1) {
     year++;
-  }
-  // Edge case: Jan 1-3 might be last week of prev year
-  if (d.getMonth() === 0 && week > 50) {
-    year--;
   }
 
   return `${year}-W${String(week).padStart(2, '0')}`;

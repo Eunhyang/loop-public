@@ -2,6 +2,7 @@ import type { Task, Project } from '@/types';
 import type { KanbanColumns } from './components/Kanban/KanbanBoard';
 import type { UrlFilterState, LocalFilterState, CombinedFilterState } from '@/types/filters';
 import { getWeekRange, getMonthRange, isWithinRange } from '@/utils/date';
+import { getISOWeek } from '@/utils/dateUtils';
 
 // ============================================================================
 // Legacy type aliases for backward compatibility
@@ -117,20 +118,13 @@ export const applyUrlFilters = (
     filtered = filtered.filter((t) => isWithinRange(t.due, range));
   }
 
-  // 5. Selected Weeks filter (Multi-select)
+  // 5. Selected Weeks filter (Multi-select) - ISO Week based
   if (selectedWeeks.length > 0) {
     filtered = filtered.filter((t) => {
       if (!t.due) return false;
       const taskDate = new Date(t.due);
-      const taskYear = taskDate.getFullYear();
-      const taskWeek = Math.ceil(
-        ((taskDate.getTime() - new Date(taskYear, 0, 1).getTime()) / 86400000 +
-          new Date(taskYear, 0, 1).getDay() +
-          1) /
-          7
-      );
-      const formattedWeek = `${taskYear}-W${String(taskWeek).padStart(2, '0')}`;
-      return selectedWeeks.includes(formattedWeek);
+      const isoWeek = getISOWeek(taskDate);
+      return selectedWeeks.includes(isoWeek);
     });
   }
 

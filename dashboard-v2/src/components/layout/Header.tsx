@@ -16,7 +16,7 @@ type ReloadState = 'idle' | 'loading' | 'success' | 'error';
 export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: HeaderProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { openCreateTask, openCreateProject, openCreateProgram } = useUi();
+  const { openEntityDrawer } = useUi();
   const [reloadState, setReloadState] = useState<ReloadState>('idle');
 
   // Use isAdmin prop in Program button visibility
@@ -102,14 +102,14 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
 
       <div className="flex items-center gap-2">
         <button
-          onClick={() => openCreateTask()}
+          onClick={() => openEntityDrawer({ type: 'task', mode: 'create' })}
           className="px-2 py-1 border border-blue-500 text-gray-600 hover:bg-blue-50 rounded text-xs font-medium transition-colors flex items-center gap-0.5"
         >
           <span>+</span>Task
         </button>
 
         <button
-          onClick={openCreateProject}
+          onClick={() => openEntityDrawer({ type: 'project', mode: 'create' })}
           className="px-2 py-1 border border-green-500 hover:bg-green-50 rounded text-xs font-medium transition-colors flex items-center gap-0.5"
         >
           <span>+</span>Project
@@ -117,7 +117,7 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
 
         {showProgramButton && (
           <button
-            onClick={openCreateProgram}
+            onClick={() => openEntityDrawer({ type: 'program', mode: 'create' })}
             className="px-2 py-1 border border-purple-500 text-gray-600 hover:bg-purple-50 rounded text-xs font-medium transition-colors flex items-center gap-0.5"
           >
             <span>+</span>Program
