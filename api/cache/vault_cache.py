@@ -293,7 +293,8 @@ class VaultCache:
                         self._load_project_file(pf)
                         break
 
-        # 추가: 50_Projects/*/Rounds/prj-* (Program Rounds)
+        # 추가: 50_Projects/*/Rounds/* (Program Rounds)
+        # prj-* 또는 P* 패턴 모두 지원 (P023_... 형식도 포함)
         if self.programs_dir.exists():
             for program_dir in self.programs_dir.iterdir():
                 if not program_dir.is_dir():
@@ -301,16 +302,18 @@ class VaultCache:
                 rounds_dir = program_dir / "Rounds"
                 if not rounds_dir.exists():
                     continue
-                for round_dir in rounds_dir.glob("prj-*"):
-                    if not round_dir.is_dir():
-                        continue
-                    for pattern in ["project.md", "Project_정의.md", "*.md"]:
-                        project_files = list(round_dir.glob(pattern))
-                        for pf in project_files:
-                            if pf.name.startswith("_") or "Tasks" in str(pf):
-                                continue
-                            self._load_project_file(pf)
-                            break
+                # prj-* 및 P* 패턴 모두 스캔
+                for pattern in ["prj-*", "P*"]:
+                    for round_dir in rounds_dir.glob(pattern):
+                        if not round_dir.is_dir():
+                            continue
+                        for file_pattern in ["project.md", "Project_정의.md", "*.md"]:
+                            project_files = list(round_dir.glob(file_pattern))
+                            for pf in project_files:
+                                if pf.name.startswith("_") or "Tasks" in str(pf):
+                                    continue
+                                self._load_project_file(pf)
+                                break
 
         # tsk-018-01: exec vault 프로젝트 로드
         self._load_exec_projects()
