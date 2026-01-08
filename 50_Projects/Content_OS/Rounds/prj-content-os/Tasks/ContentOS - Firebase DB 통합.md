@@ -13,8 +13,8 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-start_date: 2026-01-07
-due: 2026-01-07
+start_date: '2026-01-10'
+due: '2026-01-10'
 priority: high
 estimated_hours: null
 actual_hours: null
@@ -27,6 +27,161 @@ tags:
 - migration
 - database
 priority_flag: high
+notes: "# ContentOS - Firebase DB 통합\n\n> Task ID: `tsk-022-16` | Project: `prj-content-os`\
+  \ | Status: doing\n\n## 목표\n\n**완료 조건**:\n\n1. Firebase Web SDK 초기화 완료\n2. 5개 페이지\
+  \ 모두 Firebase Firestore 데이터 사용\n3. 더미 데이터 파일 제거\n4. React Query 훅으로 캐싱 및 상태 관리\n\
+  5. CRUD 작업 구현 (Create, Update, Delete)\n\n---\n\n## 상세 내용\n\n### 배경\n\nContentOS\
+  \ MVP의 4개 대시보드 UI가 완성되었으며, 현재는 더미 데이터로 동작 중입니다. Firebase Firestore를 단일 데이터베이스로 사용하여\
+  \ 모든 UI의 데이터 소스를 통합해야 합니다.\n\n**현재 상황**:\n\n- Firebase 스키마 설계 완료 (`firebase_schema.md`)\n\
+  - Firestore DB: `loop` (sosi-4a8ee 프로젝트)\n- Root Document: `loop/main/` (8개 subcollection)\n\
+  - 5개 페이지가 모두 로컬 더미 데이터 사용 중\n\n**목표**:\n\n- 모든 UI를 Firebase Firestore 단일 DB로 통일\n\
+  - 더미 데이터 파일 제거\n- React Query로 데이터 캐싱 및 상태 관리\n\n### 작업 내용\n\n**Phase 1: Firebase\
+  \ 설정**\n\n- Firebase Client 초기화 (`lib/firebase/client.ts`)\n- Firebase Config 설정\
+  \ (`lib/firebase/config.ts`)\n\n**Phase 2: Firestore 쿼리 레이어**\n\n- `contentos_contents`\
+  \ 쿼리 (Opportunity, Explorer)\n- `vault_tasks` 쿼리 (Pipeline)\n- `contentos_publishes`\
+  \ 쿼리 (Retro, Performance)\n- `kpi_rollups` 쿼리 (Performance)\n\n**Phase 3: React\
+  \ Query Hooks**\n\n- `useOpportunities()` - Opportunity 페이지\n- `useContents()` -\
+  \ Explorer 페이지\n- `useTasks()` - Pipeline 페이지\n- `usePublishes()` - Retro 페이지\n\
+  - `useKpiRollups()` - Performance 페이지\n\n**Phase 4: UI 페이지 수정**\n\n- 더미 데이터 import\
+  \ 제거\n- Firebase 데이터 사용\n- 로딩/에러 상태 처리\n\n**Phase 5: CRUD 작업**\n\n- Create: Opportunity에서\
+  \ Draft 생성\n- Update: Pipeline에서 상태 변경\n- Delete: 콘텐츠 제외/삭제\n\n**Phase 6: 마이그레이션**\n\
+  \n- 더미 데이터 → Firestore 마이그레이션 스크립트\n\n---\n\n## 체크리스트\n\n- [ ] Firebase Client 초기화\
+  \ (`lib/firebase/client.ts`)\n\n- [ ] Firestore 쿼리 레이어 구현 (4개 컬렉션)\n\n- [ ] React\
+  \ Query 훅 구현 (5개 페이지)\n\n- [ ] Opportunity 페이지 Firebase 연동\n\n- [ ] Explorer 페이지\
+  \ Firebase 연동\n\n- [ ] Pipeline 페이지 Firebase 연동\n\n- [ ] Retro 페이지 Firebase 연동\n\
+  \n- [ ] Performance 페이지 Firebase 연동\n\n- [ ] CRUD 작업 구현\n\n- [ ] 더미 데이터 파일 제거\n\n\
+  - [ ] 마이그레이션 스크립트 작성 및 실행\n\n---\n\n## Notes\n\n### PRD (Product Requirements Document)\n\
+  \n## \U0001F4CA 아키텍처 도식\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n\
+  │           ContentOS Firebase Integration Architecture           │\n├─────────────────────────────────────────────────────────────────┤\n\
+  │                                                                  │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ UI Layer (app/[page]/)                                    │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  ┌─ Opportunity\
+  \ ──→ OpportunityDashboard                 │   │\n│  │  │   page.tsx          └─→\
+  \ useQuery('opportunities')     │   │\n│  │  │                                 \
+  \                       │   │\n│  │  ├─ Explorer ──→ VideoExplorer             \
+  \              │   │\n│  │  │   page.tsx       └─→ useQuery('contents')        \
+  \     │   │\n│  │  │                                                        │  \
+  \ │\n│  │  ├─ Pipeline ──→ PipelineBoard                           │   │\n│  │ \
+  \ │   page.tsx       └─→ useQuery('tasks')                │   │\n│  │  │       \
+  \                                                 │   │\n│  │  ├─ Retro ──→ RetroView\
+  \                                  │   │\n│  │  │   page.tsx    └─→ useQuery('publishes')\
+  \               │   │\n│  │  │                                                 \
+  \       │   │\n│  │  └─ Performance ──→ PerformanceDashboard                 │ \
+  \  │\n│  │      page.tsx         └─→ useQuery('publishes+kpi')      │   │\n│  └──────────────────────────────────────────────────────────┘\
+  \   │\n│       │                                                          │\n│ \
+  \      ↓                                                          │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ Data Layer (lib/api/)                                     │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  ┌─ Firebase\
+  \ Client (lib/firebase/client.ts)            │   │\n│  │  │   - initializeApp(firebaseConfig)\
+  \                     │   │\n│  │  │   - getFirestore()                        \
+  \            │   │\n│  │  │                                                    \
+  \    │   │\n│  │  ├─ API Hooks (lib/api/)                                 │   │\n\
+  │  │  │   - useOpportunities() ──→ getContents()              │   │\n│  │  │   -\
+  \ useContents() ──→ getContents()                   │   │\n│  │  │   - useTasks()\
+  \ ──→ getTasks()                         │   │\n│  │  │   - usePublishes() ──→ getPublishes()\
+  \                 │   │\n│  │  │   - useKpiRollups() ──→ getKpiRollups()       \
+  \        │   │\n│  │  │                                                        │\
+  \   │\n│  │  └─ Firestore Queries (lib/api/firestore/)              │   │\n│  │\
+  \      - getContents(filters) ──→ Firestore                │   │\n│  │      - getTasks(projectId)\
+  \ ──→ Firestore                 │   │\n│  │      - getPublishes(filters) ──→ Firestore\
+  \               │   │\n│  └──────────────────────────────────────────────────────────┘\
+  \   │\n│       │                                                          │\n│ \
+  \      ↓                                                          │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ Firebase Firestore                                        │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  loop/{rootId}/\
+  \                                           │   │\n│  │   ├─ contentos_contents\
+  \ (Opportunity, Explorer)          │   │\n│  │   ├─ vault_tasks (Pipeline)     \
+  \                         │   │\n│  │   ├─ contentos_publishes (Retro, Performance)\
+  \            │   │\n│  │   └─ kpi_rollups (Performance)                        \
+  \   │   │\n│  └──────────────────────────────────────────────────────────┘   │\n\
+  │                                                                  │\n└─────────────────────────────────────────────────────────────────┘\n\
+  ```\n\n## \U0001F4CB 프로젝트 컨텍스트\n\n- **Framework**: Next.js 16.1.1 (App Router) +\
+  \ React 19.2.3\n- **Language**: TypeScript 5\n- **State Management**: TanStack React\
+  \ Query 5\n- **UI**: ShadCN UI (Radix UI), Tailwind CSS 4\n- **Charts**: Recharts\
+  \ 3\n- **Drag & Drop**: dnd-kit\n- **Database**: Firebase Firestore (`loop`, sosi-4a8ee)\n\
+  - **Root**: `loop/main/` (8 subcollections)\n\n## \U0001F3AF 구현 범위\n\n### 파일 구조\n\
+  \n```\napps/content-os/\n├── lib/\n│   ├── firebase/\n│   │   ├── client.ts    \
+  \          # Firebase 초기화\n│   │   ├── config.ts              # Firebase 설정\n│ \
+  \  │   └── admin.ts               # Firebase Admin (서버용)\n│   ├── api/\n│   │  \
+  \ ├── firestore/\n│   │   │   ├── contents.ts        # contentos_contents 쿼리\n│\
+  \   │   │   ├── tasks.ts           # vault_tasks 쿼리\n│   │   │   ├── publishes.ts\
+  \       # contentos_publishes 쿼리\n│   │   │   └── kpi.ts             # kpi_rollups\
+  \ 쿼리\n│   │   └── hooks/\n│   │       ├── useOpportunities.ts\n│   │       ├── useContents.ts\n\
+  │   │       ├── useTasks.ts\n│   │       ├── usePublishes.ts\n│   │       └── useKpiRollups.ts\n\
+  │   ├── types/\n│   │   └── firestore.ts           # Firestore 타입 정의\n│   └── data/\n\
+  │       └── (삭제: opportunity-data.ts 등)\n├── scripts/\n│   ├── migrate-to-firestore.ts\
+  \    # 더미 → Firestore 마이그레이션\n│   └── seed-firestore.ts          # Firestore 초기\
+  \ 데이터\n└── app/\n    ├── opportunity/page.tsx       # useOpportunities()\n    ├──\
+  \ explorer/page.tsx          # useContents()\n    ├── pipeline/page.tsx        \
+  \  # useTasks()\n    ├── retro/page.tsx             # usePublishes()\n    └── performance/page.tsx\
+  \       # usePublishes() + useKpiRollups()\n```\n\n## \U0001F4DD Tech Spec\n\n###\
+  \ Phase 1: Firebase 설정\n\nlib/firebase/client.ts\n\n```typescript\nimport { initializeApp,\
+  \ getApps, getApp } from 'firebase/app';\nimport { getFirestore } from 'firebase/firestore';\n\
+  import { firebaseConfig } from './config';\n\nconst app = !getApps().length ? initializeApp(firebaseConfig)\
+  \ : getApp();\nconst db = getFirestore(app);\n\nexport { db };\n```\n\nlib/firebase/config.ts\n\
+  \n```typescript\nexport const firebaseConfig = {\n  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,\n\
+  \  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,\n  projectId: 'sosi-4a8ee',\n\
+  \  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,\n  messagingSenderId:\
+  \ process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,\n  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,\n\
+  };\n\nexport const FIRESTORE_ROOT = 'loop/main';\n```\n\n### Phase 2: Firestore\
+  \ 쿼리 레이어\n\nlib/api/firestore/contents.ts\n\n```typescript\nimport { collection,\
+  \ query, where, orderBy, limit, getDocs } from 'firebase/firestore';\nimport { db,\
+  \ FIRESTORE_ROOT } from '@/lib/firebase/client';\n\nexport async function getContents(filters?:\
+  \ {\n  status?: string;\n  limit?: number;\n  orderBy?: 'finalScore' | 'createdAt';\n\
+  }) {\n  const contentsRef = collection(db, FIRESTORE_ROOT, 'contentos_contents');\n\
+  \n  let q = query(contentsRef);\n\n  if (filters?.status) {\n    q = query(q, where('status',\
+  \ '==', filters.status));\n  }\n\n  const orderField = filters?.orderBy || 'finalScore';\n\
+  \  q = query(q, orderBy(orderField, 'desc'));\n\n  if (filters?.limit) {\n    q\
+  \ = query(q, limit(filters.limit));\n  }\n\n  const snapshot = await getDocs(q);\n\
+  \  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));\n}\n```\n\n\
+  ### Phase 3: React Query Hooks\n\nlib/api/hooks/useOpportunities.ts\n\n```typescript\n\
+  import { useQuery } from '@tanstack/react-query';\nimport { getContents } from '../firestore/contents';\n\
+  \nexport function useOpportunities() {\n  return useQuery({\n    queryKey: ['opportunities'],\n\
+  \    queryFn: () => getContents({\n      status: 'candidate',\n      orderBy: 'finalScore',\n\
+  \      limit: 50\n    }),\n    staleTime: 5 * 60 * 1000,\n    gcTime: 10 * 60 *\
+  \ 1000,\n  });\n}\n```\n\n### Phase 4: UI 페이지 수정\n\napp/opportunity/page.tsx\n\n\
+  ```typescript\n// ❌ Before\nimport { getOpportunityData } from '@/lib/data/opportunity-data';\n\
+  const opportunities = getOpportunityData();\n\n// ✅ After\nimport { useOpportunities\
+  \ } from '@/lib/api/hooks/useOpportunities';\n\nconst { data: opportunities, isLoading,\
+  \ error } = useOpportunities();\n\nif (isLoading) return <LoadingSpinner />;\nif\
+  \ (error) return <ErrorMessage error={error} />;\n```\n\n## ✅ 성공 기준\n\n- [ ] Firebase\
+  \ Web SDK 초기화 완료\n\n- [ ] 4개 Firestore 쿼리 레이어 구현\n\n- [ ] 5개 React Query 훅 구현\n\n\
+  - [ ] 5개 페이지 모두 Firebase 데이터 사용\n\n- [ ] 더미 데이터 파일 5개 제거\n\n- [ ] CRUD 작업 구현\n\n\
+  - [ ] React Query 캐싱 동작 확인\n\n- [ ] 마이그레이션 스크립트 실행 성공\n\n- [ ] TypeScript 타입 안정성\n\
+  \n- [ ] 기존 UI/UX 동작 유지\n\n## \U0001F50D 확인 사항\n\n- Firebase 환경 변수 설정 필요 (`.env.local`)\n\
+  - Firestore Rules 배포 완료 확인\n- Firestore Indexes 배포 완료 확인\n- 마이그레이션 스크립트 실행 타이밍\n\
+  - 더미 데이터 파일 삭제 시점\n\n### Todo\n\n- [x] Firebase SDK 설치 (`firebase`, `@tanstack/react-query`)\n\
+  \n- [x] 환경 변수 설정 (`.env.local`)\n\n- [x] Firebase Client 초기화\n\n- [x] Firestore\
+  \ 쿼리 함수 4개 작성\n\n- [x] React Query 훅 5개 작성\n\n- [x] Opportunity 페이지 수정\n\n- [ ]\
+  \ Explorer 페이지 수정\n\n- [ ] Pipeline 페이지 수정\n\n- [ ] Retro 페이지 수정\n\n- [ ] Performance\
+  \ 페이지 수정\n\n- [ ] CRUD 작업 구현\n\n- [ ] 마이그레이션 스크립트 작성\n\n- [ ] 더미 데이터 파일 삭제\n\n###\
+  \ 작업 로그\n\n**2026-01-07 - Phase 1-6 Complete (Opportunity Page)**\n\n**Implemented:**\n\
+  \n1. Firebase SDK Setup\n\n   - `lib/firebase/client.ts` - Singleton Firebase app\
+  \ + Firestore instance\n   - `lib/firebase/config.ts` - All config from env vars\
+  \ (NO hardcoded values)\n   - `lib/firebase/serializer.ts` - Timestamp→ISO, handles\
+  \ GeoPoint/nested/undefined\n\n2. QueryClientProvider\n\n   - Updated `components/providers/query-provider.tsx`\n\
+  \   - Retry: 3, staleTime: 5min, gcTime: 10min\n   - Added ReactQueryDevtools\n\n\
+  3. Firestore Query Layer (4 collections)\n\n   - `lib/api/firestore/contents.ts`\
+  \ - getDocs + onSnapshot\n   - `lib/api/firestore/tasks.ts` - getDocs + onSnapshot\n\
+  \   - `lib/api/firestore/publishes.ts` - getDocs + onSnapshot\n   - `lib/api/firestore/kpi.ts`\
+  \ - getDocs + onSnapshot\n\n4. React Query Hooks (5 hooks with real-time)\n\n  \
+  \ - `lib/api/hooks/useOpportunities.ts`\n   - `lib/api/hooks/useContents.ts`\n \
+  \  - `lib/api/hooks/useTasks.ts`\n   - `lib/api/hooks/usePublishes.ts`\n   - `lib/api/hooks/useKpiRollups.ts`\n\
+  \   - Pattern: queryFn (getDocs) + useEffect (onSnapshot + setQueryData)\n   - Memoized\
+  \ filters to prevent duplicate listeners\n\n5. Error Handling Components\n\n   -\
+  \ `components/firebase/loading-spinner.tsx`\n   - `components/firebase/error-message.tsx`\
+  \ - Handles permission/index/network errors\n\n6. Page Conversion\n\n   - `app/opportunity/page.tsx`\
+  \ - Added 'use client' + dynamic='force-dynamic'\n   - `components/opportunity/opportunity-dashboard.tsx`\
+  \ - useOpportunities hook\n   - Loading/error states implemented\n\n**Codex Review\
+  \ Fixes Applied:**\n\n1. Error propagation: Use queryCache.find().setState() instead\
+  \ of throwing in setQueryData\n2. useMemo → useEffect: Fixed setState during render\
+  \ warning\n3. State preservation: Merge Firebase data with local isFavorite/isExcluded\
+  \ flags\n4. All 5 hooks updated with proper error handling\n\n**Remaining Work:**\n\
+  \n- Convert 4 remaining pages (Explorer, Pipeline, Retro, Performance)\n- Implement\
+  \ CRUD operations\n- Migration script\n- Remove dummy data files after verification\n\
+  \n---\n\n## 참고 문서\n\n- \\[\\[prj-content-os\\]\\] - 소속 Project\n- \\[\\[firebase_schema.md\\\
+  ]\\] - Firebase Firestore 스키마\n- \\[\\[Content OS - Firebase 스키마 설계\\]\\] - 선행 Task\n\
+  \n---\n\n**Created**: 2026-01-07 **Assignee**: 김은향 **Due**: 2026-01-07"
 ---
 # ContentOS - Firebase DB 통합
 

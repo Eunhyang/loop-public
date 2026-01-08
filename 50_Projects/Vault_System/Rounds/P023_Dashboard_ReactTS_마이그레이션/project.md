@@ -1,90 +1,77 @@
 ---
 entity_type: Project
-entity_id: "prj-023"
-entity_name: "Dashboard - React+TS 마이그레이션"
+entity_id: prj-023
+entity_name: Dashboard - React+TS 마이그레이션
 created: 2026-01-07
-updated: 2026-01-08
+updated: '2026-01-09'
 status: active
-
-# === 계층 ===
-parent_id: "trk-2"
-program_id: "pgm-vault-system"
-aliases: ["prj-023", "Dashboard - React+TS 마이그레이션"]
-
-# === 관계 ===
+parent_id: trk-2
+program_id: pgm-vault-system
+aliases:
+- prj-023
+- Dashboard - React+TS 마이그레이션
 outgoing_relations: []
 validates: []
 validated_by: []
 primary_hypothesis_id: null
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "바닐라 JS 대시보드를 React+TS로 마이그레이션하면 페이지 경계 분리로 운영 복잡도가 감소하고, state.js 급팽창 없이 기능 추가 속도가 향상될 것이다"
+hypothesis_text: 바닐라 JS 대시보드를 React+TS로 마이그레이션하면 페이지 경계 분리로 운영 복잡도가 감소하고, state.js
+  급팽창 없이 기능 추가 속도가 향상될 것이다
 experiments: []
 tasks:
-  - tsk-022-20
-  - tsk-022-23
-  - tsk-022-25
-  - tsk-022-26
-  - tsk-023-01
-  - tsk-023-02
-  - tsk-023-03
-  - tsk-023-04
-  - tsk-023-05
-  - tsk-023-06
-  - tsk-023-07
-  - tsk-023-08
-  - tsk-023-09
-  - tsk-023-10
-  - tsk-023-11
-  - tsk-023-12
-  - tsk-023-13
-  - tsk-023-14
-  - tsk-023-15
-  - tsk-023-16
-  - tsk-023-17
-  - tsk-023-18
-  - tsk-023-19
-  - tsk-023-20
-  - tsk-023-21
-  - tsk-023-22
-  - tsk-023-23
-  - tsk-023-24
-  - tsk-023-25
-  - tsk-023-26
-  - tsk-023-27
-  - tsk-023-28
-  - tsk-023-29
-  - tsk-023-30
-  - tsk-023-31
-  - tsk-023-32
-  - tsk-023-33
-  - tsk-023-34
-  - tsk-023-35
-
-# === Expected Impact (A) ===
+- tsk-022-20
+- tsk-022-23
+- tsk-022-25
+- tsk-022-26
+- tsk-023-01
+- tsk-023-02
+- tsk-023-03
+- tsk-023-04
+- tsk-023-05
+- tsk-023-06
+- tsk-023-07
+- tsk-023-08
+- tsk-023-09
+- tsk-023-10
+- tsk-023-11
+- tsk-023-12
+- tsk-023-13
+- tsk-023-14
+- tsk-023-15
+- tsk-023-16
+- tsk-023-17
+- tsk-023-18
+- tsk-023-19
+- tsk-023-20
+- tsk-023-21
+- tsk-023-22
+- tsk-023-23
+- tsk-023-24
+- tsk-023-25
+- tsk-023-26
+- tsk-023-27
+- tsk-023-28
+- tsk-023-29
+- tsk-023-30
+- tsk-023-31
+- tsk-023-32
+- tsk-023-33
+- tsk-023-34
+- tsk-023-35
 tier: null
 impact_magnitude: null
 confidence: null
-
-# === Condition 기여 ===
 condition_contributes:
-  - to: "cond-e"
-    weight: 0.8
-    description: "운영 효율화 - 대시보드 초기 로딩 2초 이내, SSOT 드리프트 제로, 기능 추가 속도 향상"
-
-# === Secondary Track 기여 ===
+- to: cond-e
+  weight: 0.8
+  description: 운영 효율화 - 대시보드 초기 로딩 2초 이내, SSOT 드리프트 제로, 기능 추가 속도 향상
 track_contributes: []
-
-# === Expected Impact Statement ===
 expected_impact:
-  statement: "React+TS 마이그레이션으로 대시보드가 결정-증거-승인-학습 루프를 실제로 굴리는 OS가 된다"
-  metric: "초기 로딩 시간, SSOT 드리프트 수, Pending review 처리 시간, 기능 추가 소요 시간"
-  target: "로딩 <2초, 드리프트 0건, 리뷰 <1분, 기능 추가 시 state.js 급팽창 없음"
-
-# === Realized Impact (B) ===
+  statement: React+TS 마이그레이션으로 대시보드가 결정-증거-승인-학습 루프를 실제로 굴리는 OS가 된다
+  metric: 초기 로딩 시간, SSOT 드리프트 수, Pending review 처리 시간, 기능 추가 소요 시간
+  target: 로딩 <2초, 드리프트 0건, 리뷰 <1분, 기능 추가 시 state.js 급팽창 없음
 realized_impact:
   verdict: null
   outcome: null
@@ -93,15 +80,17 @@ realized_impact:
   window_id: null
   time_range: null
   metrics_snapshot: {}
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-e"]
-
-# === 분류 ===
-tags: ["project", "vault-system", "dashboard", "react", "typescript", "migration"]
+conditions_3y:
+- cond-e
+tags:
+- project
+- vault-system
+- dashboard
+- react
+- typescript
+- migration
 priority_flag: high
 ---
-
 # Dashboard - React+TS 마이그레이션
 
 > Project ID: `prj-023` | Program: [[pgm-vault-system]] | Track: [[trk-2]] | Status: doing
