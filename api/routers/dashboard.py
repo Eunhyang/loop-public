@@ -42,6 +42,11 @@ def get_dashboard_init(request: Request):
     except AttributeError:
         conditions = []
 
+    try:
+        hypotheses = cache.get_all_hypotheses()
+    except AttributeError:
+        hypotheses = []
+
     # Members
     # 민감 정보 포함 여부는 role에 따라 결정 (기본은 제외)
     include_sensitive = role in ['admin', 'exec']
@@ -63,6 +68,7 @@ def get_dashboard_init(request: Request):
         "tasks": tasks,
         "projects": projects,
         "tracks": tracks,
+        "hypotheses": hypotheses,
         "conditions": conditions,
         "members": members,
         "constants": constants,

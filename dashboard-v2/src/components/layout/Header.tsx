@@ -1,29 +1,43 @@
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useUi } from '@/contexts/UiContext';
+import { authStorage } from '@/features/auth/storage';
+
 interface HeaderProps {
   onToggleSidebar: () => void;
   isSidebarOpen: boolean;
 }
 
 export const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
-  // Notion-style top tabs: Minimal text with bottom border for active state
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { openCreateTask } = useUi();
+
+  const handleLogout = () => {
+    authStorage.clearToken();
+    navigate('/login');
+  };
+
+  const handleReload = () => {
+    queryClient.invalidateQueries();
+  };
+
+  // Nav link style
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `px-1 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ${isActive
-      ? 'border-primary text-text-main'
-      : 'border-transparent text-text-muted hover:text-text-main hover:border-zinc-200'
+      ? 'border-blue-600 text-blue-600'
+      : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-200'
     }`;
 
   return (
-    <header className="h-14 border-b border-border bg-white flex items-center justify-between px-4 shrink-0 z-10 transition-all">
+    <header className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-4 shrink-0 z-10">
       <div className="flex items-center gap-4 h-full">
-        {/* Sidebar Toggle Button */}
+        {/* Toggle Button (Visible when sidebar is closed) */}
         {!isSidebarOpen && (
           <button
             onClick={onToggleSidebar}
-            className="p-1.5 text-zinc-500 hover:bg-zinc-100 rounded-md transition-colors"
-            title="Open Sidebar"
+            className="p-2 text-gray-500 hover:bg-gray-100 rounded-md transition-colors"
+            title="Open Menu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -33,10 +47,59 @@ export const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
           </button>
         )}
 
-        {/* Only show title in header if Sidebar is closed, or always? Notion matches title position. */}
-        {/* Let's keep it simple: always show Title + Nav */}
-        <div className="flex items-center gap-6 h-full">
-          <h2 className="text-base font-semibold text-text-main tracking-tight cursor-default">LOOP Dashboard</h2>
-          <nav className="flex items-center gap-6 h-full">
-            );
+        <div className="flex flex-col justify-center">
+          <h2 className="text-md font-bold text-gray-800 leading-tight">LOOP Dashboard </h2>
+        </div>
+
+        <div className="h-6 w-px bg-gray-300 mx-2 hidden md:block"></div>
+
+        {/* Access Links (Legacy View Toggles -> Now NavLinks) */}
+        <nav className="hidden md:flex items-center gap-6 h-full">
+          <NavLink to="/kanban" className={navLinkClass}>Kanban</NavLink>
+          <NavLink to="/calendar" className={navLinkClass}>Calendar</NavLink>
+          <NavLink to="/graph" className={navLinkClass}>Graph</NavLink>
+          <NavLink to="/program" className={navLinkClass}>Program</NavLink>
+        </nav>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => openCreateTask()}
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors shadow-sm flex items-center gap-1"
+        >
+          <span>+</span> New Task
+        </button>
+
+        <div className="h-6 w-px bg-gray-300 mx-1"></div>
+
+        <button
+          onClick={handleReload}
+          className="p-2 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50 transition-colors"
+          title="Reload Data"
+        >
+          <span className="text-lg leading-none">🔄</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/pending')}
+          className="p-2 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50 transition-colors relative"
+          title="Pending Reviews"
+        >
+          <span className="text-lg leading-none">📋</span>
+        </button>
+
+        <div className="h-6 w-px bg-gray-300 mx-1"></div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-500 font-medium">User</span>
+          <button
+            onClick={handleLogout}
+            className="text-xs text-gray-400 hover:text-red-500 hover:underline transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+  );
 };
