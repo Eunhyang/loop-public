@@ -5,6 +5,7 @@
  * - Input: ISO date string (YYYY-MM-DD) or null
  * - Output: ISO date string (YYYY-MM-DD) or null
  * - Handles timezone-safe conversion (local date only, no UTC shift)
+ * - readOnly=true by default to prevent multiple API calls from partial typing
  */
 
 import Datepicker from 'react-tailwindcss-datepicker';
@@ -75,8 +76,8 @@ export const DatePicker = ({
       containerClassName={compact ? 'relative' : undefined}
       inputClassName={
         compact
-          ? 'input-filter w-full'
-          : 'w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none'
+          ? 'input-filter w-full cursor-pointer'
+          : 'w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer'
       }
       toggleClassName="absolute right-2 top-1/2 -translate-y-1/2"
     />

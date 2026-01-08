@@ -1,101 +1,47 @@
 /**
  * useLocalFilters Hook
  *
- * Manages personal filter preferences in localStorage with debounced writes
+ * React 18 useSyncExternalStore pattern for localStorage-based filter preferences.
+ *
+ * Key change from previous implementation:
+ * - Before: Each hook call created independent useState → different instances
+ * - After: All hook calls share the same external store → synchronized state
+ *
+ * This ensures FilterPanel and KanbanPage always see the same filter state.
  */
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useSyncExternalStore, useCallback } from 'react';
 import type { LocalFilterState, UseLocalFiltersReturn } from '@/types/filters';
-import { DEFAULT_LOCAL_FILTERS, FILTER_STORAGE_KEY } from '@/constants/filterDefaults';
-
-/**
- * Simple debounce implementation
- */
-function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): T & { cancel: () => void } {
-  let timeout: ReturnType<typeof setTimeout> | null = null;
-
-  const debounced = ((...args: Parameters<T>) => {
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  }) as T & { cancel: () => void };
-
-  debounced.cancel = () => {
-    if (timeout) clearTimeout(timeout);
-  };
-
-  return debounced;
-}
-
-/**
- * Hydrate state from localStorage on mount
- */
-function hydrateFromStorage(): LocalFilterState {
-  try {
-    const stored = localStorage.getItem(FILTER_STORAGE_KEY);
-    if (!stored) return DEFAULT_LOCAL_FILTERS;
-
-    const parsed = JSON.parse(stored);
-    // Merge with defaults to handle schema changes
-    return { ...DEFAULT_LOCAL_FILTERS, ...parsed };
-  } catch (error) {
-    console.error('Failed to hydrate filters from localStorage:', error);
-    return DEFAULT_LOCAL_FILTERS;
-  }
-}
+import {
+  subscribe,
+  getSnapshot,
+  getServerSnapshot,
+  setFilter as storeSetFilter,
+  resetLocal as storeResetLocal,
+} from '@/stores/localFilterStore';
 
 /**
  * Hook for managing localStorage-based filter preferences
+ *
+ * Uses useSyncExternalStore to ensure all components share the same state.
+ * Changes made in FilterPanel will immediately reflect in KanbanPage.
  */
 export const useLocalFilters = (): UseLocalFiltersReturn => {
-  // Hydrate once on mount
-  const [state, setState] = useState<LocalFilterState>(() => hydrateFromStorage());
+  // Subscribe to the external store
+  const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  // Debounced write to localStorage (500ms)
-  const debouncedWrite = useMemo(
-    () =>
-      debounce((value: LocalFilterState) => {
-        try {
-          localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(value));
-        } catch (error) {
-          console.error('Failed to write filters to localStorage:', error);
-        }
-      }, 500),
+  // Stable setFilter callback
+  const setFilter = useCallback(
+    <K extends keyof LocalFilterState>(key: K, value: LocalFilterState[K]) => {
+      storeSetFilter(key, value);
+    },
     []
   );
 
-  // Cleanup debounce on unmount
-  useEffect(() => {
-    return () => {
-      debouncedWrite.cancel();
-    };
-  }, [debouncedWrite]);
-
-  // Setter for individual filter fields
-  const setFilter = useCallback(
-    <K extends keyof LocalFilterState>(key: K, value: LocalFilterState[K]) => {
-      setState((prev) => {
-        const next = { ...prev, [key]: value };
-        debouncedWrite(next);
-        return next;
-      });
-    },
-    [debouncedWrite]
-  );
-
-  // Reset to defaults
+  // Stable resetLocal callback
   const resetLocal = useCallback(() => {
-    // Cancel any pending debounced writes to prevent stale data overwriting
-    debouncedWrite.cancel();
-    setState(DEFAULT_LOCAL_FILTERS);
-    try {
-      localStorage.removeItem(FILTER_STORAGE_KEY);
-    } catch (error) {
-      console.error('Failed to remove filters from localStorage:', error);
-    }
-  }, [debouncedWrite]);
+    storeResetLocal();
+  }, []);
 
   return {
     ...state,

@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { useUi } from '@/contexts/UiContext';
+import { httpClient } from '@/services/http';
 
 interface UseKeyboardShortcutsProps {
   helpModalOpen: boolean;
@@ -96,6 +97,16 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
       // Skip if typing in input fields
       if (isTyping(e)) return;
 
+      // If Help Modal is open, only allow Escape to close it
+      // Block all other shortcuts to prevent accidental actions
+      if (helpModalOpen) {
+        if (e.code === 'Escape') {
+          e.preventDefault();
+          setHelpModalOpen(false);
+        }
+        return;
+      }
+
       // Navigation shortcuts (1, 2, 3)
       if (e.code === 'Digit1' && !e.shiftKey && !e.metaKey && !e.ctrlKey) {
         e.preventDefault();
@@ -158,20 +169,27 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
         }
       }
 
-      // Cache reload (Shift+C)
+      // Cache reload (Shift+C) - matches Header "Reload Data" button behavior
       if (e.shiftKey && e.code === 'KeyC' && !e.metaKey && !e.ctrlKey) {
         e.preventDefault();
-        // Invalidate all queries starting with 'dashboard'
-        queryClient.invalidateQueries({
-          predicate: (query) => {
-            const key = query.queryKey[0];
-            return typeof key === 'string' && key.startsWith('dashboard');
-          },
-        });
-        // Also invalidate other dashboard-related queries
-        queryClient.invalidateQueries({ queryKey: ['tasks'] });
-        queryClient.invalidateQueries({ queryKey: ['projects'] });
-        queryClient.invalidateQueries({ queryKey: ['pending'] });
+        // 1. Reload server cache first (same as Header button)
+        httpClient.post('/api/cache/reload')
+          .then(() => {
+            // 2. Then invalidate React Query cache
+            queryClient.invalidateQueries({
+              predicate: (query) => {
+                const key = query.queryKey[0];
+                return typeof key === 'string' && key.startsWith('dashboard');
+              },
+            });
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
+            queryClient.invalidateQueries({ queryKey: ['pending'] });
+            console.log('Cache reloaded successfully (Shift+C)');
+          })
+          .catch((err) => {
+            console.error('Cache reload failed:', err);
+          });
         return;
       }
 

@@ -33,24 +33,24 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
 
     switch (type.toLowerCase()) {
       case 'bug':
-        return '!bg-red-50/50';
+        return '!bg-[#fff5f5]'; // Warm Red
       case 'dev':
-        return '!bg-blue-50/50';
+        return '!bg-[#f0f9ff]'; // Warm Sky Blue
       case 'strategy':
-        return '!bg-purple-50/50';
+        return '!bg-[#f8f5ff]'; // Warm Purple
       case 'research':
-        return '!bg-amber-50/50';
+        return '!bg-[#fff9f0]'; // Warm Amber/Orange
       case 'ops':
-        return '!bg-emerald-50/50';
+        return '!bg-[#f6fff5]'; // Warm Mint/Green
       case 'meeting':
-        return '!bg-rose-50/50';
+        return '!bg-[#fffdf0]'; // Warm Yellow
       default:
         return '';
     }
   };
 
   const priorityColor = getPriorityColor(task.priority);
-  const typeBg = getTypeBg(task.type);
+  const typeBg = getTypeBg(task.type ?? undefined);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {

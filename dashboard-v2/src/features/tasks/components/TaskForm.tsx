@@ -223,11 +223,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     </div>
 
                     {/* Task Type Chips */}
-                    {dashboardData?.constants?.task_types && (
+                    {dashboardData?.constants?.task?.types && (
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-zinc-700">Type</label>
                             <div className="flex flex-wrap gap-2">
-                                {dashboardData.constants.task_types.map((type: string) => (
+                                {dashboardData.constants.task.types.map((type: string) => (
                                     <button
                                         key={type}
                                         type="button"
@@ -318,9 +318,9 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             </div>
 
             {/* Task Type Chips */}
-            {dashboardData?.constants?.task_types && (
+            {dashboardData?.constants?.task?.types && (
                 <div className="px-6 pb-4 flex flex-wrap gap-2">
-                    {dashboardData.constants.task_types.map((type: string) => (
+                    {dashboardData.constants.task.types.map((type: string) => (
                         <button
                             key={type}
                             onClick={() => handleUpdate('type', type)}

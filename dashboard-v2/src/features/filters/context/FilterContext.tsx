@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react';
 import type { KanbanPanelFilters } from '@/features/tasks/selectors';
 
 interface FilterContextType extends KanbanPanelFilters {
@@ -25,11 +25,11 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     const [filters, setFilters] = useState<KanbanPanelFilters>(DEFAULT_FILTERS);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-    const setFilter = (key: keyof KanbanPanelFilters, value: any) => {
+    const setFilter = useCallback((key: keyof KanbanPanelFilters, value: any) => {
         setFilters(prev => ({ ...prev, [key]: value }));
-    };
+    }, []);
 
-    const toggleFilterArray = (key: keyof KanbanPanelFilters, value: string) => {
+    const toggleFilterArray = useCallback((key: keyof KanbanPanelFilters, value: string) => {
         setFilters(prev => {
             const currentArray = prev[key] as string[];
             const isIncluded = currentArray.includes(value);
@@ -38,23 +38,27 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
                 : [...currentArray, value];
             return { ...prev, [key]: newArray };
         });
-    };
+    }, []);
 
-    const togglePanel = () => setIsPanelOpen(prev => !prev);
+    const togglePanel = useCallback(() => setIsPanelOpen(prev => !prev), []);
 
-    const resetFilters = () => {
+    const resetFilters = useCallback(() => {
         setFilters(DEFAULT_FILTERS);
-    };
+    }, []);
+
+    // Memoize context value to prevent unnecessary re-renders
+    // Only re-creates when filters or isPanelOpen actually change
+    const value = useMemo<FilterContextType>(() => ({
+        ...filters,
+        isPanelOpen,
+        setFilter,
+        toggleFilterArray,
+        togglePanel,
+        resetFilters
+    }), [filters, isPanelOpen, setFilter, toggleFilterArray, togglePanel, resetFilters]);
 
     return (
-        <FilterContext.Provider value={{
-            ...filters,
-            isPanelOpen,
-            setFilter,
-            toggleFilterArray,
-            togglePanel,
-            resetFilters
-        }}>
+        <FilterContext.Provider value={value}>
             {children}
         </FilterContext.Provider>
     );
