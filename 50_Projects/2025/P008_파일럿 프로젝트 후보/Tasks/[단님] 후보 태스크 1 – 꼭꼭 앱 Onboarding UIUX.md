@@ -1,36 +1,27 @@
 ---
 entity_type: Task
-entity_id: "tsk-008-01"
-entity_name: "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX"
+entity_id: tsk-008-01
+entity_name: '[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX'
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2026-01-08'
 status: doing
-
-# === 계층 ===
-parent_id: "prj-008"
-project_id: "prj-008"
+parent_id: prj-008
+project_id: prj-008
 aliases:
-  - "tsk-008-01"
-  - "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX"
-  - "tsk-008-01"
-
-# === 관계 ===
+- tsk-008-01
+- '[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX'
+- tsk-008-01
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "임단"
+assignee: 임단
 due: 2025-12-09
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === 분류 ===
 tags: []
 priority_flag: high
 ---
-
 # [단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX
 
 > Task ID: `tsk-008-01` | Project: `prj-008` | Status: in_progress
