@@ -113,31 +113,23 @@ export const DateFilters = () => {
         <span className="text-xs text-gray-500">Quick Date</span>
 
         {/* Mode Toggle */}
-        <div className="flex gap-1">
+        <div className="flex">
           <button
             onClick={() => handleModeToggle('week')}
-            className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
-              mode === 'week'
-                ? 'bg-primary text-white'
-                : 'bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-gray-200'
-            }`}
+            className={`btn-filter !rounded-r-none !border-r-0 ${mode === 'week' ? 'btn-filter-active' : ''}`}
           >
             W
           </button>
           <button
             onClick={() => handleModeToggle('month')}
-            className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
-              mode === 'month'
-                ? 'bg-primary text-white'
-                : 'bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-gray-200'
-            }`}
+            className={`btn-filter !rounded-l-none ${mode === 'month' ? 'btn-filter-active' : ''}`}
           >
             M
           </button>
         </div>
 
         {/* Week/Month Buttons */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1">
           {mode === 'week'
             ? weekOptions.map(({ key, label, isCurrent }) => {
                 const isSelected = filters.selectedWeeks.includes(key);
@@ -145,15 +137,8 @@ export const DateFilters = () => {
                   <button
                     key={key}
                     onClick={() => toggleWeek(key)}
-                    className={`px-2.5 py-1.5 rounded text-xs font-medium transition-all ${
-                      isSelected && isCurrent
-                        ? 'bg-primary text-white ring-2 ring-white/30'
-                        : isSelected
-                          ? 'bg-primary/80 text-white border border-primary'
-                          : isCurrent
-                            ? 'bg-zinc-800 text-gray-400 ring-2 ring-primary/50 hover:bg-zinc-700'
-                            : 'bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-gray-200'
-                    }`}
+                    className={`btn-filter ${isSelected ? 'btn-filter-active' : ''} ${isCurrent && !isSelected ? '!ring-1 !ring-primary/50' : ''}`}
+                    title={key}
                   >
                     {label}
                   </button>
@@ -165,15 +150,8 @@ export const DateFilters = () => {
                   <button
                     key={key}
                     onClick={() => toggleMonth(key)}
-                    className={`px-2.5 py-1.5 rounded text-xs font-medium transition-all ${
-                      isSelected && isCurrent
-                        ? 'bg-primary text-white ring-2 ring-white/30'
-                        : isSelected
-                          ? 'bg-primary/80 text-white border border-primary'
-                          : isCurrent
-                            ? 'bg-zinc-800 text-gray-400 ring-2 ring-primary/50 hover:bg-zinc-700'
-                            : 'bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-gray-200'
-                    }`}
+                    className={`btn-filter ${isSelected ? 'btn-filter-active' : ''} ${isCurrent && !isSelected ? '!ring-1 !ring-primary/50' : ''}`}
+                    title={key}
                   >
                     {label}
                   </button>
@@ -187,7 +165,7 @@ export const DateFilters = () => {
         <span className="text-xs text-gray-500">Custom Range</span>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <label htmlFor="date-start" className="text-xs text-gray-400">
+            <label htmlFor="date-start" className="text-xs text-gray-500">
               Start Date
             </label>
             <input
@@ -195,11 +173,11 @@ export const DateFilters = () => {
               type="date"
               value={filters.dueDateStart || ''}
               onChange={(e) => handleDateChange('start', e.target.value)}
-              className="px-2 py-1.5 rounded bg-zinc-800 text-sm text-gray-200 border border-zinc-700 focus:border-primary focus:outline-none"
+              className="input-filter"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="date-end" className="text-xs text-gray-400">
+            <label htmlFor="date-end" className="text-xs text-gray-500">
               End Date
             </label>
             <input
@@ -207,7 +185,7 @@ export const DateFilters = () => {
               type="date"
               value={filters.dueDateEnd || ''}
               onChange={(e) => handleDateChange('end', e.target.value)}
-              className="px-2 py-1.5 rounded bg-zinc-800 text-sm text-gray-200 border border-zinc-700 focus:border-primary focus:outline-none"
+              className="input-filter"
             />
           </div>
         </div>
@@ -227,7 +205,7 @@ export const DateFilters = () => {
             filters.setSelectedWeeks([]);
             filters.setSelectedMonths([]);
           }}
-          className="text-xs text-gray-400 hover:text-gray-200 transition-colors text-left"
+          className="text-xs text-gray-500 hover:text-gray-700 transition-colors text-left underline"
         >
           Clear Date Filters
         </button>

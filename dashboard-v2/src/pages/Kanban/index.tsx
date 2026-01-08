@@ -15,7 +15,7 @@ const KanbanPageContent = () => {
   const { data, isLoading, error } = useDashboardInit();
   const urlFilters = useKanbanFilters();
   const panelFilters = useFilterContext();
-  const { openEditTask, closeTaskDrawer, taskDrawer } = useUi();
+  const { openEntityDrawer, closeEntityDrawer, activeEntityDrawer } = useUi();
 
   // Memoized filtering and grouping
   const filteredColumns: KanbanColumns = useMemo(() => {
@@ -50,18 +50,19 @@ const KanbanPageContent = () => {
     return buildKanbanColumns(data.tasks, combinedFilters, data.projects);
   }, [data, urlFilters, panelFilters]);
 
-  // Handle Escape key to close modal (Global drawer handles this? Or we handle it globally in UiContext?)
-  // UiContext doesn't natively handle keyboard listeners yet. 
-  // TaskDrawer component itself likely has no overlay click handler if it's a "Drawer" but let's keep it safe.
+  // Handle Escape key to close modal
+  // Note: DrawerShell already handles ESC, but this provides additional safety
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && taskDrawer.isOpen) {
-        closeTaskDrawer();
+      if (e.key === 'Escape' && activeEntityDrawer?.type === 'task') {
+        closeEntityDrawer();
       }
     };
-    window.addEventListener('keydown', handleEscape);
+    if (activeEntityDrawer?.type === 'task') {
+      window.addEventListener('keydown', handleEscape);
+    }
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [taskDrawer.isOpen, closeTaskDrawer]);
+  }, [activeEntityDrawer, closeEntityDrawer]);
 
   if (isLoading) {
     return (
@@ -102,7 +103,7 @@ const KanbanPageContent = () => {
 
       <KanbanBoard
         columns={filteredColumns}
-        onCardClick={(task) => openEditTask(task.entity_id)}
+        onCardClick={(task) => openEntityDrawer({ type: 'task', mode: 'edit', id: task.entity_id })}
       />
 
       {/* Filter Panel */}

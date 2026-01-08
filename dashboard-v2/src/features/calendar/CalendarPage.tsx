@@ -19,7 +19,7 @@ export default function CalendarPage() {
     const [popover, setPopover] = useState<{ event: GoogleCalendarEvent; anchorEl: HTMLElement } | null>(null);
 
     const { enabledCalendarIds, expandMode } = useCalendarUi();
-    const { openEditTask } = useUi();
+    const { openEntityDrawer } = useUi();
 
     const { events, isGoogleFetching } = useCalendarEvents({
         range,
@@ -94,7 +94,7 @@ export default function CalendarPage() {
             // Clear any open popover/context menu before opening drawer
             setPopover(null);
             setContextMenu(null);
-            openEditTask(info.event.extendedProps.taskId);
+            openEntityDrawer({ type: 'task', mode: 'edit', id: info.event.extendedProps.taskId });
         }
     };
 

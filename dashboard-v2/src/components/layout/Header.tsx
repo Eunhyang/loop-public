@@ -129,11 +129,10 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
         <button
           onClick={handleReload}
           disabled={reloadState === 'loading'}
-          className={`p-2 rounded transition-colors ${
-            reloadState === 'loading'
-              ? 'text-gray-300 cursor-not-allowed'
-              : 'text-gray-400 hover:text-blue-600 hover:bg-blue-50'
-          }`}
+          className={`p-2 rounded transition-colors ${reloadState === 'loading'
+            ? 'text-gray-300 cursor-not-allowed'
+            : 'text-gray-400 hover:text-blue-600 hover:bg-blue-50'
+            }`}
           title="Reload Data"
         >
           <span className="text-lg leading-none">{getReloadIcon()}</span>

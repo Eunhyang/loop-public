@@ -2,15 +2,13 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
-import { UiProvider, useUi } from '@/contexts/UiContext';
-import { TaskDrawer } from '@/features/tasks/components/TaskDrawer';
+import { UiProvider } from '@/contexts/UiContext';
 import { useState } from 'react';
 
 import { EntityDrawer } from './EntityDrawer';
 import { authStorage } from '@/features/auth/storage';
 
 const AppLayoutContent = () => {
-  const { taskDrawer, closeTaskDrawer } = useUi();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Calculate Admin Role from stored role
@@ -29,13 +27,6 @@ const AppLayoutContent = () => {
           <Outlet />
         </main>
       </div>
-
-      {/* Global Task Drawer */}
-      <TaskDrawer
-        taskId={taskDrawer.taskId}
-        isOpen={taskDrawer.isOpen}
-        onClose={closeTaskDrawer}
-      />
 
       {/* Global Entity Drawer */}
       <EntityDrawer />

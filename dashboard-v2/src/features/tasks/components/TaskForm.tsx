@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { useTask, useUpdateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import type { Task } from '@/types';
@@ -9,7 +9,11 @@ interface TaskFormProps {
     prefill?: Partial<Task>;
 }
 
-export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
+export interface TaskFormHandle {
+    saveNotes: () => void;
+}
+
+export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, prefill }, ref) => {
     const { data: task, isLoading } = useTask(mode === 'edit' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
     const { data: dashboardData } = useDashboardInit();
@@ -19,6 +23,15 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
 
     // For create mode, use prefill data
     const formData = mode === 'create' ? prefill : task;
+
+    // Expose saveNotes method via ref
+    useImperativeHandle(ref, () => ({
+        saveNotes: () => {
+            if (isEditingNotes && notesRef.current && id) {
+                updateTask({ id, data: { notes: notesRef.current.value } });
+            }
+        }
+    }));
 
     if (mode === 'edit' && (isLoading || !task)) {
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
@@ -49,6 +62,12 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
             const shareLink = `${window.location.origin}/tasks/${id}`;
             navigator.clipboard.writeText(shareLink);
         }
+    };
+
+    const openObsidian = () => {
+        // Similar to TaskDrawer implementation
+        // File path would need to be added to Task type or constructed from task ID
+        alert("Obsidian link implementation pending (requires file path logic)");
     };
 
     const renderMarkdown = (text: string): string => {
@@ -186,6 +205,16 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
                     defaultValue={formData?.due || ''}
                     onBlur={(e) => handleUpdate('due', e.target.value)}
                 />
+
+                {/* Obsidian Link */}
+                <div className="col-span-2 pt-2">
+                    <button
+                        onClick={openObsidian}
+                        className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline flex items-center gap-1 transition-colors"
+                    >
+                        <span className="text-lg">💎</span> Open in Obsidian
+                    </button>
+                </div>
             </div>
 
             <div className="h-px bg-zinc-200 mx-6 my-2" />
@@ -236,6 +265,26 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
                     </div>
                 )}
 
+                {/* Track (via Project) */}
+                {formData?.project_id && dashboardData?.projects && (
+                    (() => {
+                        const project = dashboardData.projects.find((p: any) => p.entity_id === formData.project_id);
+                        const trackId = project?.parent_id;
+                        const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
+
+                        return track ? (
+                            <div className="mb-3">
+                                <span className="text-xs text-zinc-500 font-medium">Track:</span>
+                                <div className="mt-1">
+                                    <span className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
+                                        {track.entity_name}
+                                    </span>
+                                </div>
+                            </div>
+                        ) : null;
+                    })()
+                )}
+
                 {/* Conditions */}
                 {formData?.conditions_3y && formData.conditions_3y.length > 0 && (
                     <div className="mb-3">
@@ -270,10 +319,30 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
                     </div>
                 )}
 
-                {!formData?.project_id && !formData?.conditions_3y?.length && !formData?.validates?.length && (
+                {/* Links */}
+                {formData?.links && formData.links.length > 0 && (
+                    <div className="mb-3">
+                        <span className="text-xs text-zinc-500 font-medium">Links:</span>
+                        <div className="mt-1 space-y-1">
+                            {formData.links.map((link: any, idx: number) => (
+                                <a
+                                    key={idx}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block text-xs text-blue-600 hover:underline"
+                                >
+                                    {link.label || link.url}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {!formData?.project_id && !formData?.conditions_3y?.length && !formData?.validates?.length && !formData?.links?.length && (
                     <p className="text-xs text-zinc-500 italic">No relations defined</p>
                 )}
             </div>
         </div>
     );
-};
+});

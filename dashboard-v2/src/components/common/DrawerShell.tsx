@@ -7,6 +7,10 @@ export interface DrawerShellProps {
   subtitle?: string;
   children: ReactNode;
   width?: string;
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
+  showExpandButton?: boolean;
+  footer?: ReactNode;
 }
 
 /**
@@ -27,7 +31,11 @@ export function DrawerShell({
   title,
   subtitle,
   children,
-  width = 'w-[600px]'
+  width = 'w-[600px]',
+  isExpanded = false,
+  onToggleExpand,
+  showExpandButton = false,
+  footer
 }: DrawerShellProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -130,7 +138,7 @@ export function DrawerShell({
         aria-labelledby={titleId}
         aria-describedby={subtitle ? subtitleId : undefined}
         tabIndex={-1}
-        className={`fixed top-0 right-0 h-full ${width} bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full ${isExpanded ? 'w-full' : width} bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -146,21 +154,40 @@ export function DrawerShell({
               </p>
             )}
           </div>
-          <button
-            onClick={onClose}
-            className="ml-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
-            aria-label="Close drawer"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+            {showExpandButton && onToggleExpand && (
+              <button
+                onClick={onToggleExpand}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label={isExpanded ? "Collapse drawer" : "Expand drawer"}
+                title={isExpanded ? "Collapse" : "Expand"}
+              >
+                ⛶
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Close drawer"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Body - Scrollable */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {children}
         </div>
+
+        {/* Footer (optional) */}
+        {footer && (
+          <div className="flex-shrink-0">
+            {footer}
+          </div>
+        )}
       </div>
     </>
   );
