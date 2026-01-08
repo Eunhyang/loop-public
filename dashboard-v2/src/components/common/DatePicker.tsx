@@ -7,7 +7,8 @@
  * - Handles timezone-safe conversion (local date only, no UTC shift)
  */
 
-import Datepicker, { DateValueType } from 'react-tailwindcss-datepicker';
+import Datepicker from 'react-tailwindcss-datepicker';
+import type { DateValueType } from 'react-tailwindcss-datepicker';
 
 interface DatePickerProps {
   value: string | null;

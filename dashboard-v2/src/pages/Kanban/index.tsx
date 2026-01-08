@@ -7,14 +7,14 @@ import { buildKanbanColumns } from '@/features/tasks/selectors';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
-import type { CombinedFilterState } from '@/types/filters';
-import { DEFAULT_LOCAL_FILTERS } from '@/constants/filterDefaults';
+import { useCombinedFilters } from '@/hooks/useCombinedFilters';
 import { useUi } from '@/contexts/UiContext';
 
 const KanbanPageContent = () => {
   const { data, isLoading, error } = useDashboardInit();
   const urlFilters = useKanbanFilters();
   const panelFilters = useFilterContext();
+  const combinedFilters = useCombinedFilters();
   const { openEntityDrawer, closeEntityDrawer, activeEntityDrawer } = useUi();
 
   // Memoized filtering and grouping
@@ -23,34 +23,14 @@ const KanbanPageContent = () => {
       return { todo: [], doing: [], hold: [], done: [], blocked: [] };
     }
 
-    // Merge URL filters with panel filters + defaults for CombinedFilterState compatibility
-    const combinedFilters: CombinedFilterState = {
-      // URL filters
-      ...urlFilters,
-      // Explicitly pass projectIds for selector
-      projectIds: urlFilters.projectIds,
-      // Add programId from URL (default null if not in old useKanbanFilters)
-      programId: (urlFilters as any).programId ?? null,
-      // Local filters from FilterContext (map old field names to new)
-      showInactiveMembers: DEFAULT_LOCAL_FILTERS.showInactiveMembers,
-      showNonCoreMembers: DEFAULT_LOCAL_FILTERS.showNonCoreMembers,
-      showInactiveProjects: panelFilters.showDoneProjects, // Map old name
-      showInactiveTasks: panelFilters.showInactive,        // Map old name
-      // Panel filter arrays
-      projectStatus: panelFilters.projectStatus.length > 0
-        ? panelFilters.projectStatus
-        : DEFAULT_LOCAL_FILTERS.projectStatus,
-      projectPriority: panelFilters.projectPriority,
-      taskStatus: panelFilters.taskStatus,
-      taskPriority: panelFilters.taskPriority,
-      taskTypes: panelFilters.taskTypes,
-      // Date range (default)
-      dueDateStart: null,
-      dueDateEnd: null,
-    };
-
-    return buildKanbanColumns(data.tasks, combinedFilters, data.projects);
-  }, [data, urlFilters, panelFilters]);
+    // Use combined filters from hook (already merges URL + localStorage)
+    return buildKanbanColumns(
+      data.tasks,
+      combinedFilters,
+      data.projects,
+      data.members
+    );
+  }, [data, combinedFilters]);
 
   // Handle Escape key to close modal
   // Note: DrawerShell already handles ESC, but this provides additional safety

@@ -60,7 +60,7 @@ export default function CalendarPage() {
     const handleViewChange = (view: string) => calendarRef.current?.getApi().changeView(view);
 
     // Interaction Handlers
-    const handleDateClick = (info: any) => {
+    const handleDateClick = (_info: any) => {
         // Clear menus on normal click
         setContextMenu(null);
         setPopover(null);

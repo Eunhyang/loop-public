@@ -28,7 +28,29 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
     }
   };
 
+  const getTypeBg = (type?: string) => {
+    if (!type) return '';
+
+    switch (type.toLowerCase()) {
+      case 'bug':
+        return '!bg-red-50/50';
+      case 'dev':
+        return '!bg-blue-50/50';
+      case 'strategy':
+        return '!bg-purple-50/50';
+      case 'research':
+        return '!bg-amber-50/50';
+      case 'ops':
+        return '!bg-emerald-50/50';
+      case 'meeting':
+        return '!bg-rose-50/50';
+      default:
+        return '';
+    }
+  };
+
   const priorityColor = getPriorityColor(task.priority);
+  const typeBg = getTypeBg(task.type);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -47,7 +69,7 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
           style={{
             ...provided.draggableProps.style,
           }}
-          className={`glass-subtle rounded-lg p-3 mb-2 cursor-grab active:cursor-grabbing border-l-4 ${priorityColor} focus:outline-none focus:ring-2 focus:ring-black/20 group hover:shadow-md transition-all duration-200 ${snapshot.isDragging ? 'shadow-lg ring-2 ring-black/10 rotate-2 bg-white' : ''
+          className={`glass-subtle rounded-lg p-3 mb-2 cursor-grab active:cursor-grabbing border-l-4 ${priorityColor} ${typeBg} focus:outline-none focus:ring-2 focus:ring-black/20 group hover:shadow-md transition-all duration-200 ${snapshot.isDragging ? 'shadow-lg ring-2 ring-black/10 rotate-2 !bg-white' : ''
             }`}
           onClick={() => onClick(task)}
           onKeyDown={handleKeyDown}

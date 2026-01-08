@@ -8,6 +8,7 @@ export interface Member {
   id: string;
   name: string;
   role: string;
+  active?: boolean; // undefined or true = active, false = inactive
 }
 
 export interface Track {

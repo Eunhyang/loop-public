@@ -1,4 +1,4 @@
-import type { Task, Project } from '@/types';
+import type { Task, Project, Member } from '@/types';
 import type { KanbanColumns } from './components/Kanban/KanbanBoard';
 import type { UrlFilterState, LocalFilterState, CombinedFilterState } from '@/types/filters';
 import { getWeekRange, getMonthRange, isWithinRange } from '@/utils/date';
@@ -222,6 +222,51 @@ export const filterTasksByProjects = (tasks: Task[], allowedProjectIds: string[]
     return tasks.filter(t => allowedProjectIds.includes(t.project_id));
 };
 
+/**
+ * Core roles definition for member filtering
+ * Members with these roles are considered "core" team members
+ */
+const CORE_ROLES = ['Founder', 'Cofounder', 'Member'];
+
+/**
+ * Filter Tasks by Member Properties (active status and role)
+ *
+ * @param tasks - Tasks to filter
+ * @param members - Member list for lookup
+ * @param filters - Combined filter state with showInactiveMembers and showNonCoreMembers
+ * @returns Filtered tasks based on member visibility settings
+ */
+export const filterTasksByMembers = (
+  tasks: Task[],
+  members: Member[],
+  filters: CombinedFilterState
+): Task[] => {
+  // Build member lookup map for O(1) access
+  const memberMap = new Map(members.map(m => [m.id, m]));
+
+  return tasks.filter(task => {
+    const member = memberMap.get(task.assignee);
+
+    // Keep orphan tasks (no member assigned or member not found)
+    if (!member) return true;
+
+    // Filter 1: Show Inactive Members
+    // If showInactiveMembers is false, hide tasks assigned to inactive members
+    // Note: undefined or true = active, only explicit false = inactive
+    if (!filters.showInactiveMembers && member.active === false) {
+      return false;
+    }
+
+    // Filter 2: Show Non-Core Members
+    // If showNonCoreMembers is false, hide tasks assigned to non-core members
+    if (!filters.showNonCoreMembers && !CORE_ROLES.includes(member.role)) {
+      return false;
+    }
+
+    return true;
+  });
+};
+
 // 3. Grouping Logic
 
 export const groupTasksByStatus = (tasks: Task[]): KanbanColumns => {
@@ -244,12 +289,13 @@ import { filterProjects } from '@/features/projects/selectors';
  * Build Kanban Columns with Phase 1/2 filtering
  *
  * Phase 1: Filter projects → allowedProjectIds
- * Phase 2: Filter tasks (URL filters → Local filters → Project constraints)
+ * Phase 2: Filter tasks (URL filters → Local filters → Project constraints → Member filters)
  */
 export const buildKanbanColumns = (
   tasks: Task[],
   filters: CombinedFilterState,
-  projects: Project[] = []
+  projects: Project[] = [],
+  members: Member[] = []
 ): KanbanColumns => {
   // PHASE 1: Filter projects to get allowed project IDs
   const allowedProjectIds = filterProjects(projects, filters);
@@ -266,6 +312,9 @@ export const buildKanbanColumns = (
   // Step 3: Apply project constraints (from Phase 1)
   filtered = filterTasksByProjects(filtered, allowedProjectIds);
 
-  // Step 4: Group by status for Kanban display
+  // Step 4: Apply member filters (active status and role)
+  filtered = filterTasksByMembers(filtered, members, filters);
+
+  // Step 5: Group by status for Kanban display
   return groupTasksByStatus(filtered);
 };
