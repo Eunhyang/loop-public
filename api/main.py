@@ -446,12 +446,15 @@ if DASHBOARD_V2_DIR.exists():
 
     # SPA fallback routes - serve index.html for all client-side routes
     @app.get("/v2/vite.svg")
+    @app.head("/v2/vite.svg")
     async def serve_vite_svg():
         """Serve vite.svg favicon"""
         return FileResponse(DASHBOARD_V2_DIR / "vite.svg", media_type="image/svg+xml")
 
     @app.get("/v2")
+    @app.head("/v2")
     @app.get("/v2/{path:path}")
+    @app.head("/v2/{path:path}")
     async def serve_dashboard_v2(path: str = ""):
         """SPA fallback - serve index.html for all /v2/* routes"""
         return FileResponse(DASHBOARD_V2_DIR / "index.html", media_type="text/html")
