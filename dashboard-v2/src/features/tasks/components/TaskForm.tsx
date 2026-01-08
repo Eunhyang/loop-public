@@ -3,6 +3,7 @@ import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries'
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import type { Task } from '@/types';
+import { DatePicker } from '@/components/common/DatePicker';
 
 interface TaskFormProps {
     mode: 'create' | 'edit';
@@ -248,22 +249,18 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                         {/* Start Date */}
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-zinc-700">Start Date</label>
-                            <input
-                                type="date"
-                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-                                value={formData.start_date}
-                                onChange={e => setFormData(prev => ({ ...prev, start_date: e.target.value }))}
+                            <DatePicker
+                                value={formData.start_date || null}
+                                onChange={(value) => setFormData(prev => ({ ...prev, start_date: value || '' }))}
                             />
                         </div>
 
                         {/* Due Date */}
                         <div className="space-y-1.5">
                             <label className="block text-sm font-medium text-zinc-700">Due Date</label>
-                            <input
-                                type="date"
-                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-                                value={formData.due}
-                                onChange={e => setFormData(prev => ({ ...prev, due: e.target.value }))}
+                            <DatePicker
+                                value={formData.due || null}
+                                onChange={(value) => setFormData(prev => ({ ...prev, due: value || '' }))}
                             />
                         </div>
                     </div>
@@ -398,20 +395,22 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
 
                 {/* Date Fields */}
                 <label className="text-zinc-500 py-1">Start Date</label>
-                <input
-                    type="date"
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    defaultValue={displayData?.start_date || ''}
-                    onBlur={(e) => handleUpdate('start_date', e.target.value)}
-                />
+                <div className="w-fit">
+                    <DatePicker
+                        value={displayData?.start_date || null}
+                        onChange={(value) => handleUpdate('start_date', value || '')}
+                        compact={true}
+                    />
+                </div>
 
                 <label className="text-zinc-500 py-1">Due Date</label>
-                <input
-                    type="date"
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    defaultValue={displayData?.due || ''}
-                    onBlur={(e) => handleUpdate('due', e.target.value)}
-                />
+                <div className="w-fit">
+                    <DatePicker
+                        value={displayData?.due || null}
+                        onChange={(value) => handleUpdate('due', value || '')}
+                        compact={true}
+                    />
+                </div>
 
                 {/* Track (via Project) */}
                 {displayData?.project_id && dashboardData?.projects && (() => {

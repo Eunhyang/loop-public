@@ -3,16 +3,23 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { UiProvider } from '@/contexts/UiContext';
+import { FilterProvider } from '@/features/filters/context/FilterContext';
 import { useState } from 'react';
 
 import { EntityDrawer } from './EntityDrawer';
 import { authStorage } from '@/features/auth/storage';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { HelpModal } from '@/components/common/HelpModal';
 
 const AppLayoutContent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
 
   // Calculate Admin Role from stored role
   const isAdmin = authStorage.getRole() === 'admin';
+
+  // Global keyboard shortcuts
+  useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen });
 
   return (
     <div className="flex h-screen bg-main text-text-main">
@@ -30,6 +37,9 @@ const AppLayoutContent = () => {
 
       {/* Global Entity Drawer */}
       <EntityDrawer />
+
+      {/* Global Help Modal */}
+      <HelpModal isOpen={helpModalOpen} onClose={() => setHelpModalOpen(false)} />
     </div>
   );
 };
@@ -37,7 +47,9 @@ const AppLayoutContent = () => {
 export const AppLayout = () => {
   return (
     <UiProvider>
-      <AppLayoutContent />
+      <FilterProvider>
+        <AppLayoutContent />
+      </FilterProvider>
     </UiProvider>
   );
 };

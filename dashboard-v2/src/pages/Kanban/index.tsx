@@ -4,7 +4,7 @@ import { useKanbanFilters } from './useKanbanFilters';
 import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
 import { KanbanFilters } from './KanbanFilters';
 import { buildKanbanColumns } from '@/features/tasks/selectors';
-import { FilterProvider, useFilterContext } from '@/features/filters/context/FilterContext';
+import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
 import type { CombinedFilterState } from '@/types/filters';
@@ -120,12 +120,9 @@ const KanbanPageContent = () => {
 };
 
 /**
- * Main Kanban page component (Wrapper)
+ * Main Kanban page component
+ * Note: FilterProvider is now at AppLayout level for global keyboard shortcuts
  */
 export const KanbanPage = () => {
-  return (
-    <FilterProvider>
-      <KanbanPageContent />
-    </FilterProvider>
-  );
+  return <KanbanPageContent />;
 };
