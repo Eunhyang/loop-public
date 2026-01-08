@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { taskApi } from './api';
+import type { CreateTaskDTO } from './api';
 import { queryKeys } from '@/queries/keys';
 import type { Task } from '@/types';
 
@@ -68,6 +69,21 @@ export const useUpdateTask = () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.task(variables.id) });
             queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
             queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+        },
+    });
+};
+
+export const useCreateTask = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: CreateTaskDTO) => taskApi.createTask(data),
+        onSuccess: () => {
+            // Invalidate Dashboard Init (for global state refresh)
+            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+
+            // Invalidate Tasks list
+            queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
         },
     });
 };

@@ -1,6 +1,7 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { useTask, useUpdateTask } from '@/features/tasks/queries';
+import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { useUi } from '@/contexts/UiContext';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
@@ -16,13 +17,29 @@ export interface TaskFormHandle {
 export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, prefill }, ref) => {
     const { data: task, isLoading } = useTask(mode === 'edit' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
+    const { mutate: createTask, isPending, error } = useCreateTask();
     const { data: dashboardData } = useDashboardInit();
+    const { closeEntityDrawer } = useUi();
 
     const [isEditingNotes, setIsEditingNotes] = useState(false);
     const notesRef = useRef<HTMLTextAreaElement>(null);
 
-    // For create mode, use prefill data
-    const formData = mode === 'create' ? prefill : task;
+    // Create mode state
+    const [formData, setFormData] = useState({
+        entity_name: prefill?.entity_name || '',
+        project_id: prefill?.project_id || '',
+        assignee: prefill?.assignee || '',
+        status: prefill?.status || dashboardData?.constants?.task?.status_default || 'todo',
+        priority: prefill?.priority || 'medium',
+        type: prefill?.type || '',
+        start_date: prefill?.start_date || '',
+        due: prefill?.due || '',
+    });
+
+    const [formError, setFormError] = useState<string | null>(null);
+
+    // For edit mode, use task data; for create mode, use formData
+    const displayData = mode === 'edit' ? task : (formData as any);
 
     // Expose saveNotes method via ref
     useImperativeHandle(ref, () => ({
@@ -37,14 +54,42 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
     }
 
-    if (mode === 'create') {
-        return (
-            <div className="p-6 text-center text-zinc-500">
-                <p>Task creation via API not yet implemented.</p>
-                <p className="text-sm mt-2">Use loop-entity-creator skill to create tasks.</p>
-            </div>
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setFormError(null);
+
+        // Validation
+        if (!formData.entity_name.trim()) {
+            setFormError('Task name is required');
+            return;
+        }
+        if (!formData.project_id) {
+            setFormError('Project is required');
+            return;
+        }
+        if (!formData.assignee) {
+            setFormError('Assignee is required');
+            return;
+        }
+
+        // Client-side format validation (backend will also validate)
+        if (!formData.entity_name.includes(' - ')) {
+            setFormError('Task name must follow format: "주제 - 내용"');
+            return;
+        }
+
+        createTask(
+            formData,
+            {
+                onSuccess: () => {
+                    closeEntityDrawer();
+                },
+                onError: (err: any) => {
+                    setFormError(err.response?.data?.message || err.message || 'Failed to create task');
+                }
+            }
         );
-    }
+    };
 
     const handleUpdate = (field: keyof Task, value: any) => {
         if (!id) return;
@@ -77,6 +122,164 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             .replace(/\n/gim, '<br/>');
     };
 
+    if (mode === 'create') {
+        return (
+            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto flex flex-col">
+                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                    {/* Error Message */}
+                    {(formError || error) && (
+                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
+                            {formError || (error as any)?.message}
+                        </div>
+                    )}
+
+                    {/* Task Name */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Task Name *</label>
+                        <input
+                            type="text"
+                            autoFocus
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none placeholder-zinc-400"
+                            placeholder='Format: "주제 - 내용"'
+                            value={formData.entity_name}
+                            onChange={e => setFormData(prev => ({ ...prev, entity_name: e.target.value }))}
+                        />
+                    </div>
+
+                    {/* Project */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Project *</label>
+                        <select
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                            value={formData.project_id}
+                            onChange={e => setFormData(prev => ({ ...prev, project_id: e.target.value }))}
+                        >
+                            <option value="">-- Select Project --</option>
+                            {dashboardData?.projects?.map((p: any) => (
+                                <option key={p.entity_id} value={p.entity_id}>
+                                    {p.entity_name || p.entity_id}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Assignee */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Assignee *</label>
+                        <select
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                            value={formData.assignee}
+                            onChange={e => setFormData(prev => ({ ...prev, assignee: e.target.value }))}
+                        >
+                            <option value="">-- Select Assignee --</option>
+                            {dashboardData?.members?.map((m: any) => (
+                                <option key={m.id} value={m.name}>{m.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {/* Status */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Status</label>
+                            <select
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
+                                value={formData.status}
+                                onChange={e => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                            >
+                                <option value="todo">Todo</option>
+                                <option value="doing">Doing</option>
+                                <option value="hold">Hold</option>
+                                <option value="blocked">Blocked</option>
+                                <option value="done">Done</option>
+                            </select>
+                        </div>
+
+                        {/* Priority */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Priority</label>
+                            <select
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
+                                value={formData.priority}
+                                onChange={e => setFormData(prev => ({ ...prev, priority: e.target.value as any }))}
+                            >
+                                <option value="critical">Critical</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Task Type Chips */}
+                    {dashboardData?.constants?.task_types && (
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Type</label>
+                            <div className="flex flex-wrap gap-2">
+                                {dashboardData.constants.task_types.map((type: string) => (
+                                    <button
+                                        key={type}
+                                        type="button"
+                                        onClick={() => setFormData(prev => ({ ...prev, type }))}
+                                        className={`px-3 py-1 text-xs rounded-full transition-all ${
+                                            formData.type === type
+                                                ? 'bg-zinc-900 text-white shadow-sm'
+                                                : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                                        }`}
+                                    >
+                                        {type}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {/* Start Date */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Start Date</label>
+                            <input
+                                type="date"
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                                value={formData.start_date}
+                                onChange={e => setFormData(prev => ({ ...prev, start_date: e.target.value }))}
+                            />
+                        </div>
+
+                        {/* Due Date */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Due Date</label>
+                            <input
+                                type="date"
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                                value={formData.due}
+                                onChange={e => setFormData(prev => ({ ...prev, due: e.target.value }))}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div className="p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
+                    <button
+                        type="button"
+                        onClick={closeEntityDrawer}
+                        className="px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isPending}
+                        className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isPending ? 'Creating...' : 'Create Task'}
+                    </button>
+                </div>
+            </form>
+        );
+    }
+
     return (
         <div className="flex-1 overflow-y-auto">
             {/* ID Badge */}
@@ -102,7 +305,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <input
                     className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
                     placeholder="Task Title"
-                    defaultValue={formData?.entity_name}
+                    defaultValue={displayData?.entity_name}
                     onBlur={(e) => handleUpdate('entity_name', e.target.value)}
                 />
             </div>
@@ -115,7 +318,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                             key={type}
                             onClick={() => handleUpdate('type', type)}
                             className={`px-3 py-1 text-xs rounded-full transition-all ${
-                                formData?.type === type
+                                displayData?.type === type
                                     ? 'bg-zinc-900 text-white shadow-sm'
                                     : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                             }`}
@@ -132,7 +335,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <label className="text-zinc-500 py-1">Status</label>
                 <select
                     className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.status}
+                    value={displayData?.status}
                     onChange={(e) => handleUpdate('status', e.target.value)}
                 >
                     <option value="todo">To Do</option>
@@ -146,7 +349,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <label className="text-zinc-500 py-1">Priority</label>
                 <select
                     className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.priority}
+                    value={displayData?.priority}
                     onChange={(e) => handleUpdate('priority', e.target.value)}
                 >
                     <option value="critical">Critical</option>
@@ -159,7 +362,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <label className="text-zinc-500 py-1">Assignee</label>
                 <select
                     className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.assignee}
+                    value={displayData?.assignee}
                     onChange={(e) => handleUpdate('assignee', e.target.value)}
                 >
                     <option value="">Unassigned</option>
@@ -172,7 +375,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <label className="text-zinc-500 py-1">Project</label>
                 <select
                     className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.project_id}
+                    value={displayData?.project_id}
                     onChange={(e) => handleUpdate('project_id', e.target.value)}
                 >
                     <option value="">No Project</option>
@@ -188,7 +391,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <input
                     type="date"
                     className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    defaultValue={formData?.start_date || ''}
+                    defaultValue={displayData?.start_date || ''}
                     onBlur={(e) => handleUpdate('start_date', e.target.value)}
                 />
 
@@ -196,12 +399,12 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 <input
                     type="date"
                     className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    defaultValue={formData?.due || ''}
+                    defaultValue={displayData?.due || ''}
                     onBlur={(e) => handleUpdate('due', e.target.value)}
                 />
 
                 {/* Track (via Project) */}
-                {formData?.project_id && dashboardData?.projects && (() => {
+                {displayData?.project_id && dashboardData?.projects && (() => {
                     const project = dashboardData.projects.find((p: any) => p.entity_id === formData.project_id);
                     const trackId = project?.parent_id;
                     const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
@@ -216,11 +419,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 })()}
 
                 {/* Conditions */}
-                {formData?.conditions_3y && formData.conditions_3y.length > 0 && (
+                {mode === 'edit' && displayData?.conditions_3y && displayData.conditions_3y.length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Conditions</label>
                         <div className="flex flex-wrap gap-1">
-                            {formData.conditions_3y.map((condId: string) => {
+                            {displayData.conditions_3y.map((condId: string) => {
                                 const condition = dashboardData?.conditions?.find((c: any) => c.entity_id === condId);
                                 return (
                                     <span key={condId} className="inline-block px-2 py-1 bg-zinc-100 border border-zinc-200 rounded text-xs text-zinc-700">
@@ -233,11 +436,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 )}
 
                 {/* Validates */}
-                {formData?.validates && formData.validates.length > 0 && (
+                {mode === 'edit' && displayData?.validates && displayData.validates.length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Validates</label>
                         <div className="flex flex-wrap gap-1">
-                            {formData.validates.map((hypId: string) => {
+                            {displayData.validates.map((hypId: string) => {
                                 const hypothesis = dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId);
                                 return (
                                     <span key={hypId} className="inline-block px-2 py-1 bg-zinc-100 border border-zinc-200 rounded text-xs text-zinc-700">
@@ -250,11 +453,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 )}
 
                 {/* Links */}
-                {formData?.links && formData.links.length > 0 && (
+                {mode === 'edit' && displayData?.links && displayData.links.length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Links</label>
                         <div className="space-y-1">
-                            {formData.links.map((link: any, idx: number) => (
+                            {displayData.links.map((link: any, idx: number) => (
                                 <a
                                     key={idx}
                                     href={link.url}
@@ -288,11 +491,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     <textarea
                         ref={notesRef}
                         className="w-full min-h-[200px] border border-zinc-200 p-3 rounded bg-white text-sm font-mono leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
-                        defaultValue={formData?.notes || ''}
+                        defaultValue={displayData?.notes || ''}
                     />
                 ) : (
                     <div className="prose prose-sm max-w-none text-zinc-800">
-                        {formData?.notes ? (
+                        {displayData?.notes ? (
                             <div dangerouslySetInnerHTML={{ __html: renderMarkdown(formData.notes) }} />
                         ) : (
                             <span className="text-zinc-400 italic">No notes</span>
