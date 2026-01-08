@@ -20,6 +20,9 @@ interface UiContextType {
     activeEntityDrawer: ActiveEntityDrawer;
     isDrawerExpanded: boolean;
 
+    // Command Palette
+    isCommandPaletteOpen: boolean;
+
     // LEGACY Actions (keeping for compatibility)
     openCreateProject: () => void;
     openCreateProgram: () => void;
@@ -29,6 +32,10 @@ interface UiContextType {
     openEntityDrawer: (drawer: NonNullable<ActiveEntityDrawer>) => void;
     closeEntityDrawer: () => void;
     toggleDrawerExpand: () => void;
+
+    // Command Palette Actions
+    openCommandPalette: () => void;
+    closeCommandPalette: () => void;
 }
 
 const UiContext = createContext<UiContextType | undefined>(undefined);
@@ -37,6 +44,7 @@ export function UiProvider({ children }: { children: ReactNode }) {
     const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
     const [activeEntityDrawer, setActiveEntityDrawer] = useState<ActiveEntityDrawer>(null);
     const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
     // Modal Actions (LEGACY)
     const openCreateProject = useCallback(() => setActiveModal('createProject'), []);
@@ -46,8 +54,9 @@ export function UiProvider({ children }: { children: ReactNode }) {
     // Entity Drawer Actions
     const openEntityDrawer = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
         setActiveEntityDrawer(drawer);
-        // Close any legacy modals
+        // Close any legacy modals and command palette
         setActiveModal(null);
+        setIsCommandPaletteOpen(false);
     }, []);
 
     const closeEntityDrawer = useCallback(() => {
@@ -62,6 +71,17 @@ export function UiProvider({ children }: { children: ReactNode }) {
         }
     }, [activeEntityDrawer]);
 
+    // Command Palette Actions
+    const openCommandPalette = useCallback(() => {
+        setIsCommandPaletteOpen(true);
+        // Close other overlays
+        setActiveModal(null);
+    }, []);
+
+    const closeCommandPalette = useCallback(() => {
+        setIsCommandPaletteOpen(false);
+    }, []);
+
     return (
         <UiContext.Provider value={{
             // LEGACY
@@ -74,7 +94,11 @@ export function UiProvider({ children }: { children: ReactNode }) {
             isDrawerExpanded,
             openEntityDrawer,
             closeEntityDrawer,
-            toggleDrawerExpand
+            toggleDrawerExpand,
+            // Command Palette
+            isCommandPaletteOpen,
+            openCommandPalette,
+            closeCommandPalette
         }}>
             {children}
         </UiContext.Provider>

@@ -208,7 +208,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                         <label className="text-zinc-500 py-1">Project</label>
                         <span
                             className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                            onClick={() => openEntityDrawer({ type: 'project', mode: 'view', id: formData.project_id! })}
+                            onClick={() => openEntityDrawer({ type: 'project', mode: 'edit', id: formData.project_id! })}
                         >
                             {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
                         </span>

@@ -39,6 +39,83 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         }
     }, [dashboardData, prefill]);
 
+    // View mode - show project details read-only
+    if (mode === 'view' && id) {
+        const project: any = dashboardData?.projects?.find((p: any) => p.entity_id === id);
+        const track = project?.parent_id
+            ? dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)
+            : null;
+
+        if (!project) {
+            return (
+                <div className="p-6 text-center text-zinc-500">
+                    <p>Project not found: {id}</p>
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex-1 overflow-y-auto">
+                <div className="px-6 pt-4 pb-2">
+                    <span className="font-mono text-xs text-zinc-400 px-2 py-1 bg-zinc-50 rounded">
+                        {project.entity_id}
+                    </span>
+                </div>
+
+                <div className="px-6 pb-4">
+                    <h2 className="text-xl font-bold text-zinc-900">{project.entity_name}</h2>
+                </div>
+
+                <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
+                    <label className="text-zinc-500 py-1">Status</label>
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {project.status}
+                    </span>
+
+                    <label className="text-zinc-500 py-1">Owner</label>
+                    <span className="text-zinc-700">{project.owner || '-'}</span>
+
+                    <label className="text-zinc-500 py-1">Priority</label>
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {project.priority_flag || 'medium'}
+                    </span>
+
+                    {track && (
+                        <>
+                            <label className="text-zinc-500 py-1">Track</label>
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                                {track.entity_name}
+                            </span>
+                        </>
+                    )}
+
+                    {project.hypothesis_text && (
+                        <>
+                            <label className="text-zinc-500 py-1">Hypothesis</label>
+                            <p className="text-zinc-700 text-sm">{project.hypothesis_text}</p>
+                        </>
+                    )}
+                </div>
+
+                {project.expected_impact?.statement && (
+                    <>
+                        <div className="h-px bg-zinc-200 mx-6 my-2" />
+                        <div className="px-6 py-4">
+                            <h3 className="text-sm font-semibold text-zinc-500 mb-2">Expected Impact</h3>
+                            <p className="text-zinc-700 text-sm">{project.expected_impact.statement}</p>
+                            {project.expected_impact.metric && (
+                                <p className="text-zinc-500 text-xs mt-1">Metric: {project.expected_impact.metric}</p>
+                            )}
+                            {project.expected_impact.target && (
+                                <p className="text-zinc-500 text-xs">Target: {project.expected_impact.target}</p>
+                            )}
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    }
+
     if (mode === 'edit') {
         return (
             <div className="p-6 text-center text-zinc-500">

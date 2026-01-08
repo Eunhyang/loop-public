@@ -1,8 +1,8 @@
 import { useMemo, useEffect } from 'react';
 import { useDashboardInit } from '@/queries/useDashboardInit';
-import { useKanbanFilters } from './useKanbanFilters';
+import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
-import { KanbanFilters } from './KanbanFilters';
+import { TaskFilterBar } from '@/features/filters/components/TaskFilterBar';
 import { buildKanbanColumns } from '@/features/tasks/selectors';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { FilterPanel } from '@/features/filters/components/FilterPanel';
@@ -13,7 +13,7 @@ import { useUi } from '@/contexts/UiContext';
 const KanbanPageContent = () => {
   console.log('[KanbanPage] RENDER');
   const { data, isLoading, error } = useDashboardInit();
-  const urlFilters = useKanbanFilters();
+  const urlFilters = useUrlFilters();
   const panelFilters = useFilterContext();
   const combinedFilters = useCombinedFilters();
   console.log('[KanbanPage] combinedFilters.showInactiveMembers:', combinedFilters.showInactiveMembers);
@@ -79,7 +79,7 @@ const KanbanPageContent = () => {
 
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      <KanbanFilters
+      <TaskFilterBar
         filters={urlFilters}
         members={data.members}
         projects={data.projects}

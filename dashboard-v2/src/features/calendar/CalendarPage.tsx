@@ -4,8 +4,11 @@ import { CalendarSidebar } from './components/CalendarSidebar';
 import { CustomToolbar } from './components/CustomToolbar';
 import { ContextMenu } from './components/ContextMenu';
 import { EventPopover } from './components/EventPopover';
+import { TaskFilterBar } from '@/features/filters/components/TaskFilterBar';
 import { useCalendarEvents } from './queries/useCalendarEvents';
 import { useCalendarUi } from './hooks/useCalendarUi';
+import { useUrlFilters } from '@/hooks/useUrlFilters';
+import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import type { CalendarRange, GoogleCalendarEvent } from './types/calendar';
 
@@ -20,11 +23,14 @@ export default function CalendarPage() {
 
     const { enabledCalendarIds, expandMode } = useCalendarUi();
     const { openEntityDrawer } = useUi();
+    const filters = useUrlFilters();
+    const { data: dashboardData } = useDashboardInit();
 
     const { events, isGoogleFetching } = useCalendarEvents({
         range,
         enabledCalendarKeys: enabledCalendarIds,
-        expandMode
+        expandMode,
+        filters
     });
 
     // Since CustomToolbar is outside FullCalendar, we need a ref to API
@@ -103,6 +109,17 @@ export default function CalendarPage() {
             <CalendarSidebar />
 
             <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+                {/* Task Filter Bar */}
+                {dashboardData && (
+                    <TaskFilterBar
+                        filters={filters}
+                        members={dashboardData.members}
+                        projects={dashboardData.projects}
+                        programs={dashboardData.programs || []}
+                        tasks={dashboardData.tasks}
+                    />
+                )}
+
                 <CustomToolbar
                     title={currentTitle}
                     onPrev={handlePrev}

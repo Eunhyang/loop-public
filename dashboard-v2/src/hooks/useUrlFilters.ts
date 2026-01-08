@@ -28,6 +28,11 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
 
   const projectId = searchParams.get('project_id') || null;
 
+  const projectIds = useMemo(
+    () => searchParams.getAll('project_ids'),
+    [searchParams.toString()]
+  );
+
   const programId = searchParams.get('program') || null; // null = All, 'none' = Unassigned, 'pgm-xxx' = Specific
 
   const trackId = searchParams.get('track') || null;
@@ -75,6 +80,33 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
     [searchParams, setSearchParams]
   );
 
+  const setProjectIds = useCallback(
+    (ids: string[]) => {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('project_ids');
+      newParams.delete('project_id'); // Clear legacy param
+      ids.forEach((id) => newParams.append('project_ids', id));
+      setSearchParams(newParams);
+    },
+    [searchParams, setSearchParams]
+  );
+
+  const toggleProjectId = useCallback(
+    (id: string) => {
+      const newParams = new URLSearchParams(searchParams);
+      const current = searchParams.getAll('project_ids');
+      newParams.delete('project_ids');
+      newParams.delete('project_id'); // Clear legacy param
+      if (current.includes(id)) {
+        current.filter((p) => p !== id).forEach((p) => newParams.append('project_ids', p));
+      } else {
+        [...current, id].forEach((p) => newParams.append('project_ids', p));
+      }
+      setSearchParams(newParams);
+    },
+    [searchParams, setSearchParams]
+  );
+
   const setProgramId = useCallback(
     (id: string | null) => {
       const newParams = new URLSearchParams(searchParams);
@@ -83,6 +115,9 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
       } else {
         newParams.set('program', id); // 'none' or 'pgm-xxx'
       }
+      // Program 변경 시 projectIds 초기화
+      newParams.delete('project_ids');
+      newParams.delete('project_id');
       setSearchParams(newParams);
     },
     [searchParams, setSearchParams]
@@ -165,6 +200,7 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
     // Clear all filter params
     newParams.delete('assignee');
     newParams.delete('project_id');
+    newParams.delete('project_ids');
     newParams.delete('program');
     newParams.delete('track');
     newParams.delete('hypothesis');
@@ -179,6 +215,7 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
     // State
     assignees,
     projectId,
+    projectIds,
     programId,
     trackId,
     hypothesisId,
@@ -190,6 +227,8 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
     // Setters
     setAssignees,
     setProjectId,
+    setProjectIds,
+    toggleProjectId,
     setProgramId,
     setTrackId,
     setHypothesisId,
