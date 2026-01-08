@@ -1,6 +1,5 @@
 import { useMemo, useEffect } from 'react';
 import { useDashboardInit } from '@/queries/useDashboardInit';
-import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
 import { TaskFilterBar } from '@/features/filters/components/TaskFilterBar';
 import { buildKanbanColumns } from '@/features/tasks/selectors';
@@ -13,7 +12,6 @@ import { useUi } from '@/contexts/UiContext';
 const KanbanPageContent = () => {
   console.log('[KanbanPage] RENDER');
   const { data, isLoading, error } = useDashboardInit();
-  const urlFilters = useUrlFilters();
   const panelFilters = useFilterContext();
   const combinedFilters = useCombinedFilters();
   console.log('[KanbanPage] combinedFilters.showInactiveMembers:', combinedFilters.showInactiveMembers);

@@ -1,5 +1,5 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { useTask, useUpdateTask } from '@/features/tasks/queries';
+import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import type { Task } from '@/types';
@@ -17,13 +17,28 @@ export interface TaskFormHandle {
 export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, prefill }, ref) => {
     const { data: task, isLoading } = useTask(mode === 'edit' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
+    const { mutate: createTask, isPending, error } = useCreateTask();
     const { data: dashboardData } = useDashboardInit();
-    const { openEntityDrawer } = useUi();
+    const { openEntityDrawer, closeEntityDrawer } = useUi();
 
     const [isEditingNotes, setIsEditingNotes] = useState(false);
     const notesRef = useRef<HTMLTextAreaElement>(null);
 
-    // For create mode, use prefill data
+    // Create mode form state
+    const [createFormData, setCreateFormData] = useState({
+        entity_name: prefill?.entity_name || '',
+        project_id: prefill?.project_id || '',
+        assignee: prefill?.assignee || '',
+        priority: prefill?.priority || 'medium',
+        status: prefill?.status || 'todo',
+        type: prefill?.type || 'dev',
+        start_date: prefill?.start_date || '',
+        due: prefill?.due || '',
+    });
+
+    const [formError, setFormError] = useState<string | null>(null);
+
+    // For edit mode, use task data
     const formData = mode === 'create' ? prefill : task;
 
     // Expose saveNotes method via ref

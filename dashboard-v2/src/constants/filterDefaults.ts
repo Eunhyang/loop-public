@@ -38,7 +38,8 @@ export const DEFAULT_LOCAL_FILTERS: LocalFilterState = {
 
   // Project filters (legacy: exclude 'completed' projects)
   // Project.status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled'
-  projectStatus: ['planning', 'active', 'paused', 'cancelled'], // Exclude 'completed'
+  // Note: 'doing' added for backwards compat (some projects use Task status)
+  projectStatus: ['planning', 'active', 'doing', 'paused', 'cancelled'], // Exclude 'completed'
   projectPriority: [],              // Empty = all priorities
 
   // Task filters (legacy: all statuses/priorities/types)
