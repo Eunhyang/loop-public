@@ -47,6 +47,9 @@ realized_impact:
 # === 3Y 전략 연결 ===
 conditions_3y: ["cond-b"]
 
+# === Tasks ===
+tasks: ["tsk-019-13"]
+
 # === 분류 ===
 tags: ["vault", "dual-vault", "infrastructure", "cleanup"]
 priority_flag: high

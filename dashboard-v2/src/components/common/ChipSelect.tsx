@@ -77,13 +77,14 @@ export function ChipSelect({
               disabled={disabled}
               onClick={() => handleClick(option.value)}
               className={`
+                inline-flex items-center gap-1.5
                 px-3 py-1.5 text-sm rounded-md border-2
                 transition-all duration-150
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1
                 ${isSelected
                   ? color
-                    ? `${color.selected} ${color.text} font-medium`
-                    : 'bg-zinc-900 text-white border-zinc-900 font-medium'
+                    ? `${color.selected} ${color.text} font-semibold shadow-sm`
+                    : 'bg-zinc-900 text-white border-zinc-900 font-semibold shadow-sm'
                   : color
                     ? `${color.bg} ${color.text} border-transparent hover:border-zinc-300`
                     : 'bg-zinc-100 text-zinc-700 border-transparent hover:border-zinc-300'
@@ -94,7 +95,8 @@ export function ChipSelect({
                 }
               `}
             >
-              {option.icon && <span className="mr-1.5">{option.icon}</span>}
+              {isSelected && <span className="text-xs">✓</span>}
+              {option.icon && <span>{option.icon}</span>}
               <span className="capitalize">{option.label}</span>
             </button>
           );
