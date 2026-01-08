@@ -1,7 +1,7 @@
 import type { FieldOption } from '../hooks/useFieldOptions';
 
 interface FieldOptionPillsProps {
-  field: string;
+  field: string; // Still passed for potential aria-labels, but not displayed
   options: FieldOption[];
   selected: unknown;
   suggested: unknown;
@@ -11,7 +11,6 @@ interface FieldOptionPillsProps {
 }
 
 export const FieldOptionPills = ({
-  field,
   options,
   selected,
   suggested,
@@ -57,8 +56,7 @@ export const FieldOptionPills = ({
   };
 
   return (
-    <div className="text-sm">
-      <div className="font-medium text-gray-700 mb-2">{field}:</div>
+    <div>
       <div className="flex flex-wrap gap-2">
         {options.map(({ value, label }) => {
           const isSelected = selectedSet.has(value);
@@ -90,8 +88,8 @@ export const FieldOptionPills = ({
         })}
       </div>
       {reasoning && (
-        <div className="mt-2 text-xs text-gray-500 italic pl-1">
-          → {reasoning}
+        <div className="mt-1 text-xs text-gray-400">
+          {reasoning}
         </div>
       )}
     </div>

@@ -112,30 +112,39 @@ export const ReviewDetail = ({
         <h3 className="text-sm font-semibold text-gray-900 mb-3">
           Suggested Fields
         </h3>
-        <div className="space-y-3 bg-gray-50 p-4 rounded">
+        <div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-100">
           {Object.entries(review.suggested_fields).map(([field, value]) => {
             const config = FIELD_CONFIG[field];
             const options = fieldOptions?.[field as keyof typeof fieldOptions];
             const reasoning = review.reasoning?.[field];
 
-            // Render interactive pills if field has config and options
-            if (config && options && options.length > 0) {
-              return (
-                <FieldOptionPills
-                  key={field}
-                  field={field}
-                  options={options}
-                  selected={selectedFields[field]}
-                  suggested={value}
-                  multiSelect={config.multiSelect}
-                  onChange={(newValue) => handleFieldChange(field, newValue)}
-                  reasoning={reasoning}
-                />
-              );
-            }
+            return (
+              <div key={field} className="grid grid-cols-[140px_1fr] gap-4 py-3 px-4">
+                {/* Label Column */}
+                <div className="text-sm text-gray-500 font-medium pt-1">
+                  {field}
+                </div>
 
-            // Fallback to read-only display for unsupported fields
-            return <FieldValue key={field} field={field} value={value} reasoning={reasoning} />;
+                {/* Value Column */}
+                <div>
+                  {/* Render interactive pills if field has config and options */}
+                  {config && options && options.length > 0 ? (
+                    <FieldOptionPills
+                      field={field}
+                      options={options}
+                      selected={selectedFields[field]}
+                      suggested={value}
+                      multiSelect={config.multiSelect}
+                      onChange={(newValue) => handleFieldChange(field, newValue)}
+                      reasoning={reasoning}
+                    />
+                  ) : (
+                    /* Fallback to read-only display for unsupported fields */
+                    <FieldValue field={field} value={value} reasoning={reasoning} />
+                  )}
+                </div>
+              </div>
+            );
           })}
         </div>
       </div>
