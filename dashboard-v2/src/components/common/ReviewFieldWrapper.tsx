@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * ReviewFieldWrapper
@@ -17,7 +17,7 @@ interface ReviewFieldWrapperProps {
   /** 제안 근거 (plain text, XSS safe) */
   reasoning?: string;
   /** 래핑할 필드 컴포넌트 */
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const ReviewFieldWrapper = ({

@@ -228,14 +228,6 @@ export function ChipSelectExpand({
         aria-label={ariaLabel || label}
         className="flex flex-wrap gap-2 items-center"
       >
-        {/* Unassigned chip (if enabled) */}
-        {allowUnassigned && (
-          renderChip(
-            { value: '', label: unassignedLabel },
-            value === ''
-          )
-        )}
-
         {/* Primary chips (always visible) */}
         {normalizedPrimary.map(option => renderChip(option, option.value === value))}
 
@@ -247,6 +239,14 @@ export function ChipSelectExpand({
           renderChip(
             { value, label: value, icon: '⚠️' },
             true
+          )
+        )}
+
+        {/* Unassigned chip (if enabled) - after primary chips */}
+        {allowUnassigned && (
+          renderChip(
+            { value: '', label: unassignedLabel },
+            value === ''
           )
         )}
 

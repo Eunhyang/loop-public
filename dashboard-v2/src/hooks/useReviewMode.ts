@@ -13,6 +13,8 @@ import { useState, useCallback, useMemo } from 'react';
  */
 
 export interface UseReviewModeParams {
+  /** Review mode 활성화 여부 */
+  enabled?: boolean;
   /** 실제 Entity 데이터 (API에서 로드) */
   entityData: Record<string, unknown> | null | undefined;
   /** 제안된 필드 값 (pending review에서 전달) */
@@ -53,6 +55,7 @@ export interface UseReviewModeReturn {
 }
 
 export function useReviewMode({
+  enabled = true,
   entityData,
   suggestedFields,
   reasoning,
@@ -60,7 +63,7 @@ export function useReviewMode({
   // 사용자가 수정한 값 (suggested와 다른 경우만 저장)
   const [selectedValues, setSelectedValues] = useState<Record<string, unknown>>(() => {
     // 초기값: suggested_fields 값으로 시작
-    return { ...suggestedFields };
+    return enabled ? { ...suggestedFields } : {};
   });
 
   // suggested 필드 목록 (Set으로 O(1) lookup)

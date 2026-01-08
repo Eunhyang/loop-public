@@ -19,9 +19,9 @@ export const statusColors: Record<string, ChipColor> = {
     selected: '!bg-[#f8f8f8] !text-[#18181b] !border-[#e4e4e7]',
   },
   doing: {
-    bg: 'bg-blue-50/50',
-    text: 'text-blue-500',
-    selected: '!bg-[#f0f9ff] !text-[#082f49] !border-[#bae6fd]',
+    bg: 'bg-white',
+    text: 'text-zinc-500',
+    selected: '!bg-[#eef2ff] !text-[#4f46e5] !border-[#6366f1]',
   },
   done: {
     bg: 'bg-green-50/50',
@@ -72,7 +72,7 @@ export const priorityColors: Record<string, ChipColor> = {
 export const memberColor: ChipColor = {
   bg: 'bg-white',
   text: 'text-zinc-400',
-  selected: '!bg-zinc-100 !text-zinc-900 !border-zinc-300',
+  selected: '!bg-[#f8fafc] !text-[#4f46e5] !border-[#6366f1]',
 };
 
 /**
@@ -81,7 +81,7 @@ export const memberColor: ChipColor = {
 export const projectColor: ChipColor = {
   bg: 'bg-white',
   text: 'text-zinc-400',
-  selected: '!bg-zinc-100 !text-zinc-900 !border-zinc-300',
+  selected: '!bg-[#f8fafc] !text-[#4f46e5] !border-[#6366f1]',
 };
 
 /**

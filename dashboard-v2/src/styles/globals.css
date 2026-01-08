@@ -69,6 +69,19 @@
   }
 
   .btn-filter-active {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+    color: rgb(79, 70, 229) !important;
+    border-color: rgb(99, 102, 241) !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+  }
+
+  /* Global override for hardcoded dark active states (like in TaskForm) */
+  button.bg-zinc-900,
+  button[class*="bg-zinc-900"] {
+    background-color: rgba(99, 102, 241, 0.08) !important;
+    color: rgb(79, 70, 229) !important;
+    border: 2px solid rgb(99, 102, 241) !important;
     font-weight: 600 !important;
     box-shadow: none !important;
   }

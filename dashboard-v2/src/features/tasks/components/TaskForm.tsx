@@ -33,12 +33,13 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     const isReadOnly = mode === 'view';
     const isReviewMode = mode === 'review';
 
-    // Review mode hook (only when mode='review')
-    const reviewMode = isReviewMode ? useReviewMode({
+    // Review mode hook (always called, but only active when mode='review')
+    const reviewMode = useReviewMode({
+        enabled: isReviewMode,
         entityData: task as Record<string, unknown> | null | undefined,
         suggestedFields,
         reasoning,
-    }) : null;
+    });
 
     // Create mode form state
     const [createFormData, setCreateFormData] = useState({
@@ -74,12 +75,15 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     ];
 
     // Member options (for assignee ChipSelectExpand)
+    // Filter: active members only, exclude role="Unassigned" (미정)
     const memberOptions: ChipOption[] = useMemo(() => {
-        return (dashboardData?.members || []).map((m: any) => ({
-            value: m.name, // TaskForm uses m.name (not m.id)
-            label: m.name,
-            color: memberColor,
-        }));
+        return (dashboardData?.members || [])
+            .filter((m: any) => m.active !== false && m.role !== 'Unassigned')
+            .map((m: any) => ({
+                value: m.name, // TaskForm uses m.name (not m.id)
+                label: m.name,
+                color: memberColor,
+            }));
     }, [dashboardData?.members]);
 
     const coreMemberOptions: ChipOption[] = useMemo(() => {
@@ -508,18 +512,16 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('start_date') : false}
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('start_date') : undefined}
                 >
-                    <>
-                        {isReadOnly ? (
-                            <span className="text-zinc-700">{String(getFieldValue('start_date') || '-')}</span>
-                        ) : (
-                            <input
-                                type="date"
-                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                                value={(getFieldValue('start_date') as string) || ''}
-                                onChange={(e) => handleFieldChangeInternal('start_date', e.target.value)}
-                            />
-                        )}
-                    </>
+                    {isReadOnly ? (
+                        <span className="text-zinc-700">{String(getFieldValue('start_date') || '-')}</span>
+                    ) : (
+                        <input
+                            type="date"
+                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            value={(getFieldValue('start_date') as string) || ''}
+                            onChange={(e) => handleFieldChangeInternal('start_date', e.target.value)}
+                        />
+                    )}
                 </ReviewFieldWrapper>
 
                 <label className="text-zinc-500 py-1">Due Date</label>
@@ -527,22 +529,20 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('due') : false}
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('due') : undefined}
                 >
-                    <>
-                        {isReadOnly ? (
-                            <span className="text-zinc-700">{String(getFieldValue('due') || '-')}</span>
-                        ) : (
-                            <input
-                                type="date"
-                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                                value={(getFieldValue('due') as string) || ''}
-                                onChange={(e) => handleFieldChangeInternal('due', e.target.value)}
-                            />
-                        )}
-                    </>
+                    {isReadOnly ? (
+                        <span className="text-zinc-700">{String(getFieldValue('due') || '-')}</span>
+                    ) : (
+                        <input
+                            type="date"
+                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            value={(getFieldValue('due') as string) || ''}
+                            onChange={(e) => handleFieldChangeInternal('due', e.target.value)}
+                        />
+                    )}
                 </ReviewFieldWrapper>
 
                 {/* Relations - Project */}
-                {getFieldValue('project_id') && (
+                {Boolean(getFieldValue('project_id')) && (
                     <>
                         <label className="text-zinc-500 py-1">Project</label>
                         <span
@@ -555,7 +555,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                 )}
 
                 {/* Relations - Track (via Project) */}
-                {getFieldValue('project_id') && dashboardData?.projects && (() => {
+                {Boolean(getFieldValue('project_id')) && dashboardData?.projects && (() => {
                     const project = dashboardData.projects.find((p: any) => p.entity_id === getFieldValue('project_id'));
                     const trackId = project?.parent_id;
                     const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
@@ -573,7 +573,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                 })()}
 
                 {/* Relations - Conditions */}
-                {getFieldValue('conditions_3y') && Array.isArray(getFieldValue('conditions_3y')) && (getFieldValue('conditions_3y') as string[]).length > 0 && (
+                {Array.isArray(getFieldValue('conditions_3y')) && (getFieldValue('conditions_3y') as string[]).length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Conditions</label>
                         <div className="flex flex-wrap gap-1">
@@ -594,7 +594,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                 )}
 
                 {/* Relations - Validates */}
-                {getFieldValue('validates') && Array.isArray(getFieldValue('validates')) && (getFieldValue('validates') as string[]).length > 0 && (
+                {Array.isArray(getFieldValue('validates')) && (getFieldValue('validates') as string[]).length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Validates</label>
                         <div className="flex flex-wrap gap-1">

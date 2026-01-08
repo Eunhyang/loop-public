@@ -40,12 +40,15 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
 
     // Member options (for owner ChipSelectExpand)
     // ProjectForm uses m.id (unlike TaskForm which uses m.name)
+    // Filter: active members only, exclude role="Unassigned" (미정)
     const memberOptions: ChipOption[] = useMemo(() => {
-        return (dashboardData?.members || []).map((m: any) => ({
-            value: m.id, // ProjectForm uses m.id
-            label: m.name,
-            color: memberColor,
-        }));
+        return (dashboardData?.members || [])
+            .filter((m: any) => m.active !== false && m.role !== 'Unassigned')
+            .map((m: any) => ({
+                value: m.id, // ProjectForm uses m.id
+                label: m.name,
+                color: memberColor,
+            }));
     }, [dashboardData?.members]);
 
     const coreMemberOptions: ChipOption[] = useMemo(() => {

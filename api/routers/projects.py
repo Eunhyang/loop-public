@@ -63,7 +63,13 @@ def get_project(project_id: str):
     # Frontmatter와 Body 분리 (re.DOTALL 사용)
     match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
     if match:
-        frontmatter = yaml.safe_load(match.group(1))
+        try:
+            frontmatter = yaml.safe_load(match.group(1))
+            # YAML 파싱 결과 검증 (Codex 피드백 반영)
+            if not isinstance(frontmatter, dict):
+                raise HTTPException(status_code=400, detail="Invalid frontmatter: must be a YAML object")
+        except yaml.YAMLError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid YAML in frontmatter: {e}")
         body = match.group(2)
     else:
         # Regex 실패 시: 전체 내용을 body로, frontmatter는 캐시에서 (Codex 피드백 반영)
