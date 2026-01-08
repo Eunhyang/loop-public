@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useUi } from '@/contexts/UiContext';
 import { authStorage } from '@/features/auth/storage';
+import { httpClient } from '@/services/http';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -9,10 +11,13 @@ interface HeaderProps {
   isAdmin?: boolean;
 }
 
+type ReloadState = 'idle' | 'loading' | 'success' | 'error';
+
 export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: HeaderProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { openCreateTask, openCreateProject, openCreateProgram } = useUi();
+  const [reloadState, setReloadState] = useState<ReloadState>('idle');
 
   // Use isAdmin prop in Program button visibility
   const showProgramButton = isAdmin;
@@ -22,8 +27,38 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
     navigate('/login');
   };
 
-  const handleReload = () => {
-    queryClient.invalidateQueries();
+  const handleReload = async () => {
+    if (reloadState === 'loading') return; // Prevent double-click
+
+    try {
+      setReloadState('loading');
+
+      // 1. Reload server cache
+      await httpClient.post('/api/cache/reload');
+
+      // 2. Invalidate React Query cache
+      await queryClient.invalidateQueries();
+
+      // 3. Show success
+      setReloadState('success');
+      console.log('Cache reloaded successfully');
+
+      // 4. Reset to idle after delay
+      setTimeout(() => setReloadState('idle'), 1500);
+    } catch (err) {
+      console.error('Cache reload failed:', err);
+      setReloadState('error');
+      setTimeout(() => setReloadState('idle'), 2000);
+    }
+  };
+
+  const getReloadIcon = () => {
+    switch (reloadState) {
+      case 'loading': return '⏳';
+      case 'success': return '✅';
+      case 'error': return '❌';
+      default: return '🔄';
+    }
   };
 
   // Nav link style
@@ -93,10 +128,15 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
 
         <button
           onClick={handleReload}
-          className="p-2 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50 transition-colors"
+          disabled={reloadState === 'loading'}
+          className={`p-2 rounded transition-colors ${
+            reloadState === 'loading'
+              ? 'text-gray-300 cursor-not-allowed'
+              : 'text-gray-400 hover:text-blue-600 hover:bg-blue-50'
+          }`}
           title="Reload Data"
         >
-          <span className="text-lg leading-none">🔄</span>
+          <span className="text-lg leading-none">{getReloadIcon()}</span>
         </button>
 
         <button
