@@ -301,7 +301,7 @@ export function useCommandSearch() {
         case 'condition':
         case 'hypothesis':
           // Navigate with filter (read-only entities)
-          navigate(`/kanban?${item.type}=${item.id}`);
+          navigate(`/kanban?${item.type}=${encodeURIComponent(item.id)}`);
           break;
       }
     }

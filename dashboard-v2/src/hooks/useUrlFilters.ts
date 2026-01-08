@@ -85,6 +85,7 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
       const newParams = new URLSearchParams(searchParams);
       newParams.delete('project_ids');
       newParams.delete('project_id'); // Clear legacy param
+      newParams.delete('program'); // Clear programId when setting projectIds
       ids.forEach((id) => newParams.append('project_ids', id));
       setSearchParams(newParams);
     },
@@ -97,6 +98,7 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
       const current = searchParams.getAll('project_ids');
       newParams.delete('project_ids');
       newParams.delete('project_id'); // Clear legacy param
+      newParams.delete('program'); // Clear programId when toggling projectIds
       if (current.includes(id)) {
         current.filter((p) => p !== id).forEach((p) => newParams.append('project_ids', p));
       } else {

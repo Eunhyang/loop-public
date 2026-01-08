@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useCreateProject } from '../queries';
+import { useProject, useCreateProject, useUpdateProject } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import type { Project } from '@/types';
@@ -11,9 +11,11 @@ interface ProjectFormProps {
 }
 
 export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
+    const { data: project, isLoading: isLoadingProject } = useProject(mode === 'edit' ? id || null : null);
     const { mutate: createProject, isPending, error } = useCreateProject();
+    const { mutate: updateProject } = useUpdateProject();
     const { data: dashboardData } = useDashboardInit();
-    const { closeEntityDrawer } = useUi();
+    const { closeEntityDrawer, openEntityDrawer } = useUi();
 
     const [formData, setFormData] = useState({
         entity_name: prefill?.entity_name || '',
@@ -116,11 +118,133 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         );
     }
 
+    // Edit mode - show editable project details
     if (mode === 'edit') {
+        if (isLoadingProject || !project) {
+            return (
+                <div className="flex-1 flex items-center justify-center text-zinc-500">
+                    {isLoadingProject ? 'Loading...' : 'Project not found'}
+                </div>
+            );
+        }
+
+        const handleUpdate = (field: keyof Project, value: any) => {
+            if (!id) return;
+            updateProject({ id, data: { [field]: value } });
+        };
+
+        const copyId = () => {
+            if (id) {
+                navigator.clipboard.writeText(id);
+            }
+        };
+
         return (
-            <div className="p-6 text-center text-zinc-500">
-                <p>Project edit mode not yet implemented.</p>
-                <p className="text-sm mt-2">Use useProject + useUpdateProject hooks to enable editing.</p>
+            <div className="flex-1 overflow-y-auto">
+                {/* ID Badge */}
+                <div className="px-6 pt-4 pb-2">
+                    <span
+                        className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-2 py-1 bg-zinc-50 rounded transition-colors"
+                        onClick={copyId}
+                        title="Click to copy ID"
+                    >
+                        {id}
+                    </span>
+                </div>
+
+                {/* Title Section */}
+                <div className="px-6 pb-2">
+                    <input
+                        className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
+                        placeholder="Project Title"
+                        defaultValue={project.entity_name}
+                        onBlur={(e) => handleUpdate('entity_name', e.target.value)}
+                    />
+                </div>
+
+                {/* Properties Grid */}
+                <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
+                    {/* Status */}
+                    <label className="text-zinc-500 py-1">Status</label>
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={project.status}
+                        onChange={(e) => handleUpdate('status', e.target.value)}
+                    >
+                        {statuses.map((s: string) => (
+                            <option key={s} value={s}>{s}</option>
+                        ))}
+                    </select>
+
+                    {/* Owner */}
+                    <label className="text-zinc-500 py-1">Owner</label>
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={project.owner}
+                        onChange={(e) => handleUpdate('owner', e.target.value)}
+                    >
+                        <option value="">Unassigned</option>
+                        {dashboardData?.members?.map((m: any) => (
+                            <option key={m.id} value={m.id}>{m.name}</option>
+                        ))}
+                    </select>
+
+                    {/* Priority */}
+                    <label className="text-zinc-500 py-1">Priority</label>
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={project.priority_flag || 'medium'}
+                        onChange={(e) => handleUpdate('priority_flag', e.target.value)}
+                    >
+                        {priorities.map((p: string) => (
+                            <option key={p} value={p}>{p}</option>
+                        ))}
+                    </select>
+
+                    {/* Track */}
+                    <label className="text-zinc-500 py-1">Track</label>
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={project.parent_id}
+                        onChange={(e) => handleUpdate('parent_id', e.target.value)}
+                    >
+                        <option value="">No Track</option>
+                        {dashboardData?.tracks?.map((t: any) => (
+                            <option key={t.entity_id} value={t.entity_id}>
+                                {t.entity_name || t.entity_id}
+                            </option>
+                        ))}
+                    </select>
+
+                    {/* Relations - Track (clickable) */}
+                    {project.parent_id && (() => {
+                        const track = dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id);
+                        return track ? (
+                            <>
+                                <label className="text-zinc-500 py-1">Track Link</label>
+                                <span
+                                    className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                    onClick={() => openEntityDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
+                                >
+                                    {track.entity_name}
+                                </span>
+                            </>
+                        ) : null;
+                    })()}
+                </div>
+
+                <div className="h-px bg-zinc-200 mx-6 my-2" />
+
+                {/* Hypothesis Text Section */}
+                <div className="px-6 py-4 flex-1 flex flex-col">
+                    <h3 className="text-sm font-semibold text-zinc-500 mb-2">Hypothesis</h3>
+                    <textarea
+                        className="w-full min-h-[100px] border border-zinc-200 p-3 rounded bg-white text-sm leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
+                        defaultValue={(project as any).hypothesis_text || ''}
+                        onBlur={(e) => handleUpdate('hypothesis_text' as keyof Project, e.target.value)}
+                        placeholder="Enter project hypothesis..."
+                    />
+                </div>
             </div>
         );
     }

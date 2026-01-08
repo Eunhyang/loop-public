@@ -27,7 +27,8 @@ export function CommandPalette() {
   // Scroll selected item into view
   useEffect(() => {
     if (resultsRef.current && selectedIndex >= 0) {
-      const selectedElement = resultsRef.current.children[selectedIndex] as HTMLElement;
+      // Find the actual option element (not the group wrapper)
+      const selectedElement = resultsRef.current.querySelector(`[data-option-index="${selectedIndex}"]`) as HTMLElement;
       if (selectedElement) {
         selectedElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
@@ -112,6 +113,7 @@ export function CommandPalette() {
       <div className="mt-20 w-full max-w-2xl rounded-lg border border-border bg-surface shadow-2xl">
         {/* Search Input */}
         <div className="border-b border-border p-4">
+          <label id="command-palette-title" className="sr-only">Command Palette</label>
           <input
             ref={inputRef}
             type="text"
@@ -120,7 +122,11 @@ export function CommandPalette() {
             onKeyDown={handleKeyDown}
             placeholder="Search tasks, projects, or type > for commands..."
             className="w-full bg-transparent text-lg text-text-main placeholder-text-subtle outline-none"
+            role="combobox"
             aria-label="Search"
+            aria-expanded={results.length > 0}
+            aria-controls="command-palette-listbox"
+            aria-activedescendant={selectedIndex >= 0 ? `option-${selectedIndex}` : undefined}
             autoComplete="off"
             spellCheck={false}
           />
@@ -128,6 +134,7 @@ export function CommandPalette() {
 
         {/* Results */}
         <div
+          id="command-palette-listbox"
           ref={resultsRef}
           className="max-h-96 overflow-y-auto p-2"
           role="listbox"
@@ -162,8 +169,10 @@ export function CommandPalette() {
                     {items.map(({ item, index }) => (
                       <div
                         key={`${item.type}-${item.id}`}
+                        id={`option-${index}`}
                         role="option"
                         aria-selected={index === selectedIndex}
+                        data-option-index={index}
                         className={`flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 transition-colors ${
                           index === selectedIndex
                             ? 'bg-accent text-accent-foreground'

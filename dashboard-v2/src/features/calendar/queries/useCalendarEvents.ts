@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useDashboardInit } from '../../../queries/useDashboardInit';
 import { useGoogleEvents } from './useGoogleEvents';
 import { transformTaskToEvent, getProjectColor } from '../utils/eventTransformers';
+import { getWeekRange, getMonthRange, isWithinRange } from '@/utils/date';
 import type { BaseCalendarEvent, CalendarRange } from '../types/calendar';
 import type { Task } from '@/types';
 
@@ -45,11 +46,44 @@ export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCa
             if (filters.projectIds.length > 0) {
                 filteredTasks = filteredTasks.filter(t => filters.projectIds.includes(t.project_id));
             } else if (filters.programId) {
-                // Filter by programId (implicit project filtering)
-                const programProjectIds = projects
-                    .filter(p => p.program_id === filters.programId)
-                    .map(p => p.entity_id);
-                filteredTasks = filteredTasks.filter(t => programProjectIds.includes(t.project_id));
+                // Handle special "none" value for unassigned projects
+                if (filters.programId === 'none') {
+                    const unassignedProjectIds = projects
+                        .filter(p => !p.program_id)
+                        .map(p => p.entity_id);
+                    filteredTasks = filteredTasks.filter(t => unassignedProjectIds.includes(t.project_id));
+                } else {
+                    // Filter by programId (implicit project filtering)
+                    const programProjectIds = projects
+                        .filter(p => p.program_id === filters.programId)
+                        .map(p => p.entity_id);
+                    filteredTasks = filteredTasks.filter(t => programProjectIds.includes(t.project_id));
+                }
+            }
+
+            // Date filters
+            if (filters.selectedWeeks.length > 0 || filters.selectedMonths.length > 0) {
+                filteredTasks = filteredTasks.filter(t => {
+                    if (!t.due) return false; // Hide tasks without due date
+
+                    // Check week filters
+                    for (const weekKey of filters.selectedWeeks) {
+                        const weekRange = getWeekRange(weekKey);
+                        if (weekRange && isWithinRange(t.due, weekRange.start, weekRange.end)) {
+                            return true;
+                        }
+                    }
+
+                    // Check month filters
+                    for (const monthKey of filters.selectedMonths) {
+                        const monthRange = getMonthRange(monthKey);
+                        if (monthRange && isWithinRange(t.due, monthRange.start, monthRange.end)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
             }
         }
 
