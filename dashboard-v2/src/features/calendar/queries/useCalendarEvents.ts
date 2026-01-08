@@ -3,6 +3,11 @@ import { useDashboardInit } from '../../../queries/useDashboardInit';
 import { useGoogleEvents } from './useGoogleEvents';
 import { transformTaskToEvent, getProjectColor } from '../utils/eventTransformers';
 import { getWeekRangeByKey, getMonthRangeByKey, isDateInRange } from '@/utils/date';
+import {
+  VALID_TASK_STATUSES,
+  VALID_PRIORITIES,
+  VALID_TASK_TYPES,
+} from '@/constants/filterDefaults';
 import type { BaseCalendarEvent, CalendarRange } from '../types/calendar';
 import type { Task } from '@/types';
 import type { UseCombinedFiltersReturn } from '@/types/filters';
@@ -25,6 +30,19 @@ interface UseCalendarEventsArgs {
     enabledCalendarKeys: string[];
     expandMode: boolean;
     filters?: CalendarFilters;
+}
+
+/**
+ * Check if filter array represents full selection (helper for calendar filtering)
+ */
+function isFullSelection<T extends string>(
+    filterArray: T[],
+    validValues: readonly T[]
+): boolean {
+    if (filterArray.length === 0) return false;
+    const validSet = new Set(validValues);
+    const filterSet = new Set(filterArray.filter((v) => validSet.has(v)));
+    return filterSet.size === validSet.size;
 }
 
 export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCalendarEventsArgs) {
@@ -73,18 +91,31 @@ export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCa
             }
 
             // Task status filter
-            if (filters.taskStatus && filters.taskStatus.length > 0) {
-                filteredTasks = filteredTasks.filter(t => filters.taskStatus!.includes(t.status));
+            if (filters.taskStatus) {
+                if (filters.taskStatus.length === 0) {
+                    filteredTasks = []; // Empty = show nothing
+                } else if (!isFullSelection(filters.taskStatus, VALID_TASK_STATUSES)) {
+                    filteredTasks = filteredTasks.filter(t => filters.taskStatus!.includes(t.status));
+                }
+                // Full selection = skip filtering
             }
 
             // Task type filter
-            if (filters.taskTypes && filters.taskTypes.length > 0) {
-                filteredTasks = filteredTasks.filter(t => t.type && filters.taskTypes!.includes(t.type));
+            if (filteredTasks.length > 0 && filters.taskTypes) {
+                if (filters.taskTypes.length === 0) {
+                    filteredTasks = [];
+                } else if (!isFullSelection(filters.taskTypes, VALID_TASK_TYPES)) {
+                    filteredTasks = filteredTasks.filter(t => t.type && filters.taskTypes!.includes(t.type));
+                }
             }
 
             // Task priority filter
-            if (filters.taskPriority && filters.taskPriority.length > 0) {
-                filteredTasks = filteredTasks.filter(t => filters.taskPriority!.includes(t.priority));
+            if (filteredTasks.length > 0 && filters.taskPriority) {
+                if (filters.taskPriority.length === 0) {
+                    filteredTasks = [];
+                } else if (!isFullSelection(filters.taskPriority, VALID_PRIORITIES)) {
+                    filteredTasks = filteredTasks.filter(t => filters.taskPriority!.includes(t.priority));
+                }
             }
 
             // Date filters

@@ -437,11 +437,24 @@ if DASHBOARD_DIR.exists():
     app.mount("/css", StaticFiles(directory=DASHBOARD_DIR / "css"), name="css")
     app.mount("/js", StaticFiles(directory=DASHBOARD_DIR / "js"), name="js")
 
-# Dashboard v2 (React+TS) 서빙
+# Dashboard v2 (React+TS) 서빙 - SPA fallback 지원
 DASHBOARD_V2_DIR = Path("/app/dashboard-v2-dist")
 if DASHBOARD_V2_DIR.exists():
-    app.mount("/v2", StaticFiles(directory=DASHBOARD_V2_DIR, html=True), name="dashboard-v2")
+    # Static assets (JS, CSS)
+    app.mount("/v2/assets", StaticFiles(directory=DASHBOARD_V2_DIR / "assets"), name="dashboard-v2-assets")
     print(f"✅ Dashboard v2 mounted at /v2 from {DASHBOARD_V2_DIR}")
+
+    # SPA fallback routes - serve index.html for all client-side routes
+    @app.get("/v2/vite.svg")
+    async def serve_vite_svg():
+        """Serve vite.svg favicon"""
+        return FileResponse(DASHBOARD_V2_DIR / "vite.svg", media_type="image/svg+xml")
+
+    @app.get("/v2")
+    @app.get("/v2/{path:path}")
+    async def serve_dashboard_v2(path: str = ""):
+        """SPA fallback - serve index.html for all /v2/* routes"""
+        return FileResponse(DASHBOARD_V2_DIR / "index.html", media_type="text/html")
 
 
 # ============================================

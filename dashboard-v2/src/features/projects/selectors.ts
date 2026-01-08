@@ -1,5 +1,6 @@
 import type { Project } from '@/types';
 import type { LocalFilterState } from '@/types/filters';
+import { VALID_PRIORITIES } from '@/constants/filterDefaults';
 
 /**
  * Phase 1: Project Filtering
@@ -28,11 +29,23 @@ export const filterProjects = (projects: Project[], filters: LocalFilterState): 
     allowedProjects = allowedProjects.filter((p) => projectStatus.includes(p.status));
   }
 
-  // 3. Filter by Project Priority (if specific priorities selected)
-  if (projectPriority.length > 0) {
-    allowedProjects = allowedProjects.filter((p) =>
-      projectPriority.includes(p.priority_flag ?? '')
-    );
+  // 3. Filter by Project Priority (full-selection semantics)
+  if (projectPriority.length === 0) {
+    // Empty = show NOTHING
+    return [];
+  } else {
+    // Check if full selection (use Set comparison)
+    const validSet = new Set<string>(VALID_PRIORITIES);
+    const filterSet = new Set(projectPriority.filter((p) => validSet.has(p)));
+    const isFullSelection = filterSet.size === validSet.size;
+
+    if (!isFullSelection) {
+      // Partial selection = apply filter (includes null check)
+      allowedProjects = allowedProjects.filter((p) =>
+        projectPriority.includes(p.priority_flag ?? '')
+      );
+    }
+    // Full selection = skip filtering (show all, including null priorities)
   }
 
   return allowedProjects.map((p) => p.entity_id);

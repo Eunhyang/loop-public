@@ -29,7 +29,8 @@ httpClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Token expired or invalid - clear auth and redirect to login
       authStorage.clearAll();
-      window.location.href = '/login';
+      // Respect SPA basename in production
+      window.location.href = import.meta.env.PROD ? '/v2/login' : '/login';
     }
     return Promise.reject(error);
   }

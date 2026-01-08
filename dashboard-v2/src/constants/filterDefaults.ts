@@ -40,12 +40,12 @@ export const DEFAULT_LOCAL_FILTERS: LocalFilterState = {
   // Project.status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled'
   // Note: 'doing' added for backwards compat (some projects use Task status)
   projectStatus: ['planning', 'active', 'doing', 'paused', 'cancelled'], // Exclude 'completed'
-  projectPriority: [],              // Empty = all priorities
+  projectPriority: ['critical', 'high', 'medium', 'low'], // Full selection = show all
 
-  // Task filters (legacy: all statuses/priorities/types)
-  taskStatus: [],                   // Empty = all statuses
-  taskPriority: [],                 // Empty = all priorities
-  taskTypes: [],                    // Empty = all types
+  // Task filters (full selection = show all, active UI state)
+  taskStatus: ['todo', 'doing', 'hold', 'done', 'blocked'], // Full = show all
+  taskPriority: ['critical', 'high', 'medium', 'low'],       // Full = show all
+  taskTypes: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'], // Full = show all
 
   // Date range (custom range)
   dueDateStart: null,
@@ -53,10 +53,16 @@ export const DEFAULT_LOCAL_FILTERS: LocalFilterState = {
 };
 
 // ============================================================================
-// localStorage Key
+// localStorage Key & Schema Version
 // ============================================================================
 
 export const FILTER_STORAGE_KEY = 'dashboard-filters-v2';
+
+/**
+ * Schema version for filter migration
+ * v1: Changed empty arrays to full arrays for better UX (all buttons active by default)
+ */
+export const FILTER_SCHEMA_VERSION = 1;
 
 // ============================================================================
 // Constants for validation

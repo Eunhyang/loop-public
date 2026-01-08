@@ -3,6 +3,11 @@ import type { KanbanColumns } from './components/Kanban/KanbanBoard';
 import type { UrlFilterState, LocalFilterState, CombinedFilterState } from '@/types/filters';
 import { getWeekRange, getMonthRange, isWithinRange } from '@/utils/date';
 import { getISOWeek } from '@/utils/dateUtils';
+import {
+  VALID_TASK_STATUSES,
+  VALID_PRIORITIES,
+  VALID_TASK_TYPES,
+} from '@/constants/filterDefaults';
 
 // ============================================================================
 // Legacy type aliases for backward compatibility
@@ -34,6 +39,26 @@ export type KanbanFiltersState = CombinedFilterState;
 // ============================================================================
 // Phase 2: Task Filtering (Pure Functions)
 // ============================================================================
+
+/**
+ * Check if filter array represents full selection
+ * Uses Set comparison to avoid false positives from duplicate/unknown values
+ *
+ * @param filterArray - Array of selected filter values
+ * @param validValues - Array of all valid values for this filter
+ * @returns true if filter represents full selection (skip filtering)
+ */
+function isFullSelection<T extends string>(
+  filterArray: T[],
+  validValues: readonly T[]
+): boolean {
+  if (filterArray.length === 0) return false; // Empty = show nothing
+
+  const validSet = new Set(validValues);
+  const filterSet = new Set(filterArray.filter((v) => validSet.has(v))); // Only valid values
+
+  return filterSet.size === validSet.size;
+}
 
 /**
  * Apply URL-based filters (navigation context)
@@ -163,18 +188,31 @@ export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Tas
   let filtered = tasks;
 
   // 1. Task Status Filter
-  if (taskStatus.length > 0) {
+  if (taskStatus.length === 0) {
+    // Empty array = show NOTHING
+    filtered = [];
+  } else if (!isFullSelection(taskStatus, VALID_TASK_STATUSES)) {
+    // Partial selection = apply filter
     filtered = filtered.filter((t) => taskStatus.includes(t.status));
   }
+  // Full selection = skip filtering (show all)
 
-  // 3. Task Priority Filter
-  if (taskPriority.length > 0) {
-    filtered = filtered.filter((t) => taskPriority.includes(t.priority));
+  // 2. Task Priority Filter
+  if (filtered.length > 0) {
+    if (taskPriority.length === 0) {
+      filtered = [];
+    } else if (!isFullSelection(taskPriority, VALID_PRIORITIES)) {
+      filtered = filtered.filter((t) => taskPriority.includes(t.priority));
+    }
   }
 
-  // 4. Task Type Filter
-  if (taskTypes.length > 0) {
-    filtered = filtered.filter((t) => t.type && taskTypes.includes(t.type));
+  // 3. Task Type Filter
+  if (filtered.length > 0) {
+    if (taskTypes.length === 0) {
+      filtered = [];
+    } else if (!isFullSelection(taskTypes, VALID_TASK_TYPES)) {
+      filtered = filtered.filter((t) => t.type && taskTypes.includes(t.type));
+    }
   }
 
   // 5. Custom Date Range Filter

@@ -16,13 +16,24 @@
  */
 
 import type { LocalFilterState } from '@/types/filters';
-import { DEFAULT_LOCAL_FILTERS, FILTER_STORAGE_KEY } from '@/constants/filterDefaults';
+import {
+  DEFAULT_LOCAL_FILTERS,
+  FILTER_STORAGE_KEY,
+  FILTER_SCHEMA_VERSION,
+} from '@/constants/filterDefaults';
 
 // ============================================================================
 // Store State
 // ============================================================================
 
 type Listener = () => void;
+
+/**
+ * Internal storage format with schema version for migrations
+ */
+interface StoredFilterState extends LocalFilterState {
+  _schemaVersion?: number;
+}
 
 let state: LocalFilterState = loadFromStorage();
 let listeners: Set<Listener> = new Set();
@@ -36,9 +47,50 @@ function loadFromStorage(): LocalFilterState {
     if (typeof window === 'undefined') return DEFAULT_LOCAL_FILTERS;
     const stored = localStorage.getItem(FILTER_STORAGE_KEY);
     if (!stored) return DEFAULT_LOCAL_FILTERS;
-    const parsed = JSON.parse(stored);
+
+    const parsed: StoredFilterState = JSON.parse(stored);
+
+    // One-time migration: Only upgrade legacy data (v0 or no version)
+    if (!parsed._schemaVersion || parsed._schemaVersion < FILTER_SCHEMA_VERSION) {
+      console.log('[Filter Migration] Migrating from v', parsed._schemaVersion || 0, 'to v', FILTER_SCHEMA_VERSION);
+
+      // v1: Migrate empty arrays to full defaults (legacy behavior meant "show all")
+      if (parsed.taskStatus?.length === 0) {
+        console.log('[Filter Migration] taskStatus: [] → full array');
+        parsed.taskStatus = DEFAULT_LOCAL_FILTERS.taskStatus;
+      }
+      if (parsed.taskPriority?.length === 0) {
+        console.log('[Filter Migration] taskPriority: [] → full array');
+        parsed.taskPriority = DEFAULT_LOCAL_FILTERS.taskPriority;
+      }
+      if (parsed.taskTypes?.length === 0) {
+        console.log('[Filter Migration] taskTypes: [] → full array');
+        parsed.taskTypes = DEFAULT_LOCAL_FILTERS.taskTypes;
+      }
+      if (parsed.projectPriority?.length === 0) {
+        console.log('[Filter Migration] projectPriority: [] → full array');
+        parsed.projectPriority = DEFAULT_LOCAL_FILTERS.projectPriority;
+      }
+
+      // Mark as migrated
+      parsed._schemaVersion = FILTER_SCHEMA_VERSION;
+
+      // Save migrated data (only if not in SSR)
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(parsed));
+          console.log('[Filter Migration] Migration saved to localStorage');
+        } catch (error) {
+          console.warn('[Filter Migration] Failed to save migrated data:', error);
+        }
+      }
+    }
+
+    // Remove internal field before returning
+    const { _schemaVersion, ...filterState } = parsed;
+
     // Merge with defaults to handle schema changes
-    return { ...DEFAULT_LOCAL_FILTERS, ...parsed };
+    return { ...DEFAULT_LOCAL_FILTERS, ...filterState };
   } catch (error) {
     console.error('Failed to load filters from localStorage:', error);
     return DEFAULT_LOCAL_FILTERS;
@@ -47,7 +99,12 @@ function loadFromStorage(): LocalFilterState {
 
 function saveToStorage(value: LocalFilterState): void {
   try {
-    localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(value));
+    // Always include version when saving
+    const toSave: StoredFilterState = {
+      ...value,
+      _schemaVersion: FILTER_SCHEMA_VERSION,
+    };
+    localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(toSave));
   } catch (error) {
     console.error('Failed to save filters to localStorage:', error);
   }

@@ -80,29 +80,44 @@ export const useFilterIndicator = (): FilterIndicator => {
       active.push('Show Inactive Projects');
     }
 
-    // Project filters
-    if (
-      JSON.stringify(filters.projectStatus.sort()) !==
-      JSON.stringify(DEFAULT_LOCAL_FILTERS.projectStatus.sort())
-    ) {
+    // Project filters (compare without mutation)
+    const projectStatusMatch =
+      filters.projectStatus.length === DEFAULT_LOCAL_FILTERS.projectStatus.length &&
+      [...filters.projectStatus].sort().join() === [...DEFAULT_LOCAL_FILTERS.projectStatus].sort().join();
+    if (!projectStatusMatch) {
       count++;
       active.push(`Project Status: ${filters.projectStatus.join(', ')}`);
     }
-    if (filters.projectPriority.length > 0) {
+
+    const projectPriorityMatch =
+      filters.projectPriority.length === DEFAULT_LOCAL_FILTERS.projectPriority.length &&
+      [...filters.projectPriority].sort().join() === [...DEFAULT_LOCAL_FILTERS.projectPriority].sort().join();
+    if (!projectPriorityMatch) {
       count++;
       active.push(`Project Priority: ${filters.projectPriority.join(', ')}`);
     }
 
-    // Task filters
-    if (filters.taskStatus.length > 0) {
+    // Task filters (compare without mutation)
+    const taskStatusMatch =
+      filters.taskStatus.length === DEFAULT_LOCAL_FILTERS.taskStatus.length &&
+      [...filters.taskStatus].sort().join() === [...DEFAULT_LOCAL_FILTERS.taskStatus].sort().join();
+    if (!taskStatusMatch) {
       count++;
       active.push(`Task Status: ${filters.taskStatus.join(', ')}`);
     }
-    if (filters.taskPriority.length > 0) {
+
+    const taskPriorityMatch =
+      filters.taskPriority.length === DEFAULT_LOCAL_FILTERS.taskPriority.length &&
+      [...filters.taskPriority].sort().join() === [...DEFAULT_LOCAL_FILTERS.taskPriority].sort().join();
+    if (!taskPriorityMatch) {
       count++;
       active.push(`Task Priority: ${filters.taskPriority.join(', ')}`);
     }
-    if (filters.taskTypes.length > 0) {
+
+    const taskTypesMatch =
+      filters.taskTypes.length === DEFAULT_LOCAL_FILTERS.taskTypes.length &&
+      [...filters.taskTypes].sort().join() === [...DEFAULT_LOCAL_FILTERS.taskTypes].sort().join();
+    if (!taskTypesMatch) {
       count++;
       active.push(`Task Types: ${filters.taskTypes.join(', ')}`);
     }
