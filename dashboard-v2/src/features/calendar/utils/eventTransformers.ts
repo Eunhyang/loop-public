@@ -4,19 +4,22 @@ import type {
     GoogleCalendarEvent
 } from '../types/calendar';
 import { isValidDateString, adjustEndDateExclusive } from './range';
-import type { Task } from '@/types';
+import type { Task, Project } from '@/types';
+import { getTrackColorByProject } from '@/utils/trackColors';
+
+const DEFAULT_COLOR = '#94a3b8'; // zinc-400
 
 /**
- * Colors (Legacy Parity)
+ * Get project color based on track
+ * @param projectId - The project entity_id
+ * @param projects - Array of all projects
+ * @returns Hex color string
  */
-const DEFAULT_COLOR = '#E0E0E0';
-
-// Mock function for getting color (Replace with real logic relying on Project State)
-export function getProjectColor(projectId?: string): string {
-    if (!projectId) return DEFAULT_COLOR;
-    // TODO: connect to Project Store or pass projects map
-    // Logic: Project -> Parent Track -> Color
-    return DEFAULT_COLOR;
+export function getProjectColor(
+    projectId: string | undefined,
+    projects: Project[]
+): string {
+    return getTrackColorByProject(projectId, projects).bg;
 }
 
 /**

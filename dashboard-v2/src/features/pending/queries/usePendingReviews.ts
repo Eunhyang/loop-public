@@ -56,3 +56,16 @@ export const useDeleteReview = () => {
     },
   });
 };
+
+// Delete batch mutation
+export const useDeleteBatch = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (params: { source_workflow?: string; run_id?: string; status?: string }) =>
+      pendingApi.deleteBatch(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: pendingKeys.all });
+    },
+  });
+};

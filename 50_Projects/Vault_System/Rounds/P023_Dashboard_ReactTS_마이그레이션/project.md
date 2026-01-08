@@ -49,6 +49,9 @@ tasks:
   - tsk-023-19
   - tsk-023-20
   - tsk-023-21
+  - tsk-023-22
+  - tsk-023-23
+  - tsk-023-24
 
 # === Expected Impact (A) ===
 tier: null

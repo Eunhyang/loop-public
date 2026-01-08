@@ -146,7 +146,8 @@ export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCa
 
         // Transform Tasks
         filteredTasks.forEach((task: Task) => {
-            const evt = transformTaskToEvent(task, getProjectColor(task.project_id));
+            const projectColor = getProjectColor(task.project_id, projects);
+            const evt = transformTaskToEvent(task, projectColor);
             if (evt) {
                 mergedEvents.push(evt);
             }

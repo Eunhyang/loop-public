@@ -42,12 +42,31 @@ export const ReviewCard = ({ review, selected, onClick }: ReviewCardProps) => {
         {fieldCount} field{fieldCount !== 1 ? 's' : ''} suggested
       </div>
 
-      {/* Source Workflow (if available) */}
-      {review.source_workflow && (
-        <div className="text-xs text-gray-500 mt-1">
-          {review.source_workflow}
-        </div>
-      )}
+      {/* Badges - Workflow, Run ID, AUTO-SYNTH */}
+      <div className="flex flex-wrap gap-1 mt-2">
+        {/* AUTO-SYNTH badge (replaces workflow badge for retro-synth) */}
+        {review.source_workflow === 'retro-synth' ? (
+          <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">
+            AUTO-SYNTH
+          </span>
+        ) : (
+          review.source_workflow && (
+            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+              {review.source_workflow}
+            </span>
+          )
+        )}
+
+        {/* Run ID badge (truncated, full value in tooltip) */}
+        {review.run_id && (
+          <span
+            className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs font-mono"
+            title={review.run_id}
+          >
+            {review.run_id.length > 24 ? review.run_id.substring(0, 24) + '...' : review.run_id}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

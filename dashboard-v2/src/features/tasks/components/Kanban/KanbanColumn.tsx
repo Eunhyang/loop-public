@@ -1,10 +1,12 @@
-import type { Task } from '@/types';
+import type { Task, Project } from '@/types';
 import { TaskCard } from './TaskCard';
 import { Droppable } from '@hello-pangea/dnd';
+import { getTrackColorByProject } from '@/utils/trackColors';
 
 interface KanbanColumnProps {
   status: Task['status'];
   tasks: Task[];
+  projects: Project[];
   onCardClick: (task: Task) => void;
 }
 
@@ -40,7 +42,7 @@ const STATUS_CONFIG = {
  * Single Kanban column component
  * Displays a column with title, task count, and task cards
  */
-export const KanbanColumn = ({ status, tasks, onCardClick }: KanbanColumnProps) => {
+export const KanbanColumn = ({ status, tasks, projects, onCardClick }: KanbanColumnProps) => {
   const config = STATUS_CONFIG[status] || {
     title: status.charAt(0).toUpperCase() + status.slice(1),
     color: 'border-b-2 border-gray-500/30',
@@ -75,14 +77,18 @@ export const KanbanColumn = ({ status, tasks, onCardClick }: KanbanColumnProps) 
                 No tasks
               </div>
             ) : (
-              tasks.map((task, index) => (
-                <TaskCard
-                  key={task.entity_id}
-                  task={task}
-                  index={index}
-                  onClick={onCardClick}
-                />
-              ))
+              tasks.map((task, index) => {
+                const trackColor = getTrackColorByProject(task.project_id, projects).bg;
+                return (
+                  <TaskCard
+                    key={task.entity_id}
+                    task={task}
+                    index={index}
+                    trackColor={trackColor}
+                    onClick={onCardClick}
+                  />
+                );
+              })
             )}
             {provided.placeholder}
           </div>

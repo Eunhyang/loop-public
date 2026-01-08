@@ -1,4 +1,4 @@
-import type { Task } from '@/types';
+import type { Task, Project } from '@/types';
 import { KanbanColumn } from './KanbanColumn';
 
 export interface KanbanColumns {
@@ -11,6 +11,7 @@ export interface KanbanColumns {
 
 interface KanbanBoardProps {
   columns: KanbanColumns;
+  projects: Project[];
   onCardClick: (task: Task) => void;
 }
 
@@ -21,7 +22,7 @@ import { useUpdateTask } from '../../queries';
  * Kanban board layout with 5 columns
  * Renders status columns in horizontal layout
  */
-export const KanbanBoard = ({ columns, onCardClick }: KanbanBoardProps) => {
+export const KanbanBoard = ({ columns, projects, onCardClick }: KanbanBoardProps) => {
   const columnOrder: Array<keyof KanbanColumns> = ['todo', 'doing', 'hold', 'done', 'blocked'];
   const { mutate: updateTask } = useUpdateTask();
 
@@ -59,6 +60,7 @@ export const KanbanBoard = ({ columns, onCardClick }: KanbanBoardProps) => {
               key={status}
               status={status}
               tasks={columns[status]}
+              projects={projects}
               onCardClick={onCardClick}
             />
           ))}

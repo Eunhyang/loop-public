@@ -505,15 +505,22 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
 
                 {isEditingNotes ? (
                     <textarea
+                        key={`notes-${id}`}
                         ref={notesRef}
                         className="w-full min-h-[200px] border border-zinc-200 p-3 rounded bg-white text-sm font-mono leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
-                        defaultValue={formData?.notes || ''}
-                        onBlur={(e) => handleUpdate('notes', e.target.value)}
+                        defaultValue={formData?.notes ?? formData?._body ?? ''}
+                        onBlur={(e) => {
+                            const value = e.target.value;
+                            const currentValue = formData?.notes ?? formData?._body ?? '';
+                            if (value !== currentValue) {
+                                handleUpdate('notes', value);
+                            }
+                        }}
                     />
                 ) : (
                     <div className="prose prose-sm max-w-none text-zinc-800">
-                        {formData?.notes ? (
-                            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(formData.notes) }} />
+                        {(formData?.notes !== null && formData?.notes !== undefined) || formData?._body ? (
+                            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(formData?.notes ?? formData?._body ?? '') }} />
                         ) : (
                             <span className="text-zinc-400 italic">No notes</span>
                         )}

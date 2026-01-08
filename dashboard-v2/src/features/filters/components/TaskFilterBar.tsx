@@ -3,6 +3,7 @@ import type { Member, Project, Program, Task } from '@/types';
 import type { UseCombinedFiltersReturn } from '@/types/filters';
 import { getWeekOptions, getMonthOptions } from '@/utils/dateUtils';
 import { filterVisibleMembers } from '@/features/tasks/selectors';
+import { getTrackColorByProject } from '@/utils/trackColors';
 
 interface TaskFilterBarProps {
   filters: UseCombinedFiltersReturn;
@@ -17,6 +18,9 @@ interface TaskFilterBarProps {
  * Renders assignee tabs, program/project buttons, and date range buttons
  */
 export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks = [] }: TaskFilterBarProps) => {
+  // DEBUG: Log programs data
+  console.log('[TaskFilterBar] programs:', programs.length, programs.map(p => p.entity_name));
+
   const {
     assignees,
     projectIds,
@@ -67,31 +71,34 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
     return tasks.filter(t => t.project_id === projectId).length;
   }, [tasks]);
 
-  // Programs with tasks (using ALL tasks for navigation counts)
+  // Programs (using ALL tasks for navigation counts)
+  // Show ALL programs regardless of task count - navigation should show full structure
   const programsWithTasks = useMemo(() => {
-    return programs.map(prog => {
+    const result = programs.map(prog => {
       const programProjects = projects.filter(p => p.program_id === prog.entity_id);
       const projectIdList = programProjects.map(p => p.entity_id);
       const taskCount = tasks.filter(t => projectIdList.includes(t.project_id)).length;
       return { ...prog, taskCount };
-    }).filter(p => p.taskCount > 0);
+    });
+    console.log('[TaskFilterBar] programsWithTasks:', result.length, result.map(p => `${p.entity_name}(${p.taskCount})`));
+    return result;
   }, [programs, projects, tasks]);
 
   // Child projects (when program is selected, using ALL tasks for navigation counts)
+  // Show ALL child projects regardless of task count - navigation should show full structure
   const childProjects = useMemo(() => {
     if (!programId) return [];
     return projects
       .filter(p => p.program_id === programId)
-      .map(p => ({ ...p, taskCount: getAllTaskCount(p.entity_id) }))
-      .filter(p => p.taskCount > 0);
+      .map(p => ({ ...p, taskCount: getAllTaskCount(p.entity_id) }));
   }, [programId, projects, getAllTaskCount]);
 
   // Independent projects (no program, using ALL tasks for navigation counts)
+  // Show ALL independent projects regardless of task count - navigation should show full structure
   const independentProjects = useMemo(() => {
     return projects
       .filter(p => !p.program_id)
-      .map(p => ({ ...p, taskCount: getAllTaskCount(p.entity_id) }))
-      .filter(p => p.taskCount > 0);
+      .map(p => ({ ...p, taskCount: getAllTaskCount(p.entity_id) }));
   }, [projects, getAllTaskCount]);
 
   // Total task count
@@ -291,11 +298,17 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
                 </button>
                 {childProjects.map(proj => {
                   const isActive = projectIds.includes(proj.entity_id);
+                  const trackColor = getTrackColorByProject(proj.entity_id, projects);
                   return (
                     <button
                       key={proj.entity_id}
                       onClick={() => handleChildProjectClick(proj.entity_id)}
                       className={`btn-filter btn-filter-child ${isActive ? 'btn-filter-active' : ''}`}
+                      style={{
+                        borderLeftWidth: '3px',
+                        borderLeftColor: trackColor.accent,
+                        backgroundColor: isActive ? undefined : trackColor.bg,
+                      }}
                     >
                       {proj.entity_name}
                       <span className="filter-count">{proj.taskCount}</span>
@@ -307,11 +320,17 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
 
             {independentProjects.map(proj => {
               const isActive = projectIds.includes(proj.entity_id) && !programId;
+              const trackColor = getTrackColorByProject(proj.entity_id, projects);
               return (
                 <button
                   key={proj.entity_id}
                   onClick={() => handleIndependentProjectClick(proj.entity_id)}
                   className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
+                  style={{
+                    borderLeftWidth: '3px',
+                    borderLeftColor: trackColor.accent,
+                    backgroundColor: isActive ? undefined : trackColor.bg,
+                  }}
                 >
                   {proj.entity_name}
                   <span className="filter-count">{proj.taskCount}</span>

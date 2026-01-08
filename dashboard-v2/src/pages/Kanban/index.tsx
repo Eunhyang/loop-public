@@ -111,6 +111,7 @@ const KanbanPageContent = () => {
 
       <KanbanBoard
         columns={filteredColumns}
+        projects={data.projects}
         onCardClick={(task) => openEntityDrawer({ type: 'task', mode: 'edit', id: task.entity_id })}
       />
 

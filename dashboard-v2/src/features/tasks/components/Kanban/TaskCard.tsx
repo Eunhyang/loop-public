@@ -5,13 +5,14 @@ interface KanbanCardProps {
   task: Task;
   index: number;
   onClick: (task: Task) => void;
+  trackColor?: string; // Track background color (hex)
 }
 
 /**
  * Individual task card component
  * Displays task summary with click handler
  */
-export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
+export const TaskCard = ({ task, index, onClick, trackColor }: KanbanCardProps) => {
   const getPriorityColor = (priority?: string) => {
     if (!priority) return 'border-l-zinc-800'; // Default to Low/Dark Gray
 
@@ -28,29 +29,7 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
     }
   };
 
-  const getTypeBg = (type?: string) => {
-    if (!type) return '';
-
-    switch (type.toLowerCase()) {
-      case 'bug':
-        return '!bg-[#fff5f5]'; // Warm Red
-      case 'dev':
-        return '!bg-[#f0f9ff]'; // Warm Sky Blue
-      case 'strategy':
-        return '!bg-[#f8f5ff]'; // Warm Purple
-      case 'research':
-        return '!bg-[#fff9f0]'; // Warm Amber/Orange
-      case 'ops':
-        return '!bg-[#f6fff5]'; // Warm Mint/Green
-      case 'meeting':
-        return '!bg-[#fffdf0]'; // Warm Yellow
-      default:
-        return '';
-    }
-  };
-
   const priorityColor = getPriorityColor(task.priority);
-  const typeBg = getTypeBg(task.type ?? undefined);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -68,8 +47,9 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
           {...provided.dragHandleProps}
           style={{
             ...provided.draggableProps.style,
+            backgroundColor: trackColor || undefined,
           }}
-          className={`glass-subtle rounded-lg p-3 mb-2 cursor-grab active:cursor-grabbing border-l-4 ${priorityColor} ${typeBg} focus:outline-none focus:ring-2 focus:ring-black/20 group hover:shadow-md transition-all duration-200 ${snapshot.isDragging ? 'shadow-lg ring-2 ring-black/10 rotate-2 !bg-white' : ''
+          className={`glass-subtle rounded-lg p-3 mb-2 cursor-grab active:cursor-grabbing border-l-4 ${priorityColor} focus:outline-none focus:ring-2 focus:ring-black/20 group hover:shadow-md transition-all duration-200 ${snapshot.isDragging ? 'shadow-lg ring-2 ring-black/10 rotate-2 !bg-white' : ''
             }`}
           onClick={() => onClick(task)}
           onKeyDown={handleKeyDown}

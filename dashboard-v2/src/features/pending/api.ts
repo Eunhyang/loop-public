@@ -17,4 +17,17 @@ export const pendingApi = {
 
     delete: (id: string) =>
         httpClient.delete(`/api/pending/${encodeURIComponent(id)}`),
+
+    deleteBatch: (params: { source_workflow?: string; run_id?: string; status?: string }) => {
+        const body: Record<string, string> = {};
+        if (params.source_workflow) body.source_workflow = params.source_workflow;
+        if (params.run_id) body.run_id = params.run_id;
+        if (params.status) body.status = params.status;
+
+        return httpClient.request<{ deleted_count: number; deleted_ids: string[] }>({
+            method: 'DELETE',
+            url: '/api/pending/batch',
+            data: body,
+        });
+    },
 };
