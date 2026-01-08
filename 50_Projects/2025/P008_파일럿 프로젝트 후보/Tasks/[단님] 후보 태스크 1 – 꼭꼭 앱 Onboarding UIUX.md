@@ -15,7 +15,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 임단
-due: 2025-12-09
+due: '2025-12-09'
 priority: high
 estimated_hours: null
 actual_hours: null
