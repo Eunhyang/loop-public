@@ -9,7 +9,7 @@ import { EntityDrawer } from './EntityDrawer';
 import { authStorage } from '@/features/auth/storage';
 
 const AppLayoutContent = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Calculate Admin Role from stored role
   const isAdmin = authStorage.getRole() === 'admin';

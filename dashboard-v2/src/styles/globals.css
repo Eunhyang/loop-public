@@ -132,9 +132,30 @@ body {
 
 .fc-event-title,
 .fc-event-time {
-  font-size: 0.75rem !important;
-  /* text-xs */
+  font-size: 11px !important;
+  /* One step smaller than text-xs (12px) */
   font-weight: 500 !important;
+}
+
+/* Day numbers (1, 2, 3...) */
+.fc-daygrid-day-number {
+  font-size: 11px !important;
+  padding: 4px !important;
+}
+
+/* Column headers (Mon, Tue, Wed...) */
+.fc-col-header-cell-cushion {
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  color: #71717a;
+  /* zinc-500 */
+}
+
+/* Time labels in week/day view */
+.fc-timegrid-slot-label-cushion,
+.fc-timegrid-axis-cushion {
+  font-size: 10px !important;
 }
 
 .fc-daygrid-event {
