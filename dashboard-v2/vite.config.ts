@@ -28,6 +28,12 @@ export default defineConfig({
       '/api': {
         target: 'https://mcp.sosilab.synology.me',
         changeOrigin: true,
+        secure: false,
+      },
+      '/oauth': {
+        target: 'https://mcp.sosilab.synology.me',
+        changeOrigin: true,
+        secure: false,
       },
     },
   },

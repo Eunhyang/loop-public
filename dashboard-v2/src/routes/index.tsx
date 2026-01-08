@@ -6,6 +6,7 @@ import { KanbanPage } from '@/pages/Kanban';
 import { ProjectPage } from '@/pages/Project';
 import { PendingPage } from '@/pages/Pending';
 import { ProgramPage } from '@/pages/Program';
+import { ProtectedRoute } from './ProtectedRoute';
 
 // Lazy load heavy pages
 const CalendarPage = lazy(() => import('@/features/calendar').then(m => ({ default: m.CalendarPage })));
@@ -18,15 +19,20 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <AppLayout />,
+    element: <ProtectedRoute />,
     children: [
-      { index: true, element: <Navigate to="/kanban" replace /> },
-      { path: 'kanban', element: <KanbanPage /> },
-      { path: 'projects/:id', element: <ProjectPage /> },
-      { path: 'pending', element: <PendingPage /> },
-      { path: 'calendar', element: <CalendarPage /> },
-      { path: 'graph', element: <GraphPage /> },
-      { path: 'program', element: <ProgramPage /> },
+      {
+        element: <AppLayout />,
+        children: [
+          { index: true, element: <Navigate to="/kanban" replace /> },
+          { path: 'kanban', element: <KanbanPage /> },
+          { path: 'projects/:id', element: <ProjectPage /> },
+          { path: 'pending', element: <PendingPage /> },
+          { path: 'calendar', element: <CalendarPage /> },
+          { path: 'graph', element: <GraphPage /> },
+          { path: 'program', element: <ProgramPage /> },
+        ],
+      },
     ],
   },
 ]);

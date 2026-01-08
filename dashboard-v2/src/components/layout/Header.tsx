@@ -14,8 +14,11 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
   const queryClient = useQueryClient();
   const { openCreateTask, openCreateProject, openCreateProgram } = useUi();
 
+  // Use isAdmin prop in Program button visibility
+  const showProgramButton = isAdmin;
+
   const handleLogout = () => {
-    authStorage.clearToken();
+    authStorage.clearAll();
     navigate('/login');
   };
 
@@ -62,28 +65,27 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
         </nav>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => openCreateTask()}
-          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors shadow-sm flex items-center gap-1"
+          className="px-2 py-1 border border-blue-500 text-gray-600 hover:bg-blue-50 rounded text-xs font-medium transition-colors flex items-center gap-0.5"
         >
-          <span>+</span> New Task
+          <span>+</span>Task
         </button>
 
         <button
           onClick={openCreateProject}
-          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors shadow-sm flex items-center gap-1"
+          className="px-2 py-1 border border-green-500 hover:bg-green-50 rounded text-xs font-medium transition-colors flex items-center gap-0.5"
         >
-          <span>+</span> New Project
+          <span>+</span>Project
         </button>
 
-        {/* Admin Only */}
-        {isAdmin && (
+        {showProgramButton && (
           <button
             onClick={openCreateProgram}
-            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm font-medium transition-colors shadow-sm flex items-center gap-1"
+            className="px-2 py-1 border border-purple-500 text-gray-600 hover:bg-purple-50 rounded text-xs font-medium transition-colors flex items-center gap-0.5"
           >
-            <span>+</span> New Program
+            <span>+</span>Program
           </button>
         )}
 

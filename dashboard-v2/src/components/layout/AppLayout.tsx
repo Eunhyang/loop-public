@@ -8,16 +8,15 @@ import { useState } from 'react';
 
 import { CreationDrawer } from './CreationDrawer';
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { authStorage } from '@/features/auth/storage';
 
 const AppLayoutContent = () => {
   const { taskDrawer, closeTaskDrawer } = useUi();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { data: dashboardData } = useDashboardInit();
 
-  // Calculate Admin Role
-  const currentUser = dashboardData?.user;
-  const currentMember = dashboardData?.members.find(m => m.id === currentUser?.id);
-  const isAdmin = currentMember?.role === 'admin';
+  // Calculate Admin Role from stored role
+  const isAdmin = authStorage.getRole() === 'admin';
 
   return (
     <div className="flex h-screen bg-main text-text-main">

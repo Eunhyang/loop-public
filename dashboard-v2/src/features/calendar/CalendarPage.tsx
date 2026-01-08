@@ -6,6 +6,7 @@ import { ContextMenu } from './components/ContextMenu';
 import { EventPopover } from './components/EventPopover';
 import { useCalendarEvents } from './queries/useCalendarEvents';
 import { useCalendarUi } from './hooks/useCalendarUi';
+import { useUi } from '@/contexts/UiContext';
 import type { CalendarRange, GoogleCalendarEvent } from './types/calendar';
 
 export default function CalendarPage() {
@@ -18,6 +19,7 @@ export default function CalendarPage() {
     const [popover, setPopover] = useState<{ event: GoogleCalendarEvent; anchorEl: HTMLElement } | null>(null);
 
     const { enabledCalendarIds, expandMode } = useCalendarUi();
+    const { openEditTask } = useUi();
 
     const { events, isGoogleFetching } = useCalendarEvents({
         range,
@@ -88,12 +90,8 @@ export default function CalendarPage() {
                 } as GoogleCalendarEvent,
                 anchorEl: info.el
             });
-        } else if (type === 'task') {
-            // Open TaskDrawer
-            // TaskDrawer.open(info.event.id);
-            console.log('Open TaskDrawer for', info.event.id);
-            // Dispatch custom event or use global store?
-            // window.dispatchEvent(new CustomEvent('open-task-drawer', { detail: info.event.id }));
+        } else if (type === 'task' && info.event.id) {
+            openEditTask(info.event.id);
         }
     };
 

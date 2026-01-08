@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { authStorage } from '../features/auth/storage';
 
 const API_BASE_URL = ''; // Use relative path to support Vite proxy
 // const API_BASE_URL = 'https://mcp.sosilab.synology.me'; // Direct URL blocked by CORS
@@ -11,21 +12,12 @@ export const httpClient = axios.create({
   },
 });
 
-import { authStorage } from '../features/auth/storage';
-
-// ...
-
-// Request interceptor: Add JWT token from localStorage OR use static bypass token
+// Request interceptor: Add JWT token from localStorage
 httpClient.interceptors.request.use((config) => {
   const token = authStorage.getToken();
 
-  // BYPASS: Use static token if no user token exists
-  const effectiveToken = token || "loop_2024_kanban_secret";
-
-  if (effectiveToken) {
-    config.headers.Authorization = `Bearer ${effectiveToken}`;
-    // Also add x-api-token just in case key-based auth is preferred in some paths
-    config.headers['x-api-token'] = effectiveToken;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
@@ -35,10 +27,9 @@ httpClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
-      console.warn("401 Unauthorized - Login required but bypass active");
-      // localStorage.removeItem('LOOP_API_TOKEN');
-      // window.location.href = '/login'; // Redirect disabled for bypass
+      // Token expired or invalid - clear auth and redirect to login
+      authStorage.clearAll();
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
