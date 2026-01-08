@@ -1,38 +1,33 @@
 ---
 entity_type: Task
-entity_id: "tsk-022-16"
-entity_name: "ContentOS - Firebase DB 통합"
+entity_id: tsk-022-16
+entity_name: ContentOS - Firebase DB 통합
 created: 2026-01-07
-updated: 2026-01-07
+updated: '2026-01-09'
 status: doing
-
-# === 계층 ===
-parent_id: "prj-content-os"
-project_id: "prj-content-os"
-aliases: ["tsk-022-16"]
-
-# === 관계 ===
+parent_id: prj-content-os
+project_id: prj-content-os
+aliases:
+- tsk-022-16
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: 2026-01-07
 due: 2026-01-07
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 분류 ===
-tags: ["content-os", "firebase", "firestore", "migration", "database"]
+tags:
+- content-os
+- firebase
+- firestore
+- migration
+- database
 priority_flag: high
 ---
-
 # ContentOS - Firebase DB 통합
 
 > Task ID: `tsk-022-16` | Project: `prj-content-os` | Status: doing
