@@ -9,8 +9,8 @@ project_id: prj-dashboard-ux-v1
 parent_id: prj-dashboard-ux-v1
 assignee: 김은향
 priority: high
-start_date: '2025-01-03'
-due: '2026-01-06'
+start_date: '2025-01-08'
+due: '2026-01-08'
 aliases:
 - tsk-022-08
 tags: []
