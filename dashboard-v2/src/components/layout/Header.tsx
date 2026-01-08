@@ -63,9 +63,9 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
 
   // Nav link style
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `px-1 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ${isActive
-      ? 'border-blue-600 text-blue-600'
-      : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-200'
+    `px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${isActive
+      ? 'bg-blue-50 text-blue-600'
+      : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
     }`;
 
   return (

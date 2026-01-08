@@ -99,6 +99,8 @@ const KanbanPageContent = () => {
         filters={urlFilters}
         members={data.members}
         projects={data.projects}
+        programs={data.programs || []}
+        tasks={data.tasks}
       />
 
       <KanbanBoard

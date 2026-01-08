@@ -1,4 +1,4 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
@@ -37,6 +37,16 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
     });
 
     const [formError, setFormError] = useState<string | null>(null);
+
+    // Sync status default when dashboardData loads
+    useEffect(() => {
+        if (mode === 'create' && dashboardData?.constants?.task?.status_default && !prefill?.status) {
+            setFormData(prev => ({
+                ...prev,
+                status: dashboardData.constants.task.status_default
+            }));
+        }
+    }, [mode, dashboardData, prefill]);
 
     // For edit mode, use task data; for create mode, use formData
     const displayData = mode === 'edit' ? task : (formData as any);
@@ -405,7 +415,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
 
                 {/* Track (via Project) */}
                 {displayData?.project_id && dashboardData?.projects && (() => {
-                    const project = dashboardData.projects.find((p: any) => p.entity_id === formData.project_id);
+                    const project = dashboardData.projects.find((p: any) => p.entity_id === displayData.project_id);
                     const trackId = project?.parent_id;
                     const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
                     return track ? (
@@ -495,8 +505,8 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     />
                 ) : (
                     <div className="prose prose-sm max-w-none text-zinc-800">
-                        {displayData?.notes ? (
-                            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(formData.notes) }} />
+                        {mode === 'edit' && displayData?.notes ? (
+                            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(displayData.notes) }} />
                         ) : (
                             <span className="text-zinc-400 italic">No notes</span>
                         )}

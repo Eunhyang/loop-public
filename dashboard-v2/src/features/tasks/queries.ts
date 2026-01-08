@@ -82,8 +82,8 @@ export const useCreateTask = () => {
             // Invalidate Dashboard Init (for global state refresh)
             queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
 
-            // Invalidate Tasks list
-            queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
+            // Invalidate ALL task queries (including filtered ones)
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
         },
     });
 };

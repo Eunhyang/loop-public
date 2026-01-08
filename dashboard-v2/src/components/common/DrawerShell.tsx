@@ -177,8 +177,8 @@ export function DrawerShell({
           </div>
         </div>
 
-        {/* Body - Scrollable */}
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        {/* Body - Scrollable (no padding, children manage their own) */}
+        <div className="flex-1 overflow-y-auto flex flex-col">
           {children}
         </div>
 

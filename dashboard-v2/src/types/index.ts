@@ -16,6 +16,14 @@ export interface Track {
   status: string;
 }
 
+export interface Program {
+  entity_id: string;
+  entity_name: string;
+  program_type: string;
+  owner: string;
+  status: string;
+}
+
 export interface Hypothesis {
   entity_id: string;
   entity_name: string;
@@ -38,7 +46,8 @@ export interface DashboardInitResponse {
   constants: Record<string, any>;
   members: Member[];
   tracks: Track[];
-  hypotheses: Hypothesis[]; // Added hypotheses
+  programs: Program[];
+  hypotheses: Hypothesis[];
   conditions: Condition[];
   projects: Project[];
   tasks: Task[];

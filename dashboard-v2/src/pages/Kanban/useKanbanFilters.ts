@@ -6,6 +6,8 @@ export type DateFilter = 'W' | 'M' | '';
 export interface KanbanFilters {
   assignees: string[];
   projectId: string;
+  projectIds: string[];
+  programId: string | null;
   dateFilter: DateFilter;
   selectedWeeks: string[];
   selectedMonths: string[];
@@ -14,6 +16,9 @@ export interface KanbanFilters {
   conditionId: string | null;
   setAssignees: (values: string[]) => void;
   setProjectId: (id: string) => void;
+  setProjectIds: (ids: string[]) => void;
+  toggleProjectId: (id: string) => void;
+  setProgramId: (id: string | null) => void;
   setDateFilter: (filter: DateFilter) => void;
   setSelectedWeeks: (values: string[]) => void;
   setSelectedMonths: (values: string[]) => void;
@@ -30,6 +35,8 @@ export const useKanbanFilters = (): KanbanFilters => {
   // Read current filter values from URL
   const assignees = useMemo(() => searchParams.getAll('assignee'), [searchParams.toString()]);
   const projectId = searchParams.get('project_id') || '';
+  const projectIds = useMemo(() => searchParams.getAll('project_ids'), [searchParams.toString()]);
+  const programId = searchParams.get('program') || null;
   const dateFilter = (searchParams.get('date') || '') as DateFilter;
   const selectedWeeks = useMemo(() => searchParams.getAll('week'), [searchParams.toString()]);
   const selectedMonths = useMemo(() => searchParams.getAll('month'), [searchParams.toString()]);
@@ -48,6 +55,37 @@ export const useKanbanFilters = (): KanbanFilters => {
     } else {
       newParams.delete('project_id');
     }
+    setSearchParams(newParams);
+  };
+
+  const setProjectIds = (ids: string[]) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('project_ids');
+    ids.forEach(id => newParams.append('project_ids', id));
+    setSearchParams(newParams);
+  };
+
+  const toggleProjectId = (id: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    const current = searchParams.getAll('project_ids');
+    newParams.delete('project_ids');
+    if (current.includes(id)) {
+      current.filter(p => p !== id).forEach(p => newParams.append('project_ids', p));
+    } else {
+      [...current, id].forEach(p => newParams.append('project_ids', p));
+    }
+    setSearchParams(newParams);
+  };
+
+  const setProgramId = (id: string | null) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (id) {
+      newParams.set('program', id);
+    } else {
+      newParams.delete('program');
+    }
+    // Program 변경 시 projectIds 초기화
+    newParams.delete('project_ids');
     setSearchParams(newParams);
   };
 
@@ -79,6 +117,8 @@ export const useKanbanFilters = (): KanbanFilters => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('assignee');
     newParams.delete('project_id');
+    newParams.delete('project_ids');
+    newParams.delete('program');
     newParams.delete('date');
     newParams.delete('week');
     newParams.delete('month');
@@ -91,6 +131,8 @@ export const useKanbanFilters = (): KanbanFilters => {
   return {
     assignees,
     projectId,
+    projectIds,
+    programId,
     dateFilter,
     selectedWeeks,
     selectedMonths,
@@ -99,6 +141,9 @@ export const useKanbanFilters = (): KanbanFilters => {
     conditionId: searchParams.get('condition') || null,
     setAssignees,
     setProjectId,
+    setProjectIds,
+    toggleProjectId,
+    setProgramId,
     setDateFilter,
     setSelectedWeeks,
     setSelectedMonths,
