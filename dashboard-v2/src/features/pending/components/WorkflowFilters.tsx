@@ -20,6 +20,9 @@ export const WorkflowFilters = ({
   onDeleteFiltered,
   isDeleting,
 }: WorkflowFiltersProps) => {
+  // DEBUG: Log props to identify state update issue
+  console.log('WorkflowFilters render:', { filterWorkflow, filterRunId, isDeleting });
+
   // Extract unique workflows and runIds (filter out null/undefined)
   const { workflows, runIds } = useMemo(() => {
     const workflowSet = new Set<string>();
@@ -38,13 +41,18 @@ export const WorkflowFilters = ({
 
   const hasFilter = filterWorkflow !== '' || filterRunId !== '';
   const canDelete = hasFilter && !isDeleting;
+  // DEBUG: Log computed values
+  console.log('WorkflowFilters computed:', { hasFilter, canDelete, workflows, runIds });
 
   return (
     <div className="flex gap-2 p-2 border-b bg-gray-50">
       {/* Workflow Filter */}
       <select
         value={filterWorkflow}
-        onChange={(e) => onWorkflowChange(e.target.value)}
+        onChange={(e) => {
+          console.log('Workflow onChange:', e.target.value);
+          onWorkflowChange(e.target.value);
+        }}
         className="px-2 py-1 text-xs border border-gray-300 rounded bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
         title="Filter by workflow"
       >
@@ -59,7 +67,10 @@ export const WorkflowFilters = ({
       {/* Run ID Filter */}
       <select
         value={filterRunId}
-        onChange={(e) => onRunIdChange(e.target.value)}
+        onChange={(e) => {
+          console.log('RunId onChange:', e.target.value);
+          onRunIdChange(e.target.value);
+        }}
         className="px-2 py-1 text-xs border border-gray-300 rounded bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
         title="Filter by run ID"
       >
