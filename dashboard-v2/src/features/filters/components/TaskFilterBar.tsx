@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import type { Member, Project, Program, Task } from '@/types';
 import type { UseCombinedFiltersReturn } from '@/types/filters';
 import { getWeekOptions, getMonthOptions } from '@/utils/dateUtils';
@@ -51,42 +51,48 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
   const monthOptions = useMemo(() => getMonthOptions(5), []);
 
   // Filter tasks by current assignee selection
+  // NOTE: filteredTasks is used ONLY for the "All" button count (line 97)
+  // to show how many tasks match the current ASSIGNEE filter.
+  // Other filters (status/date) are applied in buildKanbanColumns for actual display.
   const filteredTasks = useMemo(() => {
     if (assignees.length === 0) return tasks;
     return tasks.filter(t => assignees.includes(t.assignee));
   }, [tasks, assignees]);
 
-  // Calculate task count for a project
-  const getProjectTaskCount = (projectId: string) => {
-    return filteredTasks.filter(t => t.project_id === projectId).length;
-  };
+  // Calculate task count for a project using ALL tasks (not filtered)
+  // This ensures the filter bar navigation always shows the full project hierarchy,
+  // regardless of assignee/status/date filters. The filter bar is for NAVIGATION,
+  // not for showing filtered results (which happens in KanbanBoard/buildKanbanColumns).
+  const getAllTaskCount = useCallback((projectId: string) => {
+    return tasks.filter(t => t.project_id === projectId).length;
+  }, [tasks]);
 
-  // Programs with tasks
+  // Programs with tasks (using ALL tasks for navigation counts)
   const programsWithTasks = useMemo(() => {
     return programs.map(prog => {
       const programProjects = projects.filter(p => p.program_id === prog.entity_id);
       const projectIdList = programProjects.map(p => p.entity_id);
-      const taskCount = filteredTasks.filter(t => projectIdList.includes(t.project_id)).length;
+      const taskCount = tasks.filter(t => projectIdList.includes(t.project_id)).length;
       return { ...prog, taskCount };
     }).filter(p => p.taskCount > 0);
-  }, [programs, projects, filteredTasks]);
+  }, [programs, projects, tasks]);
 
-  // Child projects (when program is selected)
+  // Child projects (when program is selected, using ALL tasks for navigation counts)
   const childProjects = useMemo(() => {
     if (!programId) return [];
     return projects
       .filter(p => p.program_id === programId)
-      .map(p => ({ ...p, taskCount: getProjectTaskCount(p.entity_id) }))
+      .map(p => ({ ...p, taskCount: getAllTaskCount(p.entity_id) }))
       .filter(p => p.taskCount > 0);
-  }, [programId, projects, filteredTasks]);
+  }, [programId, projects, getAllTaskCount]);
 
-  // Independent projects (no program)
+  // Independent projects (no program, using ALL tasks for navigation counts)
   const independentProjects = useMemo(() => {
     return projects
       .filter(p => !p.program_id)
-      .map(p => ({ ...p, taskCount: getProjectTaskCount(p.entity_id) }))
+      .map(p => ({ ...p, taskCount: getAllTaskCount(p.entity_id) }))
       .filter(p => p.taskCount > 0);
-  }, [projects, filteredTasks]);
+  }, [projects, getAllTaskCount]);
 
   // Total task count
   const totalTasks = filteredTasks.length;
