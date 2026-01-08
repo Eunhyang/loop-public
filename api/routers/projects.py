@@ -106,15 +106,11 @@ async def create_project(project: ProjectCreate):
         "status": "planning",
         "owner": project.owner,
         "priority_flag": project.priority,
+        "parent_id": project.parent_id or None,
+        "program_id": project.program_id or None,
         "aliases": [project_id],
         "tags": []
     }
-
-    if project.parent_id:
-        frontmatter["parent_id"] = project.parent_id
-
-    if project.program_id:
-        frontmatter["program_id"] = project.program_id
 
     if project.conditions_3y:
         frontmatter["conditions_3y"] = project.conditions_3y
@@ -211,6 +207,7 @@ async def create_project(project: ProjectCreate):
         project_id=project_id,
         directory=dir_name,
         message="Project created successfully",
+        program_id=project.program_id,
         expected_impact=expected_impact_result,
         expected_score=round(expected_score, 2) if expected_score else None,
         validation=validation_result
@@ -327,8 +324,18 @@ def update_project(project_id: str, project: ProjectUpdate):
     if project.parent_id is not None:
         frontmatter['parent_id'] = project.parent_id
     if project.program_id is not None:
-        # program_id: 빈 문자열이면 null로, 아니면 그대로
-        frontmatter['program_id'] = project.program_id if project.program_id else None
+        # Validate program_id if provided (non-empty)
+        if project.program_id:
+            program = cache.get_program(project.program_id)
+            if not program:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Program not found: {project.program_id}"
+                )
+            frontmatter['program_id'] = project.program_id
+        else:
+            # Empty string → null
+            frontmatter['program_id'] = None
     if project.status is not None:
         # === tsk-n8n-15: 가설 필수 게이트 ===
         # active/done으로 전환 시 가설 연결 필수

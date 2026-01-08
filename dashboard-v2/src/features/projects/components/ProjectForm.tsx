@@ -230,6 +230,28 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         ))}
                     </select>
 
+                    {/* Program */}
+                    <label className="text-zinc-500 py-1">Program</label>
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={project.program_id || ''}
+                        onChange={(e) => handleUpdate('program_id', e.target.value || null)}
+                        disabled={isProgramsLoading}
+                    >
+                        <option value="">No Program</option>
+                        {isProgramsLoading ? (
+                            <option disabled>Loading programs...</option>
+                        ) : programsError ? (
+                            <option disabled>Error loading programs</option>
+                        ) : (
+                            programs?.map((p) => (
+                                <option key={p.entity_id} value={p.entity_id}>
+                                    {p.entity_name}
+                                </option>
+                            ))
+                        )}
+                    </select>
+
                     {/* Relations - Track (clickable) */}
                     {project.parent_id && (() => {
                         const track = dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id);
@@ -278,7 +300,11 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         }
 
         createProject(
-            { ...formData, parent_id: formData.parent_id || undefined },
+            {
+                ...formData,
+                parent_id: formData.parent_id || undefined,
+                program_id: formData.program_id || undefined
+            },
             {
                 onSuccess: () => {
                     closeEntityDrawer();
@@ -340,6 +366,30 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         {dashboardData?.tracks?.map((t: any) => (
                             <option key={t.entity_id} value={t.entity_id}>{t.entity_name}</option>
                         ))}
+                    </select>
+                </div>
+
+                {/* Program */}
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-medium text-zinc-700">Program (Optional)</label>
+                    <select
+                        className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                        value={formData.program_id || ''}
+                        onChange={e => setFormData(prev => ({ ...prev, program_id: e.target.value || null }))}
+                        disabled={isProgramsLoading}
+                    >
+                        <option value="">None</option>
+                        {isProgramsLoading ? (
+                            <option disabled>Loading programs...</option>
+                        ) : programsError ? (
+                            <option disabled>Error loading programs</option>
+                        ) : (
+                            programs?.map((p) => (
+                                <option key={p.entity_id} value={p.entity_id}>
+                                    {p.entity_name}
+                                </option>
+                            ))
+                        )}
                     </select>
                 </div>
 

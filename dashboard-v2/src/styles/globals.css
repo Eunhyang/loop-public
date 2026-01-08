@@ -56,6 +56,7 @@
   /* Abstractions for repetitive components */
   .btn-filter {
     @apply px-3 py-1 text-xs rounded-md transition-all duration-100 ease-in-out;
+    position: relative;  /* Added: drawer-icon positioning anchor */
     background-color: white !important;
     color: rgb(var(--color-text-main));
     border: 1px solid rgb(var(--color-border));

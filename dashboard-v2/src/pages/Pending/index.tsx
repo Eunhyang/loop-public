@@ -155,7 +155,6 @@ export const PendingPage = () => {
           onRunIdChange={setFilterRunId}
           onDeleteFiltered={handleDeleteFiltered}
           isDeleting={deleteBatchMutation.isPending}
-          filteredCount={filteredReviews.length}
         />
       </div>
 

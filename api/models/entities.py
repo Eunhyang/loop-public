@@ -117,6 +117,8 @@ class ProjectResponse(BaseModel):
     project_id: str
     directory: Optional[str] = None
     message: str
+    # Project fields (for confirmation)
+    program_id: Optional[str] = Field(default=None, description="소속 Program ID")
     # Autofill 결과 (옵션)
     expected_impact: Optional[dict] = Field(default=None, description="자동/수동 설정된 Expected Impact")
     expected_score: Optional[float] = Field(default=None, description="계산된 A Score")

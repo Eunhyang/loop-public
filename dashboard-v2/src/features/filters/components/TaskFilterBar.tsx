@@ -4,6 +4,7 @@ import type { UseCombinedFiltersReturn } from '@/types/filters';
 import { getWeekOptions, getMonthOptions } from '@/utils/dateUtils';
 import { filterVisibleMembers } from '@/features/tasks/selectors';
 import { getTrackColorByProject } from '@/utils/trackColors';
+import { useUi } from '@/contexts/UiContext';
 
 interface TaskFilterBarProps {
   filters: UseCombinedFiltersReturn;
@@ -38,6 +39,9 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
     setSelectedWeeks,
     setSelectedMonths,
   } = filters;
+
+  // Drawer control
+  const { openEntityDrawer } = useUi();
 
   // Filter members for display based on visibility toggles
   const visibleMembers = useMemo(() => {
@@ -176,6 +180,13 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
     }
   };
 
+  // Handler to open entity drawer (Program/Project)
+  // NOTE: Using 'edit' mode for both Program and Project (ProgramForm doesn't support 'view' mode)
+  const handleOpenDrawer = (e: React.MouseEvent | React.KeyboardEvent, type: 'program' | 'project', id: string) => {
+    e.stopPropagation();
+    openEntityDrawer({ type, mode: 'edit', id });
+  };
+
   return (
     <div className="glass-moderate border-b border-white/5 p-4 rounded-lg mb-4 flex flex-col gap-6">
       {/* Top Row: Assignee (Left) and Due Date (Right) */}
@@ -276,10 +287,26 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
                 <button
                   key={prog.entity_id}
                   onClick={() => handleProgramClick(prog.entity_id)}
-                  className={`btn-filter btn-filter-program ${isActive ? 'btn-filter-active' : ''}`}
+                  className={`btn-filter btn-filter-program pr-7 ${isActive ? 'btn-filter-active' : ''}`}
                 >
                   {prog.entity_name}
                   <span className="filter-count">{prog.taskCount}</span>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="drawer-icon"
+                    onClick={(e) => handleOpenDrawer(e, 'program', prog.entity_id)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleOpenDrawer(e, 'program', prog.entity_id);
+                      }
+                    }}
+                    aria-label={`Edit ${prog.entity_name}`}
+                    title="Edit"
+                  >
+                    i
+                  </span>
                 </button>
               );
             })}
@@ -303,7 +330,7 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
                     <button
                       key={proj.entity_id}
                       onClick={() => handleChildProjectClick(proj.entity_id)}
-                      className={`btn-filter btn-filter-child ${isActive ? 'btn-filter-active' : ''}`}
+                      className={`btn-filter btn-filter-child pr-7 ${isActive ? 'btn-filter-active' : ''}`}
                       style={{
                         borderLeftWidth: '3px',
                         borderLeftColor: trackColor.accent,
@@ -312,6 +339,22 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
                     >
                       {proj.entity_name}
                       <span className="filter-count">{proj.taskCount}</span>
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        className="drawer-icon"
+                        onClick={(e) => handleOpenDrawer(e, 'project', proj.entity_id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleOpenDrawer(e, 'project', proj.entity_id);
+                          }
+                        }}
+                        aria-label={`Edit ${proj.entity_name}`}
+                        title="Edit"
+                      >
+                        i
+                      </span>
                     </button>
                   );
                 })}
@@ -325,7 +368,7 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
                 <button
                   key={proj.entity_id}
                   onClick={() => handleIndependentProjectClick(proj.entity_id)}
-                  className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
+                  className={`btn-filter pr-7 ${isActive ? 'btn-filter-active' : ''}`}
                   style={{
                     borderLeftWidth: '3px',
                     borderLeftColor: trackColor.accent,
@@ -334,6 +377,22 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
                 >
                   {proj.entity_name}
                   <span className="filter-count">{proj.taskCount}</span>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="drawer-icon"
+                    onClick={(e) => handleOpenDrawer(e, 'project', proj.entity_id)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleOpenDrawer(e, 'project', proj.entity_id);
+                      }
+                    }}
+                    aria-label={`Edit ${proj.entity_name}`}
+                    title="Edit"
+                  >
+                    i
+                  </span>
                 </button>
               );
             })}

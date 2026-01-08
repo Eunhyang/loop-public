@@ -9,7 +9,6 @@ interface WorkflowFiltersProps {
   onRunIdChange: (runId: string) => void;
   onDeleteFiltered: () => void;
   isDeleting: boolean;
-  filteredCount: number;
 }
 
 export const WorkflowFilters = ({
@@ -20,7 +19,6 @@ export const WorkflowFilters = ({
   onRunIdChange,
   onDeleteFiltered,
   isDeleting,
-  filteredCount,
 }: WorkflowFiltersProps) => {
   // Extract unique workflows and runIds (filter out null/undefined)
   const { workflows, runIds } = useMemo(() => {
@@ -39,7 +37,7 @@ export const WorkflowFilters = ({
   }, [reviews]);
 
   const hasFilter = filterWorkflow !== '' || filterRunId !== '';
-  const canDelete = hasFilter && filteredCount > 0 && !isDeleting;
+  const canDelete = hasFilter && !isDeleting;
 
   return (
     <div className="flex gap-2 p-2 border-b bg-gray-50">
@@ -88,11 +86,9 @@ export const WorkflowFilters = ({
         title={
           !hasFilter
             ? 'Select a filter first'
-            : filteredCount === 0
-            ? 'No reviews match current filter'
             : isDeleting
             ? 'Deleting...'
-            : `Delete ${filteredCount} reviews`
+            : `Delete filtered reviews`
         }
       >
         {isDeleting ? 'Deleting...' : 'Delete Filtered'}

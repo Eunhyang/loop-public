@@ -138,3 +138,40 @@ button:focus-visible {
   user-select: none;
   font-weight: normal;
 }
+
+/* Drawer icon on filter buttons */
+.drawer-icon {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 9px;
+  font-style: italic;
+  font-weight: 600;
+  opacity: 0.3;
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 50%;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+  line-height: 1;
+}
+
+.drawer-icon:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.btn-filter-active .drawer-icon {
+  opacity: 0.5;
+}
+
+.btn-filter-active .drawer-icon:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.drawer-icon:focus-visible {
+  opacity: 1;
+  outline: 2px solid rgb(99, 102, 241);
+  outline-offset: 1px;
+}
