@@ -15,12 +15,14 @@ export interface TaskFormHandle {
 }
 
 export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, prefill }, ref) => {
-    const { data: task, isLoading } = useTask(mode === 'edit' ? id || null : null);
+    // view/edit 모두 useTask로 전체 데이터 로드
+    const { data: task, isLoading } = useTask(mode !== 'create' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
     const { mutate: createTask, isPending, error } = useCreateTask();
     const { data: dashboardData } = useDashboardInit();
     const { openEntityDrawer, closeEntityDrawer } = useUi();
 
+    const isReadOnly = mode === 'view';
     const [isEditingNotes, setIsEditingNotes] = useState(false);
     const notesRef = useRef<HTMLTextAreaElement>(null);
 
@@ -50,97 +52,8 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
         }
     }));
 
-    // View mode - show task details read-only
-    if (mode === 'view' && id) {
-        const task = dashboardData?.tasks?.find((t) => t.entity_id === id);
-
-        if (!task) {
-            return (
-                <div className="p-6 text-center text-zinc-500">
-                    <p>Task not found: {id}</p>
-                </div>
-            );
-        }
-
-        const project = task.project_id
-            ? dashboardData?.projects?.find((p: any) => p.entity_id === task.project_id)
-            : null;
-
-        return (
-            <div className="flex-1 overflow-y-auto">
-                {/* ID Badge */}
-                <div className="px-6 pt-4 pb-2">
-                    <span className="font-mono text-xs text-zinc-400 px-2 py-1 bg-zinc-50 rounded">
-                        {task.entity_id}
-                    </span>
-                </div>
-
-                {/* Title */}
-                <div className="px-6 pb-4">
-                    <h2 className="text-xl font-bold text-zinc-900">{task.entity_name}</h2>
-                </div>
-
-                {/* Properties Grid */}
-                <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
-                    <label className="text-zinc-500 py-1">Status</label>
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {task.status}
-                    </span>
-
-                    <label className="text-zinc-500 py-1">Priority</label>
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {task.priority || 'medium'}
-                    </span>
-
-                    <label className="text-zinc-500 py-1">Assignee</label>
-                    <span className="text-zinc-700">{task.assignee || '-'}</span>
-
-                    <label className="text-zinc-500 py-1">Type</label>
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {task.type || 'dev'}
-                    </span>
-
-                    {project && (
-                        <>
-                            <label className="text-zinc-500 py-1">Project</label>
-                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
-                                {project.entity_name}
-                            </span>
-                        </>
-                    )}
-
-                    {task.start_date && (
-                        <>
-                            <label className="text-zinc-500 py-1">Start Date</label>
-                            <span className="text-zinc-700">{task.start_date}</span>
-                        </>
-                    )}
-
-                    {task.due && (
-                        <>
-                            <label className="text-zinc-500 py-1">Due Date</label>
-                            <span className="text-zinc-700">{task.due}</span>
-                        </>
-                    )}
-                </div>
-
-                {/* Notes */}
-                {task.notes && (
-                    <>
-                        <div className="h-px bg-zinc-200 mx-6 my-2" />
-                        <div className="px-6 py-4">
-                            <h3 className="text-sm font-semibold text-zinc-500 mb-2">Notes</h3>
-                            <div className="prose prose-sm max-w-none text-zinc-700 whitespace-pre-wrap">
-                                {task.notes}
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>
-        );
-    }
-
-    if (mode === 'edit' && (isLoading || !task)) {
+    // view/edit 모드 로딩 처리
+    if ((mode === 'edit' || mode === 'view') && (isLoading || !task)) {
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
     }
 
@@ -388,12 +301,16 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
 
             {/* Title Section */}
             <div className="px-6 pb-2">
-                <input
-                    className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
-                    placeholder="Task Title"
-                    defaultValue={formData?.entity_name}
-                    onBlur={(e) => handleUpdate('entity_name', e.target.value)}
-                />
+                {isReadOnly ? (
+                    <h2 className="text-xl font-bold text-zinc-900">{formData?.entity_name}</h2>
+                ) : (
+                    <input
+                        className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
+                        placeholder="Task Title"
+                        defaultValue={formData?.entity_name}
+                        onBlur={(e) => handleUpdate('entity_name', e.target.value)}
+                    />
+                )}
             </div>
 
             {/* Task Type Chips */}
@@ -402,11 +319,12 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     {dashboardData.constants.task_types.map((type: string) => (
                         <button
                             key={type}
-                            onClick={() => handleUpdate('type', type)}
+                            onClick={() => !isReadOnly && handleUpdate('type', type)}
+                            disabled={isReadOnly}
                             className={`px-3 py-1 text-xs rounded-full transition-all ${formData?.type === type
                                 ? 'bg-zinc-900 text-white shadow-sm'
                                 : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-                                }`}
+                                } ${isReadOnly ? 'cursor-default' : ''}`}
                         >
                             {type}
                         </button>
@@ -418,75 +336,105 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
                 {/* Status */}
                 <label className="text-zinc-500 py-1">Status</label>
-                <select
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.status}
-                    onChange={(e) => handleUpdate('status', e.target.value)}
-                >
-                    <option value="todo">To Do</option>
-                    <option value="doing">Doing</option>
-                    <option value="hold">Hold</option>
-                    <option value="blocked">Blocked</option>
-                    <option value="done">Done</option>
-                </select>
+                {isReadOnly ? (
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {formData?.status}
+                    </span>
+                ) : (
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={formData?.status}
+                        onChange={(e) => handleUpdate('status', e.target.value)}
+                    >
+                        <option value="todo">To Do</option>
+                        <option value="doing">Doing</option>
+                        <option value="hold">Hold</option>
+                        <option value="blocked">Blocked</option>
+                        <option value="done">Done</option>
+                    </select>
+                )}
 
                 {/* Priority */}
                 <label className="text-zinc-500 py-1">Priority</label>
-                <select
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.priority}
-                    onChange={(e) => handleUpdate('priority', e.target.value)}
-                >
-                    <option value="critical">Critical</option>
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
-                </select>
+                {isReadOnly ? (
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {formData?.priority || 'medium'}
+                    </span>
+                ) : (
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={formData?.priority}
+                        onChange={(e) => handleUpdate('priority', e.target.value)}
+                    >
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                )}
 
                 {/* Assignee */}
                 <label className="text-zinc-500 py-1">Assignee</label>
-                <select
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.assignee}
-                    onChange={(e) => handleUpdate('assignee', e.target.value)}
-                >
-                    <option value="">Unassigned</option>
-                    {dashboardData?.members?.map((m: any) => (
-                        <option key={m.id} value={m.name}>{m.name}</option>
-                    ))}
-                </select>
+                {isReadOnly ? (
+                    <span className="text-zinc-700">{formData?.assignee || '-'}</span>
+                ) : (
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={formData?.assignee}
+                        onChange={(e) => handleUpdate('assignee', e.target.value)}
+                    >
+                        <option value="">Unassigned</option>
+                        {dashboardData?.members?.map((m: any) => (
+                            <option key={m.id} value={m.name}>{m.name}</option>
+                        ))}
+                    </select>
+                )}
 
                 {/* Project */}
                 <label className="text-zinc-500 py-1">Project</label>
-                <select
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    value={formData?.project_id}
-                    onChange={(e) => handleUpdate('project_id', e.target.value)}
-                >
-                    <option value="">No Project</option>
-                    {dashboardData?.projects?.map((p: any) => (
-                        <option key={p.entity_id} value={p.entity_id}>
-                            {p.entity_name || p.entity_id}
-                        </option>
-                    ))}
-                </select>
+                {isReadOnly ? (
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                        {dashboardData?.projects?.find((p: any) => p.entity_id === formData?.project_id)?.entity_name || formData?.project_id || '-'}
+                    </span>
+                ) : (
+                    <select
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        value={formData?.project_id}
+                        onChange={(e) => handleUpdate('project_id', e.target.value)}
+                    >
+                        <option value="">No Project</option>
+                        {dashboardData?.projects?.map((p: any) => (
+                            <option key={p.entity_id} value={p.entity_id}>
+                                {p.entity_name || p.entity_id}
+                            </option>
+                        ))}
+                    </select>
+                )}
 
                 {/* Date Fields */}
                 <label className="text-zinc-500 py-1">Start Date</label>
-                <input
-                    type="date"
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    defaultValue={formData?.start_date || ''}
-                    onBlur={(e) => handleUpdate('start_date', e.target.value)}
-                />
+                {isReadOnly ? (
+                    <span className="text-zinc-700">{formData?.start_date || '-'}</span>
+                ) : (
+                    <input
+                        type="date"
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        defaultValue={formData?.start_date || ''}
+                        onBlur={(e) => handleUpdate('start_date', e.target.value)}
+                    />
+                )}
 
                 <label className="text-zinc-500 py-1">Due Date</label>
-                <input
-                    type="date"
-                    className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                    defaultValue={formData?.due || ''}
-                    onBlur={(e) => handleUpdate('due', e.target.value)}
-                />
+                {isReadOnly ? (
+                    <span className="text-zinc-700">{formData?.due || '-'}</span>
+                ) : (
+                    <input
+                        type="date"
+                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                        defaultValue={formData?.due || ''}
+                        onBlur={(e) => handleUpdate('due', e.target.value)}
+                    />
+                )}
 
                 {/* Relations - Project */}
                 {formData?.project_id && (
