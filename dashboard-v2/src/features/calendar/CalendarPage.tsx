@@ -9,6 +9,7 @@ import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { useCalendarEvents } from './queries/useCalendarEvents';
 import { useCalendarUi } from './hooks/useCalendarUi';
+import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { useCombinedFilters } from '@/hooks/useCombinedFilters';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
@@ -25,7 +26,8 @@ export default function CalendarPage() {
 
     const { enabledCalendarIds, expandMode } = useCalendarUi();
     const { openEntityDrawer } = useUi();
-    const filters = useCombinedFilters();
+    const urlFilters = useUrlFilters();
+    const combinedFilters = useCombinedFilters();
     const panelFilters = useFilterContext();
     const { data: dashboardData } = useDashboardInit();
 
