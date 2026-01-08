@@ -3,6 +3,7 @@ import { useFilterContext } from '../../context/FilterContext';
 import { VisibilityToggles } from './VisibilityToggles';
 import { ProjectFilters } from './ProjectFilters';
 import { TaskFilters } from './TaskFilters';
+import { DateFilters } from './DateFilters';
 
 interface FilterPanelProps {
     isOpen: boolean;
@@ -65,6 +66,11 @@ export const FilterPanel = ({ isOpen, onClose }: FilterPanelProps) => {
                         <div className="h-px bg-white/5 mb-6" />
                         <h3 className="text-sm font-bold text-gray-300 mb-4">Task Filters</h3>
                         <TaskFilters />
+                    </section>
+
+                    <section>
+                        <div className="h-px bg-white/5 mb-6" />
+                        <DateFilters />
                     </section>
                 </div>
 
