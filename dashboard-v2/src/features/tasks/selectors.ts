@@ -33,13 +33,8 @@ export type KanbanFiltersState = KanbanUrlFilters & KanbanPanelFilters;
 /**
  * Apply filters derived from URL parameters (Context-aware navigation)
  */
-// 2. Pure Functions for Filtering
-
-/**
- * Apply filters derived from URL parameters (Context-aware navigation)
- */
 export const applyUrlFilters = (tasks: Task[], filters: KanbanUrlFilters, projects: Project[] = []): Task[] => {
-    const { assignees, projectId, dateFilter, trackId, hypothesisId, conditionId } = filters;
+    const { assignees, projectId, dateFilter, selectedWeeks, selectedMonths, trackId, hypothesisId, conditionId } = filters;
     let filtered = tasks;
 
     // Assignee filter (Multi-select)
@@ -84,6 +79,30 @@ export const applyUrlFilters = (tasks: Task[], filters: KanbanUrlFilters, projec
     } else if (dateFilter === 'M') {
         const range = getMonthRange();
         filtered = filtered.filter(t => isWithinRange(t.due, range));
+    }
+
+    // Selected Weeks filter (Multi-select)
+    if (selectedWeeks.length > 0) {
+        filtered = filtered.filter(t => {
+            if (!t.due) return false;
+            const taskDate = new Date(t.due);
+            const taskYear = taskDate.getFullYear();
+            const taskWeek = Math.ceil((((taskDate.getTime() - new Date(taskYear, 0, 1).getTime()) / 86400000) + new Date(taskYear, 0, 1).getDay() + 1) / 7);
+            const formattedWeek = `${taskYear}-W${String(taskWeek).padStart(2, '0')}`;
+            return selectedWeeks.includes(formattedWeek);
+        });
+    }
+
+    // Selected Months filter (Multi-select)
+    if (selectedMonths.length > 0) {
+        filtered = filtered.filter(t => {
+            if (!t.due) return false;
+            const taskDate = new Date(t.due);
+            const taskYear = taskDate.getFullYear();
+            const taskMonth = taskDate.getMonth() + 1; // getMonth() is 0-indexed
+            const formattedMonth = `${taskYear}-${String(taskMonth).padStart(2, '0')}`;
+            return selectedMonths.includes(formattedMonth);
+        });
     }
 
     return filtered;
