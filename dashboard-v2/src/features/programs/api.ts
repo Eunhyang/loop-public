@@ -19,4 +19,7 @@ export const programApi = {
 
     updateProgram: (id: string, data: Partial<Program>) =>
         httpClient.put<Program>(`/api/programs/${id}`, data),
+
+    deleteProgram: (id: string) =>
+        httpClient.delete<{ success: boolean; message: string }>(`/api/programs/${id}`),
 };

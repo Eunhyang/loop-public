@@ -9,11 +9,15 @@ import {
 import {
   ReviewList,
   ReviewDetail,
-  EntityPreview,
   WorkflowFilters,
 } from '@/features/pending/components';
 import { usePendingFilters } from '@/features/pending/hooks/usePendingFilters';
 import type { PendingReview, PendingStatus } from '@/features/pending/types';
+import { TaskForm } from '@/features/tasks/components/TaskForm';
+import { ProjectForm } from '@/features/projects/components/ProjectForm';
+import { TrackForm } from '@/features/strategy/components/TrackForm';
+import { ConditionForm } from '@/features/strategy/components/ConditionForm';
+import { HypothesisForm } from '@/features/strategy/components/HypothesisForm';
 
 export const PendingPage = () => {
   const { data: allReviews = [], isPending: isLoading, error, refetch } = usePendingReviews();
@@ -113,6 +117,39 @@ export const PendingPage = () => {
     }
   };
 
+  // Render entity preview based on type
+  const renderEntityPreview = () => {
+    if (!previewEntityId || !previewEntityType) {
+      return (
+        <div className="flex items-center justify-center h-full text-gray-500 p-4 text-center">
+          Click an entity ID to preview
+        </div>
+      );
+    }
+
+    switch (previewEntityType) {
+      case 'Task':
+        return <TaskForm mode="view" id={previewEntityId} />;
+      case 'Project':
+        return <ProjectForm mode="view" id={previewEntityId} />;
+      case 'Track':
+        return <TrackForm id={previewEntityId} />;
+      case 'Condition':
+        return <ConditionForm id={previewEntityId} />;
+      case 'Hypothesis':
+        return <HypothesisForm mode="view" id={previewEntityId} />;
+      default:
+        return (
+          <div className="flex items-center justify-center h-full text-gray-500 p-4 text-center">
+            <div>
+              <p className="font-semibold">Unsupported entity type: {previewEntityType}</p>
+              <p className="text-sm mt-1">This entity type cannot be previewed.</p>
+            </div>
+          </div>
+        );
+    }
+  };
+
   // Error state display
   if (error) {
     return (
@@ -186,13 +223,7 @@ export const PendingPage = () => {
 
       {/* Right Pane - Entity Preview */}
       <div className="w-80 border-l min-h-0 overflow-y-auto">
-        {previewEntityId && previewEntityType ? (
-          <EntityPreview entityId={previewEntityId} entityType={previewEntityType} />
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-500 p-4 text-center">
-            Click an entity ID to preview
-          </div>
-        )}
+        {renderEntityPreview()}
       </div>
     </div>
   );

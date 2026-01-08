@@ -76,19 +76,18 @@ export const WorkflowFilters = ({
         onClick={onDeleteFiltered}
         disabled={!canDelete}
         className={`
-          px-3 py-1 text-xs rounded font-medium transition-colors
-          ${
-            !canDelete
-              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-              : 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800'
+          px-3 py-1 text-xs rounded font-semibold transition-all border
+          ${!canDelete
+            ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+            : '!bg-[#fef2f2] !text-[#991b1b] border-[#fecaca] hover:!bg-[#fee2e2] active:!bg-[#fecaca]'
           }
         `}
         title={
           !hasFilter
             ? 'Select a filter first'
             : isDeleting
-            ? 'Deleting...'
-            : `Delete filtered reviews`
+              ? 'Deleting...'
+              : `Delete filtered reviews`
         }
       >
         {isDeleting ? 'Deleting...' : 'Delete Filtered'}

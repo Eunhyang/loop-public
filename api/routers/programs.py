@@ -201,3 +201,98 @@ def create_program(program: ProgramCreate):
         file_path=str(program_file.relative_to(VAULT_DIR)),
         message=f"Program '{program.entity_name}' created successfully"
     )
+
+
+@router.delete("/{program_id}", response_model=ProgramResponse)
+def delete_program(program_id: str):
+    """
+    Program 삭제
+
+    Args:
+        program_id: 삭제할 Program ID
+
+    Returns:
+        ProgramResponse: 성공 메시지
+
+    Raises:
+        HTTPException:
+            - 404: Program이 존재하지 않음
+            - 400: 하위 Project가 존재하여 삭제 불가
+    """
+    cache = get_cache()
+
+    # 1. Program 존재 확인 (404 먼저 체크)
+    program = cache.get_program(program_id)
+    if not program:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Program not found: {program_id}"
+        )
+
+    # 2. 하위 Project 확인 (400)
+    all_projects = cache.get_all_projects()
+    child_projects = [
+        p for p in all_projects
+        if p.get("program_id") == program_id
+    ]
+
+    if child_projects:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Cannot delete program: {len(child_projects)} project(s) are linked. "
+                   f"Delete the projects first."
+        )
+
+    # 3. 파일 경로 구성
+    # Cache stores _path as relative, need to construct absolute path
+    relative_path = program.get("_path")
+    if not relative_path:
+        raise HTTPException(
+            status_code=500,
+            detail="Program path not found in cache"
+        )
+
+    program_file = VAULT_DIR / relative_path
+    program_dir = program_file.parent
+
+    # 4. 파일 및 디렉토리 삭제
+    entity_name = program.get("entity_name", "")
+    try:
+        # _PROGRAM.md 파일 삭제
+        if program_file.exists():
+            program_file.unlink()
+
+        # 디렉토리가 비어있으면 삭제
+        if program_dir.exists() and program_dir.is_dir():
+            # 디렉토리 내 다른 파일이 있는지 확인
+            remaining_files = list(program_dir.iterdir())
+            if not remaining_files:
+                program_dir.rmdir()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to delete program files: {str(e)}"
+        )
+
+    # 5. 캐시에서 제거 (파일 삭제 성공 후에만)
+    cache.remove_program(program_id)
+
+    # 6. 감사 로그
+    log_entity_action(
+        action="delete",
+        entity_type="Program",
+        entity_id=program_id,
+        entity_name=entity_name,
+        details={
+            "file_path": str(program_file),
+            "directory": str(program_dir.name)
+        }
+    )
+
+    return ProgramResponse(
+        success=True,
+        program_id=program_id,
+        file_path=str(program_file.relative_to(VAULT_DIR)),
+        message=f"Program '{entity_name}' deleted successfully"
+    )

@@ -116,6 +116,7 @@ export const ReviewDetail = ({
           {Object.entries(review.suggested_fields).map(([field, value]) => {
             const config = FIELD_CONFIG[field];
             const options = fieldOptions?.[field as keyof typeof fieldOptions];
+            const reasoning = review.reasoning?.[field];
 
             // Render interactive pills if field has config and options
             if (config && options && options.length > 0) {
@@ -128,32 +129,16 @@ export const ReviewDetail = ({
                   suggested={value}
                   multiSelect={config.multiSelect}
                   onChange={(newValue) => handleFieldChange(field, newValue)}
+                  reasoning={reasoning}
                 />
               );
             }
 
             // Fallback to read-only display for unsupported fields
-            return <FieldValue key={field} field={field} value={value} />;
+            return <FieldValue key={field} field={field} value={value} reasoning={reasoning} />;
           })}
         </div>
       </div>
-
-      {/* Reasoning (if available) */}
-      {review.reasoning && Object.keys(review.reasoning).length > 0 && (
-        <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">
-            Reasoning
-          </h3>
-          <div className="space-y-2 bg-blue-50 p-4 rounded">
-            {Object.entries(review.reasoning).map(([field, reason]) => (
-              <div key={field} className="text-sm">
-                <span className="font-medium text-gray-700">{field}:</span>
-                <span className="ml-2 text-gray-900">{reason}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Actions */}
       {review.status === 'pending' && (

@@ -7,6 +7,7 @@ interface FieldOptionPillsProps {
   suggested: unknown;
   multiSelect: boolean;
   onChange: (value: unknown) => void;
+  reasoning?: string;
 }
 
 export const FieldOptionPills = ({
@@ -16,22 +17,23 @@ export const FieldOptionPills = ({
   suggested,
   multiSelect,
   onChange,
+  reasoning,
 }: FieldOptionPillsProps) => {
   // Normalize selected and suggested to Sets for consistent comparison
   const selectedSet = new Set<string>(
     multiSelect && Array.isArray(selected)
       ? selected.map(String)
       : selected
-      ? [String(selected)]
-      : []
+        ? [String(selected)]
+        : []
   );
 
   const suggestedSet = new Set<string>(
     multiSelect && Array.isArray(suggested)
       ? suggested.map(String)
       : suggested
-      ? [String(suggested)]
-      : []
+        ? [String(suggested)]
+        : []
   );
 
   const handleClick = (value: string) => {
@@ -73,11 +75,10 @@ export const FieldOptionPills = ({
               className={`
                 px-3 py-1 rounded-full text-sm font-medium
                 transition-all border
-                ${
-                  isSelected
-                    ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600'
-                    : isSuggested
-                    ? 'bg-yellow-100 text-gray-900 border-yellow-400 hover:bg-yellow-200'
+                ${isSelected
+                  ? '!bg-[#f0f9ff] !text-[#082f49] border-[#bae6fd] font-semibold'
+                  : isSuggested
+                    ? '!bg-[#fffbeb] !text-[#78350f] border-[#fef3c7]'
                     : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                 }
               `}
@@ -88,6 +89,11 @@ export const FieldOptionPills = ({
           );
         })}
       </div>
+      {reasoning && (
+        <div className="mt-2 text-xs text-gray-500 italic pl-1">
+          → {reasoning}
+        </div>
+      )}
     </div>
   );
 };

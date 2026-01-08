@@ -74,3 +74,18 @@ export const useCreateProgram = () => {
         },
     });
 };
+
+export const useDeleteProgram = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) => programApi.deleteProgram(id),
+        onSuccess: (_data, id) => {
+            // Remove specific program query
+            queryClient.removeQueries({ queryKey: queryKeys.program(id) });
+            // Invalidate dashboard and programs list
+            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+            queryClient.invalidateQueries({ queryKey: queryKeys.programs() });
+        },
+    });
+};

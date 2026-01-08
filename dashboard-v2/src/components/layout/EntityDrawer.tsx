@@ -6,6 +6,7 @@ import { useDeleteTask } from '@/features/tasks/queries';
 import { ProjectForm } from '@/features/projects/components/ProjectForm';
 import { useDeleteProject } from '@/features/projects/queries';
 import { ProgramForm } from '@/features/programs/components/ProgramForm';
+import { useDeleteProgram } from '@/features/programs/queries';
 import { TrackForm } from '@/features/strategy/components/TrackForm';
 import { HypothesisForm } from '@/features/strategy/components/HypothesisForm';
 import { ConditionForm } from '@/features/strategy/components/ConditionForm';
@@ -25,6 +26,7 @@ export function EntityDrawer() {
   const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand } = useUi();
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: deleteProject } = useDeleteProject();
+  const { mutate: deleteProgram } = useDeleteProgram();
   const taskFormRef = useRef<TaskFormHandle>(null);
 
   if (!activeEntityDrawer) return null;
@@ -75,6 +77,19 @@ export function EntityDrawer() {
           }
         });
       }
+    } else if (type === 'program') {
+      if (window.confirm(`Are you sure you want to delete program ${id}?\nThis cannot be undone.`)) {
+        deleteProgram(id, {
+          onSuccess: () => {
+            closeEntityDrawer();
+          },
+          onError: (err: any) => {
+            // Display specific error message (e.g., "Cannot delete: N projects linked")
+            const errorMessage = err?.response?.data?.detail || err.message || 'Failed to delete program';
+            alert(errorMessage);
+          }
+        });
+      }
     }
   };
 
@@ -84,12 +99,12 @@ export function EntityDrawer() {
     closeEntityDrawer();
   };
 
-  // Render footer (task/project edit mode)
+  // Render footer (task/project/program edit mode)
   const renderFooter = () => {
     if (mode !== 'edit') return undefined;
-    if (type !== 'task' && type !== 'project') return undefined;
+    if (type !== 'task' && type !== 'project' && type !== 'program') return undefined;
 
-    const entityLabel = type === 'task' ? 'Task' : 'Project';
+    const entityLabel = type === 'task' ? 'Task' : type === 'project' ? 'Project' : 'Program';
 
     return (
       <div className="flex justify-between items-center px-6 py-4 border-t border-gray-200 bg-gray-50">

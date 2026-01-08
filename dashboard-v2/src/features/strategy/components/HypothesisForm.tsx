@@ -11,7 +11,7 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
 
     // View mode - show hypothesis details read-only
     if (mode === 'view' && id) {
-        const hypothesis = dashboardData?.hypotheses?.find((h: any) => h.entity_id === id);
+        const hypothesis: any = dashboardData?.hypotheses?.find((h: any) => h.entity_id === id);
 
         if (!hypothesis) {
             return (
@@ -58,7 +58,7 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
                         </>
                     )}
 
-                    {hypothesis.validates && hypothesis.validates.length > 0 && (
+                    {hypothesis.validates && Array.isArray(hypothesis.validates) && hypothesis.validates.length > 0 && (
                         <>
                             <label className="text-zinc-500 py-1">Validates</label>
                             <div className="py-1 space-y-1">
@@ -71,7 +71,7 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
                         </>
                     )}
 
-                    {hypothesis.validated_by && hypothesis.validated_by.length > 0 && (
+                    {hypothesis.validated_by && Array.isArray(hypothesis.validated_by) && hypothesis.validated_by.length > 0 && (
                         <>
                             <label className="text-zinc-500 py-1">Validated By</label>
                             <div className="py-1 space-y-1">
