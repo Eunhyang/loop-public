@@ -1,7 +1,8 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
+import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
@@ -23,8 +24,6 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
     const { openEntityDrawer, closeEntityDrawer } = useUi();
 
     const isReadOnly = mode === 'view';
-    const [isEditingNotes, setIsEditingNotes] = useState(false);
-    const notesRef = useRef<HTMLTextAreaElement>(null);
 
     // Create mode form state
     const [createFormData, setCreateFormData] = useState({
@@ -43,12 +42,10 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
     // For edit mode, use task data
     const formData = mode === 'create' ? prefill : task;
 
-    // Expose saveNotes method via ref
+    // Expose saveNotes method via ref (kept for compatibility, but autosave handles it now)
     useImperativeHandle(ref, () => ({
         saveNotes: () => {
-            if (isEditingNotes && notesRef.current && id) {
-                updateTask({ id, data: { notes: notesRef.current.value } });
-            }
+            // Notes are now auto-saved via MarkdownEditor onBlur
         }
     }));
 
@@ -266,17 +263,9 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
         }
     };
 
-    const renderMarkdown = (text: string): string => {
-        if (!text) return '';
-
-        return text
-            .replace(/^### (.*$)/gim, '<h3 class="text-base font-bold mt-4 mb-2">$1</h3>')
-            .replace(/^## (.*$)/gim, '<h2 class="text-lg font-bold mt-5 mb-2">$1</h2>')
-            .replace(/^# (.*$)/gim, '<h1 class="text-xl font-bold mt-6 mb-3">$1</h1>')
-            .replace(/\*\*(.*?)\*\*/gim, '<strong class="font-semibold">$1</strong>')
-            .replace(/\*(.*?)\*/gim, '<em class="italic">$1</em>')
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" class="text-blue-600 hover:underline" target="_blank">$1</a>')
-            .replace(/\n/gim, '<br/>');
+    const handleNotesBlur = () => {
+        // Autosave is handled by MarkdownEditor's internal debounce
+        // This is called after the debounced onChange
     };
 
     return (
@@ -531,41 +520,18 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
 
             {/* Notes Section */}
             <div className="px-6 py-4 flex-1 flex flex-col">
-                <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-semibold text-zinc-500">Notes</h3>
-                    {!isReadOnly && (
-                        <button
-                            onClick={() => setIsEditingNotes(!isEditingNotes)}
-                            className="text-xs px-2 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded transition-colors"
-                        >
-                            {isEditingNotes ? 'Preview' : 'Edit'}
-                        </button>
-                    )}
-                </div>
-
-                {!isReadOnly && isEditingNotes ? (
-                    <textarea
-                        key={`notes-${id}`}
-                        ref={notesRef}
-                        className="w-full min-h-[200px] border border-zinc-200 p-3 rounded bg-white text-sm font-mono leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
-                        defaultValue={formData?.notes ?? formData?._body ?? ''}
-                        onBlur={(e) => {
-                            const value = e.target.value;
-                            const currentValue = formData?.notes ?? formData?._body ?? '';
-                            if (value !== currentValue) {
-                                handleUpdate('notes', value);
-                            }
-                        }}
-                    />
-                ) : (
-                    <div className="prose prose-sm max-w-none text-zinc-800">
-                        {(formData?.notes !== null && formData?.notes !== undefined) || formData?._body ? (
-                            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(formData?.notes ?? formData?._body ?? '') }} />
-                        ) : (
-                            <span className="text-zinc-400 italic">No notes</span>
-                        )}
-                    </div>
-                )}
+                <h3 className="text-sm font-semibold text-zinc-500 mb-2">Notes</h3>
+                <MarkdownEditor
+                    value={formData?.notes ?? formData?._body ?? ''}
+                    onChange={(markdown) => {
+                        if (!id) return;
+                        handleUpdate('notes', markdown);
+                    }}
+                    onBlur={handleNotesBlur}
+                    readOnly={isReadOnly}
+                    placeholder="Type / for commands..."
+                    minHeight="300px"
+                />
             </div>
         </div>
     );
