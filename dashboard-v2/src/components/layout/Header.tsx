@@ -59,7 +59,6 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
           <NavLink to="/kanban" className={navLinkClass}>Kanban</NavLink>
           <NavLink to="/calendar" className={navLinkClass}>Calendar</NavLink>
           <NavLink to="/graph" className={navLinkClass}>Graph</NavLink>
-          <NavLink to="/program" className={navLinkClass}>Program</NavLink>
         </nav>
       </div>
 

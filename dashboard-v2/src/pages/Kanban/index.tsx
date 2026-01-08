@@ -3,10 +3,12 @@ import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useKanbanFilters } from './useKanbanFilters';
 import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
 import { KanbanFilters } from './KanbanFilters';
-import { buildKanbanColumns, type KanbanFiltersState } from '@/features/tasks/selectors';
+import { buildKanbanColumns } from '@/features/tasks/selectors';
 import { FilterProvider, useFilterContext } from '@/features/filters/context/FilterContext';
 import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
+import type { CombinedFilterState } from '@/types/filters';
+import { DEFAULT_LOCAL_FILTERS } from '@/constants/filterDefaults';
 import { useUi } from '@/contexts/UiContext';
 
 const KanbanPageContent = () => {
@@ -21,9 +23,28 @@ const KanbanPageContent = () => {
       return { todo: [], doing: [], hold: [], done: [], blocked: [] };
     }
 
-    const combinedFilters: KanbanFiltersState = {
+    // Merge URL filters with panel filters + defaults for CombinedFilterState compatibility
+    const combinedFilters: CombinedFilterState = {
+      // URL filters
       ...urlFilters,
-      ...panelFilters
+      // Add programId from URL (default null if not in old useKanbanFilters)
+      programId: (urlFilters as any).programId ?? null,
+      // Local filters from FilterContext (map old field names to new)
+      showInactiveMembers: DEFAULT_LOCAL_FILTERS.showInactiveMembers,
+      showNonCoreMembers: DEFAULT_LOCAL_FILTERS.showNonCoreMembers,
+      showInactiveProjects: panelFilters.showDoneProjects, // Map old name
+      showInactiveTasks: panelFilters.showInactive,        // Map old name
+      // Panel filter arrays
+      projectStatus: panelFilters.projectStatus.length > 0
+        ? panelFilters.projectStatus
+        : DEFAULT_LOCAL_FILTERS.projectStatus,
+      projectPriority: panelFilters.projectPriority,
+      taskStatus: panelFilters.taskStatus,
+      taskPriority: panelFilters.taskPriority,
+      taskTypes: panelFilters.taskTypes,
+      // Date range (default)
+      dueDateStart: null,
+      dueDateEnd: null,
     };
 
     return buildKanbanColumns(data.tasks, combinedFilters, data.projects);
