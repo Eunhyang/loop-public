@@ -11,9 +11,13 @@ export const httpClient = axios.create({
   },
 });
 
+import { authStorage } from '../features/auth/storage';
+
+// ...
+
 // Request interceptor: Add JWT token from localStorage OR use static bypass token
 httpClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('LOOP_API_TOKEN');
+  const token = authStorage.getToken();
 
   // BYPASS: Use static token if no user token exists
   const effectiveToken = token || "loop_2024_kanban_secret";

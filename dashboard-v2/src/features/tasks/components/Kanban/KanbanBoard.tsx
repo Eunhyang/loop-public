@@ -53,7 +53,7 @@ export const KanbanBoard = ({ columns, onCardClick }: KanbanBoardProps) => {
   return (
     <div className="flex-1 overflow-hidden min-h-0">
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="grid grid-cols-5 gap-4 h-full p-4">
+        <div className="grid grid-cols-5 grid-rows-1 gap-4 h-full p-4">
           {columnOrder.map((status) => (
             <KanbanColumn
               key={status}

@@ -1,46 +1,40 @@
-import { Link, useLocation } from 'react-router-dom';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { SidebarSection } from './SidebarSection';
 
-export const Sidebar = () => {
-  const { data } = useDashboardInit();
-  const location = useLocation();
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  // Helper to determine if a link is active
-  const isActive = (path: string) => location.pathname.startsWith(path);
-  const linkClass = (path: string) => `block px-4 py-1.5 rounded-md transition-colors text-sm font-medium ${isActive(path)
-    ? 'bg-zinc-200 text-zinc-900'
-    : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'}`;
+export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+  const { data } = useDashboardInit();
 
   return (
-    <aside className="w-64 u-sidebar flex flex-col h-screen font-sans bg-surface">
-      {/* Header Spacer */}
-      <div className="pt-4 px-4 pb-2">
-        {/* Optional: User/Org Switcher could go here */}
+    <aside
+      className={`
+            border-r border-zinc-200 bg-surface flex flex-col h-screen font-sans
+            transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap
+            ${isOpen ? 'w-64 opacity-100' : 'w-0 opacity-0 border-r-0'}
+        `}
+    >
+      {/* Header Spacer & Close Button */}
+      <div className="h-14 flex items-center justify-between px-4 shrink-0 group">
+        <span className="text-sm font-semibold text-zinc-500">Menu</span>
+        <button
+          onClick={onClose}
+          className="p-1 rounded text-zinc-400 hover:text-zinc-600 hover:bg-zinc-200 transition-colors opacity-0 group-hover:opacity-100"
+          title="Close Sidebar"
+        >
+          «
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto custom-scrollbar px-2 space-y-6">
-        {/* Main Navigation */}
-        <nav className="space-y-0.5">
-          <Link to="/kanban" className={linkClass('/kanban')}>
-            Kanban
-          </Link>
-          <Link to="/pending" className={linkClass('/pending')}>
-            Pending Review
-          </Link>
-          <Link to="/calendar" className={linkClass('/calendar')}>
-            Calendar
-          </Link>
-          <Link to="/graph" className={linkClass('/graph')}>
-            Graph
-          </Link>
-          <Link to="/program" className={linkClass('/program')}>
-            Program
-          </Link>
-        </nav>
-
-        {/* Legacy Filtering Sections */}
+        {/* Filtering Sections Only */}
         <div className="space-y-1">
+          <div className="px-3 pb-1">
+            <div className="h-px bg-zinc-200"></div> {/* Separator */}
+          </div>
           <SidebarSection
             title="Tracks"
             type="track"

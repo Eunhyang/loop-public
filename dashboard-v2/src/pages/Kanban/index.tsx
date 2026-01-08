@@ -1,29 +1,26 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useKanbanFilters } from './useKanbanFilters';
 import { KanbanBoard } from '@/features/tasks/components/Kanban/KanbanBoard';
-import { TaskDrawer } from '@/features/tasks/components/TaskDrawer';
 import { KanbanFilters } from './KanbanFilters';
 import { buildKanbanColumns, type KanbanFiltersState } from '@/features/tasks/selectors';
 import { FilterProvider, useFilterContext } from '@/features/filters/context/FilterContext';
 import { FilterPanel } from '@/features/filters/components/FilterPanel';
-import type { Task } from '@/types';
 import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
+import { useUi } from '@/contexts/UiContext';
 
 const KanbanPageContent = () => {
   const { data, isLoading, error } = useDashboardInit();
   const urlFilters = useKanbanFilters();
   const panelFilters = useFilterContext();
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const { openEditTask, closeTaskDrawer, taskDrawer } = useUi();
 
   // Memoized filtering and grouping
   const filteredColumns: KanbanColumns = useMemo(() => {
-    // Safety check inside hook
     if (!data) {
       return { todo: [], doing: [], hold: [], done: [], blocked: [] };
     }
 
-    // Combine filters
     const combinedFilters: KanbanFiltersState = {
       ...urlFilters,
       ...panelFilters
@@ -32,18 +29,19 @@ const KanbanPageContent = () => {
     return buildKanbanColumns(data.tasks, combinedFilters, data.projects);
   }, [data, urlFilters, panelFilters]);
 
-  // Handle Escape key to close modal
+  // Handle Escape key to close modal (Global drawer handles this? Or we handle it globally in UiContext?)
+  // UiContext doesn't natively handle keyboard listeners yet. 
+  // TaskDrawer component itself likely has no overlay click handler if it's a "Drawer" but let's keep it safe.
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedTask) {
-        setSelectedTask(null);
+      if (e.key === 'Escape' && taskDrawer.isOpen) {
+        closeTaskDrawer();
       }
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [selectedTask]);
+  }, [taskDrawer.isOpen, closeTaskDrawer]);
 
-  // Handle loading and error states
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -71,11 +69,10 @@ const KanbanPageContent = () => {
     );
   }
 
-  // Ensure data exists before rendering children (though hooks ran above)
   if (!data) return null;
 
   return (
-    <div className="h-full flex flex-col min-h-0">
+    <div className="flex-1 flex flex-col min-h-0">
       <KanbanFilters
         filters={urlFilters}
         members={data.members}
@@ -84,14 +81,7 @@ const KanbanPageContent = () => {
 
       <KanbanBoard
         columns={filteredColumns}
-        onCardClick={setSelectedTask}
-      />
-
-      {/* Task Drawer */}
-      <TaskDrawer
-        taskId={selectedTask?.entity_id || null}
-        isOpen={!!selectedTask}
-        onClose={() => setSelectedTask(null)}
+        onCardClick={(task) => openEditTask(task.entity_id)}
       />
 
       {/* Filter Panel */}
