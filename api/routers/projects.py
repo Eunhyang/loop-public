@@ -72,9 +72,6 @@ async def create_project(project: ProjectCreate):
 
     cache = get_cache()
 
-    # DEBUG: Log received project data
-    print(f"[DEBUG] create_project received: entity_name={project.entity_name}, program_id={project.program_id}, parent_id={project.parent_id}")
-
     # 1. Validate program_id if provided
     if project.program_id:
         program = cache.get_program(project.program_id)
