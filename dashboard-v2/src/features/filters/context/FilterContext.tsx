@@ -10,7 +10,7 @@ interface FilterContextType extends KanbanPanelFilters {
 }
 
 const DEFAULT_FILTERS: KanbanPanelFilters = {
-    showInactive: false,
+    showInactive: true,
     showDoneProjects: false,
     taskStatus: [],
     taskPriority: [],

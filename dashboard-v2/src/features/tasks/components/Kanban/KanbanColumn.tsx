@@ -27,7 +27,7 @@ const STATUS_CONFIG = {
   done: {
     title: 'Done',
     color: 'border-b-2 border-zinc-200',
-    textColor: 'text-zinc-300 line-through',
+    textColor: 'text-zinc-500',
   },
   blocked: {
     title: 'Blocked',

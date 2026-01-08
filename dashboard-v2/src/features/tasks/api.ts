@@ -3,10 +3,10 @@ import type { Task } from '@/types';
 
 export const taskApi = {
     getTasks: (params?: { status?: string; assignee?: string }) =>
-        httpClient.get<Task[]>('/api/tasks', { params }),
+        httpClient.get<{ tasks: Task[] }>('/api/tasks', { params }).then(res => ({ data: res.data.tasks })),
 
     getTask: (id: string) =>
-        httpClient.get<Task>(`/api/tasks/${id}`),
+        httpClient.get<{ task: Task }>(`/api/tasks/${id}`).then(res => ({ data: res.data.task })),
 
     updateTask: (id: string, data: Partial<Task>) =>
         httpClient.put<Task>(`/api/tasks/${id}`, data),

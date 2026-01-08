@@ -56,13 +56,13 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
           aria-label={`Task: ${task.entity_name}`}
         >
           {/* Task ID and name */}
-          <div className="flex items-start justify-between mb-2">
-            <h3 className="text-sm font-medium text-zinc-800 flex-1 mr-2 leading-snug group-hover:text-black">
-              {task.entity_name}
-            </h3>
-            <span className="text-xs text-zinc-400 font-mono truncate">
+          <div className="flex flex-col gap-1 mb-2">
+            <span className="text-[10px] text-zinc-400 font-mono truncate">
               {task.entity_id}
             </span>
+            <h3 className="text-sm font-medium text-zinc-800 leading-snug group-hover:text-black">
+              {task.entity_name}
+            </h3>
           </div>
 
           {/* Assignee */}

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useUi } from '@/contexts/UiContext';
 import { DrawerShell } from '@/components/common/DrawerShell';
 import { TaskForm, type TaskFormHandle } from '@/features/tasks/components/TaskForm';
@@ -27,6 +27,13 @@ export function EntityDrawer() {
 
   // Task-specific expansion state
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Reset expansion when drawer changes or closes
+  useEffect(() => {
+    if (!activeEntityDrawer) {
+      setIsExpanded(false);
+    }
+  }, [activeEntityDrawer]);
 
   if (!activeEntityDrawer) return null;
 
