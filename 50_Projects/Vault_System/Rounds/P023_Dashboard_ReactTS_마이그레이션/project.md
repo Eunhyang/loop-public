@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: "prj-023"
 entity_name: "Dashboard - React+TS 마이그레이션"
 created: 2026-01-07
-updated: 2026-01-07
-status: planning
+updated: 2026-01-08
+status: doing
 
 # === 계층 ===
 parent_id: "trk-2"
@@ -68,7 +68,7 @@ priority_flag: high
 
 # Dashboard - React+TS 마이그레이션
 
-> Project ID: `prj-023` | Program: [[pgm-vault-system]] | Track: [[trk-2]] | Status: planning
+> Project ID: `prj-023` | Program: [[pgm-vault-system]] | Track: [[trk-2]] | Status: doing
 
 ---
 
@@ -313,6 +313,109 @@ GET /api/dashboard-init
 ❌ `_build/*`, `_Graph_Index.md` (derived)
 
 → 대시보드는 **절대 derived를 직접 수정하지 않음**
+
+---
+
+## 구현 진행 상황 (2026-01-08 기준)
+
+### Task 현황
+
+| Task ID | 이름 | 상태 |
+|---------|------|------|
+| `tsk-022-20` | 프로젝트 초기화 | ✅ done |
+| `tsk-022-23` | Kanban 보드 구현 | ✅ done |
+| `tsk-022-25` | Pending Review 페이지 | ⏳ todo |
+
+### 프로젝트 구조
+
+```
+dashboard-v2/src/
+├── pages/
+│   └── Kanban/              # 칸반 페이지
+├── features/
+│   ├── tasks/               # Task 관련
+│   │   ├── components/Kanban/
+│   │   │   ├── KanbanBoard.tsx    # DnD 보드
+│   │   │   ├── KanbanColumn.tsx   # 컬럼 (Droppable)
+│   │   │   └── TaskCard.tsx       # 카드 (Draggable)
+│   │   └── selectors.ts           # 필터링 로직
+│   ├── calendar/            # 캘린더 관련
+│   │   ├── CalendarPage.tsx       # 메인 페이지
+│   │   ├── components/
+│   │   │   ├── CalendarView.tsx   # FullCalendar 래퍼
+│   │   │   ├── CalendarSidebar.tsx # Google 계정 관리
+│   │   │   ├── CustomToolbar.tsx  # 툴바
+│   │   │   ├── ContextMenu.tsx    # 우클릭 메뉴
+│   │   │   └── EventPopover.tsx   # 이벤트 팝오버
+│   │   ├── queries/
+│   │   │   ├── useCalendarEvents.ts  # 병합 (Task + Google)
+│   │   │   ├── useGoogleCalendars.ts # 계정 목록
+│   │   │   ├── useGoogleEvents.ts    # Google 이벤트
+│   │   │   └── useUpdateTaskDates.ts # D&D 날짜 업데이트
+│   │   ├── hooks/useCalendarUi.ts    # localStorage 설정
+│   │   ├── utils/eventTransformers.ts # Task → Event 변환
+│   │   └── types/
+│   └── filters/             # 공통 필터 패널
+└── queries/                 # React Query hooks
+```
+
+### Kanban 보드 (FR-1) - ✅ 완료
+
+| 기능 | 상태 | 구현 |
+|------|------|------|
+| 5-컬럼 렌더링 | ✅ | `todo/doing/hold/done/blocked` |
+| Drag & Drop | ✅ | `@hello-pangea/dnd` 사용 |
+| 담당자 필터 (multi-select) | ✅ | URL params + `useKanbanFilters` |
+| Project 필터 | ✅ | URL params |
+| Week/Month 퀵 필터 | ✅ | `dateFilter: 'W' | 'M'` |
+| URL 상태 유지 | ✅ | `useKanbanFilters` hook |
+| 카드 클릭 → Drawer | ✅ | `UiContext.openEditTask()` |
+| Track/Condition/Hypothesis 필터 | ✅ | `applyUrlFilters()` |
+
+**핵심 코드**:
+- `selectors.ts:163` - `buildKanbanColumns()` 메인 오케스트레이터
+- `KanbanBoard.tsx:28` - D&D `onDragEnd` → status 업데이트
+
+### Calendar 뷰 (FR-5) - ✅ 완료
+
+| 기능 | 상태 | 구현 |
+|------|------|------|
+| FullCalendar 통합 | ✅ | `@fullcalendar/react` |
+| Month/Week/Day 뷰 | ✅ | `dayGridPlugin`, `timeGridPlugin` |
+| Task 표시 | ✅ | `transformTaskToEvent()` |
+| Google Calendar 연동 | ✅ | `useGoogleEvents()` |
+| Google 계정 관리 사이드바 | ✅ | `CalendarSidebar.tsx` |
+| 캘린더 토글 (on/off) | ✅ | `useCalendarUi()` + localStorage |
+| D&D 날짜 변경 | ✅ | `eventDrop`, `eventResize` → API |
+| 날짜 클릭 → Context Menu | ✅ | `ContextMenu.tsx` |
+| Google 이벤트 팝오버 | ✅ | `EventPopover.tsx` |
+| Expand/+more 토글 | ✅ | `expandMode` (월뷰) |
+
+**핵심 코드**:
+- `useCalendarEvents.ts` - Task + Google 이벤트 병합 (order: Google=0, Task=1)
+- `CalendarView.tsx:77` - `eventDrop` → `useUpdateTaskDates` mutation
+- `eventTransformers.ts:26` - `transformTaskToEvent()` 날짜 검증 + 변환
+
+### 기술 스택
+
+- **React 19** + TypeScript
+- **React Query** (서버 상태)
+- **@hello-pangea/dnd** (Kanban D&D)
+- **@fullcalendar/react** (Calendar)
+- **localStorage** (UI 설정 persist)
+- **Tailwind CSS** (스타일링)
+
+### 개선 필요 사항
+
+1. `CalendarPage.tsx:36` - `any` 타입 사용 (FullCalendar ref)
+2. `eventTransformers.ts:15` - `getProjectColor()` TODO 미구현
+3. Task 클릭 시 Drawer 연결 (`CalendarPage.tsx:94`) - console.log만 있음
+
+### 다음 단계
+
+1. **Pending Review 페이지** (`tsk-022-25`) - 3-pane 레이아웃
+2. Task Drawer 완성 (Calendar에서 Task 클릭 시 연결)
+3. `getProjectColor()` 실제 구현 (Track 색상 반영)
 
 ---
 
