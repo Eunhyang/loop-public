@@ -79,10 +79,6 @@ export const useFilterIndicator = (): FilterIndicator => {
       count++;
       active.push('Show Inactive Projects');
     }
-    if (filters.showInactiveTasks !== DEFAULT_LOCAL_FILTERS.showInactiveTasks) {
-      count++;
-      active.push('Show Inactive Tasks');
-    }
 
     // Project filters
     if (

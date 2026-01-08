@@ -154,7 +154,6 @@ export const applyUrlFilters = (
  */
 export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Task[] => {
   const {
-    showInactiveTasks,
     taskStatus,
     taskPriority,
     taskTypes,
@@ -163,14 +162,7 @@ export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Tas
   } = filters;
   let filtered = tasks;
 
-  // 1. Inactive tasks visibility
-  if (!showInactiveTasks) {
-    // Assuming tasks have an 'active' field or we filter by status
-    // For now, hide 'done' tasks as inactive
-    filtered = filtered.filter((t) => t.status !== 'done');
-  }
-
-  // 2. Task Status Filter
+  // 1. Task Status Filter
   if (taskStatus.length > 0) {
     filtered = filtered.filter((t) => taskStatus.includes(t.status));
   }

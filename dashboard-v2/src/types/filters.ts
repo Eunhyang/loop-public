@@ -35,7 +35,6 @@ export interface LocalFilterState {
   showInactiveMembers: boolean;     // Show inactive team members
   showNonCoreMembers: boolean;      // Show non-core members (default: false = core only)
   showInactiveProjects: boolean;    // Show inactive projects
-  showInactiveTasks: boolean;       // Show inactive tasks
 
   // Project filters
   projectStatus: string[];          // Selected project statuses (default: excludes 'done')

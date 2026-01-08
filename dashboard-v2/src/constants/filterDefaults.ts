@@ -35,7 +35,6 @@ export const DEFAULT_LOCAL_FILTERS: LocalFilterState = {
   showInactiveMembers: false,
   showNonCoreMembers: false,        // Default: core members only (matches legacy)
   showInactiveProjects: false,
-  showInactiveTasks: false,
 
   // Project filters (legacy: exclude 'completed' projects)
   // Project.status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled'
