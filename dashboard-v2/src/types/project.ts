@@ -10,4 +10,8 @@ export interface Project {
   deadline: string | null;
   priority_flag?: string;
   tags: string[];
+  // Optional relationship fields for sidebar filtering
+  conditions_3y?: string[];
+  validates?: string[];
+  primary_hypothesis_id?: string | null;
 }

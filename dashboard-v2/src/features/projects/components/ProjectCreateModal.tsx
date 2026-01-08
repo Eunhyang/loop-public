@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUi } from '@/contexts/UiContext';
-import { useCreateProject } from './queries';
+import { useCreateProject } from '../queries';
 import type { Member, Track } from '@/types';
 
 interface ProjectCreateModalProps {

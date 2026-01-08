@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUi } from '@/contexts/UiContext';
-import { useCreateProgram } from './queries';
+import { useCreateProgram } from '../queries';
 import type { Member } from '@/types';
 
 interface ProgramCreateModalProps {

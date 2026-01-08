@@ -6,8 +6,7 @@ import { UiProvider, useUi } from '@/contexts/UiContext';
 import { TaskDrawer } from '@/features/tasks/components/TaskDrawer';
 import { useState } from 'react';
 
-import { ProjectCreateModal } from '@/features/projects/components/ProjectCreateModal';
-import { ProgramCreateModal } from '@/features/programs/components/ProgramCreateModal';
+import { CreationDrawer } from './CreationDrawer';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 
 const AppLayoutContent = () => {
@@ -41,20 +40,8 @@ const AppLayoutContent = () => {
         onClose={closeTaskDrawer}
       />
 
-      {/* Global Creation Modals */}
-      {dashboardData && (
-        <>
-          <ProjectCreateModal
-            members={dashboardData.members}
-            tracks={dashboardData.tracks}
-            constants={dashboardData.constants}
-          />
-          <ProgramCreateModal
-            members={dashboardData.members}
-            constants={dashboardData.constants}
-          />
-        </>
-      )}
+      {/* Global Creation Drawer */}
+      <CreationDrawer members={dashboardData?.members || []} tracks={dashboardData?.tracks || []} constants={dashboardData?.constants || {}} />
     </div>
   );
 };

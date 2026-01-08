@@ -33,6 +33,11 @@ export type KanbanFiltersState = KanbanUrlFilters & KanbanPanelFilters;
 /**
  * Apply filters derived from URL parameters (Context-aware navigation)
  */
+// 2. Pure Functions for Filtering
+
+/**
+ * Apply filters derived from URL parameters (Context-aware navigation)
+ */
 export const applyUrlFilters = (tasks: Task[], filters: KanbanUrlFilters, projects: Project[] = []): Task[] => {
     const { assignees, projectId, dateFilter, trackId, hypothesisId, conditionId } = filters;
     let filtered = tasks;
@@ -43,24 +48,27 @@ export const applyUrlFilters = (tasks: Task[], filters: KanbanUrlFilters, projec
     }
 
     // Context Filters (Track / Hypothesis / Condition)
-    // Requires joining with Project data
     if (trackId || hypothesisId || conditionId) {
+        // Build a map for O(1) project lookup (performance & safety)
+        const projectById = new Map(projects.map(p => [p.entity_id, p] as [string, Project]));
         filtered = filtered.filter(t => {
-            const project = projects.find(p => p.entity_id === t.project_id);
-            if (!project) return false;
+            const project = projectById.get(t.project_id);
+            if (!project) return false; // Exclude tasks whose project is missing when any filter is active
 
-            // TODO: Refine mapping logic for Hypotheses/Conditions if they are not 'parent_id'
-            // Currently utilizing 'parent_id' for Track matching.
-            const matchesTrack = trackId ? project.parent_id === trackId : true;
-
-            // Assuming parent_id might also refer to Hypothesis in some contexts, 
-            // or specific logic is needed (e.g. relations table). 
-            // For now, strict 'parent_id' matching is the safest bet for Tracks.
-            // Hypotheses matching is disabled/placeholder unless we have a specific field.
-            const matchesHypothesis = hypothesisId ? project.parent_id === hypothesisId : true;
-            const matchesCondition = conditionId ? project.parent_id === conditionId : true;
-
-            return matchesTrack && matchesHypothesis && matchesCondition;
+            // Accumulate AND logic
+            let match = true;
+            if (trackId) {
+                match = match && (project.parent_id === trackId);
+            }
+            if (conditionId) {
+                match = match && (project.conditions_3y?.includes(conditionId) ?? false);
+            }
+            if (hypothesisId) {
+                const hypMatch = (project.validates?.includes(hypothesisId) ?? false) ||
+                    (project.primary_hypothesis_id === hypothesisId);
+                match = match && hypMatch;
+            }
+            return match;
         });
     }
 
@@ -84,7 +92,7 @@ export const applyUrlFilters = (tasks: Task[], filters: KanbanUrlFilters, projec
 /**
  * Apply filters from the Side Panel (View Options)
  */
-export const applyPanelFilters = (tasks: Task[], filters: KanbanPanelFilters, _projects: Project[] = []): Task[] => {
+export const applyPanelFilters = (tasks: Task[], filters: KanbanPanelFilters): Task[] => {
     const { taskStatus, taskPriority, taskTypes } = filters;
     let filtered = tasks;
 
@@ -110,35 +118,11 @@ export const applyPanelFilters = (tasks: Task[], filters: KanbanPanelFilters, _p
 };
 
 /**
- * Apply Default Business Rules
- * e.g., Hide 'done' projects if no specific status is selected
+ * Filter Tasks by Allowed Project IDs
+ * STRICT Separation: This function relies on `allowedProjectIds` calculated by Projects logic.
  */
-export const applyDefaultRules = (tasks: Task[], filters: KanbanPanelFilters, projects: Project[] = []): Task[] => {
-    let filtered = tasks;
-    const { showDoneProjects, projectStatus } = filters;
-
-    // Rule: Hide tasks from 'completed' projects unless explicitly requested
-    if (!showDoneProjects && projectStatus.length === 0) {
-        // Find IDs of completed projects
-        const completedProjectIds = projects
-            .filter(p => p.status === 'completed')
-            .map(p => p.entity_id);
-
-        if (completedProjectIds.length > 0) {
-            filtered = filtered.filter(t => !completedProjectIds.includes(t.project_id));
-        }
-    }
-
-    // Rule: If specific Project Statuses are selected, filter by them
-    if (projectStatus.length > 0) {
-        const matchingProjectIds = projects
-            .filter(p => projectStatus.includes(p.status))
-            .map(p => p.entity_id);
-
-        filtered = filtered.filter(t => matchingProjectIds.includes(t.project_id));
-    }
-
-    return filtered;
+export const filterTasksByProjects = (tasks: Task[], allowedProjectIds: string[]): Task[] => {
+    return tasks.filter(t => allowedProjectIds.includes(t.project_id));
 };
 
 // 3. Grouping Logic
@@ -153,6 +137,8 @@ export const groupTasksByStatus = (tasks: Task[]): KanbanColumns => {
     };
 };
 
+import { getAllowedProjectIds } from '@/features/projects/selectors';
+
 // 4. Main Orchestrator
 
 export const buildKanbanColumns = (
@@ -160,14 +146,20 @@ export const buildKanbanColumns = (
     filters: KanbanFiltersState,
     projects: Project[] = []
 ): KanbanColumns => {
-    // 1. Apply URL Filters (Navigation)
-    let filtered = applyUrlFilters(tasks, filters, projects);
+    // 1. Calculate Allowed Projects (Project Domain Logic)
+    const allowedProjectIds = getAllowedProjectIds(projects, filters);
 
-    // 2. Apply Panel Filters (View Options)
-    filtered = applyPanelFilters(filtered, filters, projects);
+    // 2. Apply Task Filters + Project Constraints
+    let filtered = tasks;
 
-    // 3. Apply Default Rules (Business Logic)
-    filtered = applyDefaultRules(filtered, filters, projects);
+    // Apply URL Filters
+    filtered = applyUrlFilters(filtered, filters, projects);
+
+    // Apply Panel Filters
+    filtered = applyPanelFilters(filtered, filters);
+
+    // Apply Project Constraints
+    filtered = filterTasksByProjects(filtered, allowedProjectIds);
 
     return groupTasksByStatus(filtered);
 };

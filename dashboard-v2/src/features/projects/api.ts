@@ -1,5 +1,5 @@
 import { httpClient } from '@/services/http';
-import type { Project } from '@/types';
+
 
 export interface CreateProjectDTO {
     entity_name: string;
