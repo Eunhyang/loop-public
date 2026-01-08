@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-022-08
 entity_name: Dashboard - 패턴 기반 폼 자동 기본값 채우기
 created: '2026-01-06'
-updated: '2026-01-06'
+updated: '2026-01-08'
 status: doing
 project_id: prj-dashboard-ux-v1
 parent_id: prj-dashboard-ux-v1
@@ -16,7 +16,6 @@ aliases:
 tags: []
 type: dev
 ---
-
 # Dashboard - 패턴 기반 폼 자동 기본값 채우기
 
 ## 설명
