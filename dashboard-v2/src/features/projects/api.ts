@@ -20,4 +20,7 @@ export const projectApi = {
 
     updateProject: (id: string, data: Partial<Project>) =>
         httpClient.put<Project>(`/api/projects/${id}`, data),
+
+    deleteProject: (id: string, force: boolean = false) =>
+        httpClient.delete<{ success: boolean; message: string }>(`/api/projects/${id}${force ? '?force=true' : ''}`),
 };

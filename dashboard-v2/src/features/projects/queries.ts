@@ -80,6 +80,21 @@ export const useCreateProject = () => {
     });
 };
 
+export const useDeleteProject = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) => projectApi.deleteProject(id),
+        onSuccess: (_data, id) => {
+            // Remove from cache
+            queryClient.removeQueries({ queryKey: queryKeys.project(id) });
+            // Invalidate dashboard to reflect deletion
+            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+            queryClient.invalidateQueries({ queryKey: queryKeys.projects() });
+        },
+    });
+};
+
 export const usePrograms = () => {
     return useQuery({
         queryKey: ['programs'],
