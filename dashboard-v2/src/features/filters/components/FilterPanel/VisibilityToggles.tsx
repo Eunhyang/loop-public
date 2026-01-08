@@ -42,7 +42,9 @@ const Toggle = ({ label, checked, onChange }: ToggleProps) => {
 };
 
 export const VisibilityToggles = () => {
+  console.log('[VisibilityToggles] RENDER');
   const filters = useCombinedFilters();
+  console.log('[VisibilityToggles] showInactiveMembers:', filters.showInactiveMembers);
 
   return (
     <div className="flex flex-col gap-2">
@@ -53,7 +55,10 @@ export const VisibilityToggles = () => {
       <Toggle
         label="Show Inactive Members"
         checked={filters.showInactiveMembers}
-        onChange={(checked) => filters.setFilter('showInactiveMembers', checked)}
+        onChange={(checked) => {
+          console.log('[VisibilityToggles] Toggle clicked, setting showInactiveMembers to:', checked);
+          filters.setFilter('showInactiveMembers', checked);
+        }}
       />
 
       <Toggle

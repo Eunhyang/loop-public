@@ -11,10 +11,12 @@ import { useCombinedFilters } from '@/hooks/useCombinedFilters';
 import { useUi } from '@/contexts/UiContext';
 
 const KanbanPageContent = () => {
+  console.log('[KanbanPage] RENDER');
   const { data, isLoading, error } = useDashboardInit();
   const urlFilters = useKanbanFilters();
   const panelFilters = useFilterContext();
   const combinedFilters = useCombinedFilters();
+  console.log('[KanbanPage] combinedFilters.showInactiveMembers:', combinedFilters.showInactiveMembers);
   const { openEntityDrawer, closeEntityDrawer, activeEntityDrawer } = useUi();
 
   // Memoized filtering and grouping

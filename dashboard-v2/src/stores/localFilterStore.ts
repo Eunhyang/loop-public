@@ -58,7 +58,11 @@ function saveToStorage(value: LocalFilterState): void {
 // ============================================================================
 
 function emitChange(): void {
-  listeners.forEach((listener) => listener());
+  console.log('[Store] emitChange called, listeners count:', listeners.size);
+  listeners.forEach((listener) => {
+    console.log('[Store] Calling listener');
+    listener();
+  });
 }
 
 /**
@@ -66,6 +70,7 @@ function emitChange(): void {
  * Used by useSyncExternalStore
  */
 export function getSnapshot(): LocalFilterState {
+  console.log('[Store] getSnapshot called, showInactiveMembers:', state.showInactiveMembers);
   return state;
 }
 
@@ -85,8 +90,11 @@ export function getServerSnapshot(): LocalFilterState {
  * @returns Unsubscribe function
  */
 export function subscribe(listener: Listener): () => void {
+  console.log('[Store] subscribe called, listeners before:', listeners.size);
   listeners.add(listener);
+  console.log('[Store] subscribe done, listeners after:', listeners.size);
   return () => {
+    console.log('[Store] unsubscribe called');
     listeners.delete(listener);
   };
 }
@@ -101,7 +109,10 @@ export function setFilter<K extends keyof LocalFilterState>(
   key: K,
   value: LocalFilterState[K]
 ): void {
+  console.log('[Store] setFilter called:', key, '=', value);
+  const oldState = state;
   state = { ...state, [key]: value };
+  console.log('[Store] state changed:', oldState === state ? 'SAME REF (BUG!)' : 'NEW REF (OK)');
   saveToStorage(state);
   emitChange();
 }

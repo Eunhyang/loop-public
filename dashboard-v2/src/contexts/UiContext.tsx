@@ -18,6 +18,7 @@ interface UiContextType {
 
     // Entity Drawer System
     activeEntityDrawer: ActiveEntityDrawer;
+    isDrawerExpanded: boolean;
 
     // LEGACY Actions (keeping for compatibility)
     openCreateProject: () => void;
@@ -27,6 +28,7 @@ interface UiContextType {
     // Entity Drawer Actions
     openEntityDrawer: (drawer: NonNullable<ActiveEntityDrawer>) => void;
     closeEntityDrawer: () => void;
+    toggleDrawerExpand: () => void;
 }
 
 const UiContext = createContext<UiContextType | undefined>(undefined);
@@ -34,6 +36,7 @@ const UiContext = createContext<UiContextType | undefined>(undefined);
 export function UiProvider({ children }: { children: ReactNode }) {
     const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
     const [activeEntityDrawer, setActiveEntityDrawer] = useState<ActiveEntityDrawer>(null);
+    const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
 
     // Modal Actions (LEGACY)
     const openCreateProject = useCallback(() => setActiveModal('createProject'), []);
@@ -49,7 +52,15 @@ export function UiProvider({ children }: { children: ReactNode }) {
 
     const closeEntityDrawer = useCallback(() => {
         setActiveEntityDrawer(null);
+        setIsDrawerExpanded(false);  // Reset expand state when closing
     }, []);
+
+    const toggleDrawerExpand = useCallback(() => {
+        // Only toggle if drawer is open
+        if (activeEntityDrawer) {
+            setIsDrawerExpanded(prev => !prev);
+        }
+    }, [activeEntityDrawer]);
 
     return (
         <UiContext.Provider value={{
@@ -60,8 +71,10 @@ export function UiProvider({ children }: { children: ReactNode }) {
             closeAllModals,
             // Entity Drawer
             activeEntityDrawer,
+            isDrawerExpanded,
             openEntityDrawer,
-            closeEntityDrawer
+            closeEntityDrawer,
+            toggleDrawerExpand
         }}>
             {children}
         </UiContext.Provider>

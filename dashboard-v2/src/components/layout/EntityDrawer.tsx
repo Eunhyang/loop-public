@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useUi } from '@/contexts/UiContext';
 import { DrawerShell } from '@/components/common/DrawerShell';
 import { TaskForm, type TaskFormHandle } from '@/features/tasks/components/TaskForm';
@@ -21,19 +21,9 @@ import { ConditionForm } from '@/features/strategy/components/ConditionForm';
  * - hypothesis (CRUD)
  */
 export function EntityDrawer() {
-  const { activeEntityDrawer, closeEntityDrawer } = useUi();
+  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand } = useUi();
   const { mutate: deleteTask } = useDeleteTask();
   const taskFormRef = useRef<TaskFormHandle>(null);
-
-  // Task-specific expansion state
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Reset expansion when drawer changes or closes
-  useEffect(() => {
-    if (!activeEntityDrawer) {
-      setIsExpanded(false);
-    }
-  }, [activeEntityDrawer]);
 
   if (!activeEntityDrawer) return null;
 
@@ -138,9 +128,9 @@ export function EntityDrawer() {
       onClose={closeEntityDrawer}
       title={getTitle()}
       subtitle={subtitle}
-      width={type === 'task' && isExpanded ? 'w-full' : 'w-[600px]'}
-      isExpanded={isExpanded}
-      onToggleExpand={type === 'task' ? () => setIsExpanded(!isExpanded) : undefined}
+      width={type === 'task' && isDrawerExpanded ? 'w-full' : 'w-[600px]'}
+      isExpanded={isDrawerExpanded}
+      onToggleExpand={type === 'task' ? toggleDrawerExpand : undefined}
       showExpandButton={type === 'task'}
       footer={renderFooter()}
     >

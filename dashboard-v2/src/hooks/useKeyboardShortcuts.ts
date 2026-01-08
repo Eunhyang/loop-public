@@ -17,7 +17,7 @@ interface UseKeyboardShortcutsProps {
  * Implements shortcuts from legacy dashboard with IME compatibility:
  * - Navigation: 1, 2, 3 (Kanban, Calendar, Graph)
  * - Filters: F (toggle panel), Shift+R (reset), Shift+E/M (member select), Shift+A (all members)
- * - Utilities: Shift+C (cache reload), Escape (close modals/drawers), ? (help), Shift+Cmd/Ctrl+F (fullscreen)
+ * - Utilities: Shift+C (cache reload), Escape (close modals/drawers), ? (help), Shift+Cmd/Ctrl+F (expand drawer)
  *
  * Only activates on dashboard routes to prevent interference with login/settings pages.
  */
@@ -27,7 +27,7 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useDashboardInit();
   const filterContext = useFilterContext();
-  const { activeEntityDrawer, activeModal, closeEntityDrawer, closeAllModals } = useUi();
+  const { activeEntityDrawer, activeModal, closeEntityDrawer, closeAllModals, toggleDrawerExpand } = useUi();
   const queryClient = useQueryClient();
 
   // Route guard: only activate on dashboard routes
@@ -229,24 +229,12 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
         return;
       }
 
-      // Fullscreen toggle (Shift+Cmd+F on Mac, Shift+Ctrl+F on Windows/Linux)
+      // Drawer expand toggle (Shift+Cmd+F on Mac, Shift+Ctrl+F on Windows/Linux)
+      // Only works when a drawer is open (matches legacy task-panel behavior)
       if (e.shiftKey && (isMac ? e.metaKey : e.ctrlKey) && e.code === 'KeyF') {
         e.preventDefault();
-
-        // Guard for SSR and browsers without fullscreen API
-        if (typeof document === 'undefined' || !document.fullscreenEnabled) {
-          console.warn('Fullscreen API not supported');
-          return;
-        }
-
-        try {
-          if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-          } else {
-            document.exitFullscreen();
-          }
-        } catch (err) {
-          console.warn('Fullscreen operation failed:', err);
+        if (activeEntityDrawer) {
+          toggleDrawerExpand();
         }
         return;
       }
@@ -272,6 +260,7 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
     setSearchParams,
     closeEntityDrawer,
     closeAllModals,
+    toggleDrawerExpand,
     queryClient,
     location.pathname,
   ]);

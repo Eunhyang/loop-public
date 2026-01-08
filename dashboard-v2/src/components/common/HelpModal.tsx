@@ -50,7 +50,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
         { keys: 'Shift + C', description: 'Reload Cache' },
         { keys: 'Escape', description: 'Close Modal/Drawer/Panel' },
         { keys: '?', description: 'Show This Help' },
-        { keys: `Shift + ${modKey} + F`, description: 'Toggle Fullscreen' },
+        { keys: `Shift + ${modKey} + F`, description: 'Expand/Collapse Drawer' },
       ],
     },
   ];

@@ -27,8 +27,10 @@ import {
  * Changes made in FilterPanel will immediately reflect in KanbanPage.
  */
 export const useLocalFilters = (): UseLocalFiltersReturn => {
+  console.log('[useLocalFilters] Hook called');
   // Subscribe to the external store
   const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  console.log('[useLocalFilters] state from useSyncExternalStore:', state.showInactiveMembers);
 
   // Stable setFilter callback
   const setFilter = useCallback(
