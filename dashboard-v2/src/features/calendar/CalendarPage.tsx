@@ -35,7 +35,7 @@ export default function CalendarPage() {
         range,
         enabledCalendarKeys: enabledCalendarIds,
         expandMode,
-        filters
+        filters: combinedFilters
     });
 
     // Since CustomToolbar is outside FullCalendar, we need a ref to API
@@ -117,7 +117,7 @@ export default function CalendarPage() {
                 {/* Task Filter Bar */}
                 {dashboardData && (
                     <TaskFilterBar
-                        filters={filters}
+                        filters={combinedFilters}
                         members={dashboardData.members}
                         projects={dashboardData.projects}
                         programs={dashboardData.programs || []}

@@ -221,6 +221,35 @@ export const filterTasksByProjects = (tasks: Task[], allowedProjectIds: string[]
 const CORE_ROLES = ['Founder', 'Cofounder', 'Member'];
 
 /**
+ * Filter Visible Members for UI Display
+ * Used by TaskFilterBar to show/hide assignee buttons based on toggles
+ *
+ * @param members - All available members
+ * @param showNonCoreMembers - Toggle for non-core members (Advisor, External, etc.)
+ * @param showInactiveMembers - Toggle for inactive members
+ * @returns Filtered member list for UI rendering
+ */
+export const filterVisibleMembers = (
+  members: Member[],
+  showNonCoreMembers: boolean,
+  showInactiveMembers: boolean
+): Member[] => {
+  return members.filter(member => {
+    // Filter 1: Role-based visibility
+    if (!showNonCoreMembers && !CORE_ROLES.includes(member.role)) {
+      return false;
+    }
+
+    // Filter 2: Active status
+    if (!showInactiveMembers && member.active === false) {
+      return false;
+    }
+
+    return true;
+  });
+};
+
+/**
  * Filter Tasks by Member Properties (active status and role)
  *
  * @param tasks - Tasks to filter

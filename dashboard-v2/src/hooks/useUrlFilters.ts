@@ -5,9 +5,10 @@
  * Refactored from useKanbanFilters with added programId support
  */
 
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { UseUrlFiltersReturn, DateFilter } from '@/types/filters';
+import { DEFAULT_URL_FILTERS } from '@/constants/filterDefaults';
 
 /**
  * Hook for managing URL-based filter state
@@ -85,7 +86,6 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
       const newParams = new URLSearchParams(searchParams);
       newParams.delete('project_ids');
       newParams.delete('project_id'); // Clear legacy param
-      newParams.delete('program'); // Clear programId when setting projectIds
       ids.forEach((id) => newParams.append('project_ids', id));
       setSearchParams(newParams);
     },
@@ -98,7 +98,6 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
       const current = searchParams.getAll('project_ids');
       newParams.delete('project_ids');
       newParams.delete('project_id'); // Clear legacy param
-      newParams.delete('program'); // Clear programId when toggling projectIds
       if (current.includes(id)) {
         current.filter((p) => p !== id).forEach((p) => newParams.append('project_ids', p));
       } else {
@@ -196,6 +195,42 @@ export const useUrlFilters = (): UseUrlFiltersReturn => {
     },
     [searchParams, setSearchParams]
   );
+
+  // Initialize default URL filters on first mount
+  const initialized = useRef(false);
+  useEffect(() => {
+    // Only run once on mount
+    if (initialized.current) return;
+    initialized.current = true;
+
+    // Check if URL is completely empty (no filter params at all)
+    const hasAnyFilters =
+      searchParams.has('assignee') ||
+      searchParams.has('project_id') ||
+      searchParams.has('project_ids') ||
+      searchParams.has('program') ||
+      searchParams.has('track') ||
+      searchParams.has('hypothesis') ||
+      searchParams.has('condition') ||
+      searchParams.has('date') ||
+      searchParams.has('week') ||
+      searchParams.has('month');
+
+    if (!hasAnyFilters) {
+      // Apply default filters
+      const newParams = new URLSearchParams(searchParams);
+
+      // Set default assignees
+      DEFAULT_URL_FILTERS.assignees.forEach(a => newParams.append('assignee', a));
+
+      // Set default date filter
+      if (DEFAULT_URL_FILTERS.dateFilter) {
+        newParams.set('date', DEFAULT_URL_FILTERS.dateFilter);
+      }
+
+      setSearchParams(newParams, { replace: true });
+    }
+  }, []); // Empty deps: run only once on mount
 
   const clearUrlFilters = useCallback(() => {
     const newParams = new URLSearchParams(searchParams);

@@ -25,13 +25,37 @@ const KanbanPageContent = () => {
       return { todo: [], doing: [], hold: [], done: [], blocked: [] };
     }
 
+    // DEBUG: Log filter state
+    console.log('[KanbanPage] Filter debug:', {
+      programId: combinedFilters.programId,
+      projectIds: combinedFilters.projectIds,
+      projectStatus: combinedFilters.projectStatus,
+      taskStatus: combinedFilters.taskStatus,
+      totalTasks: data.tasks.length,
+      tasksForPrj023: data.tasks.filter(t => t.project_id === 'prj-023').length,
+      prj023Status: data.projects.find(p => p.entity_id === 'prj-023')?.status,
+    });
+
     // Use combined filters from hook (already merges URL + localStorage)
-    return buildKanbanColumns(
+    const result = buildKanbanColumns(
       data.tasks,
       combinedFilters,
       data.projects,
       data.members
     );
+
+    // DEBUG: Log result
+    const totalFiltered = result.todo.length + result.doing.length + result.hold.length + result.done.length + result.blocked.length;
+    console.log('[KanbanPage] buildKanbanColumns result:', {
+      todo: result.todo.length,
+      doing: result.doing.length,
+      hold: result.hold.length,
+      done: result.done.length,
+      blocked: result.blocked.length,
+      total: totalFiltered,
+    });
+
+    return result;
   }, [data, combinedFilters]);
 
   // Handle Escape key to close modal
@@ -80,7 +104,7 @@ const KanbanPageContent = () => {
   return (
     <div className="flex-1 flex flex-col min-h-0">
       <TaskFilterBar
-        filters={urlFilters}
+        filters={combinedFilters}
         members={data.members}
         projects={data.projects}
         programs={data.programs || []}

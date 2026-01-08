@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
 import type { Member, Project, Program, Task } from '@/types';
-import type { UseUrlFiltersReturn } from '@/types/filters';
+import type { UseCombinedFiltersReturn } from '@/types/filters';
 import { getWeekOptions, getMonthOptions } from '@/utils/dateUtils';
+import { filterVisibleMembers } from '@/features/tasks/selectors';
 
 interface TaskFilterBarProps {
-  filters: UseUrlFiltersReturn;
+  filters: UseCombinedFiltersReturn;
   members: Member[];
   projects: Project[];
   programs?: Program[];
@@ -23,6 +24,8 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
     dateFilter,
     selectedWeeks,
     selectedMonths,
+    showNonCoreMembers,
+    showInactiveMembers,
     setAssignees,
     setProgramId,
     toggleProjectId,
@@ -31,6 +34,11 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
     setSelectedWeeks,
     setSelectedMonths,
   } = filters;
+
+  // Filter members for display based on visibility toggles
+  const visibleMembers = useMemo(() => {
+    return filterVisibleMembers(members, showNonCoreMembers, showInactiveMembers);
+  }, [members, showNonCoreMembers, showInactiveMembers]);
 
   // Quick Date mode state
   const [dateMode, setDateMode] = useState<'week' | 'month'>(() => {
@@ -165,7 +173,7 @@ export const TaskFilterBar = ({ filters, members, projects, programs = [], tasks
             Assignee
           </label>
           <div className="flex flex-wrap gap-2">
-            {members.map((member) => {
+            {visibleMembers.map((member) => {
               const isActive = assignees.includes(member.id);
               return (
                 <button

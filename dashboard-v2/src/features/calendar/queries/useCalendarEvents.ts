@@ -5,24 +5,26 @@ import { transformTaskToEvent, getProjectColor } from '../utils/eventTransformer
 import { getWeekRangeByKey, getMonthRangeByKey, isDateInRange } from '@/utils/date';
 import type { BaseCalendarEvent, CalendarRange } from '../types/calendar';
 import type { Task } from '@/types';
+import type { UseCombinedFiltersReturn } from '@/types/filters';
+
+type CalendarFilters = Pick<UseCombinedFiltersReturn,
+    | 'assignees'
+    | 'projectId'
+    | 'projectIds'
+    | 'programId'
+    | 'selectedWeeks'
+    | 'selectedMonths'
+> & Partial<Pick<UseCombinedFiltersReturn,
+    | 'taskStatus'
+    | 'taskTypes'
+    | 'taskPriority'
+>>;
 
 interface UseCalendarEventsArgs {
     range: CalendarRange | null;
     enabledCalendarKeys: string[];
     expandMode: boolean;
-    filters?: {
-        // URL filters
-        assignees: string[];
-        projectId: string | null;      // Legacy single project filter
-        projectIds: string[];          // New multi-select projects
-        programId: string | null;
-        selectedWeeks: string[];
-        selectedMonths: string[];
-        // Local filters (from FilterPanel)
-        taskStatus?: string[];         // Filter by task status
-        taskTypes?: string[];          // Filter by task type
-        taskPriority?: string[];       // Filter by priority
-    };
+    filters?: CalendarFilters;
 }
 
 export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCalendarEventsArgs) {

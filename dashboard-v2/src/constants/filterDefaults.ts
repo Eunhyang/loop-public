@@ -12,7 +12,7 @@ import type { UrlFilterState, LocalFilterState } from '@/types/filters';
 
 export const DEFAULT_URL_FILTERS: UrlFilterState = {
   // Navigation filters
-  assignees: [],
+  assignees: ['김은향', '한명학'], // Default: Core members only
   projectId: null,
   projectIds: [],
   programId: null,
@@ -21,7 +21,7 @@ export const DEFAULT_URL_FILTERS: UrlFilterState = {
   conditionId: null,
 
   // Date filters
-  dateFilter: '',
+  dateFilter: 'W', // Default: This Week
   selectedWeeks: [],
   selectedMonths: [],
 };
