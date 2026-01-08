@@ -27,7 +27,7 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useDashboardInit();
   const filterContext = useFilterContext();
-  const { activeEntityDrawer, activeModal, closeEntityDrawer, closeAllModals, toggleDrawerExpand } = useUi();
+  const { activeEntityDrawer, activeModal, closeEntityDrawer, closeAllModals, toggleDrawerExpand, isCommandPaletteOpen, openCommandPalette, closeCommandPalette } = useUi();
   const queryClient = useQueryClient();
 
   // Route guard: only activate on dashboard routes
@@ -104,6 +104,13 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
           e.preventDefault();
           setHelpModalOpen(false);
         }
+        return;
+      }
+
+      // Command Palette shortcuts (Cmd+K or Cmd+P) - use e.code for IME compatibility
+      if ((e.metaKey || e.ctrlKey) && (e.code === 'KeyK' || e.code === 'KeyP') && !e.shiftKey) {
+        e.preventDefault();
+        openCommandPalette();
         return;
       }
 
@@ -209,13 +216,19 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
           return;
         }
 
-        // Priority 3: Entity drawer (task, project, etc.)
+        // Priority 3: Command Palette
+        if (isCommandPaletteOpen) {
+          closeCommandPalette();
+          return;
+        }
+
+        // Priority 4: Entity drawer (task, project, etc.)
         if (activeEntityDrawer) {
           closeEntityDrawer();
           return;
         }
 
-        // Priority 4: Filter panel
+        // Priority 5: Filter panel
         if (filterContext.isPanelOpen) {
           filterContext.togglePanel();
           return;
@@ -253,6 +266,9 @@ export function useKeyboardShortcuts({ helpModalOpen, setHelpModalOpen }: UseKey
     setHelpModalOpen,
     activeEntityDrawer,
     activeModal,
+    isCommandPaletteOpen,
+    openCommandPalette,
+    closeCommandPalette,
     filterContext,
     data,
     navigate,

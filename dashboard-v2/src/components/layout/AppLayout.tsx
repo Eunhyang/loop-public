@@ -10,6 +10,7 @@ import { EntityDrawer } from './EntityDrawer';
 import { authStorage } from '@/features/auth/storage';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { HelpModal } from '@/components/common/HelpModal';
+import { CommandPalette } from '@/components/common/CommandPalette';
 
 const AppLayoutContent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -37,6 +38,9 @@ const AppLayoutContent = () => {
 
       {/* Global Entity Drawer */}
       <EntityDrawer />
+
+      {/* Global Command Palette */}
+      <CommandPalette />
 
       {/* Global Help Modal */}
       <HelpModal isOpen={helpModalOpen} onClose={() => setHelpModalOpen(false)} />

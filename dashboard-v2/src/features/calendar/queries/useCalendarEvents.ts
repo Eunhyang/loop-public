@@ -9,32 +9,55 @@ interface UseCalendarEventsArgs {
     range: CalendarRange | null;
     enabledCalendarKeys: string[];
     expandMode: boolean;
+    filters?: {
+        assignees: string[];
+        projectIds: string[];
+        programId: string | null;
+        selectedWeeks: string[];
+        selectedMonths: string[];
+    };
 }
 
-export function useCalendarEvents({ range, enabledCalendarKeys }: UseCalendarEventsArgs) {
+export function useCalendarEvents({ range, enabledCalendarKeys, filters }: UseCalendarEventsArgs) {
     // 1. Fetch Loop Tasks
     const { data: dashboardData } = useDashboardInit();
     const tasks = dashboardData?.tasks || [];
+    const projects = dashboardData?.projects || [];
 
     // 2. Fetch Google Events
     const { data: googleEvents = [], isFetching: isGoogleFetching } = useGoogleEvents(range, enabledCalendarKeys);
 
-    // 3. Merge & Transform
+    // 3. Apply Filters & Transform
     const { events, warnings } = useMemo(() => {
         const mergedEvents: BaseCalendarEvent[] = [];
         const collectWarnings: string[] = [];
 
-        // Transform Tasks
-        tasks.forEach((task: Task) => {
-            // Optional: Filter logic (legacy parity)
-            // e.g. Hide done tasks that haven't been updated recently?
-            // For now, we map everything and rely on transformer validation
+        // Apply filters to tasks
+        let filteredTasks = tasks;
 
+        if (filters) {
+            // Assignee filter (OR logic)
+            if (filters.assignees.length > 0) {
+                filteredTasks = filteredTasks.filter(t => filters.assignees.includes(t.assignee));
+            }
+
+            // Project filter: projectIds takes precedence over programId
+            if (filters.projectIds.length > 0) {
+                filteredTasks = filteredTasks.filter(t => filters.projectIds.includes(t.project_id));
+            } else if (filters.programId) {
+                // Filter by programId (implicit project filtering)
+                const programProjectIds = projects
+                    .filter(p => p.program_id === filters.programId)
+                    .map(p => p.entity_id);
+                filteredTasks = filteredTasks.filter(t => programProjectIds.includes(t.project_id));
+            }
+        }
+
+        // Transform Tasks
+        filteredTasks.forEach((task: Task) => {
             const evt = transformTaskToEvent(task, getProjectColor(task.project_id));
             if (evt) {
                 mergedEvents.push(evt);
-            } else {
-                // Warning collected inside transformer (console.warn)
             }
         });
 
@@ -50,7 +73,7 @@ export function useCalendarEvents({ range, enabledCalendarKeys }: UseCalendarEve
         });
 
         return { events: mergedEvents, warnings: collectWarnings };
-    }, [tasks, googleEvents]);
+    }, [tasks, projects, googleEvents, filters]);
 
     return {
         events,
