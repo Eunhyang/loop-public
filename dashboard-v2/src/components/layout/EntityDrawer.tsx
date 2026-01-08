@@ -93,7 +93,7 @@ export function EntityDrawer() {
           </button>
           <button
             onClick={handleSave}
-            className="px-4 py-1.5 text-sm bg-zinc-900 hover:bg-black text-white rounded font-medium shadow-sm transition-all"
+            className="px-4 py-1.5 text-sm bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded font-semibold shadow-sm transition-all"
           >
             Save
           </button>
