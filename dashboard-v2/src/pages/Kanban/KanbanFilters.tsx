@@ -174,7 +174,7 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
                 <button
                   key={member.id}
                   onClick={() => toggleAssignee(member.id)}
-                  className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
+                  className={`text-xs btn-filter ${isActive ? 'btn-filter-active' : ''}`}
                 >
                   {member.name}
                 </button>
