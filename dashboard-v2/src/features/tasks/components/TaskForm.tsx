@@ -185,8 +185,8 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                             value={createFormData.type}
                             onChange={e => setCreateFormData(prev => ({ ...prev, type: e.target.value as any }))}
                         >
-                            {dashboardData?.constants?.task_types ? (
-                                dashboardData.constants.task_types.map((t: string) => (
+                            {dashboardData?.constants?.task?.types ? (
+                                dashboardData.constants.task.types.map((t: string) => (
                                     <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
                                 ))
                             ) : (
@@ -314,9 +314,9 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             </div>
 
             {/* Task Type Chips */}
-            {dashboardData?.constants?.task_types && (
+            {dashboardData?.constants?.task?.types && (
                 <div className="px-6 pb-4 flex flex-wrap gap-2">
-                    {dashboardData.constants.task_types.map((type: string) => (
+                    {dashboardData.constants.task.types.map((type: string) => (
                         <button
                             key={type}
                             onClick={() => !isReadOnly && handleUpdate('type', type)}
@@ -533,15 +533,17 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             <div className="px-6 py-4 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
                     <h3 className="text-sm font-semibold text-zinc-500">Notes</h3>
-                    <button
-                        onClick={() => setIsEditingNotes(!isEditingNotes)}
-                        className="text-xs px-2 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded transition-colors"
-                    >
-                        {isEditingNotes ? 'Preview' : 'Edit'}
-                    </button>
+                    {!isReadOnly && (
+                        <button
+                            onClick={() => setIsEditingNotes(!isEditingNotes)}
+                            className="text-xs px-2 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded transition-colors"
+                        >
+                            {isEditingNotes ? 'Preview' : 'Edit'}
+                        </button>
+                    )}
                 </div>
 
-                {isEditingNotes ? (
+                {!isReadOnly && isEditingNotes ? (
                     <textarea
                         key={`notes-${id}`}
                         ref={notesRef}
