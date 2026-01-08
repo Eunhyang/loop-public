@@ -1,3 +1,8 @@
+---
+name: retrospective-to-evidence
+description: "회고 문서를 구조화된 Evidence 객체로 변환. LLM이 판단 재료 제안, 사용자가 Preview 후 Accept, Realized Score 계산용 Evidence 생성. API 우선 + Fallback 패턴."
+---
+
 # Retrospective to Evidence Skill
 
 회고 문서를 구조화된 Evidence 객체로 변환합니다.

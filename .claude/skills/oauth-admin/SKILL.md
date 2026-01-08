@@ -1,3 +1,8 @@
+---
+name: oauth-admin
+description: "OAuth 사용자 및 클라이언트 관리. 사용자 생성/조회, 클라이언트 생성/조회, 통계 확인, 만료 세션 정리. Docker 또는 로컬 실행 지원."
+---
+
 # OAuth Admin Skill
 
 OAuth 사용자 및 클라이언트를 관리하는 skill입니다.

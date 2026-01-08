@@ -1,3 +1,8 @@
+---
+name: nas-git-status
+description: "NAS Git 동기화 상태 확인. NAS git-sync 로그, Git status, GitHub와의 차이 확인. 읽기 전용."
+---
+
 # NAS Git Status
 
 NAS Git 동기화 상태를 확인합니다 (읽기 전용).

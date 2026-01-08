@@ -1,8 +1,10 @@
+---
+description: "Build Impact"
+---
+
 # Build Impact
 
 > Calculate Impact scores and update impact.json.
-
----
 
 ## Behavior on Execution
 

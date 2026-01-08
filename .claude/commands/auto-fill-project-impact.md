@@ -1,8 +1,10 @@
+---
+description: "Auto-fill Project Impact"
+---
+
 # Auto-fill Project Impact
 
 > LLM suggests Expected Impact (A) fields for Project.
-
----
 
 ## Behavior on Execution
 

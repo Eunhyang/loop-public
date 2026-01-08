@@ -1,8 +1,10 @@
+---
+description: "New Project"
+---
+
 # New Project
 
 > Create a new project.
-
----
 
 ## Behavior on Execution
 

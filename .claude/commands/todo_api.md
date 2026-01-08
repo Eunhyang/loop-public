@@ -1,8 +1,10 @@
+---
+description: "API Development Workflow"
+---
+
 # API Development Workflow
 
 > LOOP Dashboard API development command
-
----
 
 ## ⚠️ Pre-work Checklist
 

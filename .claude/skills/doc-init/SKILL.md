@@ -1,10 +1,6 @@
 ---
 name: doc-init
-description: |
-  범용 프로젝트 문서 초기화. doc/{프로젝트명}/ 폴더에 todo.md, techspec.md 템플릿 생성.
-  LOOP, sosi-flutter, kkokkkok-web 모든 프로젝트에서 사용 가능.
-  사용 시점: (1) 새 개발 작업 시작, (2) "/doc-init {프로젝트명}" 실행,
-  (3) 사용자가 "프로젝트 문서 만들어줘", "todo 초기화", "techspec 생성" 요청 시.
+description: "범용 프로젝트 문서 초기화. doc/{프로젝트명}/ 폴더에 todo.md, techspec.md 템플릿 생성. LOOP, sosi-flutter, kkokkkok-web 모든 프로젝트에서 사용 가능. 사용 시점: (1) 새 개발 작업 시작, (2) /doc-init {프로젝트명} 실행, (3) 사용자가 프로젝트 문서 만들어줘, todo 초기화, techspec 생성 요청 시."
 ---
 
 # Doc Init

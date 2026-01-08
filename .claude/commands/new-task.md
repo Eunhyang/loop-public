@@ -1,8 +1,10 @@
+---
+description: "New Task"
+---
+
 # New Task
 
 > Create a new task.
-
----
 
 ## Behavior on Execution
 
