@@ -4,7 +4,7 @@ export interface Project {
   owner: string;
   status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled';
   parent_id: string;
-  program_id: string;
+  program_id: string | null;
   created: string;
   updated: string;
   deadline: string | null;

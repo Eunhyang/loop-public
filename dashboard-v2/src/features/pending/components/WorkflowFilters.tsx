@@ -9,6 +9,7 @@ interface WorkflowFiltersProps {
   onRunIdChange: (runId: string) => void;
   onDeleteFiltered: () => void;
   isDeleting: boolean;
+  filteredCount: number;
 }
 
 export const WorkflowFilters = ({
@@ -19,6 +20,7 @@ export const WorkflowFilters = ({
   onRunIdChange,
   onDeleteFiltered,
   isDeleting,
+  filteredCount,
 }: WorkflowFiltersProps) => {
   // Extract unique workflows and runIds (filter out null/undefined)
   const { workflows, runIds } = useMemo(() => {
@@ -37,6 +39,7 @@ export const WorkflowFilters = ({
   }, [reviews]);
 
   const hasFilter = filterWorkflow !== '' || filterRunId !== '';
+  const canDelete = hasFilter && filteredCount > 0 && !isDeleting;
 
   return (
     <div className="flex gap-2 p-2 border-b bg-gray-50">
@@ -73,16 +76,24 @@ export const WorkflowFilters = ({
       {/* Delete Filtered Button */}
       <button
         onClick={onDeleteFiltered}
-        disabled={!hasFilter || isDeleting}
+        disabled={!canDelete}
         className={`
           px-3 py-1 text-xs rounded font-medium transition-colors
           ${
-            !hasFilter || isDeleting
+            !canDelete
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800'
           }
         `}
-        title={!hasFilter ? 'Select a filter first' : 'Delete filtered reviews'}
+        title={
+          !hasFilter
+            ? 'Select a filter first'
+            : filteredCount === 0
+            ? 'No reviews match current filter'
+            : isDeleting
+            ? 'Deleting...'
+            : `Delete ${filteredCount} reviews`
+        }
       >
         {isDeleting ? 'Deleting...' : 'Delete Filtered'}
       </button>

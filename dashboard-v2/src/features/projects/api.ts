@@ -5,6 +5,7 @@ export interface CreateProjectDTO {
     entity_name: string;
     owner: string;
     parent_id?: string;
+    program_id?: string;
     status: string;
     priority_flag: string;
     description?: string;

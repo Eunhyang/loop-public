@@ -236,7 +236,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="px-4 py-2 text-sm font-bold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-3 py-1.5 text-xs font-semibold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isPending ? 'Creating...' : 'Create Task'}
                     </button>

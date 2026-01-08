@@ -72,7 +72,16 @@ async def create_project(project: ProjectCreate):
 
     cache = get_cache()
 
-    # 1. Project ID 생성 (캐시 기반)
+    # 1. Validate program_id if provided
+    if project.program_id:
+        program = cache.get_program(project.program_id)
+        if not program:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Program not found: {project.program_id}"
+            )
+
+    # 2. Project ID 생성 (캐시 기반)
     project_id = cache.get_next_project_id()
     project_num = re.match(r'prj-(\d+)', project_id).group(1)
 
@@ -103,6 +112,9 @@ async def create_project(project: ProjectCreate):
 
     if project.parent_id:
         frontmatter["parent_id"] = project.parent_id
+
+    if project.program_id:
+        frontmatter["program_id"] = project.program_id
 
     if project.conditions_3y:
         frontmatter["conditions_3y"] = project.conditions_3y

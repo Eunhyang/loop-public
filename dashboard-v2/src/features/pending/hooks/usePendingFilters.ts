@@ -4,7 +4,7 @@ import type { PendingReview, PendingStatus } from '../types';
 interface UsePendingFiltersProps {
   reviews: PendingReview[];
   activeStatus: PendingStatus;
-  onDeleteBatch: (params: { source_workflow?: string; run_id?: string; status?: string }) => Promise<void>;
+  onDeleteBatch: (params: { source_workflow?: string; run_id?: string; status?: string }) => Promise<unknown>;
 }
 
 export const usePendingFilters = ({
@@ -44,6 +44,12 @@ export const usePendingFilters = ({
       return;
     }
 
+    // Check if no reviews match filter
+    if (filteredReviews.length === 0) {
+      alert('No reviews match current filter');
+      return;
+    }
+
     // Build confirmation message
     const filterDesc: string[] = [];
     if (filterWorkflow !== '') filterDesc.push(`workflow: ${filterWorkflow}`);
@@ -64,11 +70,18 @@ export const usePendingFilters = ({
     if (filterRunId !== '') params.run_id = filterRunId;
     params.status = activeStatus;
 
-    await onDeleteBatch(params);
+    try {
+      await onDeleteBatch(params);
 
-    // Reset filters after successful delete
-    setFilterWorkflow('');
-    setFilterRunId('');
+      // Reset filters after successful delete
+      setFilterWorkflow('');
+      setFilterRunId('');
+    } catch (error) {
+      // Error will be handled by React Query onError if configured
+      // Or show user feedback here
+      console.error('Failed to delete batch:', error);
+      alert('Failed to delete reviews. Please try again.');
+    }
   }, [filterWorkflow, filterRunId, filteredReviews.length, activeStatus, onDeleteBatch]);
 
   return {

@@ -1,17 +1,18 @@
 import type { Project } from '@/types';
 
+// Ultra-light warm tones (기존 색상 계열 + 더 연하게 + 웜톤)
 export const TRACK_COLORS = {
-  'trk-1': { bg: '#FFEBEE', accent: '#EF9A9A', name: 'Product' },
-  'trk-2': { bg: '#E8EAF6', accent: '#9FA8DA', name: 'Vault' },
-  'trk-3': { bg: '#E0F7FA', accent: '#80DEEA', name: 'Cyan' },
-  'trk-4': { bg: '#E8F5E9', accent: '#A5D6A7', name: 'Green' },
-  'trk-5': { bg: '#FFF8E1', accent: '#FFE082', name: 'Amber' },
-  'trk-6': { bg: '#FBE9E7', accent: '#FFAB91', name: 'Orange' },
+  'trk-1': { bg: '#FFF8F8', accent: '#FFCDCD', name: 'Light Red' },      // Red 계열
+  'trk-2': { bg: '#F8F6FC', accent: '#D8D0E8', name: 'Light Indigo' },   // Indigo 계열
+  'trk-3': { bg: '#F5FCFC', accent: '#C0E8E8', name: 'Light Cyan' },     // Cyan 계열
+  'trk-4': { bg: '#F5FCF5', accent: '#C8E8C8', name: 'Light Green' },    // Green 계열
+  'trk-5': { bg: '#FFFCF0', accent: '#FFE8A8', name: 'Light Amber' },    // Amber 계열
+  'trk-6': { bg: '#FFF8F5', accent: '#FFD8C8', name: 'Light Orange' },   // Orange 계열
 } as const;
 
 export const DEFAULT_TRACK_COLOR = {
-  bg: '#E0E0E0',
-  accent: '#BDBDBD',
+  bg: '#F8F8F8',
+  accent: '#E0E0E0',
   name: 'Default'
 };
 

@@ -93,21 +93,21 @@ export const ReviewDetail = ({
           <button
             onClick={onApprove}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 px-3 py-1 !bg-[#f0fdf4] !text-[#166534] border border-[#bbf7d0] text-xs font-semibold rounded hover:!bg-[#dcfce7] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isApproving ? 'Approving...' : 'Approve'}
           </button>
           <button
             onClick={onReject}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 px-3 py-1 !bg-[#fef2f2] !text-[#991b1b] border border-[#fecaca] text-xs font-semibold rounded hover:!bg-[#fee2e2] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isRejecting ? 'Rejecting...' : 'Reject'}
           </button>
           <button
             onClick={onDelete}
             disabled={isLoading}
-            className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-3 py-1 !bg-[#f4f4f5] !text-[#18181b] border border-[#e4e4e7] text-xs font-semibold rounded hover:!bg-[#e4e4e7] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isDeleting ? 'Deleting...' : 'Delete'}
           </button>

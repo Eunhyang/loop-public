@@ -4,27 +4,42 @@ import {
   useApproveReview,
   useRejectReview,
   useDeleteReview,
+  useDeleteBatch,
 } from '@/features/pending/queries';
 import {
   ReviewList,
   ReviewDetail,
   EntityPreview,
+  WorkflowFilters,
 } from '@/features/pending/components';
+import { usePendingFilters } from '@/features/pending/hooks/usePendingFilters';
 import type { PendingReview, PendingStatus } from '@/features/pending/types';
 
 export const PendingPage = () => {
-  const { data: allReviews = [], isLoading, error, refetch } = usePendingReviews();
+  const { data: allReviews = [], isPending: isLoading, error, refetch } = usePendingReviews();
   const approveMutation = useApproveReview();
   const rejectMutation = useRejectReview();
   const deleteMutation = useDeleteReview();
+  const deleteBatchMutation = useDeleteBatch();
 
   const [activeTab, setActiveTab] = useState<PendingStatus>('pending');
   const [selectedReview, setSelectedReview] = useState<PendingReview | null>(null);
   const [previewEntityId, setPreviewEntityId] = useState<string | null>(null);
   const [previewEntityType, setPreviewEntityType] = useState<PendingReview['entity_type'] | null>(null);
 
-  // Client-side filtering
-  const filteredReviews = allReviews.filter((r) => r.status === activeTab);
+  // Filter hook
+  const {
+    filterWorkflow,
+    filterRunId,
+    setFilterWorkflow,
+    setFilterRunId,
+    filteredReviews,
+    handleDeleteFiltered,
+  } = usePendingFilters({
+    reviews: allReviews,
+    activeStatus: activeTab,
+    onDeleteBatch: deleteBatchMutation.mutateAsync,
+  });
 
   // Reset selection when tab changes
   useEffect(() => {
@@ -129,6 +144,18 @@ export const PendingPage = () => {
             setPreviewEntityType(null);
           }}
           isLoading={isLoading}
+        />
+
+        {/* Workflow/Run Filters */}
+        <WorkflowFilters
+          reviews={allReviews}
+          filterWorkflow={filterWorkflow}
+          filterRunId={filterRunId}
+          onWorkflowChange={setFilterWorkflow}
+          onRunIdChange={setFilterRunId}
+          onDeleteFiltered={handleDeleteFiltered}
+          isDeleting={deleteBatchMutation.isPending}
+          filteredCount={filteredReviews.length}
         />
       </div>
 

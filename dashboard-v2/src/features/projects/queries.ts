@@ -3,6 +3,7 @@ import { projectApi } from './api';
 import type { CreateProjectDTO } from './api';
 import { queryKeys } from '@/queries/keys';
 import type { Project } from '@/types';
+import { httpClient } from '@/services/http';
 
 export const useProject = (id: string | null) => {
     return useQuery({
@@ -76,5 +77,14 @@ export const useCreateProject = () => {
             // 2. Invalidate Projects list (if exists separately)
             queryClient.invalidateQueries({ queryKey: queryKeys.projects() });
         },
+    });
+};
+
+export const usePrograms = () => {
+    return useQuery({
+        queryKey: ['programs'],
+        queryFn: () => httpClient.get<{ programs: Array<{ entity_id: string; entity_name: string }> }>('/api/programs')
+            .then(res => res.data.programs),
+        staleTime: 5 * 60 * 1000, // 5 minutes - Programs don't change often
     });
 };

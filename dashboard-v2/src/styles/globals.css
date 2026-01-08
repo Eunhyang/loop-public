@@ -67,9 +67,9 @@
   }
 
   .btn-filter-active {
-    background-color: #2e2e2e !important;
+    background-color: #646cff !important;
     color: #ffffff !important;
-    border-color: #2e2e2e !important;
+    border-color: #646cff !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
@@ -108,22 +108,35 @@
   --color-text-muted: 120, 119, 116;
   /* #787774 (Notion Muted) */
 
-  /* Track Colors - RGB for Tailwind opacity support */
-  --color-track-1: 255, 235, 238;    /* #FFEBEE - Light Red */
-  --color-track-2: 232, 234, 246;    /* #E8EAF6 - Light Indigo */
-  --color-track-3: 224, 247, 250;    /* #E0F7FA - Light Cyan */
-  --color-track-4: 232, 245, 233;    /* #E8F5E9 - Light Green */
-  --color-track-5: 255, 248, 225;    /* #FFF8E1 - Light Amber */
-  --color-track-6: 251, 233, 231;    /* #FBE9E7 - Light Orange */
-  --color-track-default: 224, 224, 224;  /* #E0E0E0 */
+  /* Track Colors - Ultra-light warm tones (RGB for Tailwind opacity support) */
+  --color-track-1: 255, 248, 248;
+  /* #FFF8F8 - Light Red */
+  --color-track-2: 248, 246, 252;
+  /* #F8F6FC - Light Indigo */
+  --color-track-3: 245, 252, 252;
+  /* #F5FCFC - Light Cyan */
+  --color-track-4: 245, 252, 245;
+  /* #F5FCF5 - Light Green */
+  --color-track-5: 255, 252, 240;
+  /* #FFFCF0 - Light Amber */
+  --color-track-6: 255, 248, 245;
+  /* #FFF8F5 - Light Orange */
+  --color-track-default: 248, 248, 248;
+  /* #F8F8F8 - Lighter default */
 
-  /* Track Accent Colors (for borders) */
-  --color-track-1-accent: 239, 154, 154;   /* #EF9A9A */
-  --color-track-2-accent: 159, 168, 218;   /* #9FA8DA */
-  --color-track-3-accent: 128, 222, 234;   /* #80DEEA */
-  --color-track-4-accent: 165, 214, 167;   /* #A5D6A7 */
-  --color-track-5-accent: 255, 224, 130;   /* #FFE082 */
-  --color-track-6-accent: 255, 171, 145;   /* #FFAB91 */
+  /* Track Accent Colors (for borders - softer) */
+  --color-track-1-accent: 255, 205, 205;
+  /* #FFCDCD */
+  --color-track-2-accent: 216, 208, 232;
+  /* #D8D0E8 */
+  --color-track-3-accent: 192, 232, 232;
+  /* #C0E8E8 */
+  --color-track-4-accent: 200, 232, 200;
+  /* #C8E8C8 */
+  --color-track-5-accent: 255, 232, 168;
+  /* #FFE8A8 */
+  --color-track-6-accent: 255, 216, 200;
+  /* #FFD8C8 */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useProject, useCreateProject, useUpdateProject } from '../queries';
+import { useProject, useCreateProject, useUpdateProject, usePrograms } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import type { Project } from '@/types';
@@ -15,12 +15,14 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
     const { mutate: createProject, isPending, error } = useCreateProject();
     const { mutate: updateProject } = useUpdateProject();
     const { data: dashboardData } = useDashboardInit();
+    const { data: programs, isLoading: isProgramsLoading, error: programsError } = usePrograms();
     const { closeEntityDrawer, openEntityDrawer } = useUi();
 
     const [formData, setFormData] = useState({
         entity_name: prefill?.entity_name || '',
         owner: prefill?.owner || '',
         parent_id: prefill?.parent_id || '',
+        program_id: prefill?.program_id || null,
         status: prefill?.status || dashboardData?.constants?.project?.status_default || 'todo',
         priority_flag: prefill?.priority_flag || 'medium',
         description: '',
@@ -46,6 +48,9 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         const project: any = dashboardData?.projects?.find((p: any) => p.entity_id === id);
         const track = project?.parent_id
             ? dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)
+            : null;
+        const program = project?.program_id
+            ? programs?.find((p) => p.entity_id === project.program_id)
             : null;
 
         if (!project) {
@@ -87,6 +92,15 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                             <label className="text-zinc-500 py-1">Track</label>
                             <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
                                 {track.entity_name}
+                            </span>
+                        </>
+                    )}
+
+                    {project.program_id && (
+                        <>
+                            <label className="text-zinc-500 py-1">Program</label>
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                                {program?.entity_name || project.program_id}
                             </span>
                         </>
                     )}
@@ -383,7 +397,7 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="px-4 py-2 text-sm font-bold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1.5 text-xs font-semibold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isPending ? 'Creating...' : 'Create Project'}
                 </button>

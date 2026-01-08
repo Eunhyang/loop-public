@@ -65,6 +65,7 @@ class ProjectCreate(BaseModel):
     entity_name: str = Field(..., description="프로젝트 이름")
     owner: str = Field(..., description="책임자 ID")
     parent_id: Optional[str] = Field(default=None, description="부모 Track/Hypothesis ID")
+    program_id: Optional[str] = Field(default=None, description="소속 Program ID")
     priority: str = Field(default="medium", description="우선순위")
     conditions_3y: List[str] = Field(default_factory=list, description="3년 조건 연결 (cond-a ~ cond-e)")
     # Autofill 옵션
