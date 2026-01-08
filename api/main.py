@@ -120,7 +120,7 @@ PUBLIC_PATHS = [
     "/api/google/authorize",  # OAuth 시작점 (브라우저 직접 이동)
     "/api/google/callback"    # OAuth 콜백 (Google 리다이렉트)
 ]
-PUBLIC_PREFIXES = ["/css", "/js"]  # 정적 파일만 공개
+PUBLIC_PREFIXES = ["/css", "/js", "/v2"]  # 정적 파일만 공개
 
 # SSE 스트리밍 경로 (BaseHTTPMiddleware와 SSE 호환성 문제로 별도 처리)
 SSE_PREFIXES = ["/mcp"]
@@ -436,6 +436,12 @@ DASHBOARD_DIR = VAULT_DIR / "_dashboard"
 if DASHBOARD_DIR.exists():
     app.mount("/css", StaticFiles(directory=DASHBOARD_DIR / "css"), name="css")
     app.mount("/js", StaticFiles(directory=DASHBOARD_DIR / "js"), name="js")
+
+# Dashboard v2 (React+TS) 서빙
+DASHBOARD_V2_DIR = Path("/app/dashboard-v2-dist")
+if DASHBOARD_V2_DIR.exists():
+    app.mount("/v2", StaticFiles(directory=DASHBOARD_V2_DIR, html=True), name="dashboard-v2")
+    print(f"✅ Dashboard v2 mounted at /v2 from {DASHBOARD_V2_DIR}")
 
 
 # ============================================

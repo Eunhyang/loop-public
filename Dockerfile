@@ -1,3 +1,17 @@
+# ============================================
+# Stage 1: Build React Dashboard (dashboard-v2)
+# ============================================
+FROM node:20-slim AS frontend
+
+WORKDIR /frontend
+COPY dashboard-v2/package*.json ./
+RUN npm ci --silent
+COPY dashboard-v2/ ./
+RUN npm run build
+
+# ============================================
+# Stage 2: Python API + Built Frontend
+# ============================================
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -32,6 +46,9 @@ RUN pip install --no-cache-dir \
 COPY api/ ./api/
 COPY shared/ ./shared/
 COPY impact_model_config.yml ./
+
+# Dashboard v2 빌드 결과물 복사 (Stage 1에서)
+COPY --from=frontend /frontend/dist ./dashboard-v2-dist/
 
 # 포트 노출
 EXPOSE 8081

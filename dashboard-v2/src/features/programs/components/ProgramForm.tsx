@@ -150,8 +150,8 @@ export const ProgramForm = ({ mode, id, prefill }: ProgramFormProps) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
-            <div className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0">
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {/* Error Message */}
                 {(formError || error) && (
                     <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
@@ -215,7 +215,7 @@ export const ProgramForm = ({ mode, id, prefill }: ProgramFormProps) => {
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
+            <div className="flex-shrink-0 p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
                 <button
                     type="button"
                     onClick={closeEntityDrawer}

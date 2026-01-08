@@ -54,12 +54,194 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
     }
 
+    const handleCreate = (e: React.FormEvent) => {
+        e.preventDefault();
+        setFormError(null);
+
+        // Validation
+        if (!createFormData.entity_name.trim()) {
+            setFormError('Task name is required');
+            return;
+        }
+        if (!createFormData.project_id) {
+            setFormError('Project is required');
+            return;
+        }
+        if (!createFormData.assignee) {
+            setFormError('Assignee is required');
+            return;
+        }
+
+        createTask(
+            createFormData,
+            {
+                onSuccess: () => {
+                    closeEntityDrawer();
+                },
+                onError: (err: any) => {
+                    setFormError(err.response?.data?.message || err.message || 'Failed to create task');
+                }
+            }
+        );
+    };
+
     if (mode === 'create') {
         return (
-            <div className="p-6 text-center text-zinc-500">
-                <p>Task creation via API not yet implemented.</p>
-                <p className="text-sm mt-2">Use loop-entity-creator skill to create tasks.</p>
-            </div>
+            <form onSubmit={handleCreate} className="flex flex-col h-full min-h-0">
+                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                    {/* Error Message */}
+                    {(formError || error) && (
+                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
+                            {formError || (error as any)?.message}
+                        </div>
+                    )}
+
+                    {/* Name */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Task Name *</label>
+                        <input
+                            type="text"
+                            autoFocus
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none placeholder-zinc-400"
+                            placeholder="Enter task name"
+                            value={createFormData.entity_name}
+                            onChange={e => setCreateFormData(prev => ({ ...prev, entity_name: e.target.value }))}
+                        />
+                    </div>
+
+                    {/* Project */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Project *</label>
+                        <select
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                            value={createFormData.project_id}
+                            onChange={e => setCreateFormData(prev => ({ ...prev, project_id: e.target.value }))}
+                        >
+                            <option value="">-- Select Project --</option>
+                            {dashboardData?.projects?.map((p: any) => (
+                                <option key={p.entity_id} value={p.entity_id}>
+                                    {p.entity_name || p.entity_id}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Assignee */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Assignee *</label>
+                        <select
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                            value={createFormData.assignee}
+                            onChange={e => setCreateFormData(prev => ({ ...prev, assignee: e.target.value }))}
+                        >
+                            <option value="">-- Select Assignee --</option>
+                            {dashboardData?.members?.map((m: any) => (
+                                <option key={m.id} value={m.name}>{m.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {/* Status */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Status</label>
+                            <select
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
+                                value={createFormData.status}
+                                onChange={e => setCreateFormData(prev => ({ ...prev, status: e.target.value as any }))}
+                            >
+                                <option value="todo">To Do</option>
+                                <option value="doing">Doing</option>
+                                <option value="hold">Hold</option>
+                                <option value="blocked">Blocked</option>
+                                <option value="done">Done</option>
+                            </select>
+                        </div>
+
+                        {/* Priority */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Priority</label>
+                            <select
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
+                                value={createFormData.priority}
+                                onChange={e => setCreateFormData(prev => ({ ...prev, priority: e.target.value as any }))}
+                            >
+                                <option value="critical">Critical</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Type */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Type</label>
+                        <select
+                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
+                            value={createFormData.type}
+                            onChange={e => setCreateFormData(prev => ({ ...prev, type: e.target.value as any }))}
+                        >
+                            {dashboardData?.constants?.task_types ? (
+                                dashboardData.constants.task_types.map((t: string) => (
+                                    <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
+                                ))
+                            ) : (
+                                <>
+                                    <option value="dev">Dev</option>
+                                    <option value="bug">Bug</option>
+                                    <option value="strategy">Strategy</option>
+                                    <option value="research">Research</option>
+                                    <option value="ops">Ops</option>
+                                    <option value="meeting">Meeting</option>
+                                </>
+                            )}
+                        </select>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {/* Start Date */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Start Date</label>
+                            <input
+                                type="date"
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                                value={createFormData.start_date}
+                                onChange={e => setCreateFormData(prev => ({ ...prev, start_date: e.target.value }))}
+                            />
+                        </div>
+
+                        {/* Due Date */}
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-medium text-zinc-700">Due Date</label>
+                            <input
+                                type="date"
+                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                                value={createFormData.due}
+                                onChange={e => setCreateFormData(prev => ({ ...prev, due: e.target.value }))}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div className="flex-shrink-0 p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
+                    <button
+                        type="button"
+                        onClick={closeEntityDrawer}
+                        className="px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isPending}
+                        className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isPending ? 'Creating...' : 'Create Task'}
+                    </button>
+                </div>
+            </form>
         );
     }
 
