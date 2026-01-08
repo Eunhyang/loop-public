@@ -1,6 +1,7 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { useTask, useUpdateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { useUi } from '@/contexts/UiContext';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
@@ -17,6 +18,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
     const { data: task, isLoading } = useTask(mode === 'edit' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
     const { data: dashboardData } = useDashboardInit();
+    const { openEntityDrawer } = useUi();
 
     const [isEditingNotes, setIsEditingNotes] = useState(false);
     const notesRef = useRef<HTMLTextAreaElement>(null);
@@ -204,7 +206,10 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                 {formData?.project_id && (
                     <>
                         <label className="text-zinc-500 py-1">Project</label>
-                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                        <span
+                            className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                            onClick={() => openEntityDrawer({ type: 'project', mode: 'view', id: formData.project_id! })}
+                        >
                             {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
                         </span>
                     </>
@@ -218,7 +223,10 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     return track ? (
                         <>
                             <label className="text-zinc-500 py-1">Track</label>
-                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                            <span
+                                className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                onClick={() => openEntityDrawer({ type: 'track', mode: 'view', id: trackId! })}
+                            >
                                 {track.entity_name}
                             </span>
                         </>
@@ -233,7 +241,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                             {formData.conditions_3y.map((condId: string) => {
                                 const condition = dashboardData?.conditions?.find((c: any) => c.entity_id === condId);
                                 return (
-                                    <span key={condId} className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                    <span
+                                        key={condId}
+                                        className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                        onClick={() => openEntityDrawer({ type: 'condition', mode: 'view', id: condId })}
+                                    >
                                         {condition?.entity_name || condId}
                                     </span>
                                 );
@@ -248,7 +260,11 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                         <label className="text-zinc-500 py-1">Validates</label>
                         <div className="flex flex-wrap gap-1">
                             {formData.validates.map((hypId: string) => (
-                                <span key={hypId} className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                <span
+                                    key={hypId}
+                                    className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                    onClick={() => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                                >
                                     {dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId)?.entity_name || hypId}
                                 </span>
                             ))}

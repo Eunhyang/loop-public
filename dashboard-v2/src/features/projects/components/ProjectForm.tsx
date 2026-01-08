@@ -5,12 +5,12 @@ import { useUi } from '@/contexts/UiContext';
 import type { Project } from '@/types';
 
 interface ProjectFormProps {
-    mode: 'create' | 'edit';
-    id?: string; // eslint-disable-line @typescript-eslint/no-unused-vars
+    mode: 'create' | 'edit' | 'view';
+    id?: string;
     prefill?: Partial<Project>;
 }
 
-export const ProjectForm = ({ mode, prefill }: ProjectFormProps) => {
+export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
     const { mutate: createProject, isPending, error } = useCreateProject();
     const { data: dashboardData } = useDashboardInit();
     const { closeEntityDrawer } = useUi();
