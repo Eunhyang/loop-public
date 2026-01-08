@@ -67,11 +67,14 @@ export const PendingPage = () => {
   }, [allReviews, selectedReview, activeTab]);
 
   // Handlers
-  const handleApprove = async () => {
+  const handleApprove = async (fields?: Record<string, unknown>) => {
     if (!selectedReview) return;
 
     try {
-      await approveMutation.mutateAsync({ id: selectedReview.id });
+      await approveMutation.mutateAsync({
+        id: selectedReview.id,
+        fields
+      });
       setSelectedReview(null); // Clear selection after approval
     } catch (error) {
       console.error('Approve failed:', error);

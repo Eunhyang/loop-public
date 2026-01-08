@@ -5,7 +5,7 @@ import { useUi } from '@/contexts/UiContext';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
-    mode: 'create' | 'edit';
+    mode: 'create' | 'edit' | 'view';
     id?: string;
     prefill?: Partial<Task>;
 }
@@ -49,6 +49,96 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             }
         }
     }));
+
+    // View mode - show task details read-only
+    if (mode === 'view' && id) {
+        const task = dashboardData?.tasks?.find((t) => t.entity_id === id);
+
+        if (!task) {
+            return (
+                <div className="p-6 text-center text-zinc-500">
+                    <p>Task not found: {id}</p>
+                </div>
+            );
+        }
+
+        const project = task.project_id
+            ? dashboardData?.projects?.find((p: any) => p.entity_id === task.project_id)
+            : null;
+
+        return (
+            <div className="flex-1 overflow-y-auto">
+                {/* ID Badge */}
+                <div className="px-6 pt-4 pb-2">
+                    <span className="font-mono text-xs text-zinc-400 px-2 py-1 bg-zinc-50 rounded">
+                        {task.entity_id}
+                    </span>
+                </div>
+
+                {/* Title */}
+                <div className="px-6 pb-4">
+                    <h2 className="text-xl font-bold text-zinc-900">{task.entity_name}</h2>
+                </div>
+
+                {/* Properties Grid */}
+                <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
+                    <label className="text-zinc-500 py-1">Status</label>
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {task.status}
+                    </span>
+
+                    <label className="text-zinc-500 py-1">Priority</label>
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {task.priority || 'medium'}
+                    </span>
+
+                    <label className="text-zinc-500 py-1">Assignee</label>
+                    <span className="text-zinc-700">{task.assignee || '-'}</span>
+
+                    <label className="text-zinc-500 py-1">Type</label>
+                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                        {task.type || 'dev'}
+                    </span>
+
+                    {project && (
+                        <>
+                            <label className="text-zinc-500 py-1">Project</label>
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                                {project.entity_name}
+                            </span>
+                        </>
+                    )}
+
+                    {task.start_date && (
+                        <>
+                            <label className="text-zinc-500 py-1">Start Date</label>
+                            <span className="text-zinc-700">{task.start_date}</span>
+                        </>
+                    )}
+
+                    {task.due && (
+                        <>
+                            <label className="text-zinc-500 py-1">Due Date</label>
+                            <span className="text-zinc-700">{task.due}</span>
+                        </>
+                    )}
+                </div>
+
+                {/* Notes */}
+                {task.notes && (
+                    <>
+                        <div className="h-px bg-zinc-200 mx-6 my-2" />
+                        <div className="px-6 py-4">
+                            <h3 className="text-sm font-semibold text-zinc-500 mb-2">Notes</h3>
+                            <div className="prose prose-sm max-w-none text-zinc-700 whitespace-pre-wrap">
+                                {task.notes}
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    }
 
     if (mode === 'edit' && (isLoading || !task)) {
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;

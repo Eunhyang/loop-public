@@ -1,10 +1,13 @@
+import { useState, useEffect, useMemo } from 'react';
 import { FieldValue } from './FieldValue';
+import { FieldOptionPills } from './FieldOptionPills';
+import { useFieldOptions, FIELD_CONFIG } from '../hooks/useFieldOptions';
 import type { PendingReview } from '../types';
 
 interface ReviewDetailProps {
   review: PendingReview;
   onEntityClick: (entityId: string, entityType: PendingReview['entity_type']) => void;
-  onApprove: () => void;
+  onApprove: (modifiedFields?: Record<string, unknown>) => void;
   onReject: () => void;
   onDelete: () => void;
   isApproving: boolean;
@@ -23,6 +26,52 @@ export const ReviewDetail = ({
   isDeleting,
 }: ReviewDetailProps) => {
   const isLoading = isApproving || isRejecting || isDeleting;
+  const fieldOptions = useFieldOptions();
+
+  // Local state for selected fields (initialized from suggested_fields)
+  const [selectedFields, setSelectedFields] = useState<Record<string, unknown>>(() => ({
+    ...review.suggested_fields,
+  }));
+
+  // Reset selectedFields only when switching to a different review
+  // Do NOT reset on refetches to preserve user edits in progress
+  useEffect(() => {
+    setSelectedFields({ ...review.suggested_fields });
+  }, [review.id]); // Only depend on review.id, not suggested_fields
+
+  // Compute modified fields (only fields that differ from original suggestions)
+  const modifiedFields = useMemo(() => {
+    const changes: Record<string, unknown> = {};
+
+    for (const [field, value] of Object.entries(selectedFields)) {
+      const original = review.suggested_fields[field];
+
+      // Deep equality check for arrays (normalize to strings for comparison)
+      if (Array.isArray(value) && Array.isArray(original)) {
+        const sortedValue = value.map(String).sort();
+        const sortedOriginal = original.map(String).sort();
+        if (JSON.stringify(sortedValue) !== JSON.stringify(sortedOriginal)) {
+          changes[field] = value;
+        }
+      } else {
+        // Normalize to strings for comparison to handle numeric vs string IDs
+        if (String(value) !== String(original)) {
+          changes[field] = value;
+        }
+      }
+    }
+
+    return changes;
+  }, [selectedFields, review.suggested_fields]);
+
+  const handleFieldChange = (field: string, value: unknown) => {
+    setSelectedFields(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleApproveClick = () => {
+    // Only pass modified fields if there are changes
+    onApprove(Object.keys(modifiedFields).length > 0 ? modifiedFields : undefined);
+  };
 
   return (
     <div className="p-6">
@@ -64,9 +113,28 @@ export const ReviewDetail = ({
           Suggested Fields
         </h3>
         <div className="space-y-3 bg-gray-50 p-4 rounded">
-          {Object.entries(review.suggested_fields).map(([field, value]) => (
-            <FieldValue key={field} field={field} value={value} />
-          ))}
+          {Object.entries(review.suggested_fields).map(([field, value]) => {
+            const config = FIELD_CONFIG[field];
+            const options = fieldOptions?.[field as keyof typeof fieldOptions];
+
+            // Render interactive pills if field has config and options
+            if (config && options && options.length > 0) {
+              return (
+                <FieldOptionPills
+                  key={field}
+                  field={field}
+                  options={options}
+                  selected={selectedFields[field]}
+                  suggested={value}
+                  multiSelect={config.multiSelect}
+                  onChange={(newValue) => handleFieldChange(field, newValue)}
+                />
+              );
+            }
+
+            // Fallback to read-only display for unsupported fields
+            return <FieldValue key={field} field={field} value={value} />;
+          })}
         </div>
       </div>
 
@@ -91,7 +159,7 @@ export const ReviewDetail = ({
       {review.status === 'pending' && (
         <div className="flex gap-2">
           <button
-            onClick={onApprove}
+            onClick={handleApproveClick}
             disabled={isLoading}
             className="flex-1 px-3 py-1 !bg-[#f0fdf4] !text-[#166534] border border-[#bbf7d0] text-xs font-semibold rounded hover:!bg-[#dcfce7] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
