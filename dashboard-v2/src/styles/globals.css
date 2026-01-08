@@ -69,19 +69,7 @@
   }
 
   .btn-filter-active {
-    background-color: #f0f9ff !important;
-    color: #082f49 !important;
-    border-color: #bae6fd !important;
     font-weight: 600 !important;
-    box-shadow: none !important;
-  }
-
-  /* Catch-all for hardcoded dark active states to ensure visibility */
-  button.bg-zinc-900,
-  button[class*="bg-zinc-900"] {
-    background-color: #f0f9ff !important;
-    color: #082f49 !important;
-    border-color: #bae6fd !important;
     box-shadow: none !important;
   }
 

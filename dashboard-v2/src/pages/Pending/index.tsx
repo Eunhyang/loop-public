@@ -8,7 +8,6 @@ import {
 } from '@/features/pending/queries';
 import {
   ReviewList,
-  ReviewDetail,
   WorkflowFilters,
 } from '@/features/pending/components';
 import { usePendingFilters } from '@/features/pending/hooks/usePendingFilters';
@@ -18,6 +17,7 @@ import { ProjectForm } from '@/features/projects/components/ProjectForm';
 import { TrackForm } from '@/features/strategy/components/TrackForm';
 import { ConditionForm } from '@/features/strategy/components/ConditionForm';
 import { HypothesisForm } from '@/features/strategy/components/HypothesisForm';
+import { useReviewMode } from '@/hooks/useReviewMode';
 
 export const PendingPage = () => {
   const { data: allReviews = [], isPending: isLoading, error, refetch } = usePendingReviews();
@@ -30,6 +30,8 @@ export const PendingPage = () => {
   const [selectedReview, setSelectedReview] = useState<PendingReview | null>(null);
   const [previewEntityId, setPreviewEntityId] = useState<string | null>(null);
   const [previewEntityType, setPreviewEntityType] = useState<PendingReview['entity_type'] | null>(null);
+
+  const isLoadingAction = approveMutation.isPending || rejectMutation.isPending || deleteMutation.isPending;
 
   // Filter hook
   const {
@@ -70,14 +72,24 @@ export const PendingPage = () => {
     }
   }, [allReviews, selectedReview, activeTab]);
 
+  // Review mode hook for tracking changes
+  const reviewMode = useReviewMode({
+    entityData: null, // Not used here, entity data loaded by Form
+    suggestedFields: selectedReview?.suggested_fields,
+    reasoning: selectedReview?.reasoning,
+  });
+
   // Handlers
-  const handleApprove = async (fields?: Record<string, unknown>) => {
+  const handleApprove = async () => {
     if (!selectedReview) return;
 
     try {
+      // Get only modified fields from reviewMode
+      const modifiedFields = reviewMode.getModifiedFields();
+
       await approveMutation.mutateAsync({
         id: selectedReview.id,
-        fields
+        fields: Object.keys(modifiedFields).length > 0 ? modifiedFields : undefined
       });
       setSelectedReview(null); // Clear selection after approval
     } catch (error) {
@@ -114,6 +126,120 @@ export const PendingPage = () => {
       setSelectedReview(null); // Clear selection after deletion
     } catch (error) {
       console.error('Delete failed:', error);
+    }
+  };
+
+  // Render entity form in review mode
+  const renderReviewDetail = () => {
+    if (!selectedReview) {
+      return (
+        <div className="flex items-center justify-center h-full text-gray-500">
+          Select a review to see details
+        </div>
+      );
+    }
+
+    const handleRelationClick = (id: string, type: string) => {
+      setPreviewEntityId(id);
+      setPreviewEntityType(type as PendingReview['entity_type']);
+    };
+
+    const handleFieldChange = (field: string, value: unknown) => {
+      reviewMode.setFieldValue(field, value);
+    };
+
+    // Render appropriate form based on entity type
+    switch (selectedReview.entity_type) {
+      case 'Task':
+        return (
+          <div className="h-full flex flex-col">
+            {/* Header */}
+            <div className="flex-shrink-0 px-6 pt-4 pb-2 border-b">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-sm font-medium">
+                  {selectedReview.entity_type}
+                </span>
+                <button
+                  onClick={() => handleRelationClick(selectedReview.entity_id, selectedReview.entity_type)}
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  {selectedReview.entity_id}
+                </button>
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">{selectedReview.entity_name}</h2>
+              <div className="text-xs text-gray-500 mt-1">
+                {new Date(selectedReview.created_at).toLocaleString()}
+              </div>
+            </div>
+
+            {/* TaskForm in review mode */}
+            <div className="flex-1 min-h-0">
+              <TaskForm
+                mode="review"
+                id={selectedReview.entity_id}
+                suggestedFields={selectedReview.suggested_fields}
+                reasoning={selectedReview.reasoning}
+                onRelationClick={handleRelationClick}
+                onFieldChange={handleFieldChange}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex-shrink-0 p-4 border-t bg-gray-50 flex justify-end gap-3">
+              <button
+                onClick={handleDelete}
+                disabled={isLoadingAction}
+                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50"
+              >
+                Delete
+              </button>
+              <button
+                onClick={handleReject}
+                disabled={isLoadingAction}
+                className="px-4 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+              >
+                Reject
+              </button>
+              <button
+                onClick={handleApprove}
+                disabled={isLoadingAction}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {approveMutation.isPending ? 'Approving...' : 'Approve'}
+              </button>
+            </div>
+          </div>
+        );
+
+      case 'Project':
+        return (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="text-center">
+              <p className="font-semibold">Project review mode</p>
+              <p className="text-sm mt-1">Not yet implemented</p>
+            </div>
+          </div>
+        );
+
+      case 'Hypothesis':
+        return (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="text-center">
+              <p className="font-semibold">Hypothesis review mode</p>
+              <p className="text-sm mt-1">Not yet implemented</p>
+            </div>
+          </div>
+        );
+
+      default:
+        return (
+          <div className="flex items-center justify-center h-full text-gray-500 p-4 text-center">
+            <div>
+              <p className="font-semibold">Unsupported entity type: {selectedReview.entity_type}</p>
+              <p className="text-sm mt-1">This entity type cannot be previewed.</p>
+            </div>
+          </div>
+        );
     }
   };
 
@@ -199,26 +325,8 @@ export const PendingPage = () => {
       </div>
 
       {/* Center Pane - Review Detail */}
-      <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
-        {selectedReview ? (
-          <ReviewDetail
-            review={selectedReview}
-            onEntityClick={(entityId, entityType) => {
-              setPreviewEntityId(entityId);
-              setPreviewEntityType(entityType);
-            }}
-            onApprove={handleApprove}
-            onReject={handleReject}
-            onDelete={handleDelete}
-            isApproving={approveMutation.isPending}
-            isRejecting={rejectMutation.isPending}
-            isDeleting={deleteMutation.isPending}
-          />
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            Select a review to see details
-          </div>
-        )}
+      <div className="flex-1 flex flex-col min-h-0">
+        {renderReviewDetail()}
       </div>
 
       {/* Right Pane - Entity Preview */}

@@ -43,14 +43,40 @@ def get_projects():
 
 @router.get("/{project_id}")
 def get_project(project_id: str):
-    """개별 Project 조회"""
+    """개별 Project 조회 (body 포함)"""
     cache = get_cache()
-    project = cache.get_project(project_id)
 
-    if not project:
+    # 캐시에서 경로 조회
+    project_path = cache.get_project_path(project_id)
+    if not project_path:
         raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
 
-    return {"project": project}
+    # 파일에서 body 읽기
+    try:
+        with open(project_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        # 캐시와 파일 불일치 → 캐시에서 제거
+        cache.remove_project(project_id)
+        raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
+
+    # Frontmatter와 Body 분리 (re.DOTALL 사용)
+    match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
+    if match:
+        frontmatter = yaml.safe_load(match.group(1))
+        body = match.group(2)
+    else:
+        # Regex 실패 시: 전체 내용을 body로, frontmatter는 캐시에서 (Codex 피드백 반영)
+        cached_project = cache.get_project(project_id)
+        if not cached_project:
+            raise HTTPException(status_code=500, detail="Invalid frontmatter format and cache miss")
+        frontmatter = cached_project.copy()  # 캐시 오염 방지를 위한 복사
+        body = content  # 파싱 실패 시 전체 내용 반환 (데이터 손실 방지)
+
+    # _body 필드 추가
+    frontmatter['_body'] = body
+
+    return {"project": frontmatter}
 
 
 @router.post("", response_model=ProjectResponse)
@@ -366,6 +392,9 @@ def update_project(project_id: str, project: ProjectUpdate):
     # 외부 링크
     if project.links is not None:
         frontmatter['links'] = [{'label': link.label, 'url': link.url} for link in project.links]
+    # 본문 (body) 수정 지원 (tsk-023-36)
+    if project.body is not None:
+        body = project.body
 
     frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
 

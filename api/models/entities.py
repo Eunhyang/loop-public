@@ -90,6 +90,8 @@ class ProjectUpdate(BaseModel):
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
     # 외부 링크
     links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
+    # 본문 (frontmatter 아래 마크다운)
+    body: Optional[str] = Field(default=None, description="본문 (마크다운)")
 
 
 class ValidationResult(BaseModel):

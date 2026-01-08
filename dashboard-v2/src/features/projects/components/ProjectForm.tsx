@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useProject, useCreateProject, useUpdateProject, usePrograms } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
+import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
+import type { ChipOption } from '@/components/common/ChipSelect';
+import { memberColor } from '@/components/common/chipColors';
+import { CORE_ROLES } from '@/features/tasks/selectors';
 import type { Project } from '@/types';
 
 interface ProjectFormProps {
@@ -33,6 +37,23 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
     // Constants
     const statuses = dashboardData?.constants?.project?.status || ['todo', 'doing', 'hold', 'done'];
     const priorities = dashboardData?.constants?.project?.priority || ['low', 'medium', 'high', 'critical'];
+
+    // Member options (for owner ChipSelectExpand)
+    // ProjectForm uses m.id (unlike TaskForm which uses m.name)
+    const memberOptions: ChipOption[] = useMemo(() => {
+        return (dashboardData?.members || []).map((m: any) => ({
+            value: m.id, // ProjectForm uses m.id
+            label: m.name,
+            color: memberColor,
+        }));
+    }, [dashboardData?.members]);
+
+    const coreMemberOptions: ChipOption[] = useMemo(() => {
+        return memberOptions.filter(opt => {
+            const member = dashboardData?.members?.find((m: any) => m.id === opt.value);
+            return member && CORE_ROLES.includes(member.role);
+        });
+    }, [memberOptions, dashboardData?.members]);
 
     useEffect(() => {
         if (dashboardData?.constants?.project?.status_default && !prefill?.status) {
@@ -192,16 +213,16 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
 
                     {/* Owner */}
                     <label className="text-zinc-500 py-1">Owner</label>
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={project.owner}
-                        onChange={(e) => handleUpdate('owner', e.target.value)}
-                    >
-                        <option value="">Unassigned</option>
-                        {dashboardData?.members?.map((m: any) => (
-                            <option key={m.id} value={m.id}>{m.name}</option>
-                        ))}
-                    </select>
+                    <div className="py-1">
+                        <ChipSelectExpand
+                            primaryOptions={coreMemberOptions}
+                            allOptions={memberOptions}
+                            value={project.owner || ''}
+                            onChange={(value) => handleUpdate('owner', value)}
+                            allowUnassigned
+                            aria-label="Project owner"
+                        />
+                    </div>
 
                     {/* Priority */}
                     <label className="text-zinc-500 py-1">Priority</label>
@@ -341,17 +362,14 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
 
                 {/* Owner */}
                 <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-zinc-700">Owner *</label>
-                    <select
-                        className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                    <ChipSelectExpand
+                        primaryOptions={coreMemberOptions}
+                        allOptions={memberOptions}
                         value={formData.owner}
-                        onChange={e => setFormData(prev => ({ ...prev, owner: e.target.value }))}
-                    >
-                        <option value="">-- Select Owner --</option>
-                        {dashboardData?.members?.map((m: any) => (
-                            <option key={m.id} value={m.id}>{m.name}</option>
-                        ))}
-                    </select>
+                        onChange={(value) => setFormData(prev => ({ ...prev, owner: value }))}
+                        allowUnassigned
+                        label="Owner *"
+                    />
                 </div>
 
                 {/* Track */}

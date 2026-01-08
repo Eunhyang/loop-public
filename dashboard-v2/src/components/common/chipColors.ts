@@ -14,29 +14,29 @@ export interface ChipColor {
  */
 export const statusColors: Record<string, ChipColor> = {
   todo: {
-    bg: 'bg-gray-100',
-    text: 'text-gray-700',
-    selected: 'bg-gray-300 border-gray-500',
+    bg: 'bg-zinc-50',
+    text: 'text-zinc-500',
+    selected: '!bg-[#f8f8f8] !text-[#18181b] !border-[#e4e4e7]',
   },
   doing: {
-    bg: 'bg-blue-100',
-    text: 'text-blue-700',
-    selected: 'bg-blue-300 border-blue-500',
+    bg: 'bg-blue-50/50',
+    text: 'text-blue-500',
+    selected: '!bg-[#f0f9ff] !text-[#082f49] !border-[#bae6fd]',
   },
   done: {
-    bg: 'bg-green-100',
-    text: 'text-green-700',
-    selected: 'bg-green-300 border-green-500',
+    bg: 'bg-green-50/50',
+    text: 'text-green-500',
+    selected: '!bg-[#f0fdf4] !text-[#166534] !border-[#bbf7d0]',
   },
   hold: {
-    bg: 'bg-yellow-100',
-    text: 'text-yellow-700',
-    selected: 'bg-yellow-300 border-yellow-500',
+    bg: 'bg-amber-50/50',
+    text: 'text-amber-500',
+    selected: '!bg-[#fffbeb] !text-[#78350f] !border-[#fef3c7]',
   },
   blocked: {
-    bg: 'bg-red-100',
-    text: 'text-red-700',
-    selected: 'bg-red-300 border-red-500',
+    bg: 'bg-red-50/50',
+    text: 'text-red-500',
+    selected: '!bg-[#fef2f2] !text-[#991b1b] !border-[#fecaca]',
   },
 };
 
@@ -45,24 +45,24 @@ export const statusColors: Record<string, ChipColor> = {
  */
 export const priorityColors: Record<string, ChipColor> = {
   critical: {
-    bg: 'bg-purple-100',
-    text: 'text-purple-700',
-    selected: 'bg-purple-300 border-purple-500',
+    bg: 'bg-purple-50/50',
+    text: 'text-purple-500',
+    selected: '!bg-[#faf5ff] !text-[#581c87] !border-[#e9d5ff]',
   },
   high: {
-    bg: 'bg-red-100',
-    text: 'text-red-700',
-    selected: 'bg-red-300 border-red-500',
+    bg: 'bg-red-50/50',
+    text: 'text-red-500',
+    selected: '!bg-[#fef2f2] !text-[#991b1b] !border-[#fecaca]',
   },
   medium: {
-    bg: 'bg-yellow-100',
-    text: 'text-yellow-700',
-    selected: 'bg-yellow-300 border-yellow-500',
+    bg: 'bg-amber-50/50',
+    text: 'text-amber-500',
+    selected: '!bg-[#fffbeb] !text-[#78350f] !border-[#fef3c7]',
   },
   low: {
-    bg: 'bg-gray-100',
-    text: 'text-gray-600',
-    selected: 'bg-gray-300 border-gray-500',
+    bg: 'bg-zinc-50/50',
+    text: 'text-zinc-500',
+    selected: '!bg-[#f8f8f8] !text-[#18181b] !border-[#e4e4e7]',
   },
 };
 
@@ -70,36 +70,36 @@ export const priorityColors: Record<string, ChipColor> = {
  * Member colors (for assignee/owner chips)
  */
 export const memberColor: ChipColor = {
-  bg: 'bg-indigo-100',
-  text: 'text-indigo-700',
-  selected: 'bg-indigo-300 border-indigo-500',
+  bg: 'bg-white',
+  text: 'text-zinc-400',
+  selected: '!bg-zinc-100 !text-zinc-900 !border-zinc-300',
 };
 
 /**
  * Project colors (for project selection chips)
  */
 export const projectColor: ChipColor = {
-  bg: 'bg-cyan-100',
-  text: 'text-cyan-700',
-  selected: 'bg-cyan-300 border-cyan-500',
+  bg: 'bg-white',
+  text: 'text-zinc-400',
+  selected: '!bg-zinc-100 !text-zinc-900 !border-zinc-300',
 };
 
 /**
  * Unassigned state color (low emphasis)
  */
 export const unassignedColor: ChipColor = {
-  bg: 'bg-gray-50',
-  text: 'text-gray-400',
-  selected: 'bg-gray-200 border-gray-400',
+  bg: 'bg-white',
+  text: 'text-zinc-400',
+  selected: '!bg-[#f4f4f5] !text-[#71717a] !border-[#e4e4e7]',
 };
 
 /**
  * Default fallback color for undefined values
  */
 export const defaultColor: ChipColor = {
-  bg: 'bg-gray-100',
-  text: 'text-gray-700',
-  selected: 'bg-gray-300 border-gray-500',
+  bg: 'bg-white',
+  text: 'text-zinc-600',
+  selected: '!bg-[#f0f9ff] !text-[#082f49] !border-[#bae6fd]',
 };
 
 /**

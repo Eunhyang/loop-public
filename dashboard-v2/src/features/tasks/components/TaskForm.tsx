@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
-import { statusColors, priorityColors, getColor } from '@/components/common/chipColors';
+import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
+import { statusColors, priorityColors, memberColor, projectColor, getColor } from '@/components/common/chipColors';
+import { CORE_ROLES } from '@/features/tasks/selectors';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
 import type { Task } from '@/types';
@@ -20,8 +22,8 @@ interface TaskFormProps {
     onFieldChange?: (field: string, value: unknown) => void;
 }
 
-export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
-    // view/edit 모두 useTask로 전체 데이터 로드
+export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRelationClick, onFieldChange }: TaskFormProps) => {
+    // view/edit/review 모두 useTask로 전체 데이터 로드
     const { data: task, isLoading } = useTask(mode !== 'create' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
     const { mutate: createTask, isPending, error } = useCreateTask();
@@ -29,6 +31,14 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
     const { pushDrawer, closeEntityDrawer } = useUi();
 
     const isReadOnly = mode === 'view';
+    const isReviewMode = mode === 'review';
+
+    // Review mode hook (only when mode='review')
+    const reviewMode = isReviewMode ? useReviewMode({
+        entityData: task as Record<string, unknown> | null | undefined,
+        suggestedFields,
+        reasoning,
+    }) : null;
 
     // Create mode form state
     const [createFormData, setCreateFormData] = useState({
@@ -63,10 +73,67 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
         { value: 'low', label: 'Low', color: getColor('low', priorityColors) },
     ];
 
-    // view/edit 모드 로딩 처리
-    if ((mode === 'edit' || mode === 'view') && (isLoading || !task)) {
+    // Member options (for assignee ChipSelectExpand)
+    const memberOptions: ChipOption[] = useMemo(() => {
+        return (dashboardData?.members || []).map((m: any) => ({
+            value: m.name, // TaskForm uses m.name (not m.id)
+            label: m.name,
+            color: memberColor,
+        }));
+    }, [dashboardData?.members]);
+
+    const coreMemberOptions: ChipOption[] = useMemo(() => {
+        return memberOptions.filter(opt => {
+            const member = dashboardData?.members?.find((m: any) => m.name === opt.value);
+            return member && CORE_ROLES.includes(member.role);
+        });
+    }, [memberOptions, dashboardData?.members]);
+
+    // Project options (for project ChipSelectExpand)
+    const projectOptions: ChipOption[] = useMemo(() => {
+        return (dashboardData?.projects || []).map((p: any) => ({
+            value: p.entity_id,
+            label: p.entity_name || p.entity_id,
+            color: projectColor,
+        }));
+    }, [dashboardData?.projects]);
+
+    // Primary projects (show up to 6, or all if <= 6)
+    const primaryProjectOptions: ChipOption[] = useMemo(() => {
+        return projectOptions.slice(0, 6);
+    }, [projectOptions]);
+
+    // view/edit/review 모드 로딩 처리
+    if ((mode === 'edit' || mode === 'view' || mode === 'review') && (isLoading || !task)) {
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
     }
+
+    // Helper: Get field value (review mode uses reviewMode.getFieldValue, others use task directly)
+    const getFieldValue = (field: keyof Task) => {
+        if (isReviewMode && reviewMode) {
+            return reviewMode.getFieldValue(field);
+        }
+        return formData?.[field];
+    };
+
+    // Helper: Handle field change (review mode calls onFieldChange + reviewMode.setFieldValue)
+    const handleFieldChangeInternal = (field: keyof Task, value: any) => {
+        if (isReviewMode && reviewMode) {
+            reviewMode.setFieldValue(field, value);
+            onFieldChange?.(field, value);
+        } else if (!isReadOnly) {
+            handleUpdate(field, value);
+        }
+    };
+
+    // Helper: Handle relation click (review mode uses onRelationClick, others use pushDrawer)
+    const handleRelationClickInternal = (id: string, type: string) => {
+        if (isReviewMode && onRelationClick) {
+            onRelationClick(id, type);
+        } else {
+            pushDrawer({ type: type as any, mode: 'view', id });
+        }
+    };
 
     const handleCreate = (e: React.FormEvent) => {
         e.preventDefault();
@@ -125,34 +192,34 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
 
                     {/* Project */}
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-medium text-zinc-700">Project *</label>
-                        <select
-                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-                            value={createFormData.project_id}
-                            onChange={e => setCreateFormData(prev => ({ ...prev, project_id: e.target.value }))}
-                        >
-                            <option value="">-- Select Project --</option>
-                            {dashboardData?.projects?.map((p: any) => (
-                                <option key={p.entity_id} value={p.entity_id}>
-                                    {p.entity_name || p.entity_id}
-                                </option>
-                            ))}
-                        </select>
+                        {projectOptions.length > 6 ? (
+                            <ChipSelectExpand
+                                primaryOptions={primaryProjectOptions}
+                                allOptions={projectOptions}
+                                value={createFormData.project_id}
+                                onChange={(value) => setCreateFormData(prev => ({ ...prev, project_id: value }))}
+                                label="Project *"
+                            />
+                        ) : (
+                            <ChipSelect
+                                options={projectOptions}
+                                value={createFormData.project_id}
+                                onChange={(value) => setCreateFormData(prev => ({ ...prev, project_id: value }))}
+                                label="Project *"
+                            />
+                        )}
                     </div>
 
                     {/* Assignee */}
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-medium text-zinc-700">Assignee *</label>
-                        <select
-                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                        <ChipSelectExpand
+                            primaryOptions={coreMemberOptions}
+                            allOptions={memberOptions}
                             value={createFormData.assignee}
-                            onChange={e => setCreateFormData(prev => ({ ...prev, assignee: e.target.value }))}
-                        >
-                            <option value="">-- Select Assignee --</option>
-                            {dashboardData?.members?.map((m: any) => (
-                                <option key={m.id} value={m.name}>{m.name}</option>
-                            ))}
-                        </select>
+                            onChange={(value) => setCreateFormData(prev => ({ ...prev, assignee: value }))}
+                            allowUnassigned
+                            label="Assignee *"
+                        />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -339,117 +406,157 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
             <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
                 {/* Status */}
                 <label className="text-zinc-500 py-1">Status</label>
-                {isReadOnly ? (
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {formData?.status}
-                    </span>
-                ) : (
-                    <div className="py-1">
-                        <ChipSelect
-                            options={statusOptions}
-                            value={formData?.status || 'todo'}
-                            onChange={(value) => handleUpdate('status', value)}
-                            aria-label="Task status"
-                        />
-                    </div>
-                )}
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('status') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('status') : undefined}
+                >
+                    {isReadOnly ? (
+                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                            {String(getFieldValue('status') || '')}
+                        </span>
+                    ) : (
+                        <div className="py-1">
+                            <ChipSelect
+                                options={statusOptions}
+                                value={(getFieldValue('status') as string) || 'todo'}
+                                onChange={(value) => handleFieldChangeInternal('status', value)}
+                                aria-label="Task status"
+                            />
+                        </div>
+                    )}
+                </ReviewFieldWrapper>
 
                 {/* Priority */}
                 <label className="text-zinc-500 py-1">Priority</label>
-                {isReadOnly ? (
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {formData?.priority || 'medium'}
-                    </span>
-                ) : (
-                    <div className="py-1">
-                        <ChipSelect
-                            options={priorityOptions}
-                            value={formData?.priority || 'medium'}
-                            onChange={(value) => handleUpdate('priority', value)}
-                            aria-label="Task priority"
-                        />
-                    </div>
-                )}
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('priority') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('priority') : undefined}
+                >
+                    {isReadOnly ? (
+                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                            {String(getFieldValue('priority') || 'medium')}
+                        </span>
+                    ) : (
+                        <div className="py-1">
+                            <ChipSelect
+                                options={priorityOptions}
+                                value={(getFieldValue('priority') as string) || 'medium'}
+                                onChange={(value) => handleFieldChangeInternal('priority', value)}
+                                aria-label="Task priority"
+                            />
+                        </div>
+                    )}
+                </ReviewFieldWrapper>
 
                 {/* Assignee */}
                 <label className="text-zinc-500 py-1">Assignee</label>
-                {isReadOnly ? (
-                    <span className="text-zinc-700">{formData?.assignee || '-'}</span>
-                ) : (
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={formData?.assignee}
-                        onChange={(e) => handleUpdate('assignee', e.target.value)}
-                    >
-                        <option value="">Unassigned</option>
-                        {dashboardData?.members?.map((m: any) => (
-                            <option key={m.id} value={m.name}>{m.name}</option>
-                        ))}
-                    </select>
-                )}
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('assignee') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('assignee') : undefined}
+                >
+                    {isReadOnly ? (
+                        <span className="text-zinc-700">{String(getFieldValue('assignee') || '-')}</span>
+                    ) : (
+                        <div className="py-1">
+                            <ChipSelectExpand
+                                primaryOptions={coreMemberOptions}
+                                allOptions={memberOptions}
+                                value={(getFieldValue('assignee') as string) || ''}
+                                onChange={(value) => handleFieldChangeInternal('assignee', value)}
+                                allowUnassigned
+                                aria-label="Task assignee"
+                            />
+                        </div>
+                    )}
+                </ReviewFieldWrapper>
 
                 {/* Project */}
                 <label className="text-zinc-500 py-1">Project</label>
-                {isReadOnly ? (
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
-                        {dashboardData?.projects?.find((p: any) => p.entity_id === formData?.project_id)?.entity_name || formData?.project_id || '-'}
-                    </span>
-                ) : (
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={formData?.project_id}
-                        onChange={(e) => handleUpdate('project_id', e.target.value)}
-                    >
-                        <option value="">No Project</option>
-                        {dashboardData?.projects?.map((p: any) => (
-                            <option key={p.entity_id} value={p.entity_id}>
-                                {p.entity_name || p.entity_id}
-                            </option>
-                        ))}
-                    </select>
-                )}
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('project_id') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('project_id') : undefined}
+                >
+                    {isReadOnly ? (
+                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                            {String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id') || '-')}
+                        </span>
+                    ) : projectOptions.length > 6 ? (
+                        <div className="py-1">
+                            <ChipSelectExpand
+                                primaryOptions={primaryProjectOptions}
+                                allOptions={projectOptions}
+                                value={(getFieldValue('project_id') as string) || ''}
+                                onChange={(value) => handleFieldChangeInternal('project_id', value)}
+                                aria-label="Task project"
+                            />
+                        </div>
+                    ) : (
+                        <div className="py-1">
+                            <ChipSelect
+                                options={projectOptions}
+                                value={(getFieldValue('project_id') as string) || ''}
+                                onChange={(value) => handleFieldChangeInternal('project_id', value)}
+                                aria-label="Task project"
+                            />
+                        </div>
+                    )}
+                </ReviewFieldWrapper>
 
                 {/* Date Fields */}
                 <label className="text-zinc-500 py-1">Start Date</label>
-                {isReadOnly ? (
-                    <span className="text-zinc-700">{formData?.start_date || '-'}</span>
-                ) : (
-                    <input
-                        type="date"
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        defaultValue={formData?.start_date || ''}
-                        onBlur={(e) => handleUpdate('start_date', e.target.value)}
-                    />
-                )}
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('start_date') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('start_date') : undefined}
+                >
+                    <>
+                        {isReadOnly ? (
+                            <span className="text-zinc-700">{String(getFieldValue('start_date') || '-')}</span>
+                        ) : (
+                            <input
+                                type="date"
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                value={(getFieldValue('start_date') as string) || ''}
+                                onChange={(e) => handleFieldChangeInternal('start_date', e.target.value)}
+                            />
+                        )}
+                    </>
+                </ReviewFieldWrapper>
 
                 <label className="text-zinc-500 py-1">Due Date</label>
-                {isReadOnly ? (
-                    <span className="text-zinc-700">{formData?.due || '-'}</span>
-                ) : (
-                    <input
-                        type="date"
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        defaultValue={formData?.due || ''}
-                        onBlur={(e) => handleUpdate('due', e.target.value)}
-                    />
-                )}
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('due') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('due') : undefined}
+                >
+                    <>
+                        {isReadOnly ? (
+                            <span className="text-zinc-700">{String(getFieldValue('due') || '-')}</span>
+                        ) : (
+                            <input
+                                type="date"
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                value={(getFieldValue('due') as string) || ''}
+                                onChange={(e) => handleFieldChangeInternal('due', e.target.value)}
+                            />
+                        )}
+                    </>
+                </ReviewFieldWrapper>
 
                 {/* Relations - Project */}
-                {formData?.project_id && (
+                {getFieldValue('project_id') && (
                     <>
                         <label className="text-zinc-500 py-1">Project</label>
                         <span
                             className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                            onClick={() => pushDrawer({ type: 'project', mode: 'edit', id: formData.project_id! })}
+                            onClick={() => handleRelationClickInternal(getFieldValue('project_id') as string, 'project')}
                         >
-                            {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
+                            {String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id'))}
                         </span>
                     </>
                 )}
 
                 {/* Relations - Track (via Project) */}
-                {formData?.project_id && dashboardData?.projects && (() => {
-                    const project = dashboardData.projects.find((p: any) => p.entity_id === formData.project_id);
+                {getFieldValue('project_id') && dashboardData?.projects && (() => {
+                    const project = dashboardData.projects.find((p: any) => p.entity_id === getFieldValue('project_id'));
                     const trackId = project?.parent_id;
                     const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
                     return track ? (
@@ -457,7 +564,7 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
                             <label className="text-zinc-500 py-1">Track</label>
                             <span
                                 className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                onClick={() => pushDrawer({ type: 'track', mode: 'view', id: trackId! })}
+                                onClick={() => handleRelationClickInternal(trackId!, 'track')}
                             >
                                 {track.entity_name}
                             </span>
@@ -466,17 +573,17 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
                 })()}
 
                 {/* Relations - Conditions */}
-                {formData?.conditions_3y && formData.conditions_3y.length > 0 && (
+                {getFieldValue('conditions_3y') && Array.isArray(getFieldValue('conditions_3y')) && (getFieldValue('conditions_3y') as string[]).length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Conditions</label>
                         <div className="flex flex-wrap gap-1">
-                            {formData.conditions_3y.map((condId: string) => {
+                            {(getFieldValue('conditions_3y') as string[]).map((condId: string) => {
                                 const condition = dashboardData?.conditions?.find((c: any) => c.entity_id === condId);
                                 return (
                                     <span
                                         key={condId}
                                         className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                        onClick={() => pushDrawer({ type: 'condition', mode: 'view', id: condId })}
+                                        onClick={() => handleRelationClickInternal(condId, 'condition')}
                                     >
                                         {condition?.entity_name || condId}
                                     </span>
@@ -487,15 +594,15 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
                 )}
 
                 {/* Relations - Validates */}
-                {formData?.validates && formData.validates.length > 0 && (
+                {getFieldValue('validates') && Array.isArray(getFieldValue('validates')) && (getFieldValue('validates') as string[]).length > 0 && (
                     <>
                         <label className="text-zinc-500 py-1">Validates</label>
                         <div className="flex flex-wrap gap-1">
-                            {formData.validates.map((hypId: string) => (
+                            {(getFieldValue('validates') as string[]).map((hypId: string) => (
                                 <span
                                     key={hypId}
                                     className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                    onClick={() => pushDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                                    onClick={() => handleRelationClickInternal(hypId, 'hypothesis')}
                                 >
                                     {dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId)?.entity_name || hypId}
                                 </span>
@@ -530,17 +637,22 @@ export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
             {/* Notes Section */}
             <div className="px-6 py-4 flex-1 flex flex-col">
                 <h3 className="text-sm font-semibold text-zinc-500 mb-2">Notes</h3>
-                <MarkdownEditor
-                    value={formData?.notes ?? formData?._body ?? ''}
-                    onChange={(markdown) => {
-                        if (!id) return;
-                        handleUpdate('notes', markdown);
-                    }}
-                    onBlur={handleNotesBlur}
-                    readOnly={isReadOnly}
-                    placeholder="Type / for commands..."
-                    minHeight="300px"
-                />
+                <ReviewFieldWrapper
+                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('notes') : false}
+                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('notes') : undefined}
+                >
+                    <MarkdownEditor
+                        value={(getFieldValue('notes') ?? getFieldValue('_body') ?? '') as string}
+                        onChange={(markdown) => {
+                            if (!id) return;
+                            handleFieldChangeInternal('notes', markdown);
+                        }}
+                        onBlur={handleNotesBlur}
+                        readOnly={isReadOnly}
+                        placeholder="Type / for commands..."
+                        minHeight="300px"
+                    />
+                </ReviewFieldWrapper>
             </div>
         </div>
     );

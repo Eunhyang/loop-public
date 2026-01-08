@@ -40,20 +40,9 @@ h1 {
 }
 
 button {
-  border-radius: 4px;
-  /* More standard radius */
-  border: 1px solid #e5e5e5;
-  font-weight: 500;
   font-family: inherit;
-  background-color: #ffffff;
-  color: inherit;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-button:hover {
-  background-color: #f9f9f9;
-  border-color: #d1d1d1;
+  border-radius: 4px;
 }
 
 button:focus,
