@@ -1,39 +1,294 @@
 ---
 entity_type: Task
-entity_id: "tsk-022-20"
-entity_name: "Dashboard v2 - 프로젝트 초기화"
+entity_id: tsk-022-20
+entity_name: Dashboard v2 - 프로젝트 초기화
 created: 2026-01-07
-updated: 2026-01-07
+updated: '2026-01-09'
 status: done
 closed: 2026-01-07
-
-# === 계층 ===
-parent_id: "prj-023"
-project_id: "prj-023"
-aliases: ["tsk-022-20", "Dashboard v2 - 프로젝트 초기화"]
-
-# === 관계 ===
+parent_id: prj-023
+project_id: prj-023
+aliases:
+- tsk-022-20
+- Dashboard v2 - 프로젝트 초기화
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: 2026-01-07
 due: 2026-01-07
 priority: high
 estimated_hours: 4
 actual_hours: null
-
-# === Task 유형 ===
 type: dev
 target_project: loop
-
-# === 분류 ===
-tags: ["dev", "dashboard", "react", "typescript", "setup"]
+tags:
+- dev
+- dashboard
+- react
+- typescript
+- setup
 priority_flag: high
+notes: "# Dashboard v2 - 프로젝트 초기화\n\n> Task ID: `tsk-022-20` | Project: \\[\\[prj-023\\\
+  ]\\] | Status: done\n\n## \U0001F4CA 아키텍처 도식\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n\
+  │           Dashboard v2 - React+TS 프로젝트 구조                  │\n├─────────────────────────────────────────────────────────────────┤\n\
+  │                                                                  │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ Pages Layer (routes/)                                     │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  /kanban\
+  \ ──→ Kanban Page                                 │   │\n│  │  /projects/:id ──→\
+  \ Project Detail Page                    │   │\n│  │  /pending ──→ Pending Review\
+  \ Page                        │   │\n│  │  /calendar ──→ Calendar Page (lazy)  \
+  \                     │   │\n│  │  /graph ──→ Graph Page (lazy)                \
+  \            │   │\n│  │  /program ──→ Program Admin Page                      \
+  \   │   │\n│  │  /login ──→ Login Page                                   │   │\n\
+  │  └──────────────────────────────────────────────────────────┘   │\n│       │ \
+  \                                                         │\n│       ↓         \
+  \                                                 │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ Features Layer (features/)                                │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  tasks/\
+  \ ──→ Task CRUD + components                        │   │\n│  │  projects/ ──→ Project\
+  \ CRUD + components                  │   │\n│  │  pending/ ──→ Pending review logic\
+  \                        │   │\n│  │  strategy/ ──→ Tracks/Conditions/Hypotheses\
+  \              │   │\n│  │  auth/ ──→ Login/JWT management                     \
+  \      │   │\n│  │  attachments/ ──→ File upload/preview                     │ \
+  \  │\n│  └──────────────────────────────────────────────────────────┘   │\n│   \
+  \    │                                                          │\n│       ↓   \
+  \                                                       │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ Data Layer (queries/ + services/)                         │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  queries/\
+  \                                                 │   │\n│  │    ├── keys.ts (queryKey\
+  \ 상수)                            │   │\n│  │    ├── useDashboardInit.ts ──→ React\
+  \ Query hook          │   │\n│  │    ├── useTasks.ts                           \
+  \             │   │\n│  │    └── useProjects.ts                                \
+  \     │   │\n│  │        │                                                   │ \
+  \  │\n│  │        ↓                                                   │   │\n│ \
+  \ │  services/                                                │   │\n│  │    ├──\
+  \ http.ts (baseURL, auth, error handling)           │   │\n│  │    └── api.ts (endpoint\
+  \ functions)                        │   │\n│  │            │                   \
+  \                            │   │\n│  │            ↓                          \
+  \                     │   │\n│  │      /api/dashboard-init                     \
+  \             │   │\n│  │      /api/tasks, /api/projects, /api/pending         \
+  \    │   │\n│  └──────────────────────────────────────────────────────────┘   │\n\
+  │       │                                                          │\n│       ↓\
+  \                                                          │\n│  ┌──────────────────────────────────────────────────────────┐\
+  \   │\n│  │ UI Components (components/)                               │   │\n│ \
+  \ ├──────────────────────────────────────────────────────────┤   │\n│  │  layout/\
+  \ ──→ Sidebar, Header, Shell                       │   │\n│  │  ui/ ──→ Button,\
+  \ Modal, Select, Badge (순수 컴포넌트)     │   │\n│  └──────────────────────────────────────────────────────────┘\
+  \   │\n│                                                                  │\n└─────────────────────────────────────────────────────────────────┘\n\
+  ```\n\n---\n\n## \U0001F4CB 프로젝트 컨텍스트\n\n### 현재 문제점 (v1)\n\n- **위치**: `public/_dashboard/`\n\
+  - **기술**: 바닐라 HTML + JS (47KB index.html, 35KB state.js)\n- **문제**:\n  - 한 페이지에\
+  \ 모든 기능 혼재 (Kanban+Calendar+Graph+Pending+Admin)\n  - state.js 폭발 (서버 데이터+정규화+UI\
+  \ 상태+렌더 모두 섞임)\n  - pending-panel.js 82KB, task-panel.js 59KB 비대화\n  - 초기 로딩 62초\
+  \ (cold cache)\n\n### 목표 (v2)\n\n- **위치**: `public/dashboard-v2/` (새 폴더, 기존과 병행\
+  \ 운영)\n- **기술**: React + TypeScript + Vite\n- **철학**:\n  - **서버 상태**: React Query\
+  \ (캐시)\n  - **정규화**: utils/ (순수 함수)\n  - **UI 상태**: 페이지 local state 또는 URL params\n\
+  \  - **페이지 경계**: 라우트로 명확히 분리\n\n---\n\n## \U0001F3AF 구현 범위\n\n### 주요 기능\n\n1. ✅\
+  \ Vite + React + TypeScript 프로젝트 스캐폴드\n2. ✅ React Router 설정 (7개 라우트)\n3. ✅ React\
+  \ Query 설정 (서버 상태 관리)\n4. ✅ 폴더 구조 생성 (features/ + queries/ + types/)\n5. ✅ API 클라이언트\
+  \ 기본 설정 (services/http.ts + api.ts)\n6. ✅ 공통 컴포넌트 기초 (Layout, Button, Modal)\n7.\
+  \ ✅ 기존 \\_dashboard/와 공존 가능한 빌드 설정\n\n### 권장 폴더 구조 (v2)\n\n```\npublic/dashboard-v2/\n\
+  ├── package.json\n├── vite.config.ts\n├── tsconfig.json\n├── index.html\n├── src/\n\
+  │   ├── main.tsx                 # \U0001F525 React Query / Router / AuthProvider\
+  \ 감싸기\n│   ├── App.tsx                  # \U0001F525 Layout + Routes\n│   ├── routes/\
+  \                  # \U0001F525 라우트 정의 (페이지 경계의 SSOT)\n│   │   └── index.tsx\n│\
+  \   ├── pages/                   # 페이지 컴포넌트 (라우트 단위)\n│   │   ├── Kanban/\n│   │\
+  \   ├── Project/\n│   │   ├── Pending/\n│   │   ├── Calendar/            # lazy\
+  \ load\n│   │   ├── Graph/               # lazy load\n│   │   ├── Program/\n│  \
+  \ │   └── Login/\n│   ├── features/                # \U0001F525 도메인 단위 모듈 (강추)\n\
+  │   │   ├── tasks/\n│   │   ├── projects/\n│   │   ├── pending/\n│   │   ├── strategy/\
+  \            # tracks/conditions/hypotheses\n│   │   ├── auth/\n│   │   └── attachments/\n\
+  │   ├── components/              # 재사용 UI 컴포넌트 (순수)\n│   │   ├── layout/       \
+  \       # Sidebar/Header/Shell\n│   │   └── ui/                  # Button/Modal/Select/Badge\
+  \ 등\n│   ├── services/                # \U0001F525 API 클라이언트\n│   │   ├── http.ts\
+  \              # baseURL, auth header, error handling\n│   │   └── api.ts      \
+  \         # endpoint functions\n│   ├── hooks/                   # 공용 hooks\n│ \
+  \  │   ├── useDebounce.ts\n│   │   └── useHotkeys.ts\n│   ├── queries/         \
+  \        # \U0001F525 react-query queryKey + hooks (강추)\n│   │   ├── keys.ts\n│\
+  \   │   ├── useDashboardInit.ts\n│   │   ├── useTasks.ts\n│   │   ├── useProjects.ts\n\
+  │   │   └── usePendingReviews.ts\n│   ├── types/                   # \U0001F525\
+  \ TS 타입 (서버 DTO)\n│   │   ├── task.ts\n│   │   ├── project.ts\n│   │   ├── pending.ts\n\
+  │   │   └── strategy.ts\n│   ├── utils/                   # pure functions (정규화\
+  \ 로직 여기로)\n│   │   ├── normalize.ts\n│   │   └── date.ts\n│   └── styles/      \
+  \            # 전역 스타일\n│       └── globals.css\n└── public/\n```\n\n---\n\n## \U0001F4DD\
+  \ 상세 요구사항\n\n### 1. 프로젝트 초기화 (Vite + React + TS)\n\n**목적**: 프로젝트 스캐폴드 생성\n\n**구현\
+  \ 내용**:\n\n```bash\ncd /Users/gim-eunhyang/dev/loop/public\nnpm create vite@latest\
+  \ dashboard-v2 -- --template react-ts\ncd dashboard-v2\nnpm install\n```\n\n**dependencies**:\n\
+  \n```json\n{\n  \"dependencies\": {\n    \"react\": \"^18.3.0\",\n    \"react-dom\"\
+  : \"^18.3.0\",\n    \"react-router-dom\": \"^6.22.0\",\n    \"@tanstack/react-query\"\
+  : \"^5.20.0\",\n    \"@tanstack/react-query-devtools\": \"^5.20.0\",\n    \"axios\"\
+  : \"^1.6.0\"\n  },\n  \"devDependencies\": {\n    \"@types/react\": \"^18.2.0\"\
+  ,\n    \"@types/react-dom\": \"^18.2.0\",\n    \"@typescript-eslint/eslint-plugin\"\
+  : \"^6.0.0\",\n    \"@typescript-eslint/parser\": \"^6.0.0\",\n    \"@vitejs/plugin-react\"\
+  : \"^4.2.0\",\n    \"eslint\": \"^8.0.0\",\n    \"eslint-plugin-react-hooks\": \"\
+  ^4.6.0\",\n    \"eslint-plugin-react-refresh\": \"^0.4.5\",\n    \"typescript\"\
+  : \"^5.0.0\",\n    \"vite\": \"^5.0.0\"\n  }\n}\n```\n\n---\n\n### 2. 폴더 구조 생성\n\
+  \n**목적**: 권장 구조대로 폴더 생성\n\n**구현 내용**:\n\n```bash\nmkdir -p src/{routes,pages/{Kanban,Project,Pending,Calendar,Graph,Program,Login},features/{tasks,projects,pending,strategy,auth,attachments},components/{layout,ui},services,hooks,queries,types,utils,styles}\n\
+  ```\n\n**폴더별 역할**:\n\n- `routes/`: 라우트 정의 (페이지 경계의 SSOT)\n- `pages/`: 각 라우트의 페이지\
+  \ 컴포넌트\n- `features/`: 도메인별 모듈 (CRUD + 컴포넌트)\n- `components/`: 재사용 UI (순수 컴포넌트)\n\
+  - `services/`: API 클라이언트\n- `queries/`: React Query hooks\n- `types/`: TypeScript\
+  \ 타입 정의\n- `utils/`: 순수 함수 (정규화 로직)\n\n---\n\n### 3. React Router 설정\n\n**파일**:\
+  \ `src/routes/index.tsx`\n\n**목적**: 7개 라우트 정의 + lazy loading\n\n**구현 내용**:\n\n```tsx\n\
+  import { lazy } from 'react';\nimport { createBrowserRouter } from 'react-router-dom';\n\
+  \n// Eager load (초기 필수)\nimport LoginPage from '@/pages/Login';\nimport KanbanPage\
+  \ from '@/pages/Kanban';\nimport ProjectPage from '@/pages/Project';\nimport PendingPage\
+  \ from '@/pages/Pending';\nimport ProgramPage from '@/pages/Program';\n\n// Lazy\
+  \ load (무거운 페이지)\nconst CalendarPage = lazy(() => import('@/pages/Calendar'));\n\
+  const GraphPage = lazy(() => import('@/pages/Graph'));\n\nexport const router =\
+  \ createBrowserRouter([\n  {\n    path: '/login',\n    element: <LoginPage />,\n\
+  \  },\n  {\n    path: '/',\n    element: <AppLayout />,\n    children: [\n     \
+  \ { index: true, element: <Navigate to=\"/kanban\" replace /> },\n      { path:\
+  \ 'kanban', element: <KanbanPage /> },\n      { path: 'projects/:id', element: <ProjectPage\
+  \ /> },\n      { path: 'pending', element: <PendingPage /> },\n      { path: 'calendar',\
+  \ element: <CalendarPage /> },\n      { path: 'graph', element: <GraphPage /> },\n\
+  \      { path: 'program', element: <ProgramPage /> },\n    ],\n  },\n]);\n```\n\n\
+  **중요**: Calendar/Graph는 `lazy()`로 로드해야 초기 번들 크기 유지\n\n---\n\n### 4. React Query\
+  \ 설정\n\n**파일**: `src/main.tsx`\n\n**목적**: 서버 상태 캐시 설정\n\n**구현 내용**:\n\n```tsx\n\
+  import { QueryClient, QueryClientProvider } from '@tanstack/react-query';\nimport\
+  \ { ReactQueryDevtools } from '@tanstack/react-query-devtools';\n\nconst queryClient\
+  \ = new QueryClient({\n  defaultOptions: {\n    queries: {\n      staleTime: 5 *\
+  \ 60 * 1000, // 5분\n      cacheTime: 10 * 60 * 1000, // 10분\n      retry: 1,\n \
+  \     refetchOnWindowFocus: false,\n    },\n  },\n});\n\n<QueryClientProvider client={queryClient}>\n\
+  \  <RouterProvider router={router} />\n  <ReactQueryDevtools initialIsOpen={false}\
+  \ />\n</QueryClientProvider>\n```\n\n---\n\n### 5. API 클라이언트 설정\n\n**파일**: `src/services/http.ts`\n\
+  \n**목적**: baseURL, auth header, 401 처리, 공통 에러 핸들링\n\n**구현 내용**:\n\n```tsx\nimport\
+  \ axios, { AxiosError } from 'axios';\n\nconst API_BASE_URL = import.meta.env.VITE_API_URL\
+  \ || 'https://mcp.sosilab.synology.me';\n\nexport const httpClient = axios.create({\n\
+  \  baseURL: API_BASE_URL,\n  timeout: 30000,\n  headers: {\n    'Content-Type':\
+  \ 'application/json',\n  },\n});\n\n// Request interceptor: JWT 토큰 추가\nhttpClient.interceptors.request.use((config)\
+  \ => {\n  const token = localStorage.getItem('LOOP_API_TOKEN');\n  if (token) {\n\
+  \    config.headers.Authorization = `Bearer ${token}`;\n  }\n  return config;\n\
+  });\n\n// Response interceptor: 401 처리\nhttpClient.interceptors.response.use(\n\
+  \  (response) => response,\n  (error: AxiosError) => {\n    if (error.response?.status\
+  \ === 401) {\n      // 토큰 만료 → 로그인 페이지로\n      localStorage.removeItem('LOOP_API_TOKEN');\n\
+  \      window.location.href = '/login';\n    }\n    return Promise.reject(error);\n\
+  \  }\n);\n```\n\n---\n\n**파일**: `src/services/api.ts`\n\n**목적**: endpoint functions\
+  \ (얇게 유지)\n\n**구현 내용**:\n\n```tsx\nimport { httpClient } from './http';\nimport\
+  \ type { DashboardInitResponse, Task, Project } from '@/types';\n\nexport const\
+  \ dashboardApi = {\n  // 초기 로딩 통합 엔드포인트\n  getDashboardInit: () =>\n    httpClient.get<DashboardInitResponse>('/api/dashboard-init'),\n\
+  \n  // Tasks\n  getTasks: (params?: { status?: string; assignee?: string }) =>\n\
+  \    httpClient.get<Task[]>('/api/tasks', { params }),\n\n  // Projects\n  getProjects:\
+  \ () =>\n    httpClient.get<Project[]>('/api/projects'),\n\n  // Pending\n  getPendingReviews:\
+  \ () =>\n    httpClient.get('/api/pending'),\n};\n```\n\n**원칙**:\n\n- `api.ts`는\
+  \ endpoint 함수만 정의\n- 데이터 조합/정규화는 `queries/` 훅에서 처리\n- 이렇게 하면 `api.js`가 600줄로 커지지\
+  \ 않음\n\n---\n\n### 6. Query Hooks (핵심)\n\n**파일**: `src/queries/keys.ts`\n\n**목적**:\
+  \ queryKey 상수 관리 (SSOT)\n\n**구현 내용**:\n\n```tsx\nexport const queryKeys = {\n  dashboardInit:\
+  \ ['dashboard', 'init'] as const,\n  tasks: (filters?: object) => ['tasks', filters]\
+  \ as const,\n  task: (id: string) => ['tasks', id] as const,\n  projects: () =>\
+  \ ['projects'] as const,\n  project: (id: string) => ['projects', id] as const,\n\
+  \  pending: () => ['pending'] as const,\n};\n```\n\n---\n\n**파일**: `src/queries/useDashboardInit.ts`\n\
+  \n**목적**: 초기 데이터 로딩 훅 (단일 API 호출)\n\n**구현 내용**:\n\n```tsx\nimport { useQuery } from\
+  \ '@tanstack/react-query';\nimport { dashboardApi } from '@/services/api';\nimport\
+  \ { queryKeys } from './keys';\n\nexport const useDashboardInit = () => {\n  return\
+  \ useQuery({\n    queryKey: queryKeys.dashboardInit,\n    queryFn: async () => {\n\
+  \      const { data } = await dashboardApi.getDashboardInit();\n      return data;\n\
+  \    },\n    staleTime: Infinity, // 초기 로딩 데이터는 새로고침 전까지 유지\n  });\n};\n```\n\n\
+  **v1과의 차이**:\n\n- v1: `State.loadAll()` → 12개 API 순차 호출 → 느림\n- v2: `useDashboardInit()`\
+  \ → `/api/dashboard-init` 단일 호출 → 빠름\n- React Query 캐시로 중복 요청 자동 방지\n\n---\n\n###\
+  \ 7. TypeScript 타입 정의\n\n**파일**: `src/types/task.ts`\n\n**목적**: 서버 DTO 타입 (SSOT)\n\
+  \n**구현 내용**:\n\n```tsx\nexport interface Task {\n  entity_id: string;\n  entity_name:\
+  \ string;\n  project_id: string;\n  assignee: string;\n  status: 'todo' | 'doing'\
+  \ | 'hold' | 'done' | 'blocked';\n  priority: 'critical' | 'high' | 'medium' | 'low';\n\
+  \  type: 'dev' | 'bug' | 'strategy' | 'research' | 'ops' | 'meeting' | null;\n \
+  \ start_date: string;\n  due: string;\n  tags: string[];\n  // ... 나머지 필드\n}\n\n\
+  export interface DashboardInitResponse {\n  constants: Record<string, any>;\n  members:\
+  \ Member[];\n  tracks: Track[];\n  conditions: Condition[];\n  projects: Project[];\n\
+  \  tasks: Task[];\n  pending_badge_count: number;\n  user: User;\n}\n```\n\n**원칙**:\n\
+  \n- 서버 응답 형식과 정확히 일치\n- `any` 사용 최소화\n- 공통 타입은 재사용\n\n---\n\n### 8. 기본 Layout 컴포넌트\n\
+  \n**파일**: `src/components/layout/AppLayout.tsx`\n\n**목적**: Sidebar + Header + Main\
+  \ 구조\n\n**구현 내용**:\n\n```tsx\nimport { Outlet } from 'react-router-dom';\nimport\
+  \ Sidebar from './Sidebar';\nimport Header from './Header';\n\nexport const AppLayout\
+  \ = () => {\n  return (\n    <div className=\"flex h-screen\">\n      <Sidebar />\n\
+  \      <div className=\"flex-1 flex flex-col\">\n        <Header />\n        <main\
+  \ className=\"flex-1 overflow-auto p-6\">\n          <Outlet />\n        </main>\n\
+  \      </div>\n    </div>\n  );\n};\n```\n\n---\n\n### 9. Vite 빌드 설정\n\n**파일**:\
+  \ `vite.config.ts`\n\n**목적**: 빌드 산출물 경로 + alias 설정\n\n**구현 내용**:\n\n```tsx\nimport\
+  \ { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\nimport\
+  \ path from 'path';\n\nexport default defineConfig({\n  plugins: [react()],\n  resolve:\
+  \ {\n    alias: {\n      '@': path.resolve(__dirname, './src'),\n    },\n  },\n\
+  \  build: {\n    outDir: 'dist',\n    sourcemap: true,\n    rollupOptions: {\n \
+  \     output: {\n        manualChunks: {\n          vendor: ['react', 'react-dom',\
+  \ 'react-router-dom'],\n          query: ['@tanstack/react-query'],\n        },\n\
+  \      },\n    },\n  },\n  server: {\n    port: 3000,\n    proxy: {\n      '/api':\
+  \ {\n        target: 'https://mcp.sosilab.synology.me',\n        changeOrigin: true,\n\
+  \      },\n    },\n  },\n});\n```\n\n**빌드 전략**:\n\n- `dist/` → NAS/웹 서버가 `_dashboard_v2/`로\
+  \ 서빙\n- 기존 `_dashboard/`는 유지 (점진적 전환)\n- manualChunks로 vendor/query 분리 (캐싱 최적화)\n\
+  \n---\n\n## ✅ 성공 기준\n\n- [ ] ✅ `npm create vite` 실행 완료\n\n- [ ] ✅ 권장 폴더 구조 생성 완료\n\
+  \n- [ ] ✅ React Router 7개 라우트 설정\n\n- [ ] ✅ React Query 설정 (QueryClientProvider)\n\
+  \n- [ ] ✅ API 클라이언트 설정 (http.ts + api.ts)\n\n- [ ] ✅ queryKeys + useDashboardInit\
+  \ 훅 작성\n\n- [ ] ✅ TypeScript 타입 정의 (Task, Project, DashboardInitResponse)\n\n- [\
+  \ ] ✅ AppLayout 기본 구조 작성\n\n- [ ] ✅ `npm run dev` 실행 → 로컬 3000번 포트 동작\n\n- [ ] ✅\
+  \ 빌드 설정 (dist/ → \\_dashboard_v2/ 준비)\n\n- [ ] ✅ 기존 `_dashboard/`와 공존 가능한 독립 실행\n\
+  \n---\n\n## \U0001F50D 확인 사항\n\n**질문**:\n\n1. ✅ API 엔드포인트 `/api/dashboard-init`가\
+  \ 이미 존재하나요?\n   - 없으면 이 Task 완료 후 별도 백엔드 Task 필요\n2. ✅ 스타일링은 어떻게 할까요?\n   - Tailwind\
+  \ CSS (추천)\n   - CSS Modules\n   - styled-components\n3. ✅ 로그인 페이지는 바로 구현?\n   -\
+  \ 아니면 먼저 Kanban만 구현?\n\n---\n\n## \U0001F680 배포/연동 계획\n\n### 단계적 전환 전략\n\n**Phase\
+  \ 1 (이번 Task)**:\n\n```\npublic/\n├── _dashboard/          # 기존 (유지)\n│   └── index.html\n\
+  └── dashboard-v2/        # 신규 (병행 운영)\n    ├── dist/\n    └── src/\n```\n\n**Phase\
+  \ 2 (구현 완료 후)**:\n\n```bash\n# 빌드\ncd public/dashboard-v2\nnpm run build\n\n# NAS/웹\
+  \ 서버 설정\n# _dashboard_v2/ → dist/ 심볼릭 링크 or 복사\n```\n\n**Phase 3 (검증 완료 후)**:\n\n\
+  ```bash\n# 기존 _dashboard/ 삭제\nrm -rf public/_dashboard/\n\n# dashboard-v2/dist/\
+  \ → _dashboard/로 rename\nmv public/_dashboard_v2 public/_dashboard\n```\n\n---\n\
+  \n## 체크리스트\n\n### 프로젝트 셋업\n\n- [ ] Vite 프로젝트 생성\n\n- [ ] package.json 의존성 설치\n\n\
+  - [ ] 폴더 구조 생성\n\n### 라우터 & 상태 관리\n\n- [ ] React Router 설정\n\n- [ ] React Query\
+  \ 설정\n\n- [ ] API 클라이언트 설정\n\n### 타입 & 훅\n\n- [ ] TypeScript 타입 정의\n\n- [ ] queryKeys\
+  \ 정의\n\n- [ ] useDashboardInit 훅 작성\n\n### 레이아웃 & 스타일\n\n- [ ] AppLayout 컴포넌트\n\n\
+  - [ ] Sidebar 기본 구조\n\n- [ ] 전역 스타일 설정\n\n### 빌드 & 배포\n\n- [ ] vite.config.ts 최적화\n\
+  \n- [ ] 로컬 개발 서버 동작 확인\n\n- [ ] 빌드 테스트 (npm run build)\n\n---\n\n## Notes\n\n###\
+  \ 작업 로그\n\n2026-01-07 (Task 완료)\n\n**개요**: Dashboard v2 프로젝트 초기화 완료 - Vite + React\
+  \ 19 + TypeScript 스택 구축 성공\n\n**변경사항**:\n\n- 개발: Vite 프로젝트 스캐폴드 생성 (React 19 + TypeScript)\n\
+  - 개발: 폴더 구조 생성 (routes/, pages/, features/, components/, services/, queries/, types/,\
+  \ utils/)\n- 개발: React Router v6 설정 (7개 라우트, lazy loading 포함)\n- 개발: React Query\
+  \ 설정 (staleTime: 5min, gcTime: 10min)\n- 개발: API 클라이언트 (http.ts with JWT interceptors,\
+  \ api.ts with endpoints)\n- 개발: TypeScript 타입 정의 (Task, Project, DashboardInitResponse,\
+  \ APIError)\n- 개발: Query hooks (queryKeys.ts, useDashboardInit.ts)\n- 개발: Layout\
+  \ 컴포넌트 (AppLayout, Sidebar, Header)\n- 설정: Vite 설정 (path alias @/, manualChunks,\
+  \ API proxy)\n- 설정: 환경 변수 템플릿 (.env.example)\n\n**파일 변경**:\n\n- `/Users/gim-eunhyang/dev/loop/public/dashboard-v2/`\
+  \ - 전체 프로젝트 생성\n- `package.json` - dependencies 설치 (React 19, React Router, React\
+  \ Query, Axios)\n- `vite.config.ts` - 빌드 설정 및 최적화\n- `src/main.tsx` - React Query\
+  \ Provider 설정\n- `src/routes/index.tsx` - 7개 라우트 정의\n- `src/services/http.ts` -\
+  \ Axios 클라이언트 + JWT interceptors\n- `src/services/api.ts` - API endpoint 함수\n- `src/queries/keys.ts`,\
+  \ `src/queries/useDashboardInit.ts` - Query hooks\n- `src/types/*.ts` - TypeScript\
+  \ 타입 정의\n- `src/components/layout/*.tsx` - Layout 컴포넌트\n\n**빌드 결과**: ✅ 빌드 성공\n\n\
+  - main: 223.79 kB\n- vendor: 74.03 kB (React, React Router)\n- query: 33.67 kB (React\
+  \ Query)\n\n**검증**:\n\n- ✅ 로컬 개발 서버 실행 성공 (`npm run dev` - http://localhost:3000)\n\
+  - ✅ 프로덕션 빌드 성공 (`npm run build`)\n- ✅ 폴더 구조 권장 패턴 준수\n- ✅ TypeScript 컴파일 에러 없음\n\
+  \n**다음 단계**:\n\n- Phase 2: Pending Review 페이지 구현 (tsk-022-21)\n- Phase 2: Task Drawer\
+  \ 구현\n- Phase 2: Kanban 보드 기능 구현\n\n**최종 상태**: done\n\n---\n\n### 구현 완료 (2026-01-07)\n\
+  \n**상태**: ✅ 프로젝트 초기화 완료 **위치**: `/Users/gim-eunhyang/dev/loop/public/dashboard-v2/`**빌드**:\
+  \ 성공 (223.79 kB main, 74.03 kB vendor, 33.67 kB query)\n\n**완료 항목**:\n\n 1. ✅ Vite\
+  \ + React 19 + TypeScript 프로젝트 생성\n 2. ✅ 폴더 구조 생성 (routes/, pages/, features/, components/,\
+  \ services/, queries/, types/, utils/)\n 3. ✅ React Router 7개 라우트 설정 (lazy loading\
+  \ 포함)\n 4. ✅ React Query 설정 (staleTime: 5min, gcTime: 10min)\n 5. ✅ API 클라이언트 설정\
+  \ (http.ts with JWT interceptors, api.ts with endpoints)\n 6. ✅ TypeScript 타입 정의\
+  \ (Task, Project, DashboardInitResponse, APIError)\n 7. ✅ Query hooks (queryKeys,\
+  \ useDashboardInit)\n 8. ✅ Layout 컴포넌트 (AppLayout, Sidebar, Header)\n 9. ✅ Vite\
+  \ 설정 (path alias @/, manualChunks, API proxy)\n10. ✅ 환경 변수 설정 (.env.example)\n\n\
+  **다음 단계** (Phase 2 - Pending 분리):\n\n- Pending Review 페이지 구현\n- Task Drawer 구현\n\
+  - Kanban 보드 기능 구현\n\n**실행**:\n\n```bash\ncd /Users/gim-eunhyang/dev/loop/public/dashboard-v2\n\
+  npm run dev  # http://localhost:3000\nnpm run build  # dist/ 생성\n```\n\n---\n\n\
+  ### 핵심 철학 (v1 → v2 변화)\n\n**v1 문제**:\n\n```\nState.js (35KB)\n├── 서버 데이터 (12개 API\
+  \ 호출)\n├── 정규화 로직\n├── UI 상태\n└── 렌더 로직\n→ 모두 섞여서 터짐\n```\n\n**v2 해결**:\n\n```\n\
+  서버 상태 → React Query (queries/)\n정규화    → Utils (utils/normalize.ts)\nUI 상태   → 페이지\
+  \ local state or URL params\n렌더      → Pages + Features 분리\n→ 책임 분리로 유지보수 쉬워짐\n\
+  ```\n\n### Query Hook이 데이터 주체\n\n**v1 방식** (안티패턴):\n\n```js\n// api.js에서 데이터 조합\
+  \ → 600줄로 커짐\nexport async function loadAll() {\n  const tasks = await getTasks();\n\
+  \  const projects = await getProjects();\n  return { tasks, projects, normalized:\
+  \ normalize(...) };\n}\n```\n\n**v2 방식** (권장):\n\n```tsx\n// api.ts는 얇게 유지\nexport\
+  \ const dashboardApi = {\n  getTasks: () => httpClient.get<Task[]>('/api/tasks'),\n\
+  };\n\n// queries/useTasks.ts에서 데이터 조합\nexport const useTasks = (filters) => {\n\
+  \  return useQuery({\n    queryKey: queryKeys.tasks(filters),\n    queryFn: async\
+  \ () => {\n      const { data } = await dashboardApi.getTasks();\n      return normalizeTaskData(data);\
+  \ // 정규화는 utils/에서\n    },\n  });\n};\n```\n\n→ `api.ts`는 endpoint 정의만, 로직은 query\
+  \ hook에서 처리\n\n### Lazy Loading 필수\n\n**Calendar/Graph는 무거움** (D3.js, FullCalendar):\n\
+  \n```tsx\n// ❌ 나쁜 예\nimport CalendarPage from '@/pages/Calendar'; // 즉시 로드\n\n//\
+  \ ✅ 좋은 예\nconst CalendarPage = lazy(() => import('@/pages/Calendar')); // 라우트 진입\
+  \ 시에만 로드\n```\n\n→ 초기 번들 크기 유지, 성능 향상\n\n---\n\n## 참고 문서\n\n- \\[\\[prj-023\\]\\\
+  ] - Dashboard - React+TS 마이그레이션 프로젝트\n- \\[\\[pgm-vault-system\\]\\] - Vault System\
+  \ 프로그램\n- 기존 대시보드: `public/_dashboard/`\n- React Query Docs: https://tanstack.com/query/latest\n\
+  - Vite Docs: https://vitejs.dev\n\n---\n\n**Created**: 2026-01-07 **Assignee**:\
+  \ 김은향 **Due**: 2026-01-07 **Priority**: high"
 ---
-
 # Dashboard v2 - 프로젝트 초기화
 
 > Task ID: `tsk-022-20` | Project: [[prj-023]] | Status: done
