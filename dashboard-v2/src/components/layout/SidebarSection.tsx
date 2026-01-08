@@ -71,7 +71,7 @@ export const SidebarSection = ({
                                 key={item.id}
                                 onClick={() => handleItemClick(item.id)}
                                 className={`
-                  w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors flex items-center gap-2
+                  w-full text-left px-3 py-1.5 text-xs rounded-md transition-colors flex items-center gap-2
                   ${isActive
                                         ? 'bg-zinc-200 text-zinc-900 font-medium'
                                         : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'}

@@ -174,7 +174,7 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
                 <button
                   key={member.id}
                   onClick={() => toggleAssignee(member.id)}
-                  className={`text-xs btn-filter ${isActive ? 'btn-filter-active' : ''}`}
+                  className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
                 >
                   {member.name}
                 </button>
@@ -323,7 +323,7 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
           <button
             onClick={clearFilters}
             disabled={assignees.length === 0 && !programId && projectIds.length === 0 && !dateFilter && selectedWeeks.length === 0 && selectedMonths.length === 0}
-            className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors"
+            className="text-xs px-3 py-1.5 text-sm text-gray-500 hover:text-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors"
           >
             Clear All
           </button>

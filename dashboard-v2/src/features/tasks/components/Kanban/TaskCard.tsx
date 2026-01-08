@@ -60,7 +60,7 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
             <span className="text-[10px] text-zinc-400 font-mono truncate">
               {task.entity_id}
             </span>
-            <h3 className="text-sm font-medium text-zinc-800 leading-snug group-hover:text-black">
+            <h3 className="text-[13px] font-medium text-zinc-800 leading-snug group-hover:text-black">
               {task.entity_name}
             </h3>
           </div>

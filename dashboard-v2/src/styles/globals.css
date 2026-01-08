@@ -55,7 +55,7 @@
 
   /* Abstractions for repetitive components */
   .btn-filter {
-    @apply px-3 py-1 text-sm rounded-md transition-all duration-100 ease-in-out;
+    @apply px-3 py-1 text-xs rounded-md transition-all duration-100 ease-in-out;
     background-color: white !important;
     color: rgb(var(--color-text-main));
     border: 1px solid rgb(var(--color-border));
@@ -121,6 +121,27 @@ body {
   background-color: rgb(var(--color-bg-main));
   /* No gradient for clean Notion look, or very subtle */
   background-image: none;
+}
+
+/* ===========================================
+   FullCalendar Overrides
+   =========================================== */
+.fc .fc-event {
+  cursor: pointer !important;
+}
+
+.fc-event-title,
+.fc-event-time {
+  font-size: 0.75rem !important;
+  /* text-xs */
+  font-weight: 500 !important;
+}
+
+.fc-daygrid-event {
+  padding: 1px 4px !important;
+  border-radius: 4px !important;
+  margin-bottom: 2px !important;
+  /* Add space between events */
 }
 
 * {

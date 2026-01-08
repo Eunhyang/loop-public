@@ -31,15 +31,15 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     return (
         <div
             ref={menuRef}
-            className="fixed z-50 bg-gray-800 text-white rounded-lg shadow-xl py-1 w-48 border border-gray-700 backdrop-blur-md bg-opacity-90"
+            className="fixed z-50 bg-white text-zinc-800 rounded-lg shadow-xl py-1 w-48 border border-zinc-200"
             style={{ top: y, left: x }}
         >
-            <div className="px-3 py-2 text-xs font-semibold text-gray-400 border-b border-gray-700 mb-1">
+            <div className="px-3 py-2 text-xs font-semibold text-zinc-400 border-b border-zinc-100 mb-1">
                 {dateStr}
             </div>
             <button
                 onClick={() => onAddMeeting(dateStr)}
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 flex items-center gap-2 transition-colors bg-transparent"
             >
                 <span>📅</span>
                 Add Meeting

@@ -14,6 +14,7 @@ interface CalendarViewProps {
     onDatesSet: (arg: any) => void;
     onEventClick: (info: any) => void;
     onDateClick: (info: any) => void;
+    onDateContextMenu: (info: any) => void;
 }
 
 export const CalendarView: React.FC<CalendarViewProps> = ({
@@ -21,7 +22,8 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     calendarRef,
     onDatesSet,
     onEventClick,
-    onDateClick
+    onDateClick,
+    onDateContextMenu
 }) => {
     const { expandMode } = useCalendarUi();
     const { mutate: updateTaskDates } = useUpdateTaskDates();
@@ -37,6 +39,28 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
         // Legacy Sort Logic: Google(0) -> Task(1)
         eventOrder: ['order', 'start', 'duration', 'allDay', 'title'],
+
+        dayCellDidMount: (info: any) => {
+            info.el.addEventListener('contextmenu', (e: MouseEvent) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDateContextMenu({
+                    jsEvent: e,
+                    dateStr: toDateString(info.date)
+                });
+            });
+        },
+
+        slotLaneDidMount: (info: any) => {
+            info.el.addEventListener('contextmenu', (e: MouseEvent) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDateContextMenu({
+                    jsEvent: e,
+                    dateStr: toDateString(info.date)
+                });
+            });
+        },
 
         // View Config
         views: {
@@ -150,10 +174,36 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             });
         }
 
-    }), [expandMode, onDatesSet, onEventClick, onDateClick, updateTaskDates]);
+    }), [expandMode, onDatesSet, onEventClick, onDateClick, onDateContextMenu, updateTaskDates]);
+
+    const handleContextMenu = (e: React.MouseEvent) => {
+        // Use event delegation to find the clicked date
+        let target = e.target as HTMLElement;
+        let dateStr = '';
+        while (target && target !== e.currentTarget) {
+            const d = target.getAttribute('data-date');
+            if (d) {
+                dateStr = d.split('T')[0]; // Handle slot dates like 2024-01-01T00:00:00
+                break;
+            }
+            target = target.parentElement as HTMLElement;
+        }
+
+        if (dateStr) {
+            e.preventDefault();
+            e.stopPropagation();
+            onDateContextMenu({
+                jsEvent: e,
+                dateStr
+            });
+        }
+    };
 
     return (
-        <div className="flex-1 h-full relative calendar-wrapper">
+        <div
+            className="flex-1 h-full relative calendar-wrapper"
+            onContextMenu={handleContextMenu}
+        >
             <FullCalendar
                 ref={calendarRef}
                 events={events} // Reactivty: events array usage

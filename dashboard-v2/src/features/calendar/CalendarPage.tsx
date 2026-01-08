@@ -61,18 +61,12 @@ export default function CalendarPage() {
 
     // Interaction Handlers
     const handleDateClick = (info: any) => {
-        // Right click handled natively? FullCalendar 'dateClick' is left click.
-        // For right click, we need 'contextMenu' on cell.
-        // FullCalendar doesn't expose onContextMenu prop easily on cells.
-        // We might simulate "Add Meeting" on Left Click for simpler UX?
-        // Or user specifically asked for Right Click?
-        // Plan says "Right-click on date cell".
-        // This requires custom JS event delegation or cellDidMount hook.
-        // Let's implement left click for now -> open context menu logic?
-        // Actually, let's stick to simple: Date Click -> Open Menu or Drawer?
-        // Plan: "Right-click on date cell -> Add Meeting".
-        // Implementation: Need 'cellDidMount' in CalendarView to attach listeners.
-        // Simpler fallback: Left Click -> Show Menu.
+        // Clear menus on normal click
+        setContextMenu(null);
+        setPopover(null);
+    };
+
+    const handleDateContextMenu = (info: any) => {
         setContextMenu({
             x: info.jsEvent.clientX,
             y: info.jsEvent.clientY,
@@ -125,6 +119,7 @@ export default function CalendarPage() {
                     onDatesSet={handleDatesSet}
                     onEventClick={handleEventClick}
                     onDateClick={handleDateClick}
+                    onDateContextMenu={handleDateContextMenu}
                 />
 
                 {isGoogleFetching && (
