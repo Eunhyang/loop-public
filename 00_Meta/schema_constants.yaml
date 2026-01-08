@@ -245,13 +245,32 @@ paths:
 # ============================================
 # ID Patterns (엔티티별 ID 정규식)
 # ============================================
+# Updated: Hash+Epoch ID migration (tsk-019-13)
+# New format:
+#   Project: prj-{hash6} (e.g., prj-a7k9m2)
+#   Task: tsk-{hash6}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
+#   Exec Project: prj-exec-{hash6} or prj-{keyword}-{hash6}
+#   Exec Task: tsk-exec-{hash6}-{epoch13} or tsk-{keyword}-{hash6}-{epoch13}
+#
+# Backward compatibility maintained for legacy sequential IDs
+# ============================================
 id_patterns:
   ns: "^ns-\\d{3}$"                                    # ns-001
   mh: "^mh-[1-4]$"                                     # mh-1 ~ mh-4
   cond: "^cond-[a-e]$"                                 # cond-a ~ cond-e
   trk: "^trk-[1-6]$"                                   # trk-1 ~ trk-6
-  prj: "^prj-(\\d{3}|[a-z][a-z0-9-]+)$"               # prj-001 또는 prj-vault-gpt
-  tsk: "^tsk-(\\d{3}-\\d{2}|[a-z][a-z0-9-]+-\\d{2})$" # tsk-001-01 또는 tsk-vault-gpt-01
+  # Project patterns (4 variants):
+  # 1. Legacy sequential: prj-001
+  # 2. New hash: prj-a7k9m2 (6-char hash)
+  # 3. Exec standalone: prj-exec-a7k9m2
+  # 4. Exec program round: prj-tips-a7k9m2 (keyword 3-10 chars)
+  prj: "^prj-(\\d{3}|[a-z0-9]{6}|exec-[a-z0-9]{6}|[a-z]{3,10}-[a-z0-9]{6})$"
+  # Task patterns (4 variants):
+  # 1. Legacy sequential: tsk-001-01
+  # 2. New hash+epoch: tsk-a7k9m2-1736412652123
+  # 3. Exec standalone: tsk-exec-a7k9m2-1736412652123
+  # 4. Exec program round: tsk-primer-a7k9m2-1736412652123
+  tsk: "^tsk-(\\d{3}-\\d{2}|[a-z0-9]{6}-\\d{13}|exec-[a-z0-9]{6}-\\d{13}|[a-z]{3,10}-[a-z0-9]{6}-\\d{13})$"
   hyp: "^hyp-[1-6]-\\d{2}$"                            # hyp-1-01 (Track기반)
   exp: "^exp-\\d{3}$"                                  # exp-001
   pl: "^pl-[1-9]$"                                     # pl-1 ~ pl-9
@@ -629,35 +648,36 @@ cross_vault:
       - source_vault      # "LOOP"
 
   # ============================================
-  # Exec Vault ID 패턴 (SSOT v5.4)
+  # Exec Vault ID 패턴 (SSOT v5.5 - Hash+Epoch)
   # ============================================
   # public vault와 절대 충돌하지 않는 ID 체계
   #
   # 핵심 규칙: exec vault에서 순차 번호(prj-NNN, tsk-NNN-NN) 절대 금지
+  # Updated: Hash+Epoch based IDs (tsk-019-13)
   #
   exec_id_patterns:
     # 1. 민감 단독 프로젝트 (다온, 채용 후보 등)
-    #    - 숫자 prefix 없음, exec- prefix 사용
+    #    - Hash-based IDs with exec prefix
     standalone:
-      project: "^prj-exec-\\d{3}$"    # prj-exec-001
-      task: "^tsk-exec-\\d{3}$"       # tsk-exec-001
+      project: "^prj-exec-[a-z0-9]{6}$"              # prj-exec-a7k9m2
+      task: "^tsk-exec-[a-z0-9]{6}-\\d{13}$"         # tsk-exec-a7k9m2-1736412652123
       examples:
-        - prj-exec-001   # 다온 영상편집자
-        - tsk-exec-001   # 다온 첫 연락
+        - prj-exec-a7k9m2                   # 다온 영상편집자
+        - tsk-exec-a7k9m2-1736412652123     # 다온 첫 연락
 
     # 2. Program Round 프로젝트 (지원사업, 채용 라운드 등)
-    #    - Program 키워드 + Round 키워드 조합
+    #    - Program 키워드 + Hash-based ID
     #    - Program은 public vault에 존재, Round는 exec에 존재
     program_round:
-      project: "^prj-[a-z]+-[a-z0-9-]+$"  # prj-tips-primer, prj-grants-jemi
-      task: "^tsk-[a-z]+-\\d{2}$"          # tsk-primer-01, tsk-grants-jemi-02
+      project: "^prj-[a-z]{3,10}-[a-z0-9]{6}$"                    # prj-tips-a7k9m2, prj-grants-b3x8n1
+      task: "^tsk-[a-z]{3,10}-[a-z0-9]{6}-\\d{13}$"               # tsk-primer-a7k9m2-1736412652123
       examples:
-        - prj-tips-primer     # TIPS 배치 - 프라이머
-        - prj-tips-idp        # TIPS 배치 - 아이디어파트너스
-        - prj-grants-jemi     # 지원사업 - JEMI 디딤돌
-        - prj-grants-youth    # 지원사업 - 청년창업사관학교
-        - tsk-primer-01       # 프라이머 사업계획서 작성
-        - tsk-grants-jemi-01  # JEMI 정산증빙자료 수집
+        - prj-tips-a7k9m2                   # TIPS 배치 - 프라이머
+        - prj-tips-b3x8n1                   # TIPS 배치 - 아이디어파트너스
+        - prj-grants-c9y2m5                 # 지원사업 - JEMI 디딤돌
+        - prj-grants-d4k7p3                 # 지원사업 - 청년창업사관학교
+        - tsk-primer-a7k9m2-1736412652123   # 프라이머 사업계획서 작성
+        - tsk-grants-b3x8n1-1736412652456   # JEMI 정산증빙자료 수집
 
     # 3. 키워드 결정 규칙
     #    - Program: pgm-xxx → xxx (pgm- 제거)

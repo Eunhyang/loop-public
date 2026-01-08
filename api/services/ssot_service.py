@@ -3,7 +3,7 @@ SSOT Service Layer
 ==================
 
 Single Source of Truth (SSOT) Implementation
-- ID 생성 로직 (Project-Scoped Task IDs)
+- ID 생성 로직 (Hash+Epoch based IDs)
 - 파일명 규칙 강제
 - ID 유효성 검증
 
@@ -11,6 +11,9 @@ Ref: public/00_Meta/SSOT_CONTRACT.md Section 11
 """
 
 import re
+import hashlib
+import secrets
+import time
 from pathlib import Path
 from typing import Optional, List, Tuple
 from api.constants import ID_PATTERNS
@@ -68,118 +71,160 @@ class SSOTService:
         return bool(re.match(pattern, entity_id))
 
     # ============================================
-    # 3. ID Generation (Stateful - Scans Filesystem)
+    # 3. Hash Generation Utilities
     # ============================================
 
-    def generate_project_id(self) -> str:
+    @staticmethod
+    def _to_base36(num: int) -> str:
+        """Convert integer to base36 string (lowercase)"""
+        alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
+        if num == 0:
+            return '0'
+        result = ''
+        while num:
+            num, remainder = divmod(num, 36)
+            result = alphabet[remainder] + result
+        return result
+
+    @staticmethod
+    def _generate_hash(entity_name: str, prefix: str, hash_length: int = 6) -> str:
         """
-        새 프로젝트 ID 생성 (prj-NNN)
-        전체 프로젝트 스캔하여 최대 번호 + 1
+        Generate collision-resistant hash for entity ID
+
+        Args:
+            entity_name: Name of entity
+            prefix: ID prefix (prj, tsk, etc)
+            hash_length: Length of hash (default 6 for ~2.2B combinations)
+
+        Returns:
+            Lowercase base36 hash
         """
-        max_num = 0
-        
-        # 50_Projects/{Year}/* 스캔
+        # Use cryptographic randomness
+        salt = secrets.token_hex(16)
+        timestamp = str(time.time_ns())  # nanosecond precision
+
+        # SHA-256 of (prefix + name + timestamp + salt)
+        input_str = f"{prefix}:{entity_name}:{timestamp}:{salt}"
+        hash_bytes = hashlib.sha256(input_str.encode('utf-8')).digest()
+
+        # Convert to base36 (lowercase alphanumeric)
+        hash_int = int.from_bytes(hash_bytes[:4], 'big')
+        hash_str = SSOTService._to_base36(hash_int)[:hash_length].lower()
+
+        # Pad to hash_length if needed
+        if len(hash_str) < hash_length:
+            hash_str = hash_str.zfill(hash_length)
+
+        return hash_str
+
+    def _check_id_exists(self, entity_id: str, entity_type: str) -> bool:
+        """
+        Check if ID already exists in vault
+
+        Scans all entity files of given type for duplicate ID
+
+        Args:
+            entity_id: ID to check
+            entity_type: "Project" or "Task"
+
+        Returns:
+            True if ID exists, False otherwise
+        """
         projects_dir = self.vault_path / "50_Projects"
         if not projects_dir.exists():
-            return "prj-001"
+            return False
 
-        # 재귀적으로 모든 project.md 또는 폴더명 검색
-        # (폴더명 P{num} 패턴이 가장 신뢰할 수 있음)
-        for path in projects_dir.rglob("*"):
-            if path.is_dir() and path.name.startswith("P"):
-                # P001_Name -> 001 extraction
-                match = re.match(r"^P(\d{3})_", path.name)
-                if match:
-                    num = int(match.group(1))
-                    if num > max_num:
-                        max_num = num
-        
-        return f"prj-{max_num + 1:03d}"
+        if entity_type == "Project":
+            # Check all project.md files
+            for proj_file in projects_dir.rglob("project.md"):
+                try:
+                    content = proj_file.read_text(encoding="utf-8")
+                    if f"entity_id: {entity_id}" in content or f'entity_id: "{entity_id}"' in content:
+                        return True
+                except:
+                    pass
+        elif entity_type == "Task":
+            # Check all task files
+            for task_file in projects_dir.rglob("Tasks/*.md"):
+                try:
+                    content = task_file.read_text(encoding="utf-8")
+                    if f"entity_id: {entity_id}" in content:
+                        return True
+                except:
+                    pass
 
-    def generate_task_id(self, project_id: str) -> str:
+        return False
+
+    # ============================================
+    # 4. ID Generation (Stateful - Scans Filesystem)
+    # ============================================
+
+    def generate_project_id(self, entity_name: str = "new-project") -> str:
         """
-        새 Task ID 생성 (tsk-{prj_suffix}-{seq})
-        
+        Generate new Project ID with collision detection
+
+        New format: prj-{hash6} (e.g., prj-a7k9m2)
+
         Args:
-            project_id: prj-023 or prj-n8n-automation
+            entity_name: Project name for hash generation
+
         Returns:
-            tsk-023-01 or tsk-n8n-01
+            Unique Project ID
+
+        Raises:
+            RuntimeError: If unable to generate unique ID after max attempts
+        """
+        max_attempts = 20
+
+        for attempt in range(max_attempts):
+            hash_part = self._generate_hash(entity_name, "prj", hash_length=6)
+            project_id = f"prj-{hash_part}"
+
+            if not self._check_id_exists(project_id, "Project"):
+                return project_id
+
+        # Failure path: raise exception with clear message
+        raise RuntimeError(
+            f"Failed to generate unique Project ID after {max_attempts} attempts. "
+            f"This indicates a serious collision issue or system overload. "
+            f"Entity name: {entity_name}"
+        )
+
+    def generate_task_id(self, project_id: str, entity_name: str = "new-task") -> str:
+        """
+        Generate new Task ID with hash + epoch
+
+        New format: tsk-{hash6}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
+
+        Args:
+            project_id: Parent project ID
+            entity_name: Task name for hash generation
+
+        Returns:
+            Unique Task ID
+
+        Raises:
+            ValueError: If project_id is invalid
+            RuntimeError: If unable to generate unique ID after max attempts
         """
         # 1. Validate Input
         if not project_id:
             raise ValueError("project_id is required for Task ID generation")
-        
-        # Determine prefix (023 or n8n)
-        # prj-023 -> 023
-        # prj-n8n-automation -> n8n (heuristic: first part after prj-)
-        # But schema says: prj-(\d{3}|[a-z][a-z0-9-]+)
-        # For non-numeric, we usually use the first keyword or the whole thing?
-        # entity_generator.py logic: "prj-n8n-entity-autofill → n8n" (parts[0])
-        # Let's trust that logic for consistency.
-        
-        if project_id.startswith("prj-"):
-            full_suffix = project_id[4:]
-            if re.match(r"^\d{3}$", full_suffix):
-                prj_prefix = full_suffix
-            else:
-                # prj-n8n-automation -> n8n
-                prj_prefix = full_suffix.split("-")[0]
-        else:
-            raise ValueError(f"Invalid Project ID format: {project_id}")
 
-        # 2. Find Project Directory
-        # 50_Projects 내에서 P{prj_prefix}_* 또는 prj-ID와 일치하는 폴더 찾기
-        projects_root = self.vault_path / "50_Projects"
-        target_dir = None
-        
-        # Optimized search
-        # 1. Numeric: P023_*
-        if re.match(r"^\d{3}$", prj_prefix):
-             # Numeric: try P023_* and prj-023_*
-             patterns = [f"P{prj_prefix}_*", f"prj-{prj_prefix}_*"]
-             for pat in patterns:
-                 for path in projects_root.rglob(pat):
-                     if path.is_dir():
-                         target_dir = path
-                         break
-                 if target_dir: break
-        else:
-             # Alphanumeric: try prj-{prefix}_* (e.g. prj-n8n_*)
-             for path in projects_root.rglob(f"prj-{prj_prefix}*"):
-                 if path.is_dir():
-                     target_dir = path
-                     break
+        max_attempts = 20
 
-        if not target_dir:
-             # Fallback: Search by entity_id in project.md (Safe fallback)
-             # This handles cases where folder name doesn't match ID at all
-             for proj_file in projects_root.rglob("project.md"):
-                  try:
-                      content = proj_file.read_text(encoding="utf-8")
-                      if f"entity_id: {project_id}" in content:
-                          target_dir = proj_file.parent
-                          break
-                  except:
-                      pass
-        
-        if not target_dir:
-            raise FileNotFoundError(f"Project directory not found for ID: {project_id}")
+        for attempt in range(max_attempts):
+            # Generate hash from task name
+            hash_part = self._generate_hash(entity_name, "tsk", hash_length=6)
+            epoch_ms = int(time.time() * 1000)
 
-        # 3. Scan Existing Tasks
-        tasks_dir = target_dir / "Tasks"
-        max_seq = 0
-        
-        if tasks_dir.exists():
-            # tsk-{prj_prefix}-{seq}.md pattern
-            pattern = re.compile(rf"^tsk-{re.escape(prj_prefix)}-(\d+)")
-            
-            for task_file in tasks_dir.glob("*.md"):
-                match = pattern.match(task_file.name)
-                if match:
-                    seq = int(match.group(1))
-                    if seq > max_seq:
-                        max_seq = seq
-        
-        # 4. Generate Next ID
-        next_seq = max_seq + 1
-        return f"tsk-{prj_prefix}-{next_seq:02d}"
+            task_id = f"tsk-{hash_part}-{epoch_ms}"
+
+            if not self._check_id_exists(task_id, "Task"):
+                return task_id
+
+        raise RuntimeError(
+            f"Failed to generate unique Task ID after {max_attempts} attempts. "
+            f"This indicates a serious collision issue or system overload. "
+            f"Entity name: {entity_name}"
+        )

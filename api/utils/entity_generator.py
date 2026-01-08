@@ -16,6 +16,7 @@ Usage:
 
 import re
 import os
+import time
 from pathlib import Path
 from datetime import date
 from typing import Dict, Any, Optional, Tuple, List
@@ -45,24 +46,32 @@ class EntityGenerator:
         self.templates_dir = self.vault_path / "00_Meta/_TEMPLATES"
         self.ssot_service = SSOTService(self.vault_path)
 
-    def generate_project_id(self, prefix: str = "prj") -> str:
+    def generate_project_id(self, prefix: str = "prj", entity_name: str = "new-project") -> str:
         """
-        다음 Project ID 생성
-        
-        Delegates to SSOTService.
-        """
-        return self.ssot_service.generate_project_id()
+        다음 Project ID 생성 (Hash-based)
 
-    def generate_task_id(self, project_id: Optional[str] = None) -> str:
+        Delegates to SSOTService.
+
+        Args:
+            prefix: Unused (kept for backward compatibility)
+            entity_name: Project name for hash generation
         """
-        다음 Task ID 생성
-        
+        return self.ssot_service.generate_project_id(entity_name)
+
+    def generate_task_id(self, project_id: Optional[str] = None, entity_name: str = "new-task") -> str:
+        """
+        다음 Task ID 생성 (Hash+Epoch based)
+
         Delegates to SSOTService.
         Must provide project_id (SSOT Rule).
+
+        Args:
+            project_id: Parent project ID (required)
+            entity_name: Task name for hash generation
         """
         if not project_id:
              raise ValueError("project_id is required for Task ID generation (SSOT Rule)")
-        return self.ssot_service.generate_task_id(project_id)
+        return self.ssot_service.generate_task_id(project_id, entity_name)
 
     # ============================================
     # Exec Vault ID 생성 (SSOT: schema_constants.yaml v5.4)
@@ -71,54 +80,63 @@ class EntityGenerator:
     def generate_exec_project_id(
         self,
         program_id: Optional[str] = None,
-        round_keyword: Optional[str] = None
+        round_keyword: Optional[str] = None,
+        entity_name: str = "exec-project"
     ) -> str:
         """
-        Exec vault용 Project ID 생성
+        Exec vault용 Project ID 생성 (Hash-based)
 
         SSOT 참조: 00_Meta/schema_constants.yaml > cross_vault.exec_id_patterns
 
         Args:
             program_id: 상위 Program ID (예: "pgm-tips-batch")
             round_keyword: Round 키워드 (예: "primer", "jemi")
+            entity_name: Entity name for hash generation
 
         Returns:
-            - Standalone: "prj-exec-NNN" (program_id 없을 때)
-            - Program Round: "prj-{program}-{round}" (program_id 있을 때)
+            - Standalone: "prj-exec-{hash6}" (e.g., prj-exec-a7k9m2)
+            - Program Round: "prj-{program}-{hash6}" (e.g., prj-tips-a7k9m2)
         """
         if program_id and round_keyword:
-            # Program Round 패턴: prj-tips-primer
+            # Program Round 패턴: prj-tips-a7k9m2
             program_keyword = self._extract_program_keyword(program_id)
-            return f"prj-{program_keyword}-{round_keyword}"
+            hash_part = self.ssot_service._generate_hash(entity_name or round_keyword, "prj", hash_length=6)
+            return f"prj-{program_keyword}-{hash_part}"
         else:
-            # Standalone 패턴: prj-exec-NNN
-            return self._get_next_exec_standalone_project_id()
+            # Standalone 패턴: prj-exec-a7k9m2
+            hash_part = self.ssot_service._generate_hash(entity_name, "prj", hash_length=6)
+            return f"prj-exec-{hash_part}"
 
     def generate_exec_task_id(
         self,
         project_id: str,
-        task_keyword: Optional[str] = None
+        task_keyword: Optional[str] = None,
+        entity_name: str = "exec-task"
     ) -> str:
         """
-        Exec vault용 Task ID 생성
+        Exec vault용 Task ID 생성 (Hash+Epoch based)
 
         SSOT 참조: 00_Meta/schema_constants.yaml > cross_vault.exec_id_patterns
 
         Args:
             project_id: 부모 Project ID
             task_keyword: Task 키워드 (Program Round 시 사용)
+            entity_name: Entity name for hash generation
 
         Returns:
-            - Standalone Project: "tsk-exec-NNN"
-            - Program Round Project: "tsk-{keyword}-NN"
+            - Standalone Project: "tsk-exec-{hash6}-{epoch13}" (e.g., tsk-exec-a7k9m2-1736412652123)
+            - Program Round Project: "tsk-{keyword}-{hash6}-{epoch13}" (e.g., tsk-primer-a7k9m2-1736412652123)
         """
+        hash_part = self.ssot_service._generate_hash(entity_name or task_keyword or project_id, "tsk", hash_length=6)
+        epoch_ms = int(time.time() * 1000)
+
         if project_id.startswith("prj-exec-"):
             # Standalone 프로젝트
-            return self._get_next_exec_standalone_task_id()
+            return f"tsk-exec-{hash_part}-{epoch_ms}"
         else:
             # Program Round 프로젝트
             keyword = task_keyword or self._extract_round_keyword(project_id)
-            return self._get_next_exec_round_task_id(keyword)
+            return f"tsk-{keyword}-{hash_part}-{epoch_ms}"
 
     def _extract_program_keyword(self, program_id: str) -> str:
         """pgm-tips-batch → tips"""
