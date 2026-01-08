@@ -64,12 +64,6 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
         }
     };
 
-    const openObsidian = () => {
-        // Similar to TaskDrawer implementation
-        // File path would need to be added to Task type or constructed from task ID
-        alert("Obsidian link implementation pending (requires file path logic)");
-    };
-
     const renderMarkdown = (text: string): string => {
         if (!text) return '';
 
@@ -206,15 +200,81 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                     onBlur={(e) => handleUpdate('due', e.target.value)}
                 />
 
-                {/* Obsidian Link */}
-                <div className="col-span-2 pt-2">
-                    <button
-                        onClick={openObsidian}
-                        className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline flex items-center gap-1 transition-colors"
-                    >
-                        <span className="text-lg">💎</span> Open in Obsidian
-                    </button>
-                </div>
+                {/* Relations - Project */}
+                {formData?.project_id && (
+                    <>
+                        <label className="text-zinc-500 py-1">Project</label>
+                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                            {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
+                        </span>
+                    </>
+                )}
+
+                {/* Relations - Track (via Project) */}
+                {formData?.project_id && dashboardData?.projects && (() => {
+                    const project = dashboardData.projects.find((p: any) => p.entity_id === formData.project_id);
+                    const trackId = project?.parent_id;
+                    const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
+                    return track ? (
+                        <>
+                            <label className="text-zinc-500 py-1">Track</label>
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                                {track.entity_name}
+                            </span>
+                        </>
+                    ) : null;
+                })()}
+
+                {/* Relations - Conditions */}
+                {formData?.conditions_3y && formData.conditions_3y.length > 0 && (
+                    <>
+                        <label className="text-zinc-500 py-1">Conditions</label>
+                        <div className="flex flex-wrap gap-1">
+                            {formData.conditions_3y.map((condId: string) => {
+                                const condition = dashboardData?.conditions?.find((c: any) => c.entity_id === condId);
+                                return (
+                                    <span key={condId} className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                        {condition?.entity_name || condId}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    </>
+                )}
+
+                {/* Relations - Validates */}
+                {formData?.validates && formData.validates.length > 0 && (
+                    <>
+                        <label className="text-zinc-500 py-1">Validates</label>
+                        <div className="flex flex-wrap gap-1">
+                            {formData.validates.map((hypId: string) => (
+                                <span key={hypId} className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                    {dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId)?.entity_name || hypId}
+                                </span>
+                            ))}
+                        </div>
+                    </>
+                )}
+
+                {/* Relations - Links */}
+                {formData?.links && formData.links.length > 0 && (
+                    <>
+                        <label className="text-zinc-500 py-1">Links</label>
+                        <div className="space-y-1">
+                            {formData.links.map((link: any, idx: number) => (
+                                <a
+                                    key={idx}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block text-xs text-blue-600 hover:underline"
+                                >
+                                    {link.label || link.url}
+                                </a>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
 
             <div className="h-px bg-zinc-200 mx-6 my-2" />
@@ -246,101 +306,6 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                             <span className="text-zinc-400 italic">No notes</span>
                         )}
                     </div>
-                )}
-            </div>
-
-            {/* Relations Section */}
-            <div className="px-6 py-4 bg-zinc-50 rounded-lg mx-6 mb-6 border border-zinc-200">
-                <h3 className="text-sm font-semibold text-zinc-700 mb-3">Relations</h3>
-
-                {/* Project */}
-                {formData?.project_id && (
-                    <div className="mb-3">
-                        <span className="text-xs text-zinc-500 font-medium">Project:</span>
-                        <div className="mt-1">
-                            <span className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
-                                {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
-                            </span>
-                        </div>
-                    </div>
-                )}
-
-                {/* Track (via Project) */}
-                {formData?.project_id && dashboardData?.projects && (
-                    (() => {
-                        const project = dashboardData.projects.find((p: any) => p.entity_id === formData.project_id);
-                        const trackId = project?.parent_id;
-                        const track = trackId ? dashboardData.tracks?.find((t: any) => t.entity_id === trackId) : null;
-
-                        return track ? (
-                            <div className="mb-3">
-                                <span className="text-xs text-zinc-500 font-medium">Track:</span>
-                                <div className="mt-1">
-                                    <span className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
-                                        {track.entity_name}
-                                    </span>
-                                </div>
-                            </div>
-                        ) : null;
-                    })()
-                )}
-
-                {/* Conditions */}
-                {formData?.conditions_3y && formData.conditions_3y.length > 0 && (
-                    <div className="mb-3">
-                        <span className="text-xs text-zinc-500 font-medium">Conditions (3Y):</span>
-                        <div className="mt-1 flex flex-wrap gap-1">
-                            {formData.conditions_3y.map((condId: string) => {
-                                const condition = dashboardData?.conditions?.find((c: any) => c.entity_id === condId);
-                                return (
-                                    <span key={condId} className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
-                                        {condition?.entity_name || condId}
-                                    </span>
-                                );
-                            })}
-                        </div>
-                    </div>
-                )}
-
-                {/* Validates */}
-                {formData?.validates && formData.validates.length > 0 && (
-                    <div className="mb-3">
-                        <span className="text-xs text-zinc-500 font-medium">Validates:</span>
-                        <div className="mt-1 flex flex-wrap gap-1">
-                            {formData.validates.map((hypId: string) => {
-                                const hypothesis = dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId);
-                                return (
-                                    <span key={hypId} className="inline-block px-2 py-1 bg-white border border-zinc-200 rounded text-xs text-zinc-700">
-                                        {hypothesis?.entity_name || hypId}
-                                    </span>
-                                );
-                            })}
-                        </div>
-                    </div>
-                )}
-
-                {/* Links */}
-                {formData?.links && formData.links.length > 0 && (
-                    <div className="mb-3">
-                        <span className="text-xs text-zinc-500 font-medium">Links:</span>
-                        <div className="mt-1 space-y-1">
-                            {formData.links.map((link: any, idx: number) => (
-                                <a
-                                    key={idx}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block text-xs text-blue-600 hover:underline"
-                                >
-                                    {link.label || link.url}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {!formData?.project_id && !formData?.conditions_3y?.length && !formData?.validates?.length && !formData?.links?.length && (
-                    <p className="text-xs text-zinc-500 italic">No relations defined</p>
                 )}
             </div>
         </div>
