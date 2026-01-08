@@ -41,12 +41,13 @@ export type KanbanFiltersState = CombinedFilterState;
  */
 export const applyUrlFilters = (
   tasks: Task[],
-  filters: UrlFilterState,
+  filters: UrlFilterState & { projectIds?: string[] }, // Add projectIds support
   projects: Project[] = []
 ): Task[] => {
   const {
     assignees,
     projectId,
+    projectIds,
     programId,
     dateFilter,
     selectedWeeks,
@@ -62,8 +63,12 @@ export const applyUrlFilters = (
     filtered = filtered.filter((t) => assignees.includes(t.assignee));
   }
 
-  // 2. Project ID filter (single project)
-  if (projectId) {
+  // 2. Project ID filter (single project OR multi-project)
+  // Priority: projectIds > projectId (new UI uses projectIds)
+  if (projectIds && projectIds.length > 0) {
+    filtered = filtered.filter((t) => projectIds.includes(t.project_id));
+  } else if (projectId) {
+    // Legacy single project filter
     filtered = filtered.filter((t) => t.project_id === projectId);
   }
 
@@ -94,8 +99,8 @@ export const applyUrlFilters = (
         match = match && hypMatch;
       }
 
-      // Program filter
-      if (programId) {
+      // Program filter (only when no specific projects selected)
+      if (programId && (!projectIds || projectIds.length === 0)) {
         if (programId === 'none') {
           // Unassigned projects
           match = match && !project.program_id;

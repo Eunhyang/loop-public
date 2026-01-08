@@ -13,7 +13,8 @@ export type DateFilter = 'W' | 'M' | '';
 export interface UrlFilterState {
   // Navigation filters
   assignees: string[];              // Multi-select assignees
-  projectId: string | null;         // Single project filter
+  projectId: string | null;         // Single project filter (legacy)
+  projectIds?: string[];            // Multi-select projects (new UI)
   programId: string | null;         // Program filter: null = All, 'none' = Unassigned, 'pgm-xxx' = Specific
   trackId: string | null;           // Track filter
   hypothesisId: string | null;      // Hypothesis filter

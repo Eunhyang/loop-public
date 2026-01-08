@@ -27,6 +27,8 @@ const KanbanPageContent = () => {
     const combinedFilters: CombinedFilterState = {
       // URL filters
       ...urlFilters,
+      // Explicitly pass projectIds for selector
+      projectIds: urlFilters.projectIds,
       // Add programId from URL (default null if not in old useKanbanFilters)
       programId: (urlFilters as any).programId ?? null,
       // Local filters from FilterContext (map old field names to new)

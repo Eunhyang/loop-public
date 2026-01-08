@@ -61,6 +61,7 @@ export const useKanbanFilters = (): KanbanFilters => {
   const setProjectIds = (ids: string[]) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('project_ids');
+    newParams.delete('project_id'); // Clear legacy param
     ids.forEach(id => newParams.append('project_ids', id));
     setSearchParams(newParams);
   };
@@ -69,6 +70,7 @@ export const useKanbanFilters = (): KanbanFilters => {
     const newParams = new URLSearchParams(searchParams);
     const current = searchParams.getAll('project_ids');
     newParams.delete('project_ids');
+    newParams.delete('project_id'); // Clear legacy param
     if (current.includes(id)) {
       current.filter(p => p !== id).forEach(p => newParams.append('project_ids', p));
     } else {
@@ -84,8 +86,9 @@ export const useKanbanFilters = (): KanbanFilters => {
     } else {
       newParams.delete('program');
     }
-    // Program 변경 시 projectIds 초기화
+    // Program 변경 시 projectIds 초기화 + legacy 제거
     newParams.delete('project_ids');
+    newParams.delete('project_id');
     setSearchParams(newParams);
   };
 

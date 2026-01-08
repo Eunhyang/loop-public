@@ -56,37 +56,32 @@ export const TaskCard = ({ task, index, onClick }: KanbanCardProps) => {
           aria-label={`Task: ${task.entity_name}`}
         >
           {/* Task ID and name */}
-          <div className="flex flex-col gap-1 mb-2">
-            <span className="text-[10px] text-zinc-400 font-mono truncate">
-              {task.entity_id}
-            </span>
-            <h3 className="text-sm font-medium text-zinc-800 leading-snug group-hover:text-black">
+          <div className="flex items-start justify-between mb-2">
+            <h3 className="text-sm font-medium text-zinc-800 flex-1 mr-2 leading-snug group-hover:text-black">
               {task.entity_name}
             </h3>
+            <span className="text-xs text-zinc-400 font-mono truncate">
+              {task.entity_id}
+            </span>
           </div>
 
-          {/* Due date and Assignee info row */}
-          {(task.due || task.assignee) && (
-            <div className="flex items-center justify-between text-[11px] text-zinc-500 mb-2">
-              <div className="flex items-center">
-                {task.due && (
-                  <>
-                    <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                    </svg>
-                    {task.due}
-                  </>
-                )}
-              </div>
+          {/* Assignee */}
+          {task.assignee && (
+            <div className="flex items-center text-xs text-zinc-500 mb-2">
+              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+              {task.assignee}
+            </div>
+          )}
 
-              {task.assignee && (
-                <div className="flex items-center">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
-                  {task.assignee}
-                </div>
-              )}
+          {/* Due date */}
+          {task.due && (
+            <div className="flex items-center text-xs text-zinc-500 mb-2">
+              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+              </svg>
+              {task.due}
             </div>
           )}
 

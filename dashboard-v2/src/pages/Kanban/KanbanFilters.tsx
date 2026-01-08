@@ -91,8 +91,14 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
 
   // Handlers
   const handleAllClick = () => {
-    setProgramId(null);
-    setProjectIds([]);
+    // Clear all project filters in one batch to prevent race condition
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.delete('program');
+    newParams.delete('project_ids');
+    newParams.delete('project_id'); // Clear legacy param too
+    window.history.replaceState({}, '', `${window.location.pathname}?${newParams.toString()}`);
+    // Force re-render by updating URL
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleProgramClick = (progId: string) => {
@@ -109,11 +115,22 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
   };
 
   const handleIndependentProjectClick = (projId: string) => {
-    // Clear program when clicking independent project
-    if (programId) {
-      setProgramId(null);
+    // Clear program and toggle project in one batch
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.delete('program');
+    newParams.delete('project_id'); // Clear legacy param
+
+    // Toggle project_ids
+    const current = new URLSearchParams(window.location.search).getAll('project_ids');
+    newParams.delete('project_ids');
+    if (current.includes(projId)) {
+      current.filter(p => p !== projId).forEach(p => newParams.append('project_ids', p));
+    } else {
+      [...current, projId].forEach(p => newParams.append('project_ids', p));
     }
-    toggleProjectId(projId);
+
+    window.history.replaceState({}, '', `${window.location.pathname}?${newParams.toString()}`);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   // Toggle functions for date/assignee
@@ -142,115 +159,36 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
   };
 
   return (
-    <div className="glass-moderate border-b border-white/5 p-4 rounded-lg mb-4">
-      {/* Assignee tabs (multi-select) */}
-      <div className="mb-4">
-        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-          Assignee
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {members.map((member) => {
-            const isActive = assignees.includes(member.id);
-            return (
-              <button
-                key={member.id}
-                onClick={() => toggleAssignee(member.id)}
-                className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
-              >
-                {member.name}
-              </button>
-            );
-          })}
+    <div className="glass-moderate border-b border-white/5 p-4 rounded-lg mb-4 flex flex-col gap-6">
+      {/* Top Row: Assignee (Left) and Due Date (Right) */}
+      <div className="flex justify-between items-start gap-8">
+        {/* Assignee (Left) */}
+        <div className="flex-1 min-w-0">
+          <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+            Assignee
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {members.map((member) => {
+              const isActive = assignees.includes(member.id);
+              return (
+                <button
+                  key={member.id}
+                  onClick={() => toggleAssignee(member.id)}
+                  className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
+                >
+                  {member.name}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Program/Project buttons */}
-      <div className="mb-4">
-        <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-          Project
-        </label>
-        <div className="flex flex-wrap items-center gap-2">
-          {/* All button */}
-          <button
-            onClick={handleAllClick}
-            className={`btn-filter ${isAllActive ? 'btn-filter-active' : ''}`}
-          >
-            All
-            <span className="filter-count">{totalTasks}</span>
-          </button>
-
-          {/* Program buttons */}
-          {programsWithTasks.map(prog => {
-            const isActive = programId === prog.entity_id;
-            return (
-              <button
-                key={prog.entity_id}
-                onClick={() => handleProgramClick(prog.entity_id)}
-                className={`btn-filter btn-filter-program ${isActive ? 'btn-filter-active' : ''}`}
-              >
-                {prog.entity_name}
-                <span className="filter-count">{prog.taskCount}</span>
-              </button>
-            );
-          })}
-
-          {/* Separator + Child projects (when program selected) */}
-          {programId && childProjects.length > 0 && (
-            <>
-              <span className="filter-separator">│</span>
-              {/* All in Program */}
-              <button
-                onClick={() => setProjectIds([])}
-                className={`btn-filter btn-filter-child ${projectIds.length === 0 ? 'btn-filter-active' : ''}`}
-              >
-                All
-                <span className="filter-count">
-                  {childProjects.reduce((sum, p) => sum + p.taskCount, 0)}
-                </span>
-              </button>
-              {/* Child project buttons */}
-              {childProjects.map(proj => {
-                const isActive = projectIds.includes(proj.entity_id);
-                return (
-                  <button
-                    key={proj.entity_id}
-                    onClick={() => handleChildProjectClick(proj.entity_id)}
-                    className={`btn-filter btn-filter-child ${isActive ? 'btn-filter-active' : ''}`}
-                  >
-                    {proj.entity_name}
-                    <span className="filter-count">{proj.taskCount}</span>
-                  </button>
-                );
-              })}
-            </>
-          )}
-
-          {/* Independent project buttons */}
-          {independentProjects.map(proj => {
-            const isActive = projectIds.includes(proj.entity_id) && !programId;
-            return (
-              <button
-                key={proj.entity_id}
-                onClick={() => handleIndependentProjectClick(proj.entity_id)}
-                className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
-              >
-                {proj.entity_name}
-                <span className="filter-count">{proj.taskCount}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Date filters and actions */}
-      <div className="flex items-end gap-4">
-        {/* Quick Date Multi-Select */}
-        <div>
+        {/* Due Date (Right) */}
+        <div className="shrink-0 flex flex-col items-end">
           <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
             Due Date
           </label>
           <div className="flex items-center gap-2">
-            {/* Mode Toggle */}
             <div className="flex">
               <button
                 onClick={() => setDateMode('week')}
@@ -266,41 +204,113 @@ export const KanbanFilters = ({ filters, members, projects, programs = [], tasks
               </button>
             </div>
 
-            {/* Week/Month Buttons */}
             <div className="flex gap-1">
               {dateMode === 'week'
                 ? weekOptions.map(({ key, label, isCurrent }) => {
-                    const isSelected = selectedWeeks.includes(key);
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => toggleWeek(key)}
-                        className={`btn-filter ${isSelected ? 'btn-filter-active' : ''} ${isCurrent && !isSelected ? '!ring-1 !ring-primary/50' : ''}`}
-                        title={key}
-                      >
-                        {label}
-                      </button>
-                    );
-                  })
+                  const isSelected = selectedWeeks.includes(key);
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => toggleWeek(key)}
+                      className={`btn-filter ${isSelected ? 'btn-filter-active' : ''} ${isCurrent && !isSelected ? '!ring-1 !ring-primary/50' : ''}`}
+                      title={key}
+                    >
+                      {label}
+                    </button>
+                  );
+                })
                 : monthOptions.map(({ key, label, isCurrent }) => {
-                    const isSelected = selectedMonths.includes(key);
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => toggleMonth(key)}
-                        className={`btn-filter ${isSelected ? 'btn-filter-active' : ''} ${isCurrent && !isSelected ? '!ring-1 !ring-primary/50' : ''}`}
-                        title={key}
-                      >
-                        {label}
-                      </button>
-                    );
-                  })}
+                  const isSelected = selectedMonths.includes(key);
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => toggleMonth(key)}
+                      className={`btn-filter ${isSelected ? 'btn-filter-active' : ''} ${isCurrent && !isSelected ? '!ring-1 !ring-primary/50' : ''}`}
+                      title={key}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Action Buttons */}
-        <div className="self-end ml-auto flex items-center gap-3">
+      {/* Bottom Row: Project (Left) and Actions (Right) */}
+      <div className="flex justify-between items-end gap-6">
+        <div className="flex-1">
+          <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+            Project
+          </label>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={handleAllClick}
+              className={`btn-filter ${isAllActive ? 'btn-filter-active' : ''}`}
+            >
+              All
+              <span className="filter-count">{totalTasks}</span>
+            </button>
+
+            {programsWithTasks.map(prog => {
+              const isActive = programId === prog.entity_id;
+              return (
+                <button
+                  key={prog.entity_id}
+                  onClick={() => handleProgramClick(prog.entity_id)}
+                  className={`btn-filter btn-filter-program ${isActive ? 'btn-filter-active' : ''}`}
+                >
+                  {prog.entity_name}
+                  <span className="filter-count">{prog.taskCount}</span>
+                </button>
+              );
+            })}
+
+            {programId && childProjects.length > 0 && (
+              <>
+                <span className="filter-separator">│</span>
+                <button
+                  onClick={() => setProjectIds([])}
+                  className={`btn-filter btn-filter-child ${projectIds.length === 0 ? 'btn-filter-active' : ''}`}
+                >
+                  All
+                  <span className="filter-count">
+                    {childProjects.reduce((sum, p) => sum + p.taskCount, 0)}
+                  </span>
+                </button>
+                {childProjects.map(proj => {
+                  const isActive = projectIds.includes(proj.entity_id);
+                  return (
+                    <button
+                      key={proj.entity_id}
+                      onClick={() => handleChildProjectClick(proj.entity_id)}
+                      className={`btn-filter btn-filter-child ${isActive ? 'btn-filter-active' : ''}`}
+                    >
+                      {proj.entity_name}
+                      <span className="filter-count">{proj.taskCount}</span>
+                    </button>
+                  );
+                })}
+              </>
+            )}
+
+            {independentProjects.map(proj => {
+              const isActive = projectIds.includes(proj.entity_id) && !programId;
+              return (
+                <button
+                  key={proj.entity_id}
+                  onClick={() => handleIndependentProjectClick(proj.entity_id)}
+                  className={`btn-filter ${isActive ? 'btn-filter-active' : ''}`}
+                >
+                  {proj.entity_name}
+                  <span className="filter-count">{proj.taskCount}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={togglePanel}
             className={`btn-filter flex items-center gap-2 ${isPanelOpen ? 'btn-filter-active' : ''}`}
