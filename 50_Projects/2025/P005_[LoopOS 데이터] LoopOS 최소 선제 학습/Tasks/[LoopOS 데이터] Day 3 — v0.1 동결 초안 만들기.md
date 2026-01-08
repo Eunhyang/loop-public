@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-08'
+due: '2026-01-10'
 priority: medium
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-08'
+start_date: '2026-01-10'
 notes: '# \[LoopOS 데이터\] Day 3 — v0.1 동결 초안 만들기
 
 

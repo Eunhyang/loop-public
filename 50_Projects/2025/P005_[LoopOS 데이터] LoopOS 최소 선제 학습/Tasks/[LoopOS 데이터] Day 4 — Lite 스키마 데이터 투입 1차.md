@@ -85,6 +85,7 @@ notes: '# \[LoopOS 데이터\] Day 4 — Lite 스키마 데이터 투입 1차
 
 
   **Created**: 2025-12-18 **Assignee**: 김은향 **Due**: 2025-12-17'
+type: dev
 ---
 # [LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차
 
