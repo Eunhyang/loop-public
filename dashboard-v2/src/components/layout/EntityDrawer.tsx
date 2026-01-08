@@ -1,7 +1,6 @@
-import { useRef } from 'react';
 import { useUi } from '@/contexts/UiContext';
 import { DrawerShell } from '@/components/common/DrawerShell';
-import { TaskForm, type TaskFormHandle } from '@/features/tasks/components/TaskForm';
+import { TaskForm } from '@/features/tasks/components/TaskForm';
 import { useDeleteTask } from '@/features/tasks/queries';
 import { ProjectForm } from '@/features/projects/components/ProjectForm';
 import { useDeleteProject } from '@/features/projects/queries';
@@ -23,11 +22,10 @@ import { ConditionForm } from '@/features/strategy/components/ConditionForm';
  * - hypothesis (CRUD)
  */
 export function EntityDrawer() {
-  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand } = useUi();
+  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand, canGoBack, popDrawer } = useUi();
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: deleteProject } = useDeleteProject();
   const { mutate: deleteProgram } = useDeleteProgram();
-  const taskFormRef = useRef<TaskFormHandle>(null);
 
   if (!activeEntityDrawer) return null;
 
@@ -93,12 +91,6 @@ export function EntityDrawer() {
     }
   };
 
-  // Handle save action (for tasks with notes)
-  const handleSave = () => {
-    taskFormRef.current?.saveNotes();
-    closeEntityDrawer();
-  };
-
   // Render footer (task/project/program edit mode)
   const renderFooter = () => {
     if (mode !== 'edit') return undefined;
@@ -114,22 +106,12 @@ export function EntityDrawer() {
         >
           Delete {entityLabel}
         </button>
-        <div className="flex gap-2">
-          <button
-            onClick={closeEntityDrawer}
-            className="px-3 py-1.5 text-sm text-zinc-500 hover:text-zinc-900 hover:bg-gray-100 rounded transition-colors"
-          >
-            Close
-          </button>
-          {type === 'task' && (
-            <button
-              onClick={handleSave}
-              className="px-3 py-1 text-xs !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded font-semibold transition-all"
-            >
-              Save
-            </button>
-          )}
-        </div>
+        <button
+          onClick={closeEntityDrawer}
+          className="px-3 py-1.5 text-sm text-zinc-500 hover:text-zinc-900 hover:bg-gray-100 rounded transition-colors"
+        >
+          Close
+        </button>
       </div>
     );
   };
@@ -138,7 +120,7 @@ export function EntityDrawer() {
   const renderForm = () => {
     switch (type) {
       case 'task':
-        return <TaskForm ref={taskFormRef} mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
+        return <TaskForm mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
       case 'project':
         return <ProjectForm mode={mode as 'create' | 'edit'} id={id} prefill={prefill} />;
       case 'program':
@@ -164,6 +146,8 @@ export function EntityDrawer() {
       isExpanded={isDrawerExpanded}
       onToggleExpand={type === 'task' ? toggleDrawerExpand : undefined}
       showExpandButton={type === 'task'}
+      onBack={popDrawer}
+      showBackButton={canGoBack}
       footer={renderFooter()}
     >
       {renderForm()}

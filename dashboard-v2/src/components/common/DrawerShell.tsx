@@ -10,6 +10,8 @@ export interface DrawerShellProps {
   isExpanded?: boolean;
   onToggleExpand?: () => void;
   showExpandButton?: boolean;
+  onBack?: () => void;
+  showBackButton?: boolean;
   footer?: ReactNode;
 }
 
@@ -35,6 +37,8 @@ export function DrawerShell({
   isExpanded = false,
   onToggleExpand,
   showExpandButton = false,
+  onBack,
+  showBackButton = false,
   footer
 }: DrawerShellProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -144,15 +148,30 @@ export function DrawerShell({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 flex-shrink-0">
-          <div className="flex-1 min-w-0">
-            <h2 id={titleId} className="text-xl font-semibold text-gray-900 truncate">
-              {title}
-            </h2>
-            {subtitle && (
-              <p id={subtitleId} className="text-sm text-gray-500 mt-1">
-                {subtitle}
-              </p>
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            {/* Back Button */}
+            {showBackButton && onBack && (
+              <button
+                onClick={onBack}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+                aria-label="Go back"
+                title="Back"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
             )}
+            <div className="flex-1 min-w-0">
+              <h2 id={titleId} className="text-xl font-semibold text-gray-900 truncate">
+                {title}
+              </h2>
+              {subtitle && (
+                <p id={subtitleId} className="text-sm text-gray-500 mt-1">
+                  {subtitle}
+                </p>
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-2 ml-4 flex-shrink-0">
             {showExpandButton && onToggleExpand && (

@@ -56,7 +56,8 @@
   /* Abstractions for repetitive components */
   .btn-filter {
     @apply px-3 py-1 text-xs rounded-md transition-all duration-100 ease-in-out;
-    position: relative;  /* Added: drawer-icon positioning anchor */
+    position: relative;
+    /* Added: drawer-icon positioning anchor */
     background-color: white !important;
     color: rgb(var(--color-text-main));
     border: 1px solid rgb(var(--color-border));
@@ -68,10 +69,20 @@
   }
 
   .btn-filter-active {
-    background-color: #646cff !important;
-    color: #ffffff !important;
-    border-color: #646cff !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: #f0f9ff !important;
+    color: #082f49 !important;
+    border-color: #bae6fd !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+  }
+
+  /* Catch-all for hardcoded dark active states to ensure visibility */
+  button.bg-zinc-900,
+  button[class*="bg-zinc-900"] {
+    background-color: #f0f9ff !important;
+    color: #082f49 !important;
+    border-color: #bae6fd !important;
+    box-shadow: none !important;
   }
 
   .input-filter {

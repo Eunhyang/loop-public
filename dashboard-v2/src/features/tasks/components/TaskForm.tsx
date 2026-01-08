@@ -1,8 +1,10 @@
-import { useState, forwardRef, useImperativeHandle } from 'react';
+import { useState } from 'react';
 import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
+import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
+import { statusColors, priorityColors, getColor } from '@/components/common/chipColors';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
@@ -11,17 +13,13 @@ interface TaskFormProps {
     prefill?: Partial<Task>;
 }
 
-export interface TaskFormHandle {
-    saveNotes: () => void;
-}
-
-export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, prefill }, ref) => {
+export const TaskForm = ({ mode, id, prefill }: TaskFormProps) => {
     // view/edit 모두 useTask로 전체 데이터 로드
     const { data: task, isLoading } = useTask(mode !== 'create' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
     const { mutate: createTask, isPending, error } = useCreateTask();
     const { data: dashboardData } = useDashboardInit();
-    const { openEntityDrawer, closeEntityDrawer } = useUi();
+    const { pushDrawer, closeEntityDrawer } = useUi();
 
     const isReadOnly = mode === 'view';
 
@@ -42,12 +40,21 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
     // For edit mode, use task data
     const formData = mode === 'create' ? prefill : task;
 
-    // Expose saveNotes method via ref (kept for compatibility, but autosave handles it now)
-    useImperativeHandle(ref, () => ({
-        saveNotes: () => {
-            // Notes are now auto-saved via MarkdownEditor onBlur
-        }
-    }));
+    // Chip options for status and priority
+    const statusOptions: ChipOption[] = [
+        { value: 'todo', label: 'To Do', color: getColor('todo', statusColors) },
+        { value: 'doing', label: 'Doing', color: getColor('doing', statusColors) },
+        { value: 'hold', label: 'Hold', color: getColor('hold', statusColors) },
+        { value: 'blocked', label: 'Blocked', color: getColor('blocked', statusColors) },
+        { value: 'done', label: 'Done', color: getColor('done', statusColors) },
+    ];
+
+    const priorityOptions: ChipOption[] = [
+        { value: 'critical', label: 'Critical', color: getColor('critical', priorityColors) },
+        { value: 'high', label: 'High', color: getColor('high', priorityColors) },
+        { value: 'medium', label: 'Medium', color: getColor('medium', priorityColors) },
+        { value: 'low', label: 'Low', color: getColor('low', priorityColors) },
+    ];
 
     // view/edit 모드 로딩 처리
     if ((mode === 'edit' || mode === 'view') && (isLoading || !task)) {
@@ -330,17 +337,14 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                         {formData?.status}
                     </span>
                 ) : (
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={formData?.status}
-                        onChange={(e) => handleUpdate('status', e.target.value)}
-                    >
-                        <option value="todo">To Do</option>
-                        <option value="doing">Doing</option>
-                        <option value="hold">Hold</option>
-                        <option value="blocked">Blocked</option>
-                        <option value="done">Done</option>
-                    </select>
+                    <div className="py-1">
+                        <ChipSelect
+                            options={statusOptions}
+                            value={formData?.status || 'todo'}
+                            onChange={(value) => handleUpdate('status', value)}
+                            aria-label="Task status"
+                        />
+                    </div>
                 )}
 
                 {/* Priority */}
@@ -350,16 +354,14 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                         {formData?.priority || 'medium'}
                     </span>
                 ) : (
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={formData?.priority}
-                        onChange={(e) => handleUpdate('priority', e.target.value)}
-                    >
-                        <option value="critical">Critical</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
+                    <div className="py-1">
+                        <ChipSelect
+                            options={priorityOptions}
+                            value={formData?.priority || 'medium'}
+                            onChange={(value) => handleUpdate('priority', value)}
+                            aria-label="Task priority"
+                        />
+                    </div>
                 )}
 
                 {/* Assignee */}
@@ -431,7 +433,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                         <label className="text-zinc-500 py-1">Project</label>
                         <span
                             className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                            onClick={() => openEntityDrawer({ type: 'project', mode: 'edit', id: formData.project_id! })}
+                            onClick={() => pushDrawer({ type: 'project', mode: 'edit', id: formData.project_id! })}
                         >
                             {dashboardData?.projects?.find((p: any) => p.entity_id === formData.project_id)?.entity_name || formData.project_id}
                         </span>
@@ -448,7 +450,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                             <label className="text-zinc-500 py-1">Track</label>
                             <span
                                 className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                onClick={() => openEntityDrawer({ type: 'track', mode: 'view', id: trackId! })}
+                                onClick={() => pushDrawer({ type: 'track', mode: 'view', id: trackId! })}
                             >
                                 {track.entity_name}
                             </span>
@@ -467,7 +469,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                                     <span
                                         key={condId}
                                         className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                        onClick={() => openEntityDrawer({ type: 'condition', mode: 'view', id: condId })}
+                                        onClick={() => pushDrawer({ type: 'condition', mode: 'view', id: condId })}
                                     >
                                         {condition?.entity_name || condId}
                                     </span>
@@ -486,7 +488,7 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
                                 <span
                                     key={hypId}
                                     className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                    onClick={() => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                                    onClick={() => pushDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
                                 >
                                     {dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId)?.entity_name || hypId}
                                 </span>
@@ -535,4 +537,4 @@ export const TaskForm = forwardRef<TaskFormHandle, TaskFormProps>(({ mode, id, p
             </div>
         </div>
     );
-});
+};

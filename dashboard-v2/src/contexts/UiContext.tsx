@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react';
 
 // Active Modal State Pattern (LEGACY - to be deprecated)
 type ActiveModalType = null | 'createProject' | 'createProgram';
@@ -19,6 +19,7 @@ interface UiContextType {
     // Entity Drawer System
     activeEntityDrawer: ActiveEntityDrawer;
     isDrawerExpanded: boolean;
+    canGoBack: boolean;  // Navigation stack depth > 1
 
     // Command Palette
     isCommandPaletteOpen: boolean;
@@ -30,6 +31,8 @@ interface UiContextType {
 
     // Entity Drawer Actions
     openEntityDrawer: (drawer: NonNullable<ActiveEntityDrawer>) => void;
+    pushDrawer: (drawer: NonNullable<ActiveEntityDrawer>) => void;
+    popDrawer: () => void;
     closeEntityDrawer: () => void;
     toggleDrawerExpand: () => void;
 
@@ -42,9 +45,13 @@ const UiContext = createContext<UiContextType | undefined>(undefined);
 
 export function UiProvider({ children }: { children: ReactNode }) {
     const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
-    const [activeEntityDrawer, setActiveEntityDrawer] = useState<ActiveEntityDrawer>(null);
+    const [drawerStack, setDrawerStack] = useState<ActiveEntityDrawer[]>([]);
     const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+    // Derived state - activeEntityDrawer is the top of the stack
+    const activeEntityDrawer = useMemo(() => drawerStack.at(-1) ?? null, [drawerStack]);
+    const canGoBack = useMemo(() => drawerStack.length > 1, [drawerStack]);
 
     // Modal Actions (LEGACY)
     const openCreateProject = useCallback(() => setActiveModal('createProject'), []);
@@ -53,14 +60,31 @@ export function UiProvider({ children }: { children: ReactNode }) {
 
     // Entity Drawer Actions
     const openEntityDrawer = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
-        setActiveEntityDrawer(drawer);
+        // Start a fresh stack with this drawer (backward compatibility)
+        setDrawerStack([drawer]);
+        // Reset expansion state (avoid stale expand state on new drawer)
+        setIsDrawerExpanded(false);
         // Close any legacy modals and command palette
         setActiveModal(null);
         setIsCommandPaletteOpen(false);
     }, []);
 
+    const pushDrawer = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
+        // Add drawer to navigation stack
+        setDrawerStack(prev => [...prev, drawer]);
+        // Close any legacy modals and command palette
+        setActiveModal(null);
+        setIsCommandPaletteOpen(false);
+    }, []);
+
+    const popDrawer = useCallback(() => {
+        // Go back to previous drawer (no-op if only one drawer)
+        setDrawerStack(prev => prev.length > 1 ? prev.slice(0, -1) : prev);
+    }, []);
+
     const closeEntityDrawer = useCallback(() => {
-        setActiveEntityDrawer(null);
+        // Clear entire navigation stack
+        setDrawerStack([]);
         setIsDrawerExpanded(false);  // Reset expand state when closing
     }, []);
 
@@ -92,7 +116,10 @@ export function UiProvider({ children }: { children: ReactNode }) {
             // Entity Drawer
             activeEntityDrawer,
             isDrawerExpanded,
+            canGoBack,
             openEntityDrawer,
+            pushDrawer,
+            popDrawer,
             closeEntityDrawer,
             toggleDrawerExpand,
             // Command Palette

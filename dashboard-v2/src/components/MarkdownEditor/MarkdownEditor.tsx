@@ -34,6 +34,15 @@ export const MarkdownEditor = ({
 }: MarkdownEditorProps) => {
   const isInitialMount = useRef(true)
   const lastValue = useRef(value)
+  const isProgrammaticUpdate = useRef(false)
+
+  // Debounced onChange to avoid excessive calls
+  const debouncedOnChange = useDebouncedCallback((md: string) => {
+    if (onChange) {
+      lastValue.current = md // Update lastValue on user edits
+      onChange(md)
+    }
+  }, 300)
 
   const editor = useEditor({
     extensions: [...createExtensions(placeholder), SlashCommandExtension],
@@ -49,6 +58,12 @@ export const MarkdownEditor = ({
       // Don't emit changes in readOnly mode
       if (readOnly) return
 
+      // Skip onChange for programmatic updates (from external value changes)
+      if (isProgrammaticUpdate.current) {
+        isProgrammaticUpdate.current = false
+        return
+      }
+
       // Get markdown from editor
       const markdown = getMarkdownFromEditor(editor)
 
@@ -57,17 +72,12 @@ export const MarkdownEditor = ({
     },
     onBlur: () => {
       if (!readOnly) {
+        // Flush pending debounced changes immediately on blur
+        debouncedOnChange.flush()
         onBlur?.()
       }
     },
   })
-
-  // Debounced onChange to avoid excessive calls
-  const debouncedOnChange = useDebouncedCallback((md: string) => {
-    if (onChange) {
-      onChange(md)
-    }
-  }, 300)
 
   // Sync external value changes to editor
   useEffect(() => {
@@ -88,6 +98,8 @@ export const MarkdownEditor = ({
 
     // Only update if different from current content
     if (value !== currentMarkdown) {
+      // Set flag to prevent onChange from firing
+      isProgrammaticUpdate.current = true
       // Update content without adding to history
       editor.commands.setContent(value)
       lastValue.current = value
