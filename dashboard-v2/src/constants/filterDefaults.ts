@@ -14,6 +14,7 @@ export const DEFAULT_URL_FILTERS: UrlFilterState = {
   // Navigation filters
   assignees: [],
   projectId: null,
+  projectIds: [],
   programId: null,
   trackId: null,
   hypothesisId: null,
