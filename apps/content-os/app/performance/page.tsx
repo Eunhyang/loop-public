@@ -114,7 +114,7 @@ export default function PerformancePage() {
     error,
     refetch,
     isFetching,
-  } = usePerformanceData({ maxResults: 30 });
+  } = usePerformanceData({ maxResults: 100 });
 
   // Use API data or fallback to dummy data
   const rawData = useMemo(() => {

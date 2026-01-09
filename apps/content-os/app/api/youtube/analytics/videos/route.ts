@@ -12,8 +12,23 @@ import { dummyPerformanceData } from "@/app/performance/data/dummy-performance";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const maxResults = parseInt(searchParams.get("maxResults") || "20", 10);
+  const maxResultsParam = searchParams.get("maxResults") || "20";
+  const maxResults = parseInt(maxResultsParam, 10);
   const useDummy = searchParams.get("dummy") === "true";
+
+  // Validate maxResults parameter
+  if (isNaN(maxResults) || maxResults < 0) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "INVALID_PARAMETER",
+          message: "maxResults must be a non-negative number",
+        },
+      },
+      { status: 400 }
+    );
+  }
 
   // If explicitly requesting dummy data, return it
   if (useDummy) {

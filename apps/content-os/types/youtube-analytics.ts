@@ -176,6 +176,10 @@ export interface VideoMetrics {
   averageViewDuration: number;
   /** Average percentage of video watched (0-100) */
   averageViewPercentage?: number;
+  /** Impressions count (video shown to viewers) */
+  impressions?: number;
+  /** Click-through rate (0-1 decimal, not percentage) */
+  impressionsCtr?: number;
   /** Likes received */
   likes?: number;
   /** Comments received */

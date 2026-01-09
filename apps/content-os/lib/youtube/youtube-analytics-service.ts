@@ -22,14 +22,14 @@ const YOUTUBE_ANALYTICS_API = "https://youtubeanalytics.googleapis.com/v2/report
 const YOUTUBE_DATA_API = "https://www.googleapis.com/youtube/v3";
 
 /**
- * Diagnostic thresholds (same as dummy-performance.ts)
+ * Diagnostic thresholds
  */
 const THRESHOLDS = {
-  MIN_VIEWS: 100, // Minimum views to diagnose (using views instead of impressions)
-  CTR_LOW: 5, // CTR below 5% is considered low (simulated)
+  MIN_VIEWS: 100, // Minimum views to diagnose
+  CTR_LOW: 5, // CTR below 5% is considered low
   WATCH_RATIO_LOW: 0.3, // Watch time below 30% of duration
   EXPANSION_RATIO: 3, // 7d views should be 3x of 24h
-  CTR_HIGH: 8, // CTR above 8% is good (simulated)
+  CTR_HIGH: 8, // CTR above 8% is good
 };
 
 // ============================================================================
@@ -129,6 +129,7 @@ async function fetchAnalytics(
 
 /**
  * Fetch video details from YouTube Data API
+ * Automatically chunks requests to handle 50+ video IDs
  */
 async function fetchVideoDetails(
   accessToken: string,
@@ -148,23 +149,16 @@ async function fetchVideoDetails(
     return new Map();
   }
 
-  const params = new URLSearchParams({
-    part: "snippet,contentDetails",
-    id: videoIds.join(","),
-  });
+  // Chunk video IDs to respect YouTube Data API limit (50 per request)
+  const chunkArray = <T,>(array: T[], size: number): T[][] => {
+    const chunks: T[][] = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunks.push(array.slice(i, i + size));
+    }
+    return chunks;
+  };
 
-  const response = await fetch(`${YOUTUBE_DATA_API}/videos?${params.toString()}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw mapAPIError(response.status, error.error || error);
-  }
-
-  const data = await response.json();
+  const videoIdChunks = chunkArray(videoIds, 50);
   const videoMap = new Map<
     string,
     {
@@ -175,51 +169,72 @@ async function fetchVideoDetails(
     }
   >();
 
-  for (const item of data.items || []) {
-    videoMap.set(item.id, {
-      title: item.snippet.title,
-      thumbnailUrl:
-        item.snippet.thumbnails?.high?.url ||
-        item.snippet.thumbnails?.medium?.url ||
-        item.snippet.thumbnails?.default?.url,
-      publishedAt: item.snippet.publishedAt,
-      duration: parseDuration(item.contentDetails.duration),
-    });
-  }
+  // Fetch all chunks in parallel
+  await Promise.all(
+    videoIdChunks.map(async (chunk) => {
+      const params = new URLSearchParams({
+        part: "snippet,contentDetails",
+        id: chunk.join(","),
+      });
+
+      const response = await fetch(`${YOUTUBE_DATA_API}/videos?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw mapAPIError(response.status, error.error || error);
+      }
+
+      const data = await response.json();
+
+      for (const item of data.items || []) {
+        videoMap.set(item.id, {
+          title: item.snippet.title,
+          thumbnailUrl:
+            item.snippet.thumbnails?.high?.url ||
+            item.snippet.thumbnails?.medium?.url ||
+            item.snippet.thumbnails?.default?.url,
+          publishedAt: item.snippet.publishedAt,
+          duration: parseDuration(item.contentDetails.duration),
+        });
+      }
+    })
+  );
 
   return videoMap;
 }
 
 /**
- * Fetch user's recent videos
+ * Fetch user's recent videos (with pagination support)
+ * Uses Clean Architecture UseCase for fetching 100+ videos
  */
 async function fetchRecentVideos(
   accessToken: string,
   maxResults: number = 20
 ): Promise<string[]> {
-  const params = new URLSearchParams({
-    part: "snippet",
-    forMine: "true",
-    maxResults: String(maxResults),
-    order: "date",
-    type: "video",
+  // Import clean architecture components
+  const { createFetchAllRecentVideosUseCase } = await import(
+    "@/lib/application/youtube/usecases/FetchAllRecentVideosUseCase"
+  );
+  const { createYouTubeVideoRepository } = await import(
+    "@/lib/infrastructure/youtube/YouTubeVideoRepository"
+  );
+
+  // Create repository and use case
+  const repository = createYouTubeVideoRepository();
+  const useCase = createFetchAllRecentVideosUseCase(repository);
+
+  // Execute use case
+  const { videoList } = await useCase.execute({
+    accessToken,
+    limit: maxResults,
   });
 
-  const response = await fetch(`${YOUTUBE_DATA_API}/search?${params.toString()}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw mapAPIError(response.status, error.error || error);
-  }
-
-  const data = await response.json();
-  return (data.items || [])
-    .map((item: { id?: { videoId?: string } }) => item.id?.videoId)
-    .filter((id: string | undefined): id is string => !!id);
+  // Return video IDs only (details already fetched with durations)
+  return videoList.videos.map(v => v.videoId as string);
 }
 
 // ============================================================================
@@ -263,7 +278,8 @@ function getDaysAgo(days: number): Date {
 function getDiagnosis(
   metrics24h: VideoMetrics,
   metrics7d: VideoMetrics,
-  videoDuration: number
+  videoDuration: number,
+  ctrPercentage: number  // Actual or simulated CTR (already as percentage)
 ): { status: DiagnosisStatus; problemType: ProblemType } {
   const { views: views24h, averageViewDuration: avgDuration24h } = metrics24h;
   const { views: views7d } = metrics7d;
@@ -277,15 +293,11 @@ function getDiagnosis(
   const watchRatio = videoDuration > 0 ? avgDuration24h / videoDuration : 0;
   const expansionRatio = views24h > 0 ? views7d / views24h : 0;
 
-  // Simulated CTR (YouTube Analytics API has limited CTR access)
-  // Using view ratio as a proxy
-  const simulatedCtr = Math.min(10, (views24h / 1000) * 2 + 5);
-
   // Priority-based diagnosis
 
   // 1. Check for early success
   if (
-    simulatedCtr >= THRESHOLDS.CTR_HIGH &&
+    ctrPercentage >= THRESHOLDS.CTR_HIGH &&
     watchRatio >= THRESHOLDS.WATCH_RATIO_LOW &&
     expansionRatio >= THRESHOLDS.EXPANSION_RATIO
   ) {
@@ -293,7 +305,7 @@ function getDiagnosis(
   }
 
   // 2. Check for CTR problem (thumbnail/title)
-  if (simulatedCtr < THRESHOLDS.CTR_LOW) {
+  if (ctrPercentage < THRESHOLDS.CTR_LOW) {
     return { status: "exposure_ok_click_weak", problemType: "thumbnail_title" };
   }
 
@@ -336,15 +348,20 @@ export async function getVideoAnalytics(videoId: string): Promise<VideoAnalytics
     return null;
   }
 
-  // Fetch analytics for last 24 hours and last 7 days
-  const today = formatDate(new Date());
-  const yesterday = formatDate(getDaysAgo(1));
-  const weekAgo = formatDate(getDaysAgo(7));
+  // Fetch analytics with 2-day offset (YouTube Analytics API has data delay)
+  // 24h: 3 days ago → 2 days ago (1 day of data)
+  // 7d: 9 days ago → 2 days ago (7 days of data)
+  const twoDaysAgo = formatDate(getDaysAgo(2));
+  const threeDaysAgo = formatDate(getDaysAgo(3));
+  const nineDaysAgo = formatDate(getDaysAgo(9));
 
   const metrics = [
     "views",
     "estimatedMinutesWatched",
     "averageViewDuration",
+    "averageViewPercentage",
+    "impressions",
+    "impressionsCtr",
     "likes",
     "comments",
     "shares",
@@ -352,8 +369,8 @@ export async function getVideoAnalytics(videoId: string): Promise<VideoAnalytics
   ];
 
   const [analytics24h, analytics7d] = await Promise.all([
-    fetchAnalytics(accessToken, metrics, yesterday, today, ["video"], `video==${videoId}`),
-    fetchAnalytics(accessToken, metrics, weekAgo, today, ["video"], `video==${videoId}`),
+    fetchAnalytics(accessToken, metrics, threeDaysAgo, twoDaysAgo, ["video"], `video==${videoId}`),
+    fetchAnalytics(accessToken, metrics, nineDaysAgo, twoDaysAgo, ["video"], `video==${videoId}`),
   ]);
 
   // Parse analytics data
@@ -367,19 +384,24 @@ export async function getVideoAnalytics(videoId: string): Promise<VideoAnalytics
     }
 
     const row = data.rows[0];
-    const getMetricValue = (name: string): number => {
+    const getMetricValue = (name: string): number | undefined => {
       const index = data.columnHeaders.findIndex((h) => h.name === name);
-      return index >= 0 ? (Number(row[index]) || 0) : 0;
+      if (index < 0) return undefined;
+      const value = Number(row[index]);
+      return isNaN(value) ? undefined : value;
     };
 
     return {
-      views: getMetricValue("views"),
-      estimatedMinutesWatched: getMetricValue("estimatedMinutesWatched"),
-      averageViewDuration: getMetricValue("averageViewDuration"),
-      likes: getMetricValue("likes") || undefined,
-      comments: getMetricValue("comments") || undefined,
-      shares: getMetricValue("shares") || undefined,
-      subscribersGained: getMetricValue("subscribersGained") || undefined,
+      views: getMetricValue("views") ?? 0,
+      estimatedMinutesWatched: getMetricValue("estimatedMinutesWatched") ?? 0,
+      averageViewDuration: getMetricValue("averageViewDuration") ?? 0,
+      averageViewPercentage: getMetricValue("averageViewPercentage"),
+      impressions: getMetricValue("impressions"),
+      impressionsCtr: getMetricValue("impressionsCtr"),
+      likes: getMetricValue("likes"),
+      comments: getMetricValue("comments"),
+      shares: getMetricValue("shares"),
+      subscribersGained: getMetricValue("subscribersGained"),
     };
   };
 
@@ -420,23 +442,80 @@ export async function getRecentVideosWithAnalytics(
   // Fetch video details
   const videoDetails = await fetchVideoDetails(accessToken, videoIds);
 
-  // Fetch analytics for all videos
-  const today = formatDate(new Date());
-  const yesterday = formatDate(getDaysAgo(1));
-  const weekAgo = formatDate(getDaysAgo(7));
+  // Fetch analytics with 2-day offset (YouTube Analytics API has data delay)
+  const twoDaysAgo = formatDate(getDaysAgo(2));
+  const threeDaysAgo = formatDate(getDaysAgo(3));
+  const nineDaysAgo = formatDate(getDaysAgo(9));
 
   const metrics = [
     "views",
     "estimatedMinutesWatched",
     "averageViewDuration",
+    "averageViewPercentage",
+    "impressions",
+    "impressionsCtr",
   ];
 
-  const videoFilter = `video==${videoIds.join(",")}`;
+  // Chunk video IDs to handle YouTube Analytics API limit (50 videos per request)
+  const chunkArray = <T,>(array: T[], size: number): T[][] => {
+    const chunks: T[][] = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunks.push(array.slice(i, i + size));
+    }
+    return chunks;
+  };
 
-  const [analytics24h, analytics7d] = await Promise.all([
-    fetchAnalytics(accessToken, metrics, yesterday, today, ["video"], videoFilter),
-    fetchAnalytics(accessToken, metrics, weekAgo, today, ["video"], videoFilter),
+  const videoIdChunks = chunkArray(videoIds, 50);
+
+  // Fetch analytics for each chunk in parallel
+  const [analytics24hChunks, analytics7dChunks] = await Promise.all([
+    Promise.all(
+      videoIdChunks.map(chunk =>
+        fetchAnalytics(
+          accessToken,
+          metrics,
+          threeDaysAgo,
+          twoDaysAgo,
+          ["video"],
+          `video==${chunk.join(",")}`
+        )
+      )
+    ),
+    Promise.all(
+      videoIdChunks.map(chunk =>
+        fetchAnalytics(
+          accessToken,
+          metrics,
+          nineDaysAgo,
+          twoDaysAgo,
+          ["video"],
+          `video==${chunk.join(",")}`
+        )
+      )
+    ),
   ]);
+
+  // Merge chunked results
+  const mergeAnalytics = (chunks: YouTubeAnalyticsResponse[]): YouTubeAnalyticsResponse => {
+    if (chunks.length === 0) {
+      return {
+        kind: "youtubeAnalytics#resultTable",
+        columnHeaders: [],
+        rows: [],
+      };
+    }
+    if (chunks.length === 1) {
+      return chunks[0];
+    }
+    return {
+      kind: "youtubeAnalytics#resultTable",
+      columnHeaders: chunks[0].columnHeaders,
+      rows: chunks.flatMap(chunk => chunk.rows || []),
+    };
+  };
+
+  const analytics24h = mergeAnalytics(analytics24hChunks);
+  const analytics7d = mergeAnalytics(analytics7dChunks);
 
   // Build analytics maps
   const buildMetricsMap = (data: YouTubeAnalyticsResponse): Map<string, VideoMetrics> => {
@@ -445,17 +524,22 @@ export async function getRecentVideosWithAnalytics(
     if (!data.rows) return map;
 
     const videoIndex = data.columnHeaders.findIndex((h) => h.name === "video");
-    const getMetricValue = (row: (string | number)[], name: string): number => {
+    const getMetricValue = (row: (string | number)[], name: string): number | undefined => {
       const index = data.columnHeaders.findIndex((h) => h.name === name);
-      return index >= 0 ? (Number(row[index]) || 0) : 0;
+      if (index < 0) return undefined;
+      const value = Number(row[index]);
+      return isNaN(value) ? undefined : value;
     };
 
     for (const row of data.rows) {
       const videoId = String(row[videoIndex]);
       map.set(videoId, {
-        views: getMetricValue(row, "views"),
-        estimatedMinutesWatched: getMetricValue(row, "estimatedMinutesWatched"),
-        averageViewDuration: getMetricValue(row, "averageViewDuration"),
+        views: getMetricValue(row, "views") ?? 0,
+        estimatedMinutesWatched: getMetricValue(row, "estimatedMinutesWatched") ?? 0,
+        averageViewDuration: getMetricValue(row, "averageViewDuration") ?? 0,
+        averageViewPercentage: getMetricValue(row, "averageViewPercentage"),
+        impressions: getMetricValue(row, "impressions"),
+        impressionsCtr: getMetricValue(row, "impressionsCtr"),
       });
     }
 
@@ -485,15 +569,25 @@ export async function getRecentVideosWithAnalytics(
       averageViewDuration: 0,
     };
 
-    const { status, problemType } = getDiagnosis(m24h, m7d, details.duration);
+    // Use actual API values with fallback to simulation ONLY if missing (undefined)
+    // Zero values from API are treated as actual data, not missing
+    const ctr24h = m24h.impressionsCtr !== undefined
+      ? m24h.impressionsCtr * 100  // Convert 0-1 to percentage (actual API value)
+      : Math.min(10, (m24h.views / 1000) * 2 + 5);  // Fallback simulation
 
-    // Simulate CTR based on views (YouTube Analytics has limited CTR access)
-    const simulatedCtr24h = Math.min(10, (m24h.views / 1000) * 2 + 5);
-    const simulatedCtr7d = Math.min(10, (m7d.views / 1000) * 1.5 + 4.5);
+    const ctr7d = m7d.impressionsCtr !== undefined
+      ? m7d.impressionsCtr * 100
+      : Math.min(10, (m7d.views / 1000) * 1.5 + 4.5);
 
-    // Simulate impressions (roughly 10-20x of views)
-    const impressionsMultiplier24h = 100 / Math.max(1, simulatedCtr24h);
-    const impressionsMultiplier7d = 100 / Math.max(1, simulatedCtr7d);
+    const impressions24h = m24h.impressions !== undefined
+      ? m24h.impressions  // Use actual API value (including 0)
+      : Math.round(m24h.views * (100 / Math.max(1, ctr24h)));  // Fallback
+
+    const impressions7d = m7d.impressions !== undefined
+      ? m7d.impressions
+      : Math.round(m7d.views * (100 / Math.max(1, ctr7d)));
+
+    const { status, problemType } = getDiagnosis(m24h, m7d, details.duration, ctr24h);
 
     performances.push({
       id: `perf-${++index}`,
@@ -504,10 +598,10 @@ export async function getRecentVideosWithAnalytics(
       publishedAt: details.publishedAt.split("T")[0],
       uploadTime: details.publishedAt,
       metrics: {
-        impressions_24h: Math.round(m24h.views * impressionsMultiplier24h),
-        impressions_7d: Math.round(m7d.views * impressionsMultiplier7d),
-        ctr_24h: simulatedCtr24h,
-        ctr_7d: simulatedCtr7d,
+        impressions_24h: impressions24h,
+        impressions_7d: impressions7d,
+        ctr_24h: ctr24h,
+        ctr_7d: ctr7d,
         views_24h: m24h.views,
         views_7d: m7d.views,
         avg_view_duration_24h: m24h.averageViewDuration,
