@@ -14,16 +14,15 @@ export function ActivityToggle() {
   return (
     <button
       onClick={handleToggle}
-      className={`p-2 rounded-lg transition-colors ${
-        activityPanelOpen
-          ? 'bg-blue-100 text-blue-700'
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-      }`}
+      className={`p-1.5 rounded-lg transition-colors ${activityPanelOpen
+        ? 'bg-zinc-200 text-zinc-800'
+        : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+        }`}
       aria-label="Toggle activity panel"
       title="Activity"
     >
       <svg
-        className="w-5 h-5"
+        className="w-4 h-4"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
