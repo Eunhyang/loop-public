@@ -191,10 +191,10 @@ export function ChipSelectExpand({
         disabled={disabled}
         onClick={() => handleChipClick(option.value)}
         className={`
-          inline-flex items-center gap-1.5
-          px-3 py-1.5 text-sm rounded-md border-2
+          inline-flex items-center gap-1
+          px-2 py-0.5 text-xs rounded-md border
           transition-all duration-150
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1
+          focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1
           ${isSelected
             ? color
               ? `${color.selected} ${color.text} font-semibold shadow-sm`
@@ -262,10 +262,10 @@ export function ChipSelectExpand({
             aria-label={`Show ${remainingCount} more options`}
             className={`
               inline-flex items-center gap-1
-              px-3 py-1.5 text-sm rounded-md border-2 border-dashed
+              px-2 py-0.5 text-xs rounded-md border border-dashed
               border-zinc-300 text-zinc-600
               transition-all duration-150
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1
+              focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1
               ${disabled
                 ? 'opacity-50 cursor-not-allowed'
                 : 'hover:border-zinc-400 hover:bg-zinc-50 cursor-pointer'

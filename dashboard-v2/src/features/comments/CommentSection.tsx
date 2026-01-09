@@ -53,7 +53,7 @@ export const CommentSection = ({ entityType, entityId }: CommentSectionProps) =>
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-500">
+      <div className="p-4 text-center text-zinc-500">
         <div className="animate-pulse">Loading comments...</div>
       </div>
     )
@@ -71,17 +71,17 @@ export const CommentSection = ({ entityType, entityId }: CommentSectionProps) =>
   const total = commentsData?.total || 0
 
   return (
-    <div className="border-t border-gray-200 pt-4">
+    <div className="">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Comments {total > 0 && <span className="text-gray-500">({total})</span>}
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-sm font-semibold text-zinc-500">
+          Comments {total > 0 && <span className="ml-1 opacity-70">({total})</span>}
         </h3>
         {total > 1 && (
           <button
             type="button"
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="text-sm text-gray-600 hover:text-gray-800"
+            className="text-sm text-zinc-400 hover:text-zinc-600 transition-colors"
           >
             Sort: {sortOrder === 'asc' ? 'Oldest first' : 'Newest first'}
           </button>
@@ -100,7 +100,7 @@ export const CommentSection = ({ entityType, entityId }: CommentSectionProps) =>
 
       {/* Comments list */}
       {comments.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-zinc-400">
           No comments yet. Be the first to comment!
         </div>
       ) : (
@@ -124,10 +124,10 @@ export const CommentSection = ({ entityType, entityId }: CommentSectionProps) =>
       {(createMutation.isPending ||
         updateMutation.isPending ||
         deleteMutation.isPending) && (
-        <div className="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg">
-          Saving...
-        </div>
-      )}
+          <div className="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg">
+            Saving...
+          </div>
+        )}
 
       {/* Error states */}
       {(createMutation.isError || updateMutation.isError || deleteMutation.isError) && (

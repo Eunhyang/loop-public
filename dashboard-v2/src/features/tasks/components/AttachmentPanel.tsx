@@ -158,11 +158,10 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
-                        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                            isDragging
+                        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isDragging
                                 ? 'border-blue-500 bg-blue-50'
                                 : 'border-zinc-300 hover:border-zinc-400'
-                        }`}
+                            }`}
                     >
                         <input
                             ref={fileInputRef}
@@ -231,7 +230,7 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
 
             {/* Total Count */}
             {attachments.length > 0 && (
-                <div className="text-xs text-zinc-500 pt-2 border-t border-zinc-200">
+                <div className="text-[10px] text-zinc-400 pt-2 border-t border-zinc-100">
                     {attachments.length} file{attachments.length !== 1 ? 's' : ''} · {formatFileSize(totalSize)}
                 </div>
             )}

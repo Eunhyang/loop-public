@@ -39,6 +39,56 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
     const statuses = dashboardData?.constants?.project?.status || ['todo', 'doing', 'hold', 'done'];
     const priorities = dashboardData?.constants?.project?.priority || ['low', 'medium', 'high', 'critical'];
 
+    // Task filtering and grouping (UNCONDITIONAL - fix hooks violation)
+    // Use memoized taskStatuses to fix memoization ineffectiveness
+    const taskStatuses = useMemo(() =>
+        dashboardData?.constants?.task_status || ['todo', 'doing', 'hold', 'done', 'blocked'],
+        [dashboardData?.constants?.task_status]
+    );
+
+    const projectTasks = useMemo(() => {
+        if (!dashboardData?.tasks || !id) return [];
+        return dashboardData.tasks.filter((t: any) => t.project_id === id);
+    }, [dashboardData?.tasks, id]);
+
+    const tasksByStatus = useMemo(() => {
+        const groups: Record<string, any[]> = {};
+        taskStatuses.forEach((s: string) => { groups[s] = []; });
+
+        projectTasks.forEach((t: any) => {
+            const status = t.status || 'todo';
+            if (groups[status]) {
+                groups[status].push(t);
+            }
+        });
+
+        // Sort within groups: priority (high→low), then name
+        const priorityOrder: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 };
+        Object.keys(groups).forEach(status => {
+            groups[status].sort((a, b) => {
+                const aPrio = priorityOrder[a.priority] ?? 2;
+                const bPrio = priorityOrder[b.priority] ?? 2;
+                if (aPrio !== bPrio) return aPrio - bPrio;
+                return a.entity_name.localeCompare(b.entity_name);
+            });
+        });
+
+        return groups;
+    }, [projectTasks, taskStatuses]);
+
+    const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+
+    // Reset expanded state when project OR taskStatuses changes (fix stale state)
+    useEffect(() => {
+        if (id && taskStatuses.length > 0) {
+            const initial: Record<string, boolean> = {};
+            taskStatuses.forEach((s: string, i: number) => {
+                initial[s] = i < 2; // First 2 statuses expanded by default
+            });
+            setExpandedGroups(initial);
+        }
+    }, [id, taskStatuses]);
+
     // Member options (for owner ChipSelectExpand)
     // ProjectForm uses m.id (unlike TaskForm which uses m.name)
     // Filter: active members only, exclude role="Unassigned" (미정)
@@ -157,6 +207,37 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         );
     }
 
+    // Helper functions for Tasks section (UNCONDITIONAL - fix hooks violation)
+    const toggleGroup = (status: string) => {
+        setExpandedGroups(prev => ({ ...prev, [status]: !prev[status] }));
+    };
+
+    const handleTaskClick = (taskId: string) => {
+        openEntityDrawer({ type: 'task', mode: 'edit', id: taskId });
+    };
+
+    const getStatusIcon = (status: string) => {
+        const icons: Record<string, string> = {
+            doing: '●',
+            todo: '○',
+            hold: '◐',
+            blocked: '✕',
+            done: '✓'
+        };
+        return icons[status] || '○';
+    };
+
+    const getStatusColor = (status: string) => {
+        const colors: Record<string, string> = {
+            doing: 'text-blue-500',
+            todo: 'text-zinc-400',
+            hold: 'text-amber-500',
+            blocked: 'text-red-500',
+            done: 'text-green-500'
+        };
+        return colors[status] || 'text-zinc-400';
+    };
+
     // Edit mode - show editable project details
     if (mode === 'edit') {
         if (isLoadingProject || !project) {
@@ -166,88 +247,6 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                 </div>
             );
         }
-
-        // Task filtering and grouping (SSOT-compliant)
-        const taskStatuses = dashboardData?.constants?.task?.status || ['todo', 'doing', 'hold', 'done', 'blocked'];
-
-        const projectTasks = useMemo(() => {
-            if (!dashboardData?.tasks || !id) return [];
-            return dashboardData.tasks.filter((t: any) => t.project_id === id);
-        }, [dashboardData?.tasks, id]);
-
-        const tasksByStatus = useMemo(() => {
-            const groups: Record<string, any[]> = {};
-            taskStatuses.forEach((s: string) => { groups[s] = []; });
-
-            projectTasks.forEach((t: any) => {
-                const status = t.status || 'todo';
-                if (groups[status]) {
-                    groups[status].push(t);
-                }
-            });
-
-            // Sort within groups: priority (high→low), then name
-            const priorityOrder: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 };
-            Object.keys(groups).forEach(status => {
-                groups[status].sort((a, b) => {
-                    const aPrio = priorityOrder[a.priority] ?? 2;
-                    const bPrio = priorityOrder[b.priority] ?? 2;
-                    if (aPrio !== bPrio) return aPrio - bPrio;
-                    return a.entity_name.localeCompare(b.entity_name);
-                });
-            });
-
-            return groups;
-        }, [projectTasks, taskStatuses]);
-
-        const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
-            const initial: Record<string, boolean> = {};
-            taskStatuses.forEach((s: string, i: number) => {
-                initial[s] = i < 2; // First 2 statuses expanded by default
-            });
-            return initial;
-        });
-
-        // Reset expanded state when project changes
-        useEffect(() => {
-            if (id && taskStatuses) {
-                const initial: Record<string, boolean> = {};
-                taskStatuses.forEach((s: string, i: number) => {
-                    initial[s] = i < 2;
-                });
-                setExpandedGroups(initial);
-            }
-        }, [id]);
-
-        const toggleGroup = (status: string) => {
-            setExpandedGroups(prev => ({ ...prev, [status]: !prev[status] }));
-        };
-
-        const handleTaskClick = (taskId: string) => {
-            openEntityDrawer({ type: 'task', mode: 'edit', id: taskId });
-        };
-
-        const getStatusIcon = (status: string) => {
-            const icons: Record<string, string> = {
-                doing: '●',
-                todo: '○',
-                hold: '◐',
-                blocked: '✕',
-                done: '✓'
-            };
-            return icons[status] || '○';
-        };
-
-        const getStatusColor = (status: string) => {
-            const colors: Record<string, string> = {
-                doing: 'text-blue-500',
-                todo: 'text-zinc-400',
-                hold: 'text-amber-500',
-                blocked: 'text-red-500',
-                done: 'text-green-500'
-            };
-            return colors[status] || 'text-zinc-400';
-        };
 
         const handleUpdate = (field: keyof Project, value: any) => {
             if (!id) return;

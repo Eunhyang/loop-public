@@ -77,10 +77,10 @@ export function ChipSelect({
               disabled={disabled}
               onClick={() => handleClick(option.value)}
               className={`
-                inline-flex items-center gap-1.5
-                px-3 py-1.5 text-sm rounded-md border-2
+                inline-flex items-center gap-1
+                px-2 py-0.5 text-xs rounded-md border
                 transition-all duration-150
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1
+                focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1
                 ${isSelected
                   ? color
                     ? `${color.selected} ${color.text} font-semibold shadow-sm`

@@ -520,7 +520,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     ) : (
                         <input
                             type="date"
-                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                             value={(getFieldValue('start_date') as string) || ''}
                             onChange={(e) => handleFieldChangeInternal('start_date', e.target.value)}
                         />
@@ -533,11 +533,11 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('due') : undefined}
                 >
                     {isReadOnly ? (
-                        <span className="text-zinc-700">{String(getFieldValue('due') || '-')}</span>
+                        <span className="text-zinc-700 text-xs">{String(getFieldValue('due') || '-')}</span>
                     ) : (
                         <input
                             type="date"
-                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                             value={(getFieldValue('due') as string) || ''}
                             onChange={(e) => handleFieldChangeInternal('due', e.target.value)}
                         />
@@ -549,7 +549,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     <>
                         <label className="text-zinc-500 py-1">Project</label>
                         <span
-                            className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                            className="inline-block px-2 py-0.5 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
                             onClick={() => handleRelationClickInternal(getFieldValue('project_id') as string, 'project')}
                         >
                             {String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id'))}
@@ -566,7 +566,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                         <>
                             <label className="text-zinc-500 py-1">Track</label>
                             <span
-                                className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                className="inline-block px-2 py-0.5 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
                                 onClick={() => handleRelationClickInternal(trackId!, 'track')}
                             >
                                 {track.entity_name}
@@ -585,7 +585,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                                 return (
                                     <span
                                         key={condId}
-                                        className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                        className="inline-block px-2 py-0.5 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
                                         onClick={() => handleRelationClickInternal(condId, 'condition')}
                                     >
                                         {condition?.entity_name || condId}
@@ -604,7 +604,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                             {(getFieldValue('validates') as string[]).map((hypId: string) => (
                                 <span
                                     key={hypId}
-                                    className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                    className="inline-block px-2 py-0.5 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
                                     onClick={() => handleRelationClickInternal(hypId, 'hypothesis')}
                                 >
                                     {dashboardData?.hypotheses?.find((h: any) => h.entity_id === hypId)?.entity_name || hypId}

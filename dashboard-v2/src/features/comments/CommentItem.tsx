@@ -54,7 +54,7 @@ export const CommentItem = ({
       <div className="flex gap-3">
         {/* Avatar */}
         <div className="flex-shrink-0">
-          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-lg">
+          <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-lg">
             {comment.author.icon}
           </div>
         </div>
@@ -63,12 +63,12 @@ export const CommentItem = ({
         <div className="flex-1 min-w-0">
           {/* Header */}
           <div className="flex items-baseline gap-2 mb-1">
-            <span className="font-medium text-sm text-gray-900">
+            <span className="font-medium text-sm text-zinc-900">
               {comment.author.name}
             </span>
-            <span className="text-xs text-gray-500">{timeAgo}</span>
+            <span className="text-xs text-zinc-400">{timeAgo}</span>
             {comment.updated_at !== comment.created_at && (
-              <span className="text-xs text-gray-400 italic">(edited)</span>
+              <span className="text-xs text-zinc-300 italic">(edited)</span>
             )}
           </div>
 
@@ -87,7 +87,7 @@ export const CommentItem = ({
               />
             </div>
           ) : (
-            <div className="text-sm text-gray-700 mb-2">
+            <div className="text-sm text-zinc-700 mb-2">
               <MarkdownEditor value={comment.content} readOnly minHeight="auto" />
             </div>
           )}
@@ -109,7 +109,7 @@ export const CommentItem = ({
                     <button
                       type="button"
                       onClick={() => setIsEditing(true)}
-                      className="text-gray-600 hover:text-gray-700"
+                      className="text-zinc-400 hover:text-zinc-600 transition-colors"
                     >
                       Edit
                     </button>
@@ -127,7 +127,7 @@ export const CommentItem = ({
                   <button
                     type="button"
                     onClick={() => setShowReplies(!showReplies)}
-                    className="text-gray-600 hover:text-gray-700"
+                    className="text-zinc-400 hover:text-zinc-600 transition-colors"
                   >
                     {showReplies ? 'Hide' : 'Show'} {comment.replies.length}{' '}
                     {comment.replies.length === 1 ? 'reply' : 'replies'}
