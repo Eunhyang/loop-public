@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-001
 entity_name: Ontology v0.1
 created: 2025-12-18
-updated: '2025-12-19'
+updated: '2026-01-09'
 status: doing
 parent_id: trk-2
 track_id: trk-2
@@ -12,15 +12,15 @@ aliases:
 - Ontology v0.1
 - prj-001
 outgoing_relations:
-  - type: validates
-    target_id: mh-3
-    description: MH3 데이터 모델링 가능성 검증
-  - type: enables
-    target_id: cond-b
-    description: Condition B 재현 패턴 10개 enable
-  - type: part_of
-    target_id: trk-2
-    description: Track 2 Data의 핵심 프로젝트
+- type: validates
+  target_id: mh-3
+  description: MH3 데이터 모델링 가능성 검증
+- type: enables
+  target_id: cond-b
+  description: Condition B 재현 패턴 10개 enable
+- type: part_of
+  target_id: trk-2
+  description: Track 2 Data의 핵심 프로젝트
 validates:
 - mh-3
 - hyp-2-01
@@ -55,24 +55,20 @@ tags:
 - track-2
 - core
 priority_flag: critical
-
-# === Impact 점수 필드 (A) ===
 tier: strategic
 impact_magnitude: high
 confidence: 0.65
 condition_contributes:
-  - to: "cond-b"
-    weight: 0.7
-    description: "Ontology가 Condition B(재현 패턴 10개)의 핵심 기반"
-
+- to: cond-b
+  weight: 0.7
+  description: Ontology가 Condition B(재현 패턴 10개)의 핵심 기반
 track_contributes: []
-
 expected_impact:
-  statement: "이 프로젝트가 성공하면 5개 코어 엔티티로 Loop 데이터 표현이 가능함이 증명된다"
-  metric: "스키마 안정성 + 코치 라벨링 일관성 + 재현 패턴 수"
-  target: "3개월 안정 + 70% 일관성 + 5개 패턴"
+  statement: 이 프로젝트가 성공하면 5개 코어 엔티티로 Loop 데이터 표현이 가능함이 증명된다
+  metric: 스키마 안정성 + 코치 라벨링 일관성 + 재현 패턴 수
+  target: 3개월 안정 + 70% 일관성 + 5개 패턴
 realized_impact:
-  outcome: null  # supported | rejected | inconclusive
+  outcome: null
   evidence: null
   updated: null
 ---
@@ -103,7 +99,7 @@ Condition B (재현 패턴 10개)
 ## 성공 기준
 
 | 기준 | 목표 | 현재 | 상태 |
-|------|------|------|------|
+| --- | --- | --- | --- |
 | 스키마 안정성 | 3개월 변경 없음 | 1개월 | 🟡 진행 중 |
 | 코치 라벨링 일관성 | 70% | 측정 전 | ⏸️ |
 | 재현 패턴 수 | 5개 | 3개 | 🟡 진행 중 |
@@ -127,7 +123,7 @@ SORT status ASC, priority DESC
 
 ## Kanban 보기
 
-[[_Kanban_View|📋 Kanban Board 열기]]
+\[\[\_Kanban_View|📋 Kanban Board 열기\]\]
 
 ---
 
@@ -160,13 +156,11 @@ graph TD
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
-- [[MH3_데이터_모델링_가능]] - 검증 대상
-- [[Condition_B_Loop_Dataset]] - Enable 대상
-- [[30_Ontology/Schema/v0.1/Ontology-lite v0.1]] - 스키마 정의
+- \[\[Track_2_Data\]\] - 소속 Track
+- \[\[MH3\_데이터\_모델링\_가능\]\] - 검증 대상
+- \[\[Condition_B_Loop_Dataset\]\] - Enable 대상
+- \[\[30_Ontology/Schema/v0.1/Ontology-lite v0.1\]\] - 스키마 정의
 
 ---
 
-**Created**: 2024-12-01
-**Owner**: Founder + 온톨로지 팀
-**Target End**: 2025-06-30
+**Created**: 2024-12-01 **Owner**: Founder + 온톨로지 팀 **Target End**: 2025-06-30
