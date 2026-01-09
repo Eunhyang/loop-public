@@ -39,7 +39,7 @@ export const createExtensions = (placeholder?: string) => [
     },
   }),
   Markdown.configure({
-    html: false, // Output markdown, not HTML
+    html: true, // Allow HTML for images (tiptap-markdown image serializer has issues with special chars)
     transformPastedText: true,
     transformCopiedText: true,
   }),
