@@ -493,6 +493,9 @@ def update_hypothesis(hypothesis_id: str, hypothesis: HypothesisUpdate):
                 }
             )
 
+    # SSOT Rule C: Preserve old frontmatter for diff calculation (tsk-019-14)
+    old_frontmatter = copy.deepcopy(frontmatter)  # Deep copy before mutations
+
     # Validation 및 업데이트
     if hypothesis.hypothesis_question is not None:
         if not hypothesis.hypothesis_question.strip().endswith('?'):
