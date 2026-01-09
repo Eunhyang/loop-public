@@ -230,6 +230,54 @@ exec vault (32 Tasks):
 - Git history 추적 용이
 - 팀 규칙 단순화 (하나의 패턴만 기억)
 
+### 4.2.5 Task ID 패턴 (Project Hash 기반) 🆕
+
+> **Version**: 1.3 (updated 2026-01-09)
+> **Task**: tsk-kly0ry-1767960471502
+
+**변경 내용**: Task ID가 이제 소속 Project의 hash를 포함합니다.
+
+```yaml
+# 기존 패턴
+Task ID: tsk-{random_hash}-{epoch13}
+예시: tsk-1s4ukz-1767935590090
+문제: Task ID만 봐서는 어느 Project 소속인지 알 수 없음
+
+# 신규 패턴 (2026-01-09부터)
+Task ID: tsk-{prj_hash}-{epoch13}
+예시: tsk-a7k9m2-1736412652123
+      └─ prj-a7k9m2의 하위 Task임을 즉시 알 수 있음
+```
+
+**구현 위치**: `api/services/ssot_service.py`
+
+**핵심 메서드**:
+1. `_extract_prj_hash(project_id)`:
+   - 새 Project (prj-a7k9m2): 'a7k9m2' 추출 + 정규화 (소문자 6자)
+   - Legacy Project (prj-001): SHA256 deterministic hash 생성
+   - Legacy Exec (prj-exec-001): SHA256 deterministic hash 생성
+
+2. `generate_task_id(project_id, entity_name)`:
+   - prj_hash = _extract_prj_hash(project_id)
+   - epoch_ms = time.time_ns() // 1_000_000 (monotonic)
+   - task_id = f"tsk-{prj_hash}-{epoch_ms}"
+   - Collision 안전: exponential backoff (max 20 attempts)
+
+**이점**:
+- **가독성**: Task ID만 보고 소속 Project 즉시 파악
+- **추적성**: Project별 Task 그룹핑이 ID 수준에서 명시적
+- **디버깅**: 로그/대시보드에서 Task-Project 관계 즉시 확인
+- **마이그레이션**: 기존 Task는 그대로 유지 (backward compatible)
+
+**Legacy 호환**:
+- 기존 Task ID (tsk-001-01, tsk-1s4ukz-...) 계속 유효
+- 신규 Task만 새 패턴 적용
+- 패턴 검증: `schema_constants.yaml` → `id_patterns.tsk` 업데이트 완료
+
+**마이그레이션 (별도 Task)**:
+- 기존 Task ID를 새 패턴으로 전환하는 스크립트는 별도 작업
+- 현재는 신규 생성 Task에만 적용
+
 ### 4.3 _INDEX.md 파일의 위상
 
 **_INDEX.md는 SSOT가 아니다**

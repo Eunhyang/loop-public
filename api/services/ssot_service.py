@@ -190,41 +190,110 @@ class SSOTService:
             f"Entity name: {entity_name}"
         )
 
-    def generate_task_id(self, project_id: str, entity_name: str = "new-task") -> str:
+    def _extract_prj_hash(self, project_id: str) -> str:
         """
-        Generate new Task ID with hash + epoch
+        Extract or generate hash from Project ID
 
-        New format: tsk-{hash6}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
+        Handles both new hash-based IDs and legacy sequential IDs:
+        - prj-a7k9m2 → 'a7k9m2' (extract hash, normalize to lowercase 6 chars)
+        - prj-001 → deterministic hash (SHA256, always same output)
+        - prj-exec-001 → deterministic hash
+        - prj-exec-a7k9m2 → 'a7k9m2' (extract last segment)
+        - prj-tips-a7k9m2 → 'a7k9m2' (extract last segment)
 
         Args:
-            project_id: Parent project ID
-            entity_name: Task name for hash generation
+            project_id: Project ID in format prj-{suffix}
+
+        Returns:
+            6-character lowercase base36 hash
+
+        Raises:
+            ValueError: If project_id format is invalid
+        """
+        if not project_id or not project_id.startswith("prj-"):
+            raise ValueError(f"Invalid project_id format: {project_id}")
+
+        prj_suffix = project_id[4:]  # Remove "prj-" prefix
+
+        # Split by '-' to handle multi-segment IDs (exec, keyword)
+        segments = prj_suffix.split("-")
+        last_segment = segments[-1]  # Last segment should be the hash or number
+
+        # Legacy sequential ID detection
+        # prj-001 → last_segment = "001"
+        # prj-exec-001 → last_segment = "001"
+        is_legacy = last_segment.isdigit()
+
+        if is_legacy:
+            # Generate deterministic hash (no salt, always same output for same input)
+            hash_bytes = hashlib.sha256(project_id.encode("utf-8")).digest()
+            # Use 5 bytes (40 bits) to ensure 6 base36 chars without truncation
+            hash_int = int.from_bytes(hash_bytes[:5], "big")
+            hash_str = self._to_base36(hash_int).lower()
+            # Take exactly 6 chars (or pad if shorter)
+            return hash_str[:6].zfill(6)
+
+        # Already a hash - normalize last segment to lowercase 6 chars
+        # prj-a7k9m2 → last_segment = "a7k9m2"
+        # prj-exec-a7k9m2 → last_segment = "a7k9m2"
+        # prj-tips-a7k9m2 → last_segment = "a7k9m2"
+        normalized = last_segment.lower()
+        if len(normalized) > 6:
+            # Existing hash longer than 6 chars: truncate to maintain schema
+            normalized = normalized[:6]
+        elif len(normalized) < 6:
+            # Existing hash shorter than 6 chars: zero-pad
+            normalized = normalized.zfill(6)
+
+        return normalized
+
+    def generate_task_id(self, project_id: str, entity_name: str = "new-task") -> str:
+        """
+        Generate new Task ID with project hash + epoch
+
+        New format: tsk-{prj_hash}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
+
+        Benefits:
+        - Task ID reveals parent Project at a glance
+        - Maintains uniqueness via millisecond epoch
+        - Collision-resistant with retry backoff
+
+        Args:
+            project_id: Parent project ID (required)
+            entity_name: Task name (for logging/debugging only)
 
         Returns:
             Unique Task ID
 
         Raises:
-            ValueError: If project_id is invalid
+            ValueError: If project_id is invalid or missing
             RuntimeError: If unable to generate unique ID after max attempts
         """
         # 1. Validate Input
         if not project_id:
             raise ValueError("project_id is required for Task ID generation")
 
+        # 2. Extract project hash (deterministic for legacy, normalized for new)
+        prj_hash = self._extract_prj_hash(project_id)
+
         max_attempts = 20
 
         for attempt in range(max_attempts):
-            # Generate hash from task name
-            hash_part = self._generate_hash(entity_name, "tsk", hash_length=6)
+            # Use wall-clock time for human-readable timestamps
+            # Note: Not monotonic, but collision safety is provided by retry loop
             epoch_ms = int(time.time() * 1000)
 
-            task_id = f"tsk-{hash_part}-{epoch_ms}"
+            task_id = f"tsk-{prj_hash}-{epoch_ms}"
 
             if not self._check_id_exists(task_id, "Task"):
                 return task_id
 
+            # Collision detected: exponential backoff (1ms, 2ms, 4ms, ...)
+            backoff_ms = min(2 ** attempt, 100)  # Cap at 100ms
+            time.sleep(backoff_ms / 1000.0)
+
         raise RuntimeError(
             f"Failed to generate unique Task ID after {max_attempts} attempts. "
             f"This indicates a serious collision issue or system overload. "
-            f"Entity name: {entity_name}"
+            f"Project: {project_id}, Entity name: {entity_name}"
         )

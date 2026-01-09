@@ -67,6 +67,7 @@ tasks:
 - tsk-023-41
 - tsk-uegvfe-1767941662809
 - tsk-023-42
+- tsk-023-43
 tier: null
 impact_magnitude: null
 confidence: null

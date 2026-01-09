@@ -245,10 +245,13 @@ paths:
 # ============================================
 # ID Patterns (엔티티별 ID 정규식)
 # ============================================
-# Updated: Hash+Epoch ID migration (tsk-019-13)
+# Updated: Task ID now includes Project hash (tsk-kly0ry-1767960471502)
 # New format:
 #   Project: prj-{hash6} (e.g., prj-a7k9m2)
-#   Task: tsk-{hash6}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
+#   Task: tsk-{prj_hash}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
+#     - prj_hash: Extracted from parent Project ID (6-char base36)
+#     - epoch13: Millisecond timestamp for uniqueness
+#     - Legacy Project IDs (prj-001) get deterministic hash
 #   Exec Project: prj-exec-{hash6} or prj-{keyword}-{hash6}
 #   Exec Task: tsk-exec-{hash6}-{epoch13} or tsk-{keyword}-{hash6}-{epoch13}
 #
