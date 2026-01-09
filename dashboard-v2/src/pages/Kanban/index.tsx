@@ -30,8 +30,6 @@ const KanbanPageContent = () => {
       projectStatus: combinedFilters.projectStatus,
       taskStatus: combinedFilters.taskStatus,
       totalTasks: data.tasks.length,
-      tasksForPrj023: data.tasks.filter(t => t.project_id === 'prj-023').length,
-      prj023Status: data.projects.find(p => p.entity_id === 'prj-023')?.status,
     });
 
     // Use combined filters from hook (already merges URL + localStorage)

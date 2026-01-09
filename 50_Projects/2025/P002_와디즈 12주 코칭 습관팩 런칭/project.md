@@ -44,6 +44,8 @@ conditions_3y:
 - cond-d
 tags: []
 priority_flag: medium
+tasks:
+- tsk-002-02
 ---
 # \[와디즈\] 12주 코칭 습관팩 런칭
 

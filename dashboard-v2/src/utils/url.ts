@@ -25,8 +25,8 @@ export function getBaseUrl(): string {
  * Generate a share URL for an entity
  *
  * @param entityType - Type of entity ('task' or 'project')
- * @param entityId - Entity ID (e.g., 'tsk-023-01' or 'prj-023')
- * @returns Full share URL (e.g., 'http://localhost:5173/tasks/tsk-023-01')
+ * @param entityId - Entity ID (e.g., 'tsk-a7k9m2-1736412652123' or 'prj-b8x3n4-1736412652456')
+ * @returns Full share URL (e.g., 'http://localhost:5173/tasks/tsk-a7k9m2-1736412652123')
  * @throws Error if entityId is empty
  */
 export function generateShareUrl(
