@@ -1,6 +1,6 @@
 ---
 name: loop-entity-creator
-description: Create, edit, and delete LOOP vault entities (Task, Project, Hypothesis) while maintaining GraphRAG pattern integrity. Use when user wants to (1) create a new Task, Project, or Hypothesis entity, (2) edit an existing entity's fields, (3) delete an entity and update graph index. CRITICAL - This skill enforces schema compliance, automatic ID generation, parent-child linking, and graph index updates to maintain vault integrity. Supports both public and exec vaults.
+description: Create, edit, and delete LOOP vault entities (Task, Project, Hypothesis) while maintaining GraphRAG pattern integrity. Use when user wants to (1) create a new Task, Project, or Hypothesis entity, (2) edit an existing entity's fields, (3) delete an entity and update graph index. CRITICAL - This skill enforces schema compliance, automatic ID generation, parent-child linking, and graph index updates to maintain vault integrity. Supports both public and exec vaults. PREREQUISITE - Environment variable LOOP_API_TOKEN must be set (check with `echo $LOOP_API_TOKEN`). If not set, run `source .envrc` or set manually.
 ---
 
 # LOOP Entity Creator
@@ -138,15 +138,21 @@ exec_rounds_path: "exec/50_Projects/Hiring_Rounds"  # 설정됨 → exec vault
 
 ### API Prerequisites
 
-**환경 변수 확인:**
+> ⚠️ **CRITICAL: LOOP_API_TOKEN required**
+>
+> API calls require authentication. Missing token causes 401 Unauthorized.
+
+**Auto-load env (run at skill start):**
 ```bash
-# LOOP_API_TOKEN이 설정되어 있어야 함
-echo $LOOP_API_TOKEN
+# Auto-load .envrc if LOOP_API_TOKEN is not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
 ```
 
-**API 서버 상태 확인:**
+**Token location**: `~/dev/loop/.envrc`
+
+**API server health check:**
 ```bash
-# Health check (로컬 또는 프로덕션)
+# Health check (local or production)
 curl -s --max-time 5 http://localhost:8081/health 2>/dev/null || \
 curl -s --max-time 5 https://mcp.sosilab.synology.me/health
 ```
@@ -159,9 +165,9 @@ curl -s --max-time 5 https://mcp.sosilab.synology.me/health
 
 **Task 생성 시:**
 ```bash
-# 환경 변수 (NAS URL 기본값)
+# Auto-load env if not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
 API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
-: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
 
 # 1. Health check (pipefail로 curl 실패 감지)
 set -o pipefail
@@ -186,9 +192,9 @@ set +o pipefail
 
 **Project 생성 시:**
 ```bash
-# 환경 변수 (NAS URL 기본값)
+# Auto-load env if not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
 API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
-: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
 
 curl -fsS -X POST "$API_URL/api/projects" \
     -H "Authorization: Bearer $LOOP_API_TOKEN" \
@@ -206,9 +212,9 @@ curl -fsS -X POST "$API_URL/api/projects" \
 
 **API 응답 검증:**
 ```bash
-# 환경 변수 가드
-: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
-API_URL="${LOOP_API_URL:-http://localhost:8081}"
+# Auto-load env if not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
 
 # curl -w로 HTTP 코드 캡처 (fsS: fail on error, show error, silent progress)
 RESPONSE=$(curl -sS -w "\n%{http_code}" -X POST "$API_URL/api/tasks" \
@@ -370,11 +376,11 @@ Optional fields:
 > - ❌ Falling back to local creation when API fails
 > - ❌ Using legacy sequential IDs (tsk-NNN-NN)
 
-**2a. Verify environment variables**
+**2a. Load environment variables**
 
 ```bash
-# REQUIRED - will fail if not set
-: "${LOOP_API_TOKEN:?ERROR: LOOP_API_TOKEN is not set}"
+# Auto-load env if not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
 API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
 ```
 
@@ -696,11 +702,11 @@ Use AskUserQuestion to ask:
 > - ❌ Falling back to local creation when API fails
 > - ❌ Using legacy sequential IDs (prj-NNN)
 
-**2a. Verify environment variables**
+**2a. Load environment variables**
 
 ```bash
-# REQUIRED - will fail if not set
-: "${LOOP_API_TOKEN:?ERROR: LOOP_API_TOKEN is not set}"
+# Auto-load env if not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
 API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
 ```
 
@@ -1073,8 +1079,9 @@ IF hypothesis_question does NOT end with '?':
 **Step 2: API 호출**
 
 ```bash
+# Auto-load env if not set
+[ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
 API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
-: "${LOOP_API_TOKEN:?LOOP_API_TOKEN is required}"
 
 curl -fsS -X POST "$API_URL/api/hypotheses" \
     -H "Authorization: Bearer $LOOP_API_TOKEN" \
