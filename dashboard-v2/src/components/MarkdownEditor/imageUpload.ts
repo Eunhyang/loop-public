@@ -1,4 +1,12 @@
 import { httpClient } from '@/services/http'
+import { authStorage } from '@/features/auth/storage'
+
+// API base URL for constructing absolute image URLs
+const getApiBaseUrl = (): string => {
+  // In production, use the MCP server URL
+  // In development, Vite proxy handles /api/* but <img> tags need absolute URLs with auth
+  return import.meta.env.VITE_API_URL || 'https://mcp.sosilab.synology.me'
+}
 
 const ALLOWED_IMAGE_TYPES = [
   'image/jpeg',
@@ -64,8 +72,17 @@ export const uploadImage = async (
     throw new Error('Upload failed: no attachment data in response')
   }
 
+  // Construct absolute URL with auth token for <img> tag to load
+  // Note: <img src=""> doesn't use axios, so we need token in URL
+  const token = authStorage.getToken()
+  const baseUrl = getApiBaseUrl()
+  const attachmentPath = `/api/tasks/${taskId}/attachments/${encodeURIComponent(response.data.attachment.filename)}`
+  const imageUrl = token
+    ? `${baseUrl}${attachmentPath}?token=${encodeURIComponent(token)}`
+    : `${baseUrl}${attachmentPath}`
+
   return {
-    url: response.data.attachment.url,
+    url: imageUrl,
     filename: response.data.attachment.filename,
   }
 }

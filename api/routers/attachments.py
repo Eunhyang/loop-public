@@ -18,7 +18,7 @@ from pathlib import Path
 from datetime import datetime
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi import APIRouter, HTTPException, UploadFile, File, Query
 from fastapi.responses import FileResponse
 
 from ..models.entities import AttachmentInfo, AttachmentResponse, AttachmentListResponse, TextExtractionResponse
