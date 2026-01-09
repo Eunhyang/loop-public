@@ -21,6 +21,12 @@ realized_impact:
   decided: null
 hypothesis_id: null
 experiments: []
+tasks:
+  - tsk-vault-gpt-01
+  - tsk-vault-gpt-10
+  - tsk-vault-gpt-11
+  - tsk-vault-gpt-13
+  - tsk-50acf0-1767944821000
 parent_id: trk-2
 conditions_3y:
 - cond-b
