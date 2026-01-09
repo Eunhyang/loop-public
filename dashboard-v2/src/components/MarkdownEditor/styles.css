@@ -200,6 +200,20 @@
   margin-bottom: 0;
 }
 
+/* Image */
+.markdown-editor .tiptap-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+  margin: 0.5rem 0;
+  display: block;
+}
+
+.markdown-editor .tiptap-image.ProseMirror-selectednode {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
 /* ReadOnly Mode */
 .markdown-editor .ProseMirror[contenteditable='false'] {
   cursor: default;

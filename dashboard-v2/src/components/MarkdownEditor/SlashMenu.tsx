@@ -202,6 +202,33 @@ export const SlashCommandExtension = Extension.create({
                   .run()
               },
             },
+            {
+              title: 'Image',
+              description: 'Upload an image',
+              icon: '🖼',
+              command: ({ editor, range }) => {
+                // Delete the slash command text
+                editor.chain().focus().deleteRange(range).run()
+
+                // Create and trigger file input
+                const input = document.createElement('input')
+                input.type = 'file'
+                input.accept = 'image/*'
+                input.onchange = (e) => {
+                  const file = (e.target as HTMLInputElement).files?.[0]
+                  if (file) {
+                    // Trigger the image upload via a custom event scoped to this editor
+                    // Use editor.view.dom as the target to scope to this editor instance
+                    const event = new CustomEvent('editor:uploadImage', {
+                      detail: { file },
+                      bubbles: false,
+                    })
+                    editor.view.dom.dispatchEvent(event)
+                  }
+                }
+                input.click()
+              },
+            },
           ]
 
           return commands.filter((item) =>

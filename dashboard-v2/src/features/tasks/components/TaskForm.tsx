@@ -653,6 +653,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                         readOnly={isReadOnly}
                         placeholder="Type / for commands..."
                         minHeight="300px"
+                        taskId={id}
                     />
                 </ReviewFieldWrapper>
             </div>

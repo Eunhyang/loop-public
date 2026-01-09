@@ -1,10 +1,11 @@
 import { useEditor, EditorContent, Editor } from '@tiptap/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { createExtensions } from './extensions'
 import { SlashCommandExtension } from './SlashMenu'
 import { MenuBar } from './MenuBar'
 import { TableMenu } from './TableMenu'
+import { uploadImage, validateImageFile, isImageFile } from './imageUpload'
 import './styles.css'
 
 // Helper to get markdown from editor (tiptap-markdown adds this method)
@@ -21,6 +22,8 @@ export interface MarkdownEditorProps {
   minHeight?: string
   className?: string
   onBlur?: () => void
+  taskId?: string // Optional: enables image upload
+  onAutoSave?: () => Promise<string> // For create mode: returns taskId after save
 }
 
 export const MarkdownEditor = ({
@@ -31,10 +34,14 @@ export const MarkdownEditor = ({
   minHeight = '200px',
   className = '',
   onBlur,
+  taskId,
+  onAutoSave,
 }: MarkdownEditorProps) => {
   const isInitialMount = useRef(true)
   const lastValue = useRef(value)
   const isProgrammaticUpdate = useRef(false)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
 
   // Debounced onChange to avoid excessive calls
   const debouncedOnChange = useDebouncedCallback((md: string) => {
@@ -44,6 +51,44 @@ export const MarkdownEditor = ({
     }
   }, 300)
 
+  // Handle image file upload
+  const handleImageUpload = async (file: File, editorInstance: Editor) => {
+    // Validate file
+    const validation = validateImageFile(file)
+    if (!validation.valid) {
+      setUploadError(validation.error || 'Invalid file')
+      return
+    }
+
+    try {
+      setUploading(true)
+      setUploadError(null)
+
+      // Get taskId (either from prop or from onAutoSave)
+      let currentTaskId = taskId
+      if (!currentTaskId && onAutoSave) {
+        currentTaskId = await onAutoSave()
+      }
+
+      if (!currentTaskId) {
+        throw new Error('No task ID available for upload')
+      }
+
+      // Upload image
+      const { url } = await uploadImage(currentTaskId, file)
+
+      // Insert image into editor
+      editorInstance.chain().focus().setImage({ src: url, alt: file.name }).run()
+    } catch (error) {
+      console.error('Image upload failed:', error)
+      setUploadError(
+        error instanceof Error ? error.message : 'Failed to upload image'
+      )
+    } finally {
+      setUploading(false)
+    }
+  }
+
   const editor = useEditor({
     extensions: [...createExtensions(placeholder), SlashCommandExtension],
     content: value,
@@ -52,6 +97,28 @@ export const MarkdownEditor = ({
       attributes: {
         class: 'prose prose-sm max-w-none focus:outline-none',
         style: `min-height: ${minHeight}`,
+      },
+      handleDrop: (_view, event, _slice, _moved) => {
+        if (readOnly || !taskId) return false
+        const files = Array.from((event as DragEvent).dataTransfer?.files || [])
+        const imageFiles = files.filter(isImageFile)
+        if (imageFiles.length > 0 && editor) {
+          event.preventDefault()
+          imageFiles.forEach((file) => handleImageUpload(file, editor))
+          return true
+        }
+        return false
+      },
+      handlePaste: (_view, event) => {
+        if (readOnly || !taskId) return false
+        const files = Array.from((event as ClipboardEvent).clipboardData?.files || [])
+        const imageFiles = files.filter(isImageFile)
+        if (imageFiles.length > 0 && editor) {
+          event.preventDefault()
+          imageFiles.forEach((file) => handleImageUpload(file, editor))
+          return true
+        }
+        return false
       },
     },
     onUpdate: ({ editor }) => {
@@ -112,6 +179,24 @@ export const MarkdownEditor = ({
     editor.setEditable(!readOnly)
   }, [readOnly, editor])
 
+  // Listen for image upload events from SlashMenu
+  useEffect(() => {
+    if (!editor || readOnly || !taskId) return
+
+    const editorDom = editor.view.dom
+    const handleImageUploadEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ file: File }>
+      if (customEvent.detail?.file) {
+        handleImageUpload(customEvent.detail.file, editor)
+      }
+    }
+
+    editorDom.addEventListener('editor:uploadImage', handleImageUploadEvent)
+    return () => {
+      editorDom.removeEventListener('editor:uploadImage', handleImageUploadEvent)
+    }
+  }, [editor, readOnly, taskId])
+
   if (!editor) {
     return null
   }
@@ -119,6 +204,16 @@ export const MarkdownEditor = ({
   return (
     <div className={`markdown-editor border border-gray-300 rounded-lg overflow-hidden ${className}`}>
       {!readOnly && <MenuBar editor={editor} />}
+      {uploading && (
+        <div className="px-3 py-2 bg-blue-50 border-b border-blue-200 text-sm text-blue-700">
+          Uploading image...
+        </div>
+      )}
+      {uploadError && (
+        <div className="px-3 py-2 bg-red-50 border-b border-red-200 text-sm text-red-700">
+          {uploadError}
+        </div>
+      )}
       <div className="p-3">
         <EditorContent editor={editor} />
       </div>

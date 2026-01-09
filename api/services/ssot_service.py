@@ -225,13 +225,8 @@ class SSOTService:
         is_legacy = last_segment.isdigit()
 
         if is_legacy:
-            # Generate deterministic hash (no salt, always same output for same input)
-            hash_bytes = hashlib.sha256(project_id.encode("utf-8")).digest()
-            # Use 5 bytes (40 bits) to ensure 6 base36 chars without truncation
-            hash_int = int.from_bytes(hash_bytes[:5], "big")
-            hash_str = self._to_base36(hash_int).lower()
-            # Take exactly 6 chars (or pad if shorter)
-            return hash_str[:6].zfill(6)
+            # Legacy ID: 숫자 그대로 사용 (prj-023 → "023")
+            return last_segment
 
         # Already a hash - normalize last segment to lowercase 6 chars
         # prj-a7k9m2 → last_segment = "a7k9m2"
