@@ -10,6 +10,7 @@ export interface CreateTaskDTO {
     type?: string;
     start_date?: string;
     due?: string;
+    notes?: string;
 }
 
 export const taskApi = {

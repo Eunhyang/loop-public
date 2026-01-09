@@ -16,6 +16,136 @@ import { AttachmentPanel } from './AttachmentPanel';
 import { CommentSection } from '@/features/comments';
 import type { Task } from '@/types';
 
+// Task body templates for Create mode
+type TemplateType = 'empty' | 'dev' | 'bug' | 'meeting';
+
+const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> = {
+    empty: {
+        label: 'Empty',
+        content: ''
+    },
+    dev: {
+        label: 'Dev Task',
+        content: `## 목표
+
+**완료 조건**:
+1.
+
+---
+
+## 상세 내용
+
+### 배경
+
+
+### 작업 내용
+
+
+---
+
+## 체크리스트
+
+- [ ] 구현 완료
+- [ ] 테스트 통과
+- [ ] 빌드 성공
+
+---
+
+## Notes
+
+### Todo
+- [ ]
+
+### 작업 로그
+`
+    },
+    bug: {
+        label: 'Bug Report',
+        content: `## Bug 설명
+
+**증상**:
+
+
+**재현 단계**:
+1.
+2.
+3.
+
+**예상 동작**:
+
+
+**실제 동작**:
+
+
+---
+
+## 환경
+
+- Browser:
+- OS:
+- Version:
+
+---
+
+## 해결 방안
+
+### 원인 분석
+
+
+### 수정 내용
+
+
+---
+
+## 검증
+
+- [ ] 버그 재현 불가 확인
+- [ ] 회귀 테스트 통과
+`
+    },
+    meeting: {
+        label: 'Meeting Notes',
+        content: `## Meeting Info
+
+- Date:
+- Attendees:
+- Duration:
+
+---
+
+## Agenda
+
+1.
+2.
+3.
+
+---
+
+## Discussion
+
+### Topic 1
+
+
+### Topic 2
+
+
+---
+
+## Action Items
+
+- [ ] [@Person]
+- [ ] [@Person]
+
+---
+
+## Next Meeting
+
+- Date:
+- Agenda:
+`
+    }
+};
+
 interface TaskFormProps {
     mode: 'create' | 'edit' | 'view' | 'review';
     id?: string;
@@ -57,8 +187,10 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         type: prefill?.type || 'dev',
         start_date: prefill?.start_date || '',
         due: prefill?.due || '',
+        notes: prefill?.notes || '',
     });
 
+    const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>('empty');
     const [formError, setFormError] = useState<string | null>(null);
 
     // For edit mode, use task data
@@ -312,6 +444,41 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                                 onChange={e => setCreateFormData(prev => ({ ...prev, due: e.target.value }))}
                             />
                         </div>
+                    </div>
+
+                    {/* Template Selector */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Notes Template</label>
+                        <div className="flex gap-2">
+                            {(Object.entries(TASK_TEMPLATES) as [TemplateType, typeof TASK_TEMPLATES[TemplateType]][]).map(([key, template]) => (
+                                <button
+                                    key={key}
+                                    type="button"
+                                    onClick={() => {
+                                        setSelectedTemplate(key);
+                                        setCreateFormData(prev => ({ ...prev, notes: template.content }));
+                                    }}
+                                    className={`px-3 py-1 text-xs rounded transition-colors ${
+                                        selectedTemplate === key
+                                            ? 'bg-blue-500 text-white'
+                                            : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                                    }`}
+                                >
+                                    {template.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Notes Field */}
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-zinc-700">Notes</label>
+                        <MarkdownEditor
+                            value={createFormData.notes || ''}
+                            onChange={(markdown) => setCreateFormData(prev => ({ ...prev, notes: markdown }))}
+                            minHeight="200px"
+                            placeholder="Add notes or select a template..."
+                        />
                     </div>
                 </div>
 
