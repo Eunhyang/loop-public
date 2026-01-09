@@ -75,30 +75,25 @@ class HashIdMigrator:
         entity_name: str,
         created_date: str
     ) -> str:
-        """Generate Hash+Epoch ID.
+        """Generate ID following SSOT format (api/services/ssot_service.py).
 
-        IMPORTANT: Not fully deterministic across runs!
-        - Hash part: Deterministic (entity_name + created_date)
-        - Epoch part: Current timestamp (ensures uniqueness)
+        Project: prj-{hash6}           (e.g., prj-a7k9m2)
+        Task:    tsk-{hash6}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)
 
-        This design ensures:
-        1. No ID collisions (epoch provides uniqueness)
-        2. Consistent hash for same entity (reproducible prefix)
-        3. Migration can be run once (idempotency checks prevent double-migration)
-
-        Note: Dry-run and apply will show different IDs, but this is intentional
-        to prevent accidental reruns from creating duplicate IDs.
+        Hash part uses entity_name + created_date for determinism.
+        Epoch only added for Tasks (ensures uniqueness within project).
         """
-        # Generate hash from entity_name + created_date (deterministic part)
+        # Generate hash from entity_name + created_date
         hash_input = f"{entity_name}{created_date}".encode('utf-8')
         hash_hex = hashlib.sha256(hash_input).hexdigest()[:6]
 
-        # Generate epoch (milliseconds) - uniqueness part
-        epoch = int(time.time() * 1000)
-
-        # Format: {type}-{hash6}-{epoch13}
-        prefix = "prj" if entity_type == "Project" else "tsk"
-        return f"{prefix}-{hash_hex}-{epoch}"
+        if entity_type == "Project":
+            # Project: prj-{hash6} only
+            return f"prj-{hash_hex}"
+        else:
+            # Task: tsk-{hash6}-{epoch13}
+            epoch = int(time.time() * 1000)
+            return f"tsk-{hash_hex}-{epoch}"
 
     def extract_frontmatter(self, file_path: Path) -> Tuple[Dict, str]:
         """Extract YAML frontmatter and body from markdown file."""

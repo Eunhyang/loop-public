@@ -40,7 +40,10 @@ export const taskApi = {
             `/api/tasks/${taskId}/attachments`,
             formData,
             {
-                // Let axios set Content-Type with boundary automatically
+                headers: {
+                    // Remove default Content-Type so axios sets multipart/form-data with boundary
+                    'Content-Type': undefined,
+                },
                 onUploadProgress: (progressEvent) => {
                     if (onProgress && progressEvent.total) {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
