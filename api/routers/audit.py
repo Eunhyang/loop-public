@@ -25,6 +25,7 @@ from ..services.decision_logger import (
     get_decision_by_id,
     get_entity_decision_history
 )
+from ..services.notification_service import send_entity_created_notification
 
 router = APIRouter(prefix="/api/audit", tags=["audit"])
 
@@ -107,6 +108,25 @@ def log_entity_action(
 
     with open(AUDIT_LOG_JSONL, "a", encoding="utf-8") as f:
         f.write(json.dumps(new_entry, ensure_ascii=False) + "\n")
+
+    # Discord 알림 (생성 시에만)
+    if action == "create" and entity_type in ("Task", "Project", "Program"):
+        extra_fields = {}
+        if details:
+            if "status" in details:
+                extra_fields["Status"] = details["status"]
+            if "assignee" in details:
+                extra_fields["Assignee"] = details["assignee"]
+            if "owner" in details:
+                extra_fields["Owner"] = details["owner"]
+
+        send_entity_created_notification(
+            entity_type=entity_type,
+            entity_id=entity_id,
+            entity_name=entity_name,
+            actor=actor,
+            extra_fields=extra_fields if extra_fields else None
+        )
 
 
 @router.get("")

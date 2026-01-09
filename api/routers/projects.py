@@ -224,6 +224,8 @@ async def create_project(project: ProjectCreate):
         entity_id=project_id,
         entity_name=project.entity_name,
         details={
+            "owner": project.owner,
+            "status": "planning",
             "autofill_expected_impact": project.autofill_expected_impact,
             "expected_impact": expected_impact_result,
             "expected_score": expected_score,
