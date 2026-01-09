@@ -1,5 +1,5 @@
 import { httpClient } from '@/services/http';
-import type { Project, Task, Hypothesis, Track } from '@/types';
+import type { Project } from '@/types';
 
 export interface CreateProjectDTO {
     entity_name: string;
@@ -11,19 +11,9 @@ export interface CreateProjectDTO {
     description?: string;
 }
 
-export interface ProjectContextResponse {
-    project: Project;
-    tasks: Task[];
-    hypotheses: Hypothesis[];
-    parent_track: Track | null;
-}
-
 export const projectApi = {
     getProject: (id: string) =>
         httpClient.get<{ project: Project }>(`/api/projects/${id}`).then(res => ({ data: res.data.project })),
-
-    getProjectContext: (id: string) =>
-        httpClient.get<ProjectContextResponse>(`/api/projects/${id}/context`).then(res => res.data),
 
     createProject: (data: CreateProjectDTO) =>
         httpClient.post<{ success: boolean; project_id: string; message?: string }>('/api/projects', data),

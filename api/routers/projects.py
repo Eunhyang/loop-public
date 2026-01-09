@@ -9,6 +9,7 @@ autofill_expected_impact 옵션으로 LLM 자동 채움 지원
 import re
 import yaml
 import shutil
+import copy
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Dict, Any
@@ -376,6 +377,10 @@ def update_project(project_id: str, project: ProjectUpdate):
                 }
             )
 
+    # SSOT Rule C: Preserve old frontmatter for diff calculation (tsk-019-14)
+    old_frontmatter = copy.deepcopy(frontmatter)  # Deep copy before mutations
+    old_body = body  # Preserve old body separately
+
     # 5. 업데이트
     if project.entity_name is not None:
         frontmatter['entity_name'] = project.entity_name
@@ -443,6 +448,42 @@ def update_project(project_id: str, project: ProjectUpdate):
     # 7. 캐시 업데이트 (_body 포함)
     frontmatter['_body'] = body
     cache.set_project(project_id, frontmatter, project_file)
+
+    # SSOT Rule C: 감사 로그 with diff (tsk-019-14)
+    try:
+        # Calculate modified_fields: exclude request-only fields (expected_updated_at, etc.)
+        ENTITY_FIELDS = {'entity_name', 'owner', 'parent_id', 'program_id', 'status',
+                        'priority_flag', 'deadline', 'hypothesis_text', 'tags', 'notes',
+                        'links', 'body'}
+        changed_fields = [k for k, v in project.model_dump().items()
+                         if v is not None and k in ENTITY_FIELDS]
+
+        # Calculate diff: {field: {old, new}} for actually changed values
+        diff = {}
+        for field in changed_fields:
+            if field == 'body':
+                old_val = old_body
+                new_val = body
+            else:
+                old_val = old_frontmatter.get(field)
+                new_val = frontmatter.get(field)
+
+            if old_val != new_val:
+                diff[field] = {"old": old_val, "new": new_val}
+
+        log_entity_action(
+            action="update",
+            entity_type="Project",
+            entity_id=project_id,
+            entity_name=frontmatter.get("entity_name", ""),
+            details={"changed_fields": changed_fields},  # Legacy
+            source="api",
+            modified_fields=list(diff.keys()),  # Only actually modified fields
+            diff=diff
+        )
+    except Exception as e:
+        # 감사 로그 실패는 무시 (메인 로직에 영향 주지 않음)
+        print(f"Warning: Failed to log project update: {e}")
 
     return ProjectResponse(
         success=True,

@@ -17,6 +17,7 @@ D. Project 연결: validates 연결
 
 import re
 import yaml
+import copy
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, List

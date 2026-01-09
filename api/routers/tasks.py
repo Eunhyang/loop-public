@@ -7,6 +7,7 @@ Task 생성, 조회, 수정, 삭제 엔드포인트
 
 import re
 import yaml
+import copy
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
@@ -279,7 +280,7 @@ def update_task(task_id: str, task: TaskUpdate):
             )
 
     # SSOT Rule C: Preserve old frontmatter for diff calculation (tsk-019-14)
-    old_frontmatter = dict(frontmatter)  # Deep copy before mutations
+    old_frontmatter = copy.deepcopy(frontmatter)  # Deep copy before mutations
 
     # 업데이트
     try:

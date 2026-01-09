@@ -351,117 +351,154 @@ Optional fields:
 **FORBIDDEN (역할 분리):**
 - ❌ `validates` - Task는 전략 판단에 개입하지 않음. validates는 Project만 가능.
 
-**Step 2: Generate next Task ID**
+**Step 2: Create Task via API (MANDATORY - NO FALLBACK)**
 
-1. Use Glob to find all Task files:
-   ```
-   pattern: 50_Projects/**/Tasks/*.md
-   ```
+> ## ⛔ CRITICAL: API-ONLY TASK CREATION
+>
+> **Local file creation is FORBIDDEN.** All Tasks MUST be created through the API.
+>
+> - API generates Hash+Epoch ID (e.g., `tsk-a7k9m2-1736412652123`)
+> - API creates file on NAS vault
+> - API commits and pushes to GitHub
+> - Local syncs via git pull
+>
+> **This ensures SSOT (Single Source of Truth) and prevents ID collisions.**
+>
+> **FORBIDDEN behaviors:**
+> - ❌ Generating Task ID locally (sequential or any format)
+> - ❌ Creating Task file with Write tool
+> - ❌ Falling back to local creation when API fails
+> - ❌ Using legacy sequential IDs (tsk-NNN-NN)
 
-2. Use Read to scan each file's frontmatter for `entity_id: tsk-*`
+**2a. Verify environment variables**
 
-3. Find the highest ID (e.g., `tsk-003-01`)
-
-4. Increment by 1:
-   - Extract main number and sub number (003-01 → 3, 1)
-   - Combined = 3 * 100 + 1 = 301
-   - Next = 301 + 1 = 302
-   - Format = 302 → 3 main, 2 sub → `tsk-003-02`
-
-5. If no existing Tasks found, start with `tsk-001-01`
-
-**Step 3: Load and populate template**
-
-1. Read template:
-   ```
-   path: 00_Meta/_TEMPLATES/template_task.md
-   ```
-
-2. Replace {{PLACEHOLDERS}}:
-   - `{{entity_id}}` → generated ID (e.g., `tsk-003-02`)
-   - `{{entity_name}}` → user-provided name
-   - `{{project_id}}` → user-provided project ID
-   - `{{assignee}}` → user-provided assignee
-   - `{{parent_id}}` → user-provided parent ID (if any)
-   - `{{priority_flag}}` → user-provided priority (if any)
-   - `{{TYPE}}` → user-provided type (dev | strategy | research | ops | null)
-   - `{{TARGET_PROJECT}}` → user-provided target_project (sosi | kkokkkok | loop-api | null)
-   - `{{DATE}}` → current date (YYYY-MM-DD format)
-   - Note: `aliases` will automatically include entity_id for Obsidian linking
-
-**Step 4: Determine file path**
-
-> **⚠️ CRITICAL: Task filename MUST be `{task_id}.md`, NOT `{entity_name}.md`**
-> **SSOT Enforcement (tsk-022-24): All new Tasks use tsk-{id}.md pattern**
-
-Get project name from project_id:
-1. Use Grep to find project file with `entity_id: {project_id}`
-2. Read the project file to get `entity_name`
-3. Construct path:
-   ```
-   50_Projects/{project_name}/Tasks/{task_id}.md
-   ```
-
-**Examples**:
-- ✅ CORRECT: `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/tsk-022-24.md`
-- ❌ WRONG: `50_Projects/Vault_System/Rounds/prj-019_Dual-Vault-정비/Tasks/SSOT_Task_파일명_규칙_강제_구현.md`
-
-**Rationale**:
-- Filename = entity_id enables O(1) lookup
-- Prevents filename collisions
-- Simplifies Git tracking
-- Unified pattern across all Tasks
-
-**Step 5: Create Task (API 우선)**
-
-> **API 호출 우선, 실패 시 로컬 파일 생성**
-
-**Step 5a: API 호출 시도**
 ```bash
-API_URL="${LOOP_API_URL:-http://localhost:8081}"
+# REQUIRED - will fail if not set
+: "${LOOP_API_TOKEN:?ERROR: LOOP_API_TOKEN is not set}"
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
+```
 
-# Health check
-if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
-    # API 호출
-    RESPONSE=$(curl -s -X POST "$API_URL/api/tasks" \
-        -H "Authorization: Bearer $LOOP_API_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d '{
-            "entity_name": "{entity_name}",
-            "project_id": "{project_id}",
-            "assignee": "{assignee}",
-            "status": "{status}",
-            "priority": "{priority}",
-            "type": "{type}",
-            "target_project": "{target_project}"
-        }')
+**2b. Call API to create Task**
 
-    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
-        TASK_ID=$(echo "$RESPONSE" | jq -r '.task_id')
-        FILE_PATH=$(echo "$RESPONSE" | jq -r '.file_path')
-        echo "✅ Task created via API: $TASK_ID"
-        echo "📁 File: $FILE_PATH"
-        # → Step 6으로 이동 (Validation은 API가 이미 처리)
-    else
-        echo "⚠️ API returned error, falling back to local"
-        # → Step 5b로 이동
-    fi
+```bash
+RESPONSE=$(curl -fsS -X POST "$API_URL/api/tasks" \
+    -H "Authorization: Bearer $LOOP_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "entity_name": "{entity_name}",
+        "project_id": "{project_id}",
+        "assignee": "{assignee}",
+        "status": "{status}",
+        "priority": "{priority}",
+        "type": "{type}",
+        "target_project": "{target_project}"
+    }')
+```
+
+**2c. Parse API response**
+
+```bash
+# Extract task_id (Hash+Epoch format)
+TASK_ID=$(echo "$RESPONSE" | jq -r '.task_id')
+FILE_PATH=$(echo "$RESPONSE" | jq -r '.file_path')
+
+# Verify ID format (MUST be Hash+Epoch, NOT sequential)
+if [[ ! "$TASK_ID" =~ ^tsk-[a-z0-9]{6}-[0-9]{13}$ ]]; then
+    echo "❌ ERROR: Invalid Task ID format: $TASK_ID"
+    echo "Expected: tsk-{hash6}-{epoch13} (e.g., tsk-a7k9m2-1736412652123)"
+    exit 1
+fi
+
+echo "✅ Task created: $TASK_ID"
+echo "📁 File: $FILE_PATH"
+```
+
+**2d. Handle API errors (NO FALLBACK)**
+
+If API call fails:
+1. Display error message to user
+2. Ask user to check:
+   - Network connectivity
+   - API server status (`curl $API_URL/health`)
+   - Token validity (`echo $LOOP_API_TOKEN`)
+3. **DO NOT create file locally**
+4. **DO NOT generate ID locally**
+
+```bash
+# If API fails
+echo "❌ API call failed. Task creation aborted."
+echo ""
+echo "Troubleshooting:"
+echo "  1. Check API health: curl -s $API_URL/health"
+echo "  2. Check token: echo \$LOOP_API_TOKEN | head -c 10"
+echo "  3. Check network: ping mcp.sosilab.synology.me"
+echo ""
+echo "DO NOT create Task file manually. Fix the issue and retry."
+```
+
+**Step 3: Sync to local (MANDATORY)**
+
+> **⚠️ CRITICAL: Must sync immediately after API creates file**
+>
+> API creates file on NAS vault → GitHub push → Local must pull
+
+**3a. Pull latest from GitHub**
+
+```bash
+# Navigate to local vault
+cd /Users/gim-eunhyang/dev/loop/public
+
+# Pull latest (includes newly created Task)
+git pull origin main
+
+# Verify file exists locally
+if [ -f "$FILE_PATH" ]; then
+    echo "✅ Task synced to local: $FILE_PATH"
 else
-    echo "⚠️ API unavailable, using local file creation"
-    # → Step 5b로 이동
+    echo "⚠️ File not found locally. Retry git pull in a few seconds."
+    sleep 3
+    git pull origin main
 fi
 ```
 
-**Step 5b: Fallback - 로컬 파일 생성**
+**3b. Verify local file**
 
-API 호출 실패 시 기존 방식으로 파일 생성:
-- Use Write to save the populated template to the determined path.
+```bash
+# Confirm Task ID in file matches API response
+LOCAL_ID=$(grep "entity_id:" "$FILE_PATH" | awk '{print $2}')
+if [ "$LOCAL_ID" = "$TASK_ID" ]; then
+    echo "✅ Local file verified: $TASK_ID"
+else
+    echo "❌ ID mismatch! API: $TASK_ID, Local: $LOCAL_ID"
+fi
+```
 
-**Step 6: Validate and index**
+**Step 4: Post-creation (Validation already done by API)**
 
-Run validation (see "Validation Workflow" section below).
-- **API 성공 시**: API가 감사 로그 + 캐시 업데이트 완료. Validation만 실행.
-- **Fallback 사용 시**: 전체 Validation Workflow 실행.
+API handles:
+- ✅ Schema validation
+- ✅ ID generation (Hash+Epoch)
+- ✅ File creation
+- ✅ Git commit + push
+- ✅ Cache update
+- ✅ Audit logging
+
+Local only needs to:
+- Confirm file exists after git pull
+- Proceed with development work
+
+**Task ID Format (SSOT: schema_constants.yaml)**
+
+| Format | Pattern | Example | Status |
+|--------|---------|---------|--------|
+| Hash+Epoch | `tsk-{hash6}-{epoch13}` | `tsk-a7k9m2-1736412652123` | **CURRENT** |
+| Legacy Sequential | `tsk-{prj}-{seq}` | `tsk-023-37` | **DEPRECATED** |
+
+**Filename Convention**
+
+- Pattern: `{task_id}.md`
+- Example: `tsk-a7k9m2-1736412652123.md`
+- Location: `50_Projects/{project}/Tasks/`
 
 ### Creating a Project
 
@@ -609,120 +646,160 @@ Use AskUserQuestion to ask:
 | None | `tier: "none"`, `impact_magnitude: null`, `confidence: null`, `contributes: []` |
 | 나중에 | `tier: null`, `impact_magnitude: null`, `confidence: null`, `contributes: []` |
 
-**Step 2: Generate next Project ID**
+**Step 2: Create Project via API (MANDATORY - NO FALLBACK)**
 
-1. Use Glob to find all Project files:
-   ```
-   pattern: 50_Projects/P**/project.md
-   ```
+> ## ⛔ CRITICAL: API-ONLY PROJECT CREATION
+>
+> **Local file creation is FORBIDDEN.** All Projects MUST be created through the API.
+>
+> - API generates Hash-based ID (e.g., `prj-a7k9m2`)
+> - API creates directory structure on NAS vault
+> - API commits and pushes to GitHub
+> - Local syncs via git pull
+>
+> **This ensures SSOT (Single Source of Truth) and prevents ID collisions.**
+>
+> **FORBIDDEN behaviors:**
+> - ❌ Generating Project ID locally (sequential or any format)
+> - ❌ Creating Project directory with Bash mkdir
+> - ❌ Creating project.md with Write tool
+> - ❌ Falling back to local creation when API fails
+> - ❌ Using legacy sequential IDs (prj-NNN)
 
-2. Use Read to scan each file's frontmatter for `entity_id: prj-*`
+**2a. Verify environment variables**
 
-3. Find the highest number (e.g., `prj-003`)
-
-4. Increment by 1:
-   - Extract number (003 → 3)
-   - Next = 3 + 1 = 4
-   - Format = `prj-004`
-
-5. If no existing Projects found, start with `prj-001`
-
-**Step 3: Load and populate template**
-
-1. Read template:
-   ```
-   path: 00_Meta/_TEMPLATES/template_project.md
-   ```
-
-2. Replace {{PLACEHOLDERS}}:
-   - `{{entity_id}}` → generated ID (e.g., `prj-004`)
-   - `{{entity_name}}` → user-provided name
-   - `{{owner}}` → user-provided owner
-   - `{{parent_id}}` → user-provided Track ID (e.g., `trk-2`)
-   - `{{conditions_3y}}` → user-provided conditions (e.g., `["cond-a", "cond-b"]`)
-   - `{{program_id}}` → user-provided program ID (if any, e.g., `pgm-youtube`)
-   - `{{cycle}}` → user-provided cycle (if any, e.g., `W33`)
-   - `{{hypothesis_id}}` → user-provided hypothesis ID (if any)
-   - `{{priority_flag}}` → user-provided priority (if any)
-   - `{{DATE}}` → current date
-   - `{{project_num}}` → extracted from ID (004)
-   - Note: `aliases` will automatically include entity_id for Obsidian linking
-
-   Expected Impact 플레이스홀더 (Step 1.6 선택에 따라):
-   - `{{IMPACT_TIER}}` → "strategic" | "enabling" | "operational" | "none" | null
-   - `{{IMPACT_MAG}}` → "high" | "mid" | "low" | null
-   - `{{CONFIDENCE}}` → 0.0-1.0 | null
-   - `{{COND_ID}}` → "cond-a" 등 | 빈 값
-   - `{{WEIGHT}}` → 0.0-1.0 | 빈 값
-
-**Step 4: Create Project (API 우선)**
-
-> **API 호출 우선, 실패 시 로컬 파일 생성**
-
-**Step 4a: API 호출 시도**
 ```bash
-API_URL="${LOOP_API_URL:-http://localhost:8081}"
+# REQUIRED - will fail if not set
+: "${LOOP_API_TOKEN:?ERROR: LOOP_API_TOKEN is not set}"
+API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
+```
 
-# Health check
-if curl -s --max-time 5 "$API_URL/health" | jq -e '.status == "healthy"' > /dev/null 2>&1; then
-    # API 호출 (autofill_expected_impact 옵션 포함)
-    RESPONSE=$(curl -s -X POST "$API_URL/api/projects" \
-        -H "Authorization: Bearer $LOOP_API_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d '{
-            "entity_name": "{entity_name}",
-            "owner": "{owner}",
-            "parent_id": "{parent_id}",
-            "conditions_3y": {conditions_3y},
-            "priority": "{priority}",
-            "autofill_expected_impact": {true|false},
-            "llm_provider": "openai"
-        }')
+**2b. Call API to create Project**
 
-    if echo "$RESPONSE" | jq -e '.success == true' > /dev/null; then
-        PROJECT_ID=$(echo "$RESPONSE" | jq -r '.project_id')
-        DIR_NAME=$(echo "$RESPONSE" | jq -r '.directory')
-        EXP_SCORE=$(echo "$RESPONSE" | jq -r '.expected_score // "N/A"')
-        echo "✅ Project created via API: $PROJECT_ID"
-        echo "📁 Directory: $DIR_NAME"
-        [ "$EXP_SCORE" != "N/A" ] && echo "📊 Expected Score: $EXP_SCORE"
-        # → Step 5로 이동
-    else
-        ERROR=$(echo "$RESPONSE" | jq -r '.detail // .error')
-        echo "⚠️ API error: $ERROR"
-        # → Step 4b로 이동
-    fi
+```bash
+RESPONSE=$(curl -fsS -X POST "$API_URL/api/projects" \
+    -H "Authorization: Bearer $LOOP_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "entity_name": "{entity_name}",
+        "owner": "{owner}",
+        "parent_id": "{parent_id}",
+        "conditions_3y": {conditions_3y},
+        "program_id": "{program_id}",
+        "cycle": "{cycle}",
+        "priority": "{priority}",
+        "autofill_expected_impact": {true|false}
+    }')
+```
+
+**2c. Parse API response**
+
+```bash
+# Extract project_id (Hash format)
+PROJECT_ID=$(echo "$RESPONSE" | jq -r '.project_id')
+DIR_PATH=$(echo "$RESPONSE" | jq -r '.directory')
+EXP_SCORE=$(echo "$RESPONSE" | jq -r '.expected_score // "N/A"')
+
+# Verify ID format (MUST be Hash, NOT sequential)
+if [[ ! "$PROJECT_ID" =~ ^prj-[a-z0-9]{6}$ ]]; then
+    echo "❌ ERROR: Invalid Project ID format: $PROJECT_ID"
+    echo "Expected: prj-{hash6} (e.g., prj-a7k9m2)"
+    exit 1
+fi
+
+echo "✅ Project created: $PROJECT_ID"
+echo "📁 Directory: $DIR_PATH"
+[ "$EXP_SCORE" != "N/A" ] && echo "📊 Expected Score: $EXP_SCORE"
+```
+
+**2d. Handle API errors (NO FALLBACK)**
+
+If API call fails:
+1. Display error message to user
+2. Ask user to check:
+   - Network connectivity
+   - API server status (`curl $API_URL/health`)
+   - Token validity (`echo $LOOP_API_TOKEN`)
+3. **DO NOT create directory locally**
+4. **DO NOT generate ID locally**
+
+```bash
+# If API fails
+echo "❌ API call failed. Project creation aborted."
+echo ""
+echo "Troubleshooting:"
+echo "  1. Check API health: curl -s $API_URL/health"
+echo "  2. Check token: echo \$LOOP_API_TOKEN | head -c 10"
+echo "  3. Check network: ping mcp.sosilab.synology.me"
+echo ""
+echo "DO NOT create Project directory manually. Fix the issue and retry."
+```
+
+**Step 3: Sync to local (MANDATORY)**
+
+> **⚠️ CRITICAL: Must sync immediately after API creates directory**
+>
+> API creates directory on NAS vault → GitHub push → Local must pull
+
+**3a. Pull latest from GitHub**
+
+```bash
+# Navigate to local vault
+cd /Users/gim-eunhyang/dev/loop/public
+
+# Pull latest (includes newly created Project)
+git pull origin main
+
+# Verify directory exists locally
+if [ -d "$DIR_PATH" ]; then
+    echo "✅ Project synced to local: $DIR_PATH"
 else
-    echo "⚠️ API unavailable, using local file creation"
-    # → Step 4b로 이동
+    echo "⚠️ Directory not found locally. Retry git pull in a few seconds."
+    sleep 3
+    git pull origin main
 fi
 ```
 
-**Step 4b: Fallback - 로컬 생성**
+**3b. Verify local files**
 
-API 호출 실패 시 기존 방식으로 디렉토리 + 파일 생성:
+```bash
+# Confirm Project ID in file matches API response
+PROJECT_FILE="$DIR_PATH/project.md"
+LOCAL_ID=$(grep "entity_id:" "$PROJECT_FILE" | awk '{print $2}')
+if [ "$LOCAL_ID" = "$PROJECT_ID" ]; then
+    echo "✅ Local file verified: $PROJECT_ID"
+else
+    echo "❌ ID mismatch! API: $PROJECT_ID, Local: $LOCAL_ID"
+fi
+```
 
-1. Create folder:
-   ```
-   50_Projects/P{project_num}_{entity_name}/
-   ```
+**Step 4: Post-creation (Validation already done by API)**
 
-2. Create subfolders:
-   ```
-   50_Projects/P{project_num}_{entity_name}/Tasks/
-   50_Projects/P{project_num}_{entity_name}/Results/
-   ```
+API handles:
+- ✅ Schema validation
+- ✅ ID generation (Hash-based)
+- ✅ Directory creation (project.md, Tasks/, Results/)
+- ✅ Git commit + push
+- ✅ Cache update
+- ✅ Audit logging
+- ✅ Expected Impact autofill (if requested)
 
-3. Save project.md:
-   ```
-   50_Projects/P{project_num}_{entity_name}/project.md
-   ```
+Local only needs to:
+- Confirm directory exists after git pull
+- Proceed with project work
 
-**Step 5: Validate and index**
+**Project ID Format (SSOT: schema_constants.yaml)**
 
-Run validation (see "Validation Workflow" section below).
-- **API 성공 시**: API가 감사 로그 + 캐시 업데이트 완료.
-- **Fallback 사용 시**: 전체 Validation Workflow 실행.
+| Format | Pattern | Example | Status |
+|--------|---------|---------|--------|
+| Hash | `prj-{hash6}` | `prj-a7k9m2` | **CURRENT** |
+| Legacy Sequential | `prj-NNN` | `prj-023` | **DEPRECATED** |
+
+**Directory Convention**
+
+- Pattern: `P{hash}_{entity_name}/`
+- Example: `Pa7k9m2_Dashboard_UX_개선/`
+- Contains: `project.md`, `Tasks/`, `Results/`
 
 ---
 
