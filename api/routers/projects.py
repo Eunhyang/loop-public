@@ -460,16 +460,28 @@ def update_project(project_id: str, project: ProjectUpdate):
 
         # Calculate diff: {field: {old, new}} for actually changed values
         diff = {}
+        MAX_BODY_LEN = 500  # Truncation limit for body content (Codex feedback)
+
         for field in changed_fields:
             if field == 'body':
-                old_val = old_body
-                new_val = body
+                # Compare raw values first, then truncate for logging (Codex feedback)
+                old_val_raw = old_body
+                new_val_raw = body
+
+                if old_val_raw != new_val_raw:
+                    # Truncate only for storage in diff
+                    old_val_log = old_val_raw
+                    new_val_log = new_val_raw
+                    if old_val_raw and len(old_val_raw) > MAX_BODY_LEN:
+                        old_val_log = old_val_raw[:MAX_BODY_LEN] + f"... (truncated, {len(old_val_raw)} chars total)"
+                    if new_val_raw and len(new_val_raw) > MAX_BODY_LEN:
+                        new_val_log = new_val_raw[:MAX_BODY_LEN] + f"... (truncated, {len(new_val_raw)} chars total)"
+                    diff[field] = {"old": old_val_log, "new": new_val_log}
             else:
                 old_val = old_frontmatter.get(field)
                 new_val = frontmatter.get(field)
-
-            if old_val != new_val:
-                diff[field] = {"old": old_val, "new": new_val}
+                if old_val != new_val:
+                    diff[field] = {"old": old_val, "new": new_val}
 
         log_entity_action(
             action="update",

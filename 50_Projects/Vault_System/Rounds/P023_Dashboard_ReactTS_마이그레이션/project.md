@@ -63,6 +63,7 @@ tasks:
 - tsk-023-36
 - tsk-023-38
 - tsk-023-39
+- tsk-023-40
 tier: null
 impact_magnitude: null
 confidence: null

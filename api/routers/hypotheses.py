@@ -554,6 +554,44 @@ def update_hypothesis(hypothesis_id: str, hypothesis: HypothesisUpdate):
     # 캐시 업데이트 (파일 쓰기 성공 후)
     cache.set_hypothesis(hypothesis_id, frontmatter, hyp_file)
 
+    # SSOT Rule C: 감사 로그 with diff (tsk-019-14)
+    try:
+        # Calculate modified_fields: exclude request-only fields (expected_updated_at, etc.)
+        ENTITY_FIELDS = {'entity_name', 'hypothesis_question', 'horizon', 'evidence_status',
+                        'success_criteria', 'failure_criteria', 'measurement', 'loop_layer',
+                        'confidence', 'deadline', 'tags', 'status'}  # Include status (derived from evidence_status)
+        changed_fields = [k for k, v in hypothesis.model_dump().items()
+                         if v is not None and k in ENTITY_FIELDS]
+
+        # Calculate diff: {field: {old, new}} for actually changed values
+        diff = {}
+        for field in changed_fields:
+            old_val = old_frontmatter.get(field)
+            new_val = frontmatter.get(field)
+            if old_val != new_val:
+                diff[field] = {"old": old_val, "new": new_val}
+
+        # Add status diff if evidence_status changed (since status = evidence_status)
+        if 'evidence_status' in diff and old_frontmatter.get('status') != frontmatter.get('status'):
+            diff['status'] = {
+                "old": old_frontmatter.get('status'),
+                "new": frontmatter.get('status')
+            }
+
+        log_entity_action(
+            action="update",
+            entity_type="Hypothesis",
+            entity_id=hypothesis_id,
+            entity_name=frontmatter.get("entity_name", ""),
+            details={"changed_fields": changed_fields},  # Legacy
+            source="api",
+            modified_fields=list(diff.keys()),  # Only actually modified fields
+            diff=diff
+        )
+    except Exception as e:
+        # 감사 로그 실패는 무시 (메인 로직에 영향 주지 않음)
+        print(f"Warning: Failed to log hypothesis update: {e}")
+
     return HypothesisResponse(
         success=True,
         hypothesis_id=hypothesis_id,

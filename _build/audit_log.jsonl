@@ -1,0 +1,1 @@
+{"run_id": "test-run-123", "timestamp": "2026-01-09T05:51:26.472034+00:00", "actor": "user:김은향", "source": "api", "entity_type": "Task", "entity_id": "test-001", "entity_name": "Test Task", "action": "update", "modified_fields": ["status", "priority"], "diff": {"status": {"old": "todo", "new": "doing"}, "priority": {"old": "low", "new": "high"}}, "metadata": {}}
