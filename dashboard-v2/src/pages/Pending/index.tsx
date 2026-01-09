@@ -141,7 +141,9 @@ export const PendingPage = () => {
 
     const handleRelationClick = (id: string, type: string) => {
       setPreviewEntityId(id);
-      setPreviewEntityType(type as PendingReview['entity_type']);
+      // Normalize type to PascalCase (TaskForm passes lowercase, header passes uppercase)
+      const normalizedType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+      setPreviewEntityType(normalizedType as PendingReview['entity_type']);
     };
 
     const handleFieldChange = (field: string, value: unknown) => {
@@ -173,7 +175,7 @@ export const PendingPage = () => {
             </div>
 
             {/* TaskForm in review mode */}
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 overflow-y-auto">
               <TaskForm
                 mode="review"
                 id={selectedReview.entity_id}
