@@ -28,6 +28,7 @@ export const CommentEditor = ({
   autoFocus = false,
 }: CommentEditorProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [hasContent, setHasContent] = useState(false)
   const { data: dashboardData } = useDashboardInit()
 
   const getMentionItems = (query: string): MentionItem[] => {
@@ -104,6 +105,9 @@ export const CommentEditor = ({
       },
     },
     autofocus: autoFocus,
+    onUpdate: ({ editor }) => {
+      setHasContent(!!editor.getText().trim())
+    },
   })
 
   const extractMentions = (content: string): string[] => {
@@ -141,6 +145,7 @@ export const CommentEditor = ({
 
     // Clear editor after submit
     editor.commands.setContent('')
+    setHasContent(false)
     setIsSubmitting(false)
   }
 
@@ -184,7 +189,7 @@ export const CommentEditor = ({
             type="button"
             onClick={handleSubmit}
             className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-            disabled={isSubmitting || !editor.getText().trim()}
+            disabled={isSubmitting || !hasContent}
           >
             {isSubmitting ? 'Posting...' : 'Post'}
           </button>

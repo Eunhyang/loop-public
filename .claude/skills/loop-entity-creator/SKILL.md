@@ -436,55 +436,85 @@ echo ""
 echo "DO NOT create Task file manually. Fix the issue and retry."
 ```
 
-**Step 3: Sync to local (MANDATORY)**
+**Step 3: Sync via /nas-git local-sync (MANDATORY)**
 
-> **⚠️ CRITICAL: Must sync immediately after API creates file**
+> ## ⛔ CRITICAL: MUST USE /nas-git local-sync
 >
-> API creates file on NAS vault → GitHub push → Local must pull
+> **Direct git pull is FORBIDDEN.** Use `/nas-git local-sync` command only.
+>
+> This command performs bidirectional sync:
+> 1. NAS commit + push (API-created file → GitHub)
+> 2. Local commit (preserve local changes)
+> 3. Local pull --rebase (get API-created file)
+> 4. Local push (sync local changes)
+> 5. NAS pull (complete sync)
+> 6. API cache refresh
+>
+> **FORBIDDEN behaviors:**
+> - ❌ Using `git pull` directly
+> - ❌ Using `git fetch` + `git merge`
+> - ❌ Skipping sync step
+> - ❌ Using `/nas-git nas-to-local` (loses local changes)
 
-**3a. Pull latest from GitHub**
+**3a. Execute /nas-git local-sync**
 
 ```bash
-# Navigate to local vault
-cd /Users/gim-eunhyang/dev/loop/public
+# MANDATORY: Use /nas-git local-sync command
+# This is a Claude Code slash command, invoke via Skill tool:
+Skill(skill: "nas-git", args: "local-sync")
+```
 
-# Pull latest (includes newly created Task)
-git pull origin main
+**3b. Verify sync completion**
 
-# Verify file exists locally
+After `/nas-git local-sync` completes, verify:
+
+```bash
+# Check file exists locally
+FILE_PATH="/Users/gim-eunhyang/dev/loop/public/50_Projects/{project}/Tasks/{task_id}.md"
+
 if [ -f "$FILE_PATH" ]; then
     echo "✅ Task synced to local: $FILE_PATH"
 else
-    echo "⚠️ File not found locally. Retry git pull in a few seconds."
-    sleep 3
-    git pull origin main
+    echo "❌ Sync failed. File not found: $FILE_PATH"
+    exit 1
 fi
-```
 
-**3b. Verify local file**
-
-```bash
-# Confirm Task ID in file matches API response
+# Verify Task ID matches
 LOCAL_ID=$(grep "entity_id:" "$FILE_PATH" | awk '{print $2}')
 if [ "$LOCAL_ID" = "$TASK_ID" ]; then
-    echo "✅ Local file verified: $TASK_ID"
+    echo "✅ Task ID verified: $TASK_ID"
 else
-    echo "❌ ID mismatch! API: $TASK_ID, Local: $LOCAL_ID"
+    echo "❌ ID mismatch! Expected: $TASK_ID, Found: $LOCAL_ID"
+    exit 1
 fi
 ```
+
+**3c. MANDATORY VERIFICATION CHECKLIST**
+
+> **⛔ STOP if any check fails. Do NOT proceed to Step 4.**
+
+| Check | Requirement | Status |
+|-------|-------------|--------|
+| Command used | `/nas-git local-sync` was executed (NOT git pull) | [ ] |
+| Sync completed | Command finished without errors | [ ] |
+| File exists | Task file exists at expected local path | [ ] |
+| ID matches | Local file entity_id matches API response | [ ] |
 
 **Step 4: Post-creation (Validation already done by API)**
 
 API handles:
 - ✅ Schema validation
 - ✅ ID generation (Hash+Epoch)
-- ✅ File creation
-- ✅ Git commit + push
-- ✅ Cache update
-- ✅ Audit logging
+- ✅ File creation on NAS vault
+
+`/nas-git local-sync` handles:
+- ✅ NAS → GitHub push
+- ✅ Local ← GitHub pull
+- ✅ Bidirectional sync (preserves local changes)
+- ✅ API cache refresh
 
 Local only needs to:
-- Confirm file exists after git pull
+- Verify file exists after sync
 - Proceed with development work
 
 **Task ID Format (SSOT: schema_constants.yaml)**
@@ -735,57 +765,87 @@ echo ""
 echo "DO NOT create Project directory manually. Fix the issue and retry."
 ```
 
-**Step 3: Sync to local (MANDATORY)**
+**Step 3: Sync via /nas-git local-sync (MANDATORY)**
 
-> **⚠️ CRITICAL: Must sync immediately after API creates directory**
+> ## ⛔ CRITICAL: MUST USE /nas-git local-sync
 >
-> API creates directory on NAS vault → GitHub push → Local must pull
+> **Direct git pull is FORBIDDEN.** Use `/nas-git local-sync` command only.
+>
+> This command performs bidirectional sync:
+> 1. NAS commit + push (API-created directory → GitHub)
+> 2. Local commit (preserve local changes)
+> 3. Local pull --rebase (get API-created directory)
+> 4. Local push (sync local changes)
+> 5. NAS pull (complete sync)
+> 6. API cache refresh
+>
+> **FORBIDDEN behaviors:**
+> - ❌ Using `git pull` directly
+> - ❌ Using `git fetch` + `git merge`
+> - ❌ Skipping sync step
+> - ❌ Using `/nas-git nas-to-local` (loses local changes)
 
-**3a. Pull latest from GitHub**
+**3a. Execute /nas-git local-sync**
 
 ```bash
-# Navigate to local vault
-cd /Users/gim-eunhyang/dev/loop/public
+# MANDATORY: Use /nas-git local-sync command
+# This is a Claude Code slash command, invoke via Skill tool:
+Skill(skill: "nas-git", args: "local-sync")
+```
 
-# Pull latest (includes newly created Project)
-git pull origin main
+**3b. Verify sync completion**
 
-# Verify directory exists locally
+After `/nas-git local-sync` completes, verify:
+
+```bash
+# Check directory exists locally
+DIR_PATH="/Users/gim-eunhyang/dev/loop/public/50_Projects/{project_dir}"
+
 if [ -d "$DIR_PATH" ]; then
     echo "✅ Project synced to local: $DIR_PATH"
 else
-    echo "⚠️ Directory not found locally. Retry git pull in a few seconds."
-    sleep 3
-    git pull origin main
+    echo "❌ Sync failed. Directory not found: $DIR_PATH"
+    exit 1
 fi
-```
 
-**3b. Verify local files**
-
-```bash
-# Confirm Project ID in file matches API response
+# Verify Project ID matches
 PROJECT_FILE="$DIR_PATH/project.md"
 LOCAL_ID=$(grep "entity_id:" "$PROJECT_FILE" | awk '{print $2}')
 if [ "$LOCAL_ID" = "$PROJECT_ID" ]; then
-    echo "✅ Local file verified: $PROJECT_ID"
+    echo "✅ Project ID verified: $PROJECT_ID"
 else
-    echo "❌ ID mismatch! API: $PROJECT_ID, Local: $LOCAL_ID"
+    echo "❌ ID mismatch! Expected: $PROJECT_ID, Found: $LOCAL_ID"
+    exit 1
 fi
 ```
+
+**3c. MANDATORY VERIFICATION CHECKLIST**
+
+> **⛔ STOP if any check fails. Do NOT proceed to Step 4.**
+
+| Check | Requirement | Status |
+|-------|-------------|--------|
+| Command used | `/nas-git local-sync` was executed (NOT git pull) | [ ] |
+| Sync completed | Command finished without errors | [ ] |
+| Directory exists | Project directory exists at expected local path | [ ] |
+| ID matches | Local project.md entity_id matches API response | [ ] |
 
 **Step 4: Post-creation (Validation already done by API)**
 
 API handles:
 - ✅ Schema validation
 - ✅ ID generation (Hash-based)
-- ✅ Directory creation (project.md, Tasks/, Results/)
-- ✅ Git commit + push
-- ✅ Cache update
-- ✅ Audit logging
+- ✅ Directory creation on NAS vault (project.md, Tasks/, Results/)
 - ✅ Expected Impact autofill (if requested)
 
+`/nas-git local-sync` handles:
+- ✅ NAS → GitHub push
+- ✅ Local ← GitHub pull
+- ✅ Bidirectional sync (preserves local changes)
+- ✅ API cache refresh
+
 Local only needs to:
-- Confirm directory exists after git pull
+- Verify directory exists after sync
 - Proceed with project work
 
 **Project ID Format (SSOT: schema_constants.yaml)**

@@ -167,6 +167,88 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
             );
         }
 
+        // Task filtering and grouping (SSOT-compliant)
+        const taskStatuses = dashboardData?.constants?.task?.status || ['todo', 'doing', 'hold', 'done', 'blocked'];
+
+        const projectTasks = useMemo(() => {
+            if (!dashboardData?.tasks || !id) return [];
+            return dashboardData.tasks.filter((t: any) => t.project_id === id);
+        }, [dashboardData?.tasks, id]);
+
+        const tasksByStatus = useMemo(() => {
+            const groups: Record<string, any[]> = {};
+            taskStatuses.forEach((s: string) => { groups[s] = []; });
+
+            projectTasks.forEach((t: any) => {
+                const status = t.status || 'todo';
+                if (groups[status]) {
+                    groups[status].push(t);
+                }
+            });
+
+            // Sort within groups: priority (high→low), then name
+            const priorityOrder: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 };
+            Object.keys(groups).forEach(status => {
+                groups[status].sort((a, b) => {
+                    const aPrio = priorityOrder[a.priority] ?? 2;
+                    const bPrio = priorityOrder[b.priority] ?? 2;
+                    if (aPrio !== bPrio) return aPrio - bPrio;
+                    return a.entity_name.localeCompare(b.entity_name);
+                });
+            });
+
+            return groups;
+        }, [projectTasks, taskStatuses]);
+
+        const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
+            const initial: Record<string, boolean> = {};
+            taskStatuses.forEach((s: string, i: number) => {
+                initial[s] = i < 2; // First 2 statuses expanded by default
+            });
+            return initial;
+        });
+
+        // Reset expanded state when project changes
+        useEffect(() => {
+            if (id && taskStatuses) {
+                const initial: Record<string, boolean> = {};
+                taskStatuses.forEach((s: string, i: number) => {
+                    initial[s] = i < 2;
+                });
+                setExpandedGroups(initial);
+            }
+        }, [id]);
+
+        const toggleGroup = (status: string) => {
+            setExpandedGroups(prev => ({ ...prev, [status]: !prev[status] }));
+        };
+
+        const handleTaskClick = (taskId: string) => {
+            openEntityDrawer({ type: 'task', mode: 'edit', id: taskId });
+        };
+
+        const getStatusIcon = (status: string) => {
+            const icons: Record<string, string> = {
+                doing: '●',
+                todo: '○',
+                hold: '◐',
+                blocked: '✕',
+                done: '✓'
+            };
+            return icons[status] || '○';
+        };
+
+        const getStatusColor = (status: string) => {
+            const colors: Record<string, string> = {
+                doing: 'text-blue-500',
+                todo: 'text-zinc-400',
+                hold: 'text-amber-500',
+                blocked: 'text-red-500',
+                done: 'text-green-500'
+            };
+            return colors[status] || 'text-zinc-400';
+        };
+
         const handleUpdate = (field: keyof Project, value: any) => {
             if (!id) return;
             updateProject({ id, data: { [field]: value } });
@@ -292,6 +374,85 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                             </>
                         ) : null;
                     })()}
+                </div>
+
+                {/* Tasks Section */}
+                <div className="h-px bg-zinc-200 mx-6 my-2" />
+                <div className="px-6 py-4">
+                    <h3 className="text-sm font-semibold text-zinc-500 mb-3">
+                        Tasks ({projectTasks.length})
+                    </h3>
+
+                    {projectTasks.length === 0 ? (
+                        <p className="text-zinc-400 text-sm">No tasks in this project</p>
+                    ) : (
+                        <div className="space-y-2">
+                            {taskStatuses.map((status: string) => {
+                                const tasks = tasksByStatus[status] || [];
+                                if (tasks.length === 0) return null;
+
+                                return (
+                                    <div key={status} className="border border-zinc-200 rounded-lg overflow-hidden">
+                                        {/* Group Header */}
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleGroup(status)}
+                                            className="w-full px-3 py-2 bg-zinc-50 hover:bg-zinc-100 transition-colors flex items-center justify-between text-sm font-medium text-zinc-700"
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <span className={`text-base ${getStatusColor(status)}`}>
+                                                    {expandedGroups[status] ? '▾' : '▸'}
+                                                </span>
+                                                <span className={`${getStatusColor(status)}`}>
+                                                    {getStatusIcon(status)}
+                                                </span>
+                                                <span className="capitalize">{status}</span>
+                                                <span className="text-zinc-400">({tasks.length})</span>
+                                            </div>
+                                        </button>
+
+                                        {/* Task List */}
+                                        {expandedGroups[status] && (
+                                            <div className="divide-y divide-zinc-100">
+                                                {tasks.map((task: any) => (
+                                                    <div
+                                                        key={task.entity_id}
+                                                        onClick={() => handleTaskClick(task.entity_id)}
+                                                        className="px-3 py-2 hover:bg-zinc-50 cursor-pointer transition-colors group"
+                                                    >
+                                                        <div className="flex items-start justify-between gap-2">
+                                                            <div className="flex-1 min-w-0">
+                                                                <p className="text-sm text-zinc-900 group-hover:text-blue-600 transition-colors truncate">
+                                                                    {task.entity_name}
+                                                                </p>
+                                                                <div className="flex items-center gap-2 mt-1">
+                                                                    {task.assignee && (
+                                                                        <span className="text-xs text-zinc-500">
+                                                                            @{task.assignee}
+                                                                        </span>
+                                                                    )}
+                                                                    {task.priority && (
+                                                                        <span className={`text-xs px-1.5 py-0.5 rounded ${
+                                                                            task.priority === 'critical' ? 'bg-red-100 text-red-700' :
+                                                                            task.priority === 'high' ? 'bg-orange-100 text-orange-700' :
+                                                                            task.priority === 'medium' ? 'bg-blue-100 text-blue-700' :
+                                                                            'bg-zinc-100 text-zinc-600'
+                                                                        }`}>
+                                                                            {task.priority}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 <div className="h-px bg-zinc-200 mx-6 my-2" />
