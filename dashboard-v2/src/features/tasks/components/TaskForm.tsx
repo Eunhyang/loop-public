@@ -2,6 +2,8 @@ import { useState, useMemo } from 'react';
 import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
+import { useToast } from '@/contexts/ToastContext';
+import { generateShareUrl } from '@/utils/url';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
@@ -32,6 +34,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     const { mutate: createTask, isPending, error } = useCreateTask();
     const { data: dashboardData } = useDashboardInit();
     const { pushDrawer, closeEntityDrawer } = useUi();
+    const { showToast } = useToast();
 
     const isReadOnly = mode === 'view';
     const isReviewMode = mode === 'review';
@@ -344,10 +347,15 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         }
     };
 
-    const copyShareLink = () => {
+    const copyShareLink = async () => {
         if (id) {
-            const shareLink = `${window.location.origin}/tasks/${id}`;
-            navigator.clipboard.writeText(shareLink);
+            try {
+                const shareLink = generateShareUrl('task', id);
+                await navigator.clipboard.writeText(shareLink);
+                showToast('Link copied');
+            } catch {
+                showToast('Copy failed', 'error');
+            }
         }
     };
 

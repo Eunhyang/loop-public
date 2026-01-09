@@ -1,12 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useDeepLink } from '@/hooks/useDeepLink';
 
+/**
+ * Project Page
+ * Deep link entry point for /projects/:id
+ * Opens project drawer and redirects to /kanban
+ */
 export const ProjectPage = () => {
-  const { id } = useParams<{ id: string }>();
-
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Project: {id}</h1>
-      <p className="text-gray-600">Project detail page placeholder</p>
-    </div>
-  );
+  useDeepLink({ entityType: 'project' });
+  return null;
 };

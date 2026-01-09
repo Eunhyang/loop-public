@@ -4,6 +4,7 @@ import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { UiProvider } from '@/contexts/UiContext';
 import { FilterProvider } from '@/features/filters/context/FilterContext';
+import { ToastProvider } from '@/contexts/ToastContext';
 import { useState } from 'react';
 
 import { EntityDrawer } from './EntityDrawer';
@@ -52,7 +53,9 @@ export const AppLayout = () => {
   return (
     <UiProvider>
       <FilterProvider>
-        <AppLayoutContent />
+        <ToastProvider>
+          <AppLayoutContent />
+        </ToastProvider>
       </FilterProvider>
     </UiProvider>
   );

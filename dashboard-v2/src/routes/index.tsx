@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { LoginPage } from '@/pages/Login';
 import { KanbanPage } from '@/pages/Kanban';
+import { TaskPage } from '@/pages/Task';
 import { ProjectPage } from '@/pages/Project';
 import { PendingPage } from '@/pages/Pending';
 import { ProgramPage } from '@/pages/Program';
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="/kanban" replace /> },
           { path: 'kanban', element: <KanbanPage /> },
+          { path: 'tasks/:id', element: <TaskPage /> },
           { path: 'projects/:id', element: <ProjectPage /> },
           { path: 'pending', element: <PendingPage /> },
           { path: 'calendar', element: <CalendarPage /> },
