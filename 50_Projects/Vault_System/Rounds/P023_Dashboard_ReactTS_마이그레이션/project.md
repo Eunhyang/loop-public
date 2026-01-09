@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-023
 entity_name: Dashboard - React+TS 마이그레이션
 created: 2026-01-07
-updated: '2026-01-09'
+updated: '2026-01-10'
 status: doing
 parent_id: trk-2
 program_id: pgm-vault-system
@@ -69,6 +69,7 @@ tasks:
 - tsk-023-42
 - tsk-023-43
 - tsk-023-1767962861523
+- tsk-023-1767973768058
 tier: null
 impact_magnitude: null
 confidence: null
