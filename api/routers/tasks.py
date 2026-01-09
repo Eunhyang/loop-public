@@ -162,6 +162,12 @@ async def create_task(task: TaskCreate):
     if task.links is not None:
         frontmatter['links'] = [{'label': link.label, 'url': str(link.url)} for link in task.links]
 
+    # tsk-uegvfe-1767941662809: GitHub Integration fields
+    if task.pr_url:
+        frontmatter['pr_url'] = task.pr_url
+    if task.merged_commit:
+        frontmatter['merged_commit'] = task.merged_commit
+
     # 6. 파일 생성
     content = f"""---
 {yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)}---
@@ -318,6 +324,11 @@ def update_task(task_id: str, task: TaskUpdate):
             logger.info(f"[update_task] task_id={task_id}, type added to frontmatter: {task.type!r}")
         else:
             logger.info(f"[update_task] task_id={task_id}, type is None, skipping frontmatter update")
+        # GitHub Integration fields (tsk-uegvfe-1767941662809)
+        if task.pr_url is not None:
+            frontmatter['pr_url'] = task.pr_url if task.pr_url else None
+        if task.merged_commit is not None:
+            frontmatter['merged_commit'] = task.merged_commit if task.merged_commit else None
 
         frontmatter['updated'] = datetime.now().strftime("%Y-%m-%d")
     except Exception as e:

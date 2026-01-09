@@ -16,7 +16,8 @@ interface ProjectFormProps {
 }
 
 export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
-    const { data: project, isLoading: isLoadingProject } = useProject(mode === 'edit' ? id || null : null);
+    const isReadOnly = mode === 'view';
+    const { data: project, isLoading: isLoadingProject } = useProject(mode === 'edit' || mode === 'view' ? id || null : null);
     const { mutate: createProject, isPending, error } = useCreateProject();
     const { mutate: updateProject } = useUpdateProject();
     const { data: dashboardData } = useDashboardInit();
@@ -118,95 +119,6 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         }
     }, [dashboardData, prefill]);
 
-    // View mode - show project details read-only
-    if (mode === 'view' && id) {
-        const project: any = dashboardData?.projects?.find((p: any) => p.entity_id === id);
-        const track = project?.parent_id
-            ? dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)
-            : null;
-        const program = project?.program_id
-            ? programs?.find((p) => p.entity_id === project.program_id)
-            : null;
-
-        if (!project) {
-            return (
-                <div className="p-6 text-center text-zinc-500">
-                    <p>Project not found: {id}</p>
-                </div>
-            );
-        }
-
-        return (
-            <div className="flex-1 overflow-y-auto">
-                <div className="px-6 pt-4 pb-2">
-                    <span className="font-mono text-xs text-zinc-400 px-2 py-1 bg-zinc-50 rounded">
-                        {project.entity_id}
-                    </span>
-                </div>
-
-                <div className="px-6 pb-4">
-                    <h2 className="text-xl font-bold text-zinc-900">{project.entity_name}</h2>
-                </div>
-
-                <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
-                    <label className="text-zinc-500 py-1">Status</label>
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {project.status}
-                    </span>
-
-                    <label className="text-zinc-500 py-1">Owner</label>
-                    <span className="text-zinc-700">{project.owner || '-'}</span>
-
-                    <label className="text-zinc-500 py-1">Priority</label>
-                    <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                        {project.priority_flag || 'medium'}
-                    </span>
-
-                    {track && (
-                        <>
-                            <label className="text-zinc-500 py-1">Track</label>
-                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
-                                {track.entity_name}
-                            </span>
-                        </>
-                    )}
-
-                    {project.program_id && (
-                        <>
-                            <label className="text-zinc-500 py-1">Program</label>
-                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
-                                {program?.entity_name || project.program_id}
-                            </span>
-                        </>
-                    )}
-
-                    {project.hypothesis_text && (
-                        <>
-                            <label className="text-zinc-500 py-1">Hypothesis</label>
-                            <p className="text-zinc-700 text-sm">{project.hypothesis_text}</p>
-                        </>
-                    )}
-                </div>
-
-                {project.expected_impact?.statement && (
-                    <>
-                        <div className="h-px bg-zinc-200 mx-6 my-2" />
-                        <div className="px-6 py-4">
-                            <h3 className="text-sm font-semibold text-zinc-500 mb-2">Expected Impact</h3>
-                            <p className="text-zinc-700 text-sm">{project.expected_impact.statement}</p>
-                            {project.expected_impact.metric && (
-                                <p className="text-zinc-500 text-xs mt-1">Metric: {project.expected_impact.metric}</p>
-                            )}
-                            {project.expected_impact.target && (
-                                <p className="text-zinc-500 text-xs">Target: {project.expected_impact.target}</p>
-                            )}
-                        </div>
-                    </>
-                )}
-            </div>
-        );
-    }
-
     // Helper functions for Tasks section (UNCONDITIONAL - fix hooks violation)
     const toggleGroup = (status: string) => {
         setExpandedGroups(prev => ({ ...prev, [status]: !prev[status] }));
@@ -238,8 +150,8 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
         return colors[status] || 'text-zinc-400';
     };
 
-    // Edit mode - show editable project details
-    if (mode === 'edit') {
+    // Edit/View mode - show project details (editable or read-only)
+    if (mode !== 'create') {
         if (isLoadingProject || !project) {
             return (
                 <div className="flex-1 flex items-center justify-center text-zinc-500">
@@ -274,89 +186,133 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
 
                 {/* Title Section */}
                 <div className="px-6 pb-2">
-                    <input
-                        className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
-                        placeholder="Project Title"
-                        defaultValue={project.entity_name}
-                        onBlur={(e) => handleUpdate('entity_name', e.target.value)}
-                    />
+                    {isReadOnly ? (
+                        <h2 className="text-xl font-bold text-zinc-900">{project.entity_name}</h2>
+                    ) : (
+                        <input
+                            className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
+                            placeholder="Project Title"
+                            defaultValue={project.entity_name}
+                            onBlur={(e) => handleUpdate('entity_name', e.target.value)}
+                        />
+                    )}
                 </div>
 
                 {/* Properties Grid */}
                 <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
                     {/* Status */}
                     <label className="text-zinc-500 py-1">Status</label>
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={project.status}
-                        onChange={(e) => handleUpdate('status', e.target.value)}
-                    >
-                        {statuses.map((s: string) => (
-                            <option key={s} value={s}>{s}</option>
-                        ))}
-                    </select>
+                    {isReadOnly ? (
+                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                            {project.status || 'todo'}
+                        </span>
+                    ) : (
+                        <select
+                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            value={project.status}
+                            onChange={(e) => handleUpdate('status', e.target.value)}
+                        >
+                            {statuses.map((s: string) => (
+                                <option key={s} value={s}>{s}</option>
+                            ))}
+                        </select>
+                    )}
 
                     {/* Owner */}
                     <label className="text-zinc-500 py-1">Owner</label>
-                    <div className="py-1">
-                        <ChipSelectExpand
-                            primaryOptions={coreMemberOptions}
-                            allOptions={memberOptions}
-                            value={project.owner || ''}
-                            onChange={(value) => handleUpdate('owner', value)}
-                            allowUnassigned
-                            aria-label="Project owner"
-                        />
-                    </div>
+                    {isReadOnly ? (
+                        <span className="text-zinc-700 py-1">{project.owner || 'Unassigned'}</span>
+                    ) : (
+                        <div className="py-1">
+                            <ChipSelectExpand
+                                primaryOptions={coreMemberOptions}
+                                allOptions={memberOptions}
+                                value={project.owner || ''}
+                                onChange={(value) => handleUpdate('owner', value)}
+                                allowUnassigned
+                                aria-label="Project owner"
+                            />
+                        </div>
+                    )}
 
                     {/* Priority */}
                     <label className="text-zinc-500 py-1">Priority</label>
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={project.priority_flag || 'medium'}
-                        onChange={(e) => handleUpdate('priority_flag', e.target.value)}
-                    >
-                        {priorities.map((p: string) => (
-                            <option key={p} value={p}>{p}</option>
-                        ))}
-                    </select>
+                    {isReadOnly ? (
+                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                            {project.priority_flag || 'medium'}
+                        </span>
+                    ) : (
+                        <select
+                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            value={project.priority_flag || 'medium'}
+                            onChange={(e) => handleUpdate('priority_flag', e.target.value)}
+                        >
+                            {priorities.map((p: string) => (
+                                <option key={p} value={p}>{p}</option>
+                            ))}
+                        </select>
+                    )}
 
                     {/* Track */}
                     <label className="text-zinc-500 py-1">Track</label>
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={project.parent_id}
-                        onChange={(e) => handleUpdate('parent_id', e.target.value)}
-                    >
-                        <option value="">No Track</option>
-                        {dashboardData?.tracks?.map((t: any) => (
-                            <option key={t.entity_id} value={t.entity_id}>
-                                {t.entity_name || t.entity_id}
-                            </option>
-                        ))}
-                    </select>
+                    {isReadOnly ? (
+                        project.parent_id ? (
+                            <button
+                                type="button"
+                                className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                onClick={() => openEntityDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
+                            >
+                                {dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)?.entity_name || project.parent_id}
+                            </button>
+                        ) : (
+                            <span className="text-zinc-400 py-1">No Track</span>
+                        )
+                    ) : (
+                        <select
+                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            value={project.parent_id}
+                            onChange={(e) => handleUpdate('parent_id', e.target.value)}
+                        >
+                            <option value="">No Track</option>
+                            {dashboardData?.tracks?.map((t: any) => (
+                                <option key={t.entity_id} value={t.entity_id}>
+                                    {t.entity_name || t.entity_id}
+                                </option>
+                            ))}
+                        </select>
+                    )}
 
                     {/* Program */}
                     <label className="text-zinc-500 py-1">Program</label>
-                    <select
-                        className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                        value={project.program_id || ''}
-                        onChange={(e) => handleUpdate('program_id', e.target.value || null)}
-                        disabled={isProgramsLoading}
-                    >
-                        <option value="">No Program</option>
-                        {isProgramsLoading ? (
-                            <option disabled>Loading programs...</option>
-                        ) : programsError ? (
-                            <option disabled>Error loading programs</option>
+                    {isReadOnly ? (
+                        project.program_id ? (
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
+                                {programs?.find((p) => p.entity_id === project.program_id)?.entity_name || project.program_id}
+                            </span>
                         ) : (
-                            programs?.map((p) => (
-                                <option key={p.entity_id} value={p.entity_id}>
-                                    {p.entity_name}
-                                </option>
-                            ))
-                        )}
-                    </select>
+                            <span className="text-zinc-400 py-1">No Program</span>
+                        )
+                    ) : (
+                        <select
+                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                            value={project.program_id || ''}
+                            onChange={(e) => handleUpdate('program_id', e.target.value || null)}
+                            disabled={isProgramsLoading}
+                        >
+                            <option value="">No Program</option>
+                            {isProgramsLoading ? (
+                                <option disabled>Loading programs...</option>
+                            ) : programsError ? (
+                                <option disabled>Error loading programs</option>
+                            ) : (
+                                programs?.map((p) => (
+                                    <option key={p.entity_id} value={p.entity_id}>
+                                        {p.entity_name}
+                                    </option>
+                                ))
+                            )}
+                        </select>
+                    )}
 
                     {/* Relations - Track (clickable) */}
                     {project.parent_id && (() => {

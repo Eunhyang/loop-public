@@ -229,6 +229,22 @@ const TaskPanel = {
 
         // 첨부파일 이벤트 (tsk-dashboard-ux-v1-19)
         this.setupAttachmentEvents();
+
+        // GitHub commit copy button (delegated event, tsk-uegvfe-1767941662809)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.commit-copy-btn')) {
+                const btn = e.target.closest('.commit-copy-btn');
+                const commitSha = btn.getAttribute('data-commit');
+                if (commitSha) {
+                    navigator.clipboard.writeText(commitSha).then(() => {
+                        showToast('Copied full commit SHA!', 'success');
+                    }).catch(err => {
+                        console.error('Copy failed:', err);
+                        showToast('Copy failed', 'error');
+                    });
+                }
+            }
+        });
     },
 
     /**
@@ -371,6 +387,10 @@ const TaskPanel = {
         document.getElementById('panelTaskStartDate').value = today;
         document.getElementById('panelTaskDue').value = today;
         document.getElementById('panelTaskNotes').value = '';
+
+        // GitHub Integration fields 초기화 (tsk-uegvfe-1767941662809)
+        document.getElementById('panelTaskPrUrl').value = '';
+        document.getElementById('panelTaskMergedCommit').value = '';
 
         // Obsidian 링크 숨기기 (새 Task는 파일 없음)
         document.getElementById('taskPanelObsidian').style.display = 'none';
@@ -1645,13 +1665,15 @@ const TaskPanel = {
                 const commitDisplay = task.merged_commit.length > 7
                     ? task.merged_commit.substring(0, 7)
                     : task.merged_commit;
+                const commitId = `commit-${task.entity_id || 'temp'}`;
                 html += `
                     <div>
                         <strong>Commit:</strong>
                         <code style="background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace;">${this.escapeHtml(commitDisplay)}</code>
                         <button
-                            class="icon-btn"
-                            onclick="navigator.clipboard.writeText('${this.escapeHtml(task.merged_commit)}'); alert('Copied full commit SHA!');"
+                            class="icon-btn commit-copy-btn"
+                            data-commit="${this.escapeHtml(task.merged_commit)}"
+                            id="${commitId}"
                             title="Copy full commit SHA">
                             📋
                         </button>
