@@ -135,6 +135,7 @@ priority_flag: high
 | tsk-022-03 | ContentOS - Firebase 스키마 보완 패치 | 김은향 | done | 2026-01-06 |
 | tsk-022-15 | ContentOS - Firebase Rules/Indexes 배포 | 김은향 | done | 2026-01-07 |
 | tsk-022-16 | ContentOS - Firebase DB 통합 | 김은향 | doing | 2026-01-07 |
+| tsk-0000os-1767981542605 | ContentOS - Performance 상태 표시 개선 | 김은향 | doing | 2026-01-10 |
 
 ---
 

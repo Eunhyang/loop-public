@@ -200,10 +200,35 @@ target_project: {감지값}
 
 ## 공통 Steps (두 모드 모두)
 
-### Step 4: Git 브랜치 생성 (외부 프로젝트만, 없으면)
+### Step 4: Git 브랜치 생성 (LOOP Vault + 외부 프로젝트)
 
-> **LOOP Vault (target_project=loop)인 경우 스킵**
-> **기존 Task 모드에서 브랜치가 이미 있으면 스킵**
+> **CRITICAL: LOOP Vault(public, exec)는 항상 브랜치 생성**
+> **외부 프로젝트도 해당 시 브랜치 생성**
+> **목적: 병렬 세션에서 `/nas-git local-sync` 실행 시 충돌 방지**
+
+#### Step 4-1: LOOP Vault 브랜치 생성 (항상 실행)
+
+```bash
+# PUBLIC Vault 브랜치 생성
+cd ~/dev/loop/public
+git stash --include-untracked -m "auto-stash before branch: {task_id}"
+git checkout main
+git pull origin main
+git checkout -b {task_id}
+git stash pop 2>/dev/null || true
+
+# EXEC Vault 브랜치 생성
+cd ~/dev/loop/exec
+git stash --include-untracked -m "auto-stash before branch: {task_id}"
+git checkout main
+git pull origin main
+git checkout -b {task_id}
+git stash pop 2>/dev/null || true
+```
+
+#### Step 4-2: 외부 프로젝트 브랜치 생성 (해당 시)
+
+> **target_project가 sosi, kkokkkok, loop-api인 경우만 실행**
 
 ```bash
 # 현재 외부 프로젝트 경로로 이동
@@ -226,8 +251,10 @@ loop-api: /Volumes/LOOP_CORE/vault/LOOP
 
 **출력:**
 ```
-Git 브랜치 생성 완료: {task_id}
-현재 브랜치: {task_id}
+Git 브랜치 생성 완료:
+- public vault: {task_id}
+- exec vault: {task_id}
+- {target_project}: {task_id} (해당 시)
 ```
 
 ### Step 5: prompt-enhancer 호출 (Notes 비어있으면)
@@ -453,7 +480,7 @@ projects:
     path_pattern: "/Volumes/LOOP_CORE/vault/LOOP"
     remote_pattern: null
     full_path: "/Volumes/LOOP_CORE/vault/LOOP"
-    skip_git_branch: true
+    skip_git_branch: false  # LOOP Vault도 브랜치 생성 (병렬 sync 충돌 방지)
 
   sosi:
     path_pattern: "/sosi"

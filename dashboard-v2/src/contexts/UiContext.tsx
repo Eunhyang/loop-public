@@ -54,6 +54,7 @@ interface UiContextType {
     openActivityPanel: () => void;
     closeActivityPanel: () => void;
     setActivityEntity: (entity: SelectedActivityEntity) => void;
+    openEntityFromActivity: (drawer: NonNullable<ActiveEntityDrawer>) => void;
 }
 
 const UiContext = createContext<UiContextType | undefined>(undefined);
@@ -65,6 +66,9 @@ export function UiProvider({ children }: { children: ReactNode }) {
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
     const [activityPanelOpen, setActivityPanelOpen] = useState(false);
     const [selectedActivityEntity, setSelectedActivityEntity] = useState<SelectedActivityEntity>(null);
+    // Track navigation from Activity Panel for back navigation support
+    // WARNING: This only tracks single return path - nested drawers may reopen panel unexpectedly
+    const [returnToActivity, setReturnToActivity] = useState(false);
 
     // Derived state - activeEntityDrawer is the top of the stack
     const activeEntityDrawer = useMemo(() => drawerStack.at(-1) ?? null, [drawerStack]);
@@ -103,7 +107,12 @@ export function UiProvider({ children }: { children: ReactNode }) {
         // Clear entire navigation stack
         setDrawerStack([]);
         setIsDrawerExpanded(false);  // Reset expand state when closing
-    }, []);
+        // If we came from Activity Panel, return to it
+        if (returnToActivity) {
+            setActivityPanelOpen(true);
+            setReturnToActivity(false);
+        }
+    }, [returnToActivity]);
 
     const toggleDrawerExpand = useCallback(() => {
         // Only toggle if drawer is open
@@ -140,6 +149,19 @@ export function UiProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
+    /**
+     * Opens EntityDrawer from Activity Panel with navigation tracking
+     * Enables "back to Activity Panel" behavior when drawer is closed
+     */
+    const openEntityFromActivity = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
+        setReturnToActivity(true);      // Remember we came from Activity Panel
+        setActivityPanelOpen(false);    // Close Activity Panel
+        setDrawerStack([drawer]);       // Open EntityDrawer
+        setIsDrawerExpanded(false);
+        setActiveModal(null);
+        setIsCommandPaletteOpen(false);
+    }, []);
+
     return (
         <UiContext.Provider value={{
             // LEGACY
@@ -165,7 +187,8 @@ export function UiProvider({ children }: { children: ReactNode }) {
             selectedActivityEntity,
             openActivityPanel,
             closeActivityPanel,
-            setActivityEntity
+            setActivityEntity,
+            openEntityFromActivity
         }}>
             {children}
         </UiContext.Provider>

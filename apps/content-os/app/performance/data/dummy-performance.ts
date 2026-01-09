@@ -27,27 +27,27 @@ export const STATUS_BADGE_CONFIG: Record<DiagnosisStatus, StatusBadgeConfig> = {
   early_success: {
     label: "초기 반응 우수",
     color: "green",
-    description: "24시간 내 CTR과 시청률이 우수합니다",
+    description: "CTR 8%+, 시청률 30%+, 7일간 3배 이상 확장. 알고리즘이 적극 추천 중",
   },
   stable: {
     label: "안정적",
     color: "blue",
-    description: "꾸준한 성과를 보이고 있습니다",
+    description: "일정한 조회수 유지. 장기 트래픽 소스로 활용 가능",
   },
   exposure_ok_click_weak: {
     label: "노출 OK / 클릭 약함",
     color: "yellow",
-    description: "노출은 되지만 클릭이 부족합니다. 썸네일/제목 점검 필요",
+    description: "CTR 5% 미만. 썸네일/제목이 클릭을 유도하지 못함",
   },
   click_ok_watch_weak: {
     label: "클릭 OK / 시청 약함",
     color: "orange",
-    description: "클릭은 되지만 시청 유지가 약합니다. 초반 훅 점검 필요",
+    description: "평균 시청 30% 미만. 초반 10초 훅 점검 필요",
   },
   expansion_failed: {
-    label: "확장 실패",
+    label: "성장 둔화",
     color: "red",
-    description: "초기 이후 확장이 이루어지지 않았습니다",
+    description: "7일 조회수가 24시간의 3배 미만. 알고리즘 추천이 정체된 상태로, 주제/타이밍 점검 필요",
   },
 };
 

@@ -86,6 +86,21 @@ export function usePerformanceData(options: UsePerformanceDataOptions = {}) {
 }
 
 /**
+ * Hook to get single performance detail by videoId
+ * Uses same API as list, leverages TanStack Query cache
+ */
+export function usePerformanceDetail(videoId: string) {
+  return useQuery({
+    queryKey: ["youtube", "analytics", "videos", { maxResults: 30, useDummy: false }],
+    queryFn: () => fetchPerformanceData(30, false),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
+    enabled: !!videoId,
+    select: (result) => result.data.find((item) => item.videoId === videoId),
+  });
+}
+
+/**
  * Get the data source label
  */
 export function getSourceLabel(source: "youtube_analytics" | "dummy"): string {

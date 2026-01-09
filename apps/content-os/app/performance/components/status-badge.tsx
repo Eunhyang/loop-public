@@ -3,6 +3,11 @@
 import { DiagnosisStatus } from "@/types/performance";
 import { STATUS_BADGE_CONFIG } from "../data/dummy-performance";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface StatusBadgeProps {
   status: DiagnosisStatus;
@@ -30,15 +35,21 @@ export function StatusBadge({
 
   return (
     <div className={cn("flex flex-col gap-1", className)}>
-      <span
-        className={cn(
-          "inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap",
-          colorClasses[config.color]
-        )}
-        title={config.description}
-      >
-        {config.label}
-      </span>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span
+            className={cn(
+              "inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap cursor-help",
+              colorClasses[config.color]
+            )}
+          >
+            {config.label}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="max-w-xs">
+          <p className="text-sm">{config.description}</p>
+        </TooltipContent>
+      </Tooltip>
       {showDescription && (
         <span className="text-xs text-muted-foreground">
           {config.description}
