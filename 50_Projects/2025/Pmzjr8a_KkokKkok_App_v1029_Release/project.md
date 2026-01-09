@@ -5,7 +5,7 @@ entity_name: KkokKkok App v1.0.29 - Release
 created: '2026-01-09'
 updated: '2026-01-09'
 status: planning
-owner: 은향
+owner: 김은향
 priority_flag: high
 parent_id: trk-1
 program_id: pgm-kkokkkok-app-release
@@ -15,7 +15,6 @@ tags: []
 conditions_3y:
 - cond-a
 ---
-
 # KkokKkok App v1.0.29 - Release
 
 ## 목표
