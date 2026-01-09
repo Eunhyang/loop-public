@@ -4,7 +4,7 @@ entity_id: prj-022
 entity_name: "KkokKkok App v1.0.29 - 캘린더 월뷰 개선"
 created: 2026-01-06
 updated: 2026-01-06
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: trk-1

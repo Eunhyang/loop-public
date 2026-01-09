@@ -4,7 +4,7 @@ entity_id: "prj-019"
 entity_name: "Dual-Vault - 정비"
 created: 2026-01-02
 updated: 2026-01-02
-status: active
+status: doing
 
 # === 계층 (전략 연결) ===
 parent_id: "trk-2"

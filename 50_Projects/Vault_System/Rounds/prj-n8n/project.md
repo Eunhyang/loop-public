@@ -4,7 +4,7 @@ entity_id: prj-n8n
 entity_name: n8n Vault 자동화
 created: 2025-12-27
 updated: '2026-01-06'
-status: active
+status: doing
 program_id: pgm-vault-system
 cycle: '2025'
 owner: 김은향

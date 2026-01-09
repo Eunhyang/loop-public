@@ -4,7 +4,7 @@ entity_id: prj-yt-W02-26
 entity_name: YouTube - W02
 created: '2026-01-03'
 updated: '2026-01-03'
-status: active
+status: doing
 program_id: pgm-youtube-weekly
 cycle: W02
 parent_id: trk-3

@@ -4,7 +4,7 @@ entity_id: prj-yt-wegovy
 entity_name: 위고비 유튜브 콘텐츠 기획
 created: 2025-12-26
 updated: 2025-12-26
-status: active
+status: doing
 
 # === 소속 Program ===
 program_id: pgm-youtube-weekly

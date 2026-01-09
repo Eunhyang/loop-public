@@ -4,7 +4,7 @@ entity_id: prj-016
 entity_name: 법인 전환 설립(주) 루프
 created: 2025-12-25
 updated: 2025-12-25
-status: todo
+status: planning
 
 # === 프로젝트 정보 ===
 owner: 한명학

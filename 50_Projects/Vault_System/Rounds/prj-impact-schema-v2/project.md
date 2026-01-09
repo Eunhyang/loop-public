@@ -4,7 +4,7 @@ entity_id: prj-impact-schema-v2
 entity_name: "Schema - Realized Impact 확장"
 created: 2025-12-27
 updated: 2025-12-27
-status: active
+status: doing
 
 # === 계층 ===
 parent_id: trk-2
