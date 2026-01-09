@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-feedback-system
 entity_name: Feedback - 유저 피드백 수집 시스템
 created: '2026-01-05'
-updated: '2026-01-06'
+updated: '2026-01-09'
 status: doing
 program_id: pgm-vault-system
 program_path: '[[50_Projects/Vault_System/_PROGRAM]]'
@@ -44,12 +44,14 @@ priority_flag: high
 ## 범위
 
 ### In Scope
+
 1. Firestore `feedback` collection 설계
 2. LOOP API `/api/feedback` CRUD 엔드포인트
 3. n8n 워크플로우: 앱스토어 리뷰 자동 크롤링
 4. 대시보드 UI: 피드백 입력/조회
 
 ### Out of Scope
+
 - LLM 자동 가설 생성 (후속 프로젝트)
 - 감정 분석 자동화 (후속)
 
@@ -88,10 +90,9 @@ feedback:
 ## Tasks
 
 | Task ID | 이름 | 상태 |
-|---------|------|------|
+| --- | --- | --- |
 | tsk-feedback-01 | API 엔드포인트 + Firestore 스키마 구현 | todo |
 
 ---
 
-**Created**: 2026-01-05
-**Owner**: 김은향
+**Created**: 2026-01-05 **Owner**: 김은향
