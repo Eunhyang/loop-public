@@ -188,6 +188,28 @@ class AuthMiddleware:
             auth_header = headers.get(b"authorization", b"").decode()
             x_api_token = headers.get(b"x-api-token", b"").decode()
 
+            # 4. 첨부파일 다운로드: token 쿼리 파라미터 허용 (img 태그에서 인증 필요)
+            # Pattern: /api/tasks/{task_id}/attachments/{filename}?token=xxx
+            if "/attachments/" in path:
+                query_string = scope.get("query_string", b"").decode()
+                from urllib.parse import parse_qs
+                query_params = parse_qs(query_string)
+                query_token = query_params.get("token", [None])[0]
+                if query_token and query_token == API_TOKEN:
+                    await self.app(scope, receive, send)
+                    return
+                # OAuth JWT token in query param
+                if query_token:
+                    jwt_payload = verify_jwt(query_token)
+                    if jwt_payload:
+                        scope["state"] = {
+                            "role": jwt_payload.get("role", "member"),
+                            "scope": jwt_payload.get("scope", "mcp:read"),
+                            "user_id": jwt_payload.get("sub"),
+                        }
+                        await self.app(scope, receive, send)
+                        return
+
             # Admin 경로 체크 플래그
             is_admin_path = any(path.startswith(prefix) for prefix in ADMIN_PREFIXES)
 
