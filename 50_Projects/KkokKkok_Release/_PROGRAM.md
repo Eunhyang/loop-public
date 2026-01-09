@@ -349,7 +349,7 @@ v
 
 - **버그는 기본적으로 Task**
 - **운영 중 프로덕션을 즉시 건드려야 하면 Hotfix Project**
-- **Firebase Functions 등 백엔드 수시 배포는 App Release와 분리(Program/Project 분리)**
+- **Firebase Functions 등 백엔드 수시 배포는 `prj-w5kz77` ([[KkokKkok Backend - Maintenance]])에서 진행**
 
 ---
 

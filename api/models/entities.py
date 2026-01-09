@@ -30,6 +30,9 @@ class TaskCreate(BaseModel):
     auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
     # 외부 링크 (tsk-022-11: Bug 3 fix + security: max 10 links)
     links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
+    # GitHub 연동 정보 (tsk-uegvfe-1767941662809)
+    pr_url: Optional[str] = Field(default=None, description="GitHub PR URL")
+    merged_commit: Optional[str] = Field(default=None, description="Merged commit SHA")
 
 
 class TaskUpdate(BaseModel):
@@ -50,6 +53,9 @@ class TaskUpdate(BaseModel):
     project_id: Optional[str] = Field(default=None, description="프로젝트 ID")
     # 외부 링크 (tsk-022-11: security - max 10 links)
     links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
+    # GitHub 연동 정보 (tsk-uegvfe-1767941662809)
+    pr_url: Optional[str] = Field(default=None, description="GitHub PR URL")
+    merged_commit: Optional[str] = Field(default=None, description="Merged commit SHA")
     # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
     expected_updated_at: Optional[str] = Field(default=None, description="예상 updated 값 (YYYY-MM-DD) - 409 Conflict 검증용")
 

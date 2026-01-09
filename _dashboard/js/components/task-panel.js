@@ -439,6 +439,10 @@ const TaskPanel = {
         document.getElementById('panelTaskStartDate').value = cachedTask.start_date || cachedTask.due || '';
         document.getElementById('panelTaskDue').value = cachedTask.due || '';
 
+        // GitHub Integration fields (tsk-uegvfe-1767941662809)
+        document.getElementById('panelTaskPrUrl').value = cachedTask.pr_url || '';
+        document.getElementById('panelTaskMergedCommit').value = cachedTask.merged_commit || '';
+
         // Obsidian 링크 설정
         const obsidianLinkEl = document.getElementById('taskPanelObsidian');
         const obsidianUri = this.getObsidianUri(cachedTask._path);
@@ -477,6 +481,10 @@ const TaskPanel = {
             const notesContent = [task.notes, task._body].filter(Boolean).join('\n\n---\n\n');
             document.getElementById('panelTaskNotes').value = notesContent;
             this.updateNotesPreview(notesContent);
+
+            // GitHub Integration fields 업데이트 (API response에서 최신 값으로 갱신)
+            document.getElementById('panelTaskPrUrl').value = task.pr_url || '';
+            document.getElementById('panelTaskMergedCommit').value = task.merged_commit || '';
 
             // Task Type Chips 렌더링 (API에서 로드한 최신 타입으로 갱신)
             this.renderTypeChips(task.type || null);
@@ -1011,6 +1019,21 @@ const TaskPanel = {
             // Task Type (새 Task인 경우 currentTaskType 사용, 기존 Task인 경우 currentTask.type 사용)
             type: this.currentTask ? this.currentTask.type : this.currentTaskType
         };
+
+        // GitHub Integration fields (tsk-uegvfe-1767941662809)
+        const prUrl = document.getElementById('panelTaskPrUrl').value.trim();
+        const mergedCommit = document.getElementById('panelTaskMergedCommit').value.trim();
+
+        // URL 검증: pr_url이 있으면 유효한 URL인지 확인
+        if (prUrl && !this.isSafeUrl(prUrl)) {
+            showToast('Invalid PR URL - must start with http:// or https://', 'error');
+            saveBtn.disabled = false;
+            saveBtn.textContent = originalText;
+            return;
+        }
+
+        taskData.pr_url = prUrl || null;
+        taskData.merged_commit = mergedCommit || null;
 
         // Validation
         if (!taskData.entity_name) {
@@ -1601,6 +1624,42 @@ const TaskPanel = {
                     </div>
                 </div>
             `;
+        }
+
+        // GitHub Integration (tsk-uegvfe-1767941662809)
+        if (task.pr_url || task.merged_commit) {
+            html += `<div class="entity-section">`;
+            html += `<div class="entity-section-title">GitHub Integration</div>`;
+            html += `<div class="entity-section-content">`;
+
+            if (task.pr_url && this.isSafeUrl(task.pr_url)) {
+                html += `
+                    <div style="margin-bottom: 8px;">
+                        <strong>PR:</strong>
+                        <a href="${this.escapeHtml(task.pr_url)}" target="_blank" rel="noopener noreferrer" class="entity-link-item">${this.escapeHtml(task.pr_url)}</a>
+                    </div>
+                `;
+            }
+
+            if (task.merged_commit) {
+                const commitDisplay = task.merged_commit.length > 7
+                    ? task.merged_commit.substring(0, 7)
+                    : task.merged_commit;
+                html += `
+                    <div>
+                        <strong>Commit:</strong>
+                        <code style="background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace;">${this.escapeHtml(commitDisplay)}</code>
+                        <button
+                            class="icon-btn"
+                            onclick="navigator.clipboard.writeText('${this.escapeHtml(task.merged_commit)}'); alert('Copied full commit SHA!');"
+                            title="Copy full commit SHA">
+                            📋
+                        </button>
+                    </div>
+                `;
+            }
+
+            html += `</div></div>`;
         }
 
         // Notes + Body (마크다운 렌더링)
