@@ -121,10 +121,16 @@ async def create_project(project: ProjectCreate):
 
     # 2. Project ID 생성 (캐시 기반)
     project_id = cache.get_next_project_id()
-    project_num = re.match(r'prj-(\d+)', project_id).group(1)
+    # ID 형식: prj-NNN (숫자) 또는 prj-{name} (텍스트)
+    match = re.match(r'prj-(\d+|[\w-]+)', project_id)
+    project_num = match.group(1) if match else project_id.replace('prj-', '')
 
     # 2. 프로젝트 디렉토리 생성
-    dir_name = f"P{project_num}_{sanitize_filename(project.entity_name)}"
+    # P{num}_ 형식 유지 (숫자만) 또는 project_id 직접 사용
+    if project_num.isdigit():
+        dir_name = f"P{project_num}_{sanitize_filename(project.entity_name)}"
+    else:
+        dir_name = f"P{project_id.replace('prj-', '')}_{sanitize_filename(project.entity_name)}"
     project_dir = PROJECTS_DIR / dir_name
     project_dir.mkdir(exist_ok=True)
 

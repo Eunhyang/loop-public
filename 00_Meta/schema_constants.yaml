@@ -73,22 +73,22 @@ task:
 project:
   status:
     - planning   # 기획 중
-    - active     # 진행 중
-    - paused     # 일시 중단
+    - doing      # 진행 중
     - done       # 완료
+    - hold       # 보류/일시 중단
     - cancelled  # 취소
   status_default: planning
   status_labels:
     planning: "Planning"
-    active: "Active"
-    paused: "Paused"
+    doing: "Doing"
     done: "Done"
+    hold: "Hold"
     cancelled: "Cancelled"
   status_colors:
     planning: "#6b7280"   # gray
-    active: "#3b82f6"     # blue
-    paused: "#f59e0b"     # amber
+    doing: "#3b82f6"      # blue
     done: "#10b981"       # green
+    hold: "#f59e0b"       # amber
     cancelled: "#ef4444"  # red
 
 # ============================================
@@ -763,10 +763,13 @@ entity_order:
 status_mapping:
   # Project status → Task status (Dashboard 표준화용)
   planning: todo
-  active: doing
-  paused: hold
+  doing: doing
+  hold: hold
   cancelled: blocked
-  # Legacy/Alternative status
+  # Legacy status (이전 데이터 호환용)
+  active: doing      # deprecated → doing
+  paused: hold       # deprecated → hold
+  todo: todo         # deprecated → planning
   pending: todo
   in_progress: doing
   completed: done
