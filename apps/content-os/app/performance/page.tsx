@@ -51,9 +51,10 @@ function filterPerformanceData(
       }
     }
 
-    // Content type filter (shorts: ≤60s, long: >60s)
+    // Content type filter (shorts: ≤180s, long: >180s)
+    // YouTube Shorts 기준: 2024.10.15부터 3분(180초) 이하
     if (filters.contentType !== "all") {
-      const isShorts = item.duration <= 60;
+      const isShorts = item.duration <= 180;
       if (filters.contentType === "shorts" && !isShorts) return false;
       if (filters.contentType === "long" && isShorts) return false;
     }
