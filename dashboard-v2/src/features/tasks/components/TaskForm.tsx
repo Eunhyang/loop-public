@@ -799,6 +799,80 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     }}
                     readOnly={isReadOnly}
                 />
+
+                {/* GitHub Integration - PR URL & Commit */}
+                {(getFieldValue('pr_url') || getFieldValue('merged_commit') || !isReadOnly) && (
+                    <>
+                        <label className="text-zinc-500 py-1">PR URL</label>
+                        {isReadOnly ? (
+                            getFieldValue('pr_url') ? (
+                                (() => {
+                                    const url = getFieldValue('pr_url') as string;
+                                    const isValid = url.startsWith('http://') || url.startsWith('https://');
+                                    return isValid ? (
+                                        <a
+                                            href={url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-600 hover:underline text-xs truncate block"
+                                        >
+                                            {url}
+                                        </a>
+                                    ) : (
+                                        <span className="text-zinc-700 text-xs">{url}</span>
+                                    );
+                                })()
+                            ) : <span className="text-zinc-400 text-xs">-</span>
+                        ) : (
+                            <input
+                                type="url"
+                                className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-full focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                placeholder="https://github.com/..."
+                                defaultValue={(getFieldValue('pr_url') as string) || ''}
+                                onBlur={(e) => {
+                                    if (!id) return;
+                                    const trimmed = e.target.value.trim();
+                                    handleFieldChangeInternal('pr_url', trimmed || null);
+                                }}
+                            />
+                        )}
+
+                        <label className="text-zinc-500 py-1">Commit</label>
+                        {isReadOnly ? (
+                            getFieldValue('merged_commit') ? (
+                                <div className="flex items-center gap-2">
+                                    <code className="text-xs bg-zinc-100 px-1.5 py-0.5 rounded">
+                                        {(getFieldValue('merged_commit') as string).substring(0, 7)}
+                                    </code>
+                                    <button
+                                        onClick={() => {
+                                            const commit = getFieldValue('merged_commit') as string;
+                                            navigator.clipboard.writeText(commit)
+                                                .then(() => showToast?.('Commit SHA copied', 'success'))
+                                                .catch(() => showToast?.('Failed to copy', 'error'));
+                                        }}
+                                        className="text-zinc-400 hover:text-zinc-600"
+                                        title="Copy full SHA"
+                                    >
+                                        📋
+                                    </button>
+                                </div>
+                            ) : <span className="text-zinc-400 text-xs">-</span>
+                        ) : (
+                            <input
+                                type="text"
+                                className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-full focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                placeholder="e.g., abc1234..."
+                                defaultValue={(getFieldValue('merged_commit') as string) || ''}
+                                onBlur={(e) => {
+                                    if (!id) return;
+                                    const trimmed = e.target.value.trim();
+                                    handleFieldChangeInternal('merged_commit', trimmed || null);
+                                }}
+                            />
+                        )}
+                    </>
+                )}
             </div>
 
             <div className="h-px bg-zinc-200 mx-6 my-2" />

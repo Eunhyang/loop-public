@@ -22,6 +22,9 @@ export interface Task {
     _path?: string;
     parent_id?: string;
     outgoing_relations?: string[];
+    // GitHub Integration
+    pr_url?: string | null;
+    merged_commit?: string | null;
 }
 
 export interface TaskUpdatePayload {
