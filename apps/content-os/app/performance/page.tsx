@@ -51,6 +51,13 @@ function filterPerformanceData(
       }
     }
 
+    // Content type filter (shorts: ≤60s, long: >60s)
+    if (filters.contentType !== "all") {
+      const isShorts = item.duration <= 60;
+      if (filters.contentType === "shorts" && !isShorts) return false;
+      if (filters.contentType === "long" && isShorts) return false;
+    }
+
     return true;
   });
 }
@@ -91,6 +98,7 @@ export default function PerformancePage() {
     search: "",
     status: "all",
     period: "all",
+    contentType: "all",
   });
   const [sortState, setSortState] = useState<PerformanceSortState>({
     field: "publishedAt",

@@ -1,6 +1,6 @@
 "use client";
 
-import { PerformanceFilters, DiagnosisStatus } from "@/types/performance";
+import { PerformanceFilters, DiagnosisStatus, ContentType } from "@/types/performance";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -37,18 +37,25 @@ const statusOptions: {
   })),
 ];
 
+const contentTypeOptions: { value: ContentType; label: string }[] = [
+  { value: "all", label: "전체 형식" },
+  { value: "shorts", label: "쇼츠" },
+  { value: "long", label: "롱폼" },
+];
+
 export function PerformanceFiltersComponent({
   filters,
   onFiltersChange,
 }: PerformanceFiltersProps) {
   const hasActiveFilters =
-    filters.search || filters.period !== "all" || filters.status !== "all";
+    filters.search || filters.period !== "all" || filters.status !== "all" || filters.contentType !== "all";
 
   const handleClearFilters = () => {
     onFiltersChange({
       search: "",
       period: "all",
       status: "all",
+      contentType: "all",
     });
   };
 
@@ -79,6 +86,25 @@ export function PerformanceFiltersComponent({
         </SelectTrigger>
         <SelectContent>
           {statusOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {/* Content Type Filter */}
+      <Select
+        value={filters.contentType}
+        onValueChange={(value: ContentType) =>
+          onFiltersChange({ ...filters, contentType: value })
+        }
+      >
+        <SelectTrigger className="w-[140px]">
+          <SelectValue placeholder="형식" />
+        </SelectTrigger>
+        <SelectContent>
+          {contentTypeOptions.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}
             </SelectItem>

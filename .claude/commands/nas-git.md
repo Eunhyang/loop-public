@@ -38,18 +38,46 @@ $ARGUMENTS
 
 ### local-sync - Local → GitHub → NAS Full Sync (Recommended)
 
+> **CRITICAL: main 브랜치만 동기화. feature 브랜치는 건드리지 않음**
+> 병렬 세션에서 작업 중인 브랜치와 충돌 방지
+
 Safe sequence to sync **both vaults** local changes to NAS:
-1. NAS uncommitted changes commit + push first (both)
-2. Local commit (both)
-3. Local pull --rebase (both)
-4. Local push (both)
-5. NAS pull (both)
-6. API cache refresh (Dashboard update)
+1. 현재 브랜치 저장 (main 아니면 경고)
+2. main 브랜치로 checkout
+3. NAS uncommitted changes commit + push first (both)
+4. Local pull --rebase (both) - **autostash 사용 안 함**
+5. Local push (both)
+6. NAS pull (both)
+7. 원래 브랜치로 복귀
+8. API cache refresh (Dashboard update)
 
 ```bash
 echo "╔════════════════════════════════════════════╗"
-echo "║  Local Sync: public + exec                ║"
+echo "║  Local Sync: public + exec (main only)    ║"
 echo "╚════════════════════════════════════════════╝"
+
+# ============================================
+# 현재 브랜치 저장 + main checkout
+# ============================================
+ORIG_BRANCH_PUBLIC=$(cd ~/dev/loop/public && git branch --show-current)
+ORIG_BRANCH_EXEC=$(cd ~/dev/loop/exec && git branch --show-current)
+
+echo ""
+echo "현재 브랜치:"
+echo "  - public: $ORIG_BRANCH_PUBLIC"
+echo "  - exec: $ORIG_BRANCH_EXEC"
+
+if [ "$ORIG_BRANCH_PUBLIC" != "main" ]; then
+    echo ""
+    echo "⚠️  public vault: '$ORIG_BRANCH_PUBLIC' 브랜치에서 작업 중"
+    echo "    main 브랜치만 동기화하고 원래 브랜치로 복귀합니다"
+fi
+
+if [ "$ORIG_BRANCH_EXEC" != "main" ]; then
+    echo ""
+    echo "⚠️  exec vault: '$ORIG_BRANCH_EXEC' 브랜치에서 작업 중"
+    echo "    main 브랜치만 동기화하고 원래 브랜치로 복귀합니다"
+fi
 
 # ============================================
 # PUBLIC (LOOP) VAULT
@@ -58,6 +86,17 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  PUBLIC VAULT (LOOP)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Step 0: main 브랜치로 checkout (uncommitted 변경 있으면 실패)
+echo ""
+echo "=== [PUBLIC] Step 0: main checkout ==="
+cd ~/dev/loop/public
+if [ -n "$(git status --porcelain)" ]; then
+    echo "⚠️  uncommitted 변경사항 있음. 현재 브랜치에 커밋하거나 stash하세요."
+    echo "    또는 /done-dev-task로 작업을 완료하세요."
+    exit 1
+fi
+git checkout main
 
 # Step 1: NAS public changes first
 echo ""
@@ -73,34 +112,31 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: Local public commit
+# Step 2: Local public pull --rebase (autostash 없이 - main은 clean 상태)
 echo ""
-echo "=== [PUBLIC] Step 2: 로컬 commit ==="
-cd ~/dev/loop/public
-git add -A
-if [ -n "$(git status --porcelain)" ]; then
-  git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
-fi
+echo "=== [PUBLIC] Step 2: 로컬 pull --rebase ==="
+git pull --rebase origin main
 
-# Step 3: Local public pull --rebase (autostash로 uncommitted 변경 보호)
+# Step 3: Local public push
 echo ""
-echo "=== [PUBLIC] Step 3: 로컬 pull --rebase ==="
-git pull --rebase --autostash origin main
-
-# Step 4: Local public push
-echo ""
-echo "=== [PUBLIC] Step 4: 로컬 push ==="
+echo "=== [PUBLIC] Step 3: 로컬 push ==="
 git push origin main
 
-# Step 5: NAS public pull
+# Step 4: NAS public pull
 echo ""
-echo "=== [PUBLIC] Step 5: NAS pull ==="
+echo "=== [PUBLIC] Step 4: NAS pull ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
 cd /volume1/LOOP_CORE/vault/LOOP
 git config --global --add safe.directory /volume1/LOOP_CORE/vault/LOOP 2>/dev/null
 git pull --rebase origin main 2>&1
 "
+
+# Step 5: 원래 브랜치로 복귀
+echo ""
+echo "=== [PUBLIC] Step 5: 원래 브랜치 복귀 ==="
+git checkout "$ORIG_BRANCH_PUBLIC"
+echo "    현재 브랜치: $(git branch --show-current)"
 
 # ============================================
 # EXEC (loop_exec) VAULT
@@ -109,6 +145,16 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  EXEC VAULT (loop_exec)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Step 0: main 브랜치로 checkout
+echo ""
+echo "=== [EXEC] Step 0: main checkout ==="
+cd ~/dev/loop/exec
+if [ -n "$(git status --porcelain)" ]; then
+    echo "⚠️  uncommitted 변경사항 있음. 현재 브랜치에 커밋하거나 stash하세요."
+    # public은 이미 복귀했으므로 exec만 경고 후 계속
+fi
+git checkout main
 
 # Step 1: NAS exec changes first
 echo ""
@@ -124,34 +170,31 @@ fi
 git push origin main 2>&1 || true
 "
 
-# Step 2: Local exec commit
+# Step 2: Local exec pull --rebase
 echo ""
-echo "=== [EXEC] Step 2: 로컬 commit ==="
-cd ~/dev/loop/exec
-git add -A
-if [ -n "$(git status --porcelain)" ]; then
-  git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
-fi
+echo "=== [EXEC] Step 2: 로컬 pull --rebase ==="
+git pull --rebase origin main
 
-# Step 3: Local exec pull --rebase (autostash로 uncommitted 변경 보호)
+# Step 3: Local exec push
 echo ""
-echo "=== [EXEC] Step 3: 로컬 pull --rebase ==="
-git pull --rebase --autostash origin main
-
-# Step 4: Local exec push
-echo ""
-echo "=== [EXEC] Step 4: 로컬 push ==="
+echo "=== [EXEC] Step 3: 로컬 push ==="
 git push origin main
 
-# Step 5: NAS exec pull
+# Step 4: NAS exec pull
 echo ""
-echo "=== [EXEC] Step 5: NAS pull ==="
+echo "=== [EXEC] Step 4: NAS pull ==="
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
 export HOME=/tmp
 cd /volume1/LOOP_CLevel/vault/loop_exec
 git config --global --add safe.directory /volume1/LOOP_CLevel/vault/loop_exec 2>/dev/null
 git pull --rebase origin main 2>&1
 "
+
+# Step 5: 원래 브랜치로 복귀
+echo ""
+echo "=== [EXEC] Step 5: 원래 브랜치 복귀 ==="
+git checkout "$ORIG_BRANCH_EXEC"
+echo "    현재 브랜치: $(git branch --show-current)"
 
 # ============================================
 # API CACHE REFRESH
@@ -169,8 +212,12 @@ curl -s -X POST "${LOOP_API_URL:-https://mcp.sosilab.synology.me}/api/cache/relo
 
 echo ""
 echo "╔════════════════════════════════════════════╗"
-echo "║  동기화 완료: public + exec               ║"
+echo "║  동기화 완료: public + exec (main only)   ║"
 echo "╚════════════════════════════════════════════╝"
+echo ""
+echo "브랜치 상태:"
+echo "  - public: $(cd ~/dev/loop/public && git branch --show-current)"
+echo "  - exec: $(cd ~/dev/loop/exec && git branch --show-current)"
 ```
 
 ### nas-to-local - NAS → GitHub → Local Sync

@@ -60,11 +60,15 @@ export interface WeeklySummary {
   problemBreakdown: Record<ProblemType, number>;
 }
 
+// Content type for shorts/long-form filter
+export type ContentType = "all" | "shorts" | "long";
+
 // Filter state for performance list
 export interface PerformanceFilters {
   status: DiagnosisStatus | "all";
   period: "7d" | "14d" | "30d" | "all";
   search: string;
+  contentType: ContentType;
 }
 
 // Sortable fields for performance table

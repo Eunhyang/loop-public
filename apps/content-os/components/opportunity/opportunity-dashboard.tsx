@@ -55,7 +55,7 @@ export function OpportunityDashboard() {
         // Merge: preserve local flags for existing items
         const prevById = new Map(prevOpportunities.map((opp) => [opp.id, opp]));
 
-        return firebaseOpportunities.map((fbOpp) => {
+        return firebaseOpportunities.map((fbOpp: Opportunity) => {
           const prevOpp = prevById.get(fbOpp.id);
           if (prevOpp) {
             // Preserve local-only flags

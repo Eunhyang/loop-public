@@ -3,17 +3,13 @@
 import { use } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { Header } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Eye, MousePointer, Clock, TrendingUp } from "lucide-react";
+import { ArrowLeft, Eye, MousePointer, Clock, TrendingUp, Loader2 } from "lucide-react";
 import { MetricCompareCard, MetricChart, DiagnosisLabel } from "./components";
-import {
-  getPerformanceById,
-  formatDuration,
-} from "../data/dummy-performance";
+import { usePerformanceDetail } from "../hooks";
+import { formatDuration } from "../data/dummy-performance";
 
 interface PageProps {
   params: Promise<{ videoId: string }>;
@@ -21,15 +17,16 @@ interface PageProps {
 
 export default function PerformanceDetailPage({ params }: PageProps) {
   const { videoId } = use(params);
-  const performance = getPerformanceById(videoId);
-  const router = useRouter();
+  const { data: performance, isLoading } = usePerformanceDetail(videoId);
 
-  // Redirect to 404-like experience if not found (client-side handling)
-  useEffect(() => {
-    if (!performance) {
-      router.replace("/performance");
-    }
-  }, [performance, router]);
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   if (!performance) {
     return (
