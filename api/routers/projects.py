@@ -360,6 +360,22 @@ def update_project(project_id: str, project: ProjectUpdate):
     frontmatter = yaml.safe_load(match.group(1))
     body = match.group(2)
 
+    # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
+    # Check BEFORE any frontmatter mutation to prevent race conditions
+    if project.expected_updated_at:
+        current_updated = frontmatter.get('updated')
+        if current_updated != project.expected_updated_at:
+            raise HTTPException(
+                status_code=409,
+                detail={
+                    "error": "Conflict: Entity was modified",
+                    "entity_id": project_id,
+                    "current_updated_at": current_updated,
+                    "expected_updated_at": project.expected_updated_at,
+                    "message": "Entity was modified by another user/process. Please reload and retry."
+                }
+            )
+
     # 5. 업데이트
     if project.entity_name is not None:
         frontmatter['entity_name'] = project.entity_name

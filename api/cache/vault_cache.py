@@ -1257,6 +1257,30 @@ class VaultCache:
                     if k not in self.MEMBER_SENSITIVE_FIELDS
                 }
 
+    def get_member_by_email(self, email: str, include_sensitive: bool = False) -> Optional[Dict[str, Any]]:
+        """이메일로 멤버 조회
+
+        tsk-023-39: Comments 시스템용
+
+        Args:
+            email: 멤버 이메일 주소
+            include_sensitive: True이면 민감 필드 포함 (mcp:exec scope 필요)
+
+        Returns:
+            멤버 정보 (없으면 None)
+        """
+        with self._lock:
+            for member in self.members.values():
+                if member.get('email') == email:
+                    if include_sensitive:
+                        return member.copy()
+                    else:
+                        return {
+                            k: v for k, v in member.items()
+                            if k not in self.MEMBER_SENSITIVE_FIELDS
+                        }
+            return None
+
     # ============================================
     # ID 생성
     # ============================================

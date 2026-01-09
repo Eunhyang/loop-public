@@ -262,6 +262,25 @@ def update_task(task_id: str, task: TaskUpdate):
 
     body = match.group(2)
 
+    # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
+    # Check BEFORE any frontmatter mutation to prevent race conditions
+    if task.expected_updated_at:
+        current_updated = frontmatter.get('updated')
+        if current_updated != task.expected_updated_at:
+            raise HTTPException(
+                status_code=409,
+                detail={
+                    "error": "Conflict: Entity was modified",
+                    "entity_id": task_id,
+                    "current_updated_at": current_updated,
+                    "expected_updated_at": task.expected_updated_at,
+                    "message": "Entity was modified by another user/process. Please reload and retry."
+                }
+            )
+
+    # SSOT Rule C: Preserve old frontmatter for diff calculation (tsk-019-14)
+    old_frontmatter = dict(frontmatter)  # Deep copy before mutations
+
     # 업데이트
     try:
         if task.entity_name:
@@ -320,15 +339,32 @@ def update_task(task_id: str, task: TaskUpdate):
     # 캐시 업데이트
     cache.set_task(task_id, frontmatter, task_file)
 
-    # 감사 로그
+    # SSOT Rule C: 감사 로그 with diff (tsk-019-14)
     try:
-        changed_fields = {k: v for k, v in task.model_dump().items() if v is not None}
+        # Calculate modified_fields: exclude request-only fields (expected_updated_at, etc.)
+        ENTITY_FIELDS = {'entity_name', 'assignee', 'priority', 'start_date', 'due', 'status',
+                        'notes', 'tags', 'conditions_3y', 'closed', 'closed_inferred',
+                        'project_id', 'links', 'type'}
+        changed_fields = [k for k, v in task.model_dump().items()
+                         if v is not None and k in ENTITY_FIELDS]
+
+        # Calculate diff: {field: {old, new}} for actually changed values
+        diff = {}
+        for field in changed_fields:
+            old_val = old_frontmatter.get(field)
+            new_val = frontmatter.get(field)
+            if old_val != new_val:
+                diff[field] = {"old": old_val, "new": new_val}
+
         log_entity_action(
             action="update",
             entity_type="Task",
             entity_id=task_id,
             entity_name=frontmatter.get("entity_name", ""),
-            details={"changed_fields": changed_fields}
+            details={"changed_fields": changed_fields},  # Legacy
+            source="api",
+            modified_fields=list(diff.keys()),  # Only actually modified fields
+            diff=diff
         )
     except Exception as e:
         # 감사 로그 실패는 무시 (메인 로직에 영향 주지 않음)

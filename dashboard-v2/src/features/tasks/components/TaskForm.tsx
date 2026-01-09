@@ -11,6 +11,7 @@ import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
 import { LinkEditor } from './LinkEditor';
 import { AttachmentPanel } from './AttachmentPanel';
+import { CommentSection } from '@/features/comments';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
@@ -655,6 +656,16 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     <div className="px-6 py-4">
                         <h3 className="text-sm font-semibold text-zinc-500 mb-2">Attachments</h3>
                         <AttachmentPanel taskId={id} readOnly={isReadOnly} />
+                    </div>
+                </>
+            )}
+
+            {/* Comments Section - only show for existing tasks */}
+            {id && (
+                <>
+                    <div className="h-px bg-zinc-200 mx-6 my-2" />
+                    <div className="px-6 py-4">
+                        <CommentSection entityType="task" entityId={id} />
                     </div>
                 </>
             )}

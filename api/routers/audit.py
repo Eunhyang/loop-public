@@ -2,13 +2,18 @@
 Audit Log Router
 
 LOOP_PHILOSOPHY 8.2:
-- Entity 생성/수정/삭제 감사 로그 (audit.log)
+- Entity 생성/수정/삭제 감사 로그 (audit.log + audit_log.jsonl)
 - 승인/거부 결정 로그 (decision_log.jsonl)
 - LLM 실행 기록 (run_log/)
+
+SSOT_CONTRACT v1.2 (tsk-019-14):
+- Rule C: Audit log schema expansion with run_id, actor, source, diff
+- Dual-write: Old format (audit.log) + New format (audit_log.jsonl)
 """
 
 import json
-from datetime import datetime
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, Dict, Any, List
 from fastapi import APIRouter, Query
@@ -25,31 +30,54 @@ router = APIRouter(prefix="/api/audit", tags=["audit"])
 
 # 감사 로그 파일 경로
 VAULT_DIR = get_vault_dir()
-AUDIT_LOG_FILE = VAULT_DIR / "_build" / "audit.log"
+AUDIT_LOG_FILE = VAULT_DIR / "_build" / "audit.log"  # Legacy format
+AUDIT_LOG_JSONL = VAULT_DIR / "_build" / "audit_log.jsonl"  # New format (SSOT Rule C)
 
 
 def log_entity_action(
     action: str,
     entity_type: str,
     entity_id: str,
-    entity_name: str,
+    entity_name: str = "",
     details: Optional[Dict[str, Any]] = None,
-    user: str = "api"
+    user: str = "api",
+    # SSOT Rule C: New fields (tsk-019-14)
+    run_id: Optional[str] = None,
+    actor: Optional[str] = None,
+    source: str = "api",
+    modified_fields: Optional[List[str]] = None,
+    diff: Optional[Dict[str, Dict[str, Any]]] = None,
+    metadata: Optional[Dict[str, Any]] = None
 ) -> None:
     """
-    Entity 액션 로깅
+    Entity 액션 로깅 (dual-write for backward compatibility)
 
     Args:
         action: create | update | delete | autofill
         entity_type: Project | Task | Hypothesis
         entity_id: 엔티티 ID
         entity_name: 엔티티 이름
-        details: 추가 정보 (변경된 필드, LLM 제안 등)
-        user: 액션 수행자 (api, skill, n8n, dashboard)
+        details: (legacy) 추가 정보
+        user: (legacy) 액션 수행자 - backward compat only
+        run_id: (new) 실행 추적 ID (uuid-v4, auto-generated if None)
+        actor: (new) 주체 (user:김은향 | api:n8n | script:validate)
+        source: (new) 원천 (ui | api | script | cli)
+        modified_fields: (new) 변경된 필드 목록
+        diff: (new) {field: {old, new}}
+        metadata: (new) 추가 메타데이터 (ip, user_agent 등)
     """
     AUDIT_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
 
-    log_entry = {
+    # Generate run_id if not provided
+    if not run_id:
+        run_id = str(uuid.uuid4())
+
+    # Use actor if provided, fallback to user (backward compat)
+    if not actor:
+        actor = f"api:{user}" if user != "api" else "api"
+
+    # Legacy format (audit.log) - backward compatibility
+    legacy_entry = {
         "timestamp": datetime.now().isoformat(),
         "action": action,
         "entity_type": entity_type,
@@ -60,7 +88,25 @@ def log_entity_action(
     }
 
     with open(AUDIT_LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+        f.write(json.dumps(legacy_entry, ensure_ascii=False) + "\n")
+
+    # New format (audit_log.jsonl) - SSOT Rule C
+    new_entry = {
+        "run_id": run_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),  # UTC ISO-8601
+        "actor": actor,
+        "source": source,
+        "entity_type": entity_type,
+        "entity_id": entity_id,
+        "entity_name": entity_name,
+        "action": action,
+        "modified_fields": modified_fields or [],
+        "diff": diff or {},
+        "metadata": metadata or {}
+    }
+
+    with open(AUDIT_LOG_JSONL, "a", encoding="utf-8") as f:
+        f.write(json.dumps(new_entry, ensure_ascii=False) + "\n")
 
 
 @router.get("")

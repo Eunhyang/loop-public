@@ -50,6 +50,8 @@ class TaskUpdate(BaseModel):
     project_id: Optional[str] = Field(default=None, description="프로젝트 ID")
     # 외부 링크 (tsk-022-11: security - max 10 links)
     links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
+    # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
+    expected_updated_at: Optional[str] = Field(default=None, description="예상 updated 값 (YYYY-MM-DD) - 409 Conflict 검증용")
 
 
 class ExpectedImpactInput(BaseModel):
@@ -92,6 +94,8 @@ class ProjectUpdate(BaseModel):
     links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
     # 본문 (frontmatter 아래 마크다운)
     body: Optional[str] = Field(default=None, description="본문 (마크다운)")
+    # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
+    expected_updated_at: Optional[str] = Field(default=None, description="예상 updated 값 (YYYY-MM-DD) - 409 Conflict 검증용")
 
 
 class ValidationResult(BaseModel):
@@ -166,6 +170,8 @@ class HypothesisUpdate(BaseModel):
     evidence_status: Optional[str] = None
     deadline: Optional[str] = None
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
+    # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
+    expected_updated_at: Optional[str] = Field(default=None, description="예상 updated 값 (YYYY-MM-DD) - 409 Conflict 검증용")
 
 
 class HypothesisResponse(BaseModel):
