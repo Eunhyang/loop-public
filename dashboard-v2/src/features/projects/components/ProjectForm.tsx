@@ -221,7 +221,9 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                     {/* Owner */}
                     <label className="text-zinc-500 py-1">Owner</label>
                     {isReadOnly ? (
-                        <span className="text-zinc-700 py-1">{project.owner || 'Unassigned'}</span>
+                        <span className="text-zinc-700 py-1">
+                            {dashboardData?.members?.find((m: any) => m.id === project.owner)?.name || project.owner || 'Unassigned'}
+                        </span>
                     ) : (
                         <div className="py-1">
                             <ChipSelectExpand
@@ -313,22 +315,6 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                             )}
                         </select>
                     )}
-
-                    {/* Relations - Track (clickable) */}
-                    {project.parent_id && (() => {
-                        const track = dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id);
-                        return track ? (
-                            <>
-                                <label className="text-zinc-500 py-1">Track Link</label>
-                                <span
-                                    className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                    onClick={() => openEntityDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
-                                >
-                                    {track.entity_name}
-                                </span>
-                            </>
-                        ) : null;
-                    })()}
                 </div>
 
                 {/* Tasks Section */}
@@ -415,12 +401,22 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                 {/* Hypothesis Text Section */}
                 <div className="px-6 py-4 flex-1 flex flex-col">
                     <h3 className="text-sm font-semibold text-zinc-500 mb-2">Hypothesis</h3>
-                    <textarea
-                        className="w-full min-h-[100px] border border-zinc-200 p-3 rounded bg-white text-sm leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
-                        defaultValue={(project as any).hypothesis_text || ''}
-                        onBlur={(e) => handleUpdate('hypothesis_text' as keyof Project, e.target.value)}
-                        placeholder="Enter project hypothesis..."
-                    />
+                    {isReadOnly ? (
+                        (project as any).hypothesis_text ? (
+                            <p className="text-zinc-700 text-sm leading-relaxed whitespace-pre-wrap">
+                                {(project as any).hypothesis_text}
+                            </p>
+                        ) : (
+                            <p className="text-zinc-400 text-sm">No hypothesis specified</p>
+                        )
+                    ) : (
+                        <textarea
+                            className="w-full min-h-[100px] border border-zinc-200 p-3 rounded bg-white text-sm leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
+                            defaultValue={(project as any).hypothesis_text || ''}
+                            onBlur={(e) => handleUpdate('hypothesis_text' as keyof Project, e.target.value)}
+                            placeholder="Enter project hypothesis..."
+                        />
+                    )}
                 </div>
 
                 {/* Body/Description Editor */}
@@ -429,9 +425,10 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                     <h3 className="text-sm font-semibold text-zinc-500 mb-2">Description</h3>
                     <MarkdownEditor
                         value={(project as any)._body || ''}
-                        onChange={(markdown) => handleUpdate('body' as keyof Project, markdown)}
+                        onChange={(markdown) => !isReadOnly && handleUpdate('body' as keyof Project, markdown)}
+                        readOnly={isReadOnly}
                         minHeight="200px"
-                        placeholder="프로젝트 설명을 작성하세요..."
+                        placeholder={isReadOnly ? '' : '프로젝트 설명을 작성하세요...'}
                     />
                 </div>
             </div>
