@@ -1,7 +1,7 @@
 ---
 entity_type: Project
 entity_id: prj-002
-entity_name: 와디즈 - 12주 코칭 습관팩 런칭
+entity_name: 와디즈 - 12주 습관 코칭 패키지
 created: 2025-12-18
 updated: '2026-01-09'
 status: planning
