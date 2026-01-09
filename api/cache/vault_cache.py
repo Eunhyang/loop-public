@@ -521,6 +521,12 @@ class VaultCache:
                     results.append(entry.data.copy())
             return sorted(results, key=lambda x: x.get('entity_id', ''))
 
+    def get_project_path(self, project_id: str) -> Optional[Path]:
+        """Get project file path by project_id"""
+        with self._lock:
+            entry = self.projects.get(project_id)
+            return entry.path if entry else None
+
     def get_project_dir(self, project_id: str) -> Optional[Path]:
         """Project 디렉토리 경로 조회"""
         with self._lock:

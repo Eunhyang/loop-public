@@ -79,6 +79,12 @@ def get_project(project_id: str):
         frontmatter = cached_project.copy()  # 캐시 오염 방지를 위한 복사
         body = content  # 파싱 실패 시 전체 내용 반환 (데이터 손실 방지)
 
+    # tsk-023-38: exec vault 민감 필드 필터링 (보안 수정)
+    # exec vault 프로젝트인 경우 민감 필드를 제거
+    EXEC_SENSITIVE_FIELDS = {'contract', 'salary', 'rate', 'terms', 'contact'}
+    if frontmatter.get('_vault') == 'exec':
+        frontmatter = {k: v for k, v in frontmatter.items() if k not in EXEC_SENSITIVE_FIELDS}
+
     # _body 필드 추가
     frontmatter['_body'] = body
 
