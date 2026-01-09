@@ -5,6 +5,7 @@ import { useUi } from '@/contexts/UiContext';
 import { authStorage } from '@/features/auth/storage';
 import { httpClient } from '@/services/http';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
+import { ActivityToggle } from '@/features/activity';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -152,6 +153,8 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
           <span className="text-lg leading-none">⚙</span>
           <span className="text-xs font-semibold uppercase tracking-wider">Filters</span>
         </button>
+
+        <ActivityToggle />
 
         <div className="h-6 w-px bg-gray-300 mx-1"></div>
 

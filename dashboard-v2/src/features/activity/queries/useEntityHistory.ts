@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '@/queries/keys';
 import { activityApi } from '../api';
-import type { EntityHistoryResponse } from '../types';
 
 interface UseEntityHistoryParams {
   entityId: string;

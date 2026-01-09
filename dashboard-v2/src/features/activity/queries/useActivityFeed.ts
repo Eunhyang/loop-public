@@ -66,9 +66,9 @@ export function useActivityFeed({
 
   // Transform history to activity items
   const historyItems = useMemo((): HistoryActivityItem[] => {
-    if (!historyQuery.data?.history) return [];
+    if (!historyQuery.data?.data?.history) return [];
 
-    return historyQuery.data.history.map((entry) => ({
+    return historyQuery.data.data.history.map((entry: any) => ({
       itemType: 'history' as const,
       id: `history-${entry.timestamp}-${entry.entity_id}`,
       timestamp: entry.timestamp,
@@ -79,7 +79,7 @@ export function useActivityFeed({
       action: entry.action as 'create' | 'update' | 'delete' | 'autofill',
       details: entry.details,
     }));
-  }, [historyQuery.data?.history]);
+  }, [historyQuery.data]);
 
   // Merge and sort by timestamp (descending)
   const feedItems = useMemo((): ActivityFeedItem[] => {

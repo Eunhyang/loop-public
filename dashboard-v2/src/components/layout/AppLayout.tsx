@@ -12,6 +12,7 @@ import { authStorage } from '@/features/auth/storage';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { HelpModal } from '@/components/common/HelpModal';
 import { CommandPalette } from '@/components/common/CommandPalette';
+import { ActivityPanel } from '@/features/activity';
 
 const AppLayoutContent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,6 +43,9 @@ const AppLayoutContent = () => {
 
       {/* Global Command Palette */}
       <CommandPalette />
+
+      {/* Global Activity Panel */}
+      <ActivityPanel />
 
       {/* Global Help Modal */}
       <HelpModal isOpen={helpModalOpen} onClose={() => setHelpModalOpen(false)} />

@@ -12,6 +12,12 @@ export type ActiveEntityDrawer =
   | { type: EntityType; mode: 'edit'; id: string }
   | { type: EntityType; mode: 'view'; id: string };  // For Track, Condition (read-only)
 
+// Activity Panel State
+export type SelectedActivityEntity = {
+  type: EntityType;
+  id: string;
+} | null;
+
 interface UiContextType {
     // LEGACY (keeping for compatibility during migration)
     activeModal: ActiveModalType;
@@ -23,6 +29,10 @@ interface UiContextType {
 
     // Command Palette
     isCommandPaletteOpen: boolean;
+
+    // Activity Panel
+    activityPanelOpen: boolean;
+    selectedActivityEntity: SelectedActivityEntity;
 
     // LEGACY Actions (keeping for compatibility)
     openCreateProject: () => void;
@@ -39,6 +49,11 @@ interface UiContextType {
     // Command Palette Actions
     openCommandPalette: () => void;
     closeCommandPalette: () => void;
+
+    // Activity Panel Actions
+    openActivityPanel: () => void;
+    closeActivityPanel: () => void;
+    setActivityEntity: (entity: SelectedActivityEntity) => void;
 }
 
 const UiContext = createContext<UiContextType | undefined>(undefined);
@@ -48,6 +63,8 @@ export function UiProvider({ children }: { children: ReactNode }) {
     const [drawerStack, setDrawerStack] = useState<ActiveEntityDrawer[]>([]);
     const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+    const [activityPanelOpen, setActivityPanelOpen] = useState(false);
+    const [selectedActivityEntity, setSelectedActivityEntity] = useState<SelectedActivityEntity>(null);
 
     // Derived state - activeEntityDrawer is the top of the stack
     const activeEntityDrawer = useMemo(() => drawerStack.at(-1) ?? null, [drawerStack]);
@@ -106,6 +123,23 @@ export function UiProvider({ children }: { children: ReactNode }) {
         setIsCommandPaletteOpen(false);
     }, []);
 
+    // Activity Panel Actions
+    const openActivityPanel = useCallback(() => {
+        setActivityPanelOpen(true);
+    }, []);
+
+    const closeActivityPanel = useCallback(() => {
+        setActivityPanelOpen(false);
+        setSelectedActivityEntity(null);
+    }, []);
+
+    const setActivityEntity = useCallback((entity: SelectedActivityEntity) => {
+        setSelectedActivityEntity(entity);
+        if (entity) {
+            setActivityPanelOpen(true);
+        }
+    }, []);
+
     return (
         <UiContext.Provider value={{
             // LEGACY
@@ -125,7 +159,13 @@ export function UiProvider({ children }: { children: ReactNode }) {
             // Command Palette
             isCommandPaletteOpen,
             openCommandPalette,
-            closeCommandPalette
+            closeCommandPalette,
+            // Activity Panel
+            activityPanelOpen,
+            selectedActivityEntity,
+            openActivityPanel,
+            closeActivityPanel,
+            setActivityEntity
         }}>
             {children}
         </UiContext.Provider>
