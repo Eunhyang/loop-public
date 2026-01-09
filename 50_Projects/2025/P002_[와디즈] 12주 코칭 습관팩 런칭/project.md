@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-002
 entity_name: 와디즈 - 12주 코칭 습관팩 런칭
 created: 2025-12-18
-updated: '2025-12-28'
+updated: '2026-01-09'
 status: planning
 parent_id: trk-6
 aliases:
@@ -45,7 +45,7 @@ conditions_3y:
 tags: []
 priority_flag: medium
 ---
-# [와디즈] 12주 코칭 습관팩 런칭
+# \[와디즈\] 12주 코칭 습관팩 런칭
 
 > Project ID: `prj-002` | Track: `trk-6` | Status: planning
 
@@ -63,9 +63,8 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
+- \[\[Track_2_Data\]\] - 소속 Track
 
 ---
 
-**Created**: 2025-12-18
-**Owner**: 김은향
+**Created**: 2025-12-18 **Owner**: 김은향
