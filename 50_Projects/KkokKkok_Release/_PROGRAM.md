@@ -124,6 +124,7 @@ Scope Lock → 개발 → 릴리즈 → 측정(D+7/14) → Evidence → 롤업
 | Round | Version | Type | Status | Link |
 |-------|---------|------|--------|------|
 | v1.0.28 | 1.0.28 | Hotfix | done | [[prj-kkokkkok-v1028]] |
+| Backend Maintenance | - | Ops | doing | [[prj-w5kz77]] |
 
 ---
 
@@ -269,7 +270,7 @@ v
   - Task: `Functions - 알림 트리거 누락 수정`
 
 ### 7.2 App 버전과 무관한 수시 배포(운영/정책/비용/로그/차단/핫패치)
-- 처리: **Backend 전용 Program/Project로 분리**한다.
+- 처리: `prj-w5kz77` ([[KkokKkok Backend - Maintenance]])에서 진행한다.
 - 이유: 앱 버전 성과/학습(판정)이 백엔드 수시 배포로 오염되는 것을 막는다.
 
 ---
@@ -329,10 +330,9 @@ v
 ### 10.3 Functions만 고치면 즉시 완화(서버 핫픽스)
 - 현상: 알림 중복 발송(서버 트리거 문제)
 - 처리:
-  - Program: `pgm-kkokkkok-backend-release` (또는 단일 Project)
-    - Project: `Functions - Hotfix 2026-01-09`
-      - Task: `Functions - 알림 중복 발송 트리거 수정`
-      - Task: `Ops - 배포 및 모니터링`
+  - Project: `prj-w5kz77` ([[KkokKkok Backend - Maintenance]])에서 진행
+    - Task: `Functions - 알림 중복 발송 트리거 수정`
+    - Task: `Ops - 배포 및 모니터링`
 
 ---
 
