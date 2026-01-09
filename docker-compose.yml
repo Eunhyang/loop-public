@@ -58,6 +58,9 @@ services:
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
       - TOKEN_ENCRYPTION_KEY=${TOKEN_ENCRYPTION_KEY}
+      # Discord Notification
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - DISCORD_NOTIFY_ENABLED=${DISCORD_NOTIFY_ENABLED:-true}
     depends_on:
       loop-auth:
         condition: service_healthy
