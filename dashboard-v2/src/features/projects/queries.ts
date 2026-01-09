@@ -13,6 +13,14 @@ export const useProject = (id: string | null) => {
     });
 };
 
+export const useProjectContext = (id: string | null) => {
+    return useQuery({
+        queryKey: id ? queryKeys.projectContext(id) : [],
+        queryFn: () => projectApi.getProjectContext(id!),
+        enabled: !!id,
+    });
+};
+
 export const useUpdateProject = () => {
     const queryClient = useQueryClient();
 

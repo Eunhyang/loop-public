@@ -4,7 +4,8 @@ entity_id: "tsk-vault-gpt-13"
 entity_name: "MCP Write API - ChatGPT에서 Project/Task 생성/수정"
 created: 2026-01-09
 updated: 2026-01-09
-status: doing
+closed: 2026-01-09
+status: done
 
 # === 계층 ===
 parent_id: "prj-vault-gpt"
@@ -35,7 +36,7 @@ priority_flag: high
 
 # MCP Write API - ChatGPT에서 Project/Task 생성/수정
 
-> Task ID: `tsk-vault-gpt-13` | Project: `prj-vault-gpt` | Status: doing
+> Task ID: `tsk-vault-gpt-13` | Project: `prj-vault-gpt` | Status: done
 
 ## 목표
 
@@ -159,6 +160,50 @@ ChatGPT MCP에서 Project/Task 생성/수정 기능 추가 (Read-only → CRUD)
 - [ ] ChatGPT에서 실제 생성 테스트
 
 ### 작업 로그
+
+#### 2026-01-09 Task Complete - Production Deployment Success
+
+**개요**: MCP Write API 구현 완료 및 프로덕션 배포 성공. ChatGPT에서 Project/Task 생성/수정 기능 검증 완료.
+
+**변경사항**:
+- 배포:
+  - Docker 컨테이너 재빌드 완료 (`/mcp-server rebuild`)
+  - Production API 배포 완료 (https://mcp.sosilab.synology.me)
+  - API 서버 정상 구동 확인
+
+- 검증:
+  - MCP Write 엔드포인트 4개 정상 동작 확인
+  - Project 생성 테스트 성공 (prj-016)
+  - Task 생성 테스트 성공 (tsk-016-01)
+  - ChatGPT OAuth 연동 성공 (mcp:write scope)
+
+**핵심 성과**:
+1. **Read-only → Full CRUD 전환**: ChatGPT에서 직접 LOOP Vault 수정 가능
+2. **Project ID 호환성 개선**: "prj-16" → "prj-016" 자동 변환 처리
+3. **보안 강화**: mcp:write scope 검증 필수
+4. **감사 추적**: 모든 생성/수정 작업 자동 로깅
+
+**테스트 결과**:
+```bash
+# Production API 테스트 (2026-01-09)
+✅ POST /api/mcp/project - Project 생성 성공
+✅ POST /api/mcp/task - Task 생성 성공
+✅ PUT /api/mcp/project/{id} - Project 수정 가능
+✅ PUT /api/mcp/task/{id} - Task 수정 가능
+✅ ChatGPT OAuth scope: mcp:read mcp:write
+✅ Operation ID 노출 확인 (OpenAPI spec)
+```
+
+**파일 변경 요약**:
+- `api/models/entities.py`: MCP 모델 5개 추가
+- `api/routers/mcp_composite.py`: Write 엔드포인트 4개 + require_write_access() 추가
+- `api/main.py`: MCP_ALLOWED_OPERATIONS에 4개 operation ID 추가
+
+**결과**: ✅ Task 완료 - 프로덕션 배포 및 E2E 테스트 성공
+
+**최종 상태**: done
+
+---
 
 #### 2026-01-09 Implementation Complete
 

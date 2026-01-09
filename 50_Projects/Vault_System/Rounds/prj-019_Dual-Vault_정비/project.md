@@ -55,9 +55,13 @@ realized_impact:
 # === 3Y 전략 연결 ===
 conditions_3y: ["cond-b"]
 
+# === Tasks ===
+tasks:
+  - tsk-019-14
+
 # === 분류 ===
-tags: ["vault", "dual-vault", "exec", "pre-commit", "validation", "infrastructure"]
-priority_flag: medium
+tags: ["vault", "dual-vault", "exec", "pre-commit", "validation", "infrastructure", "ssot"]
+priority_flag: high
 ---
 
 # Dual-Vault - 정비
