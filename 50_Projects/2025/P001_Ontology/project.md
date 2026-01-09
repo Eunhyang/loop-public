@@ -32,7 +32,7 @@ success_criteria:
 - 스키마 3개월 안정 (변경 없음)
 - 코치 라벨링 일관성 70% 이상
 - 재현 패턴 5개 이상 발견
-owner: Founder + 온톨로지 팀
+owner: 김은향
 start_date: 2024-12-01
 target_end: 2025-06-30
 milestones:

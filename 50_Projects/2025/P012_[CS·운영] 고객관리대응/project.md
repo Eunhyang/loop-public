@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-012
 entity_name: CS·운영 - 고객관리/대응
 created: 2025-12-18
-updated: '2025-12-27'
+updated: '2026-01-09'
 status: planning
 parent_id: trk-4
 aliases:
@@ -27,7 +27,6 @@ condition_contributes:
   weight: 0.1
   description: 고객 만족 → 재등록률 → 매출
 track_contributes: []
-
 expected_impact:
   statement: 이 프로젝트가 성공하면 고객 CS 프로세스가 안정화됨이 증명된다
   metric: CS 응답 시간 + 해결률
@@ -43,7 +42,7 @@ conditions_3y:
 tags: []
 priority_flag: medium
 ---
-# [CS·운영] 고객관리/대응
+# \[CS·운영\] 고객관리/대응
 
 > Project ID: `prj-012` | Track: `trk-4` | Status: planning
 
@@ -61,9 +60,8 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
+- \[\[Track_2_Data\]\] - 소속 Track
 
 ---
 
-**Created**: 2025-12-18
-**Owner**: 한명학
+**Created**: 2025-12-18 **Owner**: 한명학

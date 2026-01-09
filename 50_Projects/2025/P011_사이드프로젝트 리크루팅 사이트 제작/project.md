@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-011
 entity_name: 사이드프로젝트 리크루팅 사이트 제작
 created: 2025-12-18
-updated: 2025-12-18
+updated: '2026-01-09'
 status: doing
 parent_id: trk-5
 aliases:
@@ -18,19 +18,20 @@ budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 expected_impact:
-  statement: "이 프로젝트가 성공하면 사이드프로젝트 팀원 모집이 가능함이 증명된다"
-  metric: "지원자 수"
-  target: "지원자 10명 이상"
+  statement: 이 프로젝트가 성공하면 사이드프로젝트 팀원 모집이 가능함이 증명된다
+  metric: 지원자 수
+  target: 지원자 10명 이상
 realized_impact:
-  outcome: null  # supported | rejected | inconclusive
+  outcome: null
   evidence: null
   updated: null
 experiments: []
-conditions_3y: ['cond-c', 'cond-d']
+conditions_3y:
+- cond-c
+- cond-d
 tags: []
 priority_flag: medium
 ---
-
 # 사이드프로젝트 리크루팅 사이트 제작
 
 > Project ID: `prj-011` | Track: `trk-2` | Status: active
@@ -49,9 +50,8 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
+- \[\[Track_2_Data\]\] - 소속 Track
 
 ---
 
-**Created**: 2025-12-18
-**Owner**: 김은향
+**Created**: 2025-12-18 **Owner**: 김은향

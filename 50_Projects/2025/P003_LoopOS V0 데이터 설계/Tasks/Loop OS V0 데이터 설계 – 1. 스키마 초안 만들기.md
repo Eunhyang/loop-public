@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-003-01
 entity_name: Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기
 created: 2025-12-18
-updated: '2026-01-06'
+updated: '2026-01-09'
 status: todo
 parent_id: prj-003
 project_id: prj-003
@@ -59,7 +59,9 @@ notes: '# Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기
 
   - [ ] 태스크 내용 검토
 
+
   - [ ] 실행 계획 수립
+
 
   - [ ] 작업 시작
 
@@ -70,19 +72,13 @@ notes: '# Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기
   ## 참고 문서
 
 
-  - [[prj-003]] - 소속 Project
+  - \[\[prj-003\]\] - 소속 Project
 
 
   ---
 
 
-  **Created**: 2025-12-18
-
-  **Assignee**: 김은향
-
-  **Due**: 2025-12-10
-
-  '
+  **Created**: 2025-12-18 **Assignee**: 김은향 **Due**: 2025-12-10'
 ---
 # Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기
 
