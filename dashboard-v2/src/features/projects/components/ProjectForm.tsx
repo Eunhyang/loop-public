@@ -7,6 +7,7 @@ import type { ChipOption } from '@/components/common/ChipSelect';
 import { memberColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import type { Project } from '@/types';
+import { MarkdownEditor } from '@/components/MarkdownEditor/MarkdownEditor';
 
 interface ProjectFormProps {
     mode: 'create' | 'edit' | 'view';
