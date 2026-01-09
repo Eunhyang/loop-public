@@ -305,6 +305,18 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         placeholder="Enter project hypothesis..."
                     />
                 </div>
+
+                {/* Body/Description Editor */}
+                <div className="h-px bg-zinc-200 mx-6 my-2" />
+                <div className="px-6 py-4 flex-1 flex flex-col">
+                    <h3 className="text-sm font-semibold text-zinc-500 mb-2">Description</h3>
+                    <MarkdownEditor
+                        value={(project as any)._body || ''}
+                        onChange={(markdown) => handleUpdate('body' as keyof Project, markdown)}
+                        minHeight="200px"
+                        placeholder="프로젝트 설명을 작성하세요..."
+                    />
+                </div>
             </div>
         );
     }

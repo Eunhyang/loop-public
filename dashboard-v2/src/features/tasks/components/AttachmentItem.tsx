@@ -3,8 +3,9 @@ import type { AttachmentInfo } from '@/types';
 interface AttachmentItemProps {
     attachment: AttachmentInfo;
     onDownload: () => void;
-    onDelete: () => void;
+    onDelete?: () => void;
     isDeleting?: boolean;
+    readOnly?: boolean;
 }
 
 const formatFileSize = (bytes: number): string => {
@@ -15,7 +16,7 @@ const formatFileSize = (bytes: number): string => {
     return `${Math.round(bytes / Math.pow(k, i) * 10) / 10} ${sizes[i]}`;
 };
 
-export const AttachmentItem = ({ attachment, onDownload, onDelete, isDeleting = false }: AttachmentItemProps) => {
+export const AttachmentItem = ({ attachment, onDownload, onDelete, isDeleting = false, readOnly = false }: AttachmentItemProps) => {
     return (
         <div className="flex items-center gap-3 p-2 hover:bg-zinc-50 rounded group">
             {/* File Icon */}
@@ -47,14 +48,16 @@ export const AttachmentItem = ({ attachment, onDownload, onDelete, isDeleting = 
                 >
                     ⬇
                 </button>
-                <button
-                    onClick={onDelete}
-                    disabled={isDeleting}
-                    className="p-1.5 text-zinc-500 hover:text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    title="Delete"
-                >
-                    {isDeleting ? '⏳' : '🗑'}
-                </button>
+                {!readOnly && onDelete && (
+                    <button
+                        onClick={onDelete}
+                        disabled={isDeleting}
+                        className="p-1.5 text-zinc-500 hover:text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        title="Delete"
+                    >
+                        {isDeleting ? '⏳' : '🗑'}
+                    </button>
+                )}
             </div>
         </div>
     );

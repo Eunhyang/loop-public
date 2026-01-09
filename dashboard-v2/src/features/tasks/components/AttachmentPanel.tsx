@@ -1,4 +1,5 @@
-import { useState, useRef, DragEvent } from 'react';
+import { useState, useRef } from 'react';
+import type { DragEvent } from 'react';
 import { useAttachments, useUploadAttachment, useDeleteAttachment } from '../queries';
 import { taskApi } from '../api';
 import { AttachmentItem } from './AttachmentItem';
@@ -32,29 +33,24 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
     const attachments = attachmentsData?.attachments || [];
     const totalSize = attachmentsData?.total_size || 0;
 
-    const validateFile = (file: File): string | null => {
-        if (file.size > MAX_FILE_SIZE) {
-            return `File "${file.name}" exceeds 100MB limit`;
-        }
-        if (totalSize + file.size > MAX_TOTAL_SIZE) {
-            return `Adding "${file.name}" would exceed 500MB task limit`;
-        }
-        return null;
-    };
-
     const handleUpload = async (files: FileList | null) => {
         if (!files || files.length === 0) return;
 
         setError(null);
 
-        // Validate all files first
+        // Validate all files with running total (fix for multi-file validation)
+        let runningTotal = totalSize;
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            const validationError = validateFile(file);
-            if (validationError) {
-                setError(validationError);
+            if (file.size > MAX_FILE_SIZE) {
+                setError(`File "${file.name}" exceeds 100MB limit`);
                 return;
             }
+            if (runningTotal + file.size > MAX_TOTAL_SIZE) {
+                setError(`Adding "${file.name}" would exceed 500MB task limit`);
+                return;
+            }
+            runningTotal += file.size;
         }
 
         // Upload files one by one
@@ -221,8 +217,9 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
                             key={attachment.filename}
                             attachment={attachment}
                             onDownload={() => handleDownload(attachment.filename)}
-                            onDelete={() => handleDelete(attachment.filename)}
+                            onDelete={readOnly ? undefined : () => handleDelete(attachment.filename)}
                             isDeleting={deleteMutation.isPending}
+                            readOnly={readOnly}
                         />
                     ))}
                 </div>

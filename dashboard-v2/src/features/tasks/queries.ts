@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { taskApi } from './api';
 import type { CreateTaskDTO } from './api';
 import { queryKeys } from '@/queries/keys';
-import type { Task } from '@/types';
+import type { Task, AttachmentListResponse } from '@/types';
 
 export const useTasks = (filters?: { status?: string; assignee?: string }) => {
     return useQuery({
@@ -123,6 +123,69 @@ export const useDeleteTask = () => {
             // Invalidate all task-related queries
             queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
             queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+        },
+    });
+};
+
+// Attachment hooks
+export const useAttachments = (taskId: string | null) => {
+    return useQuery({
+        queryKey: taskId ? queryKeys.attachments(taskId) : [],
+        queryFn: () => taskApi.getAttachments(taskId!),
+        enabled: !!taskId,
+    });
+};
+
+export const useUploadAttachment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ taskId, file, onProgress }: {
+            taskId: string;
+            file: File;
+            onProgress?: (progress: number) => void;
+        }) => taskApi.uploadAttachment(taskId, file, onProgress),
+        onSuccess: (_, { taskId }) => {
+            // Invalidate attachments query to refetch the list
+            queryClient.invalidateQueries({ queryKey: queryKeys.attachments(taskId) });
+        },
+    });
+};
+
+export const useDeleteAttachment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ taskId, filename }: { taskId: string; filename: string }) =>
+            taskApi.deleteAttachment(taskId, filename),
+        onMutate: async ({ taskId, filename }) => {
+            // Cancel outgoing refetches
+            await queryClient.cancelQueries({ queryKey: queryKeys.attachments(taskId) });
+
+            // Snapshot previous value
+            const previousAttachments = queryClient.getQueryData<AttachmentListResponse>(queryKeys.attachments(taskId));
+
+            // Optimistic update - remove the attachment
+            if (previousAttachments) {
+                queryClient.setQueryData<AttachmentListResponse>(queryKeys.attachments(taskId), {
+                    ...previousAttachments,
+                    attachments: previousAttachments.attachments.filter(a => a.filename !== filename),
+                    total_count: previousAttachments.total_count - 1,
+                    total_size: previousAttachments.total_size - (previousAttachments.attachments.find(a => a.filename === filename)?.size || 0),
+                });
+            }
+
+            return { previousAttachments };
+        },
+        onError: (_err, { taskId }, context) => {
+            // Rollback on error
+            if (context?.previousAttachments) {
+                queryClient.setQueryData(queryKeys.attachments(taskId), context.previousAttachments);
+            }
+        },
+        onSettled: (_, __, { taskId }) => {
+            // Invalidate to ensure consistency
+            queryClient.invalidateQueries({ queryKey: queryKeys.attachments(taskId) });
         },
     });
 };

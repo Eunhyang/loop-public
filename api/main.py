@@ -345,6 +345,11 @@ if MCP_AVAILABLE:
         "get_exec_context_api_mcp_exec_context_get",
         "exec_read_api_mcp_exec_read_get",
         "exec_search_api_mcp_exec_search_get",
+        # Write Operations (tsk-vault-gpt-13: MCP Write API) - mcp:write scope required
+        "mcp_create_project_api_mcp_project_post",
+        "mcp_update_project_api_mcp_project__project_id__put",
+        "mcp_create_task_api_mcp_task_post",
+        "mcp_update_task_api_mcp_task__task_id__put",
     ]
     mcp = FastApiMCP(
         app,

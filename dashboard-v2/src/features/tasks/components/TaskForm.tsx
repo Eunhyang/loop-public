@@ -9,6 +9,8 @@ import { statusColors, priorityColors, memberColor, projectColor, getColor } fro
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
+import { LinkEditor } from './LinkEditor';
+import { AttachmentPanel } from './AttachmentPanel';
 import type { Task } from '@/types';
 
 interface TaskFormProps {
@@ -611,25 +613,16 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     </>
                 )}
 
-                {/* Relations - Links */}
-                {formData?.links && formData.links.length > 0 && (
-                    <>
-                        <label className="text-zinc-500 py-1">Links</label>
-                        <div className="space-y-1">
-                            {formData.links.map((link: any, idx: number) => (
-                                <a
-                                    key={idx}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block text-xs text-blue-600 hover:underline"
-                                >
-                                    {link.label || link.url}
-                                </a>
-                            ))}
-                        </div>
-                    </>
-                )}
+                {/* Links (editable) */}
+                <label className="text-zinc-500 py-1">Links</label>
+                <LinkEditor
+                    links={(getFieldValue('links') as Array<{ label: string; url: string }>) || []}
+                    onChange={(newLinks) => {
+                        if (!id) return;
+                        handleFieldChangeInternal('links', newLinks);
+                    }}
+                    readOnly={isReadOnly}
+                />
             </div>
 
             <div className="h-px bg-zinc-200 mx-6 my-2" />
@@ -654,6 +647,17 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     />
                 </ReviewFieldWrapper>
             </div>
+
+            {/* Attachments Section - only show for existing tasks */}
+            {id && (
+                <>
+                    <div className="h-px bg-zinc-200 mx-6 my-2" />
+                    <div className="px-6 py-4">
+                        <h3 className="text-sm font-semibold text-zinc-500 mb-2">Attachments</h3>
+                        <AttachmentPanel taskId={id} readOnly={isReadOnly} />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

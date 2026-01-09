@@ -37,3 +37,19 @@ export interface TaskUpdatePayload {
     description?: string; // Notes/Description
     links?: Array<{ label: string; url: string }>; // New: Links
 }
+
+export interface AttachmentInfo {
+    filename: string;
+    size: number;
+    content_type: string;
+    uploaded_at: string;
+    url: string;
+}
+
+export interface AttachmentListResponse {
+    success: boolean;
+    task_id: string;
+    attachments: AttachmentInfo[];
+    total_count: number;
+    total_size: number;
+}

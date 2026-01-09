@@ -300,3 +300,57 @@ class ProgramResponse(BaseModel):
     program_id: str = Field(..., description="생성된 Program ID")
     file_path: Optional[str] = Field(default=None, description="생성된 파일 경로")
     message: str = Field(..., description="결과 메시지")
+
+
+# ============================================
+# MCP Write Models (ChatGPT용 간소화 버전)
+# ============================================
+
+class MCPProjectCreate(BaseModel):
+    """MCP Project 생성 요청 (ChatGPT용)"""
+    entity_name: str = Field(..., description="프로젝트 이름 (필수: '주제 - 내용' 형식)")
+    owner: str = Field(..., description="담당자 ID")
+    parent_id: Optional[str] = Field(default=None, description="상위 Track ID (예: trk-2)")
+    program_id: Optional[str] = Field(default=None, description="소속 Program ID (예: pgm-youtube)")
+    conditions_3y: List[str] = Field(default_factory=list, description="기여하는 3년 Condition 목록")
+    auto_validate: bool = Field(default=True, description="생성 후 자동 검증 (기본값 true)")
+
+
+class MCPProjectUpdate(BaseModel):
+    """MCP Project 수정 요청 (ChatGPT용)"""
+    status: Optional[str] = Field(default=None, description="상태 (schema_constants.yaml 참조)")
+    owner: Optional[str] = Field(default=None, description="담당자 ID")
+    priority_flag: Optional[str] = Field(default=None, description="우선순위")
+    notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
+
+
+class MCPTaskCreate(BaseModel):
+    """MCP Task 생성 요청 (ChatGPT용)"""
+    entity_name: str = Field(..., description="Task 이름 (필수: '주제 - 내용' 형식)")
+    project_id: str = Field(..., description="부모 프로젝트 ID (필수)")
+    assignee: str = Field(..., description="담당자 (필수)")
+    priority: str = Field(default="medium", description="우선순위")
+    status: str = Field(default="todo", description="상태")
+    due: Optional[str] = Field(default=None, description="마감일 (YYYY-MM-DD)")
+    type: Optional[str] = Field(default=None, description="Task 유형 (dev|bug|strategy|research|ops|meeting)")
+    auto_validate: bool = Field(default=True, description="생성 후 자동 검증 (기본값 true)")
+
+
+class MCPTaskUpdate(BaseModel):
+    """MCP Task 수정 요청 (ChatGPT용)"""
+    status: Optional[str] = Field(default=None, description="상태")
+    assignee: Optional[str] = Field(default=None, description="담당자")
+    priority: Optional[str] = Field(default=None, description="우선순위")
+    due: Optional[str] = Field(default=None, description="마감일 (YYYY-MM-DD)")
+    notes: Optional[str] = Field(default=None, description="노트 (마크다운 지원)")
+    type: Optional[str] = Field(default=None, description="Task 유형")
+
+
+class MCPWriteResponse(BaseModel):
+    """MCP Write 작업 응답"""
+    success: bool = Field(..., description="성공 여부")
+    entity_id: str = Field(..., description="생성/수정된 엔티티 ID")
+    entity_type: str = Field(..., description="엔티티 타입 (Project | Task)")
+    message: str = Field(..., description="결과 메시지")
+    file_path: Optional[str] = Field(default=None, description="파일 경로")
+    validation: Optional[ValidationResult] = Field(default=None, description="검증 결과 (auto_validate=true일 때)")

@@ -78,6 +78,7 @@ ChatGPT (gpt.com)에서 LOOP Obsidian vault를 MCP로 직접 접근할 수 있�
 | tsk-vault-gpt-01 | v1 HTTP MCP 설정 | 한명학 | in_progress |
 | tsk-vault-gpt-10 | Navigation - vault-navigation API 엔드포인트 구현 | 한명학 | done |
 | tsk-vault-gpt-11 | Navigation - _INDEX.md API 이전 | 한명학 | done |
+| tsk-vault-gpt-13 | MCP Write API - ChatGPT에서 Project/Task 생성/수정 | 김은향 | doing |
 
 ---
 

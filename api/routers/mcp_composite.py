@@ -1938,3 +1938,138 @@ async def get_program_rounds(
         returned_count=len(rounds),
         limit_applied=limit
     )
+
+
+# ============================================
+# MCP Write Operations (ChatGPT용)
+# ============================================
+
+from ..models.entities import (
+    MCPProjectCreate, MCPProjectUpdate,
+    MCPTaskCreate, MCPTaskUpdate, MCPWriteResponse
+)
+from ..routers import projects, tasks
+
+
+def require_write_access(request: Request) -> None:
+    """mcp:write scope 확인. 없으면 403 발생"""
+    role, scope = get_role_and_scope(request)
+    if "mcp:write" not in scope and "mcp:admin" not in scope:
+        raise HTTPException(
+            status_code=403,
+            detail=f"Write access denied: mcp:write scope required (current scope: {scope})"
+        )
+
+
+@router.post("/project", response_model=MCPWriteResponse, tags=["mcp-write"])
+async def mcp_create_project(request: Request, project: MCPProjectCreate):
+    """
+    MCP Project 생성 (ChatGPT용)
+
+    auto_validate=true(기본값)면 스키마 검증 자동 실행
+    """
+    require_write_access(request)
+
+    # ProjectCreate로 변환
+    from ..models.entities import ProjectCreate
+    project_create = ProjectCreate(
+        entity_name=project.entity_name,
+        owner=project.owner,
+        parent_id=project.parent_id,
+        program_id=project.program_id,
+        conditions_3y=project.conditions_3y,
+        auto_validate=project.auto_validate
+    )
+
+    # 기존 로직 재사용
+    result = await projects.create_project(project_create)
+
+    return MCPWriteResponse(
+        success=result.success,
+        entity_id=result.project_id,
+        entity_type="Project",
+        message=result.message,
+        file_path=result.directory,
+        validation=result.validation
+    )
+
+
+@router.put("/project/{project_id}", response_model=MCPWriteResponse, tags=["mcp-write"])
+def mcp_update_project(request: Request, project_id: str, project: MCPProjectUpdate):
+    """MCP Project 수정 (ChatGPT용)"""
+    require_write_access(request)
+
+    from ..models.entities import ProjectUpdate
+    project_update = ProjectUpdate(
+        status=project.status,
+        owner=project.owner,
+        priority_flag=project.priority_flag,
+        notes=project.notes
+    )
+
+    result = projects.update_project(project_id, project_update)
+
+    return MCPWriteResponse(
+        success=result.success,
+        entity_id=project_id,
+        entity_type="Project",
+        message=result.message
+    )
+
+
+@router.post("/task", response_model=MCPWriteResponse, tags=["mcp-write"])
+async def mcp_create_task(request: Request, task: MCPTaskCreate):
+    """
+    MCP Task 생성 (ChatGPT용)
+
+    auto_validate=true(기본값)면 스키마 검증 자동 실행
+    """
+    require_write_access(request)
+
+    from ..models.entities import TaskCreate
+    task_create = TaskCreate(
+        entity_name=task.entity_name,
+        project_id=task.project_id,
+        assignee=task.assignee,
+        priority=task.priority,
+        status=task.status,
+        due=task.due,
+        type=task.type,
+        auto_validate=task.auto_validate
+    )
+
+    result = await tasks.create_task(task_create)
+
+    return MCPWriteResponse(
+        success=result.success,
+        entity_id=result.task_id,
+        entity_type="Task",
+        message=result.message,
+        file_path=result.file_path,
+        validation=result.validation
+    )
+
+
+@router.put("/task/{task_id}", response_model=MCPWriteResponse, tags=["mcp-write"])
+def mcp_update_task(request: Request, task_id: str, task: MCPTaskUpdate):
+    """MCP Task 수정 (ChatGPT용)"""
+    require_write_access(request)
+
+    from ..models.entities import TaskUpdate
+    task_update = TaskUpdate(
+        status=task.status,
+        assignee=task.assignee,
+        priority=task.priority,
+        due=task.due,
+        notes=task.notes,
+        type=task.type
+    )
+
+    result = tasks.update_task(task_id, task_update)
+
+    return MCPWriteResponse(
+        success=result.success,
+        entity_id=task_id,
+        entity_type="Task",
+        message=result.message
+    )
