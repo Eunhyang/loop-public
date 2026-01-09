@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-09'
+due: '2026-01-10'
 priority: high
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-09'
+start_date: '2026-01-10'
 notes: '# \[LoopOS 데이터\] Day 4 — Lite 스키마 데이터 투입 1차
 
 
