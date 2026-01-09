@@ -40,6 +40,7 @@ export const MarkdownEditor = ({
   const isInitialMount = useRef(true)
   const lastValue = useRef(value)
   const isProgrammaticUpdate = useRef(false)
+  const editorRef = useRef<Editor | null>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
 
@@ -102,9 +103,9 @@ export const MarkdownEditor = ({
         if (readOnly || !taskId) return false
         const files = Array.from((event as DragEvent).dataTransfer?.files || [])
         const imageFiles = files.filter(isImageFile)
-        if (imageFiles.length > 0 && editor) {
+        if (imageFiles.length > 0 && editorRef.current) {
           event.preventDefault()
-          imageFiles.forEach((file) => handleImageUpload(file, editor))
+          imageFiles.forEach((file) => handleImageUpload(file, editorRef.current!))
           return true
         }
         return false
@@ -113,9 +114,9 @@ export const MarkdownEditor = ({
         if (readOnly || !taskId) return false
         const files = Array.from((event as ClipboardEvent).clipboardData?.files || [])
         const imageFiles = files.filter(isImageFile)
-        if (imageFiles.length > 0 && editor) {
+        if (imageFiles.length > 0 && editorRef.current) {
           event.preventDefault()
-          imageFiles.forEach((file) => handleImageUpload(file, editor))
+          imageFiles.forEach((file) => handleImageUpload(file, editorRef.current!))
           return true
         }
         return false
@@ -145,6 +146,11 @@ export const MarkdownEditor = ({
       }
     },
   })
+
+  // Keep editorRef in sync with editor for use in event handlers
+  useEffect(() => {
+    editorRef.current = editor
+  }, [editor])
 
   // Sync external value changes to editor
   useEffect(() => {

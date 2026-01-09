@@ -43,10 +43,16 @@ export const uploadImage = async (
   formData.append('file', file)
 
   const response = await httpClient.post<{
-    filename: string
-    size: number
-    content_type: string
-    url: string
+    success: boolean
+    task_id: string
+    message: string
+    attachment: {
+      filename: string
+      size: number
+      content_type: string
+      uploaded_at: string
+      url: string
+    }
   }>(`/api/tasks/${taskId}/attachments`, formData, {
     headers: {
       // Remove default Content-Type so browser sets multipart/form-data with boundary
@@ -54,8 +60,12 @@ export const uploadImage = async (
     },
   })
 
+  if (!response.data.attachment) {
+    throw new Error('Upload failed: no attachment data in response')
+  }
+
   return {
-    url: response.data.url,
-    filename: response.data.filename,
+    url: response.data.attachment.url,
+    filename: response.data.attachment.filename,
   }
 }

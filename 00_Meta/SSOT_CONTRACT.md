@@ -254,8 +254,8 @@ Task ID: tsk-{prj_hash}-{epoch13}
 **핵심 메서드**:
 1. `_extract_prj_hash(project_id)`:
    - 새 Project (prj-a7k9m2): 'a7k9m2' 추출 + 정규화 (소문자 6자)
-   - Legacy Project (prj-001): SHA256 deterministic hash 생성
-   - Legacy Exec (prj-exec-001): SHA256 deterministic hash 생성
+   - Legacy Project (prj-001): 숫자 그대로 사용 ('001')
+   - Legacy Exec (prj-exec-001): 숫자 그대로 사용 ('001')
 
 2. `generate_task_id(project_id, entity_name)`:
    - prj_hash = _extract_prj_hash(project_id)
