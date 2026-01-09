@@ -318,14 +318,16 @@ Skill tool 호출:
 
 **Phase 2: 계획 검증 (Codex)**
 ```bash
-echo "Review this implementation plan and identify any issues:
+codex exec -m gpt-5-codex -s read-only -C /Users/gim-eunhyang/dev/loop/public -- <<'EOF'
+Review this implementation plan and identify any issues:
 [Claude's plan]
 
 Check for:
 - Logic errors
 - Missing edge cases
 - Architecture flaws
-- Security concerns" | codex exec -m gpt-5-codex --config model_reasoning_effort="medium" --sandbox read-only
+- Security concerns
+EOF
 ```
 
 **Phase 3: 구현 (Claude)**

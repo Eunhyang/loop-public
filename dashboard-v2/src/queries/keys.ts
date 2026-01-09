@@ -8,4 +8,7 @@ export const queryKeys = {
   programs: () => ['programs'] as const,
   program: (id: string) => ['programs', id] as const,
   pending: () => ['pending'] as const,
+  // Activity panel keys
+  activityComments: (entityType: string, entityId: string) => ['activity', 'comments', entityType, entityId] as const,
+  activityHistory: (entityId: string) => ['activity', 'history', entityId] as const,
 };
