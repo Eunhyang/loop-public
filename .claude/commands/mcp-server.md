@@ -41,17 +41,16 @@ $ARGUMENTS
 
 ## Execution Steps
 
-### [Before rebuild] Auto sync (required for rebuild command)
+### [Before rebuild] Sync dependency
 
-Before rebuild, **automatically run `/nas-git local-sync` first**.
-This ensures local changes are reflected on NAS before rebuild.
+The `rebuild` command requires `/nas-git local-sync` to run first.
+This ensures local changes are synced to NAS before rebuilding the container.
 
 **Execution order:**
-1. Run `/nas-git local-sync` (Local → GitHub → NAS sync)
-2. Proceed with rebuild after sync complete
+1. Claude executes `/nas-git local-sync` skill (Local → GitHub → NAS sync)
+2. After sync completes, proceed with Docker rebuild
 
-> **Note**: When rebuild command entered, Claude automatically runs `/nas-git local-sync` first.
-> No need to run sync separately.
+> **Note**: Sync logic is maintained in `nas-git.md` only (SSOT - no code duplication).
 
 ---
 
@@ -73,119 +72,12 @@ sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.
 ### Rebuild (rebuild)
 Rebuild loop-api (OAuth keys/DB preserved in volume, auth session maintained):
 
-**Step 1: Sync public + exec vaults first**
-```bash
-echo "╔════════════════════════════════════════════╗"
-echo "║  Local Sync: public + exec                ║"
-echo "╚════════════════════════════════════════════╝"
+**Step 1: Sync vaults first (MANDATORY)**
 
-# ============================================
-# PUBLIC (LOOP) VAULT
-# ============================================
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  PUBLIC VAULT (LOOP)"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-# Step 1: NAS public changes first
-echo ""
-echo "=== [PUBLIC] Step 1: NAS commit + push ==="
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
-export HOME=/tmp
-cd /volume1/LOOP_CORE/vault/LOOP
-git config --global --add safe.directory /volume1/LOOP_CORE/vault/LOOP 2>/dev/null
-git add -A
-if [ -n \"\$(git status --porcelain)\" ]; then
-  git commit --no-verify -m 'nas-auto: \$(date +%Y-%m-%d\ %H:%M)'
-fi
-git push origin main 2>&1 || true
-"
-
-# Step 2: Local public commit
-echo ""
-echo "=== [PUBLIC] Step 2: 로컬 commit ==="
-cd ~/dev/loop/public
-git add -A
-if [ -n "$(git status --porcelain)" ]; then
-  git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
-fi
-
-# Step 3: Local public pull --rebase
-echo ""
-echo "=== [PUBLIC] Step 3: 로컬 pull --rebase ==="
-git pull --rebase origin main
-
-# Step 4: Local public push
-echo ""
-echo "=== [PUBLIC] Step 4: 로컬 push ==="
-git push origin main
-
-# Step 5: NAS public pull
-echo ""
-echo "=== [PUBLIC] Step 5: NAS pull ==="
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
-export HOME=/tmp
-cd /volume1/LOOP_CORE/vault/LOOP
-git config --global --add safe.directory /volume1/LOOP_CORE/vault/LOOP 2>/dev/null
-git pull --rebase origin main 2>&1
-"
-
-# ============================================
-# EXEC (loop_exec) VAULT
-# ============================================
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  EXEC VAULT (loop_exec)"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-# Step 1: NAS exec changes first
-echo ""
-echo "=== [EXEC] Step 1: NAS commit + push ==="
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
-export HOME=/tmp
-cd /volume1/LOOP_CLevel/vault/loop_exec
-git config --global --add safe.directory /volume1/LOOP_CLevel/vault/loop_exec 2>/dev/null
-git add -A
-if [ -n \"\$(git status --porcelain)\" ]; then
-  git commit --no-verify -m 'nas-auto: \$(date +%Y-%m-%d\ %H:%M)'
-fi
-git push origin main 2>&1 || true
-"
-
-# Step 2: Local exec commit
-echo ""
-echo "=== [EXEC] Step 2: 로컬 commit ==="
-cd ~/dev/loop/exec
-git add -A
-if [ -n "$(git status --porcelain)" ]; then
-  git commit --no-verify -m "local-sync: $(date '+%Y-%m-%d %H:%M')"
-fi
-
-# Step 3: Local exec pull --rebase
-echo ""
-echo "=== [EXEC] Step 3: 로컬 pull --rebase ==="
-git pull --rebase origin main
-
-# Step 4: Local exec push
-echo ""
-echo "=== [EXEC] Step 4: 로컬 push ==="
-git push origin main
-
-# Step 5: NAS exec pull
-echo ""
-echo "=== [EXEC] Step 5: NAS pull ==="
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 "
-export HOME=/tmp
-cd /volume1/LOOP_CLevel/vault/loop_exec
-git config --global --add safe.directory /volume1/LOOP_CLevel/vault/loop_exec 2>/dev/null
-git pull --rebase origin main 2>&1
-"
-
-echo ""
-echo "╔════════════════════════════════════════════╗"
-echo "║  동기화 완료: public + exec               ║"
-echo "╚════════════════════════════════════════════╝"
-```
+> **IMPORTANT**: Before Docker rebuild, run `/nas-git local-sync` first.
+> This ensures local changes are synced to NAS before rebuilding the container.
+>
+> **Claude: Execute `/nas-git local-sync` skill before proceeding to Step 2.**
 
 **Step 2: Docker rebuild (using docker compose)**
 ```bash
