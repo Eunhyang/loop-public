@@ -50,6 +50,8 @@ export const useCombinedFilters = (): UseCombinedFiltersReturn => {
     // Merged setters (pass through to original hooks)
     setAssignees: urlFilters.setAssignees,
     setProjectId: urlFilters.setProjectId,
+    setProjectIds: urlFilters.setProjectIds,
+    toggleProjectId: urlFilters.toggleProjectId,
     setProgramId: urlFilters.setProgramId,
     setTrackId: urlFilters.setTrackId,
     setHypothesisId: urlFilters.setHypothesisId,

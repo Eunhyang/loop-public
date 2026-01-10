@@ -1,6 +1,7 @@
 import { useMemo, useEffect } from 'react';
 import { FavoriteCard } from './FavoriteCard';
 import { useFavorites } from '../hooks/useFavorites';
+import { useFilterHandlers } from '@/hooks/useFilterHandlers';
 import type { EntityType } from '../types';
 
 interface BaseEntity {
@@ -12,16 +13,22 @@ interface FavoritesStripProps {
   tasks?: BaseEntity[];
   projects?: BaseEntity[];
   programs?: BaseEntity[];
-  onEntityClick: (entityId: string, entityType: EntityType) => void;
+  // onEntityClick 제거 - 내부에서 useFilterHandlers 사용
 }
 
 export function FavoritesStrip({
   tasks = [],
   projects = [],
-  programs = [],
-  onEntityClick
+  programs = []
 }: FavoritesStripProps) {
   const { getFavoriteIds, pruneFavorites } = useFavorites();
+  const {
+    handleProgramFilter,
+    handleProjectFilter,
+    openDrawer,
+    activeProgramId,
+    activeProjectIds
+  } = useFilterHandlers();
 
   const taskMap = useMemo(() => new Map(tasks.map((task) => [task.entity_id, task])), [tasks]);
   const projectMap = useMemo(() => new Map(projects.map((proj) => [proj.entity_id, proj])), [projects]);
@@ -68,9 +75,43 @@ export function FavoritesStrip({
     <div className="glass-moderate border-b border-white/5 px-4 py-2 mb-2">
       <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
         <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider shrink-0">Favorites</span>
-        {allFavorites.map(({ entity, type }) => (
-          <FavoriteCard key={`${type}-${entity.entity_id}`} entity={entity} entityType={type} onEntityClick={onEntityClick} />
-        ))}
+        {allFavorites.map(({ entity, type }) => {
+          if (type === 'task') {
+            return (
+              <FavoriteCard
+                key={`${type}-${entity.entity_id}`}
+                entity={entity}
+                entityType={type}
+                onCardClick={() => openDrawer('task', entity.entity_id)}
+              />
+            );
+          }
+
+          if (type === 'project') {
+            return (
+              <FavoriteCard
+                key={`${type}-${entity.entity_id}`}
+                entity={entity}
+                entityType={type}
+                isFilterActive={activeProjectIds.includes(entity.entity_id)}
+                onCardClick={() => handleProjectFilter(entity.entity_id)}
+                onDrawerClick={() => openDrawer('project', entity.entity_id)}
+              />
+            );
+          }
+
+          // program
+          return (
+            <FavoriteCard
+              key={`${type}-${entity.entity_id}`}
+              entity={entity}
+              entityType={type}
+              isFilterActive={activeProgramId === entity.entity_id}
+              onCardClick={() => handleProgramFilter(entity.entity_id)}
+              onDrawerClick={() => openDrawer('program', entity.entity_id)}
+            />
+          );
+        })}
       </div>
     </div>
   );
