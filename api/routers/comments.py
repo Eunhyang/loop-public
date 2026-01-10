@@ -37,17 +37,25 @@ router = APIRouter(prefix="/api/comments", tags=["comments"])
 # ============================================
 
 def get_current_user(request: Request) -> Dict[str, Any]:
-    """Extract user from request state (set by AuthMiddleware)"""
-    state = getattr(request, 'state', {})
-    user_id = getattr(state, 'user_id', None)
-    role = getattr(state, 'role', 'member')
+    """Extract user from request state (set by AuthMiddleware)
+
+    ASGI middleware sets scope["state"] which becomes request.state._state in FastAPI
+    """
+    state = {}
+    if hasattr(request, "state") and hasattr(request.state, "_state") and isinstance(request.state._state, dict):
+        state = request.state._state
+
+    user_id = state.get('user_id')
+    role = state.get('role', 'member')
+    email = state.get('email')
 
     if not user_id:
         raise HTTPException(status_code=401, detail="Authentication required")
 
     return {
         'user_id': user_id,
-        'role': role
+        'role': role,
+        'email': email,
     }
 
 
@@ -334,7 +342,7 @@ def update_comment(
         raise HTTPException(status_code=404, detail="Comment not found")
 
     # Check permission: author only (or admin override)
-    is_author = comment.author_email == user['user_id']
+    is_author = comment.author_email == user.get('email')
     is_admin = user['role'] == 'admin'
 
     if not (is_author or is_admin):
@@ -389,7 +397,7 @@ def delete_comment(
         raise HTTPException(status_code=404, detail="Comment not found")
 
     # Check permission
-    is_author = comment.author_email == user['user_id']
+    is_author = comment.author_email == user.get('email')
     is_admin = user['role'] == 'admin'
 
     if not (is_author or is_admin):
