@@ -355,13 +355,13 @@ export async function getVideoAnalytics(videoId: string): Promise<VideoAnalytics
   const threeDaysAgo = formatDate(getDaysAgo(3));
   const nineDaysAgo = formatDate(getDaysAgo(9));
 
+  // Note: impressions and impressionsCtr are NOT available with dimensions=video
+  // These metrics are only available at channel level or with specific traffic source dimensions
   const metrics = [
     "views",
     "estimatedMinutesWatched",
     "averageViewDuration",
     "averageViewPercentage",
-    "impressions",
-    "impressionsCtr",
     "likes",
     "comments",
     "shares",
@@ -447,13 +447,14 @@ export async function getRecentVideosWithAnalytics(
   const threeDaysAgo = formatDate(getDaysAgo(3));
   const nineDaysAgo = formatDate(getDaysAgo(9));
 
+  // Note: impressions and impressionsCtr are NOT available with dimensions=video
+  // These metrics are only available at channel level or with specific traffic source dimensions
+  // Using fallback simulation for these metrics (see lines 574-588)
   const metrics = [
     "views",
     "estimatedMinutesWatched",
     "averageViewDuration",
     "averageViewPercentage",
-    "impressions",
-    "impressionsCtr",
   ];
 
   // Chunk video IDs to handle YouTube Analytics API limit (50 videos per request)

@@ -4,6 +4,7 @@ entity_id: tsk-n8n-23
 entity_name: n8n - Entity Validator Auto-Apply 기능
 created: 2026-01-11
 updated: '2026-01-11'
+revision_count: 2
 status: doing
 closed: null
 parent_id: prj-n8n
@@ -50,7 +51,33 @@ Entity Validator가 **고확신 필드**를 자동으로 적용하고, `pending_
 
 ## Revision History
 
-### 2026-01-11 - Code Review 이슈 발견 (Codex)
+### 2026-01-11 Rev.2 - 추가 이슈 발견 (Post-Implementation)
+
+**상태**: `done` → `doing` (재작업 필요, Revision 2)
+
+**발견된 추가 이슈**:
+
+1. **Issue 4: n8n 워크플로우 미반영**
+   - **문제**: JSON 파일 수정만으로는 n8n에 반영되지 않음. n8n은 자체 SQLite DB 사용
+   - **영향**: auto_apply 모드가 호출되지 않고 여전히 pending 모드로 실행됨
+   - **수정 방향**: n8n API로 워크플로우 직접 업데이트 (`PUT /workflows/{id}`)
+
+2. **Issue 5: LLM이 confidence 미반환**
+   - **문제**: LLM(gpt-4o-mini)이 프롬프트의 confidence 요청을 무시
+   - **영향**: 모든 필드의 confidence가 0이 되어 auto_apply 조건(≥0.85) 불충족
+   - **수정 방향**: `ai.py`에 규칙 기반 default confidence 로직 추가
+     - Deterministic 필드 (status, priority, type 정규화): confidence = 1.0
+     - Mapping 기반 필드 (assignee alias): confidence = 0.95
+     - 날짜 추출 필드 (due): confidence = 0.85 (명시적 날짜 발견 시)
+
+3. **Issue 6: source_workflow가 null**
+   - **문제**: n8n에서 source_workflow 필드를 HTTP Request body에 전달하지 않음
+   - **영향**: `pending_reviews.json`에 감사 추적(audit trail) 불가
+   - **수정 방향**: n8n HTTP Request 노드에 `"source_workflow": "entity_validator_autofiller"` 필드 추가
+
+---
+
+### 2026-01-11 Rev.1 - Code Review 이슈 발견 (Codex)
 
 **상태**: `done` → `doing` (재작업 필요)
 
@@ -81,6 +108,62 @@ Entity Validator가 **고확신 필드**를 자동으로 적용하고, `pending_
 ---
 
 ## Tech Spec
+
+### Additional Requirements (Rev.2)
+
+#### Req 4: n8n API 워크플로우 업데이트
+```bash
+# n8n은 SQLite DB를 사용하므로 JSON 파일 수정은 무의미
+# 반드시 n8n REST API로 워크플로우 업데이트 필요
+
+# 워크플로우 조회
+GET https://n8n.sosilab.synology.me/api/v1/workflows/{id}
+
+# 워크플로우 업데이트
+PUT https://n8n.sosilab.synology.me/api/v1/workflows/{id}
+Authorization: Bearer $N8N_API_TOKEN
+Content-Type: application/json
+{
+  "nodes": [...],  # 수정된 노드 포함
+  "connections": {...}
+}
+```
+
+#### Req 5: Default Confidence 규칙 기반 로직
+```python
+# api/routers/ai.py - LLM이 confidence를 반환하지 않을 때 대비
+
+def get_default_confidence(field: str, value: Any, source: str) -> float:
+    """규칙 기반 default confidence 계산"""
+
+    # Deterministic 필드 (enum 정규화)
+    if field in ["status", "priority", "type"]:
+        return 1.0
+
+    # Mapping 기반 필드 (members.yaml alias)
+    if field == "assignee" and source == "alias_match":
+        return 0.95
+
+    # 날짜 추출 (명시적 날짜 패턴 발견)
+    if field == "due" and is_explicit_date(value):
+        return 0.85
+
+    # LLM 추론 필드 (default)
+    return 0.5  # auto_apply 조건 미충족
+```
+
+#### Req 6: source_workflow 필드 추가
+```json
+// n8n HTTP Request 노드 body에 추가
+{
+  "entity_id": "{{ $json.entity_id }}",
+  "entity_type": "{{ $json.entity_type }}",
+  "mode": "auto_apply",
+  "source_workflow": "entity_validator_autofiller"  // 추가 필요
+}
+```
+
+---
 
 ### Auto-Apply 대상 필드
 
@@ -206,6 +289,32 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 - [ ] 통합 테스트: API 호출 → pending_reviews 확인
 - [ ] E2E 테스트: n8n 워크플로우 트리거 → Dashboard 확인
 
+### Step 8: Rev.2 이슈 수정 (NEW)
+
+#### 8.1 n8n 워크플로우 API 업데이트 (Issue 4)
+- [ ] n8n API로 `entity_validator_autofiller` 워크플로우 ID 조회
+- [ ] HTTP Request 노드의 `mode` 값을 `"auto_apply"`로 변경
+- [ ] `PUT /api/v1/workflows/{id}`로 워크플로우 업데이트
+- [ ] n8n 수동 트리거로 변경 반영 확인
+
+#### 8.2 Default Confidence 로직 추가 (Issue 5)
+- [ ] `api/routers/ai.py`에 `get_default_confidence()` 함수 추가
+- [ ] Deterministic 필드 → confidence = 1.0
+- [ ] Alias 매핑 필드 → confidence = 0.95
+- [ ] 명시적 날짜 필드 → confidence = 0.85
+- [ ] LLM 응답에 confidence 없으면 default 값 적용
+
+#### 8.3 source_workflow 필드 추가 (Issue 6)
+- [ ] n8n HTTP Request 노드 body에 `source_workflow` 필드 추가
+- [ ] `pending_reviews.json`에서 source_workflow 기록 확인
+- [ ] Dashboard에서 source 표시 확인
+
+### Step 9: Rev.2 통합 테스트
+- [ ] n8n 워크플로우 트리거 → auto_apply 모드 호출 확인
+- [ ] confidence 값 정상 적용 확인 (0이 아닌 값)
+- [ ] source_workflow 기록 확인
+- [ ] Dashboard Auto-Applied 탭에서 항목 표시 확인
+
 ---
 
 ## 수정 파일 목록
@@ -220,6 +329,13 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 | `_build/n8n_workflows/entity_validator_autofiller.json` | mode 변경 |
 | `_dashboard/js/components/pending-panel.js` | Auto-Applied 탭 |
 
+### Rev.2 추가 수정 파일
+
+| 파일 | 작업 |
+|------|------|
+| `api/routers/ai.py` | `get_default_confidence()` 함수 추가 |
+| n8n workflow (via API) | `mode: "auto_apply"` + `source_workflow` 필드 |
+
 ---
 
 ## 안전장치
@@ -233,7 +349,7 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 
 ## 재작업 요약
 
-### 수정 필요한 파일
+### Rev.1 수정 필요한 파일
 
 | 파일 | 라인 | 수정 내용 |
 |------|------|----------|
@@ -241,6 +357,14 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 | `api/routers/ai.py` | 1509 | `elif request.mode == "auto_apply":` 분기 추가 |
 | `_build/n8n_workflows/entity_validator_autofiller.json` | 223 | `"mode": "auto_apply"` 변경 |
 | `_build/n8n_workflows/entity_validator_autofiller.json` | 335 | `"mode": "auto_apply"` 변경 |
+
+### Rev.2 수정 필요한 항목 (NEW)
+
+| 이슈 | 수정 대상 | 수정 내용 |
+|------|----------|----------|
+| Issue 4 | n8n workflow (via API) | JSON 파일 아닌 n8n REST API로 업데이트 |
+| Issue 5 | `api/routers/ai.py` | `get_default_confidence()` 규칙 기반 로직 추가 |
+| Issue 6 | n8n HTTP Request 노드 | `source_workflow` 필드 추가 |
 
 ### 구현 완료된 부분 (재사용 가능)
 
@@ -250,7 +374,14 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 
 ### 예상 작업 시간
 
+**Rev.1 이슈:**
 - Issue 1, 2 수정: 30분 (ai.py 2곳 수정)
 - Issue 3 수정: 5분 (workflow JSON 2곳 수정)
-- 테스트: 15분 (n8n 워크플로우 트리거 → Dashboard 확인)
-- **총 예상 시간**: 50분
+
+**Rev.2 이슈:**
+- Issue 4 수정: 20분 (n8n API 호출 + 워크플로우 업데이트)
+- Issue 5 수정: 30분 (default confidence 로직 구현)
+- Issue 6 수정: 10분 (n8n 노드에 필드 추가)
+- 통합 테스트: 20분
+
+**총 예상 시간**: 1시간 55분
