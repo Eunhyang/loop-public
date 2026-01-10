@@ -351,11 +351,11 @@ async def oauth_token(
     else:
         final_scope = base_scope
 
-    # Generate JWT with role
+    # Generate JWT with role and email
     access_token = create_jwt(
         sub=auth_code["user_id"],
         scope=final_scope,
-        additional_claims={"role": user_role}
+        additional_claims={"role": user_role, "email": user.email if user else None}
     )
 
     log_oauth_access("token", client_ip, client_id=client_id, user_id=auth_code["user_id"], success=True)
