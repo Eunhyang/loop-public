@@ -17,7 +17,13 @@ TASK_SCHEMA_SYSTEM_PROMPT = """당신은 LOOP Vault Task 스키마 전문가입�
 ## 역할
 - Task 엔티티의 누락된 필드를 제안합니다
 - 전략 컨텍스트(Track, Condition)를 참조하여 적절한 값을 추론합니다
-- 모든 제안에 근거를 함께 제시합니다
+- 모든 제안에 근거와 신뢰도 점수를 함께 제시합니다
+
+## 신뢰도 점수 (Confidence Score)
+- 각 제안 필드마다 0.0~1.0 범위의 신뢰도 점수를 반환합니다
+- 1.0에 가까울수록 확신이 높고, 0.0에 가까울수록 불확실함을 의미합니다
+- 신뢰도가 0.7 이상인 제안은 자동 적용 대상이 될 수 있습니다
+- 신뢰도가 낮은 경우 reasoning에서 불확실성의 이유를 명확히 설명하세요
 
 ## 제약 (CRITICAL)
 1. **validates 필드 제안 금지** - Task는 전략 판단에 개입하지 않음
@@ -111,6 +117,13 @@ def build_task_schema_prompt(
     "type": "dev|bug|strategy|research|ops",
     "target_project": "sosi|kkokkkok|loop-api|loop"
   }},
+  "confidence": {{
+    "assignee": 0.0-1.0,
+    "due": 0.0-1.0,
+    "priority": 0.0-1.0,
+    "type": 0.0-1.0,
+    "target_project": 0.0-1.0
+  }},
   "reasoning": {{
     "assignee": "판단 근거",
     "due": "판단 근거"
@@ -179,6 +192,10 @@ def build_simple_task_schema_prompt(
   "suggested_fields": {{
     "assignee": "김은향 또는 한명학",
     "due": "YYYY-MM-DD"
+  }},
+  "confidence": {{
+    "assignee": 0.0-1.0,
+    "due": 0.0-1.0
   }},
   "reasoning": {{
     "assignee": "판단 근거",

@@ -17,7 +17,13 @@ PROJECT_SCHEMA_SYSTEM_PROMPT = """당신은 LOOP Vault Project 스키마 전문�
 ## 역할
 - Project 엔티티의 누락된 필드를 제안합니다
 - 전략 컨텍스트(Track, Condition, Hypothesis)를 참조하여 적절한 값을 추론합니다
-- 모든 제안에 근거를 함께 제시합니다
+- 모든 제안에 근거와 신뢰도 점수를 함께 제시합니다
+
+## 신뢰도 점수 (Confidence Score)
+- 각 제안 필드마다 0.0~1.0 범위의 신뢰도 점수를 반환합니다
+- 1.0에 가까울수록 확신이 높고, 0.0에 가까울수록 불확실함을 의미합니다
+- 신뢰도가 0.7 이상인 제안은 자동 적용 대상이 될 수 있습니다
+- 신뢰도가 낮은 경우 reasoning에서 불확실성의 이유를 명확히 설명하세요
 
 ## 제약 (CRITICAL)
 1. **derived 필드 제안 금지**
@@ -136,6 +142,15 @@ def build_project_schema_prompt(
       }}
     ]
   }},
+  "confidence": {{
+    "owner": 0.0-1.0,
+    "parent_id": 0.0-1.0,
+    "conditions_3y": 0.0-1.0,
+    "validates": 0.0-1.0,
+    "primary_hypothesis_id": 0.0-1.0,
+    "condition_contributes": 0.0-1.0,
+    "track_contributes": 0.0-1.0
+  }},
   "reasoning": {{
     "owner": "판단 근거",
     "parent_id": "판단 근거",
@@ -227,6 +242,12 @@ def build_simple_project_schema_prompt(
     "condition_contributes": [
       {{"to": "cond-X", "weight": 0.6, "description": "기여 설명"}}
     ]
+  }},
+  "confidence": {{
+    "owner": 0.0-1.0,
+    "parent_id": 0.0-1.0,
+    "conditions_3y": 0.0-1.0,
+    "condition_contributes": 0.0-1.0
   }},
   "reasoning": {{
     "owner": "판단 근거",

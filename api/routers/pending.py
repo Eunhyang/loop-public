@@ -246,7 +246,7 @@ def update_entity_frontmatter(file_path: Path, fields: Dict[str, Any]) -> bool:
 
 @router.get("")
 def get_pending_reviews(
-    status: Optional[str] = Query(None, description="pending, approved, rejected 필터"),
+    status: Optional[str] = Query(None, description="pending, approved, rejected, auto_applied 필터 (tsk-n8n-23)"),
     source_workflow: Optional[str] = Query(None, description="n8n 워크플로우 이름으로 필터 (tsk-n8n-18)"),
     run_id: Optional[str] = Query(None, description="run_id로 필터 (tsk-n8n-18)")
 ):
@@ -254,10 +254,18 @@ def get_pending_reviews(
     Pending review 목록 조회
 
     Query Parameters:
-        status: pending, approved, rejected 필터
+        status: pending, approved, rejected, auto_applied 필터 (tsk-n8n-23)
         source_workflow: n8n 워크플로우 이름으로 필터 (tsk-n8n-18)
         run_id: run_id로 필터 (tsk-n8n-18)
     """
+    # Validate status enum (tsk-n8n-23)
+    valid_statuses = ["pending", "approved", "rejected", "auto_applied"]
+    if status and status not in valid_statuses:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid status: {status}. Must be one of: {', '.join(valid_statuses)}"
+        )
+
     data = load_pending()
     reviews = data.get("reviews", [])
 

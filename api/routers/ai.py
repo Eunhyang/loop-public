@@ -166,7 +166,7 @@ class InferTaskSchemaRequest(BaseModel):
     """Task 스키마 추론 요청 (n8n Phase 1)"""
     task_id: str = Field(..., description="Task ID (예: tsk-001-01)")
     issues: List[str] = Field(default_factory=list, description="감지된 이슈 목록")
-    mode: str = Field(default="pending", description="preview | pending")
+    mode: str = Field(default="pending", description="preview | pending | auto_apply (tsk-n8n-23)")
     provider: str = Field(default="openai", description="LLM provider")
     actor: str = Field(default="n8n", description="요청자")
     run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
@@ -188,13 +188,16 @@ class InferTaskSchemaResponse(BaseModel):
     pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
     audit_ref: str = Field(default="", description="audit 참조 ID")
     error: Optional[str] = Field(default=None, description="에러 메시지")
+    # Auto-apply info (tsk-n8n-23)
+    auto_applied: Optional[Dict[str, Any]] = Field(default=None, description="Auto-applied 정보")
+    confidence: Dict[str, float] = Field(default_factory=dict, description="필드별 confidence 점수")
 
 
 class InferProjectSchemaRequest(BaseModel):
     """Project 스키마 추론 요청 (n8n Phase 2)"""
     project_id: str = Field(..., description="Project ID (예: prj-001)")
     issues: List[str] = Field(default_factory=list, description="감지된 이슈 목록")
-    mode: str = Field(default="pending", description="preview | pending")
+    mode: str = Field(default="pending", description="preview | pending | auto_apply (tsk-n8n-23)")
     provider: str = Field(default="openai", description="LLM provider")
     actor: str = Field(default="n8n", description="요청자")
     run_id: Optional[str] = Field(default=None, description="외부 제공 run_id")
@@ -216,6 +219,9 @@ class InferProjectSchemaResponse(BaseModel):
     pending: Optional[Dict[str, Any]] = Field(default=None, description="생성된 pending review")
     audit_ref: str = Field(default="", description="audit 참조 ID")
     error: Optional[str] = Field(default=None, description="에러 메시지")
+    # Auto-apply info (tsk-n8n-23)
+    auto_applied: Optional[Dict[str, Any]] = Field(default=None, description="Auto-applied 정보")
+    confidence: Dict[str, float] = Field(default_factory=dict, description="필드별 confidence 점수")
 
 
 # ============================================
