@@ -170,8 +170,9 @@ export const ReviewDetail = ({
             onClick={onDelete}
             disabled={isLoading}
             className="px-3 py-1 !bg-[#f4f4f5] !text-[#18181b] border border-[#e4e4e7] text-xs font-semibold rounded hover:!bg-[#e4e4e7] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Remove this review suggestion (Entity will not be affected)"
           >
-            {isDeleting ? 'Deleting...' : 'Delete'}
+            {isDeleting ? 'Dismissing...' : 'Dismiss'}
           </button>
         </div>
       )}

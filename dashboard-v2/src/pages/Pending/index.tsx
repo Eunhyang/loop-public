@@ -117,7 +117,7 @@ export const PendingPage = () => {
   const handleDelete = async () => {
     if (!selectedReview) return;
 
-    if (!confirm(`Are you sure you want to delete this review for ${selectedReview.entity_name}?`)) {
+    if (!confirm(`Dismiss this review suggestion for "${selectedReview.entity_name}"?\n\nThe ${selectedReview.entity_type} will not be affected.`)) {
       return;
     }
 
@@ -192,8 +192,9 @@ export const PendingPage = () => {
                 onClick={handleDelete}
                 disabled={isLoadingAction}
                 className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50"
+                title="Remove this review suggestion (Task will not be affected)"
               >
-                Delete
+                Dismiss
               </button>
               <button
                 onClick={handleReject}

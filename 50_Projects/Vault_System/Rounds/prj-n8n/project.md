@@ -256,6 +256,7 @@ _build/n8n_workflows/
 | tsk-n8n-20 | Dashboard - Pending Panel Entity Preview UX 개선 | doing |
 | tsk-n8n-21 | Pending Review - 새로고침 기능 | doing |
 | tsk-n8n-22 | Retro Synth - B Score 계산 fallback 시스템 | doing |
+| tsk-n8n-23 | n8n - Entity Validator Auto-Apply 기능 | todo |
 | tsk-000n8n-1768057225620 | n8n - Entity Validator Auto-Apply 기능 | todo |
 
 ---
