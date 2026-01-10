@@ -8,6 +8,7 @@ import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoard';
 import { useCombinedFilters } from '@/hooks/useCombinedFilters';
 import { useUi } from '@/contexts/UiContext';
+import { FavoritesStrip, type EntityType } from '@/features/favorites';
 
 const KanbanPageContent = () => {
   console.log('[KanbanPage] RENDER');
@@ -97,6 +98,11 @@ const KanbanPageContent = () => {
 
   if (!data) return null;
 
+  // Handle clicking favorite entity
+  const handleFavoriteClick = (entityId: string, entityType: EntityType) => {
+    openEntityDrawer({ type: entityType, mode: 'edit', id: entityId });
+  };
+
   return (
     <div className="flex-1 flex flex-col min-h-0">
       <TaskFilterBar
@@ -105,6 +111,13 @@ const KanbanPageContent = () => {
         projects={data.projects}
         programs={data.programs || []}
         tasks={data.tasks}
+      />
+
+      <FavoritesStrip
+        tasks={data.tasks}
+        projects={data.projects}
+        programs={data.programs || []}
+        onEntityClick={handleFavoriteClick}
       />
 
       <KanbanBoard

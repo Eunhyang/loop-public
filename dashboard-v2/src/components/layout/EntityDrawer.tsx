@@ -159,6 +159,9 @@ export function EntityDrawer() {
     }
   };
 
+  // Only task, project, program support favorites
+  const favoriteEntityType = (type === 'task' || type === 'project' || type === 'program') ? type : undefined;
+
   return (
     <DrawerShell
       isOpen={true}
@@ -172,6 +175,8 @@ export function EntityDrawer() {
       onBack={popDrawer}
       showBackButton={canGoBack}
       footer={renderFooter()}
+      entityId={id}
+      entityType={favoriteEntityType}
     >
       {renderForm()}
     </DrawerShell>
