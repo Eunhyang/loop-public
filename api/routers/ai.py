@@ -1379,6 +1379,54 @@ def ai_health():
 # Task/Project Schema Endpoints (n8n Phase 1/2)
 # ============================================
 
+def get_default_confidence(field: str, value: Any, entity_type: str) -> float:
+    """
+    Returns rule-based default confidence when LLM doesn't provide it.
+
+    tsk-n8n-23 Rev.2 Issue 5: LLM (gpt-4o-mini) often fails to return confidence scores,
+    causing auto_apply to fail. This function provides fallback confidence based on
+    field type and determinism.
+
+    Args:
+        field: Field name (e.g., 'status', 'due', 'assignee')
+        value: Field value (for pattern matching)
+        entity_type: 'Task' or 'Project' (future: different rules per type)
+
+    Returns:
+        Confidence score between 0.0 and 1.0
+        - 1.0: Deterministic enum normalization (status, priority, type)
+        - 0.85: Explicit date pattern (due, start_date)
+        - 0.70: Alias mapping from members.yaml (assignee) or entity references
+        - 0.5: LLM inference (below auto_apply threshold)
+
+    Note: Only called when confidence is None/missing, NOT when it's explicit 0.
+    """
+    # Deterministic enum normalization - always correct
+    if field in ['status', 'priority', 'type']:
+        return 1.0
+
+    # Date fields with explicit YYYY-MM-DD pattern
+    if field in ['due', 'start_date', 'created', 'updated'] and value:
+        try:
+            if re.match(r'^\d{4}-\d{2}-\d{2}', str(value)):
+                return 0.85
+        except (TypeError, AttributeError):
+            pass
+
+    # Assignee from alias mapping (members.yaml)
+    # TODO: Could verify against members.yaml here for higher confidence
+    # Conservative default to avoid over-application
+    if field == 'assignee':
+        return 0.70
+
+    # Parent entity references (conservative)
+    if field in ['parent_id', 'project_id', 'track_id']:
+        return 0.70
+
+    # Default for LLM inference - below auto_apply threshold (0.85)
+    return 0.5
+
+
 @router.post("/infer/task_schema", response_model=InferTaskSchemaResponse)
 async def infer_task_schema(request: InferTaskSchemaRequest):
     """
@@ -1519,9 +1567,17 @@ async def infer_task_schema(request: InferTaskSchemaRequest):
         # 필드 분류: 고확신 → auto_apply, 저확신 → pending
         auto_apply_fields = {}
         pending_fields = {}
+        computed_confidence = {}  # Store computed confidence for audit
 
         for field, value in suggested_fields.items():
-            field_confidence = confidence.get(field, 0.0)
+            # tsk-n8n-23 Rev.2: Apply default confidence when LLM doesn't provide it
+            field_confidence = confidence.get(field)  # None if missing
+            if field_confidence is None:
+                # Use rule-based default confidence
+                field_confidence = get_default_confidence(field, value, "Task")
+            # Store computed confidence for audit logging
+            computed_confidence[field] = field_confidence
+            # Preserve explicit 0.0 as low-confidence signal
             if should_auto_apply(field, field_confidence, "Task"):
                 auto_apply_fields[field] = value
             else:
@@ -1538,7 +1594,7 @@ async def infer_task_schema(request: InferTaskSchemaRequest):
                     entity_type="Task",
                     entity_name=task.get("entity_name", ""),
                     applied_fields={k: auto_apply_fields[k] for k in applied},
-                    confidence_scores={k: confidence.get(k, 0.0) for k in applied},
+                    confidence_scores={k: computed_confidence.get(k, 0.0) for k in applied},
                     reasoning={k: reasoning.get(k, "") for k in applied},
                     run_id=run_id,
                     source_workflow=request.source_workflow
@@ -1691,6 +1747,7 @@ async def infer_project_schema(request: InferProjectSchemaRequest):
     # 5. LLM 응답 파싱
     suggested_fields = content.get("suggested_fields", {})
     reasoning = content.get("reasoning", {})
+    confidence = content.get("confidence", {})  # tsk-n8n-23: auto_apply용 confidence 추출
     warnings = []
 
     # derived 필드 제거 (금지 규칙)
@@ -1734,6 +1791,73 @@ async def infer_project_schema(request: InferProjectSchemaRequest):
             "status": pending_review["status"],
             "created_at": pending_review["created_at"]
         }
+
+    # tsk-n8n-23: auto_apply 모드 처리
+    elif request.mode == "auto_apply":
+        from ..services.auto_apply import (
+            should_auto_apply,
+            apply_fields_to_entity,
+            create_auto_applied_review
+        )
+
+        # 필드 분류: 고확신 → auto_apply, 저확신 → pending
+        auto_apply_fields = {}
+        pending_fields = {}
+        computed_confidence = {}  # Store computed confidence for audit
+
+        for field, value in suggested_fields.items():
+            # tsk-n8n-23 Rev.2: Apply default confidence when LLM doesn't provide it
+            field_confidence = confidence.get(field)  # None if missing
+            if field_confidence is None:
+                # Use rule-based default confidence
+                field_confidence = get_default_confidence(field, value, "Project")
+            # Store computed confidence for audit logging
+            computed_confidence[field] = field_confidence
+            # Preserve explicit 0.0 as low-confidence signal
+            if should_auto_apply(field, field_confidence, "Project"):
+                auto_apply_fields[field] = value
+            else:
+                pending_fields[field] = value
+
+        # 고확신 필드 자동 적용
+        if auto_apply_fields:
+            success, applied, failed = apply_fields_to_entity(
+                request.project_id, "Project", auto_apply_fields
+            )
+            if success and applied:
+                review_id = create_auto_applied_review(
+                    entity_id=request.project_id,
+                    entity_type="Project",
+                    entity_name=project.get("entity_name", ""),
+                    applied_fields={k: auto_apply_fields[k] for k in applied},
+                    confidence_scores={k: computed_confidence.get(k, 0.0) for k in applied},
+                    reasoning={k: reasoning.get(k, "") for k in applied},
+                    run_id=run_id,
+                    source_workflow=request.source_workflow
+                )
+                pending_info = {
+                    "review_id": review_id,
+                    "status": "auto_applied",
+                    "applied_fields": applied,
+                    "failed_fields": failed
+                }
+
+        # 저확신 필드는 pending으로
+        if pending_fields and request.create_pending:
+            pending_review = create_pending_review(
+                entity_id=request.project_id,
+                entity_type="Project",
+                entity_name=project.get("entity_name", ""),
+                suggested_fields=pending_fields,
+                reasoning={k: reasoning.get(k, "") for k in pending_fields},
+                run_id=run_id,
+                actor=request.actor,
+                source_workflow=request.source_workflow
+            )
+            if not pending_info:
+                pending_info = {}
+            pending_info["pending_review_id"] = pending_review["id"]
+            pending_info["pending_fields"] = list(pending_fields.keys())
 
     # 8. Audit 로그 저장
     audit_ref = save_ai_audit_log(run_id, {

@@ -385,3 +385,59 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 - 통합 테스트: 20분
 
 **총 예상 시간**: 1시간 55분
+
+---
+
+## Notes
+
+### Rev.2 Implementation Complete (2026-01-11)
+
+**Code Changes:**
+1. Added `get_default_confidence()` helper function in `api/routers/ai.py`
+   - Returns rule-based default confidence when LLM doesn't provide it
+   - Deterministic fields (status, priority, type): 1.0
+   - Date fields with YYYY-MM-DD pattern: 0.85
+   - Assignee (conservative): 0.70
+   - Entity references: 0.70
+   - LLM inference: 0.5 (below threshold)
+
+2. Updated Task endpoint (`infer_task_schema`)
+   - Extract confidence from LLM response
+   - Apply default confidence when None
+   - Store computed confidence for audit
+   - Use computed confidence in auto_applied reviews
+
+3. Updated Project endpoint (`infer_project_schema`)
+   - Added confidence extraction (was missing)
+   - Added complete auto_apply mode handling
+   - Same pattern as Task endpoint
+
+**Manual Step Required (Issue 4, 6):**
+
+n8n workflow update via UI (safer than API):
+
+1. Open https://n8n.sosilab.synology.me
+2. Find workflow: "entity_validator_autofiller"
+3. Edit HTTP Request nodes:
+   - **Node 1**: "Call LOOP API - Task Schema"
+     - Body Parameters → mode: change "pending" to "auto_apply"
+     - Body Parameters → Add: source_workflow: "entity_validator_autofiller"
+   - **Node 2**: "Call LOOP API - Project Schema"
+     - Body Parameters → mode: change "pending" to "auto_apply"
+     - Body Parameters → Add: source_workflow: "entity_validator_autofiller"
+4. Save workflow
+5. Test manually
+
+**Why manual update?**
+- n8n API requires full workflow object (versionId, active, credentials)
+- Risk of clobbering concurrent changes
+- Manual UI update is safer and verifiable
+- Code changes are already deployed and ready
+
+**Testing Checklist:**
+- [ ] n8n workflow updated via UI
+- [ ] Manual trigger test
+- [ ] Verify auto_apply mode called (check audit logs)
+- [ ] Verify confidence values non-zero (check pending_reviews.json)
+- [ ] Verify source_workflow recorded
+- [ ] Check Dashboard Auto-Applied tab
