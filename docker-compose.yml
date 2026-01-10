@@ -1,5 +1,9 @@
 version: '3.8'
 
+networks:
+  loop_default:
+    driver: bridge
+
 services:
   # OAuth 인증 서버 (독립 컨테이너)
   # API rebuild 시에도 인증 세션 유지
@@ -9,6 +13,8 @@ services:
       dockerfile: Dockerfile.auth
     container_name: loop-auth
     restart: unless-stopped
+    networks:
+      - loop_default
     ports:
       - "8084:8083"  # 외부 8084 → 내부 8083
     volumes:
@@ -32,6 +38,8 @@ services:
     build: .
     container_name: loop-api
     restart: unless-stopped
+    networks:
+      - loop_default
     ports:
       - "8082:8081"  # 기존 8081과 충돌 방지, 나중에 전환
     env_file: .env  # .env 파일에서 환경변수 로드
@@ -77,6 +85,8 @@ services:
       dockerfile: Dockerfile
     container_name: content-os
     restart: unless-stopped
+    networks:
+      - loop_default
     ports:
       - "8083:3000"
     environment:
@@ -102,6 +112,8 @@ services:
     image: n8nio/n8n:latest
     container_name: n8n
     restart: unless-stopped
+    networks:
+      - loop_default
     user: "1000:1000"  # NAS 사용자 UID:GID (권한 문제 방지)
     ports:
       - "5678:5678"

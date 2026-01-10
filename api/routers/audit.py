@@ -110,7 +110,7 @@ def log_entity_action(
         f.write(json.dumps(new_entry, ensure_ascii=False) + "\n")
 
     # Discord 알림 (생성 시에만)
-    if action == "create" and entity_type in ("Task", "Project", "Program"):
+    if action == "create" and entity_type in ("Task", "Project", "Program", "Comment"):
         extra_fields = {}
         if details:
             if "status" in details:

@@ -26,6 +26,7 @@ COLORS = {
     "Project": 0x2ecc71,   # Green
     "Program": 0x9b59b6,   # Purple
     "Hypothesis": 0xe67e22, # Orange
+    "Comment": 0xf1c40f,   # Yellow (새 댓글 강조)
     "default": 0x95a5a6,   # Gray
 }
 

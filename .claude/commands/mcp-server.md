@@ -187,21 +187,16 @@ echo "║  동기화 완료: public + exec               ║"
 echo "╚════════════════════════════════════════════╝"
 ```
 
-**Step 2: Docker rebuild**
+**Step 2: Docker rebuild (using docker compose)**
 ```bash
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  DOCKER REBUILD"
+echo "  DOCKER REBUILD (docker compose)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 cd /volume1/LOOP_CORE/vault/LOOP
-# Load API keys from .env file
-source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
-/var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
-/var/packages/ContainerManager/target/usr/bin/docker stop loop-api
-/var/packages/ContainerManager/target/usr/bin/docker rm loop-api
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 --env-file /volume1/LOOP_CORE/vault/LOOP/.env -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:rw -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul loop-api:latest
+/var/packages/ContainerManager/target/usr/bin/docker compose up -d --build --force-recreate loop-api
 " 2>&1'
 ```
 
@@ -210,17 +205,13 @@ Complete fresh start including OAuth keys/DB (auth session reset):
 ```bash
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 cd /volume1/LOOP_CORE/vault/LOOP
-source /volume1/LOOP_CORE/vault/LOOP/.env 2>/dev/null || true
 
 # Reset OAuth keys/DB (new keys generated - existing tokens invalidated)
 rm -rf /volume1/LOOP_CORE/vault/LOOP/api/oauth/keys
 rm -f /volume1/LOOP_CORE/vault/LOOP/api/oauth/oauth.db
 
-# Build and run loop-api
-/var/packages/ContainerManager/target/usr/bin/docker build -t loop-api:latest .
-/var/packages/ContainerManager/target/usr/bin/docker stop loop-api 2>/dev/null || true
-/var/packages/ContainerManager/target/usr/bin/docker rm loop-api 2>/dev/null || true
-/var/packages/ContainerManager/target/usr/bin/docker run -d --name loop-api --restart unless-stopped -p 8082:8081 --env-file /volume1/LOOP_CORE/vault/LOOP/.env -v /volume1/LOOP_CORE/vault/LOOP:/vault:rw -v /volume1/LOOP_CLevel/vault/loop_exec:/vault/exec:rw -v /volume1/LOOP_CORE/vault/LOOP/api/oauth:/app/api/oauth:rw -e VAULT_DIR=/vault -e EXEC_VAULT_DIR=/vault/exec -e OAUTH_ISSUER=https://mcp.sosilab.synology.me -e TZ=Asia/Seoul loop-api:latest
+# Rebuild all services with docker compose
+/var/packages/ContainerManager/target/usr/bin/docker compose up -d --build --force-recreate
 " 2>&1'
 ```
 
@@ -250,7 +241,7 @@ curl -s -m 3 https://mcp.sosilab.synology.me/mcp
 | File | Description |
 |-----|------|
 | `Dockerfile` | Docker image definition (Python 3.11 + FastAPI + MCP) |
-| `docker-compose.yml` | Container config (reference) |
+| `docker-compose.yml` | Container config (networks, volumes, env) |
 | `api/main.py` | FastAPI app + MCP mount |
 | `api/models/entities.py` | Pydantic models (OpenAPI schema) |
 

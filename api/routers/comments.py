@@ -25,6 +25,7 @@ from ..models.comments import (
     get_db_session, get_comment_db
 )
 from ..cache import get_cache
+from .audit import log_entity_action
 
 logger = logging.getLogger(__name__)
 
@@ -274,6 +275,20 @@ def create_comment(
     db.refresh(comment)
 
     logger.info(f"Comment created: id={comment.id}, entity={data.entity_id}, author={author_email}")
+
+    # Discord 알림 전송
+    log_entity_action(
+        action="create",
+        entity_type="Comment",
+        entity_id=str(comment.id),
+        entity_name=f"Comment on {data.entity_type} {data.entity_id}",
+        details={
+            "target_entity": data.entity_id,
+            "target_type": data.entity_type,
+            "parent_id": data.parent_id
+        },
+        actor=f"api:{author_email}"
+    )
 
     return build_comment_response(comment, db)
 
