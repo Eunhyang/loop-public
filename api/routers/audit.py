@@ -124,6 +124,9 @@ def log_entity_action(
                 extra_fields["target_type"] = details["target_type"]
             if "target_entity" in details:
                 extra_fields["target_entity"] = details["target_entity"]
+            # Comment 내용 (tsk-023-1768045340391)
+            if "content" in details:
+                extra_fields["content"] = details["content"]
 
         send_entity_created_notification(
             entity_type=entity_type,
