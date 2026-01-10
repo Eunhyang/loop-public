@@ -22,6 +22,7 @@ export const ReviewList = ({
     { value: 'pending', label: 'Pending' },
     { value: 'approved', label: 'Approved' },
     { value: 'rejected', label: 'Rejected' },
+    { value: 'auto_applied', label: 'Auto-Applied' },
   ];
 
   return (

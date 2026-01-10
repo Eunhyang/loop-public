@@ -3,6 +3,21 @@
  * Task: tsk-content-os-15 - YouTube Studio Snapshot System
  *
  * Parses YouTube Studio "Last 7 days" clipboard data
+ *
+ * YouTube Studio format (multi-line per video):
+ * Video thumbnail: [title]
+ * [duration] (e.g., "1:58" or "11:23")
+ * [title repeated]
+ * [views] (e.g., "2,320")
+ * [views %]
+ * [watch time hours] (e.g., "9.9")
+ * [watch time %]
+ * [subscribers] (e.g., "0" or "-1")
+ * [subscribers %]
+ * [revenue] (e.g., "$1.25" or "—")
+ * [revenue %]
+ * [impressions] (e.g., "1,594")
+ * [CTR] (e.g., "6.8%")
  */
 
 import {
@@ -17,16 +32,12 @@ import {
 const MAX_PASTE_SIZE = 1024 * 1024;
 
 /**
- * Expected column headers (case-insensitive)
+ * Video thumbnail marker
  */
-const EXPECTED_HEADERS = ['title', 'views', 'impressions', 'ctr'];
+const VIDEO_MARKER = 'Video thumbnail:';
 
 /**
- * Parse YouTube Studio clipboard text
- *
- * Expected formats:
- * - Title\tViews\tImpressions\tCTR (%)
- * - Title\tViews (impressions/CTR may be absent)
+ * Parse YouTube Studio clipboard text (multi-line format)
  *
  * @param text - Raw clipboard text from YouTube Studio
  * @param snapshotDate - Date for this snapshot (ISO format YYYY-MM-DD)
@@ -36,7 +47,6 @@ export function parseYouTubeStudioSnapshot(
   text: string,
   snapshotDate?: string
 ): SnapshotParseResult {
-  const errors: string[] = [];
   const warnings: string[] = [];
 
   // Validate size
@@ -57,7 +67,7 @@ export function parseYouTubeStudioSnapshot(
   }
 
   // Handle CRLF and LF
-  const lines = sanitized.split(/\r?\n/).filter((line) => line.trim());
+  const lines = sanitized.split(/\r?\n/);
 
   if (lines.length === 0) {
     return {
@@ -66,65 +76,52 @@ export function parseYouTubeStudioSnapshot(
     };
   }
 
-  // Detect header row (optional, YouTube Studio may include it)
-  let startIndex = 0;
-  const firstLine = lines[0].toLowerCase();
-  const isHeaderRow = EXPECTED_HEADERS.some((header) => firstLine.includes(header));
-
-  if (isHeaderRow) {
-    startIndex = 1;
-    warnings.push('Header row detected and skipped');
+  // Find all video start indices
+  const videoStartIndices: number[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].startsWith(VIDEO_MARKER)) {
+      videoStartIndices.push(i);
+    }
   }
 
-  // Parse data rows
+  if (videoStartIndices.length === 0) {
+    return {
+      success: false,
+      errors: ['No video entries found. Expected lines starting with "Video thumbnail:"'],
+    };
+  }
+
+  // Parse each video section
   const data: YouTubeSnapshotRow[] = [];
-  const skippedRows: number[] = [];
+  const skippedVideos: string[] = [];
 
-  for (let i = startIndex; i < lines.length; i++) {
-    const line = lines[i];
-    const columns = line.split('\t');
+  for (let idx = 0; idx < videoStartIndices.length; idx++) {
+    const startLine = videoStartIndices[idx];
+    const endLine = idx < videoStartIndices.length - 1
+      ? videoStartIndices[idx + 1]
+      : lines.length;
 
-    // Validate column count (minimum 2: title + views)
-    if (columns.length < 2) {
-      skippedRows.push(i + 1);
-      continue;
+    const videoLines = lines.slice(startLine, endLine).filter(l => l.trim());
+
+    const parsed = parseVideoSection(videoLines);
+    if (parsed) {
+      data.push(parsed);
+    } else {
+      // Get a short title for the warning
+      const titleLine = lines[startLine];
+      const shortTitle = titleLine.substring(VIDEO_MARKER.length, VIDEO_MARKER.length + 30).trim();
+      skippedVideos.push(shortTitle + '...');
     }
-
-    const title = columns[0].trim();
-    if (!title) {
-      skippedRows.push(i + 1);
-      continue;
-    }
-
-    // Parse views (required)
-    const views = parseNumber(columns[1]);
-    if (views === null) {
-      skippedRows.push(i + 1);
-      continue;
-    }
-
-    // Parse impressions (optional)
-    const impressions = columns.length >= 3 ? parseNumber(columns[2]) : null;
-
-    // Parse CTR (optional, may be percentage like "4.5%")
-    const ctr = columns.length >= 4 ? parsePercentage(columns[3]) : null;
-
-    data.push({
-      title,
-      views,
-      impressions,
-      ctr,
-    });
   }
 
-  if (skippedRows.length > 0) {
-    warnings.push(`Skipped ${skippedRows.length} malformed rows: lines ${skippedRows.join(', ')}`);
+  if (skippedVideos.length > 0) {
+    warnings.push(`Skipped ${skippedVideos.length} videos with parsing issues`);
   }
 
   if (data.length === 0) {
     return {
       success: false,
-      errors: ['No valid data rows found'],
+      errors: ['No valid video data could be parsed'],
     };
   }
 
@@ -143,6 +140,88 @@ export function parseYouTubeStudioSnapshot(
     snapshot,
     warnings: warnings.length > 0 ? warnings : undefined,
   };
+}
+
+/**
+ * Parse a single video section (multi-line format)
+ *
+ * Expected line order (after filtering empty lines):
+ * 0: "Video thumbnail: [title]"
+ * 1: duration (e.g., "1:58")
+ * 2: title (repeated without prefix)
+ * 3: views (e.g., "2,320")
+ * 4: views % (e.g., "18.4%")
+ * 5: watch time hours (e.g., "9.9")
+ * 6: watch time % (e.g., "5.7%")
+ * 7: subscribers (e.g., "0" or "-1")
+ * 8: subscribers % (e.g., "0%" or "-50%")
+ * 9: revenue (e.g., "$1.25" or "—")
+ * 10: revenue % (e.g., "41.2%" or "—")
+ * 11: impressions (e.g., "1,594")
+ * 12: CTR (e.g., "6.8%")
+ */
+function parseVideoSection(lines: string[]): YouTubeSnapshotRow | null {
+  if (lines.length < 13) {
+    return null;
+  }
+
+  try {
+    // Line 0: "Video thumbnail: [title]" - extract title
+    const titleFromMarker = lines[0].substring(VIDEO_MARKER.length).trim();
+
+    // Line 2: title (repeated, cleaner version)
+    const title = lines[2].trim() || titleFromMarker;
+    if (!title) return null;
+
+    // Line 1: duration (e.g., "1:58" or "11:23")
+    const durationStr = lines[1].trim();
+    const duration = parseDuration(durationStr);
+
+    // Line 3: views (e.g., "2,320")
+    const views = parseNumber(lines[3]);
+    if (views === null) return null;
+
+    // Line 5: watch time hours (e.g., "9.9")
+    const watchTimeHours = parseNumber(lines[5]);
+
+    // Line 11: impressions (e.g., "1,594")
+    const impressions = parseNumber(lines[11]);
+
+    // Line 12: CTR (e.g., "6.8%")
+    const ctr = parsePercentage(lines[12]);
+
+    return {
+      title,
+      duration: duration ?? undefined,
+      views,
+      watchTimeHours: watchTimeHours ?? undefined,
+      impressions,
+      ctr,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Parse duration string to seconds
+ * Examples: "1:58" → 118, "11:23" → 683, "1:02:30" → 3750
+ */
+function parseDuration(value: string): number | null {
+  if (!value) return null;
+
+  const parts = value.split(':').map(p => parseInt(p, 10));
+  if (parts.some(isNaN)) return null;
+
+  if (parts.length === 2) {
+    // MM:SS
+    return parts[0] * 60 + parts[1];
+  } else if (parts.length === 3) {
+    // H:MM:SS
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  }
+
+  return null;
 }
 
 /**

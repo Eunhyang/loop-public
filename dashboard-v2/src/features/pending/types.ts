@@ -3,7 +3,7 @@ export interface PendingReview {
   entity_type: 'Task' | 'Project' | 'Track' | 'Condition' | 'Hypothesis';
   entity_id: string;
   entity_name: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'auto_applied';
   suggested_fields: Record<string, unknown>;
   reasoning?: Record<string, string>;
   source_workflow?: string;
@@ -12,7 +12,7 @@ export interface PendingReview {
   audit_log_path?: string;
 }
 
-export type PendingStatus = 'pending' | 'approved' | 'rejected';
+export type PendingStatus = 'pending' | 'approved' | 'rejected' | 'auto_applied';
 
 // API Request Types
 export interface ApproveRequestBody {

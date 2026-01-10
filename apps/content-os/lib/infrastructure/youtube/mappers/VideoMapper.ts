@@ -11,11 +11,13 @@ import {
 /**
  * Maps YouTube search item to domain VideoSummary
  * Note: duration is set to 0 (search.list doesn't include it)
+ * Returns null if snippet is missing (filtered out by caller)
  */
-export function mapSearchItemToVideoSummary(item: YouTubeSearchItemDTO): VideoSummary {
-  // Add null check for snippet (may be undefined in some API responses)
+export function mapSearchItemToVideoSummary(item: YouTubeSearchItemDTO): VideoSummary | null {
+  // Skip items without snippet data (some API responses omit it)
   if (!item.snippet) {
-    throw new Error(`Missing snippet data for video ${item.id.videoId}`);
+    console.warn(`Skipping video ${item.id.videoId}: missing snippet data`);
+    return null;
   }
 
   return {
@@ -33,12 +35,17 @@ export function mapSearchItemToVideoSummary(item: YouTubeSearchItemDTO): VideoSu
 
 /**
  * Maps YouTube search response to paginated result
+ * Filters out items with missing snippet data
  */
 export function mapSearchResponseToPaginatedResult(
   dto: YouTubeSearchResponseDTO
 ): PaginatedResult<VideoSummary> {
+  const mappedItems = dto.items
+    .map(mapSearchItemToVideoSummary)
+    .filter((item): item is VideoSummary => item !== null);
+
   return {
-    items: dto.items.map(mapSearchItemToVideoSummary),
+    items: mappedItems,
     nextPageToken: (dto.nextPageToken as PageToken) ?? null,
     totalResults: dto.pageInfo.totalResults,
   };

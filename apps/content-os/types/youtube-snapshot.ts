@@ -11,7 +11,9 @@
 export interface YouTubeSnapshotRow {
   title: string;
   videoUrl?: string; // Optional stable identifier
+  duration?: number; // Video duration in seconds
   views: number;
+  watchTimeHours?: number; // Watch time in hours
   impressions: number | null; // May be absent in some snapshots
   ctr: number | null; // Stored as decimal (0.045 not 4.5%)
 }
