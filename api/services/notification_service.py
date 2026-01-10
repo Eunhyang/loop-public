@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 # Environment variables
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")
 DISCORD_NOTIFY_ENABLED = os.getenv("DISCORD_NOTIFY_ENABLED", "true").lower() == "true"
+DASHBOARD_BASE_URL = os.getenv("DASHBOARD_BASE_URL", "https://mcp.sosilab.synology.me/v2")
 
 # Embed colors by entity type
 COLORS = {
@@ -65,6 +66,60 @@ def _send_discord_webhook(payload: Dict[str, Any]) -> bool:
     except Exception as e:
         logger.error(f"Discord notification failed: {e}")
         return False
+
+
+def _build_entity_url(
+    entity_type: str,
+    entity_id: str,
+    extra_fields: Optional[Dict[str, str]] = None
+) -> Optional[str]:
+    """
+    엔티티 타입과 ID로 Dashboard URL 생성
+
+    Comment의 경우 target_type, target_entity를 사용하여 대상 페이지 URL 생성
+
+    Args:
+        entity_type: Task | Project | Program | Comment 등
+        entity_id: 엔티티 ID
+        extra_fields: 추가 필드 (Comment의 경우 target_type, target_entity 필요)
+
+    Returns:
+        Dashboard URL 또는 None (알 수 없는 타입)
+    """
+    if entity_type == "Task":
+        return f"{DASHBOARD_BASE_URL}/tasks/{entity_id}"
+    elif entity_type == "Project":
+        return f"{DASHBOARD_BASE_URL}/projects/{entity_id}"
+    elif entity_type == "Program":
+        return f"{DASHBOARD_BASE_URL}/program"
+    elif entity_type == "Comment":
+        # Comment는 target 엔티티 페이지로 이동
+        if not extra_fields:
+            logger.warning("Comment notification missing extra_fields for URL generation")
+            return None
+
+        target_type = str(extra_fields.get("target_type", "")).lower()
+        target_entity = str(extra_fields.get("target_entity", ""))
+
+        if not target_type or not target_entity:
+            logger.warning(f"Comment notification incomplete: target_type={target_type}, target_entity={target_entity}")
+            return None
+
+        # Map entity type to URL path (proper pluralization)
+        type_to_path = {
+            "task": "tasks",
+            "project": "projects",
+        }
+
+        path = type_to_path.get(target_type)
+        if not path:
+            logger.warning(f"Unknown Comment target_type: {target_type}")
+            return None
+
+        return f"{DASHBOARD_BASE_URL}/{path}/{target_entity}"
+    else:
+        logger.debug(f"No Dashboard URL mapping for entity_type: {entity_type}")
+        return None
 
 
 def send_entity_created_notification(
@@ -121,6 +176,11 @@ def send_entity_created_notification(
         "timestamp": timestamp,
         "footer": {"text": "LOOP Vault"}
     }
+
+    # Add URL for clickable embed title
+    entity_url = _build_entity_url(entity_type, entity_id, extra_fields)
+    if entity_url:
+        embed["url"] = entity_url
 
     payload = {"embeds": [embed]}
 
