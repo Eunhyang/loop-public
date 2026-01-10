@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-015
 entity_name: Hiring - 주니어 개발자 채용
 created: 2025-12-25
-updated: '2026-01-06'
+updated: '2026-01-11'
 status: done
 parent_id: trk-6
 program_id: pgm-hiring
@@ -52,10 +52,12 @@ priority_flag: high
 ## 목표
 
 ### 성공 기준
+
 1. 기술 과제 통과한 주니어 개발자 1명 채용
 2. 온보딩 완료 후 첫 PR 머지
 
 ### 실패 신호
+
 1. 기술 과제 통과자 없음
 2. 온보딩 중 이탈
 
@@ -64,10 +66,12 @@ priority_flag: high
 ## 배경
 
 ### 왜 이 프로젝트인가?
+
 - 현재 개발 리소스 부족
 - 제품 개발 속도 향상 필요
 
 ### 선행 조건
+
 - 채용 프로세스 정립
 - 기술 과제 설계
 
@@ -76,14 +80,21 @@ priority_flag: high
 ## 실행 계획
 
 ### Phase 1: 채용 ✅
+
 - [x] 커피챗 대상자 확정
+
 - [x] 커피챗 진행
+
 - [x] 기술 과제 평가
+
 - [x] 1:1 면접
 
 ### Phase 2: 온보딩 ✅
+
 - [x] Day1 Onboarding
+
 - [x] 개발 환경 세팅
+
 - [x] 파일럿 프로젝트
 
 ---
@@ -98,10 +109,9 @@ priority_flag: high
 
 ## 참고 문서
 
-- [[trk-6]] - 소속 Track
-- [[prj-006]] - 코치 채용 프로젝트 (유사)
+- \[\[trk-6\]\] - 소속 Track
+- \[\[prj-006\]\] - 코치 채용 프로젝트 (유사)
 
 ---
 
-**Created**: 2025-12-25
-**Owner**: 한명학
+**Created**: 2025-12-25 **Owner**: 한명학
