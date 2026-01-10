@@ -24,6 +24,9 @@ COPY api/main_auth.py ./api/
 COPY api/oauth/ ./api/oauth/
 COPY api/templates/ ./api/templates/
 
+# 파일 권한 설정 (UID 1000 사용자가 읽을 수 있도록)
+RUN chmod -R 755 /app && chmod -R 644 /app/api/*.py
+
 # 포트 노출
 EXPOSE 8083
 
