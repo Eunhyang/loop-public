@@ -1,37 +1,22 @@
-/**
- * Favorites Store
- * 
- * External store for localStorage-based favorites state.
- * Uses React 18 useSyncExternalStore pattern for cross-component synchronization.
- */
-
 import type { FavoritesStorage } from '../types';
-import {
-  FAVORITES_STORAGE_KEY,
-  FAVORITES_SCHEMA_VERSION,
-  MAX_FAVORITES,
-} from '../constants';
+import { FAVORITES_STORAGE_KEY, FAVORITES_SCHEMA_VERSION, MAX_FAVORITES } from '../constants';
 
 type Listener = () => void;
-
 let state: FavoritesStorage = loadFromStorage();
 let listeners: Set<Listener> = new Set();
 
 function loadFromStorage(): FavoritesStorage {
-  if (typeof window === 'undefined') {
-    return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
-  }
+  if (typeof window === 'undefined') return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
   try {
     const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
     if (!raw) return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
     const parsed: FavoritesStorage = JSON.parse(raw);
     if (parsed._schemaVersion !== FAVORITES_SCHEMA_VERSION) {
-      console.log('[Favorites Migration] Migrating from v', parsed._schemaVersion || 0, 'to v', FAVORITES_SCHEMA_VERSION);
       return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: parsed.taskIds || [] };
     }
     return parsed;
   } catch (error) {
-    console.warn('[Favorites] Failed to load favorites, resetting:', error);
+    console.warn('[Favorites] Failed to load, resetting:', error);
     return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
   }
 }
@@ -41,7 +26,7 @@ function saveToStorage(data: FavoritesStorage): void {
   try {
     window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(data));
   } catch (error) {
-    console.warn('[Favorites] Failed to save favorites (quota/disabled?):', error);
+    console.warn('[Favorites] Failed to save (quota?):', error);
   }
 }
 
@@ -65,14 +50,10 @@ export function subscribe(listener: Listener): () => void {
       emitChange();
     }
   };
-  if (typeof window !== 'undefined') {
-    window.addEventListener('storage', handleStorageEvent);
-  }
+  if (typeof window !== 'undefined') window.addEventListener('storage', handleStorageEvent);
   return () => {
     listeners.delete(listener);
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('storage', handleStorageEvent);
-    }
+    if (typeof window !== 'undefined') window.removeEventListener('storage', handleStorageEvent);
   };
 }
 
@@ -80,8 +61,7 @@ export function toggleFavorite(taskId: string): boolean {
   const currentIds = state.taskIds;
   const index = currentIds.indexOf(taskId);
   if (index >= 0) {
-    const newIds = currentIds.filter((id) => id !== taskId);
-    state = { ...state, taskIds: newIds };
+    state = { ...state, taskIds: currentIds.filter((id) => id !== taskId) };
     saveToStorage(state);
     emitChange();
     return false;
@@ -90,8 +70,7 @@ export function toggleFavorite(taskId: string): boolean {
       console.warn(`[Favorites] Cannot add more than ${MAX_FAVORITES} favorites`);
       return false;
     }
-    const newIds = [...currentIds.filter((id) => id !== taskId), taskId];
-    state = { ...state, taskIds: newIds };
+    state = { ...state, taskIds: [...currentIds, taskId] };
     saveToStorage(state);
     emitChange();
     return true;
@@ -105,7 +84,6 @@ export function isFavorited(taskId: string): boolean {
 export function pruneFavorites(validTaskIds: Set<string>): void {
   const pruned = state.taskIds.filter((id) => validTaskIds.has(id));
   if (pruned.length !== state.taskIds.length) {
-    console.log(`[Favorites] Pruned ${state.taskIds.length - pruned.length} stale favorites`);
     state = { ...state, taskIds: pruned };
     saveToStorage(state);
     emitChange();
@@ -115,11 +93,8 @@ export function pruneFavorites(validTaskIds: Set<string>): void {
 export function resetFavorites(): void {
   state = { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
   if (typeof window !== 'undefined') {
-    try {
-      window.localStorage.removeItem(FAVORITES_STORAGE_KEY);
-    } catch (error) {
-      console.error('[Favorites] Failed to remove favorites from localStorage:', error);
-    }
+    try { window.localStorage.removeItem(FAVORITES_STORAGE_KEY); }
+    catch (error) { console.error('[Favorites] Failed to remove:', error); }
   }
   emitChange();
 }

@@ -13,8 +13,7 @@ export function FavoritesStrip({ tasks, onTaskClick }: FavoritesStripProps) {
   const taskMap = useMemo(() => new Map(tasks.map((task) => [task.entity_id, task])), [tasks]);
   
   useEffect(() => {
-    const validTaskIds = new Set(tasks.map((t) => t.entity_id));
-    pruneFavorites(validTaskIds);
+    pruneFavorites(new Set(tasks.map((t) => t.entity_id)));
   }, [tasks, pruneFavorites]);
 
   const favoriteTasks = useMemo(() => {

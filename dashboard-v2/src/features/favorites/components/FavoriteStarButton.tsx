@@ -13,10 +13,7 @@ export function FavoriteStarButton({ taskId, size = 'sm', className = '' }: Favo
   
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const added = toggleFavorite(taskId);
-    if (!added && !favorited) {
-      console.warn('Cannot add more favorites (limit reached)');
-    }
+    toggleFavorite(taskId);
   };
 
   return (
@@ -24,7 +21,6 @@ export function FavoriteStarButton({ taskId, size = 'sm', className = '' }: Favo
       onClick={handleClick}
       className={`${sizeClasses[size]} ${favorited ? 'text-amber-400' : 'text-zinc-300 hover:text-amber-400'} transition-colors ${className}`}
       aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
-      title={favorited ? 'Remove from favorites' : 'Add to favorites'}
     >
       {favorited ? (
         <svg className={sizeClasses[size]} fill="currentColor" viewBox="0 0 24 24">
