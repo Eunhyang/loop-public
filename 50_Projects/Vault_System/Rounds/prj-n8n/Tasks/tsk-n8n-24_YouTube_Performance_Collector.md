@@ -4,7 +4,8 @@ entity_id: tsk-n8n-24
 entity_name: n8n - YouTube Performance Collector
 created: 2026-01-11
 updated: 2026-01-11
-status: doing
+closed: 2026-01-11
+status: done
 type: dev
 project_id: prj-n8n
 assignee: 김은향
@@ -17,7 +18,7 @@ tags:
 ---
 # n8n - YouTube Performance Collector
 
-> Task ID: `tsk-n8n-24` | Project: `prj-n8n` | Status: doing
+> Task ID: `tsk-n8n-24` | Project: `prj-n8n` | Status: done
 
 ---
 
