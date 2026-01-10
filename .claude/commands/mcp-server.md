@@ -24,7 +24,12 @@ loop-api (8082) ─── API + MCP + OAuth
                      - Vault access
                      - OAuth (/authorize, /token, /register)
                      - Keys/DB persist in volume
+
+loop-auth (8084) ─── OAuth 인증 서버 (독립)
+                     - JWKS 제공 (/well-known/jwks.json)
 ```
+
+**Network**: `loop_default` - loop-api와 loop-auth가 같은 네트워크에서 JWKS 통신
 
 **Session persistence**: OAuth keys/DB stored in `/api/oauth/` volume → auth session survives rebuild
 
