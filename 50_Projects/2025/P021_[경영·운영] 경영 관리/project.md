@@ -1,47 +1,40 @@
 ---
 entity_type: Project
 entity_id: prj-021
-entity_name: "[경영·운영] 경영 관리"
+entity_name: '[경영·운영] 경영 관리'
 created: 2025-12-29
-updated: 2025-12-29
+updated: '2026-01-11'
 status: doing
-
-# === 프로젝트 정보 ===
 owner: 한명학
 budget: null
 deadline: null
-
-# === Impact 판정 ===
 expected_impact: null
-
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: trk-6
 conditions_3y: []
 aliases:
-  - prj-021
-  - 경영 관리
-  - 경영·운영
-
+- prj-021
+- 경영 관리
+- 경영·운영
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "경영", "운영", "operational"]
+tags:
+- project
+- 경영
+- 운영
+- operational
 priority_flag: medium
 ---
+# \[경영·운영\] 경영 관리
 
-# [경영·운영] 경영 관리
-
-> Project ID: `prj-021` | Track: [[trk-6]] | Status: active
+> Project ID: `prj-021` | Track: \[\[trk-6\]\] | Status: active
 
 ## 프로젝트 개요
 
@@ -52,16 +45,15 @@ priority_flag: medium
 ## Tasks
 
 | Task ID | Task Name | Assignee | Status |
-|---------|-----------|----------|--------|
-| - | - | - | - |
+| --- | --- | --- | --- |
+| \- | \- | \- | \- |
 
 ---
 
 ## 참조
 
-- **Track**: [[trk-6|Scale/Infra]]
+- **Track**: \[\[trk-6|Scale/Infra\]\]
 
 ---
 
-**Created**: 2025-12-29
-**Owner**: 한명학
+**Created**: 2025-12-29 **Owner**: 한명학
