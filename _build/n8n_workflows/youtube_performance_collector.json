@@ -1,0 +1,220 @@
+{
+  "name": "youtube-performance-collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 15 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily 15:00 KST",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [200, 200]
+    },
+    {
+      "parameters": {
+        "formTitle": "YouTube 데이터 입력",
+        "formDescription": "YouTube Studio에서 복사한 데이터를 붙여넣으세요 (탭 구분 형식)",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "YouTube Data",
+              "fieldType": "textarea",
+              "requiredField": true,
+              "placeholder": "영상\t조회수\t노출수\n제목1\t1,234\t5,678\n제목2\t2,345\t6,789"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "form-trigger",
+      "name": "YouTube Data Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [200, 400],
+      "webhookId": "youtube-performance"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "has-youtube-data",
+              "leftValue": "={{ $json['YouTube Data'] !== undefined }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "route-switch",
+      "name": "Route by Source",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse Tab-Delimited YouTube Data\nconst input = $input.first().json['YouTube Data'] || '';\nconst lines = input.trim().replace(/\\r\\n/g, '\\n').replace(/\\r/g, '\\n').split('\\n');\n\nconst videos = [];\nlet lineIndex = 0;\n\nfor (const line of lines) {\n  const trimmedLine = line.trim();\n  if (!trimmedLine) continue; // Skip blank lines\n  \n  const cols = trimmedLine.split('\\t');\n  if (cols.length < 2) continue; // Skip malformed lines\n\n  // Skip first non-blank line as header (stricter check)\n  if (lineIndex === 0) {\n    lineIndex++;\n    continue;\n  }\n  lineIndex++;\n\n  const title = cols[0]?.trim() || '';\n  const views = parseInt((cols[1] || '0').replace(/,/g, ''), 10) || 0;\n  const impressions = parseInt((cols[2] || '0').replace(/,/g, ''), 10) || 0;\n\n  if (title && views >= 0 && impressions >= 0) {\n    videos.push({ title, views, impressions });\n  }\n}\n\n// Sort by views descending\nvideos.sort((a, b) => b.views - a.views);\n\nconst summary = {\n  video_count: videos.length,\n  total_views: videos.reduce((sum, v) => sum + v.views, 0),\n  total_impressions: videos.reduce((sum, v) => sum + v.impressions, 0),\n  top_3: videos.slice(0, Math.min(3, videos.length))\n};\n\nreturn [{ json: { videos, summary, parsed_at: new Date().toISOString() } }];"
+      },
+      "id": "parse-code",
+      "name": "Parse Tab Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build Reminder Message for Discord\nconst message = {\n  content: \"📊 YouTube 데이터를 입력해주세요!\\n\\n🔗 입력 폼: https://n8n.sosilab.synology.me/form/youtube-performance\"\n};\n\nreturn [{ json: message }];"
+      },
+      "id": "reminder-code",
+      "name": "Build Reminder Msg",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build Summary Message for Discord\nconst data = $input.first().json;\nconst summary = data.summary || {};\nconst parsed_at = data.parsed_at || new Date().toISOString();\n\n// Format timestamp\nconst timestamp = new Date(parsed_at).toLocaleString('ko-KR', { \n  timeZone: 'Asia/Seoul',\n  year: 'numeric',\n  month: '2-digit',\n  day: '2-digit',\n  hour: '2-digit',\n  minute: '2-digit'\n});\n\n// Build top 3 list\nconst top3Lines = (summary.top_3 || []).map((v, i) => \n  `${i + 1}. ${v.title} - ${v.views.toLocaleString('ko-KR')} views`\n).join('\\n');\n\nconst content = `📊 YouTube 데이터 저장 완료!\n\n📹 영상 수: ${summary.video_count || 0}개\n👀 총 조회수: ${(summary.total_views || 0).toLocaleString('ko-KR')}\n📈 총 노출수: ${(summary.total_impressions || 0).toLocaleString('ko-KR')}\n📅 저장 시간: ${timestamp}\n\n**상위 3개 영상:**\n${top3Lines || '(없음)'}`;\n\nreturn [{ json: { content } }];"
+      },
+      "id": "summary-code",
+      "name": "Build Summary Msg",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1459607313148284973/V-YQWF_NAYyflgwzhB_oDgpYtbihK6A6-inyglXSc4j2p5qnjQm6ZWvxHdzWikFPnUkF",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "discord-http",
+      "name": "Send to Discord",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1000, 300],
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Daily 15:00 KST": {
+      "main": [
+        [
+          {
+            "node": "Route by Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube Data Form": {
+      "main": [
+        [
+          {
+            "node": "Route by Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Source": {
+      "main": [
+        [
+          {
+            "node": "Parse Tab Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Reminder Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Tab Data": {
+      "main": [
+        [
+          {
+            "node": "Build Summary Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Reminder Msg": {
+      "main": [
+        [
+          {
+            "node": "Send to Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Summary Msg": {
+      "main": [
+        [
+          {
+            "node": "Send to Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2026-01-11T03:00:00.000Z",
+      "updatedAt": "2026-01-11T03:00:00.000Z",
+      "id": "youtube",
+      "name": "youtube"
+    },
+    {
+      "createdAt": "2026-01-11T03:00:00.000Z",
+      "updatedAt": "2026-01-11T03:00:00.000Z",
+      "id": "automation",
+      "name": "automation"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-11T03:00:00.000Z",
+  "versionId": "1"
+}
