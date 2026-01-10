@@ -361,6 +361,114 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                             )}
                         </select>
                     )}
+
+                    {/* Expected Impact */}
+                    <label className="text-zinc-500 py-1">Expected Impact</label>
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('expected_impact'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('expected_impact') : undefined}
+                    >
+                        {(() => {
+                            const impact = getFieldValue('expected_impact') as any;
+                            if (!impact) {
+                                return <span className="text-zinc-400 py-1">No impact specified</span>;
+                            }
+                            return (
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 flex-wrap">
+                                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                            Tier: {impact.tier || 'N/A'}
+                                        </span>
+                                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                            Magnitude: {impact.impact_magnitude || 'N/A'}
+                                        </span>
+                                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
+                                            Confidence: {impact.confidence != null ? (impact.confidence * 100).toFixed(0) + '%' : 'N/A'}
+                                        </span>
+                                    </div>
+                                    {impact.rationale && (
+                                        <p className="text-xs text-zinc-600 mt-1">{impact.rationale}</p>
+                                    )}
+                                </div>
+                            );
+                        })()}
+                    </ReviewFieldWrapper>
+
+                    {/* Track Contributes */}
+                    <label className="text-zinc-500 py-1">Track Contributes</label>
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('track_contributes'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('track_contributes') : undefined}
+                    >
+                        {(() => {
+                            const contributes = getFieldValue('track_contributes') as any[];
+                            if (!contributes || contributes.length === 0) {
+                                return <span className="text-zinc-400 py-1">No track contributions</span>;
+                            }
+                            return (
+                                <div className="flex gap-2 flex-wrap py-1">
+                                    {contributes.map((contrib, idx) => (
+                                        <span
+                                            key={idx}
+                                            className="inline-block px-2 py-1 bg-blue-50 border border-blue-200 rounded text-xs text-blue-700"
+                                            title={contrib.rationale || ''}
+                                        >
+                                            {contrib.to} ({(contrib.weight * 100).toFixed(0)}%)
+                                        </span>
+                                    ))}
+                                </div>
+                            );
+                        })()}
+                    </ReviewFieldWrapper>
+
+                    {/* Validates */}
+                    <label className="text-zinc-500 py-1">Validates</label>
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('validates'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('validates') : undefined}
+                    >
+                        {(() => {
+                            const validates = getFieldValue('validates') as string[];
+                            if (!validates || validates.length === 0) {
+                                return <span className="text-zinc-400 py-1">No hypotheses validated</span>;
+                            }
+                            return (
+                                <div className="flex gap-2 flex-wrap py-1">
+                                    {validates.map((hypId) => (
+                                        <span
+                                            key={hypId}
+                                            className="inline-block px-2 py-1 bg-purple-50 border border-purple-200 rounded text-xs text-purple-700 cursor-pointer hover:bg-purple-100"
+                                            onClick={() => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                                        >
+                                            {hypId}
+                                        </span>
+                                    ))}
+                                </div>
+                            );
+                        })()}
+                    </ReviewFieldWrapper>
+
+                    {/* Primary Hypothesis */}
+                    <label className="text-zinc-500 py-1">Primary Hypothesis</label>
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('primary_hypothesis_id'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('primary_hypothesis_id') : undefined}
+                    >
+                        {(() => {
+                            const primaryHypId = getFieldValue('primary_hypothesis_id') as string | null;
+                            if (!primaryHypId) {
+                                return <span className="text-zinc-400 py-1">No primary hypothesis</span>;
+                            }
+                            return (
+                                <span
+                                    className="inline-block px-2 py-1 bg-purple-50 border border-purple-200 rounded text-xs text-purple-700 cursor-pointer hover:bg-purple-100"
+                                    onClick={() => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: primaryHypId })}
+                                >
+                                    {primaryHypId}
+                                </span>
+                            );
+                        })()}
+                    </ReviewFieldWrapper>
                 </div>
 
                 {/* Tasks Section */}
