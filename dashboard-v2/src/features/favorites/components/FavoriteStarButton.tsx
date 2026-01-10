@@ -1,25 +1,35 @@
 import { useFavorites } from '../hooks/useFavorites';
+import type { EntityType } from '../types';
 
 interface FavoriteStarButtonProps {
-  taskId: string;
+  entityId: string;
+  entityType: EntityType;
   size?: 'sm' | 'md';
   className?: string;
 }
 
-export function FavoriteStarButton({ taskId, size = 'sm', className = '' }: FavoriteStarButtonProps) {
+export function FavoriteStarButton({ entityId, entityType, size = 'sm', className = '' }: FavoriteStarButtonProps) {
   const { isFavorited, toggleFavorite } = useFavorites();
-  const favorited = isFavorited(taskId);
+  const favorited = isFavorited(entityId, entityType);
   const sizeClasses = { sm: 'w-3 h-3', md: 'w-4 h-4' };
-  
+
+  // Color mapping with fallback (static classes for Tailwind JIT)
+  const colorMap: Record<EntityType, { filled: string; unfilled: string; hover: string }> = {
+    task: { filled: 'text-amber-400', unfilled: 'text-zinc-300', hover: 'hover:text-amber-400' },
+    project: { filled: 'text-blue-400', unfilled: 'text-zinc-300', hover: 'hover:text-blue-400' },
+    program: { filled: 'text-purple-400', unfilled: 'text-zinc-300', hover: 'hover:text-purple-400' }
+  };
+  const colors = colorMap[entityType] || colorMap.task; // Fallback to task colors
+
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleFavorite(taskId);
+    toggleFavorite(entityId, entityType);
   };
 
   return (
     <button
       onClick={handleClick}
-      className={`${sizeClasses[size]} ${favorited ? 'text-amber-400' : 'text-zinc-300 hover:text-amber-400'} transition-colors ${className}`}
+      className={`${sizeClasses[size]} ${favorited ? colors.filled : colors.unfilled} ${colors.hover} transition-colors ${className}`}
       aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
     >
       {favorited ? (

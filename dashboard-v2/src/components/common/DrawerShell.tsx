@@ -1,4 +1,5 @@
 import { useEffect, useRef, useId, type ReactNode } from 'react';
+import { FavoriteStarButton, type EntityType } from '@/features/favorites';
 
 export interface DrawerShellProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ export interface DrawerShellProps {
   onBack?: () => void;
   showBackButton?: boolean;
   footer?: ReactNode;
+  entityId?: string;
+  entityType?: EntityType;
 }
 
 /**
@@ -39,7 +42,9 @@ export function DrawerShell({
   showExpandButton = false,
   onBack,
   showBackButton = false,
-  footer
+  footer,
+  entityId,
+  entityType
 }: DrawerShellProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -174,6 +179,9 @@ export function DrawerShell({
             </div>
           </div>
           <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+            {entityId && entityType && (
+              <FavoriteStarButton entityId={entityId} entityType={entityType} size="md" />
+            )}
             {showExpandButton && onToggleExpand && (
               <button
                 onClick={onToggleExpand}

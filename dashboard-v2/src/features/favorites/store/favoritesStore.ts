@@ -1,23 +1,70 @@
-import type { FavoritesStorage } from '../types';
-import { FAVORITES_STORAGE_KEY, FAVORITES_SCHEMA_VERSION, MAX_FAVORITES } from '../constants';
+import type { FavoritesStorage, EntityType } from '../types';
+import { FAVORITES_STORAGE_KEY, FAVORITES_SCHEMA_VERSION, MAX_FAVORITES_PER_TYPE } from '../constants';
 
 type Listener = () => void;
 let state: FavoritesStorage = loadFromStorage();
 let listeners: Set<Listener> = new Set();
 
+const VALID_ENTITY_TYPES = new Set<string>(['task', 'project', 'program']);
+
+function isValidEntityType(type: unknown): type is EntityType {
+  return typeof type === 'string' && VALID_ENTITY_TYPES.has(type);
+}
+
+function migrateV1toV2(oldData: any): FavoritesStorage {
+  // Handle malformed taskIds
+  const taskIds = Array.isArray(oldData?.taskIds) ? oldData.taskIds : [];
+
+  return {
+    _schemaVersion: FAVORITES_SCHEMA_VERSION,
+    entityIds: {
+      task: taskIds, // Allow overflow - preserve all favorites
+      project: [],
+      program: []
+    }
+  };
+}
+
 function loadFromStorage(): FavoritesStorage {
-  if (typeof window === 'undefined') return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
+  if (typeof window === 'undefined') {
+    return { _schemaVersion: FAVORITES_SCHEMA_VERSION, entityIds: { task: [], project: [], program: [] } };
+  }
+
   try {
     const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
-    if (!raw) return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
-    const parsed: FavoritesStorage = JSON.parse(raw);
-    if (parsed._schemaVersion !== FAVORITES_SCHEMA_VERSION) {
-      return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: parsed.taskIds || [] };
+    if (!raw) {
+      return { _schemaVersion: FAVORITES_SCHEMA_VERSION, entityIds: { task: [], project: [], program: [] } };
     }
-    return parsed;
+
+    const parsed = JSON.parse(raw);
+
+    // Handle v1 or unknown version
+    if (!parsed._schemaVersion || parsed._schemaVersion < FAVORITES_SCHEMA_VERSION) {
+      const migrated = migrateV1toV2(parsed);
+      saveToStorage(migrated); // Save migrated version immediately
+      return migrated;
+    }
+
+    // Handle malformed v2 data
+    if (parsed._schemaVersion === FAVORITES_SCHEMA_VERSION) {
+      const entityIds = parsed.entityIds || {};
+      return {
+        _schemaVersion: FAVORITES_SCHEMA_VERSION,
+        entityIds: {
+          task: Array.isArray(entityIds.task) ? entityIds.task : [],
+          project: Array.isArray(entityIds.project) ? entityIds.project : [],
+          program: Array.isArray(entityIds.program) ? entityIds.program : []
+        }
+      };
+    }
+
+    // Future version - return empty
+    console.warn('[Favorites] Unknown schema version, resetting');
+    return { _schemaVersion: FAVORITES_SCHEMA_VERSION, entityIds: { task: [], project: [], program: [] } };
+
   } catch (error) {
     console.warn('[Favorites] Failed to load, resetting:', error);
-    return { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
+    return { _schemaVersion: FAVORITES_SCHEMA_VERSION, entityIds: { task: [], project: [], program: [] } };
   }
 }
 
@@ -34,12 +81,32 @@ function emitChange(): void {
   listeners.forEach((listener) => listener());
 }
 
-export function getSnapshot(): string[] {
-  return state.taskIds;
+export function getSnapshot(entityType?: EntityType): string[] {
+  if (!entityType) {
+    // Backward compat: return task favorites when no type specified
+    return state.entityIds.task;
+  }
+
+  // Runtime validation
+  if (!isValidEntityType(entityType)) {
+    console.warn(`[Favorites] Invalid entityType "${entityType}", returning empty array`);
+    return [];
+  }
+
+  return state.entityIds[entityType];
+}
+
+// Composite snapshot for hook subscription (triggers on ANY favorite change)
+export function getCompositeSnapshot(): FavoritesStorage {
+  return state;
 }
 
 export function getServerSnapshot(): string[] {
   return [];
+}
+
+export function getCompositeServerSnapshot(): FavoritesStorage {
+  return { _schemaVersion: FAVORITES_SCHEMA_VERSION, entityIds: { task: [], project: [], program: [] } };
 }
 
 export function subscribe(listener: Listener): () => void {
@@ -57,41 +124,72 @@ export function subscribe(listener: Listener): () => void {
   };
 }
 
-export function toggleFavorite(taskId: string): boolean {
-  const currentIds = state.taskIds;
-  const index = currentIds.indexOf(taskId);
+export function toggleFavorite(entityId: string, entityType: EntityType): boolean {
+  // Runtime validation
+  if (!isValidEntityType(entityType)) {
+    console.error(`[Favorites] Invalid entityType "${entityType}"`);
+    return false;
+  }
+
+  const currentIds = state.entityIds[entityType];
+  const index = currentIds.indexOf(entityId);
+
   if (index >= 0) {
-    state = { ...state, taskIds: currentIds.filter((id) => id !== taskId) };
+    // Remove
+    state = {
+      ...state,
+      entityIds: {
+        ...state.entityIds,
+        [entityType]: currentIds.filter((id) => id !== entityId)
+      }
+    };
     saveToStorage(state);
     emitChange();
     return false;
   } else {
-    if (currentIds.length >= MAX_FAVORITES) {
-      console.warn(`[Favorites] Cannot add more than ${MAX_FAVORITES} favorites`);
+    // Add - check per-type limit
+    if (currentIds.length >= MAX_FAVORITES_PER_TYPE) {
+      console.warn(`[Favorites] Cannot add more than ${MAX_FAVORITES_PER_TYPE} ${entityType} favorites`);
       return false;
     }
-    state = { ...state, taskIds: [...currentIds, taskId] };
+
+    state = {
+      ...state,
+      entityIds: {
+        ...state.entityIds,
+        [entityType]: [...currentIds, entityId]
+      }
+    };
     saveToStorage(state);
     emitChange();
     return true;
   }
 }
 
-export function isFavorited(taskId: string): boolean {
-  return state.taskIds.includes(taskId);
+export function isFavorited(entityId: string, entityType: EntityType): boolean {
+  if (!isValidEntityType(entityType)) return false;
+  return state.entityIds[entityType].includes(entityId);
 }
 
-export function pruneFavorites(validTaskIds: Set<string>): void {
-  const pruned = state.taskIds.filter((id) => validTaskIds.has(id));
-  if (pruned.length !== state.taskIds.length) {
-    state = { ...state, taskIds: pruned };
+export function pruneFavorites(validIds: Set<string>, entityType: EntityType): void {
+  if (!isValidEntityType(entityType)) return;
+
+  const pruned = state.entityIds[entityType].filter((id) => validIds.has(id));
+  if (pruned.length !== state.entityIds[entityType].length) {
+    state = {
+      ...state,
+      entityIds: {
+        ...state.entityIds,
+        [entityType]: pruned
+      }
+    };
     saveToStorage(state);
     emitChange();
   }
 }
 
 export function resetFavorites(): void {
-  state = { _schemaVersion: FAVORITES_SCHEMA_VERSION, taskIds: [] };
+  state = { _schemaVersion: FAVORITES_SCHEMA_VERSION, entityIds: { task: [], project: [], program: [] } };
   if (typeof window !== 'undefined') {
     try { window.localStorage.removeItem(FAVORITES_STORAGE_KEY); }
     catch (error) { console.error('[Favorites] Failed to remove:', error); }

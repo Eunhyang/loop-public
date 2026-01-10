@@ -1,23 +1,33 @@
 import { useSyncExternalStore, useCallback } from 'react';
+import type { EntityType } from '../types';
 import {
-  getSnapshot,
-  getServerSnapshot,
+  getCompositeSnapshot,
+  getCompositeServerSnapshot,
   subscribe,
   toggleFavorite as storeToggleFavorite,
+  isFavorited as storeIsFavorited,
   pruneFavorites as storePruneFavorites,
 } from '../store/favoritesStore';
 
 export interface UseFavoritesReturn {
-  favoriteIds: string[];
-  toggleFavorite: (taskId: string) => boolean;
-  isFavorited: (taskId: string) => boolean;
-  pruneFavorites: (validTaskIds: Set<string>) => void;
+  favoriteIds: string[]; // Deprecated: maps to task favorites for backward compat
+  getFavoriteIds: (entityType: EntityType) => string[];
+  toggleFavorite: (entityId: string, entityType: EntityType) => boolean;
+  isFavorited: (entityId: string, entityType: EntityType) => boolean;
+  pruneFavorites: (validIds: Set<string>, entityType: EntityType) => void;
 }
 
 export function useFavorites(): UseFavoritesReturn {
-  const favoriteIds = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const toggleFavorite = useCallback((taskId: string) => storeToggleFavorite(taskId), []);
-  const isFavorited = useCallback((taskId: string) => favoriteIds.includes(taskId), [favoriteIds]);
-  const pruneFavorites = useCallback((validTaskIds: Set<string>) => storePruneFavorites(validTaskIds), []);
-  return { favoriteIds, toggleFavorite, isFavorited, pruneFavorites };
+  // Subscribe to composite snapshot (triggers on ANY favorite change, not just tasks)
+  const compositeState = useSyncExternalStore(subscribe, getCompositeSnapshot, getCompositeServerSnapshot);
+
+  // Extract task favorites for backward compat
+  const favoriteIds = compositeState.entityIds.task;
+
+  const getFavoriteIds = useCallback((entityType: EntityType) => compositeState.entityIds[entityType] || [], [compositeState]);
+  const toggleFavorite = useCallback((entityId: string, entityType: EntityType) => storeToggleFavorite(entityId, entityType), []);
+  const isFavorited = useCallback((entityId: string, entityType: EntityType) => storeIsFavorited(entityId, entityType), []);
+  const pruneFavorites = useCallback((validIds: Set<string>, entityType: EntityType) => storePruneFavorites(validIds, entityType), []);
+
+  return { favoriteIds, getFavoriteIds, toggleFavorite, isFavorited, pruneFavorites };
 }
