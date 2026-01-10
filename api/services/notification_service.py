@@ -4,10 +4,12 @@ Discord Notification Service
 Entity 생성 시 Discord 채널로 알림 전송
 
 tsk-discord-notify-01: Discord webhook 기반 알림 시스템
+tsk-023-1768045340391: Comment Discord 알림 내용 표시 및 링크 수정
 """
 
 import os
 import logging
+import re
 import threading
 from datetime import datetime
 from typing import Optional, Dict, Any
@@ -36,8 +38,8 @@ def escape_discord_mentions(text: str) -> str:
     """
     Escape Discord special mentions to prevent unintended pings
 
-    Converts @everyone and @here to use zero-width space to prevent pings
-    while keeping the visual appearance
+    Converts @everyone, @here, and all @ mentions to use zero-width space
+    to prevent pings while keeping the visual appearance
 
     Args:
         text: Input text potentially containing mentions
@@ -45,8 +47,18 @@ def escape_discord_mentions(text: str) -> str:
     Returns:
         Text with escaped mentions
     """
+    if not text:
+        return text
+
+    # Escape @everyone and @here first (specific cases)
     text = text.replace("@everyone", "@\u200beveryone")
     text = text.replace("@here", "@\u200bhere")
+
+    # Escape all other @ mentions (user/role/channel pings)
+    # This catches patterns like <@123>, <@&456>, <#789>, and plain @username
+    # Use explicit \u200b in both pattern and replacement for clarity and consistency
+    text = re.sub(r'@(?!\u200b)', '@\u200b', text)
+
     return text
 
 
@@ -183,11 +195,14 @@ def send_entity_created_notification(
     # Special handling for Comment: show content in description
     description = f"**{entity_name}**"
     if entity_type == "Comment" and extra_fields and extra_fields.get("content"):
-        # Escape Discord mentions and limit length
-        content = escape_discord_mentions(str(extra_fields["content"]))
-        if len(content) > 300:
-            content = content[:297] + "..."
-        description = content
+        content = extra_fields.get("content", "")
+        if content:  # Guard against empty content
+            # IMPORTANT: Escape BEFORE truncating to avoid leaving partial mentions
+            content = escape_discord_mentions(str(content))
+            # Truncate after escaping
+            if len(content) > 300:
+                content = content[:297] + "..."
+            description = content
 
     # Add extra fields (excluding content for Comments as it's in description)
     if extra_fields:
