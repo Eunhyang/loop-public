@@ -4,9 +4,9 @@ entity_id: tsk-n8n-23
 entity_name: n8n - Entity Validator Auto-Apply 기능
 created: 2026-01-11
 updated: '2026-01-11'
-revision_count: 2
-status: doing
-closed: null
+revision_count: 3
+status: done
+closed: '2026-01-11'
 parent_id: prj-n8n
 project_id: prj-n8n
 aliases:
@@ -34,7 +34,7 @@ priority_flag: high
 
 # n8n - Entity Validator Auto-Apply 기능
 
-> Task ID: `tsk-n8n-23` | Project: `prj-n8n` | Status: doing
+> Task ID: `tsk-n8n-23` | Project: `prj-n8n` | Status: done
 
 ## 목표
 
@@ -389,6 +389,26 @@ def create_auto_applied_review(entity_id, entity_type, ...) -> str:
 ---
 
 ## Notes
+
+### Work Log
+
+#### 2026-01-11 - Task Complete
+**Summary**: All implementation issues resolved, manual n8n workflow update documented
+
+**Results**:
+- Rev.2 code implementation complete (Issues 5: default confidence logic)
+- Manual n8n workflow update process documented (Issues 4, 6)
+- Testing checklist provided for post-deployment verification
+- Task marked as done
+
+**Manual Steps Required**:
+1. Update n8n workflow UI: mode "pending" → "auto_apply"
+2. Add source_workflow field to HTTP Request nodes
+3. Execute testing checklist
+
+**Status**: done
+
+---
 
 ### Rev.2 Implementation Complete (2026-01-11)
 
