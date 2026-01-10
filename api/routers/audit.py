@@ -119,6 +119,11 @@ def log_entity_action(
                 extra_fields["Assignee"] = details["assignee"]
             if "owner" in details:
                 extra_fields["Owner"] = details["owner"]
+            # Comment용 target 정보 (tsk-023-1768030620896)
+            if "target_type" in details:
+                extra_fields["target_type"] = details["target_type"]
+            if "target_entity" in details:
+                extra_fields["target_entity"] = details["target_entity"]
 
         send_entity_created_notification(
             entity_type=entity_type,
