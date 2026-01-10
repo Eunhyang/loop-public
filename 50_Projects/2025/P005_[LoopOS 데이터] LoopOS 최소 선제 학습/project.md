@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-005
 entity_name: LoopOS - 최소 선제 학습
 created: 2025-12-18
-updated: '2025-12-27'
+updated: '2026-01-10'
 status: planning
 parent_id: trk-2
 aliases:
@@ -26,7 +26,6 @@ condition_contributes:
   weight: 0.2
   description: 데이터 역량이 cond-b 달성 가속 (간접)
 track_contributes: []
-
 expected_impact:
   statement: 이 프로젝트가 성공하면 LoopOS 데이터 파이프라인 구축 역량이 확보됨이 증명된다
   metric: 학습 완료율
@@ -41,7 +40,7 @@ conditions_3y:
 tags: []
 priority_flag: medium
 ---
-# [LoopOS 데이터] LoopOS 최소 선제 학습
+# \[LoopOS 데이터\] LoopOS 최소 선제 학습
 
 > Project ID: `prj-005` | Track: `trk-2` | Status: planning
 
@@ -59,9 +58,8 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
+- \[\[Track_2_Data\]\] - 소속 Track
 
 ---
 
-**Created**: 2025-12-18
-**Owner**: 김은향
+**Created**: 2025-12-18 **Owner**: 김은향
