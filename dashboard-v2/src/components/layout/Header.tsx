@@ -6,6 +6,7 @@ import { authStorage } from '@/features/auth/storage';
 import { httpClient } from '@/services/http';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
 import { ActivityToggle } from '@/features/activity';
+import { usePendingReviews } from '@/features/pending/queries';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -21,6 +22,10 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
   const { openEntityDrawer } = useUi();
   const { togglePanel, isPanelOpen } = useFilterContext();
   const [reloadState, setReloadState] = useState<ReloadState>('idle');
+  const { data: pendingReviews = [] } = usePendingReviews();
+
+  // Count pending status reviews only
+  const pendingCount = pendingReviews.filter(r => r.status === 'pending').length;
 
   // Use isAdmin prop in Program button visibility
   const showProgramButton = isAdmin;
@@ -100,7 +105,16 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
           <NavLink to="/kanban" className={navLinkClass}>Kanban</NavLink>
           <NavLink to="/calendar" className={navLinkClass}>Calendar</NavLink>
           <NavLink to="/graph" className={navLinkClass}>Graph</NavLink>
-          <NavLink to="/pending" className={navLinkClass}>Review</NavLink>
+          <NavLink to="/pending" className={navLinkClass}>
+            <span className="flex items-center gap-1.5">
+              Review
+              {pendingCount > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-semibold text-white bg-red-500 rounded-full">
+                  {pendingCount > 99 ? '99+' : pendingCount}
+                </span>
+              )}
+            </span>
+          </NavLink>
         </nav>
       </div>
 
