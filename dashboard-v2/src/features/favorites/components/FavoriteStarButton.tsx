@@ -22,7 +22,7 @@ export function FavoriteStarButton({ taskId, size = 'sm', className = '' }: Favo
   return (
     <button
       onClick={handleClick}
-      className={\`\${sizeClasses[size]} \${favorited ? 'text-amber-400' : 'text-zinc-300 hover:text-amber-400'} transition-colors \${className}\`}
+      className={`${sizeClasses[size]} ${favorited ? 'text-amber-400' : 'text-zinc-300 hover:text-amber-400'} transition-colors ${className}`}
       aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
       title={favorited ? 'Remove from favorites' : 'Add to favorites'}
     >

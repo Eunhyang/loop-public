@@ -127,6 +127,19 @@ export const useDeleteTask = () => {
     });
 };
 
+export const useDuplicateTask = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: string) => taskApi.duplicateTask(id),
+        onSuccess: () => {
+            // Invalidate all task-related queries to show new task
+            queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
+            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+        },
+    });
+};
+
 // Attachment hooks
 export const useAttachments = (taskId: string | null) => {
     return useQuery({

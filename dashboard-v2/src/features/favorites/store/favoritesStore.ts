@@ -87,7 +87,7 @@ export function toggleFavorite(taskId: string): boolean {
     return false;
   } else {
     if (currentIds.length >= MAX_FAVORITES) {
-      console.warn(\`[Favorites] Cannot add more than \${MAX_FAVORITES} favorites\`);
+      console.warn(`[Favorites] Cannot add more than ${MAX_FAVORITES} favorites`);
       return false;
     }
     const newIds = [...currentIds.filter((id) => id !== taskId), taskId];
@@ -105,7 +105,7 @@ export function isFavorited(taskId: string): boolean {
 export function pruneFavorites(validTaskIds: Set<string>): void {
   const pruned = state.taskIds.filter((id) => validTaskIds.has(id));
   if (pruned.length !== state.taskIds.length) {
-    console.log(\`[Favorites] Pruned \${state.taskIds.length - pruned.length} stale favorites\`);
+    console.log(`[Favorites] Pruned ${state.taskIds.length - pruned.length} stale favorites`);
     state = { ...state, taskIds: pruned };
     saveToStorage(state);
     emitChange();

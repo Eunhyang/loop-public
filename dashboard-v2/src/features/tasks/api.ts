@@ -29,6 +29,9 @@ export const taskApi = {
     deleteTask: (id: string) =>
         httpClient.delete(`/api/tasks/${id}`),
 
+    duplicateTask: (id: string) =>
+        httpClient.post<{ new_task_id: string; source_task_id: string }>(`/api/tasks/${id}/duplicate`),
+
     // Attachment methods
     getAttachments: (taskId: string) =>
         httpClient.get<AttachmentListResponse>(`/api/tasks/${taskId}/attachments`).then(res => res.data),

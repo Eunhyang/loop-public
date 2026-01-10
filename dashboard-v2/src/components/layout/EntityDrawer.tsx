@@ -1,7 +1,7 @@
 import { useUi } from '@/contexts/UiContext';
 import { DrawerShell } from '@/components/common/DrawerShell';
 import { TaskForm } from '@/features/tasks/components/TaskForm';
-import { useDeleteTask } from '@/features/tasks/queries';
+import { useDeleteTask, useDuplicateTask } from '@/features/tasks/queries';
 import { ProjectForm } from '@/features/projects/components/ProjectForm';
 import { useDeleteProject } from '@/features/projects/queries';
 import { ProgramForm } from '@/features/programs/components/ProgramForm';
@@ -22,8 +22,9 @@ import { ConditionForm } from '@/features/strategy/components/ConditionForm';
  * - hypothesis (CRUD)
  */
 export function EntityDrawer() {
-  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand, canGoBack, popDrawer } = useUi();
+  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand, canGoBack, popDrawer, openEntityDrawer } = useUi();
   const { mutate: deleteTask } = useDeleteTask();
+  const { mutate: duplicateTask } = useDuplicateTask();
   const { mutate: deleteProject } = useDeleteProject();
   const { mutate: deleteProgram } = useDeleteProgram();
 
@@ -91,6 +92,18 @@ export function EntityDrawer() {
     }
   };
 
+  // Handle duplicate action (Task only)
+  const handleDuplicate = () => {
+    if (!id || type !== 'task') return;
+    duplicateTask(id, {
+      onSuccess: (response) => {
+        const newTaskId = response.data.new_task_id;
+        // Open the duplicated task in edit mode
+        openEntityDrawer({ type: 'task', mode: 'edit', id: newTaskId });
+      }
+    });
+  };
+
   // Render footer (task/project/program edit mode)
   const renderFooter = () => {
     if (mode !== 'edit') return undefined;
@@ -100,12 +113,22 @@ export function EntityDrawer() {
 
     return (
       <div className="flex justify-between items-center px-6 py-4 border-t border-gray-200 bg-gray-50">
-        <button
-          onClick={handleDelete}
-          className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors font-medium"
-        >
-          Delete {entityLabel}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleDelete}
+            className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors font-medium"
+          >
+            Delete {entityLabel}
+          </button>
+          {type === 'task' && (
+            <button
+              onClick={handleDuplicate}
+              className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors font-medium"
+            >
+              Duplicate
+            </button>
+          )}
+        </div>
         <button
           onClick={closeEntityDrawer}
           className="px-3 py-1.5 text-sm text-zinc-500 hover:text-zinc-900 hover:bg-gray-100 rounded transition-colors"
