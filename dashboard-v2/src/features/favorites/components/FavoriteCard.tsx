@@ -48,7 +48,7 @@ export function FavoriteCard({
   return (
     <button
       onClick={onCardClick}
-      className={`flex items-center gap-1.5 px-2.5 py-1 text-xs bg-white border ${colors.border} rounded-md hover:bg-zinc-50 transition-all group max-w-[200px] shrink-0 ${
+      className={`relative flex items-center gap-1.5 px-2.5 py-1 text-xs bg-white border ${colors.border} rounded-md hover:bg-zinc-50 transition-all group max-w-[200px] shrink-0 ${
         isFilterActive ? `ring-2 ring-offset-1 ${colors.activeBg}` : ''
       } ${hasDrawerIcon ? 'pr-7' : ''}`}
       title={entity.entity_name}
