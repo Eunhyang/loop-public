@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-n8n
 entity_name: n8n Vault 자동화
 created: 2025-12-27
-updated: '2026-01-06'
+updated: '2026-01-11'
 status: doing
 program_id: pgm-vault-system
 cycle: '2025'
@@ -15,9 +15,9 @@ expected_impact:
   impact_magnitude: mid
   confidence: 0.7
   contributes:
-    - to: cond-e
-      weight: 0.3
-      description: "Vault 운영 효율화를 통한 조직 역량 강화"
+  - to: cond-e
+    weight: 0.3
+    description: Vault 운영 효율화를 통한 조직 역량 강화
 realized_impact:
   verdict: null
   outcome: null
@@ -68,7 +68,7 @@ n8n 워크플로우 엔진을 활용하여 LOOP Vault의 다양한 자동화 작
 
 ## 워크플로우 JSON 위치
 
-> **`_build/n8n_workflows/`** - 모든 n8n 워크플로우 JSON 파일
+> `_build/n8n_workflows/` - 모든 n8n 워크플로우 JSON 파일
 
 ```
 _build/n8n_workflows/
@@ -84,7 +84,7 @@ _build/n8n_workflows/
 ## 현재 워크플로우
 
 | 워크플로우 | 파일명 | 설명 | 상태 |
-|-----------|--------|------|------|
+| --- | --- | --- | --- |
 | Entity Validator/Autofiller | `entity_validator_autofiller.json` | Task/Project 빠진 필드 LLM 추론 | 운영 중 |
 | Impact Rebuild | `workflow_c_impact_rebuild.json` | Decision 기반 Impact Score 재계산 | 운영 중 |
 | Hypothesis Seeder | `workflow_d_hypothesis_seeder.json` | Project에서 Hypothesis 초안 생성 | 운영 중 |
@@ -97,7 +97,7 @@ _build/n8n_workflows/
 > **Base URL**: `https://mcp.sosilab.synology.me`
 
 | 엔드포인트 | Method | 용도 | 사용 워크플로우 |
-|-----------|--------|------|----------------|
+| --- | --- | --- | --- |
 | `/api/tasks` | GET | Task 목록 조회 | Entity Validator |
 | `/api/projects` | GET | Project 목록 조회 | Entity Validator, Hypothesis Seeder |
 | `/api/projects/{id}` | GET | 단일 Project 조회 | Entity Validator |
@@ -129,7 +129,7 @@ _build/n8n_workflows/
 ### 로그 확인
 
 | 명령 | 설명 |
-|-----|------|
+| --- | --- |
 | `/n8n pending` | 최근 pending reviews 10개 (source_workflow 포함) |
 | `/n8n pending --workflow entity-validator` | 특정 워크플로우 필터 |
 | `/n8n pending --count` | 개수만 표시 |
@@ -138,7 +138,7 @@ _build/n8n_workflows/
 ### 워크플로우 트리거
 
 | 명령 | 설명 |
-|-----|------|
+| --- | --- |
 | `/n8n trigger entity-validator --project prj-xxx` | Entity Validator 실행 |
 | `/n8n trigger impact-rebuild` | Impact Score 재계산 |
 | `/n8n trigger youtube-weekly` | YouTube Weekly 라운드 생성 |
@@ -167,7 +167,7 @@ _build/n8n_workflows/
 > **모든 LOOP API 호출 워크플로우는 반드시 아래 Credential 연결 필요**
 
 | Credential 이름 | 타입 | 헤더 | 용도 |
-|----------------|------|------|------|
+| --- | --- | --- | --- |
 | `LOOP API Token` | Header Auth | `x-api-token` | LOOP API 인증 |
 
 ### 워크플로우 설정 방법
@@ -191,21 +191,25 @@ _build/n8n_workflows/
 ### 새 워크플로우 추가 절차
 
 1. **JSON 파일 생성**
+
    ```
    _build/n8n_workflows/{workflow_name}.json
    ```
 
 2. **필수 설정**
+
    - HTTP Request 노드: `authentication: predefinedCredentialType`
    - `nodeCredentialType: httpHeaderAuth`
    - `onError: continueRegularOutput` (에러 시에도 워크플로우 계속)
 
 3. **n8n에서 import**
+
    - n8n UI → Import from file
    - `LOOP API Token` credential 수동 연결
    - 활성화 및 테스트
 
 4. **문서 업데이트**
+
    - 이 파일의 "현재 워크플로우" 테이블에 추가
    - 사용하는 API 엔드포인트 기록
 
@@ -234,7 +238,7 @@ _build/n8n_workflows/
 ### 네이밍 컨벤션
 
 | 구분 | 형식 | 예시 |
-|------|------|------|
+| --- | --- | --- |
 | 워크플로우 파일 | `{기능명}.json` | `youtube_weekly_round_creator.json` |
 | 워크플로우 이름 | `{기능}-{동작}` | `youtube-weekly-round-creator` |
 | 노드 ID | `{타입}-{용도}` | `http-create-round`, `code-success-msg` |
@@ -244,7 +248,7 @@ _build/n8n_workflows/
 ## Tasks
 
 | ID | Name | Status |
-|----|------|--------|
+| --- | --- | --- |
 | tsk-n8n-01 | n8n Docker 배포 파이프라인 | done |
 | tsk-n8n-02 | 자동화 워크플로우 구축 | done |
 | tsk-n8n-03 | Project Impact Score 자동화 | doing |
@@ -263,11 +267,10 @@ _build/n8n_workflows/
 
 ## 참고 문서
 
-- [[pgm-vault-system]] - 소속 Program
-- [[trk-2]] - 소속 Track
+- \[\[pgm-vault-system\]\] - 소속 Program
+- \[\[trk-2\]\] - 소속 Track
 - https://docs.n8n.io/ - n8n 공식 문서
 
 ---
 
-**Created**: 2025-12-27
-**Owner**: 김은향
+**Created**: 2025-12-27 **Owner**: 김은향
