@@ -206,6 +206,7 @@ class AuthMiddleware:
                             "role": jwt_payload.get("role", "member"),
                             "scope": jwt_payload.get("scope", "mcp:read"),
                             "user_id": jwt_payload.get("sub"),
+                            "email": jwt_payload.get("email"),
                         }
                         await self.app(scope, receive, send)
                         return
@@ -224,6 +225,7 @@ class AuthMiddleware:
                         "role": "admin",
                         "scope": "mcp:read mcp:write mcp:exec mcp:admin admin:read admin:write",
                         "user_id": "static_token",
+                        "email": None,
                     }
                     await self.app(scope, receive, send)
                     return
@@ -253,11 +255,12 @@ class AuthMiddleware:
                         success=True,
                         details=f"scope={user_scope}, role={user_role}"
                     )
-                    # RBAC: scope에 role/scope 저장 (files.py 등에서 접근)
+                    # RBAC: scope에 role/scope/email 저장 (files.py, comments.py 등에서 접근)
                     scope["state"] = {
                         "role": user_role,
                         "scope": user_scope,
                         "user_id": jwt_payload.get("sub"),
+                        "email": jwt_payload.get("email"),
                     }
                     await self.app(scope, receive, send)
                     return
