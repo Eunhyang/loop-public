@@ -126,13 +126,13 @@ button:focus-visible {
 /* Drawer icon on filter buttons */
 .drawer-icon {
   position: absolute;
-  right: 4px;
+  right: 2px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 9px;
+  font-size: 10.5px;
   font-style: italic;
   font-weight: 600;
-  opacity: 0.3;
+  opacity: 0.45;
   cursor: pointer;
   padding: 1px 4px;
   border-radius: 50%;
