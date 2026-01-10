@@ -216,10 +216,62 @@ export const PendingPage = () => {
 
       case 'Project':
         return (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            <div className="text-center">
-              <p className="font-semibold">Project review mode</p>
-              <p className="text-sm mt-1">Not yet implemented</p>
+          <div className="h-full flex flex-col">
+            {/* Header */}
+            <div className="flex-shrink-0 px-6 pt-4 pb-2 border-b">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-sm font-medium">
+                  {selectedReview.entity_type}
+                </span>
+                <button
+                  onClick={() => handleRelationClick(selectedReview.entity_id, selectedReview.entity_type)}
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  {selectedReview.entity_id}
+                </button>
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">{selectedReview.entity_name}</h2>
+              <div className="text-xs text-gray-500 mt-1">
+                {new Date(selectedReview.created_at).toLocaleString()}
+              </div>
+            </div>
+
+            {/* ProjectForm in review mode */}
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <ProjectForm
+                mode="review"
+                id={selectedReview.entity_id}
+                suggestedFields={selectedReview.suggested_fields}
+                reasoning={selectedReview.reasoning}
+                onRelationClick={handleRelationClick}
+                onFieldChange={handleFieldChange}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex-shrink-0 p-4 border-t bg-gray-50 flex justify-end gap-3">
+              <button
+                onClick={handleDelete}
+                disabled={isLoadingAction}
+                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50"
+                title="Remove this review suggestion (Project will not be affected)"
+              >
+                Dismiss
+              </button>
+              <button
+                onClick={handleReject}
+                disabled={isLoadingAction}
+                className="px-4 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+              >
+                Reject
+              </button>
+              <button
+                onClick={handleApprove}
+                disabled={isLoadingAction}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {approveMutation.isPending ? 'Approving...' : 'Approve'}
+              </button>
             </div>
           </div>
         );

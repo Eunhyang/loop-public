@@ -8,16 +8,32 @@ import { memberColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import type { Project } from '@/types';
 import { MarkdownEditor } from '@/components/MarkdownEditor/MarkdownEditor';
+import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
+import { useReviewMode } from '@/hooks/useReviewMode';
 
 interface ProjectFormProps {
-    mode: 'create' | 'edit' | 'view';
+    mode: 'create' | 'edit' | 'view' | 'review';
     id?: string;
     prefill?: Partial<Project>;
+    // Review mode props (optional, only used when mode='review')
+    suggestedFields?: Record<string, unknown>;
+    reasoning?: Record<string, string>;
+    onRelationClick?: (id: string, type: string) => void;
+    onFieldChange?: (field: string, value: unknown) => void;
 }
 
-export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
+export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onFieldChange }: ProjectFormProps) => {
     const isReadOnly = mode === 'view';
-    const { data: project, isLoading: isLoadingProject } = useProject(mode === 'edit' || mode === 'view' ? id || null : null);
+    const isReviewMode = mode === 'review';
+    const { data: project, isLoading: isLoadingProject } = useProject(mode === 'edit' || mode === 'view' || mode === 'review' ? id || null : null);
+
+    // Review mode hook (always called, but only active when mode='review')
+    const reviewMode = useReviewMode({
+        enabled: isReviewMode,
+        entityData: project as Record<string, unknown> | null | undefined,
+        suggestedFields,
+        reasoning,
+    });
     const { mutate: createProject, isPending, error } = useCreateProject();
     const { mutate: updateProject } = useUpdateProject();
     const { data: dashboardData } = useDashboardInit();
@@ -160,9 +176,24 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
             );
         }
 
-        const handleUpdate = (field: keyof Project, value: any) => {
-            if (!id) return;
-            updateProject({ id, data: { [field]: value } });
+        // Helper: Handle field change (review mode calls onFieldChange + reviewMode.setFieldValue)
+        const handleFieldChange = (field: keyof Project, value: any) => {
+            if (isReviewMode) {
+                onFieldChange?.(field, value);
+                reviewMode?.setFieldValue(field, value);
+            } else {
+                // edit mode: direct update
+                if (!id) return;
+                updateProject({ id, data: { [field]: value } });
+            }
+        };
+
+        // Helper: Get field value (review mode uses reviewMode.getFieldValue, others use project directly)
+        const getFieldValue = (field: keyof Project) => {
+            if (isReviewMode && reviewMode) {
+                return reviewMode.getFieldValue(field);
+            }
+            return project?.[field];
         };
 
         const copyId = () => {
@@ -192,8 +223,8 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         <input
                             className="w-full text-xl font-bold bg-transparent border-none focus:ring-0 p-0 placeholder-zinc-400 text-zinc-900"
                             placeholder="Project Title"
-                            defaultValue={project.entity_name}
-                            onBlur={(e) => handleUpdate('entity_name', e.target.value)}
+                            defaultValue={getFieldValue('entity_name') as string}
+                            onBlur={(e) => handleFieldChange('entity_name', e.target.value)}
                         />
                     )}
                 </div>
@@ -202,58 +233,73 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                 <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
                     {/* Status */}
                     <label className="text-zinc-500 py-1">Status</label>
-                    {isReadOnly ? (
-                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                            {project.status || 'todo'}
-                        </span>
-                    ) : (
-                        <select
-                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                            value={project.status}
-                            onChange={(e) => handleUpdate('status', e.target.value)}
-                        >
-                            {statuses.map((s: string) => (
-                                <option key={s} value={s}>{s}</option>
-                            ))}
-                        </select>
-                    )}
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('status'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('status') : undefined}
+                    >
+                        {isReadOnly ? (
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                                {getFieldValue('status') as string || 'todo'}
+                            </span>
+                        ) : (
+                            <select
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                value={getFieldValue('status') as string}
+                                onChange={(e) => handleFieldChange('status', e.target.value)}
+                            >
+                                {statuses.map((s: string) => (
+                                    <option key={s} value={s}>{s}</option>
+                                ))}
+                            </select>
+                        )}
+                    </ReviewFieldWrapper>
 
                     {/* Owner */}
                     <label className="text-zinc-500 py-1">Owner</label>
-                    {isReadOnly ? (
-                        <span className="text-zinc-700 py-1">
-                            {dashboardData?.members?.find((m: any) => m.id === project.owner)?.name || project.owner || 'Unassigned'}
-                        </span>
-                    ) : (
-                        <div className="py-1">
-                            <ChipSelectExpand
-                                primaryOptions={coreMemberOptions}
-                                allOptions={memberOptions}
-                                value={project.owner || ''}
-                                onChange={(value) => handleUpdate('owner', value)}
-                                allowUnassigned
-                                aria-label="Project owner"
-                            />
-                        </div>
-                    )}
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('owner'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('owner') : undefined}
+                    >
+                        {isReadOnly ? (
+                            <span className="text-zinc-700 py-1">
+                                {String(dashboardData?.members?.find((m: any) => m.id === getFieldValue('owner'))?.name || getFieldValue('owner') || 'Unassigned')}
+                            </span>
+                        ) : (
+                            <div className="py-1">
+                                <ChipSelectExpand
+                                    primaryOptions={coreMemberOptions}
+                                    allOptions={memberOptions}
+                                    value={getFieldValue('owner') as string || ''}
+                                    onChange={(value) => handleFieldChange('owner', value)}
+                                    allowUnassigned
+                                    aria-label="Project owner"
+                                />
+                            </div>
+                        )}
+                    </ReviewFieldWrapper>
 
                     {/* Priority */}
                     <label className="text-zinc-500 py-1">Priority</label>
-                    {isReadOnly ? (
-                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                            {project.priority_flag || 'medium'}
-                        </span>
-                    ) : (
-                        <select
-                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                            value={project.priority_flag || 'medium'}
-                            onChange={(e) => handleUpdate('priority_flag', e.target.value)}
-                        >
-                            {priorities.map((p: string) => (
-                                <option key={p} value={p}>{p}</option>
-                            ))}
-                        </select>
-                    )}
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('priority_flag'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('priority_flag') : undefined}
+                    >
+                        {isReadOnly ? (
+                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
+                                {getFieldValue('priority_flag') as string || 'medium'}
+                            </span>
+                        ) : (
+                            <select
+                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                value={getFieldValue('priority_flag') as string || 'medium'}
+                                onChange={(e) => handleFieldChange('priority_flag', e.target.value)}
+                            >
+                                {priorities.map((p: string) => (
+                                    <option key={p} value={p}>{p}</option>
+                                ))}
+                            </select>
+                        )}
+                    </ReviewFieldWrapper>
 
                     {/* Track */}
                     <label className="text-zinc-500 py-1">Track</label>
@@ -273,7 +319,7 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         <select
                             className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                             value={project.parent_id}
-                            onChange={(e) => handleUpdate('parent_id', e.target.value)}
+                            onChange={(e) => handleFieldChange('parent_id', e.target.value)}
                         >
                             <option value="">No Track</option>
                             {dashboardData?.tracks?.map((t: any) => (
@@ -298,7 +344,7 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         <select
                             className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
                             value={project.program_id || ''}
-                            onChange={(e) => handleUpdate('program_id', e.target.value || null)}
+                            onChange={(e) => handleFieldChange('program_id', e.target.value || null)}
                             disabled={isProgramsLoading}
                         >
                             <option value="">No Program</option>
@@ -413,7 +459,7 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                         <textarea
                             className="w-full min-h-[100px] border border-zinc-200 p-3 rounded bg-white text-sm leading-relaxed focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none text-zinc-800"
                             defaultValue={(project as any).hypothesis_text || ''}
-                            onBlur={(e) => handleUpdate('hypothesis_text' as keyof Project, e.target.value)}
+                            onBlur={(e) => handleFieldChange('hypothesis_text' as keyof Project, e.target.value)}
                             placeholder="Enter project hypothesis..."
                         />
                     )}
@@ -425,7 +471,7 @@ export const ProjectForm = ({ mode, id, prefill }: ProjectFormProps) => {
                     <h3 className="text-sm font-semibold text-zinc-500 mb-2">Description</h3>
                     <MarkdownEditor
                         value={(project as any)._body || ''}
-                        onChange={(markdown) => !isReadOnly && handleUpdate('body' as keyof Project, markdown)}
+                        onChange={(markdown) => !isReadOnly && handleFieldChange('body' as keyof Project, markdown)}
                         readOnly={isReadOnly}
                         minHeight="200px"
                         placeholder={isReadOnly ? '' : '프로젝트 설명을 작성하세요...'}

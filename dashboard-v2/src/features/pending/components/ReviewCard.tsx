@@ -42,8 +42,15 @@ export const ReviewCard = ({ review, selected, onClick }: ReviewCardProps) => {
         {fieldCount} field{fieldCount !== 1 ? 's' : ''} suggested
       </div>
 
-      {/* Badges - Workflow, Run ID, AUTO-SYNTH */}
+      {/* Badges - Workflow, Run ID, AUTO-SYNTH, AUTO */}
       <div className="flex flex-wrap gap-1 mt-2">
+        {/* AUTO badge for auto_applied status */}
+        {review.status === 'auto_applied' && (
+          <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">
+            AUTO
+          </span>
+        )}
+
         {/* AUTO-SYNTH badge (replaces workflow badge for retro-synth) */}
         {review.source_workflow === 'retro-synth' ? (
           <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">
