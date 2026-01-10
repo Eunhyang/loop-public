@@ -428,3 +428,110 @@ def delete_task(task_id: str):
         task_id=task_id,
         message="Task deleted successfully"
     )
+
+
+@router.post("/{task_id}/duplicate", response_model=TaskResponse)
+def duplicate_task(task_id: str):
+    """
+    Task 복제 (ID와 날짜만 변경, 나머지 전부 동일)
+
+    변경되는 필드 (4개만):
+    - entity_id: 새 ID 생성
+    - aliases: 새 ID로 교체
+    - created: 오늘 날짜
+    - updated: 오늘 날짜
+
+    나머지 전부 동일: entity_name, status, assignee, priority, type, project_id, tags, conditions_3y, body 등
+    """
+    cache = get_cache()
+
+    # 1. Source task 조회
+    source_frontmatter = cache.get_task(task_id)
+    if not source_frontmatter:
+        raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
+
+    source_path = cache.get_task_path(task_id)
+    if not source_path:
+        raise HTTPException(status_code=404, detail=f"Task path not found: {task_id}")
+
+    # Body 읽기
+    try:
+        with open(source_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        cache.remove_task(task_id)
+        raise HTTPException(status_code=404, detail=f"Task file not found: {task_id}")
+
+    # Frontmatter와 Body 분리
+    match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
+    if not match:
+        raise HTTPException(status_code=500, detail="Invalid frontmatter format")
+
+    body = match.group(2)
+
+    # 2. Frontmatter 복제 - ID/날짜만 변경
+    new_frontmatter = copy.deepcopy(source_frontmatter)
+
+    # 새 Task ID 생성
+    project_id = new_frontmatter.get('project_id')
+    if not project_id:
+        raise HTTPException(status_code=500, detail="Source task has no project_id")
+
+    new_task_id = cache.get_next_task_id(project_id)
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    # 변경되는 필드 (4개만)
+    new_frontmatter['entity_id'] = new_task_id
+    new_frontmatter['aliases'] = [new_task_id]
+    new_frontmatter['created'] = today
+    new_frontmatter['updated'] = today
+
+    # 3. Project 디렉토리 찾기
+    project_dir = cache.get_project_dir(project_id)
+    if not project_dir:
+        raise HTTPException(status_code=404, detail=f"Project not found: {project_id}")
+
+    tasks_dir = project_dir / "Tasks"
+    tasks_dir.mkdir(exist_ok=True)
+
+    # 4. 파일 생성
+    filename = f"{new_task_id}.md"
+    task_file = tasks_dir / filename
+
+    if task_file.exists():
+        raise HTTPException(
+            status_code=500,
+            detail=f"Task file already exists: {filename} (entity_id collision)"
+        )
+
+    new_content = f"""---
+{yaml.dump(new_frontmatter, allow_unicode=True, sort_keys=False)}---
+{body}"""
+
+    with open(task_file, 'w', encoding='utf-8') as f:
+        f.write(new_content)
+
+    # 5. 캐시 업데이트
+    cache.set_task(new_task_id, new_frontmatter, task_file)
+
+    # 6. 감사 로그
+    log_entity_action(
+        action="duplicate",
+        entity_type="Task",
+        entity_id=new_task_id,
+        entity_name=new_frontmatter.get("entity_name", ""),
+        details={
+            "source_task_id": task_id,
+            "project_id": project_id,
+            "assignee": new_frontmatter.get("assignee"),
+            "status": new_frontmatter.get("status")
+        }
+    )
+
+    return TaskResponse(
+        success=True,
+        task_id=new_task_id,
+        file_path=str(task_file.relative_to(VAULT_DIR)),
+        message=f"Task duplicated successfully from {task_id}",
+        task=new_frontmatter
+    )
