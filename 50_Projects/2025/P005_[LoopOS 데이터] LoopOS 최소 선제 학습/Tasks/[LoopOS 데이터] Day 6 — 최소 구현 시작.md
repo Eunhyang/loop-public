@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-005-04
 entity_name: '[LoopOS 데이터] Day 6 — 최소 구현 시작'
 created: 2025-12-18
-updated: '2026-01-06'
+updated: '2026-01-10'
 status: todo
 parent_id: prj-005
 project_id: prj-005
@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-10'
+due: '2026-01-22'
 priority: high
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-10'
+start_date: '2026-01-22'
 ---
 # [LoopOS 데이터] Day 6 — 최소 구현 시작
 
