@@ -13,6 +13,11 @@ import {
  * Note: duration is set to 0 (search.list doesn't include it)
  */
 export function mapSearchItemToVideoSummary(item: YouTubeSearchItemDTO): VideoSummary {
+  // Add null check for snippet (may be undefined in some API responses)
+  if (!item.snippet) {
+    throw new Error(`Missing snippet data for video ${item.id.videoId}`);
+  }
+
   return {
     videoId: item.id.videoId as VideoId,
     title: item.snippet.title,

@@ -357,11 +357,9 @@ export async function getVideoAnalytics(videoId: string): Promise<VideoAnalytics
 
   // Note: impressions and impressionsCtr are NOT available with dimensions=video
   // These metrics are only available at channel level or with specific traffic source dimensions
+  // Removed estimatedMinutesWatched and averageViewPercentage due to incompatibleMetrics API errors
   const metrics = [
     "views",
-    "estimatedMinutesWatched",
-    "averageViewDuration",
-    "averageViewPercentage",
     "likes",
     "comments",
     "shares",
@@ -449,12 +447,11 @@ export async function getRecentVideosWithAnalytics(
 
   // Note: impressions and impressionsCtr are NOT available with dimensions=video
   // These metrics are only available at channel level or with specific traffic source dimensions
+  // Removed estimatedMinutesWatched and averageViewPercentage due to incompatibleMetrics API errors
   // Using fallback simulation for these metrics (see lines 574-588)
   const metrics = [
     "views",
-    "estimatedMinutesWatched",
     "averageViewDuration",
-    "averageViewPercentage",
   ];
 
   // Chunk video IDs to handle YouTube Analytics API limit (50 videos per request)

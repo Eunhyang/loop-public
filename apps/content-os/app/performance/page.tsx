@@ -4,13 +4,24 @@ import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Calendar, Loader2, RefreshCw, AlertCircle } from "lucide-react";
+import { Calendar, Loader2, RefreshCw, AlertCircle, Upload } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   PerformanceFiltersComponent,
   PerformanceTable,
   AuthStatusBanner,
 } from "./components";
+import { SnapshotImport } from "./components/snapshot-import";
+import { SnapshotPreview } from "./components/snapshot-preview";
 import { usePerformanceData } from "./hooks";
+import { useSnapshot } from "./hooks/use-snapshot";
 import { dummyPerformanceData } from "./data/dummy-performance";
 import {
   ContentPerformance,
@@ -18,6 +29,7 @@ import {
   PerformanceSortState,
   PerformanceSortField,
 } from "@/types/performance";
+import { SnapshotParseResult } from "@/types/youtube-snapshot";
 
 function filterPerformanceData(
   data: ContentPerformance[],
@@ -106,6 +118,11 @@ export default function PerformancePage() {
     order: "desc",
   });
 
+  // Snapshot management
+  const [snapshotDialogOpen, setSnapshotDialogOpen] = useState(false);
+  const [parseResult, setParseResult] = useState<SnapshotParseResult | null>(null);
+  const { latestSnapshot, storageStats } = useSnapshot();
+
   // Fetch performance data from API
   const {
     data: performanceResult,
@@ -164,6 +181,25 @@ export default function PerformancePage() {
     refetch();
   };
 
+  // Snapshot handlers
+  const handleParseSuccess = (result: SnapshotParseResult) => {
+    setParseResult(result);
+  };
+
+  const handleSaveSuccess = () => {
+    setSnapshotDialogOpen(false);
+    setParseResult(null);
+    // Optionally show success toast
+  };
+
+  const handleCancel = () => {
+    if (parseResult) {
+      setParseResult(null);
+    } else {
+      setSnapshotDialogOpen(false);
+    }
+  };
+
   return (
     <>
       <Header
@@ -211,6 +247,40 @@ export default function PerformancePage() {
             개
           </div>
           <div className="flex-1" />
+          {latestSnapshot && (
+            <div className="text-xs text-muted-foreground">
+              Latest snapshot: {latestSnapshot.snapshotDate}
+              {storageStats && ` (${storageStats.totalSnapshots} total)`}
+            </div>
+          )}
+          <Dialog open={snapshotDialogOpen} onOpenChange={setSnapshotDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Upload className="h-4 w-4 mr-2" />
+                Import Snapshot
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Import YouTube Studio Snapshot</DialogTitle>
+                <DialogDescription>
+                  Paste data from YouTube Studio to track CTR and impressions
+                </DialogDescription>
+              </DialogHeader>
+              {parseResult ? (
+                <SnapshotPreview
+                  parseResult={parseResult}
+                  onSaveSuccess={handleSaveSuccess}
+                  onCancel={handleCancel}
+                />
+              ) : (
+                <SnapshotImport
+                  onParseSuccess={handleParseSuccess}
+                  onCancel={handleCancel}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
           <Button
             variant="ghost"
             size="sm"
