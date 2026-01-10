@@ -94,6 +94,24 @@ export const unassignedColor: ChipColor = {
 };
 
 /**
+ * Track colors (for track selection chips)
+ */
+export const trackColor: ChipColor = {
+  bg: 'bg-white border-zinc-200',
+  text: 'text-zinc-500',
+  selected: '!bg-[#fef3c7] !text-[#92400e] !border-[#fcd34d]',  // amber
+};
+
+/**
+ * Program colors (for program selection chips)
+ */
+export const programColor: ChipColor = {
+  bg: 'bg-white border-zinc-200',
+  text: 'text-zinc-500',
+  selected: '!bg-[#f5f3ff] !text-[#5b21b6] !border-[#ddd6fe]',  // purple
+};
+
+/**
  * Default fallback color for undefined values
  */
 export const defaultColor: ChipColor = {

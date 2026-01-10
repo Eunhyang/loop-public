@@ -2,9 +2,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { useProject, useCreateProject, useUpdateProject, usePrograms } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
+import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
-import type { ChipOption } from '@/components/common/ChipSelect';
-import { memberColor } from '@/components/common/chipColors';
+import { statusColors, priorityColors, memberColor, trackColor, programColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import type { Project } from '@/types';
 import { MarkdownEditor } from '@/components/MarkdownEditor/MarkdownEditor';
@@ -126,6 +126,38 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
         });
     }, [memberOptions, dashboardData?.members]);
 
+    // Status options (for ChipSelect)
+    const statusOptions: ChipOption[] = useMemo(() =>
+        statuses.map((s: string) => ({
+            value: s,
+            label: s.charAt(0).toUpperCase() + s.slice(1),
+            color: getColor(s, statusColors),
+        })), [statuses]);
+
+    // Priority options (for ChipSelect)
+    const priorityOptions: ChipOption[] = useMemo(() =>
+        priorities.map((p: string) => ({
+            value: p,
+            label: p.charAt(0).toUpperCase() + p.slice(1),
+            color: getColor(p, priorityColors),
+        })), [priorities]);
+
+    // Track options (for ChipSelectExpand)
+    const trackOptions: ChipOption[] = useMemo(() =>
+        (dashboardData?.tracks || []).map((t: any) => ({
+            value: t.entity_id,
+            label: t.entity_name || t.entity_id,
+            color: trackColor,
+        })), [dashboardData?.tracks]);
+
+    // Program options (for ChipSelectExpand)
+    const programOptions: ChipOption[] = useMemo(() =>
+        (programs || []).map((p: any) => ({
+            value: p.entity_id,
+            label: p.entity_name,
+            color: programColor,
+        })), [programs]);
+
     useEffect(() => {
         if (dashboardData?.constants?.project?.status_default && !prefill?.status) {
             setFormData(prev => ({
@@ -231,7 +263,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
                 {/* Properties Grid */}
                 <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
-                    {/* Status */}
+                        {/* Status */}
                     <label className="text-zinc-500 py-1">Status</label>
                     <ReviewFieldWrapper
                         isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('status'))}
@@ -242,15 +274,14 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                                 {getFieldValue('status') as string || 'todo'}
                             </span>
                         ) : (
-                            <select
-                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                                value={getFieldValue('status') as string}
-                                onChange={(e) => handleFieldChange('status', e.target.value)}
-                            >
-                                {statuses.map((s: string) => (
-                                    <option key={s} value={s}>{s}</option>
-                                ))}
-                            </select>
+                            <div className="py-1">
+                                <ChipSelect
+                                    options={statusOptions}
+                                    value={(getFieldValue('status') as string) || 'todo'}
+                                    onChange={(value) => handleFieldChange('status', value)}
+                                    aria-label="Project status"
+                                />
+                            </div>
                         )}
                     </ReviewFieldWrapper>
 
@@ -289,15 +320,14 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                                 {getFieldValue('priority_flag') as string || 'medium'}
                             </span>
                         ) : (
-                            <select
-                                className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                                value={getFieldValue('priority_flag') as string || 'medium'}
-                                onChange={(e) => handleFieldChange('priority_flag', e.target.value)}
-                            >
-                                {priorities.map((p: string) => (
-                                    <option key={p} value={p}>{p}</option>
-                                ))}
-                            </select>
+                            <div className="py-1">
+                                <ChipSelect
+                                    options={priorityOptions}
+                                    value={(getFieldValue('priority_flag') as string) || 'medium'}
+                                    onChange={(value) => handleFieldChange('priority_flag', value)}
+                                    aria-label="Project priority"
+                                />
+                            </div>
                         )}
                     </ReviewFieldWrapper>
 
@@ -316,18 +346,17 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                             <span className="text-zinc-400 py-1">No Track</span>
                         )
                     ) : (
-                        <select
-                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                            value={project.parent_id}
-                            onChange={(e) => handleFieldChange('parent_id', e.target.value)}
-                        >
-                            <option value="">No Track</option>
-                            {dashboardData?.tracks?.map((t: any) => (
-                                <option key={t.entity_id} value={t.entity_id}>
-                                    {t.entity_name || t.entity_id}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="py-1">
+                            <ChipSelectExpand
+                                primaryOptions={trackOptions.slice(0, 4)}
+                                allOptions={trackOptions}
+                                value={project.parent_id || ''}
+                                onChange={(value) => handleFieldChange('parent_id', value || null)}
+                                allowUnassigned
+                                unassignedLabel="No Track"
+                                aria-label="Project track"
+                            />
+                        </div>
                     )}
 
                     {/* Program */}
@@ -341,25 +370,23 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                             <span className="text-zinc-400 py-1">No Program</span>
                         )
                     ) : (
-                        <select
-                            className="border border-zinc-200 p-1 rounded bg-white text-zinc-700 text-sm w-full truncate focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                            value={project.program_id || ''}
-                            onChange={(e) => handleFieldChange('program_id', e.target.value || null)}
-                            disabled={isProgramsLoading}
-                        >
-                            <option value="">No Program</option>
+                        <div className="py-1">
                             {isProgramsLoading ? (
-                                <option disabled>Loading programs...</option>
+                                <span className="text-zinc-400 text-sm">Loading programs...</span>
                             ) : programsError ? (
-                                <option disabled>Error loading programs</option>
+                                <span className="text-red-500 text-sm">Error loading programs</span>
                             ) : (
-                                programs?.map((p) => (
-                                    <option key={p.entity_id} value={p.entity_id}>
-                                        {p.entity_name}
-                                    </option>
-                                ))
+                                <ChipSelectExpand
+                                    primaryOptions={programOptions.slice(0, 4)}
+                                    allOptions={programOptions}
+                                    value={project.program_id || ''}
+                                    onChange={(value) => handleFieldChange('program_id', value || null)}
+                                    allowUnassigned
+                                    unassignedLabel="No Program"
+                                    aria-label="Project program"
+                                />
                             )}
-                        </select>
+                        </div>
                     )}
 
                     {/* Expected Impact */}
@@ -657,71 +684,60 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
                 {/* Track */}
                 <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-zinc-700">Track (Optional)</label>
-                    <select
-                        className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                    <ChipSelectExpand
+                        primaryOptions={trackOptions.slice(0, 4)}
+                        allOptions={trackOptions}
                         value={formData.parent_id}
-                        onChange={e => setFormData(prev => ({ ...prev, parent_id: e.target.value }))}
-                    >
-                        <option value="">None</option>
-                        {dashboardData?.tracks?.map((t: any) => (
-                            <option key={t.entity_id} value={t.entity_id}>{t.entity_name}</option>
-                        ))}
-                    </select>
+                        onChange={(value) => setFormData(prev => ({ ...prev, parent_id: value }))}
+                        allowUnassigned
+                        unassignedLabel="None"
+                        label="Track (Optional)"
+                    />
                 </div>
 
                 {/* Program */}
                 <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-zinc-700">Program (Optional)</label>
-                    <select
-                        className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-                        value={formData.program_id || ''}
-                        onChange={e => setFormData(prev => ({ ...prev, program_id: e.target.value || null }))}
-                        disabled={isProgramsLoading}
-                    >
-                        <option value="">None</option>
-                        {isProgramsLoading ? (
-                            <option disabled>Loading programs...</option>
-                        ) : programsError ? (
-                            <option disabled>Error loading programs</option>
-                        ) : (
-                            programs?.map((p) => (
-                                <option key={p.entity_id} value={p.entity_id}>
-                                    {p.entity_name}
-                                </option>
-                            ))
-                        )}
-                    </select>
+                    {isProgramsLoading ? (
+                        <>
+                            <label className="block text-sm font-medium text-zinc-700">Program (Optional)</label>
+                            <span className="text-zinc-400 text-sm">Loading programs...</span>
+                        </>
+                    ) : programsError ? (
+                        <>
+                            <label className="block text-sm font-medium text-zinc-700">Program (Optional)</label>
+                            <span className="text-red-500 text-sm">Error loading programs</span>
+                        </>
+                    ) : (
+                        <ChipSelectExpand
+                            primaryOptions={programOptions.slice(0, 4)}
+                            allOptions={programOptions}
+                            value={formData.program_id || ''}
+                            onChange={(value) => setFormData(prev => ({ ...prev, program_id: value || null }))}
+                            allowUnassigned
+                            unassignedLabel="None"
+                            label="Program (Optional)"
+                        />
+                    )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    {/* Status */}
-                    <div className="space-y-1.5">
-                        <label className="block text-sm font-medium text-zinc-700">Status</label>
-                        <select
-                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
-                            value={formData.status}
-                            onChange={e => setFormData(prev => ({ ...prev, status: e.target.value }))}
-                        >
-                            {statuses.map((s: string) => (
-                                <option key={s} value={s}>{s}</option>
-                            ))}
-                        </select>
-                    </div>
+                {/* Status */}
+                <div className="space-y-1.5">
+                    <ChipSelect
+                        options={statusOptions}
+                        value={formData.status}
+                        onChange={(value) => setFormData(prev => ({ ...prev, status: value }))}
+                        label="Status"
+                    />
+                </div>
 
-                    {/* Priority */}
-                    <div className="space-y-1.5">
-                        <label className="block text-sm font-medium text-zinc-700">Priority</label>
-                        <select
-                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
-                            value={formData.priority_flag}
-                            onChange={e => setFormData(prev => ({ ...prev, priority_flag: e.target.value }))}
-                        >
-                            {priorities.map((p: string) => (
-                                <option key={p} value={p}>{p}</option>
-                            ))}
-                        </select>
-                    </div>
+                {/* Priority */}
+                <div className="space-y-1.5">
+                    <ChipSelect
+                        options={priorityOptions}
+                        value={formData.priority_flag}
+                        onChange={(value) => setFormData(prev => ({ ...prev, priority_flag: value }))}
+                        label="Priority"
+                    />
                 </div>
 
                 {/* Description */}

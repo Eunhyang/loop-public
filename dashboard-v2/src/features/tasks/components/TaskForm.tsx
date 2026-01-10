@@ -364,37 +364,24 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        {/* Status */}
-                        <div className="space-y-1.5">
-                            <label className="block text-sm font-medium text-zinc-700">Status</label>
-                            <select
-                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
-                                value={createFormData.status}
-                                onChange={e => setCreateFormData(prev => ({ ...prev, status: e.target.value as any }))}
-                            >
-                                <option value="todo">To Do</option>
-                                <option value="doing">Doing</option>
-                                <option value="hold">Hold</option>
-                                <option value="blocked">Blocked</option>
-                                <option value="done">Done</option>
-                            </select>
-                        </div>
+                    {/* Status */}
+                    <div className="space-y-1.5">
+                        <ChipSelect
+                            options={statusOptions}
+                            value={createFormData.status}
+                            onChange={(value) => setCreateFormData(prev => ({ ...prev, status: value as any }))}
+                            label="Status"
+                        />
+                    </div>
 
-                        {/* Priority */}
-                        <div className="space-y-1.5">
-                            <label className="block text-sm font-medium text-zinc-700">Priority</label>
-                            <select
-                                className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
-                                value={createFormData.priority}
-                                onChange={e => setCreateFormData(prev => ({ ...prev, priority: e.target.value as any }))}
-                            >
-                                <option value="critical">Critical</option>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
+                    {/* Priority */}
+                    <div className="space-y-1.5">
+                        <ChipSelect
+                            options={priorityOptions}
+                            value={createFormData.priority}
+                            onChange={(value) => setCreateFormData(prev => ({ ...prev, priority: value as any }))}
+                            label="Priority"
+                        />
                     </div>
 
                     {/* Type */}
