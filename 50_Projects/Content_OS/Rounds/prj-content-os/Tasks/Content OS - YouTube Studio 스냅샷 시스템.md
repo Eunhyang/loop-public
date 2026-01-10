@@ -298,9 +298,9 @@ YouTube Studio 데이터에는 videoId가 없으므로 **제목 + Duration**으�
 - [ ] `use-snapshot.ts` - 훅
 
 ### Phase 4: 통합
-- [ ] Performance 페이지에 스냅샷 데이터 통합
-- [ ] 진단 로직에 실제 CTR 연결
-- [ ] 테스트 및 검증
+- [x] Performance 페이지에 스냅샷 데이터 통합
+- [x] Clean Architecture 적용 (Domain/Application/Infrastructure/Hooks/UI)
+- [x] 테스트 및 검증 (pnpm build 성공)
 
 ---
 
@@ -356,7 +356,45 @@ YouTube Studio 데이터에는 videoId가 없으므로 **제목 + Duration**으�
 
 ## Work Log
 
-### 2026-01-11
+### 2026-01-11 (Phase 4: Performance 페이지 통합)
+**Summary**: Clean Architecture 기반 스냅샷 데이터 Performance 페이지 통합 완료
+
+**Architecture** (Clean Architecture 5 Layer):
+```
+[YouTube API] ──┐
+                ├──→ [MergeUseCase] ──→ [useMergedPerformance] ──→ [UI]
+[IndexedDB]  ───┘
+```
+
+**New Files Created (6)**:
+| Layer | File |
+|-------|------|
+| Domain | `lib/domain/performance/types.ts` - MergedPerformance, DisplayMetrics, MatchStats |
+| Domain | `lib/domain/performance/merge-logic.ts` - Pure merge functions |
+| Application | `lib/application/performance/ports/ISnapshotRepository.ts` - Port interface |
+| Application | `lib/application/performance/usecases/MergePerformanceDataUseCase.ts` - Orchestration |
+| Infrastructure | `lib/infrastructure/performance/IndexedDBSnapshotRepository.ts` - Adapter |
+| Hooks | `app/performance/hooks/use-merged-performance.ts` - React Query hook |
+| UI | `app/performance/components/snapshot-history.tsx` - Collapsible panel |
+
+**Modified Files (4)**:
+- `app/performance/page.tsx` - `useMergedPerformance` 사용
+- `app/performance/components/performance-table.tsx` - `MergedPerformance` 지원 + 소스 표시 (`S` 배지)
+- `app/performance/hooks/index.ts` - 새 훅 export
+- `app/performance/components/index.ts` - 새 컴포넌트 export
+
+**Features Delivered**:
+- 데이터 병합: YouTube API + IndexedDB 스냅샷 자동 병합
+- 소스 추적: CTR/Impressions가 스냅샷에서 온 경우 `S` 배지 표시
+- 24h 델타: 어제+오늘 스냅샷 있으면 자동 계산
+- 매칭 통계: exact/fuzzy/no match 비율 표시
+- SnapshotHistory 패널: 접이식 패널로 스냅샷 상태 확인
+
+**Build**: `pnpm build` 성공
+
+---
+
+### 2026-01-11 (Phase 1-3: 스냅샷 시스템 구축)
 **Summary**: Task complete - YouTube Studio snapshot system fully implemented
 
 **Implementation Completed**:

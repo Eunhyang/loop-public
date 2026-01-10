@@ -7,6 +7,7 @@ import {
   PerformanceSortState,
   PerformanceSortField,
 } from "@/types/performance";
+import type { MergedPerformance } from "@/lib/domain/performance/types";
 import {
   Table,
   TableBody,
@@ -15,15 +16,55 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { StatusBadge } from "./status-badge";
 import { DeltaIndicatorCompact } from "./delta-indicator";
 import { formatNumber, formatPercentage, formatDuration } from "../data/dummy-performance";
 
+// Support both ContentPerformance and MergedPerformance
+type PerformanceItem = ContentPerformance | MergedPerformance;
+
 interface PerformanceTableProps {
-  data: ContentPerformance[];
+  data: PerformanceItem[];
   sortState: PerformanceSortState;
   onSortChange: (field: PerformanceSortField) => void;
+}
+
+// Type guard to check if item has displayMetrics
+function isMergedPerformance(item: PerformanceItem): item is MergedPerformance {
+  return 'displayMetrics' in item;
+}
+
+// Get metrics from item (prefer displayMetrics if available)
+function getMetrics(item: PerformanceItem) {
+  if (isMergedPerformance(item)) {
+    return item.displayMetrics;
+  }
+  return item.metrics;
+}
+
+// Source indicator component
+function SourceIndicator({ source }: { source: 'api' | 'snapshot' | 'none' }) {
+  if (source !== 'snapshot') return null;
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="ml-1 text-[10px] font-medium text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-950 px-1 rounded">
+            S
+          </span>
+        </TooltipTrigger>
+        <TooltipContent>From YouTube Studio snapshot</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }
 
 function SortableHeader({
@@ -136,74 +177,89 @@ export function PerformanceTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>
-                <div className="relative w-16 h-10 rounded overflow-hidden bg-muted">
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    sizes="64px"
+          {data.map((item) => {
+            const metrics = getMetrics(item);
+            const isMerged = isMergedPerformance(item);
+
+            return (
+              <TableRow key={item.id}>
+                <TableCell>
+                  <div className="relative w-16 h-10 rounded overflow-hidden bg-muted">
+                    <Image
+                      src={item.thumbnail}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Link
+                    href={`/performance/${item.videoId}`}
+                    className="flex items-center gap-1 text-foreground hover:text-primary transition-colors line-clamp-2"
+                  >
+                    {item.title}
+                    <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-50" />
+                  </Link>
+                  <span className="text-xs text-muted-foreground">
+                    {formatDuration(item.duration)}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <StatusBadge status={item.status} />
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {formatDate(item.publishedAt)}
+                </TableCell>
+                <TableCell className="text-right font-medium">
+                  <span className="inline-flex items-center">
+                    {formatNumber(metrics.impressions_24h)}
+                    {isMerged && (
+                      <SourceIndicator source={item.displayMetrics.impressionsSource} />
+                    )}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <span className="inline-flex items-center">
+                    <span
+                      className={`font-medium ${
+                        metrics.ctr_24h >= 8
+                          ? "text-green-600 dark:text-green-400"
+                          : metrics.ctr_24h >= 5
+                            ? "text-foreground"
+                            : "text-red-600 dark:text-red-400"
+                      }`}
+                    >
+                      {formatPercentage(metrics.ctr_24h)}
+                    </span>
+                    {isMerged && (
+                      <SourceIndicator source={item.displayMetrics.ctrSource} />
+                    )}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <span className="font-medium">
+                    {formatPercentage(metrics.ctr_7d)}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <DeltaIndicatorCompact
+                    value24h={metrics.ctr_24h}
+                    value7d={metrics.ctr_7d}
+                    metricLabel="CTR"
+                    format="percentage"
                   />
-                </div>
-              </TableCell>
-              <TableCell>
-                <Link
-                  href={`/performance/${item.videoId}`}
-                  className="flex items-center gap-1 text-foreground hover:text-primary transition-colors line-clamp-2"
-                >
-                  {item.title}
-                  <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-50" />
-                </Link>
-                <span className="text-xs text-muted-foreground">
-                  {formatDuration(item.duration)}
-                </span>
-              </TableCell>
-              <TableCell>
-                <StatusBadge status={item.status} />
-              </TableCell>
-              <TableCell className="text-muted-foreground">
-                {formatDate(item.publishedAt)}
-              </TableCell>
-              <TableCell className="text-right font-medium">
-                {formatNumber(item.metrics.impressions_24h)}
-              </TableCell>
-              <TableCell className="text-right">
-                <span
-                  className={`font-medium ${
-                    item.metrics.ctr_24h >= 8
-                      ? "text-green-600 dark:text-green-400"
-                      : item.metrics.ctr_24h >= 5
-                        ? "text-foreground"
-                        : "text-red-600 dark:text-red-400"
-                  }`}
-                >
-                  {formatPercentage(item.metrics.ctr_24h)}
-                </span>
-              </TableCell>
-              <TableCell className="text-right">
-                <span className="font-medium">
-                  {formatPercentage(item.metrics.ctr_7d)}
-                </span>
-              </TableCell>
-              <TableCell className="text-right">
-                <DeltaIndicatorCompact
-                  value24h={item.metrics.ctr_24h}
-                  value7d={item.metrics.ctr_7d}
-                  metricLabel="CTR"
-                  format="percentage"
-                />
-              </TableCell>
-              <TableCell className="text-right font-medium">
-                {formatNumber(item.metrics.views_24h)}
-              </TableCell>
-              <TableCell className="text-right text-muted-foreground">
-                {formatDuration(item.metrics.avg_view_duration_24h)}
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+                <TableCell className="text-right font-medium">
+                  {formatNumber(metrics.views_24h)}
+                </TableCell>
+                <TableCell className="text-right text-muted-foreground">
+                  {formatDuration(metrics.avg_view_duration_24h)}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>

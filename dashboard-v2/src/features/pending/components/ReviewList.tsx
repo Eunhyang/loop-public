@@ -34,11 +34,10 @@ export const ReviewList = ({
             key={tab.value}
             onClick={() => onTabChange(tab.value)}
             className={`
-              flex-1 px-4 py-2 text-sm font-medium transition-colors
-              ${
-                activeTab === tab.value
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+              flex-1 px-1 py-2 text-xs font-semibold whitespace-nowrap transition-colors
+              ${activeTab === tab.value
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-zinc-500 hover:text-zinc-800'
               }
             `}
           >

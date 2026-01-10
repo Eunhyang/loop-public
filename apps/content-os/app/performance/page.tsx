@@ -17,14 +17,15 @@ import {
   PerformanceFiltersComponent,
   PerformanceTable,
   AuthStatusBanner,
+  SnapshotHistory,
 } from "./components";
 import { SnapshotImport } from "./components/snapshot-import";
 import { SnapshotPreview } from "./components/snapshot-preview";
-import { usePerformanceData } from "./hooks";
+import { useMergedPerformance } from "./hooks";
 import { useSnapshot } from "./hooks/use-snapshot";
 import { dummyPerformanceData } from "./data/dummy-performance";
+import type { MergedPerformance } from "@/lib/domain/performance/types";
 import {
-  ContentPerformance,
   PerformanceFilters,
   PerformanceSortState,
   PerformanceSortField,
@@ -32,9 +33,9 @@ import {
 import { SnapshotParseResult } from "@/types/youtube-snapshot";
 
 function filterPerformanceData(
-  data: ContentPerformance[],
+  data: MergedPerformance[],
   filters: PerformanceFilters
-): ContentPerformance[] {
+): MergedPerformance[] {
   return data.filter((item) => {
     // Search filter
     if (filters.search) {
@@ -76,11 +77,15 @@ function filterPerformanceData(
 }
 
 function sortPerformanceData(
-  data: ContentPerformance[],
+  data: MergedPerformance[],
   sort: PerformanceSortState
-): ContentPerformance[] {
+): MergedPerformance[] {
   return [...data].sort((a, b) => {
     let comparison = 0;
+
+    // Use displayMetrics for sorting (merged data)
+    const aMetrics = a.displayMetrics;
+    const bMetrics = b.displayMetrics;
 
     switch (sort.field) {
       case "publishedAt":
@@ -89,16 +94,16 @@ function sortPerformanceData(
           new Date(b.publishedAt).getTime();
         break;
       case "ctr_24h":
-        comparison = a.metrics.ctr_24h - b.metrics.ctr_24h;
+        comparison = aMetrics.ctr_24h - bMetrics.ctr_24h;
         break;
       case "ctr_7d":
-        comparison = a.metrics.ctr_7d - b.metrics.ctr_7d;
+        comparison = aMetrics.ctr_7d - bMetrics.ctr_7d;
         break;
       case "impressions_24h":
-        comparison = a.metrics.impressions_24h - b.metrics.impressions_24h;
+        comparison = aMetrics.impressions_24h - bMetrics.impressions_24h;
         break;
       case "views_24h":
-        comparison = a.metrics.views_24h - b.metrics.views_24h;
+        comparison = aMetrics.views_24h - bMetrics.views_24h;
         break;
     }
 
@@ -121,28 +126,39 @@ export default function PerformancePage() {
   // Snapshot management
   const [snapshotDialogOpen, setSnapshotDialogOpen] = useState(false);
   const [parseResult, setParseResult] = useState<SnapshotParseResult | null>(null);
-  const { latestSnapshot, storageStats } = useSnapshot();
+  const { storageStats } = useSnapshot();
 
-  // Fetch performance data from API
+  // Fetch merged performance data (API + Snapshot)
   const {
-    data: performanceResult,
+    data: mergedData,
+    snapshotDate,
+    matchStats,
+    deltaAvailable,
+    source: dataSource,
+    warning,
     isLoading,
     isError,
     error,
     refetch,
     isFetching,
-  } = usePerformanceData({ maxResults: 100 });
+  } = useMergedPerformance({ maxResults: 100 });
 
-  // Use API data or fallback to dummy data
+  // Use merged data or fallback to dummy data with default displayMetrics
   const rawData = useMemo(() => {
-    if (performanceResult?.data && performanceResult.data.length > 0) {
-      return performanceResult.data;
+    if (mergedData && mergedData.length > 0) {
+      return mergedData;
     }
-    return dummyPerformanceData;
-  }, [performanceResult?.data]);
-
-  const dataSource = performanceResult?.source || "dummy";
-  const warning = performanceResult?.warning;
+    // Convert dummy data to MergedPerformance format
+    return dummyPerformanceData.map((item) => ({
+      ...item,
+      displayMetrics: {
+        ...item.metrics,
+        impressionsSource: 'api' as const,
+        ctrSource: 'api' as const,
+      },
+      snapshotMatch: null,
+    }));
+  }, [mergedData]);
 
   // Memoized filtered and sorted data
   const processedData = useMemo(() => {
@@ -247,9 +263,9 @@ export default function PerformancePage() {
             개
           </div>
           <div className="flex-1" />
-          {latestSnapshot && (
+          {snapshotDate && (
             <div className="text-xs text-muted-foreground">
-              Latest snapshot: {latestSnapshot.snapshotDate}
+              Snapshot: {snapshotDate}
               {storageStats && ` (${storageStats.totalSnapshots} total)`}
             </div>
           )}
@@ -300,6 +316,13 @@ export default function PerformancePage() {
             </Button>
           </Link>
         </div>
+
+        {/* Snapshot History Panel */}
+        <SnapshotHistory
+          matchStats={matchStats}
+          snapshotDate={snapshotDate}
+          deltaAvailable={deltaAvailable}
+        />
 
         {/* Filters */}
         <PerformanceFiltersComponent
