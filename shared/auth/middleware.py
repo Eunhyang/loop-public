@@ -177,6 +177,7 @@ class AuthMiddleware:
                     "role": user_role,
                     "scope": user_scope,
                     "user_id": jwt_payload.get("sub"),
+                    "email": jwt_payload.get("email"),  # Extract email from JWT claims
                 }
 
         return None

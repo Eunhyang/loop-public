@@ -243,9 +243,26 @@ def create_comment(
     if data.parent_id:
         validate_parent_comment(db, data.parent_id, data.entity_type, data.entity_id)
 
-    # Get user email from OAuth user_id
-    # For now, assume user_id is email (OAuth CLI creates users with email as identifier)
-    author_email = user['user_id']
+    # Get user email from OAuth JWT claims
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication required"
+        )
+
+    # Prefer email claim, fallback to user_id for non-OAuth flows (API tokens, service accounts)
+    author_email = user.get('email')
+    if not author_email or not isinstance(author_email, str) or not author_email.strip():
+        # Fallback to user_id for backward compatibility (API tokens, service accounts)
+        author_email = user.get('user_id')
+        if not author_email:
+            raise HTTPException(
+                status_code=401,
+                detail="User identifier not found in token. Please re-login."
+            )
+
+    # Normalize identifier: convert to string, strip, and lowercase for emails
+    author_email = str(author_email).strip().lower()
 
     # Convert user_id to integer if it's an email (lookup OAuth DB)
     # TODO: Proper user_id lookup from OAuth database
@@ -276,7 +293,7 @@ def create_comment(
 
     logger.info(f"Comment created: id={comment.id}, entity={data.entity_id}, author={author_email}")
 
-    # Discord 알림 전송
+    # Discord 알림 전송 (content 포함)
     log_entity_action(
         action="create",
         entity_type="Comment",
@@ -285,7 +302,8 @@ def create_comment(
         details={
             "target_entity": data.entity_id,
             "target_type": data.entity_type,
-            "parent_id": data.parent_id
+            "parent_id": data.parent_id,
+            "content": content  # 댓글 내용 추가
         },
         actor=f"api:{author_email}"
     )

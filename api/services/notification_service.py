@@ -32,6 +32,24 @@ COLORS = {
 }
 
 
+def escape_discord_mentions(text: str) -> str:
+    """
+    Escape Discord special mentions to prevent unintended pings
+
+    Converts @everyone and @here to use zero-width space to prevent pings
+    while keeping the visual appearance
+
+    Args:
+        text: Input text potentially containing mentions
+
+    Returns:
+        Text with escaped mentions
+    """
+    text = text.replace("@everyone", "@\u200beveryone")
+    text = text.replace("@here", "@\u200bhere")
+    return text
+
+
 def _send_discord_webhook(payload: Dict[str, Any]) -> bool:
     """
     Discord webhook 동기 호출 (별도 스레드에서 실행됨)
@@ -133,11 +151,11 @@ def send_entity_created_notification(
     Entity 생성 알림을 Discord로 전송 (비동기, fire-and-forget)
 
     Args:
-        entity_type: Task | Project | Program | Hypothesis
+        entity_type: Task | Project | Program | Hypothesis | Comment
         entity_id: 엔티티 ID
         entity_name: 엔티티 이름
         actor: 생성자 (예: "api:김은향")
-        extra_fields: 추가 필드 (status, assignee 등)
+        extra_fields: 추가 필드 (status, assignee, content 등)
     """
     if not DISCORD_NOTIFY_ENABLED:
         logger.debug("Discord notifications disabled")
@@ -162,15 +180,26 @@ def send_entity_created_notification(
         {"name": "Created by", "value": actor_display, "inline": True},
     ]
 
-    # Add extra fields
+    # Special handling for Comment: show content in description
+    description = f"**{entity_name}**"
+    if entity_type == "Comment" and extra_fields and extra_fields.get("content"):
+        # Escape Discord mentions and limit length
+        content = escape_discord_mentions(str(extra_fields["content"]))
+        if len(content) > 300:
+            content = content[:297] + "..."
+        description = content
+
+    # Add extra fields (excluding content for Comments as it's in description)
     if extra_fields:
         for key, value in extra_fields.items():
-            if value:
-                fields.append({"name": key.title(), "value": str(value), "inline": True})
+            if value and key != "content":  # Skip content for Comments
+                # Don't show internal fields in Discord
+                if key not in ["target_type", "target_entity"]:
+                    fields.append({"name": key.title(), "value": str(value), "inline": True})
 
     embed = {
         "title": f"New {entity_type} Created",
-        "description": f"**{entity_name}**",
+        "description": description,
         "color": color,
         "fields": fields,
         "timestamp": timestamp,
