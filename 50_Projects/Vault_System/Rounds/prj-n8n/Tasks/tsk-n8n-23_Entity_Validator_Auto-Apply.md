@@ -4,7 +4,8 @@ entity_id: tsk-n8n-23
 entity_name: n8n - Entity Validator Auto-Apply 기능
 created: 2026-01-11
 updated: '2026-01-11'
-status: doing
+status: done
+closed: '2026-01-11'
 parent_id: prj-n8n
 project_id: prj-n8n
 aliases:
@@ -32,7 +33,7 @@ priority_flag: high
 
 # n8n - Entity Validator Auto-Apply 기능
 
-> Task ID: `tsk-n8n-23` | Project: `prj-n8n` | Status: doing
+> Task ID: `tsk-n8n-23` | Project: `prj-n8n` | Status: done
 
 ## 목표
 
