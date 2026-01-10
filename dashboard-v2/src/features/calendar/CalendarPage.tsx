@@ -108,10 +108,10 @@ export default function CalendarPage() {
     };
 
     return (
-        <div className="flex h-screen w-full bg-white overflow-hidden">
+        <div className="flex h-screen w-full bg-white">
             <CalendarSidebar />
 
-            <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+            <div className="flex-1 flex flex-col h-full min-h-0 relative">
                 {/* Task Filter Bar */}
                 {dashboardData && (
                     <TaskFilterBar
@@ -133,14 +133,16 @@ export default function CalendarPage() {
                 />
 
                 {/* Pass ref down to access API */}
-                <WrapperCalendarView
-                    ref={calendarRef}
-                    events={events}
-                    onDatesSet={handleDatesSet}
-                    onEventClick={handleEventClick}
-                    onDateClick={handleDateClick}
-                    onDateContextMenu={handleDateContextMenu}
-                />
+                <div className="flex-1 min-h-0 overflow-auto">
+                    <WrapperCalendarView
+                        ref={calendarRef}
+                        events={events}
+                        onDatesSet={handleDatesSet}
+                        onEventClick={handleEventClick}
+                        onDateClick={handleDateClick}
+                        onDateContextMenu={handleDateContextMenu}
+                    />
+                </div>
 
                 {isGoogleFetching && (
                     <div className="absolute top-20 right-4 bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs shadow-sm z-50 animate-pulse">
