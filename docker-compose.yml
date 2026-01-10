@@ -13,6 +13,7 @@ services:
       dockerfile: Dockerfile.auth
     container_name: loop-auth
     restart: unless-stopped
+    user: "1000:1000"  # NAS 사용자 UID:GID (권한 문제 방지)
     networks:
       - loop_default
     ports:
