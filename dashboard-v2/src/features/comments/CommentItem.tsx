@@ -78,6 +78,7 @@ export const CommentItem = ({
               <CommentEditor
                 entityType={entityType}
                 entityId={entityId}
+                initialContent={comment.content}
                 onSubmit={(data) =>
                   handleEdit({ content: data.content, mentions: data.mentions })
                 }

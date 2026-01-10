@@ -16,6 +16,7 @@ interface CommentEditorProps {
   onCancel?: () => void
   placeholder?: string
   autoFocus?: boolean
+  initialContent?: string
 }
 
 export const CommentEditor = ({
@@ -26,9 +27,10 @@ export const CommentEditor = ({
   onCancel,
   placeholder = 'Write a comment... (use @ to mention)',
   autoFocus = false,
+  initialContent = '',
 }: CommentEditorProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [hasContent, setHasContent] = useState(false)
+  const [hasContent, setHasContent] = useState(!!initialContent.trim())
   const { data: dashboardData } = useDashboardInit()
 
   const getMentionItems = (query: string): MentionItem[] => {
@@ -98,7 +100,7 @@ export const CommentEditor = ({
 
   const editor = useEditor({
     extensions: [...createExtensions(placeholder), mentionExtension],
-    content: '',
+    content: initialContent,
     editorProps: {
       attributes: {
         class: 'prose prose-sm max-w-none focus:outline-none min-h-[80px] p-3',
