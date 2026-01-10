@@ -19,9 +19,14 @@ def get_dashboard_init(request: Request):
     cache = get_cache()
     
     # 1. User Info (from OAuth middleware)
-    user = getattr(request.state, 'user_id', 'anonymous')
-    role = getattr(request.state, 'role', 'guest')
-    scope = getattr(request.state, 'scope', '')
+    # ASGI middleware sets scope["state"] which becomes request.state._state in FastAPI
+    state = {}
+    if hasattr(request, "state") and hasattr(request.state, "_state") and isinstance(request.state._state, dict):
+        state = request.state._state
+    user = state.get('user_id', 'anonymous')
+    role = state.get('role', 'guest')
+    scope = state.get('scope', '')
+    email = state.get('email')
 
     # 2. Fetch Entities from Cache
     # project_id, status, assignee 필터 없이 전체 조회
@@ -68,7 +73,8 @@ def get_dashboard_init(request: Request):
         "user": {
             "id": user,
             "role": role,
-            "scope": scope
+            "scope": scope,
+            "email": email,
         },
         "tasks": tasks,
         "projects": projects,
