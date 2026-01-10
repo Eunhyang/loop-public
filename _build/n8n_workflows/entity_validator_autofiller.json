@@ -220,7 +220,7 @@
         "method": "POST",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"task_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\", \"source_workflow\": \"entity-validator\" } }}",
+        "jsonBody": "={{ { \"task_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"auto_apply\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\", \"source_workflow\": \"entity-validator\" } }}",
         "options": {
           "response": {
             "response": {
@@ -332,7 +332,7 @@
         "method": "POST",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"pending\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\", \"source_workflow\": \"entity-validator\" } }}",
+        "jsonBody": "={{ { \"project_id\": $json.entity_id, \"issues\": $json.issues, \"mode\": \"auto_apply\", \"provider\": \"openai\", \"actor\": \"n8n\", \"original_entity\": $json.original_entity, \"strategy_context\": $('Build Strategy Context').first().json.strategyContext, \"create_pending\": true, \"schema_version\": \"5.3\", \"source_workflow\": \"entity-validator\" } }}",
         "options": {
           "response": {
             "response": {

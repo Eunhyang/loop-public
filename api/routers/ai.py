@@ -1472,6 +1472,7 @@ async def infer_task_schema(request: InferTaskSchemaRequest):
     # 5. LLM 응답 파싱
     suggested_fields = content.get("suggested_fields", {})
     reasoning = content.get("reasoning", {})
+    confidence = content.get("confidence", {})  # tsk-n8n-23: auto_apply용 confidence 추출
     warnings = []
 
     # validates 필드 제거 (금지 규칙)
@@ -1506,6 +1507,65 @@ async def infer_task_schema(request: InferTaskSchemaRequest):
             "status": pending_review["status"],
             "created_at": pending_review["created_at"]
         }
+
+    # tsk-n8n-23: auto_apply 모드 처리
+    elif request.mode == "auto_apply":
+        from ..services.auto_apply import (
+            should_auto_apply,
+            apply_fields_to_entity,
+            create_auto_applied_review
+        )
+
+        # 필드 분류: 고확신 → auto_apply, 저확신 → pending
+        auto_apply_fields = {}
+        pending_fields = {}
+
+        for field, value in suggested_fields.items():
+            field_confidence = confidence.get(field, 0.0)
+            if should_auto_apply(field, field_confidence, "Task"):
+                auto_apply_fields[field] = value
+            else:
+                pending_fields[field] = value
+
+        # 고확신 필드 자동 적용
+        if auto_apply_fields:
+            success, applied, failed = apply_fields_to_entity(
+                request.task_id, "Task", auto_apply_fields
+            )
+            if success and applied:
+                review_id = create_auto_applied_review(
+                    entity_id=request.task_id,
+                    entity_type="Task",
+                    entity_name=task.get("entity_name", ""),
+                    applied_fields={k: auto_apply_fields[k] for k in applied},
+                    confidence_scores={k: confidence.get(k, 0.0) for k in applied},
+                    reasoning={k: reasoning.get(k, "") for k in applied},
+                    run_id=run_id,
+                    source_workflow=request.source_workflow
+                )
+                pending_info = {
+                    "review_id": review_id,
+                    "status": "auto_applied",
+                    "applied_fields": applied,
+                    "failed_fields": failed
+                }
+
+        # 저확신 필드는 pending으로
+        if pending_fields and request.create_pending:
+            pending_review = create_pending_review(
+                entity_id=request.task_id,
+                entity_type="Task",
+                entity_name=task.get("entity_name", ""),
+                suggested_fields=pending_fields,
+                reasoning={k: reasoning.get(k, "") for k in pending_fields},
+                run_id=run_id,
+                actor=request.actor,
+                source_workflow=request.source_workflow
+            )
+            if not pending_info:
+                pending_info = {}
+            pending_info["pending_review_id"] = pending_review["id"]
+            pending_info["pending_fields"] = list(pending_fields.keys())
 
     # 8. Audit 로그 저장
     audit_ref = save_ai_audit_log(run_id, {
