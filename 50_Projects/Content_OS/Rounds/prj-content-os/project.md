@@ -132,6 +132,7 @@ priority_flag: high
 | tsk-022-16 | ContentOS - Firebase DB 통합 | 김은향 | doing | 2026-01-07 |
 | tsk-0000os-1767981542605 | ContentOS - Performance 상태 표시 개선 | 김은향 | doing | 2026-01-10 |
 | tsk-content-os-14 | ContentOS - YouTube Analytics 전체 메트릭 수집 | 김은향 | doing | 2026-01-10 |
+| tsk-content-os-15 | Content OS - YouTube Studio 스냅샷 시스템 | 김은향 | todo |  |
 
 ---
 
