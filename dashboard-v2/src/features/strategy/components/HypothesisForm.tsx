@@ -1,4 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
+import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
 
 interface HypothesisFormProps {
     mode: 'create' | 'edit' | 'view';
@@ -22,78 +24,113 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
         }
 
         return (
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-6">
                 {/* View-only notice */}
-                <div className="px-6 pt-4 pb-3">
-                    <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-700">
+                <div className="mb-6">
+                    <div className="bg-blue-50 border border-blue-200 rounded-md p-3 text-sm text-blue-700">
                         <strong>View Only:</strong> Hypotheses cannot be edited from the dashboard. Use vault files directly.
                     </div>
                 </div>
 
-                {/* ID Badge */}
-                <div className="px-6 pb-2">
-                    <span className="font-mono text-xs text-zinc-400 px-2 py-1 bg-zinc-50 rounded">
-                        {hypothesis.entity_id}
-                    </span>
-                </div>
-
                 {/* Title */}
-                <div className="px-6 pb-4">
-                    <h2 className="text-xl font-bold text-zinc-900">{hypothesis.entity_name}</h2>
-                </div>
+                <h2 className="text-2xl font-bold text-zinc-900 mb-6">{hypothesis.entity_name}</h2>
 
                 {/* Properties Grid */}
-                <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm border-t border-zinc-200">
-                    <label className="text-zinc-500 py-1">Status</label>
-                    <div className="py-1">
-                        <span className="inline-block px-2 py-1 bg-zinc-100 text-zinc-700 rounded text-xs capitalize">
-                            {hypothesis.status || 'active'}
-                        </span>
-                    </div>
+                <PropertiesGrid>
+                    <PropertyRow label="ID">
+                        <IdBadge id={hypothesis.entity_id} />
+                    </PropertyRow>
 
-                    {hypothesis.hypothesis_text && (
-                        <>
-                            <label className="text-zinc-500 py-1">Hypothesis</label>
-                            <p className="text-zinc-700 text-sm py-1">{hypothesis.hypothesis_text}</p>
-                        </>
+                    <PropertyRow label="Status">
+                        <StaticBadge label={hypothesis.status || 'active'} variant="status" />
+                    </PropertyRow>
+
+                    {hypothesis.parent_id && (
+                        <PropertyRow label="Parent Track">
+                            <EntityBadge type="track" id={hypothesis.parent_id} mode="view" />
+                        </PropertyRow>
+                    )}
+
+                    {hypothesis.horizon && (
+                        <PropertyRow label="Horizon">
+                            <span className="text-sm text-gray-700">{hypothesis.horizon}</span>
+                        </PropertyRow>
+                    )}
+
+                    {hypothesis.confidence && (
+                        <PropertyRow label="Confidence">
+                            <span className="text-sm text-gray-700">{hypothesis.confidence}</span>
+                        </PropertyRow>
+                    )}
+
+                    {hypothesis.hypothesis_question && (
+                        <PropertyRow label="Question">
+                            <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+                                {hypothesis.hypothesis_question}
+                            </div>
+                        </PropertyRow>
+                    )}
+
+                    {hypothesis.success_criteria && (
+                        <PropertyRow label="Success Criteria">
+                            <div className="text-sm text-green-700 bg-green-50 p-3 rounded-md">
+                                {hypothesis.success_criteria}
+                            </div>
+                        </PropertyRow>
+                    )}
+
+                    {hypothesis.failure_criteria && (
+                        <PropertyRow label="Failure Criteria">
+                            <div className="text-sm text-red-700 bg-red-50 p-3 rounded-md">
+                                {hypothesis.failure_criteria}
+                            </div>
+                        </PropertyRow>
+                    )}
+
+                    {hypothesis.measurement && (
+                        <PropertyRow label="Measurement">
+                            <div className="text-sm text-gray-700">{hypothesis.measurement}</div>
+                        </PropertyRow>
                     )}
 
                     {hypothesis.validates && Array.isArray(hypothesis.validates) && hypothesis.validates.length > 0 && (
-                        <>
-                            <label className="text-zinc-500 py-1">Validates</label>
-                            <div className="py-1 space-y-1">
-                                {hypothesis.validates.map((v: string) => (
-                                    <div key={v} className="text-xs text-zinc-700 bg-white border border-zinc-200 rounded px-2 py-1">
-                                        {v}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
+                        <PropertyRow label="Validates">
+                            <EntityBadgeGroup type="track" ids={hypothesis.validates} mode="view" />
+                        </PropertyRow>
                     )}
 
                     {hypothesis.validated_by && Array.isArray(hypothesis.validated_by) && hypothesis.validated_by.length > 0 && (
-                        <>
-                            <label className="text-zinc-500 py-1">Validated By</label>
-                            <div className="py-1 space-y-1">
-                                {hypothesis.validated_by.map((v: string) => (
-                                    <div key={v} className="text-xs text-zinc-700 bg-white border border-zinc-200 rounded px-2 py-1">
-                                        {v}
-                                    </div>
-                                ))}
+                        <PropertyRow label="Validated By">
+                            <div className="flex flex-wrap gap-2">
+                                {hypothesis.validated_by.map((v: string) => {
+                                    // Determine entity type from ID pattern
+                                    const type = v.startsWith('mh-') ? 'hypothesis' :
+                                                 v.startsWith('trk-') ? 'track' :
+                                                 v.startsWith('cond-') ? 'condition' :
+                                                 v.startsWith('prj-') ? 'project' : 'hypothesis';
+                                    return <EntityBadge key={v} type={type as any} id={v} mode="view" />;
+                                })}
                             </div>
-                        </>
+                        </PropertyRow>
                     )}
-                </div>
+                </PropertiesGrid>
 
-                {/* Notes/Description */}
-                {(hypothesis.notes || hypothesis.description) && (
+                {/* Body Content */}
+                {hypothesis._body && (
                     <>
-                        <div className="h-px bg-zinc-200 mx-6 my-2" />
-                        <div className="px-6 py-4">
-                            <h3 className="text-sm font-semibold text-zinc-500 mb-2">Notes</h3>
-                            <div className="prose prose-sm max-w-none text-zinc-700 whitespace-pre-wrap">
-                                {hypothesis.notes || hypothesis.description}
-                            </div>
+                        <SectionDivider title="Content" />
+                        <div className="prose prose-sm max-w-none text-zinc-700">
+                            <pre className="whitespace-pre-wrap font-sans text-sm">{hypothesis._body}</pre>
+                        </div>
+                    </>
+                )}
+
+                {/* Notes/Description fallback */}
+                {!hypothesis._body && (hypothesis.notes || hypothesis.description) && (
+                    <>
+                        <SectionDivider title="Notes" />
+                        <div className="prose prose-sm max-w-none text-zinc-700 whitespace-pre-wrap">
+                            {hypothesis.notes || hypothesis.description}
                         </div>
                     </>
                 )}

@@ -1,4 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
+import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
 import type { Track } from '@/types';
 
 interface TrackFormProps {
@@ -8,7 +10,7 @@ interface TrackFormProps {
 export const TrackForm = ({ id }: TrackFormProps) => {
     const { data: dashboardData } = useDashboardInit();
 
-    const track = dashboardData?.tracks?.find((t: Track) => t.entity_id === id);
+    const track: any = dashboardData?.tracks?.find((t: Track) => t.entity_id === id);
 
     if (!track) {
         return (
@@ -18,54 +20,113 @@ export const TrackForm = ({ id }: TrackFormProps) => {
         );
     }
 
+    // Get related projects and hypotheses
+    const relatedProjects = dashboardData?.projects?.filter((p: any) => p.parent_id === track.entity_id) || [];
+    const childHypotheses = dashboardData?.hypotheses?.filter((h: any) => h.parent_id === track.entity_id) || [];
+
     return (
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto p-6">
             {/* View-only notice */}
-            <div className="px-6 pt-4 pb-3">
-                <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-700">
+            <div className="mb-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-md p-3 text-sm text-blue-700">
                     <strong>View Only:</strong> Tracks cannot be edited from the dashboard. Use vault files directly.
                 </div>
             </div>
 
-            {/* ID Badge */}
-            <div className="px-6 pb-2">
-                <span className="font-mono text-xs text-zinc-400 px-2 py-1 bg-zinc-50 rounded">
-                    {track.entity_id}
-                </span>
-            </div>
-
             {/* Title */}
-            <div className="px-6 pb-4">
-                <h2 className="text-xl font-bold text-zinc-900">{track.entity_name}</h2>
-            </div>
+            <h2 className="text-2xl font-bold text-zinc-900 mb-6">{track.entity_name}</h2>
 
             {/* Properties Grid */}
-            <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm border-t border-zinc-200">
-                <label className="text-zinc-500 py-1">Status</label>
-                <div className="py-1">
-                    <span className="inline-block px-2 py-1 bg-zinc-100 text-zinc-700 rounded text-xs capitalize">
-                        {track.status}
-                    </span>
-                </div>
-            </div>
+            <PropertiesGrid>
+                <PropertyRow label="ID">
+                    <IdBadge id={track.entity_id} />
+                </PropertyRow>
+
+                <PropertyRow label="Status">
+                    <StaticBadge label={track.status} variant="status" />
+                </PropertyRow>
+
+                {track.parent_id && (
+                    <PropertyRow label="Parent Condition">
+                        <EntityBadge type="condition" id={track.parent_id} mode="view" />
+                    </PropertyRow>
+                )}
+
+                {track.owner && (
+                    <PropertyRow label="Owner">
+                        <span className="text-sm text-gray-700">{track.owner}</span>
+                    </PropertyRow>
+                )}
+
+                {track.horizon && (
+                    <PropertyRow label="Horizon">
+                        <span className="text-sm text-gray-700">{track.horizon}</span>
+                    </PropertyRow>
+                )}
+
+                {track.hypothesis && (
+                    <PropertyRow label="Hypothesis">
+                        <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+                            {track.hypothesis}
+                        </div>
+                    </PropertyRow>
+                )}
+
+                {track.focus && Array.isArray(track.focus) && track.focus.length > 0 && (
+                    <PropertyRow label="Focus">
+                        <ul className="text-sm text-gray-700 list-disc list-inside space-y-1">
+                            {track.focus.map((item: string, idx: number) => (
+                                <li key={idx}>{item}</li>
+                            ))}
+                        </ul>
+                    </PropertyRow>
+                )}
+
+                {track.validates && Array.isArray(track.validates) && track.validates.length > 0 && (
+                    <PropertyRow label="Validates">
+                        <EntityBadgeGroup type="condition" ids={track.validates} mode="view" />
+                    </PropertyRow>
+                )}
+
+                {track.validated_by && Array.isArray(track.validated_by) && track.validated_by.length > 0 && (
+                    <PropertyRow label="Validated By">
+                        <div className="flex flex-wrap gap-2">
+                            {track.validated_by.map((v: string) => {
+                                const type = v.startsWith('prj-') ? 'project' :
+                                             v.startsWith('cond-') ? 'condition' :
+                                             v.startsWith('hyp-') ? 'hypothesis' : 'track';
+                                return <EntityBadge key={v} type={type as any} id={v} mode="view" />;
+                            })}
+                        </div>
+                    </PropertyRow>
+                )}
+            </PropertiesGrid>
+
+            {/* Child Hypotheses */}
+            {childHypotheses.length > 0 && (
+                <>
+                    <SectionDivider title="Child Hypotheses" />
+                    <EntityBadgeGroup type="hypothesis" ids={childHypotheses.map((h: any) => h.entity_id)} mode="view" />
+                </>
+            )}
 
             {/* Related Projects */}
-            <div className="px-6 py-4 bg-zinc-50 rounded-lg mx-6 mb-6 border border-zinc-200">
-                <h3 className="text-sm font-semibold text-zinc-700 mb-3">Related Projects</h3>
-                {dashboardData?.projects && dashboardData.projects.filter((p: any) => p.parent_id === track.entity_id).length > 0 ? (
-                    <div className="space-y-1">
-                        {dashboardData.projects
-                            .filter((p: any) => p.parent_id === track.entity_id)
-                            .map((p: any) => (
-                                <div key={p.entity_id} className="text-xs text-zinc-700 bg-white border border-zinc-200 rounded px-2 py-1">
-                                    {p.entity_name}
-                                </div>
-                            ))}
+            {relatedProjects.length > 0 && (
+                <>
+                    <SectionDivider title="Related Projects" />
+                    <EntityBadgeGroup type="project" ids={relatedProjects.map((p: any) => p.entity_id)} mode="view" />
+                </>
+            )}
+
+            {/* Body Content */}
+            {track._body && (
+                <>
+                    <SectionDivider title="Content" />
+                    <div className="prose prose-sm max-w-none text-zinc-700">
+                        <pre className="whitespace-pre-wrap font-sans text-sm">{track._body}</pre>
                     </div>
-                ) : (
-                    <p className="text-xs text-zinc-500 italic">No projects linked to this track</p>
-                )}
-            </div>
+                </>
+            )}
         </div>
     );
 };
