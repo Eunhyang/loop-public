@@ -86,28 +86,28 @@ Implementation Progress:
 
 ---
 
-## 기존 Task 모드 전용 Steps
+## Existing Task Mode Steps
 
-### Step 0-1: Task 존재 확인 + 로드
+### Step 0-1: Verify Task Exists + Load
 
 ```bash
-# Task 파일 찾기
+# Find Task file
 grep -rl "entity_id: \"$task_id\"" /Volumes/LOOP_CORE/vault/LOOP/50_Projects/
 
-# 또는 ID 패턴으로 검색
+# Or search by ID pattern
 find /Volumes/LOOP_CORE/vault/LOOP/50_Projects -name "*.md" -exec grep -l "$task_id" {} \;
 ```
 
-**확인 사항:**
-- Task 파일 존재 여부
-- Task의 project_id
-- Task의 target_project
-- Task의 type (dev 여야 함)
+**Check:**
+- Task file exists
+- Task's project_id
+- Task's target_project
+- Task's type (must be "dev")
 
-**Task 없으면:**
+**If Task not found:**
 ```
-Task를 찾을 수 없습니다: {task_id}
-올바른 Task ID인지 확인하세요.
+Task not found: {task_id}
+Please verify the Task ID is correct.
 ```
 
 ### Step 0-2: Check Current State
@@ -144,68 +144,68 @@ Current state:
 
 ---
 
-## 새 Task 모드 Steps
+## New Task Mode Steps
 
-### Step 1: 프로젝트 환경 감지
+### Step 1: Project Environment Detection
 
-현재 디렉토리의 Git remote로 프로젝트 타입 판별:
+Determine project type by current directory's Git remote:
 
 ```bash
-# 현재 경로로 LOOP Vault 감지
+# Detect LOOP Vault by path
 pwd | grep -q "LOOP_CORE/vault/LOOP" && echo "loop"
 
-# Git remote로 외부 프로젝트 감지
+# Detect external project by Git remote
 git remote get-url origin 2>/dev/null
 ```
 
-| Remote URL / 경로 패턴 | target_project | Git 브랜치 |
-|------------------------|----------------|-----------|
-| `LOOP_CORE/vault/LOOP` | loop | 스킵 |
-| `sosi` 포함 | sosi | 생성 |
-| `kkokkkok` 포함 | kkokkkok | 생성 |
-| `loop-api` 포함 | loop-api | 생성 |
-| 기타 | 사용자에게 질문 | (선택) |
+| Remote URL / Path Pattern | target_project | Git Branch |
+|---------------------------|----------------|------------|
+| `LOOP_CORE/vault/LOOP` | loop | Skip |
+| Contains `sosi` | sosi | Create |
+| Contains `kkokkkok` | kkokkkok | Create |
+| Contains `loop-api` | loop-api | Create |
+| Other | Ask user | (Optional) |
 
-### Step 2: Task 정보 수집
+### Step 2: Collect Task Info
 
-**AskUserQuestion으로 수집:**
-- `entity_name` - Task 이름 (인자로 받았으면 스킵)
-- `project_id` - 연결할 Project (기존 선택 또는 새로 생성)
+**Collect via AskUserQuestion:**
+- `entity_name` - Task name (skip if provided as argument)
+- `project_id` - Project to link (select existing or create new)
 
-**project_id 수집 분기:**
+**project_id collection by target:**
 
-| target_project | project_id 수집 방법 |
-|----------------|---------------------|
-| `loop` (Vault) | `50_Projects/Vault_System/Rounds/` 목록에서 선택 **또는 새 Project 생성** |
-| `sosi` | 사용자 직접 입력 또는 최근 Project 선택 **또는 새 Project 생성** |
-| `kkokkkok` | 사용자 직접 입력 또는 최근 Project 선택 **또는 새 Project 생성** |
+| target_project | How to collect project_id |
+|----------------|---------------------------|
+| `loop` (Vault) | Select from `50_Projects/Vault_System/Rounds/` **or create new Project** |
+| `sosi` | User input or select recent Project **or create new Project** |
+| `kkokkkok` | User input or select recent Project **or create new Project** |
 
-**Project 선택 옵션 (AskUserQuestion):**
+**Project selection options (AskUserQuestion):**
 ```
-연결할 Project를 선택하세요:
-1. [기존 Project 목록...]
-2. ➕ 새 Project 생성
+Select Project to link:
+1. [Existing Project list...]
+2. ➕ Create new Project
 ```
 
-### Step 2-1: 새 Project 생성 (선택 시)
+### Step 2-1: Create New Project (If Selected)
 
-> **새 Project 생성 선택 시에만 실행**
+> **Only run if user selects "Create new Project"**
 
-**loop-entity-creator로 Project 생성:**
+**Create Project via loop-entity-creator:**
 ```yaml
 entity_type: Project
-entity_name: {사용자 입력}
-owner: "김은향"        # 기본값
-parent_id: "trk-2"    # ⭐ Dev Task용 기본값 (Track 2: Data)
-conditions_3y: ["cond-b"]  # ⭐ 기본값 (Condition B: Loop Dataset)
+entity_name: {user input}
+owner: "김은향"        # default
+parent_id: "trk-2"    # Default for Dev Task (Track 2: Data)
+conditions_3y: ["cond-b"]  # Default (Condition B: Loop Dataset)
 ```
 
-**사용자에게 확인:**
+**Confirm with user:**
 ```
-새 Project를 생성합니다:
-- 이름: {입력한 이름}
-- Track: trk-2 (Data) ← 다른 Track이면 지정
-- Condition: cond-b ← 다른 Condition이면 지정
+Creating new Project:
+- Name: {entered name}
+- Track: trk-2 (Data) - specify if different Track
+- Condition: cond-b - specify if different Condition
 ```
 
 **After creation:**
@@ -677,7 +677,7 @@ projects:
     path_pattern: "/Volumes/LOOP_CORE/vault/LOOP"
     remote_pattern: null
     full_path: "/Volumes/LOOP_CORE/vault/LOOP"
-    skip_git_branch: false  # LOOP Vault도 브랜치 생성 (병렬 sync 충돌 방지)
+    skip_git_branch: false  # LOOP Vault also creates branch (prevent parallel sync conflicts)
 
   sosi:
     path_pattern: "/sosi"
@@ -701,7 +701,7 @@ vault:
 
 ## Related
 
-- `/done-dev-task` - Task 완료 및 PR 생성
-- `/new-task` - 일반 Task 생성 (LOOP Vault 전용)
-- `loop-entity-creator` - LOOP Vault 엔티티 생성 스킬
-- `codex-claude-loop` - 듀얼 AI 구현 루프 스킬
+- `/done-dev-task` - Complete Task and create PR
+- `/new-task` - Create general Task (LOOP Vault only)
+- `loop-entity-creator` - LOOP Vault entity creation skill
+- `codex-claude-loop` - Dual AI implementation loop skill

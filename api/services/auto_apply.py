@@ -39,23 +39,17 @@ from ..services.decision_logger import log_decision
 
 AUTO_APPLY_CONFIG = {
     "enabled": True,  # KILL SWITCH
-    "default_threshold": 0.85,
-    "field_thresholds": {
-        "due": 0.85,
-        "assignee": 0.85,
-        "parent_id": 0.90,
-        "priority": 0.80,
-        "status": 0.80,
-    },
-    "deterministic_fields": ["status", "priority", "type"],  # Always apply if valid
-    "never_auto_apply": [
-        "expected_impact",
-        "realized_impact",
+    # 승인 필요 필드 목록: 이 목록에 있으면 pending, 없으면 auto_apply
+    "approval_required": [
         "validates",
         "validated_by",
+        "expected_impact",
+        "realized_impact",
         "conditions_3y",
         "condition_contributes",
         "evidence_links",
+        "primary_hypothesis_id",
+        "program_id",
     ],
 }
 
@@ -196,41 +190,28 @@ def sanitize_confidence(confidence: Any) -> float:
 
 def should_auto_apply(field: str, confidence: float, entity_type: str) -> bool:
     """
-    Decide if field should be auto-applied
+    승인 필요 목록에 없으면 자동 승인
 
-    Precedence (Codex improvement):
-    1. Kill switch check (global)
-    2. Never auto-apply list (highest priority)
-    3. Deterministic fields (if valid)
-    4. Confidence threshold
+    confidence 파라미터는 하위 호환성을 위해 유지하지만 사용하지 않음
 
     Args:
         field: Field name
-        confidence: Confidence score (0.0-1.0)
-        entity_type: Task, Project, etc.
+        confidence: (unused) 하위 호환성용
+        entity_type: (unused) 하위 호환성용
 
     Returns:
         True if should auto-apply
     """
-    # 1. Kill switch (Codex improvement)
+    # 1. Kill switch
     if not AUTO_APPLY_CONFIG["enabled"]:
         return False
 
-    # 2. Never auto-apply (highest priority, Codex improvement)
-    if field in AUTO_APPLY_CONFIG["never_auto_apply"]:
+    # 2. 승인 필요 필드면 pending
+    if field in AUTO_APPLY_CONFIG["approval_required"]:
         return False
 
-    # 3. Deterministic fields (if confidence present)
-    if field in AUTO_APPLY_CONFIG["deterministic_fields"]:
-        # Codex: require confidence presence to avoid blind writes
-        return confidence > 0.0
-
-    # 4. Confidence threshold
-    threshold = AUTO_APPLY_CONFIG["field_thresholds"].get(
-        field,
-        AUTO_APPLY_CONFIG["default_threshold"]
-    )
-    return confidence >= threshold
+    # 3. 나머지는 모두 auto_apply
+    return True
 
 
 # ============================================
