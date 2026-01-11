@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-015
 entity_name: Hiring - 주니어 개발자 채용
 created: 2025-12-25
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: done
 parent_id: trk-6
 program_id: pgm-hiring
@@ -11,7 +11,8 @@ aliases:
 - prj-015
 - 주니어 개발자 채용
 outgoing_relations: []
-validates: []
+validates:
+- hyp-001
 validated_by: []
 owner: 김은향
 budget: null
@@ -20,11 +21,9 @@ hypothesis_text: 주니어 개발자를 채용하여 제품 개발 속도를 높
 experiments: []
 expected_impact:
   tier: enabling
-  impact_magnitude: high
-  confidence: 0.7
-  contributes:
-  - condition_id: cond-d
-    weight: 0.3
+  impact_magnitude: mid
+  confidence: 0.5
+  condition_contributes: []
 realized_impact:
   verdict: null
   outcome: null
@@ -36,7 +35,11 @@ tags:
 - hiring
 - developer
 priority_flag: high
-track_contributes: []
+track_contributes:
+- to: trk-6
+  weight: 0.3
+  description: Track_6_Revenue의 인력 확보에 기여하여 장기적으로 수익 증대에 도움을 줄 수 있습니다.
+primary_hypothesis_id: hyp-001
 ---
 # 주니어 개발자 채용
 

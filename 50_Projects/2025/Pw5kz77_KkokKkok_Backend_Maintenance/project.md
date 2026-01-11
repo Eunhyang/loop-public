@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-w5kz77
 entity_name: KkokKkok Backend - Maintenance
 created: '2026-01-09'
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: planning
 owner: 김은향
 priority_flag: medium

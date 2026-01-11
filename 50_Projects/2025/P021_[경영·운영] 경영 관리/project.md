@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-021
 entity_name: '[경영·운영] 경영 관리'
 created: 2025-12-29
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: doing
 owner: 한명학
 budget: null

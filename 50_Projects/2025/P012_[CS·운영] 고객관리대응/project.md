@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-012
 entity_name: CS·운영 - 고객관리/대응
 created: 2025-12-18
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: planning
 parent_id: trk-4
 aliases:

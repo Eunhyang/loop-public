@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-kkokkkok-v1028-01
 entity_name: Calendar - 2026년 캘린더 표시 버그 수정
 created: 2026-01-02
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: done
 parent_id: prj-kkokkkok-v1028
 project_id: prj-kkokkkok-v1028
@@ -14,7 +14,7 @@ validates: []
 validated_by: []
 assignee: 김은향
 start_date: '2026-01-02'
-due: '2026-01-11'
+due: '2026-01-12'
 priority: critical
 estimated_hours: 1
 actual_hours: 1

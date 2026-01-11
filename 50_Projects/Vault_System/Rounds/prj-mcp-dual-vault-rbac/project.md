@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-mcp-dual-vault-rbac
 entity_name: MCP Dual-Vault RBAC
 created: 2025-12-26
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: doing
 parent_id: trk-2
 program_id: pgm-vault-system

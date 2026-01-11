@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-n8n-23
 entity_name: n8n - Entity Validator Auto-Apply 기능
 created: 2026-01-11
-updated: '2026-01-11'
+updated: '2026-01-12'
 revision_count: 3
 status: done
 closed: '2026-01-11'
@@ -17,7 +17,7 @@ validates: []
 validated_by: []
 assignee: 김은향
 start_date: null
-due: null
+due: '2026-01-19'
 priority: high
 estimated_hours: null
 actual_hours: null
