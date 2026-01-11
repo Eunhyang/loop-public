@@ -33,6 +33,7 @@ conditions_3y:
 tags: []
 priority_flag: medium
 track_contributes: []
+primary_hypothesis_id: null
 ---
 # 외부 비서
 
