@@ -146,29 +146,9 @@ export const MarkdownEditor = ({
     onBlur: () => {
       isFocused.current = false
 
-      // CRITICAL: Flush BEFORE applying pending to avoid stale overwrite
-      // (only flush if not readOnly to avoid emitting changes in read-only mode)
+      // Flush any pending debounced changes (Notion-style: sync on blur)
       if (!readOnly) {
         debouncedOnChange.flush()
-      }
-
-      // Apply any pending external value that arrived while focused
-      // (do this EVEN in readOnly mode to keep content in sync)
-      if (pendingExternalValue.current !== null && editor) {
-        const currentMarkdown = getMarkdownFromEditor(editor)
-
-        // Only apply if content actually differs (avoid stuck isProgrammaticUpdate flag)
-        if (pendingExternalValue.current !== currentMarkdown) {
-          isProgrammaticUpdate.current = true
-          editor.commands.setContent(pendingExternalValue.current)
-          lastValue.current = pendingExternalValue.current
-        }
-
-        pendingExternalValue.current = null
-      }
-
-      // Call parent onBlur handler (only in edit mode)
-      if (!readOnly) {
         onBlur?.()
       }
     },
@@ -193,10 +173,9 @@ export const MarkdownEditor = ({
     // Only update if value actually changed (avoid feedback loops)
     if (value === lastValue.current) return
 
-    // If focused, store pending value instead of applying immediately (Notion-style)
-    // This prevents cursor jump during typing
+    // If focused, ignore external value changes (Notion-style)
+    // User input takes priority, server value will sync naturally on next focus
     if (isFocused.current) {
-      pendingExternalValue.current = value
       return
     }
 
