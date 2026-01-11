@@ -42,7 +42,6 @@ export const MarkdownEditor = ({
   const isProgrammaticUpdate = useRef(false)
   const editorRef = useRef<Editor | null>(null)
   const isFocused = useRef(false)
-  const pendingExternalValue = useRef<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
 
