@@ -41,6 +41,8 @@ export const MarkdownEditor = ({
   const lastValue = useRef(value)
   const isProgrammaticUpdate = useRef(false)
   const editorRef = useRef<Editor | null>(null)
+  const isFocused = useRef(false)
+  const pendingExternalValue = useRef<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
 
@@ -123,14 +125,15 @@ export const MarkdownEditor = ({
       },
     },
     onUpdate: ({ editor }) => {
-      // Don't emit changes in readOnly mode
-      if (readOnly) return
-
       // Skip onChange for programmatic updates (from external value changes)
+      // CRITICAL: Check this BEFORE readOnly guard to avoid stuck flag
       if (isProgrammaticUpdate.current) {
         isProgrammaticUpdate.current = false
         return
       }
+
+      // Don't emit changes in readOnly mode
+      if (readOnly) return
 
       // Get markdown from editor
       const markdown = getMarkdownFromEditor(editor)
@@ -138,10 +141,35 @@ export const MarkdownEditor = ({
       // Emit debounced change
       debouncedOnChange(markdown)
     },
+    onFocus: () => {
+      isFocused.current = true
+    },
     onBlur: () => {
+      isFocused.current = false
+
+      // CRITICAL: Flush BEFORE applying pending to avoid stale overwrite
+      // (only flush if not readOnly to avoid emitting changes in read-only mode)
       if (!readOnly) {
-        // Flush pending debounced changes immediately on blur
         debouncedOnChange.flush()
+      }
+
+      // Apply any pending external value that arrived while focused
+      // (do this EVEN in readOnly mode to keep content in sync)
+      if (pendingExternalValue.current !== null && editor) {
+        const currentMarkdown = getMarkdownFromEditor(editor)
+
+        // Only apply if content actually differs (avoid stuck isProgrammaticUpdate flag)
+        if (pendingExternalValue.current !== currentMarkdown) {
+          isProgrammaticUpdate.current = true
+          editor.commands.setContent(pendingExternalValue.current)
+          lastValue.current = pendingExternalValue.current
+        }
+
+        pendingExternalValue.current = null
+      }
+
+      // Call parent onBlur handler (only in edit mode)
+      if (!readOnly) {
         onBlur?.()
       }
     },
@@ -166,6 +194,14 @@ export const MarkdownEditor = ({
     // Only update if value actually changed (avoid feedback loops)
     if (value === lastValue.current) return
 
+    // If focused, store pending value instead of applying immediately (Notion-style)
+    // This prevents cursor jump during typing
+    if (isFocused.current) {
+      pendingExternalValue.current = value
+      return
+    }
+
+    // Not focused - apply immediately
     // Get current markdown from editor
     const currentMarkdown = getMarkdownFromEditor(editor)
 
