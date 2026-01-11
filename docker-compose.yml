@@ -74,6 +74,8 @@ services:
       # Discord Notification
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
       - DISCORD_NOTIFY_ENABLED=${DISCORD_NOTIFY_ENABLED:-true}
+      # LOOP API Token
+      - LOOP_API_TOKEN=${LOOP_API_TOKEN}
     depends_on:
       loop-auth:
         condition: service_healthy
