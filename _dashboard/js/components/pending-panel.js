@@ -15,9 +15,9 @@ const PendingPanel = {
     // Workflow Filter (tsk-n8n-18)
     // ============================================
     filterWorkflow: null,       // 선택된 워크플로우 필터
-    filterRunId: null,          // 선택된 run_id 필터
+    filterRunId: null,          // 선택된 timestamp 필터 (YYYY-MM-DD HH:MM)
     availableWorkflows: [],     // 사용 가능한 워크플로우 목록
-    availableRunIds: [],        // 사용 가능한 run_id 목록
+    availableRunTimestamps: [], // 사용 가능한 timestamp 옵션 [{timestamp, count}]
 
     // ============================================
     // Field Selection UX (tsk-n8n-13)
@@ -795,15 +795,36 @@ const PendingPanel = {
 
         // 고유 워크플로우 수집
         const workflows = new Set();
-        const runIds = new Set();
+        const runTimestamps = new Map(); // "YYYY-MM-DD HH:MM" -> count
 
         reviews.forEach(r => {
             if (r.source_workflow) workflows.add(r.source_workflow);
-            if (r.run_id) runIds.add(r.run_id);
+
+            // Group by timestamp (created_at field)
+            if (r.created_at) {
+                try {
+                    // Ensure created_at is a string (ISO format: "2026-01-11T06:00:24.123456")
+                    const createdAtStr = typeof r.created_at === 'string'
+                        ? r.created_at
+                        : new Date(r.created_at).toISOString();
+
+                    // Extract "YYYY-MM-DD HH:MM" (first 16 chars of ISO, replace T with space)
+                    if (createdAtStr.length >= 16) {
+                        const ts = createdAtStr.slice(0, 16).replace('T', ' ');
+                        runTimestamps.set(ts, (runTimestamps.get(ts) || 0) + 1);
+                    }
+                } catch (e) {
+                    // Skip invalid dates (don't pollute console)
+                }
+            }
         });
 
         this.availableWorkflows = Array.from(workflows).sort();
-        this.availableRunIds = Array.from(runIds).sort();
+
+        // Build run options sorted newest first
+        this.availableRunTimestamps = Array.from(runTimestamps.entries())
+            .sort((a, b) => b[0].localeCompare(a[0])) // newest first
+            .map(([ts, count]) => ({ timestamp: ts, count }));
 
         // 워크플로우 드롭다운 업데이트
         const workflowSelect = document.getElementById('filterWorkflow');
@@ -819,16 +840,16 @@ const PendingPanel = {
             }
         }
 
-        // run_id 드롭다운 업데이트
+        // run_id 드롭다운 업데이트 (timestamp 기반 그룹화)
         const runIdSelect = document.getElementById('filterRunId');
         if (runIdSelect) {
             const currentValue = runIdSelect.value;
             runIdSelect.innerHTML = '<option value="">All Runs</option>' +
-                this.availableRunIds.map(r =>
-                    `<option value="${this.escapeHtml(r)}">${this.escapeHtml(r.length > 24 ? r.substring(0, 24) + '...' : r)}</option>`
+                this.availableRunTimestamps.map(({ timestamp, count }) =>
+                    `<option value="${this.escapeHtml(timestamp)}">${this.escapeHtml(timestamp)} (${count})</option>`
                 ).join('');
             // 기존 선택 유지
-            if (currentValue && this.availableRunIds.includes(currentValue)) {
+            if (currentValue && this.availableRunTimestamps.some(({ timestamp }) => timestamp === currentValue)) {
                 runIdSelect.value = currentValue;
             }
         }
@@ -872,7 +893,7 @@ const PendingPanel = {
         // 확인 다이얼로그
         const filterDesc = [];
         if (this.filterWorkflow) filterDesc.push(`workflow: ${this.filterWorkflow}`);
-        if (this.filterRunId) filterDesc.push(`run: ${this.filterRunId.length > 24 ? this.filterRunId.substring(0, 24) + '...' : this.filterRunId}`);
+        if (this.filterRunId) filterDesc.push(`run: ${this.filterRunId}`);
 
         const confirmed = confirm(
             `Delete ${filteredReviews.length} reviews?\n\nFilter: ${filterDesc.join(', ')}\nStatus: ${currentStatus}\n\nThis cannot be undone.`
@@ -881,10 +902,15 @@ const PendingPanel = {
         if (!confirmed) return;
 
         try {
+            // Pass IDs explicitly for timestamp-based filtering
+            // (Backend API doesn't support timestamp prefix, so we pass filtered IDs)
+            const idsToDelete = filteredReviews.map(r => r.id);
+
             const result = await API.deletePendingBatch(
                 this.filterWorkflow,
-                this.filterRunId,
-                currentStatus
+                null, // Don't use run_id parameter for timestamp filtering
+                currentStatus,
+                idsToDelete // Pass explicit IDs
             );
             showToast(`Deleted ${result.deleted_count} reviews`, 'success');
 
@@ -908,7 +934,25 @@ const PendingPanel = {
             reviews = reviews.filter(r => r.source_workflow === this.filterWorkflow);
         }
         if (this.filterRunId) {
-            reviews = reviews.filter(r => r.run_id === this.filterRunId);
+            // Filter by timestamp prefix from created_at field
+            reviews = reviews.filter(r => {
+                if (!r.created_at) return false;
+                try {
+                    // Ensure created_at is a string
+                    const createdAtStr = typeof r.created_at === 'string'
+                        ? r.created_at
+                        : new Date(r.created_at).toISOString();
+
+                    // Extract "YYYY-MM-DD HH:MM" from created_at
+                    if (createdAtStr.length >= 16) {
+                        const ts = createdAtStr.slice(0, 16).replace('T', ' ');
+                        return ts === this.filterRunId;
+                    }
+                    return false;
+                } catch (e) {
+                    return false;
+                }
+            });
         }
 
         return reviews;
