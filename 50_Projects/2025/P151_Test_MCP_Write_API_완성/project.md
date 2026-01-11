@@ -7,7 +7,7 @@ updated: '2026-01-11'
 status: planning
 owner: 김은향
 priority_flag: medium
-parent_id: null
+parent_id: trk-1
 program_id: null
 aliases:
 - prj-151f61

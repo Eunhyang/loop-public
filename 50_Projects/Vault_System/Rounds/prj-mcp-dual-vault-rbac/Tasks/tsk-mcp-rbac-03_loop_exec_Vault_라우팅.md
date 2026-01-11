@@ -19,7 +19,7 @@ validated_by: []
 type: dev
 assignee: 김은향
 priority: high
-due: null
+due: '2026-01-25'
 estimate: null
 target_project: loop
 tags:

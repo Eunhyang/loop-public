@@ -21,7 +21,7 @@ realized_impact:
   decided: null
 hypothesis_id: null
 experiments: []
-parent_id: pgm-youtube-weekly
+parent_id: trk-3
 conditions_3y:
 - cond-a
 aliases:
@@ -37,6 +37,7 @@ tags:
 - 위고비
 - 콘텐츠
 priority_flag: medium
+track_contributes: []
 ---
 # 위고비 유튜브 콘텐츠 기획
 

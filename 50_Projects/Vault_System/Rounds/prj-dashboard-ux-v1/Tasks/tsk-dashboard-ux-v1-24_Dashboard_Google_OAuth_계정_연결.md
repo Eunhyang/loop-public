@@ -14,7 +14,7 @@ validates: []
 validated_by: []
 assignee: 김은향
 start_date: null
-due: null
+due: '2026-01-25'
 priority: high
 estimated_hours: null
 actual_hours: null

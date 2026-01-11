@@ -36,6 +36,7 @@ tags:
 - hiring
 - developer
 priority_flag: high
+track_contributes: []
 ---
 # 주니어 개발자 채용
 

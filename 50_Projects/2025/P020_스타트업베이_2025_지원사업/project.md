@@ -10,9 +10,10 @@ priority_flag: medium
 aliases:
 - prj-020
 tags: []
-parent_id: pgm-grants
+parent_id: trk-1
 conditions_3y:
 - cond-d
+track_contributes: []
 ---
 # 스타트업베이 - 2025 지원사업
 
