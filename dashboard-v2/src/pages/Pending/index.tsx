@@ -370,6 +370,7 @@ export const PendingPage = () => {
         {/* Workflow/Run Filters */}
         <WorkflowFilters
           reviews={allReviews}
+          activeStatus={activeTab}
           filterWorkflow={filterWorkflow}
           filterRunId={filterRunId}
           onWorkflowChange={setFilterWorkflow}

@@ -3,6 +3,7 @@ import type { PendingReview } from '../types';
 
 interface WorkflowFiltersProps {
   reviews: PendingReview[];
+  activeStatus: string;  // Current tab: 'pending' | 'approved' | 'rejected'
   filterWorkflow: string;
   filterRunId: string;  // Now stores timestamp like "2026-01-11 07:44"
   onWorkflowChange: (workflow: string) => void;
@@ -26,6 +27,7 @@ const extractTimestamp = (createdAt: string | undefined): string | null => {
 
 export const WorkflowFilters = ({
   reviews,
+  activeStatus,
   filterWorkflow,
   filterRunId,
   onWorkflowChange,
@@ -33,12 +35,15 @@ export const WorkflowFilters = ({
   onDeleteFiltered,
   isDeleting,
 }: WorkflowFiltersProps) => {
-  // Extract unique workflows and group runs by timestamp
+  // Extract unique workflows and group runs by timestamp (only for current status)
   const { workflows, runTimestamps } = useMemo(() => {
+    // Filter by current status first
+    const statusReviews = reviews.filter((r) => r.status === activeStatus);
+
     const workflowSet = new Set<string>();
     const timestampMap = new Map<string, number>(); // "YYYY-MM-DD HH:MM" -> count
 
-    reviews.forEach((r) => {
+    statusReviews.forEach((r) => {
       if (r.source_workflow) workflowSet.add(r.source_workflow);
 
       // Group by timestamp instead of individual run_id
@@ -57,7 +62,7 @@ export const WorkflowFilters = ({
       workflows: Array.from(workflowSet).sort(),
       runTimestamps: sortedTimestamps,
     };
-  }, [reviews]);
+  }, [reviews, activeStatus]);
 
   const hasFilter = filterWorkflow !== '' || filterRunId !== '';
   const canDelete = hasFilter && !isDeleting;
