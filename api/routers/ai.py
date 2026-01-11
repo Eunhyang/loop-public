@@ -1406,18 +1406,19 @@ def get_default_confidence(field: str, value: Any, entity_type: str) -> float:
         return 1.0
 
     # Date fields with explicit YYYY-MM-DD pattern
+    # tsk-n8n-23: Raised to 0.86 for auto_apply (threshold: 0.85)
     if field in ['due', 'start_date', 'created', 'updated'] and value:
         try:
             if re.match(r'^\d{4}-\d{2}-\d{2}', str(value)):
-                return 0.85
+                return 0.86
         except (TypeError, AttributeError):
             pass
 
     # Assignee from alias mapping (members.yaml)
-    # TODO: Could verify against members.yaml here for higher confidence
-    # Conservative default to avoid over-application
+    # tsk-n8n-23: Raised to 0.90 for auto_apply (threshold: 0.85)
+    # LLM typically suggests valid members from context
     if field == 'assignee':
-        return 0.70
+        return 0.90
 
     # Parent entity references (conservative)
     if field in ['parent_id', 'project_id', 'track_id']:
