@@ -38,19 +38,51 @@ description: LOOP Vault 또는 외부 프로젝트(sosi, kkokkkok)에서 dev Tas
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 모드별 워크플로우
+### Workflow by Mode
 
-**New Task Mode (no task_id):**
+**`/new-dev-task` (PRD Preparation - STOP before implementation):**
 ```
-Step 1 → Step 2 → [Step 2-1 New Project (optional)] → Step 3 (Git Branch) → Step 4 (Task + Sync + Merge) → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
-```
-
-**Existing Task Mode (task_id provided):**
-```
-Step 0-1 → Step 0-2 → Step 3 (conditional) → Step 4 (conditional) → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
+Step 1 → Step 2 → [Step 2-1] → Step 3 (Git Branch) → Step 4 (Task + Sync + Merge)
+     → Step 5 (Read Project + PRD + Tech Spec) → Step 5.5 (Codex Feedback) → Step 5.6 (PRD Update)
+     → STOP 🛑 → Suggest "/start-dev-task"
 ```
 
-> **⚠️ Step 6 (codex-claude-loop 호출)은 모든 모드에서 필수입니다. 스킵 불가.**
+**`/start-dev-task` (Implementation):**
+```
+Step 6 (codex-claude-loop) → Step 7 (Validation)
+```
+
+**Existing Task Mode (task_id provided to /start-dev-task):**
+```
+Step 0-1 → Step 0-2 → Step 3 (conditional) → Step 4 (conditional) → Step 5 (conditional) → Step 6 → Step 7
+```
+
+> **🛑 CRITICAL: `/new-dev-task` MUST STOP after Step 5.6. Never proceed to Step 6.**
+> **🚨 Implementation (Step 6-7) only starts via `/start-dev-task` command.**
+
+### Checklist Pattern (Copy and track progress)
+
+**For `/new-dev-task`:**
+```
+PRD Preparation Progress:
+- [ ] Step 1: Environment detection
+- [ ] Step 2: Collect Task info
+- [ ] Step 3: Create Git branch
+- [ ] Step 4: Create Task + Sync + Merge
+- [ ] Step 5-1: Read parent Project file (architecture rules)
+- [ ] Step 5-2: Write Tech Spec (following Project rules)
+- [ ] Step 5-3: Write Todo
+- [ ] Step 5.5: Get Codex PRD feedback
+- [ ] Step 5.6: Update PRD with feedback
+- [ ] STOP and suggest /start-dev-task
+```
+
+**For `/start-dev-task`:**
+```
+Implementation Progress:
+- [ ] Step 6: codex-claude-loop (implementation)
+- [ ] Step 7: Validation
+```
 
 ---
 
