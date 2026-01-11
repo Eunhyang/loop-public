@@ -80,7 +80,7 @@ LOOP API가 exec vault (민감 정보 vault)의 프로젝트도 로드하여 대
 | tsk-018-04 | API - exec MCP mount 구현 | 김은향 | done |
 | tsk-018-05 | API - public shared import 경로 수정 | 김은향 | done |
 | tsk-018-06 | API - Members SSOT 통합 | 김은향 | doing |
-| tsk-0vault-1768106628300 | OAuth - SQLite busy_timeout 설정 | 김은향 | todo |
+| tsk-0vault-1768106628300 | OAuth - SQLite busy_timeout 설정 | 김은향 | doing |
 
 ---
 
