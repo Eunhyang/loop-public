@@ -231,6 +231,40 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             return project?.[field];
         };
 
+        // Helper: Combine individual reasonings for expected_impact
+        // API returns reasoning like {tier: "...", impact_magnitude: "...", summary: "..."}
+        // We combine them into a single string for display
+        const getExpectedImpactReasoning = (): string | undefined => {
+            if (!isReviewMode || !reasoning) return undefined;
+
+            const parts: string[] = [];
+
+            // summary is the main reasoning (if available)
+            if (reasoning.summary) {
+                parts.push(reasoning.summary);
+            }
+
+            // Add individual field reasonings if no summary
+            if (parts.length === 0) {
+                if (reasoning.tier) parts.push(`Tier: ${reasoning.tier}`);
+                if (reasoning.impact_magnitude) parts.push(`Magnitude: ${reasoning.impact_magnitude}`);
+                if (reasoning.confidence) parts.push(`Confidence: ${reasoning.confidence}`);
+            }
+
+            return parts.length > 0 ? parts.join(' ') : undefined;
+        };
+
+        // Helper: Get track/hypothesis reasoning
+        const getTrackContributesReasoning = (): string | undefined => {
+            if (!isReviewMode || !reasoning) return undefined;
+            return reasoning.contributes || reasoning.track_contributes;
+        };
+
+        const getValidatesReasoning = (): string | undefined => {
+            if (!isReviewMode || !reasoning) return undefined;
+            return reasoning.validates || reasoning.primary_hypothesis_id;
+        };
+
         const copyId = () => {
             if (id) {
                 navigator.clipboard.writeText(id);
@@ -396,7 +430,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     <label className="text-zinc-500 py-1">Expected Impact</label>
                     <ReviewFieldWrapper
                         isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('expected_impact'))}
-                        reasoning={isReviewMode ? reviewMode?.getReasoning('expected_impact') : undefined}
+                        reasoning={getExpectedImpactReasoning()}
                     >
                         <ExpectedImpactEditor
                             value={getFieldValue('expected_impact') as ExpectedImpact | undefined}
@@ -409,7 +443,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     <label className="text-zinc-500 py-1">Track Contributes</label>
                     <ReviewFieldWrapper
                         isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('track_contributes'))}
-                        reasoning={isReviewMode ? reviewMode?.getReasoning('track_contributes') : undefined}
+                        reasoning={getTrackContributesReasoning()}
                     >
                         <TrackContributionEditor
                             tracks={dashboardData?.tracks || []}
@@ -424,7 +458,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     <label className="text-zinc-500 py-1">Hypotheses</label>
                     <ReviewFieldWrapper
                         isSuggested={Boolean(isReviewMode && (reviewMode?.isSuggested('validates') || reviewMode?.isSuggested('primary_hypothesis_id')))}
-                        reasoning={isReviewMode ? (reviewMode?.getReasoning('validates') || reviewMode?.getReasoning('primary_hypothesis_id')) : undefined}
+                        reasoning={getValidatesReasoning()}
                     >
                         <HypothesisSelector
                             hypotheses={dashboardData?.hypotheses || []}

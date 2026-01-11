@@ -181,26 +181,49 @@ export function HypothesisSelector({
           {hypotheses.map((hyp) => {
             const isSelected = validatesSet.has(hyp.entity_id);
             return (
-              <button
-                key={hyp.entity_id}
-                type="button"
-                onClick={() => handleToggleValidates(hyp.entity_id)}
-                className={`
-                  inline-flex items-center gap-1
-                  px-2 py-0.5 text-xs rounded-md border
-                  transition-all duration-150
-                  focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-1
-                  ${isSelected
-                    ? `${hypothesisColor.selected} font-semibold shadow-sm`
-                    : `${hypothesisColor.bg} ${hypothesisColor.text} border-transparent hover:border-zinc-300`
-                  }
-                  cursor-pointer
-                `}
-                aria-pressed={isSelected}
-              >
-                {isSelected && <span className="text-xs">+</span>}
-                <span className="truncate max-w-[150px]">{hyp.entity_name}</span>
-              </button>
+              <div key={hyp.entity_id} className="inline-flex items-center">
+                <button
+                  type="button"
+                  onClick={() => handleToggleValidates(hyp.entity_id)}
+                  className={`
+                    inline-flex items-center gap-1
+                    px-2 py-0.5 text-xs rounded-l-md border
+                    transition-all duration-150
+                    focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-1
+                    ${isSelected
+                      ? `${hypothesisColor.selected} font-semibold shadow-sm`
+                      : `${hypothesisColor.bg} ${hypothesisColor.text} border-transparent hover:border-zinc-300`
+                    }
+                    cursor-pointer
+                  `}
+                  aria-pressed={isSelected}
+                  title={isSelected ? 'Deselect hypothesis' : 'Select hypothesis'}
+                >
+                  {isSelected && <span className="text-xs">+</span>}
+                  <span className="truncate max-w-[150px]">{hyp.entity_name}</span>
+                </button>
+                {/* View details button */}
+                {onHypothesisClick && (
+                  <button
+                    type="button"
+                    onClick={(e) => handleHypothesisClick(e, hyp.entity_id)}
+                    className={`
+                      px-1.5 py-0.5 text-xs rounded-r-md border-y border-r
+                      transition-all duration-150
+                      focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-1
+                      ${isSelected
+                        ? 'bg-purple-100 border-purple-300 text-purple-600 hover:bg-purple-200'
+                        : 'bg-zinc-50 border-zinc-200 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600'
+                      }
+                      cursor-pointer
+                    `}
+                    title="View hypothesis details"
+                    aria-label={`View details for ${hyp.entity_name}`}
+                  >
+                    →
+                  </button>
+                )}
+              </div>
             );
           })}
         </div>
