@@ -378,7 +378,7 @@ def create_auto_applied_review(
     Returns:
         review_id
     """
-    from .pending import load_pending, save_pending, generate_review_id
+    from ..routers.pending import load_pending, save_pending, generate_review_id
 
     vault_dir = get_vault_dir()
     pending_file = vault_dir / "_build" / "pending_reviews.json"
