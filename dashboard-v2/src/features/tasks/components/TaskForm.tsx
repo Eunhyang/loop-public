@@ -18,10 +18,12 @@ import type { Task } from '@/types';
 
 // Task body templates for Create and Edit mode
 type TemplateType = 'default' | 'simple' | 'dev' | 'bug' | 'meeting';
+type TaskType = NonNullable<Task['type']>; // 'dev' | 'bug' | 'strategy' | 'research' | 'ops' | 'meeting'
 
-const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> = {
+const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string; showFor: 'all' | TaskType[] }> = {
     default: {
         label: 'Default',
+        showFor: 'all',
         content: `## 목표
 
 -
@@ -40,6 +42,7 @@ const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> =
     },
     simple: {
         label: 'Simple',
+        showFor: 'all',
         content: `## Todo
 
 - [ ]
@@ -52,6 +55,7 @@ const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> =
     },
     dev: {
         label: 'Dev Task',
+        showFor: ['dev'],
         content: `## 목표
 
 **완료 조건**:
@@ -87,6 +91,7 @@ const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> =
     },
     bug: {
         label: 'Bug Report',
+        showFor: ['bug'],
         content: `## Bug 설명
 
 **증상**:
@@ -131,6 +136,7 @@ const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> =
     },
     meeting: {
         label: 'Meeting Notes',
+        showFor: ['meeting'],
         content: `## Meeting Info
 
 - Date:
@@ -170,6 +176,16 @@ const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> =
 - Agenda:
 `
     }
+};
+
+// Helper: Filter templates by task type
+// Note: 'strategy', 'research', 'ops' types will only see 'all' templates (intentional)
+const filterTemplatesByType = (type: Task['type'] | undefined): [TemplateType, typeof TASK_TEMPLATES[TemplateType]][] => {
+    const taskType: TaskType = type ?? 'dev'; // Default to 'dev' if null/undefined
+    return Object.entries(TASK_TEMPLATES).filter(([_, template]) => {
+        return template.showFor === 'all' ||
+               (Array.isArray(template.showFor) && template.showFor.includes(taskType));
+    }) as [TemplateType, typeof TASK_TEMPLATES[TemplateType]][];
 };
 
 interface TaskFormProps {
@@ -463,11 +479,15 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     <div className="space-y-1.5">
                         <label className="block text-sm font-medium text-zinc-700">Notes Template</label>
                         <div className="flex gap-2">
-                            {(Object.entries(TASK_TEMPLATES) as [TemplateType, typeof TASK_TEMPLATES[TemplateType]][]).map(([key, template]) => (
+                            {filterTemplatesByType(createFormData.type).map(([key, template]) => (
                                 <button
                                     key={key}
                                     type="button"
                                     onClick={() => {
+                                        const currentNotes = createFormData.notes?.trim() || '';
+                                        if (currentNotes && !window.confirm('기존 내용이 삭제됩니다. 템플릿을 적용하시겠습니까?')) {
+                                            return;
+                                        }
                                         setSelectedTemplate(key);
                                         setCreateFormData(prev => ({ ...prev, notes: template.content }));
                                     }}
@@ -896,11 +916,15 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     <h3 className="text-sm font-semibold text-zinc-500">Notes</h3>
                     {!isReadOnly && (
                         <div className="flex gap-2">
-                            {(Object.entries(TASK_TEMPLATES) as [TemplateType, typeof TASK_TEMPLATES[TemplateType]][]).map(([key, template]) => (
+                            {filterTemplatesByType(getFieldValue('type') as Task['type']).map(([key, template]) => (
                                 <button
                                     key={key}
                                     type="button"
                                     onClick={() => {
+                                        const currentNotes = ((getFieldValue('notes') || getFieldValue('_body') || '') as string).trim();
+                                        if (currentNotes && !window.confirm('기존 내용이 삭제됩니다. 템플릿을 적용하시겠습니까?')) {
+                                            return;
+                                        }
                                         setSelectedTemplate(key);
                                         if (id) {
                                             handleFieldChangeInternal('notes', template.content);
