@@ -7,6 +7,7 @@ import { EventPopover } from './components/EventPopover';
 import { TaskFilterBar } from '@/features/filters/components/TaskFilterBar';
 import { FilterPanel } from '@/features/filters/components/FilterPanel';
 import { useFilterContext } from '@/features/filters/context/FilterContext';
+import { FavoritesStrip } from '@/features/favorites';
 import { useCalendarEvents } from './queries/useCalendarEvents';
 import { useCalendarUi } from './hooks/useCalendarUi';
 import { useCombinedFilters } from '@/hooks/useCombinedFilters';
@@ -120,6 +121,14 @@ export default function CalendarPage() {
                         projects={dashboardData.projects}
                         programs={dashboardData.programs || []}
                         tasks={dashboardData.tasks}
+                    />
+                )}
+
+                {dashboardData && (
+                    <FavoritesStrip
+                        tasks={dashboardData.tasks}
+                        projects={dashboardData.projects}
+                        programs={dashboardData.programs || []}
                     />
                 )}
 

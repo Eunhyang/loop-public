@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useUi } from '@/contexts/UiContext';
 import { authStorage } from '@/features/auth/storage';
@@ -18,6 +18,7 @@ type ReloadState = 'idle' | 'loading' | 'success' | 'error';
 
 export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: HeaderProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const { openEntityDrawer } = useUi();
   const { togglePanel, isPanelOpen } = useFilterContext();
@@ -102,10 +103,10 @@ export const Header = ({ onToggleSidebar, isSidebarOpen, isAdmin = false }: Head
 
         {/* Access Links (Legacy View Toggles -> Now NavLinks) */}
         <nav className="hidden md:flex items-center gap-6 h-full">
-          <NavLink to="/kanban" className={navLinkClass}>Kanban</NavLink>
-          <NavLink to="/calendar" className={navLinkClass}>Calendar</NavLink>
-          <NavLink to="/graph" className={navLinkClass}>Graph</NavLink>
-          <NavLink to="/pending" className={navLinkClass}>
+          <NavLink to={{ pathname: '/kanban', search: location.search }} className={navLinkClass}>Kanban</NavLink>
+          <NavLink to={{ pathname: '/calendar', search: location.search }} className={navLinkClass}>Calendar</NavLink>
+          <NavLink to={{ pathname: '/graph', search: location.search }} className={navLinkClass}>Graph</NavLink>
+          <NavLink to={{ pathname: '/pending', search: location.search }} className={navLinkClass}>
             <span className="flex items-center gap-1.5">
               Review
               {pendingCount > 0 && (
