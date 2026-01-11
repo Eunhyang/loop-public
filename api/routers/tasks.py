@@ -17,7 +17,8 @@ from ..models.entities import TaskCreate, TaskUpdate, TaskResponse, ValidationRe
 from ..cache import get_cache
 from ..utils.vault_utils import (
     sanitize_filename,
-    get_vault_dir
+    get_vault_dir,
+    get_exec_vault_dir
 )
 from .audit import log_entity_action
 from .ai import _validate_task_schema_internal
@@ -78,8 +79,17 @@ def get_task(task_id: str):
     frontmatter = yaml.safe_load(match.group(1))
     body = match.group(2)
 
-    # 경로 정보 추가
-    frontmatter['_path'] = str(task_path.relative_to(VAULT_DIR))
+    # 경로 정보 추가 (public/exec vault 모두 지원)
+    try:
+        frontmatter['_path'] = str(task_path.relative_to(VAULT_DIR))
+    except ValueError:
+        # exec vault의 경로일 수 있음
+        exec_dir = get_exec_vault_dir()
+        try:
+            frontmatter['_path'] = f"exec/{task_path.relative_to(exec_dir)}"
+        except ValueError:
+            # 둘 다 아닌 경우 절대 경로 사용 (fallback)
+            frontmatter['_path'] = str(task_path)
     frontmatter['_body'] = body
 
     return {"task": frontmatter}
