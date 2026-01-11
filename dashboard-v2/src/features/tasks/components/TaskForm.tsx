@@ -16,13 +16,39 @@ import { AttachmentPanel } from './AttachmentPanel';
 import { CommentSection } from '@/features/comments';
 import type { Task } from '@/types';
 
-// Task body templates for Create mode
-type TemplateType = 'empty' | 'dev' | 'bug' | 'meeting';
+// Task body templates for Create and Edit mode
+type TemplateType = 'default' | 'simple' | 'dev' | 'bug' | 'meeting';
 
 const TASK_TEMPLATES: Record<TemplateType, { label: string; content: string }> = {
-    empty: {
-        label: 'Empty',
-        content: ''
+    default: {
+        label: 'Default',
+        content: `## 목표
+
+-
+
+---
+
+## 작업 내용
+
+-
+
+---
+
+## 완료 기록
+
+-`
+    },
+    simple: {
+        label: 'Simple',
+        content: `## Todo
+
+- [ ]
+
+---
+
+## Done
+
+-`
     },
     dev: {
         label: 'Dev Task',
@@ -190,7 +216,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         notes: prefill?.notes || '',
     });
 
-    const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>('empty');
+    const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>('default');
     const [formError, setFormError] = useState<string | null>(null);
 
     // For edit mode, use task data
@@ -866,7 +892,32 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
 
             {/* Notes Section */}
             <div className="px-6 py-4 flex-1 flex flex-col">
-                <h3 className="text-sm font-semibold text-zinc-500 mb-2">Notes</h3>
+                <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-zinc-500">Notes</h3>
+                    {!isReadOnly && (
+                        <div className="flex gap-2">
+                            {(Object.entries(TASK_TEMPLATES) as [TemplateType, typeof TASK_TEMPLATES[TemplateType]][]).map(([key, template]) => (
+                                <button
+                                    key={key}
+                                    type="button"
+                                    onClick={() => {
+                                        setSelectedTemplate(key);
+                                        if (id) {
+                                            handleFieldChangeInternal('notes', template.content);
+                                        }
+                                    }}
+                                    className={`px-2 py-1 text-xs rounded transition-colors ${
+                                        selectedTemplate === key
+                                            ? 'bg-blue-500 text-white'
+                                            : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                                    }`}
+                                >
+                                    {template.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
                 <ReviewFieldWrapper
                     isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('notes') : false}
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('notes') : undefined}
