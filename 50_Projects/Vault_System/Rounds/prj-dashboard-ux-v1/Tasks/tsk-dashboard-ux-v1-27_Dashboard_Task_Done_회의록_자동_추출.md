@@ -1,40 +1,36 @@
 ---
 entity_type: Task
-entity_id: "tsk-dashboard-ux-v1-27"
-entity_name: "Dashboard - Task Done 회의록 자동 추출"
+entity_id: tsk-dashboard-ux-v1-27
+entity_name: Dashboard - Task Done 회의록 자동 추출
 created: 2026-01-06
-updated: 2026-01-06
+updated: '2026-01-11'
 status: todo
-
-# === 계층 ===
-parent_id: "prj-dashboard-ux-v1"
-project_id: "prj-dashboard-ux-v1"
-aliases: ["tsk-dashboard-ux-v1-27"]
-
-# === 관계 ===
+parent_id: prj-dashboard-ux-v1
+project_id: prj-dashboard-ux-v1
+aliases:
+- tsk-dashboard-ux-v1-27
 outgoing_relations:
-  - target: "tsk-dashboard-ux-v1-26"
-    type: depends_on
+- target: tsk-dashboard-ux-v1-26
+  type: depends_on
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: null
-due: null
+due: '2026-01-18'
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 분류 ===
-tags: [dashboard, google, docs, meeting, transcript, automation]
+tags:
+- dashboard
+- google
+- docs
+- meeting
+- transcript
+- automation
 priority_flag: medium
 ---
-
 # Dashboard - Task Done 회의록 자동 추출
 
 > Task ID: `tsk-dashboard-ux-v1-27` | Project: `prj-dashboard-ux-v1` | Status: todo
