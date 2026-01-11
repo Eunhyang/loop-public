@@ -1,46 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import {
-  validateCredentials,
-  generateSessionToken,
-  SESSION_COOKIE_NAME,
-  SESSION_MAX_AGE,
-} from "@/lib/auth";
+import { SESSION_COOKIE_NAME, SESSION_MAX_AGE } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { username, password } = body;
+    const { email, password } = body;
 
     // Validate input
-    if (!username || !password) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "사용자명과 비밀번호를 입력하세요" },
+        { error: "이메일과 비밀번호를 입력하세요" },
         { status: 400 }
       );
     }
 
-    // Validate credentials
-    if (!validateCredentials(username, password)) {
+    // Call Dashboard OAuth API
+    const oauthUrl = `${process.env.LOOP_API_URL}/oauth/dashboard-login`;
+    const oauthRes = await fetch(oauthUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!oauthRes.ok) {
       return NextResponse.json(
-        { error: "사용자명 또는 비밀번호가 올바르지 않습니다" },
+        { error: "이메일 또는 비밀번호가 올바르지 않습니다" },
         { status: 401 }
       );
     }
 
-    // Generate session token and set cookie
-    const sessionToken = generateSessionToken();
-    const cookieStore = await cookies();
+    const { access_token, expires_in, role } = await oauthRes.json();
 
-    cookieStore.set(SESSION_COOKIE_NAME, sessionToken, {
+    // Store JWT in HttpOnly cookie
+    const cookieStore = await cookies();
+    cookieStore.set(SESSION_COOKIE_NAME, access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: SESSION_MAX_AGE,
+      maxAge: expires_in || SESSION_MAX_AGE,
       path: "/",
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, role });
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(

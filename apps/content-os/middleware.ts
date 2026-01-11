@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const SESSION_COOKIE_NAME = "content-os-session";
+const SESSION_COOKIE_NAME = "loop_api_token";
 
 // Public paths that don't require authentication
 const PUBLIC_PATHS = ["/login", "/api/auth/login", "/api/auth/logout"];
