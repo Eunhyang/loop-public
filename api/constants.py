@@ -40,6 +40,7 @@ TASK_STATUS_COLORS = _task.get("status_colors", {})
 # ============================================
 _priority = _constants.get("priority", {})
 PRIORITY = _priority.get("values", ["critical", "high", "medium", "low"])
+TASK_PRIORITY = PRIORITY  # Alias for consistency with TASK_STATUS
 PRIORITY_DEFAULT = _priority.get("default", "medium")
 PRIORITY_LABELS = _priority.get("labels", {})
 PRIORITY_COLORS = _priority.get("colors", {})
