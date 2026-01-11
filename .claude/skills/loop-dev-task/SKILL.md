@@ -1,39 +1,39 @@
 ---
 name: loop-dev-task
-description: LOOP Vault 또는 외부 프로젝트(sosi, kkokkkok)에서 dev Task를 생성하거나, 기존 Task로 개발을 시작합니다. task_id가 전달되면 기존 Task를 사용하고, 없으면 새 Task를 생성합니다.
+description: Dev Task workflow for LOOP Vault or external projects (sosi, kkokkkok). Creates new Task or starts development with existing Task. If task_id provided, uses existing Task; otherwise creates new Task.
 ---
 
 # Loop Dev Task
 
-개발 작업용 Task 워크플로우 스킬. 새 Task 생성 또는 기존 Task로 개발 시작을 통합 관리.
+Dev Task workflow skill. Unified management for new Task creation or development with existing Task.
 
 ---
 
-## 호출 방법
+## How to Call
 
-| 명령어 | 설명 | 예시 |
-|--------|------|------|
-| `/new-dev-task [name]` | 새 Task 생성 + 개발 시작 | `/new-dev-task 로그인 버그 수정` |
-| `/start-dev-task [task_id]` | 기존 Task로 개발 시작 | `/start-dev-task tsk-dashboard-ux-v1-02` |
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/new-dev-task [name]` | Create new Task + PRD (STOPS before implementation) | `/new-dev-task Login bug fix` |
+| `/start-dev-task [task_id]` | Start implementation with existing Task | `/start-dev-task tsk-dashboard-ux-v1-02` |
 
 ---
 
-## Step 0: 모드 분기 (FIRST - 항상 먼저 실행)
+## Step 0: Mode Detection (FIRST - Always run first)
 
-> **CRITICAL: 먼저 모드를 판단한 후 적절한 Step으로 분기합니다.**
+> **CRITICAL: Determine mode first, then branch to appropriate Step.**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  MODE DETECTION                                             │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  task_id 전달됨? ─────────────────┐                         │
-│       │                          │                         │
-│       ▼ NO                       ▼ YES                     │
-│  ┌──────────────┐         ┌──────────────────┐             │
-│  │ 새 Task 모드  │         │ 기존 Task 모드    │             │
-│  │ Step 1부터    │         │ Step 0-1부터     │             │
-│  └──────────────┘         └──────────────────┘             │
+│  task_id provided? ─────────────────┐                       │
+│       │                             │                       │
+│       ▼ NO                          ▼ YES                   │
+│  ┌──────────────┐         ┌──────────────────┐              │
+│  │ New Task Mode │         │ Existing Task Mode│             │
+│  │ Start Step 1  │         │ Start Step 0-1   │              │
+│  └──────────────┘         └──────────────────┘              │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -331,74 +331,185 @@ Task file synced to worktree:
 - Task file now available in branch for editing
 ```
 
-### Step 5: prompt-enhancer 호출 (Notes 비어있으면)
+### Step 5: PRD Writing (MANDATORY - Tech Spec Required)
 
-> **CRITICAL: Notes 섹션(Tech Spec, Todo)이 비어있으면 반드시 실행**
-> **기존 Task 모드에서 이미 채워져 있으면 스킵 가능**
+> **🚨 CRITICAL: Must read parent Project file BEFORE writing Tech Spec**
+> **🚨 MANDATORY: Tech Spec must follow parent Project's architecture rules**
+> **Skip conditions: In Existing Task Mode, skip if Notes already filled**
 
-#### 5-1. Project 파일에서 PRD 확인/추가
+#### Step 5-1: Read Parent Project File (MANDATORY FIRST)
 
-Project 파일의 `## Notes > ### PRD` 섹션에 Task 내용 추가:
+> **NEVER skip this step. Architecture rules in Project file are SSOT.**
 
-```markdown
-#### {task_id}: {task_name}
-- **문제 정의**: [이 Task가 해결하려는 문제]
-- **목표**: [달성하려는 결과]
-- **핵심 요구사항**:
-  - [요구사항 1]
-  - [요구사항 2]
-  - [요구사항 3]
+```bash
+# Find and read the parent Project file
+cat {project_path}/project.md
 ```
 
-#### 5-2. Task 파일 Notes 섹션 채우기
+**Extract from Project file:**
+- Clean Architecture structure/rules
+- Coding conventions
+- File naming patterns
+- State management approach
+- Required dependencies
+
+**Output before proceeding:**
+```
+Project Architecture Rules:
+- Architecture: [Clean Architecture / MVVM / etc.]
+- File structure: [pattern from project.md]
+- State management: [Riverpod / Bloc / etc.]
+- Conventions: [naming, imports, etc.]
+```
+
+#### Step 5-2: Write Tech Spec (Following Project Rules)
+
+> **MANDATORY: Tech Spec must align with parent Project's architecture**
+
+Edit Task file Notes section:
 
 ```markdown
 ## Notes
 
 ### Tech Spec
-- **프레임워크/라이브러리**: [사용할 기술 스택]
-- **아키텍처 패턴**: [적용할 패턴 - Clean Architecture, MVVM 등]
-- **파일 구조**:
-  ```
-  lib/
-  ├─ presentation/
-  │   └─ [feature]/
-  ├─ domain/
-  │   ├─ entities/
-  │   └─ usecases/
-  └─ data/
-      ├─ models/
-      └─ repositories/
-  ```
-- **API 엔드포인트**: [필요 시]
-- **데이터 모델**: [필요 시]
-- **상태 관리**: [Riverpod/Bloc 등]
-- **의존성**: [필요한 패키지]
 
+**Architecture Compliance:**
+- Parent Project: {project_id}
+- Architecture Pattern: [from Project - Clean Architecture, MVVM, etc.]
+
+**File Structure (following Project pattern):**
+\`\`\`
+lib/
+├─ presentation/
+│   └─ {feature}/
+│       ├─ screens/
+│       ├─ widgets/
+│       └─ providers/
+├─ domain/
+│   ├─ entities/
+│   └─ usecases/
+└─ data/
+    ├─ models/
+    ├─ repositories/
+    └─ datasources/
+\`\`\`
+
+**Implementation Details:**
+- **API Endpoints**: [specific endpoints to use/create]
+- **Data Models**: [entity names, fields, relationships]
+- **State Management**: [specific providers/blocs]
+- **Dependencies**: [packages to add]
+- **Key Classes/Functions**: [main implementations]
+
+**Edge Cases & Error Handling:**
+- [case 1]
+- [case 2]
+```
+
+#### Step 5-3: Write Todo
+
+```markdown
 ### Todo
-- [ ] [구체적인 작업 항목 1]
-- [ ] [구체적인 작업 항목 2]
-- [ ] [구체적인 작업 항목 3]
-- [ ] [구체적인 작업 항목 4]
-- [ ] 테스트 작성
-- [ ] 빌드 확인
+- [ ] [Specific implementation task 1]
+- [ ] [Specific implementation task 2]
+- [ ] [Specific implementation task 3]
+- [ ] [Specific implementation task 4]
+- [ ] Write tests
+- [ ] Verify build
 
-### 작업 로그
-<!-- workthrough 스킬로 자동 기록 -->
+### Work Log
+<!-- Auto-logged by workthrough skill -->
 ```
 
-### Step 6: codex-claude-loop 호출 (MANDATORY - 스킵 불가)
+---
 
-> **🚨 MANDATORY: 이 Step은 절대 스킵할 수 없습니다**
-> **🚨 CRITICAL: 모든 코드 구현은 반드시 이 스킬을 통해 진행**
-> **🚨 NEVER: codex-claude-loop 없이 직접 코드 작성 절대 금지**
+### Step 5.5: Codex PRD Feedback (MANDATORY)
 
-#### 호출 방법 (MUST USE)
+> **🚨 MANDATORY: Get Codex review before proceeding**
+> **Purpose: Validate PRD quality, catch issues early, save tokens in implementation**
+
+```bash
+codex -a full-auto --full-stdout -q "Review this PRD and Tech Spec. Check for:
+1. Architecture alignment with parent Project
+2. Missing edge cases
+3. Unclear requirements
+4. Implementation risks
+5. Suggest improvements
+
+Task file: {task_file_path}
+Parent Project: {project_file_path}
+
+Provide specific, actionable feedback."
+```
+
+**Wait for Codex response and note all feedback items.**
+
+---
+
+### Step 5.6: Update PRD with Codex Feedback (MANDATORY)
+
+> **🚨 MANDATORY: Apply Codex feedback to Task.md**
+
+1. Review each Codex feedback item
+2. Update Tech Spec in Task.md accordingly
+3. Add any missing edge cases
+4. Clarify ambiguous requirements
+5. Update Todo if needed
+
+**After update, confirm:**
+```
+PRD Update Complete:
+- [ ] Codex feedback item 1: Applied
+- [ ] Codex feedback item 2: Applied
+- [ ] Codex feedback item 3: Applied
+- Tech Spec updated: Yes
+- Todo updated: Yes/No
+```
+
+---
+
+## 🛑 STOP POINT FOR /new-dev-task
+
+> **🛑 CRITICAL: /new-dev-task workflow STOPS HERE**
+> **NEVER proceed to Step 6 in /new-dev-task**
+> **Step 6-7 are ONLY for /start-dev-task command**
+
+**Completion message for /new-dev-task:**
+```
+PRD Preparation Complete!
+
+Task ID: {task_id}
+Task: {task_name}
+Project: {project_id}
+Worktree: {worktree_path}
+
+PRD Status:
+- Tech Spec: Written (following {project_id} architecture)
+- Todo: Written
+- Codex Review: Completed
+- PRD Updated: Yes
+
+---
+To start implementation, run:
+/start-dev-task {task_id} {worktree_path}
+```
+
+---
+
+## /start-dev-task Only Steps
+
+### Step 6: codex-claude-loop (MANDATORY - Cannot Skip)
+
+> **🚨 MANDATORY: This step cannot be skipped**
+> **🚨 CRITICAL: All code implementation must go through this skill**
+> **🚨 NEVER: Direct code writing without codex-claude-loop is forbidden**
+
+#### How to Call (MUST USE)
 
 ```
-반드시 Skill tool을 사용하여 codex-claude-loop 스킬을 호출하세요:
+Use Skill tool to call codex-claude-loop:
 
-Skill tool 호출:
+Skill tool call:
   skill: "codex-claude-loop"
   args: "{task_id}"
 ```
@@ -407,17 +518,21 @@ Skill tool 호출:
 
 - [ ] Git branch created or skipped (Step 3)
 - [ ] Task file created + synced to worktree (Step 4)
-- [ ] Notes section (Tech Spec, Todo) filled (Step 5)
-- [ ] **Call codex-claude-loop after all above completed**
+- [ ] Parent Project file read (Step 5-1)
+- [ ] Tech Spec written following Project rules (Step 5-2)
+- [ ] Todo written (Step 5-3)
+- [ ] Codex PRD feedback received (Step 5.5)
+- [ ] PRD updated with feedback (Step 5.6)
+- [ ] **Now call codex-claude-loop for implementation**
 
-#### codex-claude-loop이 수행하는 작업
+#### What codex-claude-loop Does
 
-**Phase 1: 계획 수립 (Claude)**
-- Tech Spec, Todo 기반 구현 계획
-- 단계별 구현 순서
-- 예상 이슈/리스크 문서화
+**Phase 1: Planning (Claude)**
+- Implementation plan based on Tech Spec, Todo
+- Step-by-step implementation order
+- Document expected issues/risks
 
-**Phase 2: 계획 검증 (Codex)**
+**Phase 2: Plan Validation (Codex)**
 ```bash
 codex exec -m gpt-5-codex -s read-only -C /Users/gim-eunhyang/dev/loop/public -- <<'EOF'
 Review this implementation plan and identify any issues:
@@ -431,22 +546,22 @@ Check for:
 EOF
 ```
 
-**Phase 3: 구현 (Claude)**
-- 검증된 계획에 따라 코드 작성
-- Edit/Write/Read 도구 사용
+**Phase 3: Implementation (Claude)**
+- Write code according to validated plan
+- Use Edit/Write/Read tools
 
-**Phase 4: 코드 리뷰 (Codex)**
-- 버그 탐지
-- 성능 이슈 검토
-- 베스트 프랙티스 검증
+**Phase 4: Code Review (Codex)**
+- Bug detection
+- Performance review
+- Best practices validation
 
-**Phase 5: 반복**
-- Codex 피드백 기반 수정
-- 품질 기준 충족까지 반복
+**Phase 5: Iteration**
+- Fix based on Codex feedback
+- Repeat until quality criteria met
 
-#### Step 6 완료 조건
+#### Step 6 Completion Condition
 
-> **codex-claude-loop 스킬이 완료될 때까지 Step 7로 진행 금지**
+> **Do NOT proceed to Step 7 until codex-claude-loop skill completes**
 
 ### Step 7: Validation
 
@@ -457,12 +572,12 @@ python3 scripts/build_graph_index.py .
 
 ---
 
-## 완료 메시지 형식
+## Completion Message Formats
 
-### 새 Task 모드
+### /new-dev-task Completion (STOP - Do NOT proceed to implementation)
 
 ```
-Dev Task 생성 완료
+PRD Preparation Complete!
 
 Task ID: {task_id}
 Task: {task_name}
@@ -470,24 +585,29 @@ Project: {project_id}
 Type: dev
 Target: {target_project}
 
-파일 위치: {task_file_path}
+File location: {task_file_path}
+Worktree: {worktree_path}
 
-{Git 브랜치 정보 - 외부 프로젝트인 경우}
+{Git branch info - if external project}
 
-Task Notes:
-- Tech Spec: 작성 완료
-- Todo: 작성 완료
+PRD Status:
+- Parent Project read: Yes
+- Tech Spec: Written (following {project_id} architecture)
+- Todo: Written
+- Codex PRD Review: Completed
+- PRD Updated: Yes
 
-구현:
-- codex-claude-loop 진행 중...
+---
+🛑 /new-dev-task workflow complete. Implementation NOT started.
 
-작업 완료 시: /done-dev-task
+To start implementation, run:
+/start-dev-task {task_id} {worktree_path}
 ```
 
-### 기존 Task 모드
+### /start-dev-task Completion
 
 ```
-기존 Task로 개발 시작
+Implementation Complete!
 
 Task ID: {task_id}
 Task: {task_name}
@@ -495,54 +615,57 @@ Project: {project_id}
 Type: {type}
 Target: {target_project}
 
-파일 위치: {task_file_path}
+File location: {task_file_path}
 
-스킵된 단계:
-- Task 생성 (기존 Task 사용)
-- {Git 브랜치 - 이미 존재/해당없음}
-- {Tech Spec/Todo - 이미 작성됨}
+Implementation:
+- codex-claude-loop: Completed
+- Validation: Passed
 
-구현:
-- codex-claude-loop 진행 중...
-
-작업 완료 시: /done-dev-task
+---
+To finalize: /done-dev-task
 ```
 
 ---
 
-## NEVER DO (절대 금지)
+## NEVER DO
 
-- Step 스킵 (조건부 스킵 제외)
-- prompt-enhancer 없이 Notes 비워두고 진행
-- **🚨 codex-claude-loop 없이 직접 코드 작성 (가장 중요)**
-  - Edit/Write 도구로 코드 직접 작성 금지
-  - 반드시 `Skill tool`로 `codex-claude-loop` 호출 후 구현
-  - codex-claude-loop 스킵 시 워크플로우 실패로 간주
-- 기존 Task 모드에서 새 Task 생성
-- task_id 검증 없이 진행
-- Step 6 완료 전 Step 7 진행
+- Skip steps (except conditional skips)
+- Leave Notes empty without PRD writing
+- **🚨 /new-dev-task proceeding to Step 6 (MOST CRITICAL)**
+  - /new-dev-task MUST STOP after Step 5.6
+  - Step 6-7 are ONLY for /start-dev-task
+- **🚨 Direct code writing without codex-claude-loop**
+  - Edit/Write tools for code without codex-claude-loop forbidden
+  - Must call `codex-claude-loop` via Skill tool
+  - Skipping codex-claude-loop = workflow failure
+- Creating new Task in Existing Task Mode
+- Proceeding without task_id validation
+- Step 7 before Step 6 completion
 
-## ALWAYS DO (필수 실행)
+## ALWAYS DO
 
-- Step 0에서 모드 판단 먼저
-- 각 Step 완료 확인 후 다음 진행
-- Notes 섹션 (Tech Spec, Todo) 채우기
-- **🚨 Step 6에서 반드시 `Skill tool`로 `codex-claude-loop` 호출**
-  - 호출 없이 직접 구현 시 워크플로우 위반
-  - codex-claude-loop 완료 후에만 Step 7 진행
-- 완료 메시지 출력
+- Determine mode at Step 0 first
+- Confirm each step completion before proceeding
+- Read parent Project file before writing Tech Spec
+- Fill Notes section (Tech Spec following Project rules, Todo)
+- Get Codex PRD feedback and update PRD
+- **🛑 STOP after Step 5.6 in /new-dev-task and suggest /start-dev-task**
+- **🚨 Call `codex-claude-loop` via Skill tool in Step 6 (/start-dev-task only)**
+  - Direct implementation without skill call = workflow violation
+  - Step 7 only after codex-claude-loop completion
+- Output completion message
 
 ---
 
 ## Error Handling
 
-| 상황 | 처리 |
-|------|------|
-| task_id 못찾음 | "Task를 찾을 수 없습니다" 메시지 |
-| LOOP Vault 마운트 안됨 | "LOOP Vault 마운트 필요" 메시지 |
-| 프로젝트 감지 실패 | AskUserQuestion으로 target_project 질문 |
-| Git 브랜치 이미 존재 | 해당 브랜치로 checkout |
-| codex 명령 실패 | Claude만으로 진행 (사용자 확인) |
+| Situation | Action |
+|-----------|--------|
+| task_id not found | Show "Task not found" message |
+| LOOP Vault not mounted | Show "LOOP Vault mount required" message |
+| Project detection failed | AskUserQuestion for target_project |
+| Git branch already exists | Checkout to that branch |
+| codex command failed | Proceed with Claude only (user confirmation) |
 
 ---
 
