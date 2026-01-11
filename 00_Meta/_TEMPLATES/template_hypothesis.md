@@ -33,6 +33,11 @@ tags: ["{{YEAR}}", "trk-{{TRK}}"]
 # === 검증 연결 ===
 validates: []
 validated_by: []
+
+# === 협업 필드 ===
+notes: null
+links: []
+attachments: []
 ---
 
 # {{HYPOTHESIS_NAME}}

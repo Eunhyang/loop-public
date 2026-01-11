@@ -31,6 +31,11 @@ target_project: {{TARGET_PROJECT}}  # type=dev일 때만: sosi | kkokkkok | loop
 # === 분류 ===
 tags: []
 priority_flag: medium
+
+# === 협업 필드 ===
+notes: null
+links: []
+attachments: []
 ---
 
 # {{TASK_NAME}}

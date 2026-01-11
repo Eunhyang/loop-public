@@ -340,6 +340,14 @@ required_fields:
     - evidence_strength
 
 # ============================================
+# Collaboration Fields (모든 엔티티 공통 사용 가능)
+# ============================================
+collaboration_fields:
+  - notes         # 단일 텍스트 (마크다운)
+  - links         # [{label, url}]
+  - attachments   # [{name, path, type, uploaded}]
+
+# ============================================
 # Known Fields (freshness check용 - 스키마에 정의된 필드)
 # ============================================
 known_fields:
@@ -359,6 +367,10 @@ known_fields:
     - tags
     - priority_flag
     - conditions_3y
+    # === 협업 필드 (모든 엔티티 사용 가능) ===
+    - notes
+    - links
+    - attachments
   # 엔티티별 추가 필드
   NorthStar: []
   MetaHypothesis:
@@ -395,7 +407,6 @@ known_fields:
     - primary_hypothesis_id   # 신규: 프로젝트 생성 근본 질문 (hyp-*)
     - experiments
     - hypothesis_text  # deprecated → expected_impact.statement
-    - links            # 구조: [{label, url}]
     - condition_contributes  # 구조: [{to, weight, description}] - Condition 기여
     - track_contributes      # 구조: [{to, weight, description}] - Secondary Track 기여
   Task:
@@ -413,8 +424,6 @@ known_fields:
     - closed           # 완료일
     - archived_at      # 아카이브 이동일
     - closed_inferred  # updated | git_commit_date | today
-    - notes
-    - links            # 구조: [{label, url}]
   Hypothesis:
     - hypothesis_question  # 질문 형태 ("?"로 끝나야 함)
     - success_criteria     # 숫자/기간/표본 포함
@@ -521,11 +530,19 @@ field_structures:
       - time_range: string # 평가 기간 (YYYY-MM-DD..YYYY-MM-DD)
       - metrics_snapshot: object  # 당시 지표 스냅샷 {metric_name: scalar_value}
 
-  # Project/Task.links
+  # Collaboration: links
   links:
     fields:
       - label: string
       - url: string        # https:// 또는 http://
+
+  # Collaboration: attachments
+  attachments:
+    fields:
+      - name: string       # 파일명
+      - path: string       # 상대 경로 또는 URL
+      - type: string       # image | document | video | other
+      - uploaded: date     # 업로드일
 
   # Project.condition_contributes (Condition 기여 - 필수)
   condition_contributes:
@@ -811,8 +828,14 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.4"
-last_updated: "2026-01-03"
+schema_version: "5.5"
+last_updated: "2026-01-12"
+# v5.5 변경 (2026-01-12):
+# - collaboration_fields 섹션 추가 (notes, links, attachments)
+# - known_fields.all에 협업 필드 통합 (모든 엔티티 사용 가능)
+# - field_structures.attachments 구조 정의
+# - Project/Task 중복 필드 정의 제거 (links는 all로, notes/links는 Task에서 제거)
+# - 모든 엔티티에서 협업 필드 사용 가능
 # v5.4 변경:
 # - cross_vault.exec_id_patterns 섹션 추가 (exec vault 전용 ID 체계 SSOT)
 # - standalone 패턴: prj-exec-NNN, tsk-exec-NNN
