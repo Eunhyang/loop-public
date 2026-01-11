@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-yt-w33
 entity_name: YouTube - W33
 created: 2025-12-23
-updated: '2026-01-03'
+updated: '2026-01-11'
 status: planning
 program_id: pgm-youtube-weekly
 cycle: W33

@@ -1,65 +1,48 @@
 ---
 entity_type: Project
 entity_id: prj-impact-schema-v2
-entity_name: "Schema - Realized Impact 확장"
+entity_name: Schema - Realized Impact 확장
 created: 2025-12-27
-updated: 2025-12-27
+updated: '2026-01-11'
 status: doing
-
-# === 계층 ===
 parent_id: trk-2
 program_id: pgm-vault-system
 aliases:
-  - prj-impact-schema-v2
-  - "Schema - Realized Impact 확장"
-
-# === 관계 ===
+- prj-impact-schema-v2
+- Schema - Realized Impact 확장
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "Realized Impact에 time_range와 metrics_snapshot을 추가하면 A/B 비교가 재현 가능해진다"
+hypothesis_text: Realized Impact에 time_range와 metrics_snapshot을 추가하면 A/B 비교가 재현 가능해진다
 experiments: []
-
-# === Expected Impact (A) ===
 tier: enabling
 impact_magnitude: mid
 confidence: 0.75
-
-# === Condition 기여 (필수) ===
 condition_contributes:
-  - to: cond-b
-    weight: 0.3
-    description: "스키마 개선으로 데이터 품질 및 추적 가능성 향상"
-
-# === Secondary Track 기여 (선택) ===
+- to: cond-b
+  weight: 0.3
+  description: 스키마 개선으로 데이터 품질 및 추적 가능성 향상
 track_contributes: []
-
-# === Expected Impact Statement ===
 expected_impact:
-  statement: "이 프로젝트가 성공하면 모든 프로젝트의 B(Realized) 점수가 시간 창 기반으로 비교 가능해진다"
-  metric: "window_id 필드 적용률"
-  target: "신규 프로젝트 100% 적용"
-
-# === Realized Impact (B) ===
+  statement: 이 프로젝트가 성공하면 모든 프로젝트의 B(Realized) 점수가 시간 창 기반으로 비교 가능해진다
+  metric: window_id 필드 적용률
+  target: 신규 프로젝트 100% 적용
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 3Y 전략 연결 (필수) ===
-conditions_3y: ["cond-b"]
-
-# === 분류 ===
-tags: ["schema", "impact", "palantir-lite"]
+conditions_3y:
+- cond-b
+tags:
+- schema
+- impact
+- palantir-lite
 priority_flag: high
 ---
-
 # Schema - Realized Impact 확장
 
 > Project ID: `prj-impact-schema-v2` | Program: `pgm-vault-system` | Track: `trk-2` | Status: active

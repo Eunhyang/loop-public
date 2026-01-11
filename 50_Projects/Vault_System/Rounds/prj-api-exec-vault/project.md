@@ -3,53 +3,47 @@ entity_type: Project
 entity_id: prj-api-exec-vault
 entity_name: API - Exec Vault 통합
 created: 2026-01-02
-updated: 2026-01-02
+updated: '2026-01-11'
 status: doing
-
-# === 소속 Program ===
 program_id: pgm-vault-system
-cycle: "2026"
-
-# === 프로젝트 정보 ===
+cycle: '2026'
 owner: 김은향
 budget: null
 deadline: null
-
-# === Impact 판정 ===
 expected_impact:
   tier: enabling
   impact_magnitude: mid
   confidence: 0.7
   contributes:
-    - to: cond-e
-      weight: 0.3
-      description: "Dual-vault 통합으로 Vault 시스템 완성도 향상"
-
+  - to: cond-e
+    weight: 0.3
+    description: Dual-vault 통합으로 Vault 시스템 완성도 향상
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: trk-2
-conditions_3y: ["cond-e"]
+conditions_3y:
+- cond-e
 aliases:
-  - prj-api-exec-vault
-  - API - Exec Vault 통합
-  - Exec Vault API
-
+- prj-api-exec-vault
+- API - Exec Vault 통합
+- Exec Vault API
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "vault-system", "api", "exec-vault", "dual-vault"]
+tags:
+- project
+- vault-system
+- api
+- exec-vault
+- dual-vault
 priority_flag: high
+track_contributes: []
 ---
-
 # API - Exec Vault 통합
 
 > Project ID: `prj-api-exec-vault` | Program: [[pgm-vault-system]] | Status: doing

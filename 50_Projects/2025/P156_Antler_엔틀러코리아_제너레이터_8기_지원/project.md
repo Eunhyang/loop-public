@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-156anu
 entity_name: Antler - 엔틀러코리아 제너레이터 8기 지원
 created: '2026-01-09'
-updated: '2026-01-10'
+updated: '2026-01-11'
 status: planning
 owner: 김은향
 priority_flag: medium
@@ -15,6 +15,7 @@ tags: []
 conditions_3y:
 - cond-d
 - cond-e
+track_contributes: []
 ---
 # Antler - 엔틀러코리아 제너레이터 8기 지원
 

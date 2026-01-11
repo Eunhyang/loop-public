@@ -3,49 +3,41 @@ entity_type: Project
 entity_id: prj-yt-wegovy
 entity_name: 위고비 유튜브 콘텐츠 기획
 created: 2025-12-26
-updated: 2025-12-26
+updated: '2026-01-11'
 status: doing
-
-# === 소속 Program ===
 program_id: pgm-youtube-weekly
-cycle: "2025"
-
-# === 프로젝트 정보 ===
+cycle: '2025'
 owner: 한명학
 budget: null
 deadline: null
-
-# === Impact 판정 ===
 expected_impact:
   statement: null
   metric: null
   target: null
-
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 가설 연결 ===
 hypothesis_id: null
 experiments: []
-
-# === 계층 (전략 연결) ===
 parent_id: pgm-youtube-weekly
-conditions_3y: ["cond-a"]
+conditions_3y:
+- cond-a
 aliases:
-  - prj-yt-wegovy
-  - 위고비 유튜브 콘텐츠 기획
-  - 위고비콘텐츠
-
+- prj-yt-wegovy
+- 위고비 유튜브 콘텐츠 기획
+- 위고비콘텐츠
 outgoing_relations: []
 validates: []
 validated_by: []
-tags: ["project", "youtube", "위고비", "콘텐츠"]
+tags:
+- project
+- youtube
+- 위고비
+- 콘텐츠
 priority_flag: medium
 ---
-
 # 위고비 유튜브 콘텐츠 기획
 
 > Project ID: `prj-yt-wegovy` | Program: [[pgm-youtube-weekly]] | Status: active

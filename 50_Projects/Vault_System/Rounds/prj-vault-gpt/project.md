@@ -3,11 +3,11 @@ entity_type: Project
 entity_id: prj-vault-gpt
 entity_name: ChatGPT Vault MCP 연결
 created: 2025-12-25
-updated: '2026-01-07'
+updated: '2026-01-11'
 status: doing
 program_id: pgm-vault-system
 cycle: '2025'
-owner: 한명학
+owner: 김은향
 budget: null
 deadline: null
 expected_impact:
@@ -22,11 +22,11 @@ realized_impact:
 hypothesis_id: null
 experiments: []
 tasks:
-  - tsk-vault-gpt-01
-  - tsk-vault-gpt-10
-  - tsk-vault-gpt-11
-  - tsk-vault-gpt-13
-  - tsk-50acf0-1767944821000
+- tsk-vault-gpt-01
+- tsk-vault-gpt-10
+- tsk-vault-gpt-11
+- tsk-vault-gpt-13
+- tsk-50acf0-1767944821000
 parent_id: trk-2
 conditions_3y:
 - cond-b
@@ -44,6 +44,7 @@ tags:
 - chatgpt
 - infrastructure
 priority_flag: medium
+track_contributes: []
 ---
 # ChatGPT Vault MCP 연결
 

@@ -3,11 +3,11 @@ entity_type: Project
 entity_id: prj-dashboard-ux-v1
 entity_name: 대시보드 UX 개선 v1
 created: 2025-12-26
-updated: '2026-01-08'
+updated: '2026-01-11'
 status: planning
 program_id: pgm-vault-system
 cycle: '2025'
-owner: 한명학
+owner: 김은향
 budget: null
 deadline: null
 expected_impact:
@@ -40,6 +40,7 @@ tags:
 - keyboard
 priority_flag: medium
 hypothesis_text: ''
+track_contributes: []
 ---
 # 대시보드 UX 개선 v1
 

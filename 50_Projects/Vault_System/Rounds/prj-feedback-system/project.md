@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-feedback-system
 entity_name: Feedback - 유저 피드백 수집 시스템
 created: '2026-01-05'
-updated: '2026-01-09'
+updated: '2026-01-11'
 status: doing
 program_id: pgm-vault-system
 program_path: '[[50_Projects/Vault_System/_PROGRAM]]'
@@ -26,6 +26,7 @@ tags:
 - n8n
 - dashboard
 priority_flag: high
+track_contributes: []
 ---
 # Feedback - 유저 피드백 수집 시스템
 

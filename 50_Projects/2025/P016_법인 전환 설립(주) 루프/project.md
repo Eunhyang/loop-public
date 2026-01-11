@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-016
 entity_name: 법인 전환 설립(주) 루프
 created: 2025-12-25
-updated: '2026-01-09'
+updated: '2026-01-11'
 status: planning
 owner: 한명학
 budget: null
@@ -36,6 +36,7 @@ tags:
 - 설립
 - 운영
 priority_flag: high
+track_contributes: []
 ---
 # 법인 전환 설립(주) 루프
 

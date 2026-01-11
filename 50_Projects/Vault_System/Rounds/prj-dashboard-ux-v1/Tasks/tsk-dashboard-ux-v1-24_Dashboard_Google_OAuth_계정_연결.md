@@ -1,38 +1,33 @@
 ---
 entity_type: Task
-entity_id: "tsk-dashboard-ux-v1-24"
-entity_name: "Dashboard - Google OAuth 계정 연결"
+entity_id: tsk-dashboard-ux-v1-24
+entity_name: Dashboard - Google OAuth 계정 연결
 created: 2026-01-06
-updated: 2026-01-06
+updated: '2026-01-11'
 status: doing
-
-# === 계층 ===
-parent_id: "prj-dashboard-ux-v1"
-project_id: "prj-dashboard-ux-v1"
-aliases: ["tsk-dashboard-ux-v1-24"]
-
-# === 관계 ===
+parent_id: prj-dashboard-ux-v1
+project_id: prj-dashboard-ux-v1
+aliases:
+- tsk-dashboard-ux-v1-24
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: null
 due: null
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 분류 ===
-tags: [dashboard, google, oauth, calendar, multi-account]
+tags:
+- dashboard
+- google
+- oauth
+- calendar
+- multi-account
 priority_flag: high
 ---
-
 # Dashboard - Google OAuth 계정 연결
 
 > Task ID: `tsk-dashboard-ux-v1-24` | Project: `prj-dashboard-ux-v1` | Status: todo

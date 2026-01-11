@@ -1,78 +1,58 @@
 ---
 entity_type: Project
 entity_id: prj-kkokkkok-v1028
-entity_name: "KkokKkok App v1.0.28 - Hotfix"
+entity_name: KkokKkok App v1.0.28 - Hotfix
 created: 2026-01-02
-updated: 2026-01-02
+updated: '2026-01-11'
 status: done
-
-# === 계층 ===
 parent_id: trk-1
 aliases:
-  - prj-kkokkkok-v1028
-  - KkokKkok v1.0.28
-
-# === 관계 ===
+- prj-kkokkkok-v1028
+- KkokKkok v1.0.28
 outgoing_relations:
-  - type: supports
-    target_id: trk-4
-    description: 앱 안정성 개선 → 코칭 운영 효율 향상
-
+- type: supports
+  target_id: trk-4
+  description: 앱 안정성 개선 → 코칭 운영 효율 향상
 validates: []
 validated_by: []
 primary_hypothesis_id: null
-
-# === Project 전용 ===
-owner: 은향
+owner: 김은향
 budget: null
 deadline: 2026-01-02
 program_id: pgm-kkokkkok-app-release
-cycle: "2026-01"
-hypothesis_text: "2026년 캘린더 버그 수정으로 사용자 기록 기능 정상화"
+cycle: 2026-01
+hypothesis_text: 2026년 캘린더 버그 수정으로 사용자 기록 기능 정상화
 experiments: []
-
-# === Expected Impact (A) ===
 tier: operational
 impact_magnitude: low
 confidence: 0.9
-
-# === Condition 기여 ===
 condition_contributes:
-  - to: cond-a
-    weight: 0.1
-    description: "앱 안정성 → PMF 기반"
-
-# === Secondary Track 기여 ===
-track_contributes:
-  - to: trk-4
-    weight: 0.2
-    description: "코칭 운영에 안정적 앱 제공"
-
-# === Expected Impact Statement ===
+- to: cond-a
+  weight: 0.1
+  description: 앱 안정성 → PMF 기반
+track_contributes: []
 expected_impact:
-  statement: "2026년 캘린더 표시 버그 수정으로 사용자가 정상적으로 식사 기록 가능"
-  metric: "캘린더 관련 버그 리포트"
-  target: "0건"
-
-# === Realized Impact (B) ===
+  statement: 2026년 캘린더 표시 버그 수정으로 사용자가 정상적으로 식사 기록 가능
+  metric: 캘린더 관련 버그 리포트
+  target: 0건
 realized_impact:
   verdict: go
   outcome: supported
   evidence_links: []
   decided: 2026-01-02
-  window_id: "2026-01"
-  time_range: "2026-01-02..2026-01-02"
+  window_id: 2026-01
+  time_range: 2026-01-02..2026-01-02
   metrics_snapshot:
     calendar_bug_reports: 0
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-a"]
-
-# === 분류 ===
-tags: ["hotfix", "calendar", "bug-fix", "v1.0.28"]
+conditions_3y:
+- cond-a
+tags:
+- hotfix
+- calendar
+- bug-fix
+- v1.0.28
 priority_flag: high
 ---
-
 # KkokKkok App v1.0.28 - Hotfix
 
 > Project ID: `prj-kkokkkok-v1028` | Track: `trk-1` | Status: done

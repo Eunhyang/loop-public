@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-008
 entity_name: 파일럿 프로젝트 후보
 created: 2025-12-18
-updated: '2025-12-27'
+updated: '2026-01-11'
 status: planning
 parent_id: trk-4
 aliases:
@@ -27,7 +27,6 @@ condition_contributes:
   weight: 0.1
   description: 소규모 매출 기여 가능
 track_contributes: []
-
 expected_impact:
   statement: 이 프로젝트가 성공하면 코칭 파일럿의 시장 적합성이 증명된다
   metric: 파일럿 참여자 만족도

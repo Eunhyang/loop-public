@@ -31,6 +31,7 @@ tags:
 - 운영
 - operational
 priority_flag: medium
+track_contributes: []
 ---
 # \[경영·운영\] 경영 관리
 

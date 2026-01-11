@@ -42,6 +42,7 @@ tags:
 - automation
 - llm
 priority_flag: medium
+track_contributes: []
 ---
 # n8n Vault 자동화
 

@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-023
 entity_name: Dashboard - React+TS 마이그레이션
 created: 2026-01-07
-updated: '2026-01-10'
+updated: '2026-01-11'
 status: doing
 parent_id: trk-2
 program_id: pgm-vault-system
@@ -13,7 +13,7 @@ aliases:
 outgoing_relations: []
 validates: []
 validated_by: []
-primary_hypothesis_id: null
+primary_hypothesis_id: hyp-1-04
 owner: 김은향
 budget: null
 deadline: null

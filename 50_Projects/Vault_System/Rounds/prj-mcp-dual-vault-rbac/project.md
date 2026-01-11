@@ -1,53 +1,47 @@
 ---
 entity_type: Project
-entity_id: "prj-mcp-dual-vault-rbac"
-entity_name: "MCP Dual-Vault RBAC"
+entity_id: prj-mcp-dual-vault-rbac
+entity_name: MCP Dual-Vault RBAC
 created: 2025-12-26
-updated: 2025-12-26
+updated: '2026-01-11'
 status: doing
-
-# === 계층 (전략 연결) ===
-parent_id: "trk-2"
-program_id: "pgm-vault-system"
-aliases: ["prj-mcp-dual-vault-rbac", "MCP RBAC", "Dual Vault RBAC"]
-
-# === 관계 ===
+parent_id: trk-2
+program_id: pgm-vault-system
+aliases:
+- prj-mcp-dual-vault-rbac
+- MCP RBAC
+- Dual Vault RBAC
 outgoing_relations:
-  - type: extends
-    target_id: "prj-vault-gpt"
-    description: "ChatGPT MCP OAuth 기반으로 RBAC 확장"
+- type: extends
+  target_id: prj-vault-gpt
+  description: ChatGPT MCP OAuth 기반으로 RBAC 확장
 validates: []
 validated_by: []
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "역할 기반 접근 제어로 loop_exec 민감 데이터를 코어팀으로부터 보호할 수 있다"
+hypothesis_text: 역할 기반 접근 제어로 loop_exec 민감 데이터를 코어팀으로부터 보호할 수 있다
 experiments: []
-
-# === Expected Impact (A) ===
 expected_impact:
   tier: enabling
   impact_magnitude: high
   confidence: 0.9
   contributes: []
-
-# === Realized Impact (B) ===
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-b"]
-
-# === 분류 ===
-tags: ["vault", "mcp", "oauth", "rbac", "security"]
+conditions_3y:
+- cond-b
+tags:
+- vault
+- mcp
+- oauth
+- rbac
+- security
 priority_flag: high
 ---
-
 # MCP Dual-Vault RBAC
 
 > Project ID: `prj-mcp-dual-vault-rbac` | Program: `pgm-vault-system` | Status: active

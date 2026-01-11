@@ -3,12 +3,12 @@ entity_type: Project
 entity_id: prj-007
 entity_name: 외부 비서
 created: 2025-12-18
-updated: '2025-12-23'
+updated: '2026-01-11'
 status: done
 closed: 2025-12-23
 parent_id: trk-6
 program_id: pgm-hiring
-cycle: "2025-12"
+cycle: 2025-12
 aliases:
 - prj-007
 - 외부 비서

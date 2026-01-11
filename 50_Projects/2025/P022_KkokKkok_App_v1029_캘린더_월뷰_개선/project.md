@@ -1,60 +1,40 @@
 ---
 entity_type: Project
 entity_id: prj-022
-entity_name: "KkokKkok App v1.0.29 - 캘린더 월뷰 개선"
+entity_name: KkokKkok App v1.0.29 - 캘린더 월뷰 개선
 created: 2026-01-06
-updated: 2026-01-06
+updated: '2026-01-11'
 status: doing
-
-# === 계층 ===
 parent_id: trk-1
 aliases:
-  - prj-022
-  - KkokKkok v1.0.29
-
-# === 관계 ===
+- prj-022
+- KkokKkok v1.0.29
 outgoing_relations:
-  - type: supports
-    target_id: trk-4
-    description: 앱 UX 개선 → 코칭 운영 효율 향상
-
+- type: supports
+  target_id: trk-4
+  description: 앱 UX 개선 → 코칭 운영 효율 향상
 validates: []
 validated_by: []
 primary_hypothesis_id: null
-
-# === Project 전용 ===
 owner: 김은향
 budget: null
 deadline: 2026-01-06
 program_id: pgm-kkokkkok-app-release
-cycle: "2026-01"
-hypothesis_text: "캘린더 월뷰 overflow 수정과 +more 토글 버튼으로 UX 개선"
+cycle: 2026-01
+hypothesis_text: 캘린더 월뷰 overflow 수정과 +more 토글 버튼으로 UX 개선
 experiments: []
-
-# === Expected Impact (A) ===
 tier: operational
 impact_magnitude: low
 confidence: 0.9
-
-# === Condition 기여 ===
 condition_contributes:
-  - to: cond-a
-    weight: 0.1
-    description: "앱 UX 개선 → PMF 기반"
-
-# === Secondary Track 기여 ===
-track_contributes:
-  - to: trk-4
-    weight: 0.2
-    description: "코칭 운영에 안정적 앱 제공"
-
-# === Expected Impact Statement ===
+- to: cond-a
+  weight: 0.1
+  description: 앱 UX 개선 → PMF 기반
+track_contributes: []
 expected_impact:
-  statement: "캘린더 월뷰 overflow 문제 해결과 +more 토글 버튼 추가로 사용자 경험 개선"
-  metric: "캘린더 UX 관련 버그 리포트"
-  target: "0건"
-
-# === Realized Impact (B) ===
+  statement: 캘린더 월뷰 overflow 문제 해결과 +more 토글 버튼 추가로 사용자 경험 개선
+  metric: 캘린더 UX 관련 버그 리포트
+  target: 0건
 realized_impact:
   verdict: pending
   outcome: null
@@ -63,19 +43,17 @@ realized_impact:
   window_id: null
   time_range: null
   metrics_snapshot: {}
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-a"]
-
-# === 분류 ===
-tags: ["release", "calendar", "ux-improvement", "v1.0.29"]
+conditions_3y:
+- cond-a
+tags:
+- release
+- calendar
+- ux-improvement
+- v1.0.29
 priority_flag: high
-
-# === Tasks ===
 tasks:
-  - tsk-022-01
+- tsk-022-01
 ---
-
 # KkokKkok App v1.0.29 - 캘린더 월뷰 개선
 
 > Project ID: `prj-022` | Track: `trk-1` | Status: active

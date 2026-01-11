@@ -1,60 +1,53 @@
 ---
 entity_type: Project
-entity_id: "prj-019"
-entity_name: "Dual-Vault - 정비"
+entity_id: prj-019
+entity_name: Dual-Vault - 정비
 created: 2026-01-02
-updated: 2026-01-02
+updated: '2026-01-11'
 status: doing
-
-# === 계층 ===
-parent_id: "trk-2"
-program_id: "pgm-vault-system"
-aliases: ["prj-019", "Dual-Vault 정비", "Dual-Vault Cleanup"]
-
-# === 관계 ===
+parent_id: trk-2
+program_id: pgm-vault-system
+aliases:
+- prj-019
+- Dual-Vault 정비
+- Dual-Vault Cleanup
 outgoing_relations:
-  - type: extends
-    target_id: "prj-mcp-dual-vault-rbac"
-    description: "Dual-Vault RBAC 기반 경로 표준화"
+- type: extends
+  target_id: prj-mcp-dual-vault-rbac
+  description: Dual-Vault RBAC 기반 경로 표준화
 validates: []
 validated_by: []
 primary_hypothesis_id: null
-
-# === Project 전용 ===
-owner: "김은향"
+owner: 김은향
 budget: null
 deadline: null
-hypothesis_text: "exec vault와 public vault의 경로 구조를 통일하면 API와 스크립트의 재사용성이 높아진다"
+hypothesis_text: exec vault와 public vault의 경로 구조를 통일하면 API와 스크립트의 재사용성이 높아진다
 experiments: []
-
-# === Expected Impact (A) ===
 expected_impact:
   tier: enabling
   impact_magnitude: mid
   confidence: 0.8
   contributes: []
-  statement: "exec vault와 public vault의 경로 구조 통일로 API/스크립트 재사용성 향상"
-  metric: "경로 통일 완료율"
-  target: "100%"
-
-# === Realized Impact (B) ===
+  statement: exec vault와 public vault의 경로 구조 통일로 API/스크립트 재사용성 향상
+  metric: 경로 통일 완료율
+  target: 100%
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
-
-# === 3Y 전략 연결 ===
-conditions_3y: ["cond-b"]
-
-# === Tasks ===
-tasks: ["tsk-019-13", "tsk-kly0ry-1767960471502"]
-
-# === 분류 ===
-tags: ["vault", "dual-vault", "infrastructure", "cleanup"]
+conditions_3y:
+- cond-b
+tasks:
+- tsk-019-13
+- tsk-kly0ry-1767960471502
+tags:
+- vault
+- dual-vault
+- infrastructure
+- cleanup
 priority_flag: high
 ---
-
 # Dual-Vault - 정비
 
 > Project ID: `prj-019` | Program: `pgm-vault-system` | Status: doing
