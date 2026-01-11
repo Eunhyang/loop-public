@@ -4,12 +4,25 @@ import type { PendingReview } from '../types';
 interface WorkflowFiltersProps {
   reviews: PendingReview[];
   filterWorkflow: string;
-  filterRunId: string;
+  filterRunId: string;  // Now stores timestamp like "2026-01-11 07:44"
   onWorkflowChange: (workflow: string) => void;
   onRunIdChange: (runId: string) => void;
   onDeleteFiltered: () => void;
   isDeleting: boolean;
 }
+
+// Extract "YYYY-MM-DD HH:MM" from created_at field
+const extractTimestamp = (createdAt: string | undefined): string | null => {
+  if (!createdAt) return null;
+  try {
+    // Handle both ISO string and Date object converted to string
+    const str = typeof createdAt === 'string' ? createdAt : new Date(createdAt).toISOString();
+    // Extract "YYYY-MM-DD HH:MM" (first 16 chars, replace T with space)
+    return str.slice(0, 16).replace('T', ' ');
+  } catch {
+    return null;
+  }
+};
 
 export const WorkflowFilters = ({
   reviews,
@@ -20,19 +33,29 @@ export const WorkflowFilters = ({
   onDeleteFiltered,
   isDeleting,
 }: WorkflowFiltersProps) => {
-  // Extract unique workflows and runIds (filter out null/undefined)
-  const { workflows, runIds } = useMemo(() => {
+  // Extract unique workflows and group runs by timestamp
+  const { workflows, runTimestamps } = useMemo(() => {
     const workflowSet = new Set<string>();
-    const runIdSet = new Set<string>();
+    const timestampMap = new Map<string, number>(); // "YYYY-MM-DD HH:MM" -> count
 
     reviews.forEach((r) => {
       if (r.source_workflow) workflowSet.add(r.source_workflow);
-      if (r.run_id) runIdSet.add(r.run_id);
+
+      // Group by timestamp instead of individual run_id
+      const ts = extractTimestamp(r.created_at);
+      if (ts) {
+        timestampMap.set(ts, (timestampMap.get(ts) || 0) + 1);
+      }
     });
+
+    // Sort timestamps newest first
+    const sortedTimestamps = Array.from(timestampMap.entries())
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([timestamp, count]) => ({ timestamp, count }));
 
     return {
       workflows: Array.from(workflowSet).sort(),
-      runIds: Array.from(runIdSet).sort(),
+      runTimestamps: sortedTimestamps,
     };
   }, [reviews]);
 
@@ -56,17 +79,17 @@ export const WorkflowFilters = ({
         ))}
       </select>
 
-      {/* Run ID Filter */}
+      {/* Run Filter (grouped by timestamp) */}
       <select
         value={filterRunId}
         onChange={(e) => onRunIdChange(e.target.value)}
         className="px-2 py-1 text-xs border border-gray-300 rounded bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        title="Filter by run ID"
+        title="Filter by run timestamp"
       >
         <option value="">All Runs</option>
-        {runIds.map((runId) => (
-          <option key={runId} value={runId}>
-            {runId.length > 40 ? runId.substring(0, 40) + '...' : runId}
+        {runTimestamps.map(({ timestamp, count }) => (
+          <option key={timestamp} value={timestamp}>
+            {timestamp} ({count}건)
           </option>
         ))}
       </select>
