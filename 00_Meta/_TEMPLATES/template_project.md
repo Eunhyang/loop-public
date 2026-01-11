@@ -69,6 +69,11 @@ conditions_3y: ["cond-{{CONDITION}}"]  # 최소 1개 필수 (a-e)
 # === 분류 ===
 tags: []
 priority_flag: medium
+
+# === 협업 필드 ===
+notes: null
+links: []
+attachments: []
 ---
 
 # {{PROJECT_NAME}}

@@ -14,6 +14,22 @@ class Link(BaseModel):
     url: HttpUrl = Field(..., description="전체 URL (https:// 또는 http:// only)")
 
 
+class Attachment(BaseModel):
+    """첨부파일 메타데이터"""
+    name: str = Field(..., max_length=255, description="파일명")
+    path: str = Field(..., description="상대 경로 또는 URL")
+    type: str = Field(..., description="파일 타입 (image | document | video | other)")
+    uploaded: Optional[str] = Field(default=None, description="업로드일 (YYYY-MM-DD)")
+
+    @field_validator('type')
+    @classmethod
+    def validate_type(cls, v):
+        allowed_types = ['image', 'document', 'video', 'other']
+        if v not in allowed_types:
+            raise ValueError(f"type must be one of {allowed_types}")
+        return v
+
+
 class TaskCreate(BaseModel):
     """Task 생성 요청"""
     entity_name: str = Field(..., description="Task 이름")
@@ -30,6 +46,8 @@ class TaskCreate(BaseModel):
     auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")
     # 외부 링크 (tsk-022-11: Bug 3 fix + security: max 10 links)
     links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
+    # 첨부파일 (schema v5.5: collaboration fields)
+    attachments: Optional[conlist(Attachment, max_length=20)] = Field(default=None, description="첨부파일 목록 (최대 20개)")
     # GitHub 연동 정보 (tsk-uegvfe-1767941662809)
     pr_url: Optional[str] = Field(default=None, description="GitHub PR URL")
     merged_commit: Optional[str] = Field(default=None, description="Merged commit SHA")
@@ -53,6 +71,8 @@ class TaskUpdate(BaseModel):
     project_id: Optional[str] = Field(default=None, description="프로젝트 ID")
     # 외부 링크 (tsk-022-11: security - max 10 links)
     links: Optional[conlist(Link, max_length=10)] = Field(default=None, description="외부 링크 목록 (최대 10개)")
+    # 첨부파일 (schema v5.5: collaboration fields)
+    attachments: Optional[conlist(Attachment, max_length=20)] = Field(default=None, description="첨부파일 목록 (최대 20개)")
     # GitHub 연동 정보 (tsk-uegvfe-1767941662809)
     pr_url: Optional[str] = Field(default=None, description="GitHub PR URL")
     merged_commit: Optional[str] = Field(default=None, description="Merged commit SHA")
@@ -98,6 +118,8 @@ class ProjectUpdate(BaseModel):
     tags: Optional[List[str]] = Field(default=None, json_schema_extra={"items": {"type": "string"}})
     # 외부 링크
     links: Optional[List[Link]] = Field(default=None, description="외부 링크 목록")
+    # 첨부파일 (schema v5.5: collaboration fields)
+    attachments: Optional[List[Attachment]] = Field(default=None, description="첨부파일 목록")
     # 본문 (frontmatter 아래 마크다운)
     body: Optional[str] = Field(default=None, description="본문 (마크다운)")
     # SSOT Rule B: Optimistic concurrency control (tsk-019-14)
