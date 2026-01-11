@@ -6,10 +6,13 @@ import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
 import { statusColors, priorityColors, memberColor, trackColor, programColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
-import type { Project } from '@/types';
+import type { Project, ExpectedImpact, TrackContribution } from '@/types';
 import { MarkdownEditor } from '@/components/MarkdownEditor/MarkdownEditor';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
+import { ExpectedImpactEditor } from '@/features/impact/components/ExpectedImpactEditor';
+import { TrackContributionEditor } from '@/features/impact/components/TrackContributionEditor';
+import { HypothesisSelector } from '@/features/impact/components/HypothesisSelector';
 
 interface ProjectFormProps {
     mode: 'create' | 'edit' | 'view' | 'review';
@@ -395,30 +398,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('expected_impact'))}
                         reasoning={isReviewMode ? reviewMode?.getReasoning('expected_impact') : undefined}
                     >
-                        {(() => {
-                            const impact = getFieldValue('expected_impact') as any;
-                            if (!impact) {
-                                return <span className="text-zinc-400 py-1">No impact specified</span>;
-                            }
-                            return (
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 flex-wrap">
-                                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
-                                            Tier: {impact.tier || 'N/A'}
-                                        </span>
-                                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
-                                            Magnitude: {impact.impact_magnitude || 'N/A'}
-                                        </span>
-                                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
-                                            Confidence: {impact.confidence != null ? (impact.confidence * 100).toFixed(0) + '%' : 'N/A'}
-                                        </span>
-                                    </div>
-                                    {impact.rationale && (
-                                        <p className="text-xs text-zinc-600 mt-1">{impact.rationale}</p>
-                                    )}
-                                </div>
-                            );
-                        })()}
+                        <ExpectedImpactEditor
+                            value={getFieldValue('expected_impact') as ExpectedImpact | undefined}
+                            onChange={(impact) => handleFieldChange('expected_impact', impact)}
+                            readonly={isReadOnly}
+                        />
                     </ReviewFieldWrapper>
 
                     {/* Track Contributes */}
@@ -427,74 +411,30 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('track_contributes'))}
                         reasoning={isReviewMode ? reviewMode?.getReasoning('track_contributes') : undefined}
                     >
-                        {(() => {
-                            const contributes = getFieldValue('track_contributes') as any[];
-                            if (!contributes || contributes.length === 0) {
-                                return <span className="text-zinc-400 py-1">No track contributions</span>;
-                            }
-                            return (
-                                <div className="flex gap-2 flex-wrap py-1">
-                                    {contributes.map((contrib, idx) => (
-                                        <span
-                                            key={idx}
-                                            className="inline-block px-2 py-1 bg-blue-50 border border-blue-200 rounded text-xs text-blue-700"
-                                            title={contrib.rationale || ''}
-                                        >
-                                            {contrib.to} ({(contrib.weight * 100).toFixed(0)}%)
-                                        </span>
-                                    ))}
-                                </div>
-                            );
-                        })()}
+                        <TrackContributionEditor
+                            tracks={dashboardData?.tracks || []}
+                            value={(getFieldValue('track_contributes') as TrackContribution[]) || []}
+                            onChange={(contribs) => handleFieldChange('track_contributes', contribs)}
+                            onTrackClick={(trackId) => openEntityDrawer({ type: 'track', mode: 'view', id: trackId })}
+                            readonly={isReadOnly}
+                        />
                     </ReviewFieldWrapper>
 
-                    {/* Validates */}
-                    <label className="text-zinc-500 py-1">Validates</label>
+                    {/* Hypothesis Validation */}
+                    <label className="text-zinc-500 py-1">Hypotheses</label>
                     <ReviewFieldWrapper
-                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('validates'))}
-                        reasoning={isReviewMode ? reviewMode?.getReasoning('validates') : undefined}
+                        isSuggested={Boolean(isReviewMode && (reviewMode?.isSuggested('validates') || reviewMode?.isSuggested('primary_hypothesis_id')))}
+                        reasoning={isReviewMode ? (reviewMode?.getReasoning('validates') || reviewMode?.getReasoning('primary_hypothesis_id')) : undefined}
                     >
-                        {(() => {
-                            const validates = getFieldValue('validates') as string[];
-                            if (!validates || validates.length === 0) {
-                                return <span className="text-zinc-400 py-1">No hypotheses validated</span>;
-                            }
-                            return (
-                                <div className="flex gap-2 flex-wrap py-1">
-                                    {validates.map((hypId) => (
-                                        <span
-                                            key={hypId}
-                                            className="inline-block px-2 py-1 bg-purple-50 border border-purple-200 rounded text-xs text-purple-700 cursor-pointer hover:bg-purple-100"
-                                            onClick={() => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
-                                        >
-                                            {hypId}
-                                        </span>
-                                    ))}
-                                </div>
-                            );
-                        })()}
-                    </ReviewFieldWrapper>
-
-                    {/* Primary Hypothesis */}
-                    <label className="text-zinc-500 py-1">Primary Hypothesis</label>
-                    <ReviewFieldWrapper
-                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('primary_hypothesis_id'))}
-                        reasoning={isReviewMode ? reviewMode?.getReasoning('primary_hypothesis_id') : undefined}
-                    >
-                        {(() => {
-                            const primaryHypId = getFieldValue('primary_hypothesis_id') as string | null;
-                            if (!primaryHypId) {
-                                return <span className="text-zinc-400 py-1">No primary hypothesis</span>;
-                            }
-                            return (
-                                <span
-                                    className="inline-block px-2 py-1 bg-purple-50 border border-purple-200 rounded text-xs text-purple-700 cursor-pointer hover:bg-purple-100"
-                                    onClick={() => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: primaryHypId })}
-                                >
-                                    {primaryHypId}
-                                </span>
-                            );
-                        })()}
+                        <HypothesisSelector
+                            hypotheses={dashboardData?.hypotheses || []}
+                            validates={(getFieldValue('validates') as string[]) || []}
+                            primaryHypothesisId={(getFieldValue('primary_hypothesis_id') as string | null) || null}
+                            onValidatesChange={(ids) => handleFieldChange('validates', ids)}
+                            onPrimaryChange={(id) => handleFieldChange('primary_hypothesis_id', id)}
+                            onHypothesisClick={(hypId) => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                            readonly={isReadOnly}
+                        />
                     </ReviewFieldWrapper>
                 </div>
 
