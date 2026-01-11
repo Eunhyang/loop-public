@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-008-05
 entity_name: 꼭꼭 앱 iOS/Android 배포
 created: 2025-12-23
-updated: '2026-01-05'
+updated: '2026-01-11'
 status: todo
 parent_id: prj-008
 project_id: prj-008
@@ -17,8 +17,8 @@ outgoing_relations:
 validates: []
 validated_by: []
 assignee: 김은향
-start_date: '2026-01-11'
-due: '2026-01-11'
+start_date: '2026-01-13'
+due: '2026-01-13'
 priority: high
 estimated_hours: null
 actual_hours: null
@@ -44,14 +44,18 @@ notes: '# 꼭꼭 앱 iOS/Android 배포
 
   ### iOS
 
+
   - [ ] TestFlight 빌드
+
 
   - [ ] App Store 심사 제출
 
 
   ### Android
 
+
   - [ ] 내부 테스트 빌드
+
 
   - [ ] Play Store 심사 제출
 
@@ -65,9 +69,7 @@ notes: '# 꼭꼭 앱 iOS/Android 배포
   ## 의존성
 
 
-  - [[tsk-008-04|꼭꼭 앱 Onboarding UI/UX 리뷰]] 완료 후 진행
-
-  '
+  - \[\[tsk-008-04|꼭꼭 앱 Onboarding UI/UX 리뷰\]\] 완료 후 진행'
 ---
 # 꼭꼭 앱 iOS/Android 배포
 
