@@ -51,5 +51,8 @@ _build/pending_reviews.json
 # Attachments (tsk-dashboard-ux-v1-18: Task 첨부파일 - NAS에만 저장)
 _attachments/
 
-# Google OAuth DB (runtime, not tracked)
+# OAuth DB (runtime, not tracked - prevents read-only errors from git-sync)
+api/oauth/oauth.db
+api/oauth/oauth.db-wal
+api/oauth/oauth.db-shm
 api/oauth/google_oauth.db
