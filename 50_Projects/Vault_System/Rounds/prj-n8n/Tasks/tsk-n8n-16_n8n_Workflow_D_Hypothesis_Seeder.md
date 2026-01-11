@@ -14,8 +14,8 @@ outgoing_relations:
 - tsk-n8n-11
 validates: []
 assignee: 김은향
-start_date: '2026-01-11'
-due: '2026-01-11'
+start_date: '2026-01-12'
+due: '2026-01-12'
 priority: high
 estimated_hours: null
 actual_hours: null
