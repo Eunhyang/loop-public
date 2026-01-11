@@ -1647,7 +1647,8 @@ async def infer_task_schema(request: InferTaskSchemaRequest):
         reasoning=reasoning,
         validation=validation,
         pending=pending_info,
-        audit_ref=audit_ref
+        audit_ref=audit_ref,
+        confidence=confidence  # LLM이 제공한 confidence (또는 빈 객체)
     )
 
 
