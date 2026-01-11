@@ -300,8 +300,8 @@ export function useCommandSearch() {
         case 'track':
         case 'condition':
         case 'hypothesis':
-          // Navigate with filter (read-only entities)
-          navigate(`/kanban?${item.type}=${encodeURIComponent(item.id)}`);
+          // Open drawer in view mode
+          openEntityDrawer({ type: item.type, mode: 'view', id: item.id });
           break;
       }
     }
