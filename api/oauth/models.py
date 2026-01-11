@@ -23,6 +23,9 @@ from sqlalchemy.orm import sessionmaker, Session as SQLSession
 OAUTH_DIR = Path(__file__).parent
 DB_PATH = os.environ.get("OAUTH_DB_PATH", str(OAUTH_DIR / "oauth.db"))
 
+# Ensure parent directory exists (for named volume mount)
+Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
+
 # SQLAlchemy setup
 engine = create_engine(
     f"sqlite:///{DB_PATH}",
