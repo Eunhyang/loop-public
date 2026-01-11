@@ -40,14 +40,14 @@ description: LOOP Vault 또는 외부 프로젝트(sosi, kkokkkok)에서 dev Tas
 
 ### 모드별 워크플로우
 
-**새 Task 모드 (task_id 없음):**
+**New Task Mode (no task_id):**
 ```
-Step 1 → Step 2 → [Step 2-1 새 Project 생성 (선택 시)] → Step 3 → Step 4 → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
+Step 1 → Step 2 → [Step 2-1 New Project (optional)] → Step 3 (Git Branch) → Step 4 (Task + Sync + Merge) → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
 ```
 
-**기존 Task 모드 (task_id 있음):**
+**Existing Task Mode (task_id provided):**
 ```
-Step 0-1 → Step 0-2 → Step 3 (조건부) → Step 4 (조건부) → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
+Step 0-1 → Step 0-2 → Step 3 (conditional) → Step 4 (conditional) → Step 5 → 🚨 Step 6 (MANDATORY) → Step 7
 ```
 
 > **⚠️ Step 6 (codex-claude-loop 호출)은 모든 모드에서 필수입니다. 스킵 불가.**
@@ -78,33 +78,36 @@ Task를 찾을 수 없습니다: {task_id}
 올바른 Task ID인지 확인하세요.
 ```
 
-### Step 0-2: 현재 상태 파악
+### Step 0-2: Check Current State
 
-Task 파일 읽고 다음 확인:
+Read Task file and check:
 
-| 확인 항목 | 있으면 | 없으면 |
-|----------|--------|--------|
-| Notes > Tech Spec | Step 4 스킵 | Step 4 실행 |
-| Notes > Todo | Step 4 스킵 | Step 4 실행 |
-| Git 브랜치 (외부 프로젝트) | Step 3 스킵 | Step 3 실행 |
+| Check Item | If Exists | If Missing |
+|------------|-----------|------------|
+| Notes > Tech Spec | Skip Step 5 | Run Step 5 |
+| Notes > Todo | Skip Step 5 | Run Step 5 |
+| Git branch | Skip Step 3 | Run Step 3 |
+
+> **Note**: In Existing Task Mode, Step 4-1 (Task creation) is always skipped since Task already exists.
+> Step 4-2, 4-3 (Sync + Merge) only needed if Step 3 created new branch.
 
 ```bash
-# Git 브랜치 존재 확인
+# Check if Git branch exists
 git branch -a | grep "$task_id"
 ```
 
-**출력:**
+**Output:**
 ```
-Task 상태 확인 완료
+Task state check complete
 
 Task: {task_id}
 Project: {project_id}
 Target: {target_project}
 
-현재 상태:
-- Tech Spec: {있음/없음}
-- Todo: {있음/없음}
-- Git 브랜치: {있음/없음/해당없음}
+Current state:
+- Tech Spec: {exists/missing}
+- Todo: {exists/missing}
+- Git branch: {exists/missing/N/A}
 ```
 
 ---
@@ -173,43 +176,26 @@ conditions_3y: ["cond-b"]  # ⭐ 기본값 (Condition B: Loop Dataset)
 - Condition: cond-b ← 다른 Condition이면 지정
 ```
 
-**생성 완료 후:**
-- 생성된 `project_id`를 Task 생성에 사용
-- Step 3로 진행
+**After creation:**
+- Use generated `project_id` for Task creation
+- Proceed to Step 3 (Git Branch Creation)
 
-**자동 설정 (질문 없이):**
-- `type` = "dev" (고정)
-- `target_project` = Step 1에서 감지된 값
-- `assignee` = "김은향" (고정)
+**Auto-set (no questions):**
+- `type` = "dev" (fixed)
+- `target_project` = detected in Step 1
+- `assignee` = "김은향" (fixed)
 
-### Step 3: Task 파일 생성
+### Step 3: Git Branch Creation (LOOP Vault + External Projects)
 
-> **MUST: Task 생성은 반드시 `loop-entity-creator` 스킬을 통해 수행**
+> **CRITICAL: Create branches BEFORE Task creation**
+> **LOOP Vault (public, exec) always creates branches**
+> **External projects also create branches when applicable**
+> **Purpose: Prevent conflicts with `/nas-git local-sync` in parallel sessions**
 
-**loop-entity-creator에 전달:**
-```yaml
-entity_type: Task
-entity_name: {수집한 이름}
-project_id: {수집한 project_id}
-assignee: "김은향"      # 고정
-type: "dev"            # 고정
-target_project: {감지값}
-```
-
----
-
-## 공통 Steps (두 모드 모두)
-
-### Step 4: Git 브랜치 생성 (LOOP Vault + 외부 프로젝트)
-
-> **CRITICAL: LOOP Vault(public, exec)는 항상 브랜치 생성**
-> **외부 프로젝트도 해당 시 브랜치 생성**
-> **목적: 병렬 세션에서 `/nas-git local-sync` 실행 시 충돌 방지**
-
-#### Step 4-1: LOOP Vault 브랜치 생성 (항상 실행)
+#### Step 3-1: LOOP Vault Branch Creation (always)
 
 ```bash
-# PUBLIC Vault 브랜치 생성
+# PUBLIC Vault branch
 cd ~/dev/loop/public
 git stash --include-untracked -m "auto-stash before branch: {task_id}"
 git checkout main
@@ -217,7 +203,7 @@ git pull origin main
 git checkout -b {task_id}
 git stash pop 2>/dev/null || true
 
-# EXEC Vault 브랜치 생성
+# EXEC Vault branch
 cd ~/dev/loop/exec
 git stash --include-untracked -m "auto-stash before branch: {task_id}"
 git checkout main
@@ -226,35 +212,91 @@ git checkout -b {task_id}
 git stash pop 2>/dev/null || true
 ```
 
-#### Step 4-2: 외부 프로젝트 브랜치 생성 (해당 시)
+#### Step 3-2: External Project Branch Creation (when applicable)
 
-> **target_project가 sosi, kkokkkok, loop-api인 경우만 실행**
+> **Only for target_project: sosi, kkokkkok, loop-api**
 
 ```bash
-# 현재 외부 프로젝트 경로로 이동
 cd {project_full_path}
 
-# dev 브랜치 최신화
+# Update dev/main branch
 git checkout dev 2>/dev/null || git checkout main
 git pull origin dev 2>/dev/null || git pull origin main
 
-# Task ID로 브랜치 생성
+# Create Task branch
 git checkout -b {task_id}
 ```
 
-**Project 경로 매핑:**
+**Project Path Mapping:**
 ```yaml
 sosi: /Users/gim-eunhyang/dev/flutter/sosi
 kkokkkok: /Users/gim-eunhyang/dev/flutter/kkokkkokfit_web
 loop-api: /Volumes/LOOP_CORE/vault/LOOP
 ```
 
-**출력:**
+**Output:**
 ```
-Git 브랜치 생성 완료:
+Git branches created:
 - public vault: {task_id}
 - exec vault: {task_id}
-- {target_project}: {task_id} (해당 시)
+- {target_project}: {task_id} (if applicable)
+```
+
+---
+
+## Common Steps (Both Modes)
+
+### Step 4: Task File Creation + Worktree Sync
+
+> **MUST: Task creation via `loop-entity-creator` skill**
+> **CRITICAL: After Task API creates file on NAS main, sync and merge to worktree**
+
+#### Step 4-1: Create Task (loop-entity-creator)
+
+**Pass to loop-entity-creator:**
+```yaml
+entity_type: Task
+entity_name: {collected name}
+project_id: {collected project_id}
+assignee: "김은향"      # fixed
+type: "dev"            # fixed
+target_project: {detected value}
+```
+
+#### Step 4-2: NAS Sync
+
+> **CRITICAL: Task API creates file on NAS main branch. Must sync before editing.**
+
+```bash
+# Sync NAS → GitHub → Local main
+/nas-git local-sync
+
+# Wait for sync completion (approx 10-15 seconds)
+```
+
+#### Step 4-3: Merge main into worktree branches
+
+> **CRITICAL: Bring Task file from main into worktree branches**
+
+```bash
+# Merge main into public vault branch
+cd ~/dev/loop/public
+git merge main --no-edit
+
+# Merge main into exec vault branch
+cd ~/dev/loop/exec
+git merge main --no-edit
+
+# For external projects (if applicable)
+cd {project_full_path}
+git merge main --no-edit 2>/dev/null || git merge dev --no-edit 2>/dev/null || true
+```
+
+**Output:**
+```
+Task file synced to worktree:
+- Task ID: {task_id}
+- Task file now available in branch for editing
 ```
 
 ### Step 5: prompt-enhancer 호출 (Notes 비어있으면)
@@ -329,12 +371,12 @@ Skill tool 호출:
   args: "{task_id}"
 ```
 
-#### 호출 전 체크리스트
+#### Pre-call Checklist
 
-- [ ] Task 파일 생성 완료 (Step 3)
-- [ ] Git 브랜치 생성 완료 또는 스킵 (Step 4)
-- [ ] Notes 섹션 (Tech Spec, Todo) 채우기 완료 (Step 5)
-- [ ] **위 항목 모두 완료 후 codex-claude-loop 호출**
+- [ ] Git branch created or skipped (Step 3)
+- [ ] Task file created + synced to worktree (Step 4)
+- [ ] Notes section (Tech Spec, Todo) filled (Step 5)
+- [ ] **Call codex-claude-loop after all above completed**
 
 #### codex-claude-loop이 수행하는 작업
 
