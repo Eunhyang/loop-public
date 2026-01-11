@@ -1,39 +1,33 @@
 ---
 entity_type: Task
-entity_id: "tsk-dashboard-ux-v1-29"
-entity_name: "Dashboard - Google Calendar 연동 버그 수정"
+entity_id: tsk-dashboard-ux-v1-29
+entity_name: Dashboard - Google Calendar 연동 버그 수정
 created: 2026-01-06
-updated: 2026-01-06
+updated: '2026-01-11'
 status: done
 closed: 2026-01-06
-
-# === 계층 ===
-parent_id: "prj-dashboard-ux-v1"
-project_id: "prj-dashboard-ux-v1"
-aliases: ["tsk-dashboard-ux-v1-29"]
-
-# === 관계 ===
+parent_id: prj-dashboard-ux-v1
+project_id: prj-dashboard-ux-v1
+aliases:
+- tsk-dashboard-ux-v1-29
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: 2026-01-06
-due: 2026-01-06
+due: '2026-01-11'
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: bug
 target_project: loop
-
-# === 분류 ===
-tags: [dashboard, google-calendar, bug, oauth]
+tags:
+- dashboard
+- google-calendar
+- bug
+- oauth
 priority_flag: high
 ---
-
 # Dashboard - Google Calendar 연동 버그 수정
 
 > Task ID: `tsk-dashboard-ux-v1-29` | Project: `prj-dashboard-ux-v1` | Status: done

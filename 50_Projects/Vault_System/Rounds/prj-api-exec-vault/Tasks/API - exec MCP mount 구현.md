@@ -1,39 +1,32 @@
 ---
 entity_type: Task
-entity_id: "tsk-018-04"
-entity_name: "API - exec MCP mount 구현"
+entity_id: tsk-018-04
+entity_name: API - exec MCP mount 구현
 created: 2026-01-06
-updated: 2026-01-06
+updated: '2026-01-11'
 status: done
 closed: 2026-01-06
-
-# === 계층 ===
-parent_id: "prj-api-exec-vault"
-project_id: "prj-api-exec-vault"
-aliases: ["tsk-018-04"]
-
-# === 관계 ===
+parent_id: prj-api-exec-vault
+project_id: prj-api-exec-vault
+aliases:
+- tsk-018-04
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
+assignee: 김은향
 start_date: 2026-01-06
-due: 2026-01-06
+due: '2026-01-11'
 priority: high
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop-api
-
-# === 분류 ===
-tags: ["api", "mcp", "exec-vault"]
+tags:
+- api
+- mcp
+- exec-vault
 priority_flag: high
 ---
-
 # API - exec MCP mount 구현
 
 > Task ID: `tsk-018-04` | Project: `prj-api-exec-vault` | Status: done

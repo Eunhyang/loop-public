@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-mcp-rbac-03
 entity_name: MCP - loop_exec Vault 라우팅 구현
 created: 2025-12-29
-updated: '2025-12-29'
+updated: '2026-01-11'
 status: doing
 parent_id: prj-mcp-dual-vault-rbac
 project_id: prj-mcp-dual-vault-rbac

@@ -3,17 +3,17 @@ entity_type: Task
 entity_id: tsk-mcp-rbac-04
 entity_name: MCP - 복합 API exec vault 필터링
 created: 2026-01-03
-updated: 2026-01-03
+updated: '2026-01-11'
 status: doing
 parent_id: prj-mcp-dual-vault-rbac
 project_id: prj-mcp-dual-vault-rbac
 program_id: pgm-vault-system
 aliases:
-  - tsk-mcp-rbac-04
+- tsk-mcp-rbac-04
 outgoing_relations:
-  - type: depends_on
-    target_id: tsk-mcp-rbac-03
-    description: exec vault 라우팅 구현 완료 필요
+- type: depends_on
+  target_id: tsk-mcp-rbac-03
+  description: exec vault 라우팅 구현 완료 필요
 validates: []
 validated_by: []
 type: dev
@@ -23,14 +23,13 @@ due: null
 estimate: null
 target_project: loop
 tags:
-  - mcp
-  - rbac
-  - security
-  - exec-vault
-  - api
+- mcp
+- rbac
+- security
+- exec-vault
+- api
 priority_flag: high
 ---
-
 # MCP - 복합 API exec vault 필터링
 
 > Task ID: `tsk-mcp-rbac-04` | Project: `prj-mcp-dual-vault-rbac` | Status: doing

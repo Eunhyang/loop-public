@@ -1,39 +1,31 @@
 ---
 entity_type: Task
-entity_id: "tsk-dashboard-ux-v1-10"
-entity_name: "api/constants.py 응답 확장"
+entity_id: tsk-dashboard-ux-v1-10
+entity_name: api/constants.py 응답 확장
 created: 2025-12-27
-updated: 2025-12-27
+updated: '2026-01-11'
 status: doing
-
-# === 계층 ===
-parent_id: "prj-dashboard-ux-v1"
-project_id: "prj-dashboard-ux-v1"
-aliases: ["tsk-dashboard-ux-v1-10"]
-
-# === 관계 ===
+parent_id: prj-dashboard-ux-v1
+project_id: prj-dashboard-ux-v1
+aliases:
+- tsk-dashboard-ux-v1-10
 outgoing_relations: []
 validates: []
 validated_by: []
-
-# === Task 전용 ===
-assignee: "김은향"
-due: null
+assignee: 김은향
+due: '2026-01-10'
 priority: medium
 estimated_hours: null
 actual_hours: null
-
-# === Task 유형 (dev Task 연동용) ===
 type: dev
 target_project: loop
-
-# === 3Y 전략 연결 (필수) ===
-# === 분류 ===
-tags: ["schema", "api", "constants"]
+tags:
+- schema
+- api
+- constants
 priority_flag: medium
 start_date: '2025-12-27'
 ---
-
 # api/constants.py 응답 확장
 
 > Task ID: `tsk-dashboard-ux-v1-10` | Project: `prj-dashboard-ux-v1` | Status: doing
