@@ -26,8 +26,11 @@ DB_PATH = os.environ.get("OAUTH_DB_PATH", str(OAUTH_DIR / "oauth.db"))
 # SQLAlchemy setup
 engine = create_engine(
     f"sqlite:///{DB_PATH}",
-    connect_args={"check_same_thread": False},  # SQLite in multi-thread
-    echo=False  # Set True for SQL debugging
+    connect_args={
+        "check_same_thread": False,
+        "timeout": 30,  # SQLite busy_timeout 30초
+    },
+    echo=False
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

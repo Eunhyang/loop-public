@@ -174,7 +174,10 @@ class CommentDatabase:
 
         self.engine = create_engine(
             f"sqlite:///{self.db_path}",
-            connect_args={"check_same_thread": False}
+            connect_args={
+                "check_same_thread": False,
+                "timeout": 30,  # SQLite busy_timeout 30초
+            }
         )
 
         # Enable foreign key constraints (off by default in SQLite)

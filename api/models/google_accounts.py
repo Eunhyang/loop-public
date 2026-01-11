@@ -27,7 +27,10 @@ GOOGLE_OAUTH_DIR.mkdir(parents=True, exist_ok=True)
 # SQLAlchemy setup
 google_engine = create_engine(
     f"sqlite:///{GOOGLE_DB_PATH}",
-    connect_args={"check_same_thread": False},
+    connect_args={
+        "check_same_thread": False,
+        "timeout": 30,  # SQLite busy_timeout 30초
+    },
     echo=False
 )
 GoogleSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=google_engine)
