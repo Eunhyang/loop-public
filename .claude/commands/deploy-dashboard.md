@@ -27,11 +27,11 @@ cd /Users/gim-eunhyang/dev/loop/public/dashboard-v2 && npm run build
 
 On success, output generated in `dist/` folder.
 
-### Step 2: Commit (deploy option only)
+### Step 2: Sync to NAS (deploy option only)
 
 > Skip this step for `deploy-only` or `build-only`
 
-Execute `/safe-commit` skill to commit changes.
+Execute `/nas-git local-sync` to sync local changes to NAS via GitHub.
 
 ### Step 3: Docker CP (deploy, deploy-only options)
 
@@ -70,4 +70,5 @@ On success, returns HTML containing `<!DOCTYPE html>`.
 
 - **vs rebuild**: Both use latest source, same result
 - **Advantage**: 30 seconds vs 5-10 min full rebuild
-- **When to use rebuild**: Required when API code changes
+- **When to use rebuild**: Required when Dockerfile, requirements, or docker-compose.yml changes
+- **API changes**: Use `/deploy-api` instead of rebuild
