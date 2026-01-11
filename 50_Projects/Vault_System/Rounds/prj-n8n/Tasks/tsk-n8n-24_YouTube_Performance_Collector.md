@@ -289,10 +289,18 @@ return [{ json: { videos, summary, parsed_at: new Date().toISOString() } }];
 
 ### Testing Checklist
 
-- [ ] Import workflow to n8n
-- [ ] Activate workflow
+- [x] Import workflow to n8n
+- [x] Activate workflow
 - [ ] Test Schedule Trigger (wait for 15:00 or trigger manually)
-- [ ] Test Form Trigger with sample YouTube data
+- [x] Test Form Trigger with sample YouTube data
 - [ ] Verify Discord reminder message format
-- [ ] Verify Discord summary message with top 3 videos
+- [x] Verify Discord summary message with top 3 videos
 - [ ] Test edge cases (< 3 videos, empty input, Windows line endings)
+
+### Test Results (2026-01-11)
+
+**Form Trigger 성공**:
+- 영상 수: 50개
+- 총 조회수: 12,282
+- 총 노출수: 39,022
+- 상위 3개 정상 표시

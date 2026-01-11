@@ -42,8 +42,8 @@ Execute `/safe-commit` skill to commit changes.
 cd /Users/gim-eunhyang/dev/loop/public/dashboard-v2
 tar -czf /tmp/dashboard-v2-dist.tar.gz -C dist .
 
-# 2. Transfer to NAS
-sshpass -p 'Dkssud272902*' scp -P 22 -o StrictHostKeyChecking=no /tmp/dashboard-v2-dist.tar.gz Sosilab@100.93.242.60:/tmp/
+# 2. Transfer to NAS (-O: use legacy SCP protocol, required for Synology NAS)
+sshpass -p 'Dkssud272902*' scp -O -P 22 -o StrictHostKeyChecking=no /tmp/dashboard-v2-dist.tar.gz Sosilab@100.93.242.60:/tmp/
 
 # 3. Copy to container
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
