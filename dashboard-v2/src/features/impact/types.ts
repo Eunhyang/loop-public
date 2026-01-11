@@ -12,17 +12,18 @@ import type { ExpectedImpact, TrackContribution } from '@/types/project';
 export type { ExpectedImpact, TrackContribution };
 
 /**
- * Tier values for impact classification
+ * Tier values for impact classification (SSOT: impact_model_config.yml)
  * - strategic: Directly affects business outcomes (highest weight)
- * - tactical: Enables strategic goals (medium weight)
+ * - enabling: Enables strategic goals (medium weight)
  * - operational: Day-to-day improvements (lowest weight)
  */
-export type ImpactTier = 'strategic' | 'tactical' | 'operational';
+export type ImpactTier = 'strategic' | 'enabling' | 'operational';
 
 /**
- * Magnitude levels for impact size
+ * Magnitude levels for impact size (SSOT: impact_model_config.yml)
+ * Note: API uses 'mid' not 'medium'
  */
-export type ImpactMagnitude = 'high' | 'medium' | 'low';
+export type ImpactMagnitude = 'high' | 'mid' | 'low';
 
 /**
  * Result of calculating expected impact score

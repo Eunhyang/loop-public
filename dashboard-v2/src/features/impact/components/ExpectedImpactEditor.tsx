@@ -17,14 +17,14 @@ interface ExpectedImpactEditorProps {
   readonly?: boolean;
 }
 
-// Color definitions for tier chips
+// Color definitions for tier chips (SSOT: impact_model_config.yml)
 const tierColors: Record<ImpactTier, { bg: string; text: string; selected: string }> = {
   strategic: {
     bg: 'bg-white border-zinc-200',
     text: 'text-zinc-500',
     selected: '!bg-[#fef3c7] !text-[#92400e] !border-[#fcd34d]',
   },
-  tactical: {
+  enabling: {
     bg: 'bg-white border-zinc-200',
     text: 'text-zinc-500',
     selected: '!bg-[#e0f2fe] !text-[#0369a1] !border-[#7dd3fc]',
@@ -36,14 +36,14 @@ const tierColors: Record<ImpactTier, { bg: string; text: string; selected: strin
   },
 };
 
-// Color definitions for magnitude chips
+// Color definitions for magnitude chips (SSOT: impact_model_config.yml uses 'mid' not 'medium')
 const magnitudeColors: Record<ImpactMagnitude, { bg: string; text: string; selected: string }> = {
   high: {
     bg: 'bg-white border-zinc-200',
     text: 'text-zinc-500',
     selected: '!bg-[#fee2e2] !text-[#991b1b] !border-[#fca5a5]',
   },
-  medium: {
+  mid: {
     bg: 'bg-white border-zinc-200',
     text: 'text-zinc-500',
     selected: '!bg-[#fef3c7] !text-[#92400e] !border-[#fcd34d]',
@@ -71,10 +71,10 @@ export function ExpectedImpactEditor({
   onChange,
   readonly = false,
 }: ExpectedImpactEditorProps) {
-  // Default values if no impact is set
+  // Default values if no impact is set (SSOT: impact_model_config.yml)
   const currentValue: ExpectedImpact = useMemo(() => ({
-    tier: value?.tier || 'tactical',
-    impact_magnitude: value?.impact_magnitude || 'medium',
+    tier: value?.tier || 'enabling',
+    impact_magnitude: value?.impact_magnitude || 'mid',
     confidence: value?.confidence ?? 0.5,
     rationale: value?.rationale || '',
   }), [value]);

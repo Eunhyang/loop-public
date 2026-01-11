@@ -18,12 +18,12 @@ import type {
 
 /**
  * Magnitude points by tier and magnitude level
- * Source: impact_model_config.yml
+ * Source: impact_model_config.yml (SSOT)
  */
 export const MAGNITUDE_POINTS: Record<ImpactTier, Record<ImpactMagnitude, number>> = {
-  strategic: { high: 10, medium: 6, low: 3 },
-  tactical: { high: 5, medium: 3, low: 1.5 },
-  operational: { high: 2, medium: 1, low: 0.5 },
+  strategic: { high: 10, mid: 6, low: 3 },
+  enabling: { high: 5, mid: 3, low: 1.5 },
+  operational: { high: 2, mid: 1, low: 0.5 },
 };
 
 /**
@@ -31,25 +31,28 @@ export const MAGNITUDE_POINTS: Record<ImpactTier, Record<ImpactMagnitude, number
  */
 export const MAX_POINTS_BY_TIER: Record<ImpactTier, number> = {
   strategic: 10,
-  tactical: 5,
+  enabling: 5,
   operational: 2,
 };
 
 /**
  * Tier options for UI display
+ * SSOT: impact_model_config.yml tiers section
  */
 export const TIER_OPTIONS: Array<{ value: ImpactTier; label: string }> = [
   { value: 'strategic', label: 'Strategic' },
-  { value: 'tactical', label: 'Tactical' },
+  { value: 'enabling', label: 'Enabling' },
   { value: 'operational', label: 'Operational' },
 ];
 
 /**
  * Magnitude options for UI display
+ * SSOT: impact_model_config.yml magnitude_levels section
+ * Note: Uses 'mid' not 'medium' to match API
  */
 export const MAGNITUDE_OPTIONS: Array<{ value: ImpactMagnitude; label: string }> = [
   { value: 'high', label: 'High' },
-  { value: 'medium', label: 'Medium' },
+  { value: 'mid', label: 'Mid' },
   { value: 'low', label: 'Low' },
 ];
 
@@ -68,14 +71,14 @@ export function calculateExpectedScore(
   magnitude: string | undefined,
   confidence: number | undefined
 ): ImpactScoreResult {
-  // Default values for missing inputs
-  const normalizedTier = (tier as ImpactTier) || 'tactical';
-  const normalizedMagnitude = (magnitude as ImpactMagnitude) || 'medium';
+  // Default values for missing inputs (SSOT: impact_model_config.yml)
+  const normalizedTier = (tier as ImpactTier) || 'enabling';
+  const normalizedMagnitude = (magnitude as ImpactMagnitude) || 'mid';
   const normalizedConfidence = typeof confidence === 'number' ? confidence : 0.5;
 
   // Get base points from lookup table
   const tierPoints = MAGNITUDE_POINTS[normalizedTier];
-  const basePoints = tierPoints?.[normalizedMagnitude] ?? 3; // default to tactical/medium
+  const basePoints = tierPoints?.[normalizedMagnitude] ?? 3; // default to enabling/mid
 
   // Calculate score
   const score = basePoints * normalizedConfidence;

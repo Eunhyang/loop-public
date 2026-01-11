@@ -131,7 +131,7 @@ export function ImpactExplainerModal({
                       High
                     </th>
                     <th className="px-3 py-2 text-center font-medium text-zinc-700 border border-zinc-200">
-                      Medium
+                      Mid
                     </th>
                     <th className="px-3 py-2 text-center font-medium text-zinc-700 border border-zinc-200">
                       Low
@@ -147,7 +147,7 @@ export function ImpactExplainerModal({
                       {MAGNITUDE_POINTS.strategic.high}
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
-                      {MAGNITUDE_POINTS.strategic.medium}
+                      {MAGNITUDE_POINTS.strategic.mid}
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
                       {MAGNITUDE_POINTS.strategic.low}
@@ -155,16 +155,16 @@ export function ImpactExplainerModal({
                   </tr>
                   <tr className="bg-zinc-50/50">
                     <td className="px-3 py-2 font-medium text-zinc-900 border border-zinc-200">
-                      Tactical
+                      Enabling
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
-                      {MAGNITUDE_POINTS.tactical.high}
+                      {MAGNITUDE_POINTS.enabling.high}
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
-                      {MAGNITUDE_POINTS.tactical.medium}
+                      {MAGNITUDE_POINTS.enabling.mid}
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
-                      {MAGNITUDE_POINTS.tactical.low}
+                      {MAGNITUDE_POINTS.enabling.low}
                     </td>
                   </tr>
                   <tr>
@@ -175,7 +175,7 @@ export function ImpactExplainerModal({
                       {MAGNITUDE_POINTS.operational.high}
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
-                      {MAGNITUDE_POINTS.operational.medium}
+                      {MAGNITUDE_POINTS.operational.mid}
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
                       {MAGNITUDE_POINTS.operational.low}
@@ -242,9 +242,9 @@ export function ImpactExplainerModal({
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-zinc-900">Tactical</dt>
+                <dt className="font-medium text-zinc-900">Enabling</dt>
                 <dd className="text-zinc-600 ml-4">
-                  Enables strategic goals and improves capabilities
+                  Enables strategic goals and accelerates capabilities
                 </dd>
               </div>
               <div>

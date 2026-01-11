@@ -1,6 +1,6 @@
 export interface ExpectedImpact {
-  tier: 'strategic' | 'tactical' | 'operational';
-  impact_magnitude: 'high' | 'medium' | 'low';
+  tier: 'strategic' | 'enabling' | 'operational';
+  impact_magnitude: 'high' | 'mid' | 'low';
   confidence: number; // 0.0 ~ 1.0
   rationale?: string;
 }
