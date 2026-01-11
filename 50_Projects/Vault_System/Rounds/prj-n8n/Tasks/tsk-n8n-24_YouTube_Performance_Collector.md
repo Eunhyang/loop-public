@@ -10,6 +10,7 @@ type: dev
 project_id: prj-n8n
 assignee: 김은향
 priority_flag: medium
+revision_count: 1
 tags:
   - n8n
   - youtube
@@ -274,6 +275,17 @@ return [{ json: { videos, summary, parsed_at: new Date().toISOString() } }];
 **Status**: Implementation complete
 **Output**: `_build/n8n_workflows/youtube_performance_collector.json` (valid JSON, 7 nodes)
 **Next**: Import to n8n, test both triggers, verify Discord messages
+
+### Revision 1 Implementation (2026-01-11)
+
+**Modified**: 1 file
+- Updated: `_build/n8n_workflows/youtube_performance_collector.json`
+
+**Key Changes**:
+- Replaced tab-based parsing with line-based parsing
+- Added "Video thumbnail:" marker detection
+- Extract data from relative line positions: +3 (views), +11 (impressions)
+- Tested JSON syntax: ✅ Valid
 
 ### Testing Checklist
 
