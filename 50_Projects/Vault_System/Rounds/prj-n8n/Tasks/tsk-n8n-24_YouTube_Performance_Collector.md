@@ -4,8 +4,8 @@ entity_id: tsk-n8n-24
 entity_name: n8n - YouTube Performance Collector
 created: 2026-01-11
 updated: 2026-01-11
-closed: 2026-01-11
-status: done
+closed: null
+status: doing
 type: dev
 project_id: prj-n8n
 assignee: 김은향
@@ -19,7 +19,7 @@ tags:
 ---
 # n8n - YouTube Performance Collector
 
-> Task ID: `tsk-n8n-24` | Project: `prj-n8n` | Status: done
+> Task ID: `tsk-n8n-24` | Project: `prj-n8n` | Status: doing
 
 ---
 
@@ -107,31 +107,42 @@ Form URL: https://n8n.sosilab.synology.me/form/youtube-performance
 | `Build Summary Msg` | code | 저장 완료 메시지 생성 |
 | `Send to Discord` | httpRequest | Discord Webhook 호출 |
 
-### 파싱 로직
+### 파싱 로직 (Revision 1: 라인 기반 파싱)
+
+> **IMPORTANT**: YouTube Studio는 탭 구분이 아닌 라인 구분 데이터 (13줄/비디오)
 
 ```javascript
-// Parse Tab Data
+// Parse YouTube Studio Line Data (13 lines per video)
 const input = $input.first().json['YouTube Data'] || '';
-const lines = input.trim().split('\n');
+const lines = input
+  .replace(/\r\n/g, '\n')
+  .replace(/\r/g, '\n')
+  .split('\n')
+  .map(l => l.trim());
 
 const videos = [];
-let headerSkipped = false;
 
-for (const line of lines) {
-  const cols = line.split('\t');
-  if (cols.length < 2) continue;
+for (let i = 0; i < lines.length; i++) {
+  // 비디오 시작 감지: "Video thumbnail:" 패턴
+  if (lines[i].startsWith('Video thumbnail:')) {
+    // 제목 추출: "Video thumbnail: {제목}" 에서 제목 부분
+    const title = lines[i].replace('Video thumbnail:', '').trim();
 
-  if (!headerSkipped && (cols[0].includes('영상') || cols[1].includes('조회'))) {
-    headerSkipped = true;
-    continue;
-  }
+    // 상대 위치로 데이터 추출
+    // Line +3: Views (e.g., "2,356")
+    // Line +11: Impressions (e.g., "1,609")
+    const viewsLine = lines[i + 3] || '0';
+    const impressionsLine = lines[i + 11] || '0';
 
-  const title = cols[0]?.trim() || '';
-  const views = parseInt((cols[1] || '0').replace(/,/g, ''), 10) || 0;
-  const impressions = parseInt((cols[2] || '0').replace(/,/g, ''), 10) || 0;
+    const views = parseInt(viewsLine.replace(/,/g, ''), 10) || 0;
+    const impressions = parseInt(impressionsLine.replace(/,/g, ''), 10) || 0;
 
-  if (title) {
-    videos.push({ title, views, impressions });
+    if (title) {
+      videos.push({ title, views, impressions });
+    }
+
+    // 다음 비디오로 점프 (13줄 단위)
+    i += 12;
   }
 }
 
@@ -175,10 +186,22 @@ return [{ json: { videos, summary, parsed_at: new Date().toISOString() } }];
 
 ## Todo
 
-- [ ] youtube_performance_collector.json 파일 생성
-- [ ] 노드 ID, position 정의
-- [ ] connections 정의
-- [ ] n8n에 Import 및 Activate
+### Completed (v1 - 탭 구분 파싱)
+- [x] youtube_performance_collector.json 파일 생성
+- [x] 노드 ID, position 정의
+- [x] connections 정의
+- [x] n8n에 Import 및 Activate
+
+### Revision 1 - 라인 기반 파싱 수정
+- [ ] Parse Tab Data 노드를 라인 기반 파싱으로 교체
+- [ ] "Video thumbnail:" 패턴 감지 로직 구현
+- [ ] 상대 위치 데이터 추출 (Views: +3, Impressions: +11)
+- [ ] 에러 핸들링 추가 (빈 줄, 잘못된 숫자)
+- [ ] n8n 워크플로우 업데이트 및 재활성화
+- [ ] 실제 YouTube Studio 데이터로 테스트
+- [ ] Discord 메시지 확인 (영상 수 > 0)
+
+### Integration Testing
 - [ ] Form URL 테스트
 - [ ] Discord 메시지 확인
 - [ ] Schedule Trigger 테스트
@@ -304,3 +327,33 @@ return [{ json: { videos, summary, parsed_at: new Date().toISOString() } }];
 - 총 조회수: 12,282
 - 총 노출수: 39,022
 - 상위 3개 정상 표시
+
+---
+
+## Revision History
+
+### Revision 1 (2026-01-11)
+
+**Issue**: YouTube Studio 데이터 파싱이 0개 영상으로 반환됨
+
+**Root Cause**:
+- 기존 파싱 로직이 탭 구분 데이터(`title\tviews\timpressions`)를 기대
+- 실제 YouTube Studio 복사 데이터는 **라인 구분** (13줄/비디오)
+
+**YouTube Studio 실제 데이터 구조 (13줄/비디오)**:
+```
+Line 0:  Video thumbnail: {제목}     <- 시작점 감지
+Line 1:  1:58                        (Duration)
+Line 2:  새벽에 먹어도 덜 찌는...     (Title clean)
+Line 3:  2,356                       <- Views 추출
+Line 4-10: 기타 metrics
+Line 11: 1,609                       <- Impressions 추출
+Line 12: 6.7%                        (CTR)
+```
+
+**Impact**: 폼 제출 시 Discord에 "영상 수: 0개" 표시됨
+
+**Fix Direction**:
+1. "Video thumbnail:" 패턴으로 비디오 시작 감지
+2. 상대 위치로 데이터 추출 (Views: +3, Impressions: +11)
+3. 에러 핸들링: 빈 줄, 잘못된 숫자 처리
