@@ -30,7 +30,11 @@ httpClient.interceptors.response.use(
       // Token expired or invalid - clear auth and redirect to login
       authStorage.clearAll();
       // Respect SPA basename in production
-      window.location.href = import.meta.env.PROD ? '/v2/login' : '/login';
+      const loginPath = import.meta.env.PROD ? '/v2/login' : '/login';
+      // Prevent infinite redirect loop if already on login page
+      if (!window.location.pathname.endsWith('/login')) {
+        window.location.href = loginPath;
+      }
     }
     return Promise.reject(error);
   }

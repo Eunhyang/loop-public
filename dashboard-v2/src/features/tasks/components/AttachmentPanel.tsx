@@ -112,9 +112,20 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
         });
     };
 
-    const handlePreview = (filename: string) => {
-        const url = `/api/tasks/${taskId}/attachments/${encodeURIComponent(filename)}`;
-        window.open(url, '_blank');
+    const handlePreview = async (filename: string) => {
+        try {
+            const response = await fetch(`/api/tasks/${taskId}/attachments/${encodeURIComponent(filename)}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`,
+                },
+            });
+            if (!response.ok) throw new Error('Failed to fetch file');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        } catch (err: any) {
+            setError(`Failed to open file: ${err.message || 'Unknown error'}`);
+        }
     };
 
     const handleDelete = async (filename: string) => {

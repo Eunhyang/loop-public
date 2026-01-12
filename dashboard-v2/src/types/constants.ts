@@ -32,5 +32,6 @@ export interface Constants {
   task: TaskConstants;
   priority: PriorityConstants;
   project: ProjectConstants;
+  program_types?: string[];
   // Add other constant groups as needed (hypothesis, condition, etc.)
 }

@@ -43,15 +43,15 @@ export function useFieldOptions(): FieldOptions | null {
         value: String(m.id), // Normalize to string
         label: m.name,
       })),
-      priority: (constants.task_priority || []).map((p: string) => ({
+      priority: (constants.priority?.values || []).map((p: string) => ({
         value: String(p), // Ensure string
         label: p,
       })),
-      status: (constants.task_status || []).map((s: string) => ({
+      status: (constants.task?.status || []).map((s: string) => ({
         value: String(s), // Ensure string
         label: s,
       })),
-      type: (constants.task_type || []).map((t: string) => ({
+      type: (constants.task?.types || []).map((t: string) => ({
         value: String(t), // Ensure string
         label: t,
       })),

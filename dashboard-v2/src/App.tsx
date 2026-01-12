@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { router } from './routes';
 import { ConstantsProvider } from './contexts/ConstantsContext';
 import { useDashboardInit } from './queries/useDashboardInit';
+import { authStorage } from './features/auth/storage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,9 +23,16 @@ const queryClient = new QueryClient({
  *
  * Wrapper to handle loading state while dashboard-init is fetching.
  * Shows spinner until constants are loaded, then mounts ConstantsProvider.
+ * Only fetches when authenticated - login page doesn't need constants.
  */
 function ConstantsProviderWithLoading({ children }: { children: React.ReactNode }) {
+  const isAuthenticated = authStorage.isAuthenticated();
   const { data, isLoading } = useDashboardInit();
+
+  // Skip constants loading for unauthenticated users (login page)
+  if (!isAuthenticated) {
+    return <>{children}</>;
+  }
 
   if (isLoading || !data?.constants) {
     return (

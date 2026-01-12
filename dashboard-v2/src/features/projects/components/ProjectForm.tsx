@@ -57,13 +57,13 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
     // Constants
     const statuses = dashboardData?.constants?.project?.status || ['todo', 'doing', 'hold', 'done'];
-    const priorities = dashboardData?.constants?.project?.priority || ['low', 'medium', 'high', 'critical'];
+    const priorities = dashboardData?.constants?.priority?.values || ['low', 'medium', 'high', 'critical'];
 
     // Task filtering and grouping (UNCONDITIONAL - fix hooks violation)
     // Use memoized taskStatuses to fix memoization ineffectiveness
     const taskStatuses = useMemo(() =>
-        dashboardData?.constants?.task_status || ['todo', 'doing', 'hold', 'done', 'blocked'],
-        [dashboardData?.constants?.task_status]
+        dashboardData?.constants?.task?.status || ['todo', 'doing', 'hold', 'done', 'blocked'],
+        [dashboardData?.constants?.task?.status]
     );
 
     const projectTasks = useMemo(() => {

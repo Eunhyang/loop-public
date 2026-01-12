@@ -1,5 +1,6 @@
 import type { Task } from './task';
 import type { Project } from './project';
+import type { Constants } from './constants';
 
 export * from './task';
 export * from './project';

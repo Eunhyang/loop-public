@@ -8,7 +8,7 @@
  * - project: status, colors, labels
  */
 
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
 import type { Constants } from '@/types/constants';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 
