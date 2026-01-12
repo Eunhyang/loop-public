@@ -44,7 +44,7 @@ track_contributes: []
 ---
 # 대시보드 UX 개선 v1
 
-> Project ID: `prj-dashboard-ux-v1` | Program: [[pgm-vault-system]] | Status: planning
+> Project ID: `prj-dashboard-ux-v1` | Program: \[\[pgm-vault-system\]\] | Status: planning
 
 ## 프로젝트 개요
 
@@ -57,11 +57,13 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 ## 목표
 
 ### 성공 기준
+
 1. 숫자키(1/2/3)로 뷰 전환 가능
 2. F/R 키로 필터 토글/리셋 가능
 3. ? 키로 단축키 도움말 표시
 
 ### 실패 신호
+
 1. 단축키가 Quick Search와 충돌
 2. 입력 필드에서 의도치 않게 동작
 
@@ -70,21 +72,21 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 ## Tasks
 
 | ID | Name | Assignee | Status | Due |
-|----|------|----------|--------|-----|
-| tsk-dashboard-ux-v1-01 | 뷰 전환 단축키 (1/2/3) | 한명학 | planning | |
-| tsk-dashboard-ux-v1-02 | 필터 단축키 (F/R) | 미정 | planning | |
-| tsk-dashboard-ux-v1-03 | 단축키 도움말 (?) | 미정 | planning | |
-| tsk-dashboard-ux-v1-05 | Schema 상수 중앙화 | 김은향 | done | |
-| tsk-dashboard-ux-v1-07 | validate_schema.py YAML 일원화 | 김은향 | done | |
-| tsk-dashboard-ux-v1-08 | build_graph_index.py YAML 일원화 | 김은향 | done | |
-| tsk-dashboard-ux-v1-09 | loop-entity-creator 문서 수정 | 김은향 | done | |
+| --- | --- | --- | --- | --- |
+| tsk-dashboard-ux-v1-01 | 뷰 전환 단축키 (1/2/3) | 한명학 | planning |  |
+| tsk-dashboard-ux-v1-02 | 필터 단축키 (F/R) | 미정 | planning |  |
+| tsk-dashboard-ux-v1-03 | 단축키 도움말 (?) | 미정 | planning |  |
+| tsk-dashboard-ux-v1-05 | Schema 상수 중앙화 | 김은향 | done |  |
+| tsk-dashboard-ux-v1-07 | validate_schema.py YAML 일원화 | 김은향 | done |  |
+| tsk-dashboard-ux-v1-08 | build_graph_index.py YAML 일원화 | 김은향 | done |  |
+| tsk-dashboard-ux-v1-09 | loop-entity-creator 문서 수정 | 김은향 | done |  |
 | tsk-dashboard-ux-v1-22 | Dashboard - PDF 첨부파일 500 에러 진단 | 김은향 | done | 2026-01-05 |
 | tsk-019-25 | Schema - Task type에 meeting 추가 | 김은향 | done | 2026-01-06 |
 | tsk-dashboard-ux-v1-23 | Dashboard - 캘린더 우클릭 미팅 추가 | 김은향 | done | 2026-01-06 |
-| tsk-dashboard-ux-v1-24 | Dashboard - Google OAuth 계정 연결 | 김은향 | todo | |
-| tsk-dashboard-ux-v1-25 | Dashboard - 캘린더 Google Calendar 연동 | 김은향 | todo | |
-| tsk-dashboard-ux-v1-26 | Dashboard - Meeting Task Google Meet 생성 | 김은향 | todo | |
-| tsk-dashboard-ux-v1-27 | Dashboard - Task Done 회의록 자동 추출 | 김은향 | todo | |
+| tsk-dashboard-ux-v1-24 | Dashboard - Google OAuth 계정 연결 | 김은향 | todo |  |
+| tsk-dashboard-ux-v1-25 | Dashboard - 캘린더 Google Calendar 연동 | 김은향 | todo |  |
+| tsk-dashboard-ux-v1-26 | Dashboard - Meeting Task Google Meet 생성 | 김은향 | todo |  |
+| tsk-dashboard-ux-v1-27 | Dashboard - Task Done 회의록 자동 추출 | 김은향 | todo |  |
 | tsk-dashboard-ux-v1-28 | Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선 | 김은향 | done | 2026-01-06 |
 | tsk-dashboard-ux-v1-29 | Dashboard - Google Calendar 연동 버그 수정 | 김은향 | doing | 2026-01-06 |
 | tsk-dashboard-ux-v1-30 | 대시보드 - 코어멤버만 기본 표시 | 김은향 | doing | 2026-01-06 |
@@ -103,7 +105,7 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 
 ## 참조
 
-- **Program**: [[_PROGRAM|Vault 시스템 체계화]]
+- **Program**: \[\[\_PROGRAM|Vault 시스템 체계화\]\]
 - **Dashboard**: `_dashboard/index.html`
 - **관련 JS**: `_dashboard/js/app.js`, `_dashboard/js/components/quick-search.js`
 
@@ -113,7 +115,8 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 
 ### PRD (Product Requirements Document)
 
-#### tsk-dashboard-ux-v1-05: Schema 상수 중앙화
+tsk-dashboard-ux-v1-05: Schema 상수 중앙화
+
 - **문제 정의**: 스키마 상수(status, priority, ID 패턴 등)가 7개 파일에 분산되어 있어 변경 시 누락/불일치 발생
 - **목표**: schema_constants.yaml을 Single Source of Truth로 확장하여 모든 스키마 상수 일원화
 - **핵심 요구사항**:
@@ -121,7 +124,8 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
   - 기존 상수들과 호환성 유지
   - 이후 Task들(validate_schema.py, build_graph_index.py, api/constants.py, state.js)이 참조할 수 있도록 구조화
 
-#### tsk-dashboard-ux-v1-06: Dashboard Reset Filter 전체 초기화
+tsk-dashboard-ux-v1-06: Dashboard Reset Filter 전체 초기화
+
 - **문제 정의**: 현재 "Reset All" 버튼은 Filter Panel 내부 필터만 초기화하고, 상단 탭(담당자/프로젝트)과 Sidebar(Track/Hypothesis/Condition) 필터는 유지됨
 - **목표**: 모든 필터를 한 번에 초기화하여 전체 태스크 표시 (기간 없는 태스크 포함)
 - **핵심 요구사항**:
@@ -132,5 +136,4 @@ LOOP Dashboard의 키보드 단축키 기본 세트를 구현하여 팀원 생�
 
 ---
 
-**Created**: 2025-12-26
-**Owner**: 한명학
+**Created**: 2025-12-26 **Owner**: 한명학
