@@ -112,6 +112,42 @@ export const programColor: ChipColor = {
 };
 
 /**
+ * Task Type colors (6 types)
+ */
+export const taskTypeColors: Record<string, ChipColor> = {
+  bug: {
+    bg: 'bg-white border-zinc-200',
+    text: 'text-zinc-500',
+    selected: '!bg-[#fff1f2] !text-[#9f1239] !border-[#fecdd3]', // Red
+  },
+  dev: {
+    bg: 'bg-white border-zinc-200',
+    text: 'text-zinc-500',
+    selected: '!bg-[#f0f9ff] !text-[#075985] !border-[#bae6fd]', // Sky Blue
+  },
+  strategy: {
+    bg: 'bg-white border-zinc-200',
+    text: 'text-zinc-500',
+    selected: '!bg-[#f5f3ff] !text-[#5b21b6] !border-[#ddd6fe]', // Purple
+  },
+  research: {
+    bg: 'bg-white border-zinc-200',
+    text: 'text-zinc-500',
+    selected: '!bg-[#fffbeb] !text-[#92400e] !border-[#fef3c7]', // Amber
+  },
+  ops: {
+    bg: 'bg-white border-zinc-200',
+    text: 'text-zinc-500',
+    selected: '!bg-[#f0fdf4] !text-[#166534] !border-[#bbf7d0]', // Green
+  },
+  meeting: {
+    bg: 'bg-white border-zinc-200',
+    text: 'text-zinc-500',
+    selected: '!bg-[#fffdf2] !text-[#854d0e] !border-[#fef08a]', // Yellow
+  },
+};
+
+/**
  * Default fallback color for undefined values
  */
 export const defaultColor: ChipColor = {

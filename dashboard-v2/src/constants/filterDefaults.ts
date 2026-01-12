@@ -47,9 +47,9 @@ export const createDefaultLocalFilters = (constants: Constants): LocalFilterStat
   showNonCoreMembers: false,        // Default: core members only (matches legacy)
   showInactiveProjects: false,
 
-  // Project filters (legacy: exclude 'completed' projects)
-  // Use API constants, filter out 'completed' and 'done' (Task status used incorrectly)
-  projectStatus: constants.project.status.filter(s => s !== 'completed' && s !== 'done'),
+  // Project filters - use all statuses from API constants
+  // Users can toggle individual status buttons in FilterPanel
+  projectStatus: constants.project.status,
   projectPriority: constants.priority.values, // Full selection = show all
 
   // Task filters (full selection = show all, active UI state)

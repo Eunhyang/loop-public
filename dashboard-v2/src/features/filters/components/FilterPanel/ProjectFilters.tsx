@@ -1,13 +1,12 @@
 import { useCombinedFilters } from '@/hooks/useCombinedFilters';
+import { useConstants } from '@/contexts/ConstantsContext';
 import type { LocalFilterState } from '@/types/filters';
-
-const PROJECT_STATUSES = ['planning', 'active', 'paused', 'completed', 'cancelled'];
-const PRIORITIES = ['critical', 'high', 'medium', 'low'];
 
 type ArrayFilterKey = 'projectStatus' | 'projectPriority';
 
 export const ProjectFilters = () => {
   const { projectStatus, projectPriority, setFilter } = useCombinedFilters();
+  const constants = useConstants();
 
   const toggleFilter = (key: ArrayFilterKey, value: string) => {
     const currentArray = key === 'projectStatus' ? projectStatus : projectPriority;
@@ -23,13 +22,13 @@ export const ProjectFilters = () => {
       <div>
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Project Status</h3>
         <div className="flex flex-wrap gap-2">
-          {PROJECT_STATUSES.map(status => (
+          {constants.project.status.map(status => (
             <button
               key={status}
               onClick={() => toggleFilter('projectStatus', status)}
               className={`btn-filter ${projectStatus.includes(status) ? 'btn-filter-active' : ''}`}
             >
-              {status}
+              {constants.project.status_labels?.[status] || status}
             </button>
           ))}
         </div>
@@ -38,13 +37,13 @@ export const ProjectFilters = () => {
       <div>
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Project Priority</h3>
         <div className="flex flex-wrap gap-2">
-          {PRIORITIES.map(priority => (
+          {constants.priority.values.map(priority => (
             <button
               key={priority}
               onClick={() => toggleFilter('projectPriority', priority)}
               className={`btn-filter ${projectPriority.includes(priority) ? 'btn-filter-active' : ''}`}
             >
-              {priority}
+              {constants.priority.labels?.[priority] || priority}
             </button>
           ))}
         </div>

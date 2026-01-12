@@ -7,7 +7,7 @@ import { generateShareUrl } from '@/utils/url';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
-import { statusColors, priorityColors, memberColor, projectColor, getColor } from '@/components/common/chipColors';
+import { statusColors, priorityColors, taskTypeColors, memberColor, projectColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
@@ -184,7 +184,7 @@ const filterTemplatesByType = (type: Task['type'] | undefined): [TemplateType, t
     const taskType: TaskType = type ?? 'dev'; // Default to 'dev' if null/undefined
     return Object.entries(TASK_TEMPLATES).filter(([_, template]) => {
         return template.showFor === 'all' ||
-               (Array.isArray(template.showFor) && template.showFor.includes(taskType));
+            (Array.isArray(template.showFor) && template.showFor.includes(taskType));
     }) as [TemplateType, typeof TASK_TEMPLATES[TemplateType]][];
 };
 
@@ -257,6 +257,15 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         { value: 'medium', label: 'Medium', color: getColor('medium', priorityColors) },
         { value: 'low', label: 'Low', color: getColor('low', priorityColors) },
     ];
+
+    const typeOptions: ChipOption[] = useMemo(() => {
+        const types = dashboardData?.constants?.task?.types || ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'];
+        return types.map((t: string) => ({
+            value: t,
+            label: t.charAt(0).toUpperCase() + t.slice(1),
+            color: getColor(t, taskTypeColors),
+        }));
+    }, [dashboardData?.constants?.task?.types]);
 
     // Member options (for assignee ChipSelectExpand)
     // Filter: active members only, exclude role="Unassigned" (미정)
@@ -404,18 +413,17 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     )}
 
                     {/* AI Natural Language Input */}
-                    <div className="space-y-2 p-4 bg-blue-50 border border-blue-200 rounded">
-                        <div className="flex items-center justify-between">
-                            <label className="block text-sm font-medium text-blue-900">
-                                Quick Create with AI
+                    <div className="p-3 bg-zinc-50 border border-zinc-200 rounded">
+                        <div className="flex items-center justify-between mb-2">
+                            <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                                AI Assistant
                             </label>
-                            <span className="text-xs text-blue-600">Try: "로그인 버그 수정, 김철수, high, 내일까지"</span>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="relative">
                             <textarea
-                                className="flex-1 px-3 py-2 bg-white border border-blue-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none placeholder-zinc-400 resize-none"
-                                placeholder="Type natural language description..."
-                                rows={2}
+                                className="w-full px-3 py-2 bg-white border border-zinc-200 rounded text-sm text-zinc-900 focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none placeholder-zinc-400 resize-none min-h-[100px] pr-10 pb-8"
+                                placeholder="자연어로 입력하세요... (예: @홍길동 내일까지 로그인 버그 수정 high)"
+                                rows={3}
                                 value={nlInput}
                                 onChange={e => setNlInput(e.target.value)}
                                 onKeyDown={e => {
@@ -429,14 +437,18 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                                 type="button"
                                 onClick={handleParseLLM}
                                 disabled={isParsing || !nlInput.trim()}
-                                className="px-4 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 disabled:bg-zinc-300 disabled:cursor-not-allowed whitespace-nowrap transition-colors"
+                                className="absolute bottom-2 right-2 p-1.5 bg-zinc-900 text-white rounded-md hover:bg-black disabled:bg-zinc-100 disabled:text-zinc-400 disabled:cursor-not-allowed transition-all shadow-md group"
+                                title="AI Fill (Cmd+Enter)"
                             >
-                                {isParsing ? 'Parsing...' : 'AI Fill'}
+                                {isParsing ? (
+                                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                ) : (
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                )}
                             </button>
                         </div>
-                        <p className="text-xs text-blue-700">
-                            AI will auto-fill the form fields below. You can still edit them manually.
-                        </p>
                     </div>
 
                     {/* Name */}
@@ -506,27 +518,12 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
 
                     {/* Type */}
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-medium text-zinc-700">Type</label>
-                        <select
-                            className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none capitalize"
+                        <ChipSelect
+                            options={typeOptions}
                             value={createFormData.type}
-                            onChange={e => setCreateFormData(prev => ({ ...prev, type: e.target.value as any }))}
-                        >
-                            {dashboardData?.constants?.task?.types ? (
-                                dashboardData.constants.task.types.map((t: string) => (
-                                    <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
-                                ))
-                            ) : (
-                                <>
-                                    <option value="dev">Dev</option>
-                                    <option value="bug">Bug</option>
-                                    <option value="strategy">Strategy</option>
-                                    <option value="research">Research</option>
-                                    <option value="ops">Ops</option>
-                                    <option value="meeting">Meeting</option>
-                                </>
-                            )}
-                        </select>
+                            onChange={(value) => setCreateFormData(prev => ({ ...prev, type: value as any }))}
+                            label="Type"
+                        />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -569,11 +566,10 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                                         setSelectedTemplate(key);
                                         setCreateFormData(prev => ({ ...prev, notes: template.content }));
                                     }}
-                                    className={`px-3 py-1 text-xs rounded transition-colors ${
-                                        selectedTemplate === key
-                                            ? 'bg-blue-500 text-white'
-                                            : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
-                                    }`}
+                                    className={`px-3 py-1 text-xs rounded transition-colors ${selectedTemplate === key
+                                        ? 'bg-blue-500 text-white'
+                                        : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                                        }`}
                                 >
                                     {template.label}
                                 </button>
@@ -676,24 +672,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                 )}
             </div>
 
-            {/* Task Type Chips */}
-            {dashboardData?.constants?.task?.types && (
-                <div className="px-6 pb-4 flex flex-wrap gap-2">
-                    {dashboardData.constants.task.types.map((type: string) => (
-                        <button
-                            key={type}
-                            onClick={() => !isReadOnly && handleUpdate('type', type)}
-                            disabled={isReadOnly}
-                            className={`px-3 py-1 text-xs rounded-full transition-all ${formData?.type === type
-                                ? 'bg-zinc-900 text-white shadow-sm'
-                                : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-                                } ${isReadOnly ? 'cursor-default' : ''}`}
-                        >
-                            {type}
-                        </button>
-                    ))}
-                </div>
-            )}
+
 
             {/* Properties Grid */}
             <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
@@ -740,6 +719,19 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                         </div>
                     )}
                 </ReviewFieldWrapper>
+
+                {/* Type */}
+                <label className="text-zinc-500 py-1">Type</label>
+                <div className="py-1">
+                    <ChipSelect
+                        options={typeOptions}
+                        value={(getFieldValue('type') as string) || 'dev'}
+                        onChange={(value) => {
+                            if (!id) return;
+                            handleFieldChangeInternal('type', value);
+                        }}
+                    />
+                </div>
 
                 {/* Assignee */}
                 <label className="text-zinc-500 py-1">Assignee</label>
@@ -1008,11 +1000,10 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                                             handleFieldChangeInternal('notes', template.content);
                                         }
                                     }}
-                                    className={`px-2 py-1 text-xs rounded transition-colors ${
-                                        selectedTemplate === key
-                                            ? 'bg-blue-500 text-white'
-                                            : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
-                                    }`}
+                                    className={`px-2 py-1 text-xs rounded transition-colors ${selectedTemplate === key
+                                        ? 'bg-blue-500 text-white'
+                                        : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                                        }`}
                                 >
                                     {template.label}
                                 </button>
