@@ -3,7 +3,7 @@ import { useTask, useUpdateTask, useCreateTask, useParseTaskNL } from '@/feature
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import { useToast } from '@/contexts/ToastContext';
-import { generateShareUrl } from '@/utils/url';
+import { EntityIdGroup } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
@@ -616,23 +616,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         updateTask({ id, data: { [field]: value } });
     };
 
-    const copyId = () => {
-        if (id) {
-            navigator.clipboard.writeText(id);
-        }
-    };
 
-    const copyShareLink = async () => {
-        if (id) {
-            try {
-                const shareLink = generateShareUrl('task', id);
-                await navigator.clipboard.writeText(shareLink);
-                showToast('Link copied');
-            } catch {
-                showToast('Copy failed', 'error');
-            }
-        }
-    };
 
     const handleNotesBlur = () => {
         // Autosave is handled by MarkdownEditor's internal debounce
@@ -642,22 +626,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     return (
         <div className="flex-1 overflow-y-auto">
             {/* ID Badge */}
-            <div className="px-6 pt-4 pb-2">
-                <span
-                    className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-2 py-1 bg-zinc-50 rounded transition-colors"
-                    onClick={copyId}
-                    title="Click to copy ID"
-                >
-                    {id}
-                </span>
-                <button
-                    onClick={copyShareLink}
-                    className="ml-2 text-xs text-zinc-400 hover:text-zinc-900 transition-colors"
-                    title="Copy share link"
-                >
-                    🔗 Share
-                </button>
-            </div>
+            {id && <EntityIdGroup id={id} type="task" />}
 
             {/* Title Section */}
             <div className="px-6 pb-2">

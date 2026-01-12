@@ -1,6 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
-import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
+import { EntityBadge, EntityBadgeGroup, StaticBadge, EntityIdGroup } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 
 interface HypothesisFormProps {
@@ -33,15 +33,14 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
                     </div>
                 </div>
 
+                {/* Header with ID and Share */}
+                <EntityIdGroup id={hypothesis.entity_id} type="hypothesis" className="-mx-6 !pt-0 !pb-4" />
+
                 {/* Title */}
                 <h2 className="text-2xl font-bold text-zinc-900 mb-6">{hypothesis.entity_name}</h2>
 
                 {/* Properties Grid */}
                 <PropertiesGrid>
-                    <PropertyRow label="ID">
-                        <IdBadge id={hypothesis.entity_id} />
-                    </PropertyRow>
-
                     <PropertyRow label="Status">
                         <StaticBadge label={hypothesis.status || 'active'} variant="status" />
                     </PropertyRow>
@@ -106,9 +105,9 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
                                 {hypothesis.validated_by.map((v: string) => {
                                     // Determine entity type from ID pattern
                                     const type = v.startsWith('mh-') ? 'hypothesis' :
-                                                 v.startsWith('trk-') ? 'track' :
-                                                 v.startsWith('cond-') ? 'condition' :
-                                                 v.startsWith('prj-') ? 'project' : 'hypothesis';
+                                        v.startsWith('trk-') ? 'track' :
+                                            v.startsWith('cond-') ? 'condition' :
+                                                v.startsWith('prj-') ? 'project' : 'hypothesis';
                                     return <EntityBadge key={v} type={type as any} id={v} mode="view" />;
                                 })}
                             </div>

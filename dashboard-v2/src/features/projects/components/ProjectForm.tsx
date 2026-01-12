@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useProject, useCreateProject, useUpdateProject, usePrograms } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
+import { EntityIdGroup } from '@/components/common/entity';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
 import { statusColors, priorityColors, memberColor, trackColor, programColor, getColor } from '@/components/common/chipColors';
@@ -265,24 +266,12 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             return reasoning.validates || reasoning.primary_hypothesis_id;
         };
 
-        const copyId = () => {
-            if (id) {
-                navigator.clipboard.writeText(id);
-            }
-        };
+
 
         return (
             <div className="flex-1 overflow-y-auto">
                 {/* ID Badge */}
-                <div className="px-6 pt-4 pb-2">
-                    <span
-                        className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-2 py-1 bg-zinc-50 rounded transition-colors"
-                        onClick={copyId}
-                        title="Click to copy ID"
-                    >
-                        {id}
-                    </span>
-                </div>
+                {id && <EntityIdGroup id={id} type="project" />}
 
                 {/* Title Section */}
                 <div className="px-6 pb-2">
@@ -300,7 +289,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
                 {/* Properties Grid */}
                 <div className="px-6 py-4 grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 text-sm">
-                        {/* Status */}
+                    {/* Status */}
                     <label className="text-zinc-500 py-1">Status</label>
                     <ReviewFieldWrapper
                         isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('status'))}
@@ -528,12 +517,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                                                                         </span>
                                                                     )}
                                                                     {task.priority && (
-                                                                        <span className={`text-xs px-1.5 py-0.5 rounded ${
-                                                                            task.priority === 'critical' ? 'bg-red-100 text-red-700' :
+                                                                        <span className={`text-xs px-1.5 py-0.5 rounded ${task.priority === 'critical' ? 'bg-red-100 text-red-700' :
                                                                             task.priority === 'high' ? 'bg-orange-100 text-orange-700' :
-                                                                            task.priority === 'medium' ? 'bg-blue-100 text-blue-700' :
-                                                                            'bg-zinc-100 text-zinc-600'
-                                                                        }`}>
+                                                                                task.priority === 'medium' ? 'bg-blue-100 text-blue-700' :
+                                                                                    'bg-zinc-100 text-zinc-600'
+                                                                            }`}>
                                                                             {task.priority}
                                                                         </span>
                                                                     )}

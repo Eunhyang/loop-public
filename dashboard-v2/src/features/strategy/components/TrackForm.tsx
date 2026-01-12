@@ -1,6 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
-import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
+import { EntityBadge, EntityBadgeGroup, StaticBadge, EntityIdGroup } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Track } from '@/types';
 
@@ -34,15 +34,14 @@ export const TrackForm = ({ id }: TrackFormProps) => {
                 </div>
             </div>
 
+            {/* Header with ID and Share */}
+            <EntityIdGroup id={track.entity_id} type="track" className="-mx-6 !pt-0 !pb-4" />
+
             {/* Title */}
             <h2 className="text-2xl font-bold text-zinc-900 mb-6">{track.entity_name}</h2>
 
             {/* Properties Grid */}
             <PropertiesGrid>
-                <PropertyRow label="ID">
-                    <IdBadge id={track.entity_id} />
-                </PropertyRow>
-
                 <PropertyRow label="Status">
                     <StaticBadge label={track.status} variant="status" />
                 </PropertyRow>
@@ -94,8 +93,8 @@ export const TrackForm = ({ id }: TrackFormProps) => {
                         <div className="flex flex-wrap gap-2">
                             {track.validated_by.map((v: string) => {
                                 const type = v.startsWith('prj-') ? 'project' :
-                                             v.startsWith('cond-') ? 'condition' :
-                                             v.startsWith('hyp-') ? 'hypothesis' : 'track';
+                                    v.startsWith('cond-') ? 'condition' :
+                                        v.startsWith('hyp-') ? 'hypothesis' : 'track';
                                 return <EntityBadge key={v} type={type as any} id={v} mode="view" />;
                             })}
                         </div>

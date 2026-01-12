@@ -3,7 +3,7 @@
  * Handles production basename '/v2' and SSR safety
  */
 
-export type EntityType = 'task' | 'project';
+export type EntityType = 'task' | 'project' | 'track' | 'hypothesis' | 'condition' | 'program';
 
 /**
  * Get the base URL for the application
@@ -26,9 +26,9 @@ export function getBaseUrl(): string {
 /**
  * Generate a share URL for an entity
  *
- * @param entityType - Type of entity ('task' or 'project')
- * @param entityId - Entity ID (e.g., 'tsk-a7k9m2-1736412652123' or 'prj-b8x3n4-1736412652456')
- * @returns Full share URL (e.g., 'http://localhost:5173/tasks/tsk-a7k9m2-1736412652123')
+ * @param entityType - Type of entity
+ * @param entityId - Entity ID
+ * @returns Full share URL
  * @throws Error if entityId is empty
  */
 export function generateShareUrl(
@@ -41,5 +41,12 @@ export function generateShareUrl(
   }
 
   const baseUrl = getBaseUrl();
-  return `${baseUrl}/${entityType}s/${entityId}`;
+
+  // Entity types with dedicated routes
+  if (entityType === 'task' || entityType === 'project') {
+    return `${baseUrl}/${entityType}s/${entityId}`;
+  }
+
+  // Other entities open via drawer query param
+  return `${baseUrl}/?drawer=${entityType}:${entityId}`;
 }

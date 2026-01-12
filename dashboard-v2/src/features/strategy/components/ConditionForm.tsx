@@ -1,6 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
-import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
+import { EntityBadge, EntityBadgeGroup, StaticBadge, EntityIdGroup } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Condition } from '@/types';
 
@@ -33,15 +33,14 @@ export const ConditionForm = ({ id }: ConditionFormProps) => {
                 </div>
             </div>
 
+            {/* Header with ID and Share */}
+            <EntityIdGroup id={condition.entity_id} type="condition" className="-mx-6 !pt-0 !pb-4" />
+
             {/* Title */}
             <h2 className="text-2xl font-bold text-zinc-900 mb-6">{condition.entity_name}</h2>
 
             {/* Properties Grid */}
             <PropertiesGrid>
-                <PropertyRow label="ID">
-                    <IdBadge id={condition.entity_id} />
-                </PropertyRow>
-
                 <PropertyRow label="Status">
                     <StaticBadge label={condition.status} variant="status" />
                 </PropertyRow>
@@ -102,8 +101,8 @@ export const ConditionForm = ({ id }: ConditionFormProps) => {
                         <div className="flex flex-wrap gap-2">
                             {condition.validated_by.map((v: string) => {
                                 const type = v.startsWith('mh-') ? 'hypothesis' :
-                                             v.startsWith('trk-') ? 'track' :
-                                             v.startsWith('prj-') ? 'project' : 'condition';
+                                    v.startsWith('trk-') ? 'track' :
+                                        v.startsWith('prj-') ? 'project' : 'condition';
                                 return <EntityBadge key={v} type={type as any} id={v} mode="view" />;
                             })}
                         </div>

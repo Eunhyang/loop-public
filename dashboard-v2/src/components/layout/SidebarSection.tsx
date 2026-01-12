@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useUi } from '@/contexts/UiContext';
 
 interface SidebarItem {
     id: string;
@@ -25,6 +26,7 @@ export const SidebarSection = ({
 }: SidebarSectionProps) => {
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [searchParams, setSearchParams] = useSearchParams();
+    const { openEntityDrawer } = useUi();
 
     const activeId = searchParams.get(type);
 
@@ -71,7 +73,7 @@ export const SidebarSection = ({
                                 key={item.id}
                                 onClick={() => handleItemClick(item.id)}
                                 className={`
-                  w-full text-left px-3 py-1.5 text-xs rounded-md transition-colors flex items-center gap-2
+                  w-full text-left px-3 pr-7 py-1.5 text-xs rounded-md transition-colors flex items-center gap-2 relative
                   ${isActive
                                         ? 'bg-zinc-200 text-zinc-900 font-medium'
                                         : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'}
@@ -82,6 +84,25 @@ export const SidebarSection = ({
                                 {item.count !== undefined && item.count > 0 && (
                                     <span className="text-[10px] text-zinc-400">{item.count}</span>
                                 )}
+                                <span
+                                    role="button"
+                                    tabIndex={0}
+                                    className="drawer-icon"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        openEntityDrawer({ type, mode: 'view', id: item.id });
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            openEntityDrawer({ type, mode: 'view', id: item.id });
+                                        }
+                                    }}
+                                    aria-label={`View ${item.name}`}
+                                    title="View"
+                                >
+                                    i
+                                </span>
                             </button>
                         );
                     })}

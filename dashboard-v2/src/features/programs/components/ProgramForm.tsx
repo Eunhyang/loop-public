@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useProgram, useCreateProgram, useUpdateProgram } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
+import { EntityIdGroup } from '@/components/common/entity';
 import type { Program } from '@/types';
 
 interface ProgramFormProps {
@@ -45,24 +46,12 @@ export const ProgramForm = ({ mode, id, prefill }: ProgramFormProps) => {
             updateProgram({ id, data: { [field]: value } });
         };
 
-        const copyId = () => {
-            if (id) {
-                navigator.clipboard.writeText(id);
-            }
-        };
+
 
         return (
             <div className="flex-1 overflow-y-auto">
                 {/* ID Badge */}
-                <div className="px-6 pt-4 pb-2">
-                    <span
-                        className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-2 py-1 bg-zinc-50 rounded transition-colors"
-                        onClick={copyId}
-                        title="Click to copy ID"
-                    >
-                        {id}
-                    </span>
-                </div>
+                {id && <EntityIdGroup id={id} type="program" />}
 
                 {/* Title Section */}
                 <div className="px-6 pb-2">
