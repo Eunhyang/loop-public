@@ -6,9 +6,10 @@ type EntityType = 'task' | 'project' | 'program' | 'track' | 'condition' | 'hypo
 /**
  * Hook for handling entity relationship clicks
  * Returns a callback to open entity drawer for a given entity type and ID
+ * Uses pushDrawer to preserve navigation history (browser-style back/forward)
  */
 export function useRelationClick() {
-  const { openEntityDrawer } = useUi();
+  const { pushDrawer } = useUi();
 
   const openRelation = useCallback((type: EntityType, id: string, mode: 'view' | 'edit' = 'view') => {
     if (!id) {
@@ -16,8 +17,8 @@ export function useRelationClick() {
       return;
     }
 
-    openEntityDrawer({ type, mode, id });
-  }, [openEntityDrawer]);
+    pushDrawer({ type, mode, id });
+  }, [pushDrawer]);
 
   return { openRelation };
 }
