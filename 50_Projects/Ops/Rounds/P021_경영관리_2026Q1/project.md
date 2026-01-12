@@ -11,7 +11,7 @@ deadline: null
 expected_impact:
   statement: 2026 Q1 기간 동안 필수 운영/정산/급여/세무 데드라인을 안정적으로 처리해 런웨이 리스크를 0으로 유지한다
   metric: On-time Compliance Rate
-  target: ">= 95% (Q1)"
+  target: '>= 95% (Q1)'
 realized_impact:
   verdict: null
   outcome: null
@@ -44,11 +44,11 @@ track_contributes: []
 
 ## 프로젝트 개요
 
-2026년 1분기(Q1: 1~3월) 기간 동안 회사의 필수 운영 업무를 관리하는 Round 프로젝트.
+2026년 1분기(Q1: 1\~3월) 기간 동안 회사의 필수 운영 업무를 관리하는 Round 프로젝트.
 
 **목표**: 급여, 세무, 계약, 총무, 법무, 지원사업 정산 등 법정/약정 데드라인을 엄수하고 런웨이 리스크를 0으로 유지
 
-**기간**: 2026-01-01 ~ 2026-03-31
+**기간**: 2026-01-01 \~ 2026-03-31
 
 ---
 
@@ -62,8 +62,8 @@ track_contributes: []
 
 ## 참조
 
-- **Track**: [[trk-6|Scale/Infra]]
-- **Program**: [[50_Projects/Ops/_PROGRAM.md|pgm-ops (운영/경영 관리)]]
+- **Track**: \[\[trk-6|Scale/Infra\]\]
+- **Program**: \[\[50_Projects/Ops/\_PROGRAM.md|pgm-ops (운영/경영 관리)\]\]
 
 ---
 
