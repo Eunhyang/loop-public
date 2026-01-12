@@ -1,6 +1,7 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
 import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
+import { MarkdownEditor } from '@/components/MarkdownEditor';
 
 interface HypothesisFormProps {
     mode: 'create' | 'edit' | 'view';
@@ -119,9 +120,12 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
                 {hypothesis._body && (
                     <>
                         <SectionDivider title="Content" />
-                        <div className="prose prose-sm max-w-none text-zinc-700">
-                            <pre className="whitespace-pre-wrap font-sans text-sm">{hypothesis._body}</pre>
-                        </div>
+                        <MarkdownEditor
+                            value={hypothesis._body}
+                            readOnly={true}
+                            minHeight="100px"
+                            className="border-0"
+                        />
                     </>
                 )}
 

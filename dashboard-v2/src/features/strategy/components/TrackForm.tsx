@@ -1,6 +1,7 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
 import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
+import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Track } from '@/types';
 
 interface TrackFormProps {
@@ -122,9 +123,12 @@ export const TrackForm = ({ id }: TrackFormProps) => {
             {track._body && (
                 <>
                     <SectionDivider title="Content" />
-                    <div className="prose prose-sm max-w-none text-zinc-700">
-                        <pre className="whitespace-pre-wrap font-sans text-sm">{track._body}</pre>
-                    </div>
+                    <MarkdownEditor
+                        value={track._body}
+                        readOnly={true}
+                        minHeight="100px"
+                        className="border-0"
+                    />
                 </>
             )}
         </div>

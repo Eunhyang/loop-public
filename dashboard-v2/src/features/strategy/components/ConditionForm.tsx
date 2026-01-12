@@ -1,6 +1,7 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
 import { EntityBadge, EntityBadgeGroup, IdBadge, StaticBadge } from '@/components/common/entity';
+import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Condition } from '@/types';
 
 interface ConditionFormProps {
@@ -138,9 +139,12 @@ export const ConditionForm = ({ id }: ConditionFormProps) => {
             {condition._body && (
                 <>
                     <SectionDivider title="Content" />
-                    <div className="prose prose-sm max-w-none text-zinc-700">
-                        <pre className="whitespace-pre-wrap font-sans text-sm">{condition._body}</pre>
-                    </div>
+                    <MarkdownEditor
+                        value={condition._body}
+                        readOnly={true}
+                        minHeight="100px"
+                        className="border-0"
+                    />
                 </>
             )}
         </div>
