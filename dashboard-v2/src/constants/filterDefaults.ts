@@ -90,8 +90,9 @@ export const FILTER_STORAGE_KEY = 'dashboard-filters-v2';
 /**
  * Schema version for filter migration
  * v1: Changed empty arrays to full arrays for better UX (all buttons active by default)
+ * v2: Reset visibility toggles to false (showInactiveMembers, showNonCoreMembers, showInactiveProjects)
  */
-export const FILTER_SCHEMA_VERSION = 1;
+export const FILTER_SCHEMA_VERSION = 2;
 
 // ============================================================================
 // Constants for validation (DEPRECATED - use Constants from API SSOT)

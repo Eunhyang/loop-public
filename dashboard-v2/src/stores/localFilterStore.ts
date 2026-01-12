@@ -53,23 +53,34 @@ function loadFromStorage(): LocalFilterState {
     // One-time migration: Only upgrade legacy data (v0 or no version)
     if (!parsed._schemaVersion || parsed._schemaVersion < FILTER_SCHEMA_VERSION) {
       console.log('[Filter Migration] Migrating from v', parsed._schemaVersion || 0, 'to v', FILTER_SCHEMA_VERSION);
+      const currentVersion = parsed._schemaVersion || 0;
 
       // v1: Migrate empty arrays to full defaults (legacy behavior meant "show all")
-      if (parsed.taskStatus?.length === 0) {
-        console.log('[Filter Migration] taskStatus: [] → full array');
-        parsed.taskStatus = DEFAULT_LOCAL_FILTERS.taskStatus;
+      if (currentVersion < 1) {
+        if (parsed.taskStatus?.length === 0) {
+          console.log('[Filter Migration] taskStatus: [] → full array');
+          parsed.taskStatus = DEFAULT_LOCAL_FILTERS.taskStatus;
+        }
+        if (parsed.taskPriority?.length === 0) {
+          console.log('[Filter Migration] taskPriority: [] → full array');
+          parsed.taskPriority = DEFAULT_LOCAL_FILTERS.taskPriority;
+        }
+        if (parsed.taskTypes?.length === 0) {
+          console.log('[Filter Migration] taskTypes: [] → full array');
+          parsed.taskTypes = DEFAULT_LOCAL_FILTERS.taskTypes;
+        }
+        if (parsed.projectPriority?.length === 0) {
+          console.log('[Filter Migration] projectPriority: [] → full array');
+          parsed.projectPriority = DEFAULT_LOCAL_FILTERS.projectPriority;
+        }
       }
-      if (parsed.taskPriority?.length === 0) {
-        console.log('[Filter Migration] taskPriority: [] → full array');
-        parsed.taskPriority = DEFAULT_LOCAL_FILTERS.taskPriority;
-      }
-      if (parsed.taskTypes?.length === 0) {
-        console.log('[Filter Migration] taskTypes: [] → full array');
-        parsed.taskTypes = DEFAULT_LOCAL_FILTERS.taskTypes;
-      }
-      if (parsed.projectPriority?.length === 0) {
-        console.log('[Filter Migration] projectPriority: [] → full array');
-        parsed.projectPriority = DEFAULT_LOCAL_FILTERS.projectPriority;
+
+      // v2: Reset visibility toggles to false (core members only, hide inactive)
+      if (currentVersion < 2) {
+        console.log('[Filter Migration] v2: Resetting visibility toggles to false');
+        parsed.showInactiveMembers = false;
+        parsed.showNonCoreMembers = false;
+        parsed.showInactiveProjects = false;
       }
 
       // Mark as migrated
