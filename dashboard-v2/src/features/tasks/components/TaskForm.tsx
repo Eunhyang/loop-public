@@ -204,7 +204,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     const { data: task, isLoading } = useTask(mode !== 'create' ? id || null : null);
     const { mutate: updateTask } = useUpdateTask();
     const { mutate: createTask, isPending, error } = useCreateTask();
-    const { data: dashboardData } = useDashboardInit();
+    const { data: dashboardData, isLoading: isDashboardLoading } = useDashboardInit();
     const { pushDrawer, closeEntityDrawer } = useUi();
     const { showToast } = useToast();
 
@@ -311,7 +311,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     }, [projectOptions]);
 
     // view/edit/review 모드 로딩 처리
-    if ((mode === 'edit' || mode === 'view' || mode === 'review') && (isLoading || !task)) {
+    if ((mode === 'edit' || mode === 'view' || mode === 'review') && (isLoading || isDashboardLoading || !task || !dashboardData)) {
         return <div className="flex-1 flex items-center justify-center text-zinc-500">Loading...</div>;
     }
 

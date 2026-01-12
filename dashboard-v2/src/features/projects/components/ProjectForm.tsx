@@ -40,7 +40,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     });
     const { mutate: createProject, isPending, error } = useCreateProject();
     const { mutate: updateProject } = useUpdateProject();
-    const { data: dashboardData } = useDashboardInit();
+    const { data: dashboardData, isLoading: isDashboardLoading } = useDashboardInit();
     const { data: programs, isLoading: isProgramsLoading, error: programsError } = usePrograms();
     const { closeEntityDrawer, pushDrawer } = useUi();
 
@@ -212,10 +212,10 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
     // Edit/View mode - show project details (editable or read-only)
     if (mode !== 'create') {
-        if (isLoadingProject || !project) {
+        if (isLoadingProject || isDashboardLoading || !project || !dashboardData) {
             return (
                 <div className="flex-1 flex items-center justify-center text-zinc-500">
-                    {isLoadingProject ? 'Loading...' : 'Project not found'}
+                    {isLoadingProject || isDashboardLoading ? 'Loading...' : 'Project not found'}
                 </div>
             );
         }
