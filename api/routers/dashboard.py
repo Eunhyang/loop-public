@@ -4,18 +4,23 @@ Dashboard API Router
 React Dashboard v2 초기 로딩을 위한 통합 엔드포인트
 """
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Response
 from ..cache import get_cache
 from ..constants import get_all_constants
 
 router = APIRouter(prefix="/api", tags=["dashboard"])
 
 @router.get("/dashboard-init")
-def get_dashboard_init(request: Request):
+def get_dashboard_init(request: Request, response: Response):
     """
     Dashboard 초기 로딩 데이터 통합 반환
     모든 핵심 엔티티(Task, Project, Member 등)를 한 번에 내려줌
     """
+    # 브라우저 캐시 방지
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+
     cache = get_cache()
     
     # 1. User Info (from OAuth middleware)
