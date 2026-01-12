@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-kkokkkok-v1028
 entity_name: KkokKkok App v1.0.28 - Hotfix
 created: 2026-01-02
-updated: '2026-01-12'
+updated: '2026-01-13'
 status: done
 parent_id: trk-1
 aliases:
@@ -62,21 +62,25 @@ priority_flag: high
 ## Project Rollup
 
 ### Conclusion
+
 1. 2026년 캘린더가 표시되지 않는 버그 수정 완료
 2. `lastDay` 하드코딩 → 동적 날짜 범위로 변경
 3. 향후 연도 변경에도 문제없는 구조로 개선
 
 ### Evidence
-| # | Type | 근거 요약 | 링크 |
-|---|------|----------|------|
-| 1 | task | 캘린더 버그 수정 커밋 | [[tsk-kkokkkok-v1028-01]] |
+
+| \# | Type | 근거 요약 | 링크 |
+| --- | --- | --- | --- |
+| 1 | task | 캘린더 버그 수정 커밋 | \[\[tsk-kkokkkok-v1028-01\]\] |
 
 ### Metric Delta
+
 | Metric | Before | After | Delta | 판정 |
-|--------|--------|-------|---|------|
+| --- | --- | --- | --- | --- |
 | 캘린더 표시 | X (2026년 불가) | O (정상) | +100% | go |
 
 ### Decision
+
 - **Verdict**: `go`
 - **Next Action**: 앱스토어 배포
 - **Decided**: 2026-01-02
@@ -92,11 +96,13 @@ priority_flag: high
 ## 목표
 
 ### 성공 기준
+
 1. 2026년 캘린더 정상 표시
 2. 날짜 선택 가능
 3. 식사 기록 저장 가능
 
 ### 실패 신호
+
 1. 캘린더 관련 추가 버그 리포트
 
 ---
@@ -105,8 +111,7 @@ priority_flag: high
 
 ### 왜 이 프로젝트인가?
 
-2026년 1월 1일부터 앱에서 캘린더가 표시되지 않는 치명적 버그 발생.
-`lastDay: DateTime.utc(2025, 12, 31)` 하드코딩이 원인.
+2026년 1월 1일부터 앱에서 캘린더가 표시되지 않는 치명적 버그 발생. `lastDay: DateTime.utc(2025, 12, 31)` 하드코딩이 원인.
 
 ### 선행 조건
 
@@ -117,11 +122,15 @@ priority_flag: high
 ## 실행 계획
 
 ### Phase 1: 버그 분석 (완료)
+
 - [x] 캘린더 관련 코드 전체 탐색
+
 - [x] 원인 파악 (하드코딩된 날짜 범위)
 
 ### Phase 2: 수정 (완료)
+
 - [x] `calendar_widget.dart` 수정
+
 - [x] 동적 날짜 범위 적용
 
 ---
@@ -129,7 +138,7 @@ priority_flag: high
 ## Tasks
 
 | ID | Name | Assignee | Status | Due |
-|----|------|----------|--------|-----|
+| --- | --- | --- | --- | --- |
 | tsk-kkokkkok-v1028-01 | Calendar - 2026년 캘린더 표시 버그 수정 | 은향 | done | 2026-01-02 |
 
 ---
@@ -141,7 +150,7 @@ priority_flag: high
 **파일**: `lib/presentation/today/widgets/calendar_widget.dart`
 
 | 항목 | Before | After |
-|------|--------|-------|
+| --- | --- | --- |
 | firstDay | `DateTime.utc(2024, 1, 1)` | `DateTime.utc(2020, 1, 1)` |
 | lastDay | `DateTime.utc(2025, 12, 31)` | `DateTime.now().add(Duration(days: 365))` |
 
@@ -151,10 +160,9 @@ priority_flag: high
 
 ## 참고 문서
 
-- [[trk-1]] - Product Track
-- [[pgm-kkokkkok-app-release]] - 소속 Program
+- \[\[trk-1\]\] - Product Track
+- \[\[pgm-kkokkkok-app-release\]\] - 소속 Program
 
 ---
 
-**Created**: 2026-01-02
-**Owner**: 은향
+**Created**: 2026-01-02 **Owner**: 은향

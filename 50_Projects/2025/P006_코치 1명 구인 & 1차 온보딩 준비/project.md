@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-006
 entity_name: 코치 1명 구인 & 1차 온보딩 준비
 created: 2025-12-18
-updated: '2026-01-12'
+updated: '2026-01-13'
 status: doing
 parent_id: trk-4
 aliases:

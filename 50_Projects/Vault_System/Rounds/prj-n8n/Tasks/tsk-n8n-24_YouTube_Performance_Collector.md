@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-n8n-24
 entity_name: n8n - YouTube Performance Collector
 created: 2026-01-11
-updated: 2026-01-11
+updated: '2026-01-13'
 closed: null
 status: doing
 type: dev
@@ -12,10 +12,13 @@ assignee: 김은향
 priority_flag: medium
 revision_count: 1
 tags:
-  - n8n
-  - youtube
-  - discord
-  - automation
+- n8n
+- youtube
+- discord
+- automation
+due: '2026-01-25'
+priority: high
+target_project: sosi
 ---
 # n8n - YouTube Performance Collector
 
