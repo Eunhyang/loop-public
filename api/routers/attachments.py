@@ -236,6 +236,10 @@ def get_attachment(task_id: str, filename: str):
     if not content_type:
         content_type = "application/octet-stream"
 
+    # 텍스트 파일 UTF-8 인코딩 명시 (한글 깨짐 방지)
+    if content_type and content_type.startswith("text/"):
+        content_type = f"{content_type}; charset=utf-8"
+
     # 인라인 표시 여부 판단 (Feature 3)
     disposition = "inline" if service.should_display_inline(content_type) else "attachment"
 
