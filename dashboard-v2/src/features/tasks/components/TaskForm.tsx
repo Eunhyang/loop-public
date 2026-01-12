@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useTask, useUpdateTask, useCreateTask } from '@/features/tasks/queries';
+import { useTask, useUpdateTask, useCreateTask, useParseTaskNL } from '@/features/tasks/queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -235,6 +235,10 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>('default');
     const [formError, setFormError] = useState<string | null>(null);
 
+    // AI Natural Language Parsing
+    const [nlInput, setNlInput] = useState('');
+    const { mutate: parseNL, isPending: isParsing } = useParseTaskNL();
+
     // For edit mode, use task data
     const formData = mode === 'create' ? prefill : task;
 
@@ -319,6 +323,44 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         }
     };
 
+    const handleParseLLM = () => {
+        if (!nlInput.trim()) {
+            showToast('Please enter text to parse', 'error');
+            return;
+        }
+
+        parseNL(nlInput, {
+            onSuccess: (result) => {
+                if (result.success && result.parsed_fields) {
+                    // Merge parsed fields into form data, filtering out undefined/null
+                    const updates: any = {};
+                    if (result.parsed_fields.entity_name) updates.entity_name = result.parsed_fields.entity_name;
+                    if (result.parsed_fields.assignee) updates.assignee = result.parsed_fields.assignee;
+                    if (result.parsed_fields.priority) updates.priority = result.parsed_fields.priority;
+                    if (result.parsed_fields.status) updates.status = result.parsed_fields.status;
+                    if (result.parsed_fields.type) updates.type = result.parsed_fields.type;
+                    if (result.parsed_fields.due) updates.due = result.parsed_fields.due;
+                    if (result.parsed_fields.notes) updates.notes = result.parsed_fields.notes;
+
+                    setCreateFormData(prev => ({
+                        ...prev,
+                        ...updates,
+                    }));
+                    showToast('Fields auto-filled from natural language', 'success');
+                    setNlInput(''); // Clear input after successful parse
+                } else {
+                    showToast('Failed to parse text', 'error');
+                }
+            },
+            onError: (err: any) => {
+                showToast(
+                    err.response?.data?.detail || 'Failed to parse text',
+                    'error'
+                );
+            },
+        });
+    };
+
     const handleCreate = (e: React.FormEvent) => {
         e.preventDefault();
         setFormError(null);
@@ -360,6 +402,42 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                             {formError || (error as any)?.message}
                         </div>
                     )}
+
+                    {/* AI Natural Language Input */}
+                    <div className="space-y-2 p-4 bg-blue-50 border border-blue-200 rounded">
+                        <div className="flex items-center justify-between">
+                            <label className="block text-sm font-medium text-blue-900">
+                                Quick Create with AI
+                            </label>
+                            <span className="text-xs text-blue-600">Try: "로그인 버그 수정, 김철수, high, 내일까지"</span>
+                        </div>
+                        <div className="flex gap-2">
+                            <textarea
+                                className="flex-1 px-3 py-2 bg-white border border-blue-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none placeholder-zinc-400 resize-none"
+                                placeholder="Type natural language description..."
+                                rows={2}
+                                value={nlInput}
+                                onChange={e => setNlInput(e.target.value)}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter' && e.metaKey) {
+                                        e.preventDefault();
+                                        handleParseLLM();
+                                    }
+                                }}
+                            />
+                            <button
+                                type="button"
+                                onClick={handleParseLLM}
+                                disabled={isParsing || !nlInput.trim()}
+                                className="px-4 py-2 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 disabled:bg-zinc-300 disabled:cursor-not-allowed whitespace-nowrap transition-colors"
+                            >
+                                {isParsing ? 'Parsing...' : 'AI Fill'}
+                            </button>
+                        </div>
+                        <p className="text-xs text-blue-700">
+                            AI will auto-fill the form fields below. You can still edit them manually.
+                        </p>
+                    </div>
 
                     {/* Name */}
                     <div className="space-y-1.5">
