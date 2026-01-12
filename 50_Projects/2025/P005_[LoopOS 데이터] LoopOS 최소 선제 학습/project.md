@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-005
 entity_name: LoopOS - 최소 선제 학습
 created: 2025-12-18
-updated: '2026-01-11'
+updated: '2026-01-12'
 status: planning
 parent_id: trk-2
 aliases:
