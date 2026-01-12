@@ -698,7 +698,7 @@ Output notes: "질문1, 질문2..." (just the raw content, no template structure
             prompt=user_prompt,
             system_prompt=system_prompt,
             provider="openai",
-            model="gpt-4o-mini",
+            model="gpt-5-mini",
             temperature=0.3,
             max_tokens=1024,
             response_format="json",
