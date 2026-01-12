@@ -12,8 +12,8 @@ program_id: null
 aliases:
 - prj-12329q
 tags: []
+track_contributes: []
 ---
-
 # 오픈 채팅방 활성화 - 챌린지 운영 1차
 
 ## 목표

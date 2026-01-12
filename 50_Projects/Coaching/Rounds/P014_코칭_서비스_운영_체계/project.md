@@ -27,10 +27,7 @@ condition_contributes:
 - to: cond-e
   weight: 0.2
   description: 팀 역량/프로세스 표준화
-track_contributes:
-- to: trk-4
-  weight: 0.7
-  description: 코칭 서비스 운영 체계 재구축은 Track_4_Coaching의 목표 달성에 기여할 것으로 예상됩니다.
+track_contributes: []
 expected_impact:
   tier: enabling
   impact_magnitude: mid

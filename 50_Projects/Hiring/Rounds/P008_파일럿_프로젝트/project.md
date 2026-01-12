@@ -5,14 +5,14 @@ entity_name: Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행)
 created: 2025-12-18
 updated: '2026-01-13'
 status: planning
-parent_id: trk-6
+parent_id: trk-4
 aliases:
 - prj-008
 - 파일럿 프로젝트 후보
 outgoing_relations: []
 validates: []
 validated_by: []
-owner: 임단
+owner: 한명학
 budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트

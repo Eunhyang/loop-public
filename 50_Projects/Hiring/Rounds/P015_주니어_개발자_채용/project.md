@@ -14,7 +14,7 @@ outgoing_relations: []
 validates:
 - hyp-001
 validated_by: []
-owner: 김은향
+owner: 한명학
 budget: null
 deadline: null
 hypothesis_text: 주니어 개발자를 채용하여 제품 개발 속도를 높일 수 있다
@@ -35,11 +35,7 @@ tags:
 - hiring
 - developer
 priority_flag: high
-track_contributes:
-- to: trk-6
-  weight: 0.5
-  description: Track_6_Revenue의 인력 충원으로 인해 팀의 생산성이 향상될 가능성이 있으며, 이는 매출에 긍정적인 영향을 미칠
-    수 있습니다.
+track_contributes: []
 primary_hypothesis_id: hyp-001
 ---
 # 주니어 개발자 채용

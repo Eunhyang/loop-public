@@ -7,15 +7,15 @@ updated: '2026-01-13'
 status: doing
 owner: 김은향
 priority_flag: medium
-parent_id: null
+parent_id: trk-1
 program_id: pgm-vault-system
 tasks:
 - tsk-1t7iu4-1768242340825
 aliases:
 - prj-1t7iu4
 tags: []
+track_contributes: []
 ---
-
 # MCP API - Deployment Optimization
 
 ## 목표

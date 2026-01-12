@@ -7,13 +7,13 @@ updated: '2026-01-13'
 status: planning
 owner: 김은향
 priority_flag: high
-parent_id: null
+parent_id: trk-1
 program_id: pgm-vault-system
 aliases:
 - prj-enlnjr
 tags: []
+track_contributes: []
 ---
-
 # MCP API - Deployment Optimization
 
 ## 목표
