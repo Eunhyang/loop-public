@@ -1,0 +1,212 @@
+version: '3.8'
+
+networks:
+  loop_default:
+    driver: bridge
+
+volumes:
+  oauth-data:  # Named volume for OAuth persistence (survives rebuilds)
+
+services:
+  # Nginx 리버스 프록시 (Blue-Green 지원)
+  loop-nginx:
+    image: nginx:alpine
+    container_name: loop-nginx
+    restart: unless-stopped
+    networks:
+      - loop_default
+    ports:
+      - "8080:80"  # Synology RP → nginx (mcp.sosilab.synology.me)
+    volumes:
+      - ./nginx-blue-green.conf:/etc/nginx/nginx.conf:ro
+      - ./scripts/active-upstream.conf:/etc/nginx/conf.d/active-upstream.conf:rw
+    depends_on:
+      loop-auth:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/nginx-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # OAuth 인증 서버 (독립 컨테이너)
+  loop-auth:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth
+    container_name: loop-auth
+    restart: unless-stopped
+    networks:
+      - loop_default
+    ports:
+      - "8084:8083"  # 외부 8084 → 내부 8083
+    volumes:
+      - oauth-data:/app/oauth-data:rw
+    environment:
+      - OAUTH_DB_PATH=/app/oauth-data/oauth.db
+      - OAUTH_KEYS_DIR=/app/oauth-data/keys
+      - OAUTH_ISSUER=https://mcp.sosilab.synology.me
+      - TOKEN_EXPIRE_HOURS=720
+      - TZ=Asia/Seoul
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8083/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # API + MCP 서버 (Blue)
+  loop-api-blue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - loop-api:blue-${BUILD_TAG:-latest}
+    container_name: loop-api-blue
+    restart: "no"  # Manual restart during deployment
+    networks:
+      - loop_default
+    ports:
+      - "8082:8081"  # Blue on 8082
+    env_file: .env
+    volumes:
+      - /volume1/LOOP_CORE/vault/LOOP:/vault:rw
+      - /volume1/LOOP_CLevel/vault/loop_exec:/exec_vault:rw
+      - oauth-data:/app/oauth-data:ro  # Read-only to avoid state corruption between versions
+    environment:
+      - VAULT_DIR=/vault
+      - EXEC_VAULT_DIR=/exec_vault
+      - TZ=Asia/Seoul
+      - OAUTH_DB_PATH=/app/oauth-data/oauth.db
+      - OAUTH_KEYS_DIR=/app/oauth-data/keys
+      - OAUTH_KEY_READONLY=true
+      - OAUTH_ISSUER=https://mcp.sosilab.synology.me
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+      - TOKEN_ENCRYPTION_KEY=${TOKEN_ENCRYPTION_KEY}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - DISCORD_NOTIFY_ENABLED=${DISCORD_NOTIFY_ENABLED:-true}
+      - LOOP_API_TOKEN=${LOOP_API_TOKEN}
+      - DEPLOYMENT_COLOR=blue  # Identify container color
+    depends_on:
+      loop-auth:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8081/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      com.loop.deployment: "blue-green"
+      com.loop.color: "blue"
+
+  # API + MCP 서버 (Green)
+  loop-api-green:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - loop-api:green-${BUILD_TAG:-latest}
+    container_name: loop-api-green
+    restart: "no"  # Manual restart during deployment
+    networks:
+      - loop_default
+    ports:
+      - "8085:8081"  # Green on 8085
+    env_file: .env
+    volumes:
+      - /volume1/LOOP_CORE/vault/LOOP:/vault:rw
+      - /volume1/LOOP_CLevel/vault/loop_exec:/exec_vault:rw
+      - oauth-data:/app/oauth-data:ro  # Read-only to avoid state corruption between versions
+    environment:
+      - VAULT_DIR=/vault
+      - EXEC_VAULT_DIR=/exec_vault
+      - TZ=Asia/Seoul
+      - OAUTH_DB_PATH=/app/oauth-data/oauth.db
+      - OAUTH_KEYS_DIR=/app/oauth-data/keys
+      - OAUTH_KEY_READONLY=true
+      - OAUTH_ISSUER=https://mcp.sosilab.synology.me
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+      - TOKEN_ENCRYPTION_KEY=${TOKEN_ENCRYPTION_KEY}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - DISCORD_NOTIFY_ENABLED=${DISCORD_NOTIFY_ENABLED:-true}
+      - LOOP_API_TOKEN=${LOOP_API_TOKEN}
+      - DEPLOYMENT_COLOR=green  # Identify container color
+    depends_on:
+      loop-auth:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8081/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      com.loop.deployment: "blue-green"
+      com.loop.color: "green"
+
+  # Content OS (unchanged)
+  content-os:
+    build:
+      context: ./apps/content-os
+      dockerfile: Dockerfile
+    container_name: content-os
+    restart: unless-stopped
+    networks:
+      - loop_default
+    ports:
+      - "8083:3000"
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Seoul
+      - AUTH_USERNAME=${AUTH_USERNAME}
+      - AUTH_PASSWORD=${AUTH_PASSWORD}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=https://contentos.sosilab.synology.me/api/auth/youtube/callback
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # n8n (unchanged)
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    networks:
+      - loop_default
+    user: "1000:1000"
+    ports:
+      - "5678:5678"
+    volumes:
+      - /volume1/docker/n8n:/home/node/.n8n
+    environment:
+      - TZ=Asia/Seoul
+      - GENERIC_TIMEZONE=Asia/Seoul
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=all
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5678/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
