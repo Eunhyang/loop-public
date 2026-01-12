@@ -622,7 +622,116 @@ git commit -m "Migrate: Project_정의.md → project.md"
 
 ---
 
-## 10. 참고 문서
+## 10. Project parent_id 의미 명확화 (SSOT 강제)
+
+> **Version**: 1.3 (2026-01-13)
+> **Issue**: Project의 parent_id가 "전략 축(Track)"과 "운영 축(Program)" 두 의미로 혼용되어 SSOT 흔들림
+
+### 10.1 문제 진단
+
+**현재 상황**:
+- `schema_constants.yaml:315` - `Project.parent_id`가 필수 필드로 정의됨
+- `_ENTRY_POINT.md:67` - "Project: parent_id → Track"로 명시
+- **충돌**: Program-Round 구조에서 parent_id를 Program으로 쓰고 싶은 유혹 발생
+
+**SSOT 위험**:
+```yaml
+# 의미가 2개가 되면
+parent_id: trk-1    # 전략 부모?
+parent_id: pgm-hiring  # 운영 부모?
+→ validator/rollup/graph가 깨짐
+```
+
+### 10.2 해결책: A안 (전략 축 강제) + C안 (자동 채움)
+
+**원칙 (강제)**:
+```yaml
+# SSOT 의미 고정 (절대 예외 없음)
+Project.parent_id: 전략 부모(Track) 한 가지 의미만
+Project.program_id: 운영 소속(Program) 별도 축
+
+# Program/Round는 절대 parent_id로 표현 금지
+```
+
+**저장 위치 (강제)**:
+| 필드 | SSOT 위치 | 의미 |
+|------|-----------|------|
+| `parent_id` | Project frontmatter | 전략 부모 (trk-*) |
+| `conditions_3y` | Project frontmatter | 전략 기여 (cond-*) |
+| `program_id` | Project frontmatter | 운영 소속 (pgm-*) |
+| `cycle` | Project frontmatter | 라운드/사이클 (예: "2026Q1") |
+
+**폴더 구조는 Derived**:
+- 폴더: `50_Projects/Hiring/P017_...` (인간용 네비게이션)
+- SSOT: `program_id: pgm-hiring` (API/validator 유일 소스)
+- validator: 폴더와 program_id 일치 여부만 체크 (warning)
+
+### 10.3 4개 가드레일 (강제 검증)
+
+**가드1: parent_id 패턴 검증 (ERROR)**
+```python
+# validate_schema.py v7.3
+if entity_type == "Project":
+  if parent_id and not parent_id.startswith("trk-"):
+    ERROR: "Project.parent_id must be Track (trk-*), got: {parent_id}"
+```
+
+**가드2: conditions_3y 필수 (ERROR)**
+```python
+# validate_schema.py (기존 검증)
+if entity_type == "Project":
+  if not conditions_3y or len(conditions_3y) == 0:
+    ERROR: "Project.conditions_3y required (minimum 1 Condition)"
+```
+
+**가드3: program_id와 폴더 경로 일치 (WARNING)**
+```python
+# validate_schema.py v7.3
+if entity_type == "Project" and program_id:
+  if program_id != extract_folder_program(file_path):
+    WARNING: "program_id != folder (폴더는 Derived, 참고용 경고)"
+```
+
+**가드4: 자동 채움 (생성 시점)**
+```yaml
+# Program에 default 값 (선택)
+# 50_Projects/Hiring/_PROGRAM.md
+entity_type: Program
+entity_id: pgm-hiring
+default_track_id: trk-6       # 기본 전략 부모
+default_conditions_3y:        # 기본 전략 기여
+  - cond-e
+```
+
+**Project 생성 시**:
+1. 사용자가 `program_id: pgm-hiring`만 입력
+2. API/스킬이 Program의 `default_*` 읽어서 자동 채움
+3. **결과를 Project frontmatter에 직접 저장** (SSOT 고정)
+4. 이후 수정은 Project frontmatter에서 직접
+
+### 10.4 금지 사항 (절대 위반 금지)
+
+| 금지 사항 | 이유 |
+|----------|------|
+| `parent_id`에 pgm-* 저장 | 전략 롤업 깨짐 |
+| `parent_id` 의미를 2개로 사용 | SSOT drift |
+| Program에서 상속 계산 | 복잡도 급증, SSOT 불명확 |
+| 폴더 경로를 SSOT로 사용 | 리팩토링 시 의미 파괴 |
+
+### 10.5 현재 상태 (2026-01-13)
+
+**검증 결과**:
+```bash
+# 모든 Project가 이미 trk-* 사용
+find 50_Projects -name "project.md" | xargs grep "parent_id:" | grep -v "trk-"
+→ (결과 없음)
+```
+
+**마이그레이션 불필요**: 현재 vault의 모든 Project가 이미 규칙을 준수하고 있음
+
+---
+
+## 11. 참고 문서
 
 - [[LOOP_PHILOSOPHY]] - SSOT + Derived 철학
 - [[schema_constants.yaml]] - 스키마 정의 SSOT
@@ -632,7 +741,7 @@ git commit -m "Migrate: Project_정의.md → project.md"
 
 ---
 
-## 11. Implementation Architecture (강제 집행)
+## 12. Implementation Architecture (강제 집행)
 
 **SSOT 규칙은 `api/services/ssot_service.py`를 통해 코드 레벨에서 강제된다.**
 
@@ -651,11 +760,17 @@ git commit -m "Migrate: Project_정의.md → project.md"
 
 ---
 
-**Version**: 1.2
-**Last Updated**: 2026-01-07
+**Version**: 1.3
+**Last Updated**: 2026-01-13
 **Status**: Active (모든 코드/API/UI가 준수해야 함)
 
 **변경 이력**:
+- v1.3 (2026-01-13): Section 10 추가 - Project parent_id 의미 명확화 (A안 + C안)
+  - parent_id는 전략 부모(Track)만, program_id는 운영 소속(Program) 분리
+  - 4개 가드레일 정의: parent_id 패턴(ERROR), conditions_3y 필수(ERROR), program_id 일치(WARNING), 자동 채움
+  - Program.default_track_id, default_conditions_3y 필드 추가
+  - schema_constants.yaml v5.6, validate_schema.py v7.3 연동
+  - 금지 사항 및 현재 상태 확인 포함
 - v1.2 (2026-01-07): Section 4.2 - Task 파일명 규칙 상세화 (tsk-022-24)
   - 현재 상태 통계 추가: 264 Tasks (52.7% SSOT 준수, 47.3% 마이그레이션 필요)
   - 3-phase 마이그레이션 플랜 명시: Phase 1 (신규 강제), Phase 2 (rename), Phase 3 (검증)

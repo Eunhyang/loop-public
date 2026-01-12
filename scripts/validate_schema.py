@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """
-LOOP Vault Schema Validator v7.2
+LOOP Vault Schema Validator v7.3
 모든 마크다운 파일의 frontmatter를 검증합니다.
+
+변경사항 (v7.3):
+- SSOT v1.3 가드레일 검증 추가
+- 가드1: Project.parent_id는 trk-*만 허용 (ERROR)
+- 가드2: Project.conditions_3y 필수 (이미 v7.0에서 체크)
+- 가드3: program_id와 폴더 경로 일치 (WARNING)
 
 변경사항 (v7.2):
 - aliases 중복 검사 추가
@@ -291,6 +297,56 @@ def validate_task_no_validates(frontmatter: Dict) -> List[str]:
         errors.append("Task cannot have 'validates' relation (역할 분리: Task는 전략 판단에 개입하지 않음)")
 
     return errors
+
+
+def validate_project_parent_id_pattern(frontmatter: Dict) -> List[str]:
+    """
+    가드1: Project.parent_id는 Track(trk-*)만 허용 (SSOT v1.3)
+
+    Issue: parent_id가 "전략 축(Track)"과 "운영 축(Program)" 두 의미로 혼용
+    Solution: parent_id는 Track만, program_id는 Program으로 축 분리
+    """
+    errors = []
+    parent_id = frontmatter.get("parent_id")
+
+    if parent_id:
+        if not str(parent_id).startswith("trk-"):
+            errors.append(
+                f"Project.parent_id must be Track (trk-*), got: {parent_id}. "
+                "Use program_id for Program. (SSOT v1.3 가드1)"
+            )
+
+    return errors
+
+
+def validate_project_program_folder(frontmatter: Dict, filepath: Path) -> List[str]:
+    """
+    가드3: program_id와 폴더 경로 일치 확인 (WARNING)
+
+    Note: 폴더는 Derived, program_id가 SSOT. 불일치 시 warning만
+    """
+    warnings = []
+    program_id = frontmatter.get("program_id")
+
+    if program_id:
+        # 50_Projects/{ProgramFolder}/... 형태에서 ProgramFolder 추출
+        parts = filepath.parts
+        if "50_Projects" in parts:
+            idx = parts.index("50_Projects")
+            if idx + 1 < len(parts):
+                folder_name = parts[idx + 1]
+                # Program ID에서 pgm- 제거하고 비교
+                expected_folder = program_id.replace("pgm-", "").replace("-", "_").title()
+                actual_folder_normalized = folder_name.replace("_", "").lower()
+                expected_folder_normalized = expected_folder.replace("_", "").lower()
+
+                if actual_folder_normalized != expected_folder_normalized:
+                    warnings.append(
+                        f"WARNING: program_id ({program_id}) may not match folder ({folder_name}). "
+                        "폴더는 Derived이므로 참고용 경고입니다. (SSOT v1.3 가드3)"
+                    )
+
+    return warnings
 
 
 def validate_task_type_target(frontmatter: Dict) -> List[str]:
@@ -597,6 +653,16 @@ def validate_file(filepath: Path, frontmatter: Dict) -> List[str]:
     if entity_type == "Project":
         impact_errors = validate_project_impact(frontmatter)
         errors.extend(impact_errors)
+
+        # SSOT v1.3 가드레일 검증
+        parent_id_errors = validate_project_parent_id_pattern(frontmatter)
+        errors.extend(parent_id_errors)
+
+        # 가드2: conditions_3y 필수는 이미 validate_conditions_3y()에서 체크됨
+
+        # 가드3: program_id와 폴더 일치 (warning)
+        program_folder_warnings = validate_project_program_folder(frontmatter, filepath)
+        errors.extend(program_folder_warnings)
 
     # Task validates 금지
     if entity_type == "Task":
