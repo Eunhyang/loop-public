@@ -1,13 +1,15 @@
 ---
 entity_type: Project
 entity_id: prj-012
-entity_name: CS·운영 - 고객관리/대응
+entity_name: CS - 2026 Q1
 created: 2025-12-18
 updated: '2026-01-13'
 status: planning
 parent_id: trk-4
+program_id: pgm-cs
 aliases:
 - prj-012
+- CS - 2026 Q1
 - '[CS·운영] 고객관리/대응'
 outgoing_relations: []
 validates: []
@@ -42,9 +44,9 @@ conditions_3y:
 tags: []
 priority_flag: medium
 ---
-# \[CS·운영\] 고객관리/대응
+# CS - 2026 Q1
 
-> Project ID: `prj-012` | Track: `trk-4` | Status: planning
+> Project ID: `prj-012` | Track: `trk-4` | Program: `pgm-cs` | Status: planning
 
 ## 프로젝트 개요
 
