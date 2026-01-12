@@ -12,7 +12,7 @@ aliases:
 outgoing_relations: []
 validates: []
 validated_by: []
-owner: 김은향
+owner: 임단
 budget: null
 deadline: null
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
