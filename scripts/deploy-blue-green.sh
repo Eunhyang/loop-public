@@ -6,6 +6,7 @@ set -uo pipefail
 # Implements zero-downtime deployment with health check and automatic rollback
 
 # Configuration
+DOCKER_CMD="${DOCKER_CMD:-/var/packages/ContainerManager/target/usr/bin/docker}"
 COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.blue-green.yml}"
 ACTIVE_COLOR_FILE="${ACTIVE_COLOR_FILE:-/volume1/LOOP_CORE/vault/LOOP/_build/.active-color}"
 HEALTH_CHECK_MAX_ATTEMPTS=30
@@ -80,7 +81,7 @@ build_container() {
     local color=$1
     log_info "Building loop-api-$color container..."
     
-    if docker compose -f "$COMPOSE_FILE" build loop-api-$color; then
+    if $DOCKER_CMD compose -f "$COMPOSE_FILE" build loop-api-$color; then
         log_success "Build completed for $color container"
         return 0
     else
@@ -102,7 +103,7 @@ start_container() {
         return 1
     fi
     
-    if docker compose -f "$COMPOSE_FILE" up -d loop-api-$color; then
+    if $DOCKER_CMD compose -f "$COMPOSE_FILE" up -d loop-api-$color; then
         log_success "Container loop-api-$color started"
         return 0
     else
@@ -180,7 +181,7 @@ switch_nginx() {
     
     # Reload nginx (without set -e, we can handle errors)
     log_info "Reloading nginx..."
-    if docker exec loop-nginx nginx -s reload; then
+    if $DOCKER_CMD exec loop-nginx nginx -s reload; then
         rm -f "$backup_file"
         log_success "Nginx switched to $new_color"
         return 0
@@ -218,7 +219,7 @@ stop_container() {
     local color=$1
     log_info "Stopping loop-api-$color container..."
     
-    if docker compose -f "$COMPOSE_FILE" stop loop-api-$color; then
+    if $DOCKER_CMD compose -f "$COMPOSE_FILE" stop loop-api-$color; then
         log_success "Container loop-api-$color stopped"
     else
         log_warning "Failed to stop $color container (may not be running)"
@@ -244,8 +245,8 @@ mark_active() {
 
 # Function: Detect and handle conflicts
 detect_conflicts() {
-    local blue_running=$(docker ps -q -f name=loop-api-blue 2>/dev/null)
-    local green_running=$(docker ps -q -f name=loop-api-green 2>/dev/null)
+    local blue_running=$($DOCKER_CMD ps -q -f name=loop-api-blue 2>/dev/null)
+    local green_running=$($DOCKER_CMD ps -q -f name=loop-api-green 2>/dev/null)
     
     if [ -n "$blue_running" ] && [ -n "$green_running" ]; then
         log_warning "Both blue and green containers are running"

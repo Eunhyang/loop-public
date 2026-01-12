@@ -6,6 +6,7 @@ set -uo pipefail
 # Switches nginx back to the previous color
 
 # Configuration
+DOCKER_CMD="${DOCKER_CMD:-/var/packages/ContainerManager/target/usr/bin/docker}"
 COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.blue-green.yml}"
 ACTIVE_COLOR_FILE="${ACTIVE_COLOR_FILE:-/volume1/LOOP_CORE/vault/LOOP/_build/.active-color}"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -66,7 +67,7 @@ get_host_port() {
 # Function: Check if container is running
 check_container_running() {
     local color=$1
-    local container_id=$(docker ps -q -f name=loop-api-$color 2>/dev/null)
+    local container_id=$($DOCKER_CMD ps -q -f name=loop-api-$color 2>/dev/null)
     
     if [ -n "$container_id" ]; then
         return 0  # Running
@@ -85,7 +86,7 @@ ensure_container_running() {
     fi
     
     log_warning "Container loop-api-$color is not running, starting it..."
-    if docker compose -f "$COMPOSE_FILE" up -d loop-api-$color; then
+    if $DOCKER_CMD compose -f "$COMPOSE_FILE" up -d loop-api-$color; then
         log_info "Waiting for container to be healthy..."
         sleep 5
         return 0
@@ -150,7 +151,7 @@ switch_nginx() {
     
     # Reload nginx (without set -e, we can handle errors)
     log_info "Reloading nginx..."
-    if docker exec loop-nginx nginx -s reload; then
+    if $DOCKER_CMD exec loop-nginx nginx -s reload; then
         rm -f "$backup_file"
         log_success "Nginx switched to $target_color"
         return 0
@@ -241,7 +242,7 @@ main() {
     log_success "=== Rollback Complete ==="
     log_success "Active container: loop-api-$TARGET_COLOR"
     log_info "Previous container (loop-api-$CURRENT_ACTIVE) is still running"
-    log_info "Stop it manually with: docker compose -f $COMPOSE_FILE stop loop-api-$CURRENT_ACTIVE"
+    log_info "Stop it manually with: $DOCKER_CMD compose -f $COMPOSE_FILE stop loop-api-$CURRENT_ACTIVE"
 }
 
 # Execute main function
