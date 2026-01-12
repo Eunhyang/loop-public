@@ -1,7 +1,8 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { useUi } from '@/contexts/UiContext';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
-import { EntityBadge, EntityBadgeGroup, StaticBadge } from '@/components/common/entity';
+import { EntityBadge, StaticBadge } from '@/components/common/entity';
 
 interface HypothesisFormProps {
     mode: 'create' | 'edit' | 'view';
@@ -9,8 +10,20 @@ interface HypothesisFormProps {
     prefill?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-unused-vars
 }
 
+// Detect entity type from ID pattern (based on vault schema)
+const getEntityTypeFromId = (id: string): 'hypothesis' | 'project' | 'track' | 'condition' | null => {
+    if (id.startsWith('hyp-') || id.startsWith('mh-')) return 'hypothesis';
+    if (id.startsWith('prj-')) return 'project';
+    if (id.startsWith('trk-')) return 'track';
+    if (id.startsWith('cond-')) return 'condition';
+    // Note: Task IDs (tsk-*) not included as validates field doesn't link to tasks
+    // Program IDs (pgm-*) not included as validates field doesn't link to programs
+    return null;  // Silently no-op on unknown prefix (graceful degradation)
+};
+
 export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
     const { data: dashboardData } = useDashboardInit();
+    const { pushDrawer } = useUi();
 
     // View mode - show hypothesis details read-only
     if (mode === 'view' && id) {
@@ -92,21 +105,38 @@ export const HypothesisForm = ({ mode, id }: HypothesisFormProps) => {
 
                     {hypothesis.validates && Array.isArray(hypothesis.validates) && hypothesis.validates.length > 0 && (
                         <PropertyRow label="Validates">
-                            <EntityBadgeGroup type="track" ids={hypothesis.validates} mode="view" />
+                            <div className="flex flex-wrap gap-2">
+                                {hypothesis.validates.map((v: string) => (
+                                    <div
+                                        key={v}
+                                        onClick={() => {
+                                            const type = getEntityTypeFromId(v);
+                                            if (type) pushDrawer({ type, mode: 'view', id: v });
+                                        }}
+                                        className="text-xs text-zinc-700 bg-white border border-zinc-200 rounded px-2 py-1 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                    >
+                                        {v}
+                                    </div>
+                                ))}
+                            </div>
                         </PropertyRow>
                     )}
 
                     {hypothesis.validated_by && Array.isArray(hypothesis.validated_by) && hypothesis.validated_by.length > 0 && (
                         <PropertyRow label="Validated By">
                             <div className="flex flex-wrap gap-2">
-                                {hypothesis.validated_by.map((v: string) => {
-                                    // Determine entity type from ID pattern
-                                    const type = v.startsWith('mh-') ? 'hypothesis' :
-                                        v.startsWith('trk-') ? 'track' :
-                                            v.startsWith('cond-') ? 'condition' :
-                                                v.startsWith('prj-') ? 'project' : 'hypothesis';
-                                    return <EntityBadge key={v} type={type as any} id={v} mode="view" />;
-                                })}
+                                {hypothesis.validated_by.map((v: string) => (
+                                    <div
+                                        key={v}
+                                        onClick={() => {
+                                            const type = getEntityTypeFromId(v);
+                                            if (type) pushDrawer({ type, mode: 'view', id: v });
+                                        }}
+                                        className="text-xs text-zinc-700 bg-white border border-zinc-200 rounded px-2 py-1 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                                    >
+                                        {v}
+                                    </div>
+                                ))}
                             </div>
                         </PropertyRow>
                     )}

@@ -25,7 +25,8 @@ interface UiContextType {
     // Entity Drawer System
     activeEntityDrawer: ActiveEntityDrawer;
     isDrawerExpanded: boolean;
-    canGoBack: boolean;  // Navigation stack depth > 1
+    canGoBack: boolean;  // Navigation history depth > 0
+    canGoForward: boolean;  // Can navigate forward in history
 
     // Command Palette
     isCommandPaletteOpen: boolean;
@@ -43,6 +44,7 @@ interface UiContextType {
     openEntityDrawer: (drawer: NonNullable<ActiveEntityDrawer>) => void;
     pushDrawer: (drawer: NonNullable<ActiveEntityDrawer>) => void;
     popDrawer: () => void;
+    goForward: () => void;
     closeEntityDrawer: () => void;
     toggleDrawerExpand: () => void;
 
@@ -61,7 +63,8 @@ const UiContext = createContext<UiContextType | undefined>(undefined);
 
 export function UiProvider({ children }: { children: ReactNode }) {
     const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
-    const [drawerStack, setDrawerStack] = useState<ActiveEntityDrawer[]>([]);
+    const [drawerHistory, setDrawerHistory] = useState<ActiveEntityDrawer[]>([]);
+    const [historyIndex, setHistoryIndex] = useState(-1);
     const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
     const [activityPanelOpen, setActivityPanelOpen] = useState(false);
@@ -70,9 +73,10 @@ export function UiProvider({ children }: { children: ReactNode }) {
     // WARNING: This only tracks single return path - nested drawers may reopen panel unexpectedly
     const [returnToActivity, setReturnToActivity] = useState(false);
 
-    // Derived state - activeEntityDrawer is the top of the stack
-    const activeEntityDrawer = useMemo(() => drawerStack.at(-1) ?? null, [drawerStack]);
-    const canGoBack = useMemo(() => drawerStack.length > 1, [drawerStack]);
+    // Derived state - activeEntityDrawer is the current item in history
+    const activeEntityDrawer = useMemo(() => historyIndex >= 0 ? drawerHistory[historyIndex] : null, [drawerHistory, historyIndex]);
+    const canGoBack = useMemo(() => historyIndex > 0, [historyIndex]);
+    const canGoForward = useMemo(() => historyIndex < drawerHistory.length - 1, [historyIndex, drawerHistory.length]);
 
     // Modal Actions (LEGACY)
     const openCreateProject = useCallback(() => setActiveModal('createProject'), []);
@@ -81,8 +85,9 @@ export function UiProvider({ children }: { children: ReactNode }) {
 
     // Entity Drawer Actions
     const openEntityDrawer = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
-        // Start a fresh stack with this drawer (backward compatibility)
-        setDrawerStack([drawer]);
+        // Start a fresh history with this drawer (backward compatibility)
+        setDrawerHistory([drawer]);
+        setHistoryIndex(0);
         // Reset expansion state (avoid stale expand state on new drawer)
         setIsDrawerExpanded(false);
         // Close any legacy modals and command palette
@@ -91,21 +96,32 @@ export function UiProvider({ children }: { children: ReactNode }) {
     }, []);
 
     const pushDrawer = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
-        // Add drawer to navigation stack
-        setDrawerStack(prev => [...prev, drawer]);
+        // Add drawer to navigation history, trim forward entries (browser-style)
+        setDrawerHistory(prev => [...prev.slice(0, historyIndex + 1), drawer]);
+        setHistoryIndex(currentIndex => currentIndex + 1);  // Use functional update to avoid stale closure
         // Close any legacy modals and command palette
         setActiveModal(null);
         setIsCommandPaletteOpen(false);
-    }, []);
+    }, [historyIndex]);
 
     const popDrawer = useCallback(() => {
-        // Go back to previous drawer (no-op if only one drawer)
-        setDrawerStack(prev => prev.length > 1 ? prev.slice(0, -1) : prev);
-    }, []);
+        // Go back to previous drawer (index--)
+        if (historyIndex > 0) {
+            setHistoryIndex(prev => prev - 1);
+        }
+    }, [historyIndex]);
+
+    const goForward = useCallback(() => {
+        // Go forward in history (index++)
+        if (historyIndex < drawerHistory.length - 1) {
+            setHistoryIndex(prev => prev + 1);
+        }
+    }, [historyIndex, drawerHistory.length]);
 
     const closeEntityDrawer = useCallback(() => {
-        // Clear entire navigation stack
-        setDrawerStack([]);
+        // Clear entire navigation history
+        setDrawerHistory([]);
+        setHistoryIndex(-1);
         setIsDrawerExpanded(false);  // Reset expand state when closing
         // If we came from Activity Panel, return to it
         if (returnToActivity) {
@@ -156,7 +172,8 @@ export function UiProvider({ children }: { children: ReactNode }) {
     const openEntityFromActivity = useCallback((drawer: NonNullable<ActiveEntityDrawer>) => {
         setReturnToActivity(true);      // Remember we came from Activity Panel
         setActivityPanelOpen(false);    // Close Activity Panel
-        setDrawerStack([drawer]);       // Open EntityDrawer
+        setDrawerHistory([drawer]);     // Open EntityDrawer
+        setHistoryIndex(0);
         setIsDrawerExpanded(false);
         setActiveModal(null);
         setIsCommandPaletteOpen(false);
@@ -173,9 +190,11 @@ export function UiProvider({ children }: { children: ReactNode }) {
             activeEntityDrawer,
             isDrawerExpanded,
             canGoBack,
+            canGoForward,
             openEntityDrawer,
             pushDrawer,
             popDrawer,
+            goForward,
             closeEntityDrawer,
             toggleDrawerExpand,
             // Command Palette

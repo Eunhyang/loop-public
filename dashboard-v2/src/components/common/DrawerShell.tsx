@@ -14,6 +14,8 @@ export interface DrawerShellProps {
   showExpandButton?: boolean;
   onBack?: () => void;
   showBackButton?: boolean;
+  onForward?: () => void;
+  showForwardButton?: boolean;
   footer?: ReactNode;
   entityId?: string;
   entityType?: EntityType;
@@ -43,6 +45,8 @@ export function DrawerShell({
   showExpandButton = false,
   onBack,
   showBackButton = false,
+  onForward,
+  showForwardButton = false,
   footer,
   entityId,
   entityType
@@ -154,19 +158,36 @@ export function DrawerShell({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            {/* Back Button */}
-            {showBackButton && onBack && (
-              <button
-                onClick={onBack}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
-                aria-label="Go back"
-                title="Back"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-            )}
+            {/* Header buttons - left side */}
+            <div className="flex items-center gap-1">
+              {/* Back Button */}
+              {showBackButton && onBack && (
+                <button
+                  onClick={onBack}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+                  aria-label="Go back"
+                  title="Back"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Forward Button */}
+              {showForwardButton && onForward && (
+                <button
+                  onClick={onForward}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+                  aria-label="Go forward"
+                  title="Forward"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
+            </div>
             <div className="flex-1 min-w-0">
               <h2 id={titleId} className="text-xl font-semibold text-gray-900 truncate">
                 {title}

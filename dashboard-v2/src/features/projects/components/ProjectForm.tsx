@@ -42,7 +42,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     const { mutate: updateProject } = useUpdateProject();
     const { data: dashboardData } = useDashboardInit();
     const { data: programs, isLoading: isProgramsLoading, error: programsError } = usePrograms();
-    const { closeEntityDrawer, openEntityDrawer } = useUi();
+    const { closeEntityDrawer, pushDrawer } = useUi();
 
     const [formData, setFormData] = useState({
         entity_name: prefill?.entity_name || '',
@@ -177,7 +177,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     };
 
     const handleTaskClick = (taskId: string) => {
-        openEntityDrawer({ type: 'task', mode: 'edit', id: taskId });
+        pushDrawer({ type: 'task', mode: 'edit', id: taskId });
     };
 
     const getStatusIcon = (status: string) => {
@@ -363,7 +363,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                                     label={dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)?.entity_name || project.parent_id}
                                     mode="link"
                                     color={trackColor}
-                                    onNavigate={() => openEntityDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
+                                    onNavigate={() => pushDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
                                 />
                             </div>
                         ) : (
@@ -444,7 +444,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                             tracks={dashboardData?.tracks || []}
                             value={(getFieldValue('track_contributes') as TrackContribution[]) || []}
                             onChange={(contribs) => handleFieldChange('track_contributes', contribs)}
-                            onTrackClick={(trackId) => openEntityDrawer({ type: 'track', mode: 'view', id: trackId })}
+                            onTrackClick={(trackId) => pushDrawer({ type: 'track', mode: 'view', id: trackId })}
                             readonly={isReadOnly}
                         />
                     </ReviewFieldWrapper>
@@ -461,7 +461,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                             primaryHypothesisId={(getFieldValue('primary_hypothesis_id') as string | null) || null}
                             onValidatesChange={(ids) => handleFieldChange('validates', ids)}
                             onPrimaryChange={(id) => handleFieldChange('primary_hypothesis_id', id)}
-                            onHypothesisClick={(hypId) => openEntityDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                            onHypothesisClick={(hypId) => pushDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
                             readonly={isReadOnly}
                         />
                     </ReviewFieldWrapper>

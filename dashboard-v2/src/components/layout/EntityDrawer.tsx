@@ -22,7 +22,7 @@ import { ConditionForm } from '@/features/strategy/components/ConditionForm';
  * - hypothesis (CRUD)
  */
 export function EntityDrawer() {
-  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand, canGoBack, popDrawer, openEntityDrawer } = useUi();
+  const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand, canGoBack, popDrawer, canGoForward, goForward, openEntityDrawer } = useUi();
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: duplicateTask } = useDuplicateTask();
   const { mutate: deleteProject } = useDeleteProject();
@@ -169,6 +169,8 @@ export function EntityDrawer() {
       showExpandButton={type === 'task'}
       onBack={popDrawer}
       showBackButton={canGoBack}
+      onForward={goForward}
+      showForwardButton={canGoForward}
       footer={renderFooter()}
       entityId={id}
       entityType={type as any}

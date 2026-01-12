@@ -1,4 +1,5 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { useUi } from '@/contexts/UiContext';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
 import { EntityBadge, EntityBadgeGroup, StaticBadge } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
@@ -10,6 +11,7 @@ interface TrackFormProps {
 
 export const TrackForm = ({ id }: TrackFormProps) => {
     const { data: dashboardData } = useDashboardInit();
+    const { pushDrawer } = useUi();
 
     const track: any = dashboardData?.tracks?.find((t: Track) => t.entity_id === id);
 
@@ -111,7 +113,17 @@ export const TrackForm = ({ id }: TrackFormProps) => {
             {relatedProjects.length > 0 && (
                 <>
                     <SectionDivider title="Related Projects" />
-                    <EntityBadgeGroup type="project" ids={relatedProjects.map((p: any) => p.entity_id)} mode="view" />
+                    <div className="flex flex-wrap gap-2">
+                        {relatedProjects.map((p: any) => (
+                            <div
+                                key={p.entity_id}
+                                onClick={() => pushDrawer({ type: 'project', mode: 'edit', id: p.entity_id })}
+                                className="text-xs text-zinc-700 bg-white border border-zinc-200 rounded px-2 py-1 cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
+                            >
+                                {p.entity_name}
+                            </div>
+                        ))}
+                    </div>
                 </>
             )}
 
