@@ -78,7 +78,7 @@ def build_parent_chain(project: Dict[str, Any], cache) -> List[str]:
         chain.append(parent_id)
 
         # Get track to find condition
-        tracks = cache.get_tracks() if hasattr(cache, 'get_tracks') else []
+        tracks = cache.get_all_tracks() if hasattr(cache, 'get_all_tracks') else []
         track = next((t for t in tracks if t.get("entity_id") == parent_id), None)
 
         if track:
@@ -88,7 +88,7 @@ def build_parent_chain(project: Dict[str, Any], cache) -> List[str]:
                 chain.append(track_parent)
 
                 # Get condition to find metahypothesis
-                conditions = cache.get_conditions() if hasattr(cache, 'get_conditions') else []
+                conditions = cache.get_all_conditions() if hasattr(cache, 'get_all_conditions') else []
                 condition = next((c for c in conditions if c.get("entity_id") == track_parent), None)
 
                 if condition:
@@ -130,7 +130,7 @@ def filter_candidate_hypotheses(track_id: str, cache) -> List[Dict[str, Any]]:
         return []
 
     # Get all hypotheses
-    hypotheses = cache.get_hypotheses() if hasattr(cache, 'get_hypotheses') else []
+    hypotheses = cache.get_all_hypotheses() if hasattr(cache, 'get_all_hypotheses') else []
 
     # Filter by pattern hyp-{track_num}-*
     prefix = f"hyp-{track_num}-"
@@ -167,7 +167,7 @@ def gather_project_context(
     # Track context
     parent_id = project.get("parent_id")
     if include_flags.get("track_context", True) and parent_id:
-        tracks = cache.get_tracks() if hasattr(cache, 'get_tracks') else []
+        tracks = cache.get_all_tracks() if hasattr(cache, 'get_all_tracks') else []
         track = next((t for t in tracks if t.get("entity_id") == parent_id), None)
         context["track"] = track  # None if not found (graceful)
 
@@ -175,7 +175,7 @@ def gather_project_context(
     if include_flags.get("condition_context", True):
         conditions_3y = project.get("conditions_3y", [])
         if conditions_3y:
-            conditions = cache.get_conditions() if hasattr(cache, 'get_conditions') else []
+            conditions = cache.get_all_conditions() if hasattr(cache, 'get_all_conditions') else []
             context["conditions"] = [
                 c for c in conditions if c.get("entity_id") in conditions_3y
             ]
@@ -209,7 +209,7 @@ async def get_expected_impact_worklist(
     Returns worklist with run_id and project context
     """
     cache = get_cache()
-    projects = cache.get_projects()
+    projects = cache.get_all_projects()
 
     # Filter by missing expected_impact
     filtered = []
@@ -294,7 +294,7 @@ async def suggest_batch(
         project_id = item.project_id
 
         # Get project from cache
-        projects = cache.get_projects()
+        projects = cache.get_all_projects()
         project = next((p for p in projects if p.get("entity_id") == project_id), None)
 
         if not project:
@@ -433,7 +433,7 @@ async def preview_expected_impact(
     cache = get_cache()
 
     # Get project from cache
-    projects = cache.get_projects()
+    projects = cache.get_all_projects()
     project = next((p for p in projects if p.get("entity_id") == request.project_id), None)
 
     if not project:
