@@ -158,9 +158,6 @@ export function EntityDrawer() {
     }
   };
 
-  // Only task, project, program support favorites
-  const favoriteEntityType = (type === 'task' || type === 'project' || type === 'program') ? type : undefined;
-
   return (
     <DrawerShell
       isOpen={true}

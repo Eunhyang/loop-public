@@ -18,6 +18,7 @@ import mimetypes
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
+from urllib.parse import quote
 
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse, Response
@@ -253,7 +254,7 @@ def get_attachment(task_id: str, filename: str):
             content=text_content.encode('utf-8'),
             media_type="text/plain; charset=utf-8",
             headers={
-                "Content-Disposition": f'{disposition}; filename*=utf-8\'\'{safe_name}'
+                "Content-Disposition": f'{disposition}; filename*=utf-8\'\'{quote(safe_name)}'
             }
         )
 

@@ -344,6 +344,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     // Merge parsed fields into form data, filtering out undefined/null
                     const updates: any = {};
                     if (result.parsed_fields.entity_name) updates.entity_name = result.parsed_fields.entity_name;
+                    if (result.parsed_fields.project_id) updates.project_id = result.parsed_fields.project_id;
                     if (result.parsed_fields.assignee) updates.assignee = result.parsed_fields.assignee;
                     if (result.parsed_fields.priority) updates.priority = result.parsed_fields.priority;
                     if (result.parsed_fields.status) updates.status = result.parsed_fields.status;

@@ -616,13 +616,20 @@ Priority keywords:
 - "보통", "medium" → medium
 - "낮은", "low" → low
 
-Type keywords:
-- "버그", "bug", "수정" → bug
-- "개발", "dev", "구현" → dev
-- "전략", "strategy" → strategy
-- "연구", "research" → research
-- "운영", "ops" → ops
-- "회의", "meeting" → meeting
+Type inference (REQUIRED - always determine type):
+1. Match by keywords first:
+   - "버그", "bug", "수정", "fix" → bug
+   - "개발", "dev", "구현", "implement", "기능" → dev
+   - "전략", "strategy", "기획" → strategy
+   - "연구", "research", "조사", "분석" → research
+   - "운영", "ops", "작성", "정리", "문서", "서류", "폼", "form", "제출", "준비" → ops
+   - "회의", "meeting", "미팅" → meeting
+
+2. If NO keywords match, infer from task content:
+   - Code/technical tasks (API, UI, 컴포넌트, 로직) → dev
+   - Administrative tasks (작성, 정리, 제출, 신청) → ops
+   - Planning/discussion tasks → strategy
+   - Default fallback → ops (most non-dev tasks are operational)
 
 Project matching (PRIORITY ORDER):
 1. FIRST: If input contains explicit project ID pattern (prj-xxx), use that ID directly
