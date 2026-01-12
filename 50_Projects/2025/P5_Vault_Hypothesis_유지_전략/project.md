@@ -19,8 +19,8 @@ expected_impact:
   impact_magnitude: mid
   confidence: 0.7
   contributes: []
+track_contributes: []
 ---
-
 # Vault - Hypothesis 유지 전략
 
 ## 목표

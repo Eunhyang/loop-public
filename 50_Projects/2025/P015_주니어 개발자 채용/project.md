@@ -35,10 +35,7 @@ tags:
 - hiring
 - developer
 priority_flag: high
-track_contributes:
-- to: trk-6
-  weight: 0.3
-  description: Track_6_Revenue의 인력 확보에 기여하여 장기적으로 수익 증대에 도움을 줄 수 있습니다.
+track_contributes: []
 primary_hypothesis_id: hyp-001
 ---
 # 주니어 개발자 채용
