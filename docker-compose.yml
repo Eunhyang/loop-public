@@ -41,7 +41,8 @@ services:
       dockerfile: Dockerfile.auth
     container_name: loop-auth
     restart: unless-stopped
-    user: "1026:100"  # NAS Sosilab UID:GID (users 그룹)
+    # user 제거: named volume 권한 문제 해결
+    # OAuth 서버는 nginx 뒤에서만 접근되므로 root 실행 허용
     networks:
       - loop_default
     ports:

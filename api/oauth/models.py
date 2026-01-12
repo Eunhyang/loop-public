@@ -23,8 +23,8 @@ from sqlalchemy.orm import sessionmaker, Session as SQLSession
 OAUTH_DIR = Path(__file__).parent
 DB_PATH = os.environ.get("OAUTH_DB_PATH", str(OAUTH_DIR / "oauth.db"))
 
-# Ensure parent directory exists (for named volume mount)
-Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
+# Note: Directory creation moved to ensure_db_dir() for lazy initialization
+# This prevents permission errors when module is imported before volume is ready
 
 # SQLAlchemy setup
 engine = create_engine(
@@ -130,8 +130,14 @@ class ServiceAccount(Base):
     )
 
 
+def ensure_db_dir():
+    """Ensure DB directory exists (lazy initialization)"""
+    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
+
+
 def create_tables():
     """Create all tables (idempotent)"""
+    ensure_db_dir()  # Ensure directory exists before DB creation
     Base.metadata.create_all(bind=engine)
     print(f"OAuth DB initialized: {DB_PATH}")
 

@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Version 8.8** | Last updated: 2026-01-06
+> **Version 8.9** | Last updated: 2026-01-12
 > Schema v5.3 | validate_schema v7.2 | Impact Model v1.3.1 | Navigation API (SSOT)
 
 ---
@@ -349,26 +349,43 @@ Required for trustworthy B scores:
 ### Docker Services (NAS)
 | Service | Port | Purpose |
 |---------|------|---------|
+| `loop-nginx` | 8080 → 80 | Nginx 리버스 프록시 (OAuth/API 라우팅) |
 | `loop-auth` | 8084 → 8083 | OAuth 인증 서버 (독립) |
 | `loop-api` | 8082 → 8081 | FastAPI + MCP server |
 | `n8n` | 5678 | Workflow automation |
 
-**OAuth 분리 아키텍처** (tsk-vault-gpt-07):
+**OAuth 분리 아키텍처** (v2 - nginx 기반):
 ```
-loop-auth (8084) ─── OAuth 인증 (독립 컨테이너)
-      │                - /authorize, /token, /register
-      │                - SQLite DB, RS256 keys
-      ↓
-loop-api (8082) ─── API + MCP (JWT 검증만)
-                     - JWKS_URL로 loop-auth에서 공개키 fetch
+Synology RP (mcp.sosilab.synology.me)
+         ↓
+    loop-nginx (8080)
+         │
+    ┌────┴────────────────────────────────┐
+    ↓                                     ↓
+/authorize, /token,                  /api/*, /health
+/.well-known/*, /oauth/*             나머지 전부
+    ↓                                     ↓
+loop-auth (8083)                     loop-api (8081)
+- OAuth 인증 전담                    - API + MCP 서버
+- SQLite DB, RS256 keys              - JWT 검증만
+- 독립 컨테이너                       - OAuth 없음
 ```
-- **장점**: loop-api rebuild 시에도 인증 세션 유지 (ChatGPT 재로그인 불필요)
-- **배포**: `/mcp-server rebuild` (API만) vs `/mcp-server rebuild-all` (전체)
+
+**장점**:
+- loop-api rebuild 시에도 OAuth 세션 유지 (ChatGPT 재로그인 불필요)
+- 토큰 갱신 중단 없음 (loop-auth가 항상 가용)
+
+**배포**:
+- `/mcp-server rebuild` - API만 재빌드 (OAuth 영향 없음)
+- `/mcp-server rebuild-all` - 전체 재빌드 (nginx, auth, api)
+
+**Synology 리버스 프록시 설정**:
+- `mcp.sosilab.synology.me` → `localhost:8080` (nginx)
 
 **Volume mounts**:
 - LOOP Vault: `/vault` (rw)
-- loop_exec: `/vault/exec` (ro - 민감 데이터 보호)
-- OAuth keys: `/app/api/oauth/keys` (ro - JWT 검증용)
+- loop_exec: `/exec_vault` (rw)
+- OAuth data: `oauth-data` named volume (DB + keys)
 
 ### NAS Git Auto-Sync (15분마다)
 
