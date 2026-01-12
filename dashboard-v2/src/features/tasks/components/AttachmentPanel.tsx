@@ -3,6 +3,7 @@ import type { DragEvent } from 'react';
 import { useAttachments, useUploadAttachment, useDeleteAttachment } from '../queries';
 import { taskApi } from '../api';
 import { AttachmentItem } from './AttachmentItem';
+import { authStorage } from '@/features/auth/storage';
 
 interface AttachmentPanelProps {
     taskId: string;
@@ -116,7 +117,7 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
         try {
             const response = await fetch(`/api/tasks/${taskId}/attachments/${encodeURIComponent(filename)}`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`,
+                    'Authorization': `Bearer ${authStorage.getToken() || ''}`,
                 },
             });
             if (!response.ok) throw new Error('Failed to fetch file');

@@ -38,4 +38,19 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
+  preview: {
+    port: 3002,
+    proxy: {
+      '/api': {
+        target: 'https://mcp.sosilab.synology.me',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/oauth': {
+        target: 'https://mcp.sosilab.synology.me',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 }))
