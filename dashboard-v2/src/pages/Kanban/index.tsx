@@ -9,12 +9,14 @@ import type { KanbanColumns } from '@/features/tasks/components/Kanban/KanbanBoa
 import { useCombinedFilters } from '@/hooks/useCombinedFilters';
 import { useUi } from '@/contexts/UiContext';
 import { FavoritesStrip } from '@/features/favorites';
+import { useConstants } from '@/contexts/ConstantsContext';
 
 const KanbanPageContent = () => {
   console.log('[KanbanPage] RENDER');
   const { data, isLoading, error } = useDashboardInit();
   const panelFilters = useFilterContext();
   const combinedFilters = useCombinedFilters();
+  const constants = useConstants();
   console.log('[KanbanPage] combinedFilters.showInactiveMembers:', combinedFilters.showInactiveMembers);
   const { openEntityDrawer, closeEntityDrawer, activeEntityDrawer } = useUi();
 
@@ -38,7 +40,8 @@ const KanbanPageContent = () => {
       data.tasks,
       combinedFilters,
       data.projects,
-      data.members
+      data.members,
+      constants
     );
 
     // DEBUG: Log result
@@ -53,7 +56,7 @@ const KanbanPageContent = () => {
     });
 
     return result;
-  }, [data, combinedFilters]);
+  }, [data, combinedFilters, constants]);
 
   // Handle Escape key to close modal
   // Note: DrawerShell already handles ESC, but this provides additional safety

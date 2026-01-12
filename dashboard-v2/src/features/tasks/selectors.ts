@@ -1,13 +1,8 @@
-import type { Task, Project, Member } from '@/types';
+import type { Task, Project, Member, Constants } from '@/types';
 import type { KanbanColumns } from './components/Kanban/KanbanBoard';
 import type { UrlFilterState, LocalFilterState, CombinedFilterState } from '@/types/filters';
 import { getWeekRange, getMonthRange, isWithinRange } from '@/utils/date';
 import { getISOWeek } from '@/utils/dateUtils';
-import {
-  VALID_TASK_STATUSES,
-  VALID_PRIORITIES,
-  VALID_TASK_TYPES,
-} from '@/constants/filterDefaults';
 
 // ============================================================================
 // Legacy type aliases for backward compatibility
@@ -177,7 +172,11 @@ export const applyUrlFilters = (
  * Apply localStorage-based filters (view preferences)
  * Includes: task status/priority/type, visibility, custom date range
  */
-export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Task[] => {
+export const applyLocalFilters = (
+  tasks: Task[],
+  filters: LocalFilterState,
+  constants: Constants
+): Task[] => {
   const {
     taskStatus,
     taskPriority,
@@ -191,7 +190,7 @@ export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Tas
   if (taskStatus.length === 0) {
     // Empty array = show NOTHING
     filtered = [];
-  } else if (!isFullSelection(taskStatus, VALID_TASK_STATUSES)) {
+  } else if (!isFullSelection(taskStatus, constants.task.status)) {
     // Partial selection = apply filter
     filtered = filtered.filter((t) => taskStatus.includes(t.status));
   }
@@ -201,7 +200,7 @@ export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Tas
   if (filtered.length > 0) {
     if (taskPriority.length === 0) {
       filtered = [];
-    } else if (!isFullSelection(taskPriority, VALID_PRIORITIES)) {
+    } else if (!isFullSelection(taskPriority, constants.priority.values)) {
       filtered = filtered.filter((t) => taskPriority.includes(t.priority));
     }
   }
@@ -210,7 +209,7 @@ export const applyLocalFilters = (tasks: Task[], filters: LocalFilterState): Tas
   if (filtered.length > 0) {
     if (taskTypes.length === 0) {
       filtered = [];
-    } else if (!isFullSelection(taskTypes, VALID_TASK_TYPES)) {
+    } else if (!isFullSelection(taskTypes, constants.task.types)) {
       filtered = filtered.filter((t) => t.type && taskTypes.includes(t.type));
     }
   }
@@ -354,10 +353,11 @@ export const buildKanbanColumns = (
   tasks: Task[],
   filters: CombinedFilterState,
   projects: Project[] = [],
-  members: Member[] = []
+  members: Member[] = [],
+  constants: Constants
 ): KanbanColumns => {
   // PHASE 1: Filter projects to get allowed project IDs
-  const allowedProjectIds = filterProjects(projects, filters);
+  const allowedProjectIds = filterProjects(projects, filters, constants);
 
   // PHASE 2: Filter tasks in order
   let filtered = tasks;
@@ -366,7 +366,7 @@ export const buildKanbanColumns = (
   filtered = applyUrlFilters(filtered, filters, projects);
 
   // Step 2: Apply localStorage filters (view preferences)
-  filtered = applyLocalFilters(filtered, filters);
+  filtered = applyLocalFilters(filtered, filters, constants);
 
   // Step 3: Apply project constraints (from Phase 1)
   filtered = filterTasksByProjects(filtered, allowedProjectIds);

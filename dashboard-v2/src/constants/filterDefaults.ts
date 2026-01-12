@@ -2,9 +2,11 @@
  * Filter Default Values
  *
  * Defines default filter states matching legacy dashboard behavior
+ * Updated to use Constants from API SSOT instead of hardcoded arrays
  */
 
 import type { UrlFilterState, LocalFilterState } from '@/types/filters';
+import type { Constants } from '@/types/constants';
 
 // ============================================================================
 // URL Filter Defaults (Empty state)
@@ -27,27 +29,54 @@ export const DEFAULT_URL_FILTERS: UrlFilterState = {
 };
 
 // ============================================================================
-// Local Filter Defaults (Legacy dashboard behavior)
+// Local Filter Defaults (Factory Function using Constants from API)
 // ============================================================================
 
-export const DEFAULT_LOCAL_FILTERS: LocalFilterState = {
+/**
+ * createDefaultLocalFilters
+ *
+ * Factory function that creates default local filter state based on Constants from API SSOT.
+ * This replaces hardcoded VALID_* arrays with dynamic values from schema_constants.yaml.
+ *
+ * @param constants - Constants object from /api/dashboard-init
+ * @returns LocalFilterState with default values
+ */
+export const createDefaultLocalFilters = (constants: Constants): LocalFilterState => ({
   // Visibility toggles (legacy: show core members only, hide inactive)
   showInactiveMembers: false,
   showNonCoreMembers: false,        // Default: core members only (matches legacy)
   showInactiveProjects: false,
 
   // Project filters (legacy: exclude 'completed' projects)
-  // Project.status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled'
-  // Note: 'doing' added for backwards compat (some projects use Task status)
-  projectStatus: ['planning', 'active', 'doing', 'paused', 'cancelled'], // Exclude 'completed'
-  projectPriority: ['critical', 'high', 'medium', 'low'], // Full selection = show all
+  // Use API constants, filter out 'completed' and 'done' (Task status used incorrectly)
+  projectStatus: constants.project.status.filter(s => s !== 'completed' && s !== 'done'),
+  projectPriority: constants.priority.values, // Full selection = show all
 
   // Task filters (full selection = show all, active UI state)
-  taskStatus: ['todo', 'doing', 'hold', 'done', 'blocked'], // Full = show all
-  taskPriority: ['critical', 'high', 'medium', 'low'],       // Full = show all
-  taskTypes: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'], // Full = show all
+  taskStatus: constants.task.status,          // Full = show all
+  taskPriority: constants.priority.values,    // Full = show all
+  taskTypes: constants.task.types,            // Full = show all
 
   // Date range (custom range)
+  dueDateStart: null,
+  dueDateEnd: null,
+});
+
+/**
+ * @deprecated Use createDefaultLocalFilters(constants) instead
+ *
+ * This constant is kept temporarily for backwards compatibility.
+ * It will be removed once all callsites migrate to the factory function.
+ */
+export const DEFAULT_LOCAL_FILTERS: LocalFilterState = {
+  showInactiveMembers: false,
+  showNonCoreMembers: false,
+  showInactiveProjects: false,
+  projectStatus: ['planning', 'active', 'paused', 'cancelled'], // Fixed: removed 'doing'
+  projectPriority: ['critical', 'high', 'medium', 'low'],
+  taskStatus: ['todo', 'doing', 'hold', 'done', 'blocked'],
+  taskPriority: ['critical', 'high', 'medium', 'low'],
+  taskTypes: ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'],
   dueDateStart: null,
   dueDateEnd: null,
 };
@@ -65,17 +94,37 @@ export const FILTER_STORAGE_KEY = 'dashboard-filters-v2';
 export const FILTER_SCHEMA_VERSION = 1;
 
 // ============================================================================
-// Constants for validation
+// Constants for validation (DEPRECATED - use Constants from API SSOT)
 // ============================================================================
 
-// Project.status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled'
+/**
+ * @deprecated Use constants.project.status from API SSOT instead
+ *
+ * Kept temporarily for backwards compatibility.
+ * Migrate to: const { project } = useConstants(); project.status
+ */
 export const VALID_PROJECT_STATUSES = ['planning', 'active', 'paused', 'completed', 'cancelled'] as const;
 
-// Task.status: 'todo' | 'doing' | 'hold' | 'done' | 'blocked'
+/**
+ * @deprecated Use constants.task.status from API SSOT instead
+ *
+ * Kept temporarily for backwards compatibility.
+ * Migrate to: const { task } = useConstants(); task.status
+ */
 export const VALID_TASK_STATUSES = ['todo', 'doing', 'hold', 'done', 'blocked'] as const;
 
-// Task.priority: 'critical' | 'high' | 'medium' | 'low'
+/**
+ * @deprecated Use constants.priority.values from API SSOT instead
+ *
+ * Kept temporarily for backwards compatibility.
+ * Migrate to: const { priority } = useConstants(); priority.values
+ */
 export const VALID_PRIORITIES = ['critical', 'high', 'medium', 'low'] as const;
 
-// Task.type: 'dev' | 'bug' | 'strategy' | 'research' | 'ops' | 'meeting' | null
+/**
+ * @deprecated Use constants.task.types from API SSOT instead
+ *
+ * Kept temporarily for backwards compatibility.
+ * Migrate to: const { task } = useConstants(); task.types
+ */
 export const VALID_TASK_TYPES = ['dev', 'bug', 'strategy', 'research', 'ops', 'meeting'] as const;

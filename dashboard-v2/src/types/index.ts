@@ -3,6 +3,7 @@ import type { Project } from './project';
 
 export * from './task';
 export * from './project';
+export * from './constants';
 
 export interface Member {
   id: string;
@@ -45,7 +46,7 @@ export interface User {
 }
 
 export interface DashboardInitResponse {
-  constants: Record<string, any>;
+  constants: Constants;
   members: Member[];
   tracks: Track[];
   programs: Program[];

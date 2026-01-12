@@ -1,6 +1,5 @@
-import type { Project } from '@/types';
+import type { Project, Constants } from '@/types';
 import type { LocalFilterState } from '@/types/filters';
-import { VALID_PRIORITIES } from '@/constants/filterDefaults';
 
 /**
  * Phase 1: Project Filtering
@@ -12,7 +11,11 @@ import { VALID_PRIORITIES } from '@/constants/filterDefaults';
  *
  * Returns array of allowed project IDs for Phase 2 task filtering
  */
-export const filterProjects = (projects: Project[], filters: LocalFilterState): string[] => {
+export const filterProjects = (
+  projects: Project[],
+  filters: LocalFilterState,
+  constants: Constants
+): string[] => {
   const { showInactiveProjects, projectStatus, projectPriority } = filters;
 
   let allowedProjects = projects;
@@ -34,8 +37,8 @@ export const filterProjects = (projects: Project[], filters: LocalFilterState): 
     // Empty = show NOTHING
     return [];
   } else {
-    // Check if full selection (use Set comparison)
-    const validSet = new Set<string>(VALID_PRIORITIES);
+    // Check if full selection (use Set comparison with Constants from API)
+    const validSet = new Set<string>(constants.priority.values);
     const filterSet = new Set(projectPriority.filter((p) => validSet.has(p)));
     const isFullSelection = filterSet.size === validSet.size;
 
