@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-13T02:59:30.082235",
-  "total_entities": 478,
+  "generated": "2026-01-13T03:42:32.094036",
+  "total_entities": 483,
   "nodes": [
     {
       "id": "hyp-2-10",
@@ -598,71 +598,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "prj-021",
-      "type": "Project",
-      "name": "[경영·운영] 경영 관리",
-      "status": "doing",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/project.md",
-      "priority_flag": "medium",
-      "owner": "한명학"
-    },
-    {
-      "id": "tsk-021-1767964326285",
-      "type": "Task",
-      "name": "HR - 12월 급여 처리(황란경, 문혜영, 한명학)",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1767964326285.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-021-1768140472279",
-      "type": "Task",
-      "name": "JEMI 디딤돌 성과조사서 - 성희롱 예방교육 이수 증빙(김은향, 한명학)",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1768140472279.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-fcaef7-1767962901871",
-      "type": "Task",
-      "name": "원천세 납부 - 용역비 3건",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-fcaef7-1767962901871.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-021-1767965869633",
-      "type": "Task",
-      "name": "빌드업 사업 마무리 - 12월 지원금 서류 제출(급여명세서, 이체확인증, 4대 보험 완납증명서 등)",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1767965869633.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-021-01",
-      "type": "Task",
-      "name": "외부 비서 활용 - 지우님 할일 공유(1월 8일)",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-01.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-021-1768197408582",
-      "type": "Task",
-      "name": "외부 비서 활용 - 지우님 할일 전달(1월 9일)",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1768197408582.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-021-1768146049610",
-      "type": "Task",
-      "name": "빌드업 사업 마무리 - 12월 선지급 건 추가자료 제출(임금대장, 4대보험 완납증명서 등 4건)",
-      "status": "done",
-      "path": "50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1768146049610.md",
-      "assignee": "한명학"
-    },
-    {
       "id": "prj-022",
       "type": "Project",
       "name": "KkokKkok App v1.0.29 - 캘린더 월뷰 개선",
@@ -1030,6 +965,14 @@
       "status": "done",
       "path": "50_Projects/2025/P014_코칭 운영 체계/Tasks/tsk-685ac7-1767962905272.md",
       "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-1768241993366",
+      "type": "Task",
+      "name": "코칭 랜딩페이지 리뉴얼 - 은향 리뷰",
+      "status": "done",
+      "path": "50_Projects/2025/P014_코칭 운영 체계/Tasks/tsk-014-1768241993366.md",
+      "assignee": "김은향"
     },
     {
       "id": "tsk-685ac7-1767962817221",
@@ -1409,7 +1352,7 @@
     {
       "id": "prj-008",
       "type": "Project",
-      "name": "파일럿 프로젝트 후보",
+      "name": "파일럿 프로젝트 설계 및 진행",
       "status": "planning",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/project.md",
       "conditions_3y": [
@@ -1463,6 +1406,32 @@
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
       "priority_flag": "high",
       "assignee": "임단"
+    },
+    {
+      "id": "prj-enlnjr",
+      "type": "Project",
+      "name": "MCP API - Deployment Optimization",
+      "status": "planning",
+      "path": "50_Projects/2025/Penlnjr_MCP_API_Deployment_Optimization/project.md",
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
+      "id": "prj-1t7iu4",
+      "type": "Project",
+      "name": "MCP API - Deployment Optimization",
+      "status": "planning",
+      "path": "50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md",
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-1t7iu4-1768242340825",
+      "type": "Task",
+      "name": "Blue-Green Deployment - MCP API",
+      "status": "todo",
+      "path": "50_Projects/2025/P1_MCP_API_Deployment_Optimization/Tasks/tsk-1t7iu4-1768242340825.md",
+      "assignee": "김은향"
     },
     {
       "id": "pgm-youtube-weekly",
@@ -3603,6 +3572,83 @@
       "assignee": "김은향"
     },
     {
+      "id": "pgm-ops",
+      "type": "Program",
+      "name": "운영/경영 관리",
+      "status": "doing",
+      "path": "50_Projects/Ops/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-021",
+      "type": "Project",
+      "name": "경영관리 - 2026 Q1",
+      "status": "doing",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/project.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-021-1767964326285",
+      "type": "Task",
+      "name": "HR - 12월 급여 처리(황란경, 문혜영, 한명학)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767964326285.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1768140472279",
+      "type": "Task",
+      "name": "JEMI 디딤돌 성과조사서 - 성희롱 예방교육 이수 증빙(김은향, 한명학)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768140472279.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-fcaef7-1767962901871",
+      "type": "Task",
+      "name": "원천세 납부 - 용역비 3건",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-fcaef7-1767962901871.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1767965869633",
+      "type": "Task",
+      "name": "빌드업 사업 마무리 - 12월 지원금 서류 제출(급여명세서, 이체확인증, 4대 보험 완납증명서 등)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767965869633.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-01",
+      "type": "Task",
+      "name": "외부 비서 활용 - 지우님 할일 공유(1월 8일)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-01.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1768197408582",
+      "type": "Task",
+      "name": "외부 비서 활용 - 지우님 할일 전달(1월 9일)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768197408582.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1768146049610",
+      "type": "Task",
+      "name": "빌드업 사업 마무리 - 12월 선지급 건 추가자료 제출(임금대장, 4대보험 완납증명서 등 4건)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768146049610.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-tips",
       "type": "Program",
       "name": "투자/TIPS 준비",
@@ -3829,6 +3875,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-0000os-1768241491256",
+      "type": "Task",
+      "name": "Content OS - YouTube 페이지네이션 구현",
+      "status": "doing",
+      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-content-os-05",
       "type": "Task",
       "name": "Content OS - 회고 대시보드 UI",
@@ -3897,14 +3951,6 @@
       "status": "doing",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-os-1767962821657.md",
       "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-0000os-1767983855858",
-      "type": "Task",
-      "name": "Content OS - YouTube 페이지네이션 구현",
-      "status": "doing",
-      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767983855858.md",
       "assignee": "김은향"
     },
     {
@@ -4365,11 +4411,6 @@
     },
     {
       "source": "trk-4",
-      "target": "prj-008",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
       "target": "prj-006",
       "type": "parent_of"
     },
@@ -4540,11 +4581,6 @@
     },
     {
       "source": "trk-6",
-      "target": "prj-021",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
       "target": "prj-007",
       "type": "parent_of"
     },
@@ -4561,6 +4597,16 @@
     {
       "source": "trk-6",
       "target": "prj-016",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-008",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-021",
       "type": "parent_of"
     },
     {
@@ -4739,41 +4785,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-021",
-      "target": "tsk-021-1767964326285",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-021",
-      "target": "tsk-021-1768140472279",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-021",
-      "target": "tsk-fcaef7-1767962901871",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-021",
-      "target": "tsk-021-1767965869633",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-021",
-      "target": "tsk-021-01",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-021",
-      "target": "tsk-021-1768197408582",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-021",
-      "target": "tsk-021-1768146049610",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-022",
       "target": "tsk-022-01",
       "type": "parent_of"
@@ -4936,6 +4947,11 @@
     {
       "source": "prj-014",
       "target": "tsk-685ac7-1767962905272",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-014",
+      "target": "tsk-014-1768241993366",
       "type": "parent_of"
     },
     {
@@ -5146,6 +5162,11 @@
     {
       "source": "prj-008",
       "target": "tsk-008-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1t7iu4",
+      "target": "tsk-1t7iu4-1768242340825",
       "type": "parent_of"
     },
     {
@@ -6154,6 +6175,41 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-021",
+      "target": "tsk-021-1767964326285",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1768140472279",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-fcaef7-1767962901871",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1767965869633",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1768197408582",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1768146049610",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-017",
       "target": "tsk-e4476d-1767962910349",
       "type": "parent_of"
@@ -6245,6 +6301,11 @@
     },
     {
       "source": "prj-content-os",
+      "target": "tsk-0000os-1768241491256",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-content-os",
       "target": "tsk-content-os-05",
       "type": "parent_of"
     },
@@ -6281,11 +6342,6 @@
     {
       "source": "prj-content-os",
       "target": "tsk-os-1767962821657",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-0000os-1767983855858",
       "type": "parent_of"
     },
     {
@@ -7096,6 +7152,7 @@
       "prj-012",
       "prj-008",
       "prj-020",
+      "prj-021",
       "pgm-tips",
       "prj-006",
       "trk-5",
@@ -7186,7 +7243,6 @@
       "prj-003",
       "prj-156anu",
       "prj-005",
-      "prj-021",
       "prj-022",
       "prj-007",
       "prj-001",
@@ -7201,6 +7257,8 @@
       "prj-151f61",
       "prj-012",
       "prj-008",
+      "prj-enlnjr",
+      "prj-1t7iu4",
       "prj-yt-w33",
       "prj-yt-W02-26",
       "prj-yt-wegovy",
@@ -7215,6 +7273,7 @@
       "prj-impact-schema-v2",
       "prj-api-exec-vault",
       "prj-n8n",
+      "prj-021",
       "prj-006",
       "prj-content-os"
     ],
@@ -7247,13 +7306,6 @@
       "tsk-005-01",
       "tsk-005-04",
       "tsk-005-02",
-      "tsk-021-1767964326285",
-      "tsk-021-1768140472279",
-      "tsk-fcaef7-1767962901871",
-      "tsk-021-1767965869633",
-      "tsk-021-01",
-      "tsk-021-1768197408582",
-      "tsk-021-1768146049610",
       "tsk-022-01",
       "tsk-007-01",
       "tsk-007-03",
@@ -7287,6 +7339,7 @@
       "tsk-685ac7-1767962904466",
       "tsk-685ac7-1767962816709",
       "tsk-685ac7-1767962905272",
+      "tsk-014-1768241993366",
       "tsk-685ac7-1767962817221",
       "tsk-014-1768228019327",
       "tsk-685ac7-1767962904729",
@@ -7328,6 +7381,7 @@
       "tsk-008-02",
       "tsk-008-04",
       "tsk-008-01",
+      "tsk-1t7iu4-1768242340825",
       "tsk-014-04",
       "tsk-022-06",
       "tsk-w33-1767962818953",
@@ -7550,6 +7604,13 @@
       "tsk-000n8n-1768068452347",
       "tsk-000n8n-1768113632728",
       "tsk-n8n-13",
+      "tsk-021-1767964326285",
+      "tsk-021-1768140472279",
+      "tsk-fcaef7-1767962901871",
+      "tsk-021-1767965869633",
+      "tsk-021-01",
+      "tsk-021-1768197408582",
+      "tsk-021-1768146049610",
       "tsk-e4476d-1767962910349",
       "tsk-006-03",
       "tsk-4ec0f2-1767962903880",
@@ -7568,6 +7629,7 @@
       "tsk-content-os-14",
       "tsk-content-os-01",
       "tsk-content-os-07",
+      "tsk-0000os-1768241491256",
       "tsk-content-os-05",
       "tsk-022-03",
       "tsk-content-os-11",
@@ -7576,7 +7638,6 @@
       "tsk-0000os-1767984076358",
       "tsk-content-os-09",
       "tsk-os-1767962821657",
-      "tsk-0000os-1767983855858",
       "tsk-0000os-1768066362208",
       "tsk-content-os-06"
     ],
@@ -7585,6 +7646,7 @@
       "pgm-grants",
       "pgm-kkokkkok-app-release",
       "pgm-vault-system",
+      "pgm-ops",
       "pgm-tips",
       "pgm-hiring",
       "pgm-coaching",
@@ -7718,6 +7780,7 @@
       "tsk-008-05",
       "tsk-008-03",
       "tsk-008-02",
+      "tsk-1t7iu4-1768242340825",
       "tsk-yt-w02-26-08",
       "tsk-yt-w02-26-06",
       "tsk-yt-w02-26-02",
@@ -7753,7 +7816,6 @@
     ],
     "doing": [
       "prj-003",
-      "prj-021",
       "prj-022",
       "prj-001",
       "prj-014",
@@ -7792,15 +7854,17 @@
       "tsk-n8n-22",
       "tsk-n8n-24",
       "tsk-n8n-06",
+      "pgm-ops",
+      "prj-021",
       "pgm-tips",
       "pgm-hiring",
       "prj-006",
       "pgm-coaching",
       "pgm-content-os",
       "prj-content-os",
+      "tsk-0000os-1768241491256",
       "tsk-0000os-1767984076358",
       "tsk-os-1767962821657",
-      "tsk-0000os-1767983855858",
       "cond-b",
       "cond-d",
       "cond-a",
@@ -7827,6 +7891,8 @@
       "prj-151f61",
       "prj-012",
       "prj-008",
+      "prj-enlnjr",
+      "prj-1t7iu4",
       "prj-yt-w33",
       "prj-020",
       "prj-dashboard-ux-v1"
@@ -7843,13 +7909,6 @@
       "tsk-156anu-1768052656145",
       "tsk-156anu-1768048041857",
       "tsk-1pg1i9-1767935607817",
-      "tsk-021-1767964326285",
-      "tsk-021-1768140472279",
-      "tsk-fcaef7-1767962901871",
-      "tsk-021-1767965869633",
-      "tsk-021-01",
-      "tsk-021-1768197408582",
-      "tsk-021-1768146049610",
       "tsk-022-01",
       "prj-007",
       "tsk-007-01",
@@ -7873,6 +7932,7 @@
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
       "tsk-685ac7-1767962905272",
+      "tsk-014-1768241993366",
       "tsk-685ac7-1767962904729",
       "tsk-685ac7-1767962816968",
       "tsk-685ac7-1767962904992",
@@ -8097,6 +8157,13 @@
       "tsk-000n8n-1768068452347",
       "tsk-000n8n-1768113632728",
       "tsk-n8n-13",
+      "tsk-021-1767964326285",
+      "tsk-021-1768140472279",
+      "tsk-fcaef7-1767962901871",
+      "tsk-021-1767965869633",
+      "tsk-021-01",
+      "tsk-021-1768197408582",
+      "tsk-021-1768146049610",
       "tsk-e4476d-1767962910349",
       "tsk-4ec0f2-1767962903880",
       "tsk-006-04",
