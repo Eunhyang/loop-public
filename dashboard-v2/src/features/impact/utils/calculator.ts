@@ -64,11 +64,12 @@ export const MAGNITUDE_OPTIONS: Array<{ value: ImpactMagnitude; label: string }>
  * Calculate expected impact score
  *
  * Formula: score = magnitude_points[tier][magnitude] * confidence
+ * Normalized: (score / maxScore) × 10 / 10
  *
  * @param tier - Impact tier (strategic, tactical, operational)
  * @param magnitude - Impact magnitude (high, medium, low)
  * @param confidence - Confidence level (0.0 - 1.0)
- * @returns Calculated score result
+ * @returns Calculated score result (normalized to /10)
  */
 export function calculateExpectedScore(
   tier: string | undefined,
@@ -88,9 +89,13 @@ export function calculateExpectedScore(
   const score = basePoints * normalizedConfidence;
   const maxScore = MAX_POINTS_BY_TIER[normalizedTier] ?? 5;
 
+  // Normalize to /10 for consistent display
+  const normalizedScore = (score / maxScore) * 10;
+  const normalizedMaxScore = 10;
+
   return {
-    score,
-    maxScore,
+    score: normalizedScore,
+    maxScore: normalizedMaxScore,
     tier: normalizedTier,
     magnitude: normalizedMagnitude,
     confidence: normalizedConfidence,

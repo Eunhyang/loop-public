@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { ImpactScoreResult } from '../types';
-import { MAGNITUDE_POINTS, formatScore } from '../utils/calculator';
+import { MAGNITUDE_POINTS, MAX_POINTS_BY_TIER, formatScore } from '../utils/calculator';
 
 interface ImpactExplainerModalProps {
   /** Whether the modal is open */
@@ -108,11 +108,21 @@ export function ImpactExplainerModal({
             <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
               Formula
             </h3>
-            <div className="bg-zinc-50 p-3 rounded-lg border border-zinc-200">
-              <code className="text-sm text-zinc-900">
-                Score = Base Points x Confidence
-              </code>
+            <div className="bg-zinc-50 p-3 rounded-lg border border-zinc-200 space-y-2">
+              <div>
+                <code className="text-sm text-zinc-900">
+                  Raw Score = Base Points × Confidence
+                </code>
+              </div>
+              <div>
+                <code className="text-sm text-zinc-900">
+                  Normalized = (Raw Score / Tier Max) × 10 / 10
+                </code>
+              </div>
             </div>
+            <p className="text-xs text-zinc-500 mt-2">
+              All scores are normalized to /10 for consistent comparison across tiers
+            </p>
           </div>
 
           {/* Points Table */}
@@ -187,47 +197,60 @@ export function ImpactExplainerModal({
           </div>
 
           {/* Example Calculation */}
-          {currentScore && (
-            <div>
-              <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
-                Current Calculation
-              </h3>
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-zinc-600">Tier:</span>
-                  <span className="font-medium text-zinc-900 capitalize">
-                    {currentScore.tier}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-zinc-600">Magnitude:</span>
-                  <span className="font-medium text-zinc-900 capitalize">
-                    {currentScore.magnitude}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-zinc-600">Base Points:</span>
-                  <span className="font-medium text-zinc-900">
-                    {currentScore.basePoints}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-zinc-600">Confidence:</span>
-                  <span className="font-medium text-zinc-900">
-                    {(currentScore.confidence * 100).toFixed(0)}%
-                  </span>
-                </div>
-                <hr className="border-blue-200" />
-                <div className="flex justify-between text-sm font-semibold">
-                  <span className="text-zinc-700">Score:</span>
-                  <span className="text-blue-700">
-                    {currentScore.basePoints} x {currentScore.confidence} ={' '}
-                    {formatScore(currentScore.score, currentScore.maxScore)}
-                  </span>
+          {currentScore && (() => {
+            const rawScore = currentScore.basePoints * currentScore.confidence;
+            const tierMax = MAX_POINTS_BY_TIER[currentScore.tier];
+
+            return (
+              <div>
+                <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
+                  Current Calculation
+                </h3>
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-zinc-600">Tier:</span>
+                    <span className="font-medium text-zinc-900 capitalize">
+                      {currentScore.tier}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-zinc-600">Magnitude:</span>
+                    <span className="font-medium text-zinc-900 capitalize">
+                      {currentScore.magnitude}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-zinc-600">Base Points:</span>
+                    <span className="font-medium text-zinc-900">
+                      {currentScore.basePoints}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-zinc-600">Confidence:</span>
+                    <span className="font-medium text-zinc-900">
+                      {(currentScore.confidence * 100).toFixed(0)}%
+                    </span>
+                  </div>
+                  <hr className="border-blue-200" />
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-zinc-600">Raw Score:</span>
+                      <span className="font-medium text-zinc-900">
+                        {currentScore.basePoints} × {currentScore.confidence.toFixed(2)} = {rawScore.toFixed(2)} / {tierMax.toFixed(1)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm font-semibold">
+                      <span className="text-zinc-700">Normalized:</span>
+                      <span className="text-blue-700">
+                        ({rawScore.toFixed(2)} / {tierMax.toFixed(1)}) × 10 ={' '}
+                        {formatScore(currentScore.score, currentScore.maxScore)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* Tier Descriptions */}
           <div>
