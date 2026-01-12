@@ -47,6 +47,7 @@ conditions_3y:
 tags: []
 priority_flag: medium
 primary_hypothesis_id: hyp-1-01
+program_id: pgm-coaching
 ---
 # 코칭 서비스 운영 체계 재구축
 
@@ -66,9 +67,8 @@ primary_hypothesis_id: hyp-1-01
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
+- \[\[Track_2_Data\]\] - 소속 Track
 
 ---
 
-**Created**: 2025-12-18
-**Owner**: 한명학
+**Created**: 2025-12-18 **Owner**: 한명학
