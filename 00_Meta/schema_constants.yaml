@@ -624,6 +624,34 @@ validation_rules:
     Task:
       - validates    # Task는 전략 판단에 개입하지 않음
 
+  # ============================================
+  # SSOT v1.3 가드레일 (Project parent_id 의미 고정)
+  # ============================================
+  # Issue: parent_id가 "전략 축(Track)"과 "운영 축(Program)" 두 의미로 혼용되어 SSOT 흔들림
+  # Solution: parent_id는 Track만, program_id는 Program으로 축 분리
+  guardrails:
+    # 가드1: parent_id 패턴 검증 (ERROR)
+    parent_id_pattern:
+      entity: Project
+      rule: "parent_id must be Track (trk-*)"
+      severity: error
+      check: "parent_id.startswith('trk-')"
+
+    # 가드2: conditions_3y 필수 (ERROR)
+    conditions_3y_required:
+      entity: Project
+      rule: "conditions_3y required (minimum 1 Condition)"
+      severity: error
+      check: "conditions_3y is not empty list"
+
+    # 가드3: program_id와 폴더 경로 일치 (WARNING)
+    program_folder_match:
+      entity: Project
+      rule: "program_id should match folder structure"
+      severity: warning
+      check: "program_id matches folder name (if program_id present)"
+      note: "폴더는 Derived, program_id가 SSOT. 불일치 시 warning만"
+
 # ============================================
 # File Locations (파일 위치 규칙)
 # ============================================
@@ -828,8 +856,13 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.5"
-last_updated: "2026-01-12"
+schema_version: "5.6"
+last_updated: "2026-01-13"
+# v5.6 변경 (2026-01-13):
+# - validation_rules.guardrails 섹션 추가 (Project parent_id 의미 고정)
+# - Program.default_track_id, default_conditions_3y 필드 추가 (자동 채움용)
+# - 3개 가드레일: parent_id 패턴(ERROR), conditions_3y 필수(ERROR), program_folder_match(WARNING)
+# - SSOT v1.3 반영: parent_id는 Track만, program_id는 Program 별도 축
 # v5.5 변경 (2026-01-12):
 # - collaboration_fields 섹션 추가 (notes, links, attachments)
 # - known_fields.all에 협업 필드 통합 (모든 엔티티 사용 가능)

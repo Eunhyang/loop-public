@@ -5,11 +5,11 @@ entity_name: 코치 1명 구인 & 1차 온보딩 준비
 created: 2025-12-18
 updated: '2026-01-13'
 status: doing
+parent_id: trk-4
 program_id: pgm-hiring
 aliases:
 - prj-006
 - 코치 1명 구인 & 1차 온보딩 준비
-- prj-006
 outgoing_relations: []
 validates:
 - hyp-4-06
