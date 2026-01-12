@@ -660,7 +660,7 @@ class VaultCache:
 
     def _load_hypothesis_file(self, file_path: Path) -> Optional[str]:
         """단일 Hypothesis 파일 로드"""
-        data = self._extract_frontmatter(file_path)
+        data, body = self._extract_frontmatter_and_body(file_path)
         if not data or data.get('entity_type') != 'Hypothesis':
             return None
 
@@ -669,6 +669,7 @@ class VaultCache:
             return None
 
         data['_path'] = str(file_path.relative_to(self.vault_path))
+        data['_body'] = body
 
         self.hypotheses[entity_id] = CacheEntry(
             data=data,
@@ -924,7 +925,7 @@ class VaultCache:
 
     def _load_track_file(self, file_path: Path) -> Optional[str]:
         """단일 Track 파일 로드"""
-        data = self._extract_frontmatter(file_path)
+        data, body = self._extract_frontmatter_and_body(file_path)
         if not data or data.get('entity_type') != 'Track':
             return None
 
@@ -933,6 +934,7 @@ class VaultCache:
             return None
 
         data['_path'] = str(file_path.relative_to(self.vault_path))
+        data['_body'] = body
 
         self.tracks[entity_id] = CacheEntry(
             data=data,
@@ -982,7 +984,7 @@ class VaultCache:
 
     def _load_condition_file(self, file_path: Path) -> Optional[str]:
         """단일 Condition 파일 로드"""
-        data = self._extract_frontmatter(file_path)
+        data, body = self._extract_frontmatter_and_body(file_path)
         if not data or data.get('entity_type') != 'Condition':
             return None
 
@@ -991,6 +993,7 @@ class VaultCache:
             return None
 
         data['_path'] = str(file_path.relative_to(self.vault_path))
+        data['_body'] = body
 
         self.conditions[entity_id] = CacheEntry(
             data=data,
