@@ -20,7 +20,7 @@ from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, UploadFile, File
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 
 from ..models.entities import AttachmentInfo, AttachmentResponse, AttachmentListResponse, TextExtractionResponse
 from ..services.text_extractor import get_text_extractor
@@ -236,18 +236,32 @@ def get_attachment(task_id: str, filename: str):
     if not content_type:
         content_type = "application/octet-stream"
 
-    # 텍스트 파일 UTF-8 인코딩 명시 (한글 깨짐 방지)
-    if content_type and content_type.startswith("text/"):
-        content_type = f"{content_type}; charset=utf-8"
-
     # 인라인 표시 여부 판단 (Feature 3)
     disposition = "inline" if service.should_display_inline(content_type) else "attachment"
+    safe_name = secure_filename(filename)
 
-    # FileResponse로 스트리밍
+    # 텍스트 파일: 직접 읽어서 Response로 반환 (한글 깨짐 방지)
+    # FileResponse는 charset을 제대로 전달하지 않는 경우가 있음
+    if content_type and content_type.startswith("text/"):
+        try:
+            text_content = file_path.read_text(encoding='utf-8')
+        except UnicodeDecodeError:
+            # Fallback: 손실 허용 읽기
+            text_content = file_path.read_text(encoding='utf-8', errors='replace')
+
+        return Response(
+            content=text_content.encode('utf-8'),
+            media_type="text/plain; charset=utf-8",
+            headers={
+                "Content-Disposition": f'{disposition}; filename*=utf-8\'\'{safe_name}'
+            }
+        )
+
+    # 바이너리 파일: FileResponse로 스트리밍
     return FileResponse(
         path=file_path,
         media_type=content_type,
-        filename=secure_filename(filename),
+        filename=safe_name,
         content_disposition_type=disposition
     )
 
