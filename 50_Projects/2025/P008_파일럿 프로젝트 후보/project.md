@@ -60,9 +60,8 @@ priority_flag: medium
 
 ## 참고 문서
 
-- [[Track_2_Data]] - 소속 Track
+- \[\[Track_2_Data\]\] - 소속 Track
 
 ---
 
-**Created**: 2025-12-18
-**Owner**: 임단
+**Created**: 2025-12-18 **Owner**: 임단
