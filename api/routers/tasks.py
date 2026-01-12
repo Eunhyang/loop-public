@@ -624,27 +624,34 @@ Type keywords:
 - "운영", "ops" → ops
 - "회의", "meeting" → meeting
 
-Project matching:
-- Match project by keywords in project name (e.g., "Dashboard" → find Dashboard project)
-- If no clear match, leave project_id empty
+Project matching (PRIORITY ORDER):
+1. FIRST: If input contains explicit project ID pattern (prj-xxx), use that ID directly
+   - Example: "prj-156anu, Antler 2차..." → project_id = "prj-156anu"
+2. SECOND: Match by keywords in Available projects list
+   - Example: "Antler 작업" → search "Antler" in project names → find "prj-156anu(Antler - 엔틀러코리아...)"
+3. If no match found, leave project_id empty
 
-TEMPLATE APPLICATION (IMPORTANT):
-If user says "버그 템플릿", "bug template", "버그 템플릿 적용해줘":
-- Set type = "bug"
-- Apply bug template to notes with user's content filled in
+TEMPLATE APPLICATION RULES:
+1. ONLY apply template if user EXPLICITLY requests it:
+   - "버그 템플릿", "bug template", "버그 템플릿 적용해줘" → Bug template
+   - "dev 템플릿", "개발 템플릿" → Dev template
+2. If NO template is requested → Put user content directly in notes field WITHOUT template structure
+3. NEVER leave placeholders like [fill user content] - always replace with actual content
 
-Bug Template (apply when user mentions 버그/bug template):
+When template IS requested, fill in user content into the structure:
+
+Bug Template:
 ```
 ## Bug 설명
-**증상**: [fill user content here]
+**증상**: [actual user description here]
 **재현 단계**:
-1. [extract steps from user content]
+1. [actual steps from user]
 **예상 동작**:
-**실제 동작**: [fill user content here]
+**실제 동작**: [actual user description]
 ---
 ## 환경
 - Browser:
-- OS: [if mentioned, e.g., iOS]
+- OS: [extract from user input if mentioned]
 - Version:
 ---
 ## 해결 방안
@@ -656,16 +663,16 @@ Bug Template (apply when user mentions 버그/bug template):
 - [ ] 회귀 테스트 통과
 ```
 
-Dev Template (apply when user mentions 개발/dev template):
+Dev Template:
 ```
 ## 목표
 **완료 조건**:
-1. [fill user content]
+1. [actual user requirements]
 ---
 ## 상세 내용
 ### 배경
 ### 작업 내용
-[fill user content]
+[actual user content]
 ---
 ## 체크리스트
 - [ ] 구현 완료
@@ -678,10 +685,9 @@ Dev Template (apply when user mentions 개발/dev template):
 ### 작업 로그
 ```
 
-When user provides content like "내용은 1. 로그인 하다가 접500발생 2. IOS에서 발생":
-- Parse "1. 로그인 하다가 접500발생" as bug symptom/step
-- Parse "IOS에서 발생" as environment info (OS: iOS)
-- Fill into appropriate template sections"""
+Example - NO template requested:
+Input: "prj-156anu, Antler 2차 - Take Home Test Form 작성, 김은향, 내용은 질문1, 질문2..."
+Output notes: "질문1, 질문2..." (just the raw content, no template structure)"""
 
     user_prompt = f"Parse this text into task fields: {text}"
 
