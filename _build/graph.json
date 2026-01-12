@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-13T03:42:32.094036",
-  "total_entities": 483,
+  "generated": "2026-01-13T04:16:58.779979",
+  "total_entities": 485,
   "nodes": [
     {
       "id": "hyp-2-10",
@@ -218,6 +218,13 @@
       "name": "라벨 일관성",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
+    },
+    {
+      "id": "hyp-3-02",
+      "type": "Hypothesis",
+      "name": "폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md"
     },
     {
       "id": "hyp-1-10",
@@ -621,7 +628,7 @@
     {
       "id": "prj-007",
       "type": "Project",
-      "name": "외부 비서",
+      "name": "Hiring - 안지온님(엔씨온 외부 비서)",
       "status": "done",
       "path": "50_Projects/2025/P007_외부 비서/project.md",
       "conditions_3y": [
@@ -1067,7 +1074,7 @@
     {
       "id": "prj-015",
       "type": "Project",
-      "name": "Hiring - 주니어 개발자 채용",
+      "name": "Hiring - 임단(주니어 개발자 채용)",
       "status": "done",
       "path": "50_Projects/2025/P015_주니어 개발자 채용/project.md",
       "conditions_3y": [
@@ -1352,7 +1359,7 @@
     {
       "id": "prj-008",
       "type": "Project",
-      "name": "파일럿 프로젝트 설계 및 진행",
+      "name": "Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행)",
       "status": "planning",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/project.md",
       "conditions_3y": [
@@ -1360,7 +1367,7 @@
         "cond-d"
       ],
       "priority_flag": "medium",
-      "owner": "김은향"
+      "owner": "임단"
     },
     {
       "id": "tsk-008-05",
@@ -1375,7 +1382,7 @@
       "id": "tsk-008-03",
       "type": "Task",
       "name": "[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
       "priority_flag": "high",
       "assignee": "임단"
@@ -1384,7 +1391,7 @@
       "id": "tsk-008-02",
       "type": "Task",
       "name": "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
       "priority_flag": "high",
       "assignee": "임단"
@@ -1402,7 +1409,7 @@
       "id": "tsk-008-01",
       "type": "Task",
       "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/2025/P008_파일럿 프로젝트 후보/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
       "priority_flag": "high",
       "assignee": "임단"
@@ -1420,7 +1427,7 @@
       "id": "prj-1t7iu4",
       "type": "Project",
       "name": "MCP API - Deployment Optimization",
-      "status": "planning",
+      "status": "doing",
       "path": "50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md",
       "priority_flag": "medium",
       "owner": "김은향"
@@ -1429,7 +1436,7 @@
       "id": "tsk-1t7iu4-1768242340825",
       "type": "Task",
       "name": "Blue-Green Deployment - MCP API",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P1_MCP_API_Deployment_Optimization/Tasks/tsk-1t7iu4-1768242340825.md",
       "assignee": "김은향"
     },
@@ -2858,6 +2865,14 @@
       "name": "TaskForm - Body 템플릿 시스템",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767962861523.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768244708843",
+      "type": "Task",
+      "name": "Dashboard - 업데이트 후 변경사항이 원래대로 돌아오는 문제 수정",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768244708843.md",
       "assignee": "김은향"
     },
     {
@@ -4616,6 +4631,11 @@
     },
     {
       "source": "trk-3",
+      "target": "hyp-3-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
       "target": "pgm-youtube-weekly",
       "type": "parent_of"
     },
@@ -5847,6 +5867,11 @@
     {
       "source": "prj-023",
       "target": "tsk-023-1767962861523",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768244708843",
       "type": "parent_of"
     },
     {
@@ -7223,6 +7248,7 @@
       "hyp-6-08",
       "hyp-6-09",
       "hyp-2-05",
+      "hyp-3-02",
       "hyp-1-10",
       "hyp-4-09",
       "hyp-4-04",
@@ -7532,6 +7558,7 @@
       "tsk-023-34",
       "tsk-023-1768202003964",
       "tsk-023-1767962861523",
+      "tsk-023-1768244708843",
       "tsk-023-25",
       "tsk-023-40",
       "tsk-023-01",
@@ -7778,9 +7805,6 @@
       "tsk-685ac7-1767962904466",
       "tsk-011-01",
       "tsk-008-05",
-      "tsk-008-03",
-      "tsk-008-02",
-      "tsk-1t7iu4-1768242340825",
       "tsk-yt-w02-26-08",
       "tsk-yt-w02-26-06",
       "tsk-yt-w02-26-02",
@@ -7797,6 +7821,7 @@
       "tsk-023-43",
       "tsk-023-1767978736649",
       "tsk-023-1768228616577",
+      "tsk-023-1768244708843",
       "tsk-feedback-01",
       "tsk-006-03",
       "tsk-content-os-02",
@@ -7814,6 +7839,23 @@
     "assumed": [
       "hyp-3-01"
     ],
+    "planning": [
+      "hyp-3-02",
+      "prj-156anu",
+      "prj-005",
+      "prj-002",
+      "prj-5w69jw",
+      "prj-mzjr8a",
+      "prj-w5kz77",
+      "prj-016",
+      "prj-151f61",
+      "prj-012",
+      "prj-008",
+      "prj-enlnjr",
+      "prj-yt-w33",
+      "prj-020",
+      "prj-dashboard-ux-v1"
+    ],
     "doing": [
       "prj-003",
       "prj-022",
@@ -7826,7 +7868,7 @@
       "prj-011",
       "tsk-016-1768195418764",
       "tsk-11nt0p-1767960275703",
-      "tsk-008-01",
+      "prj-1t7iu4",
       "pgm-youtube-weekly",
       "prj-yt-W02-26",
       "prj-yt-wegovy",
@@ -7879,23 +7921,6 @@
       "trk-2",
       "concept-os-stickiness",
       "pl-1"
-    ],
-    "planning": [
-      "prj-156anu",
-      "prj-005",
-      "prj-002",
-      "prj-5w69jw",
-      "prj-mzjr8a",
-      "prj-w5kz77",
-      "prj-016",
-      "prj-151f61",
-      "prj-012",
-      "prj-008",
-      "prj-enlnjr",
-      "prj-1t7iu4",
-      "prj-yt-w33",
-      "prj-020",
-      "prj-dashboard-ux-v1"
     ],
     "done": [
       "tsk-156anu-1768039688709",
@@ -7963,7 +7988,11 @@
       "tsk-012-1768140940912",
       "tsk-8tr202-1767945301054",
       "tsk-9xy6p0-1767945215240",
+      "tsk-008-03",
+      "tsk-008-02",
       "tsk-008-04",
+      "tsk-008-01",
+      "tsk-1t7iu4-1768242340825",
       "tsk-014-04",
       "tsk-022-06",
       "tsk-w33-1767962818953",
