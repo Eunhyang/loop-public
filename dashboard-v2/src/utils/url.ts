@@ -3,6 +3,8 @@
  * Handles production basename '/v2' and SSR safety
  */
 
+export type EntityType = 'task' | 'project';
+
 /**
  * Get the base URL for the application
  * In production: includes '/v2' basename
@@ -30,7 +32,7 @@ export function getBaseUrl(): string {
  * @throws Error if entityId is empty
  */
 export function generateShareUrl(
-  entityType: 'task' | 'project',
+  entityType: EntityType,
   entityId: string
 ): string {
   // Input validation
