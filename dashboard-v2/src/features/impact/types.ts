@@ -6,7 +6,7 @@
  * Frontend uses hardcoded values for performance (changes are rare).
  */
 
-import type { ExpectedImpact, TrackContribution } from '@/types/project';
+import type { ExpectedImpact, TrackContribution } from '@/types';
 
 // Re-export base types for convenience
 export type { ExpectedImpact, TrackContribution };
@@ -63,4 +63,36 @@ export interface TrackWeightValidation {
   totalPercent: number;
   /** Error message if invalid */
   errorMessage?: string;
+}
+
+/**
+ * Evidence strength for B Score calculation (SSOT: impact_model_config.yml:92-95)
+ * Includes null for unset state
+ */
+export type EvidenceStrength = 'strong' | 'medium' | 'weak' | null;
+
+/**
+ * Verdict for realized impact decision (SSOT: schema_constants.yaml:525)
+ */
+export type Verdict = 'pending' | 'go' | 'no-go' | 'pivot' | null;
+
+/**
+ * Outcome for realized impact (SSOT: schema_constants.yaml:526)
+ */
+export type Outcome = 'supported' | 'rejected' | 'inconclusive' | null;
+
+/**
+ * Result of calculating realized impact (B) score
+ */
+export interface RealizedScoreResult {
+  /** Calculated B score (delta × strength_mult × attribution) */
+  score: number;
+  /** Maximum possible score (always 1.0 per SSOT) */
+  maxScore: number;
+  /** Normalized delta used in calculation (0.0-1.0) */
+  normalizedDelta: number;
+  /** Evidence strength used in calculation */
+  evidenceStrength: 'strong' | 'medium' | 'weak';
+  /** Attribution share used in calculation (0.0-1.0) */
+  attributionShare: number;
 }

@@ -7,11 +7,11 @@ import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
 import { EntityChip } from '@/components/common/entity';
 import { statusColors, priorityColors, memberColor, trackColor, programColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
-import type { Project, ExpectedImpact, TrackContribution } from '@/types';
+import type { Project, ExpectedImpact, TrackContribution, RealizedImpact } from '@/types';
 import { MarkdownEditor } from '@/components/MarkdownEditor/MarkdownEditor';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
-import { ExpectedImpactEditor } from '@/features/impact/components/ExpectedImpactEditor';
+import { ImpactSection } from '@/features/impact/components/ImpactSection';
 import { TrackContributionEditor } from '@/features/impact/components/TrackContributionEditor';
 import { HypothesisSelector } from '@/features/impact/components/HypothesisSelector';
 
@@ -418,18 +418,21 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         </div>
                     )}
 
-                    {/* Expected Impact */}
-                    <label className="text-zinc-500 py-1">Expected Impact</label>
-                    <ReviewFieldWrapper
-                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('expected_impact'))}
-                        reasoning={getExpectedImpactReasoning()}
-                    >
-                        <ExpectedImpactEditor
-                            value={getFieldValue('expected_impact') as ExpectedImpact | undefined}
-                            onChange={(impact) => handleFieldChange('expected_impact', impact)}
+                    {/* Impact Section (A + B) */}
+                    <div className="col-span-2">
+                        <ImpactSection
+                            expectedImpact={getFieldValue('expected_impact') as ExpectedImpact | undefined}
+                            realizedImpact={getFieldValue('realized_impact') as RealizedImpact | undefined}
+                            onExpectedChange={(impact) => handleFieldChange('expected_impact', impact)}
+                            onRealizedChange={(impact) => handleFieldChange('realized_impact', impact)}
+                            mode={mode}
                             readonly={isReadOnly}
+                            reviewMode={isReviewMode ? {
+                                isSuggested: (field) => reviewMode?.isSuggested(field) ?? false,
+                                getReasoning: (field) => field === 'expected_impact' ? getExpectedImpactReasoning() : undefined,
+                            } : undefined}
                         />
-                    </ReviewFieldWrapper>
+                    </div>
 
                     {/* Track Contributes */}
                     <label className="text-zinc-500 py-1">Track Contributes</label>
