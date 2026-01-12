@@ -62,18 +62,18 @@ export const DateFilters = () => {
         <div className="flex gap-2">
           <button
             onClick={() => handleQuickDateClick('W')}
-            className={`flex-1 px-3 py-1.5 rounded text-[12px] font-medium border transition-all duration-150 ${filters.dateFilter === 'W'
-                ? 'bg-blue-50 text-blue-600 border-blue-200 shadow-sm'
-                : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300'
+            className={`flex-1 px-3 py-1.5 rounded text-[12px] font-medium border transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 ${filters.dateFilter === 'W'
+              ? 'bg-blue-50 text-blue-600 border-blue-200 shadow-sm'
+              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
           >
             This Week
           </button>
           <button
             onClick={() => handleQuickDateClick('M')}
-            className={`flex-1 px-3 py-1.5 rounded text-[12px] font-medium border transition-all duration-150 ${filters.dateFilter === 'M'
-                ? 'bg-blue-50 text-blue-600 border-blue-200 shadow-sm'
-                : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300'
+            className={`flex-1 px-3 py-1.5 rounded text-[12px] font-medium border transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 ${filters.dateFilter === 'M'
+              ? 'bg-blue-50 text-blue-600 border-blue-200 shadow-sm'
+              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
           >
             This Month
@@ -94,7 +94,7 @@ export const DateFilters = () => {
               type="date"
               value={filters.dueDateStart || ''}
               onChange={(e) => handleDateChange('start', e.target.value)}
-              className="px-2.5 py-1.5 rounded bg-white text-[12px] text-zinc-800 border border-zinc-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 outline-none transition-all shadow-sm"
+              className="px-2.5 py-1.5 rounded bg-white text-[12px] text-zinc-800 border border-zinc-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500/20 focus-visible:border-blue-500 transition-all shadow-sm"
             />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -106,7 +106,7 @@ export const DateFilters = () => {
               type="date"
               value={filters.dueDateEnd || ''}
               onChange={(e) => handleDateChange('end', e.target.value)}
-              className="px-2.5 py-1.5 rounded bg-white text-[12px] text-zinc-800 border border-zinc-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 outline-none transition-all shadow-sm"
+              className="px-2.5 py-1.5 rounded bg-white text-[12px] text-zinc-800 border border-zinc-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500/20 focus-visible:border-blue-500 transition-all shadow-sm"
             />
           </div>
         </div>
