@@ -83,6 +83,14 @@ function loadFromStorage(): LocalFilterState {
         parsed.showInactiveProjects = false;
       }
 
+      // v3: Force reset visibility toggles (v2 migration이 스킵된 사용자용)
+      if (currentVersion < 3) {
+        console.log('[Filter Migration] v3: Force resetting visibility toggles to false');
+        parsed.showInactiveMembers = false;
+        parsed.showNonCoreMembers = false;
+        parsed.showInactiveProjects = false;
+      }
+
       // Mark as migrated
       parsed._schemaVersion = FILTER_SCHEMA_VERSION;
 

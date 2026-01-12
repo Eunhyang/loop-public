@@ -17,23 +17,32 @@ interface ToggleProps {
 
 const Toggle = ({ label, checked, onChange }: ToggleProps) => {
   return (
-    <label className="flex items-center gap-2 cursor-pointer group">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="hidden"
-      />
-      <div
-        className={`w-8 h-4 rounded-full relative transition-colors duration-200 ${checked ? 'bg-primary' : 'bg-zinc-200'
-          }`}
-      >
-        <div
-          className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200 ${checked ? 'translate-x-4' : 'translate-x-0'
-            }`}
+    <label className="flex items-center gap-3 cursor-pointer group py-1">
+      {/* Switch Container */}
+      <div className="relative flex-shrink-0">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="sr-only"
         />
+        {/* Track - Use distinct zinc-800 when ON, and light-grey with border when OFF */}
+        <div
+          className={`w-8 h-4.5 rounded-full transition-all duration-200 border ${checked
+              ? 'bg-zinc-800 border-zinc-800'
+              : 'bg-zinc-100 border-zinc-200 hover:border-zinc-300'
+            }`}
+        >
+          {/* Knob */}
+          <div
+            className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow-sm transition-transform duration-200 ${checked ? 'translate-x-4' : 'translate-x-0'
+              }`}
+          />
+        </div>
       </div>
-      <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">
+
+      {/* Label */}
+      <span className="text-[13px] font-medium text-zinc-600 group-hover:text-zinc-900 transition-colors select-none">
         {label}
       </span>
     </label>
