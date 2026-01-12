@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-n8n-16
 entity_name: n8n - Workflow D Hypothesis Seeder
 created: 2026-01-03
-updated: '2026-01-12'
+updated: '2026-01-13'
 status: doing
 parent_id: prj-n8n
 project_id: prj-n8n
@@ -14,8 +14,8 @@ outgoing_relations:
 - tsk-n8n-11
 validates: []
 assignee: 김은향
-start_date: '2026-01-12'
-due: '2026-01-12'
+start_date: '2026-01-15'
+due: '2026-01-15'
 priority: high
 estimated_hours: null
 actual_hours: null
