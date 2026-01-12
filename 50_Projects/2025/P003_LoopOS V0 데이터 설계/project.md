@@ -1,7 +1,7 @@
 ---
 entity_type: Project
 entity_id: prj-003
-entity_name: LoopOS V0 데이터 설계
+entity_name: LoopOS - V0 데이터 설계
 created: 2025-12-18
 updated: '2026-01-13'
 status: doing
