@@ -116,7 +116,7 @@ tags: ["meta", "graph", "index"]
 | `prj-015` | Hiring - 주니어 개발자 채용 | done | `50_Projects/2025/P015_주니어 개발자 채용/project.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | planning | `50_Projects/2025/P016_법인 전환 설립(주) 루프/project.md` |
 | `prj-019` | Dual-Vault - 정비 | doing | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/project.md` |
-| `prj-020` | 스타트업베이 - 2025 지원사업 | planning | `50_Projects/2025/P020_스타트업베이_2025_지원사업/project.md` |
+| `prj-020` | 스타트업베이 - 2025 지원사업 | planning | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/project.md` |
 | `prj-021` | [경영·운영] 경영 관리 | doing | `50_Projects/2025/P021_[경영·운영] 경영 관리/project.md` |
 | `prj-022` | KkokKkok App v1.0.29 - 캘린더 월뷰 개선 | doing | `50_Projects/2025/P022_KkokKkok_App_v1029_캘린더_월뷰_개선/project.md` |
 | `prj-023` | Dashboard - React+TS 마이그레이션 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/project.md` |
@@ -222,7 +222,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-019-11` | Dual-Vault - exec_rounds_path 자동 라우팅 | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-11.md` |
 | `tsk-019-25` | Schema - Task type에 meeting 추가 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-25_Schema_Task_type에_meeting_추가.md` |
 | `tsk-019-27` | Dashboard - Google Calendar events API 400 에러 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md` |
-| `tsk-020-1768137610590` | 스타트업베이 마무리 - 12월 경영활동보고서 제출 | done | `50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md` |
+| `tsk-020-1768137610590` | 스타트업베이 마무리 - 12월 경영활동보고서 제출 | done | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md` |
 | `tsk-021-01` | 외부 비서 활용 - 지우님 할일 공유(1월 8일) | done | `50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-01.md` |
 | `tsk-021-1767964326285` | HR - 12월 급여 처리(황란경, 문혜영, 한명학) | done | `50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1767964326285.md` |
 | `tsk-021-1767965869633` | 빌드업 사업 마무리 - 12월 지원금 서류 제출(급여명세서, 이체확인증, 4대 보험 완납증명서 등) | done | `50_Projects/2025/P021_[경영·운영] 경영 관리/Tasks/tsk-021-1767965869633.md` |
@@ -364,9 +364,9 @@ tags: ["meta", "graph", "index"]
 | `tsk-88fe92-1767962816218` | 12/31: 펀딩 종료 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962816218.md` |
 | `tsk-88fe92-1767962818221` | 콘텐츠 제작 - 워크북/다이어리 가제본 검토(다예님 미팅) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962818221.md` |
 | `tsk-88fe92-1767962903406` | 콘텐츠 제작 - 가제본 확인 후 수정사항 디자이너 전달(구조, 명언, 톤 등) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962903406.md` |
-| `tsk-8ebd16-1767962820437` | 스타트업베이 - 발표평가 | done | `50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820437.md` |
-| `tsk-8ebd16-1767962820938` | 스타트업베이 - Level-up 임팩트 IR | done | `50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820938.md` |
-| `tsk-8ebd16-1767962821427` | 스타트업베이 - 최종발표 | done | `50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962821427.md` |
+| `tsk-8ebd16-1767962820437` | 스타트업베이 - 발표평가 | done | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820437.md` |
+| `tsk-8ebd16-1767962820938` | 스타트업베이 - Level-up 임팩트 IR | done | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820938.md` |
+| `tsk-8ebd16-1767962821427` | 스타트업베이 - 최종발표 | done | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962821427.md` |
 | `tsk-8tr202-1767945301054` | 와디즈 마무리 - 와디즈 자료 및 구독권 전달(총 6명) | done | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/tsk-8tr202-1767945301054.md` |
 | `tsk-9xy6p0-1767945215240` | 와디즈 마무리 - 와디즈 리워드 포장(포장지, 스티커, 책 포장지 등 구매) | done | `50_Projects/2025/P012_[CS·운영] 고객관리대응/Tasks/tsk-9xy6p0-1767945215240.md` |
 | `tsk-aduxpf-1767959129481` | 앱 유로 구독 - iOS 구독 안 됨 | done | `50_Projects/2025/Pmzjr8a_KkokKkok_App_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md` |

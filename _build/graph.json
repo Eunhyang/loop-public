@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-13T02:53:00.585198",
+  "generated": "2026-01-13T02:59:30.082235",
   "total_entities": 478,
   "nodes": [
     {
@@ -1465,50 +1465,6 @@
       "assignee": "임단"
     },
     {
-      "id": "prj-020",
-      "type": "Project",
-      "name": "스타트업베이 - 2025 지원사업",
-      "status": "planning",
-      "path": "50_Projects/2025/P020_스타트업베이_2025_지원사업/project.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "owner": "김은향"
-    },
-    {
-      "id": "tsk-020-1768137610590",
-      "type": "Task",
-      "name": "스타트업베이 마무리 - 12월 경영활동보고서 제출",
-      "status": "done",
-      "path": "50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-8ebd16-1767962820437",
-      "type": "Task",
-      "name": "스타트업베이 - 발표평가",
-      "status": "done",
-      "path": "50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820437.md",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-8ebd16-1767962820938",
-      "type": "Task",
-      "name": "스타트업베이 - Level-up 임팩트 IR",
-      "status": "done",
-      "path": "50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820938.md",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-8ebd16-1767962821427",
-      "type": "Task",
-      "name": "스타트업베이 - 최종발표",
-      "status": "done",
-      "path": "50_Projects/2025/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962821427.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "pgm-youtube-weekly",
       "type": "Program",
       "name": "YouTube 1주 1업로드",
@@ -1743,6 +1699,50 @@
       "path": "50_Projects/Grants/_PROGRAM.md",
       "priority_flag": "high",
       "owner": "한명학"
+    },
+    {
+      "id": "prj-020",
+      "type": "Project",
+      "name": "스타트업베이 - 2025 지원사업",
+      "status": "planning",
+      "path": "50_Projects/Grants/P020_스타트업베이_2025_지원사업/project.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-020-1768137610590",
+      "type": "Task",
+      "name": "스타트업베이 마무리 - 12월 경영활동보고서 제출",
+      "status": "done",
+      "path": "50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-8ebd16-1767962820437",
+      "type": "Task",
+      "name": "스타트업베이 - 발표평가",
+      "status": "done",
+      "path": "50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820437.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-8ebd16-1767962820938",
+      "type": "Task",
+      "name": "스타트업베이 - Level-up 임팩트 IR",
+      "status": "done",
+      "path": "50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820938.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-8ebd16-1767962821427",
+      "type": "Task",
+      "name": "스타트업베이 - 최종발표",
+      "status": "done",
+      "path": "50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962821427.md",
+      "assignee": "김은향"
     },
     {
       "id": "pgm-kkokkkok-app-release",
@@ -5149,26 +5149,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-020",
-      "target": "tsk-020-1768137610590",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-020",
-      "target": "tsk-8ebd16-1767962820437",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-020",
-      "target": "tsk-8ebd16-1767962820938",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-020",
-      "target": "tsk-8ebd16-1767962821427",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-yt-w33",
       "target": "tsk-014-04",
       "type": "parent_of"
@@ -5271,6 +5251,26 @@
     {
       "source": "prj-yt-wegovy",
       "target": "tsk-yt-wegovy-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-020",
+      "target": "tsk-020-1768137610590",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-020",
+      "target": "tsk-8ebd16-1767962820437",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-020",
+      "target": "tsk-8ebd16-1767962820938",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-020",
+      "target": "tsk-8ebd16-1767962821427",
       "type": "parent_of"
     },
     {
@@ -7201,10 +7201,10 @@
       "prj-151f61",
       "prj-012",
       "prj-008",
-      "prj-020",
       "prj-yt-w33",
       "prj-yt-W02-26",
       "prj-yt-wegovy",
+      "prj-020",
       "prj-kkokkkok-v1028",
       "prj-dashboard-ux-v1",
       "prj-vault-gpt",
@@ -7328,10 +7328,6 @@
       "tsk-008-02",
       "tsk-008-04",
       "tsk-008-01",
-      "tsk-020-1768137610590",
-      "tsk-8ebd16-1767962820437",
-      "tsk-8ebd16-1767962820938",
-      "tsk-8ebd16-1767962821427",
       "tsk-014-04",
       "tsk-022-06",
       "tsk-w33-1767962818953",
@@ -7353,6 +7349,10 @@
       "tsk-26-1768238654295",
       "tsk-yt-w02-26-03",
       "tsk-yt-wegovy-01",
+      "tsk-020-1768137610590",
+      "tsk-8ebd16-1767962820437",
+      "tsk-8ebd16-1767962820938",
+      "tsk-8ebd16-1767962821427",
       "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
       "tsk-dashboard-ux-v1-32",
@@ -7827,8 +7827,8 @@
       "prj-151f61",
       "prj-012",
       "prj-008",
-      "prj-020",
       "prj-yt-w33",
+      "prj-020",
       "prj-dashboard-ux-v1"
     ],
     "done": [
@@ -7904,10 +7904,6 @@
       "tsk-8tr202-1767945301054",
       "tsk-9xy6p0-1767945215240",
       "tsk-008-04",
-      "tsk-020-1768137610590",
-      "tsk-8ebd16-1767962820437",
-      "tsk-8ebd16-1767962820938",
-      "tsk-8ebd16-1767962821427",
       "tsk-014-04",
       "tsk-022-06",
       "tsk-w33-1767962818953",
@@ -7919,6 +7915,10 @@
       "tsk-yt-01",
       "tsk-yt-w02-26-03",
       "tsk-yt-wegovy-01",
+      "tsk-020-1768137610590",
+      "tsk-8ebd16-1767962820437",
+      "tsk-8ebd16-1767962820938",
+      "tsk-8ebd16-1767962821427",
       "prj-kkokkkok-v1028",
       "tsk-kkokkkok-v1028-01",
       "tsk-dashboard-ux-v1-02",
