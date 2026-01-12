@@ -627,8 +627,8 @@ Type keywords:
         result = await llm.call_llm(
             prompt=user_prompt,
             system_prompt=system_prompt,
-            provider="anthropic",
-            model="claude-sonnet-4-20250514",
+            provider="openai",
+            model="gpt-4o-mini",
             temperature=0.3,
             max_tokens=1024,
             response_format="json",
