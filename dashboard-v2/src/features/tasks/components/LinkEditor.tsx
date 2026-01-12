@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { LinkPreviewCard } from './LinkPreviewCard';
 
 interface Link {
     label: string;
@@ -82,23 +83,20 @@ export const LinkEditor = ({ links, onChange, readOnly = false }: LinkEditorProp
     };
 
     if (readOnly) {
-        // Read-only view
+        // Read-only view with preview cards
         if (links.length === 0) {
             return <span className="text-zinc-400 text-sm">No links</span>;
         }
 
         return (
-            <div className="space-y-1">
+            <div className="space-y-2">
                 {links.map((link, idx) => (
-                    <a
+                    <LinkPreviewCard
                         key={idx}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block text-xs text-blue-600 hover:underline"
-                    >
-                        {link.label || link.url}
-                    </a>
+                        url={link.url}
+                        label={link.label}
+                        readOnly={true}
+                    />
                 ))}
             </div>
         );
@@ -106,27 +104,17 @@ export const LinkEditor = ({ links, onChange, readOnly = false }: LinkEditorProp
 
     return (
         <div className="space-y-2">
-            {/* Existing Links */}
+            {/* Existing Links with Preview Cards */}
             {links.length > 0 && (
-                <div className="space-y-1">
+                <div className="space-y-2">
                     {links.map((link, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm">
-                            <a
-                                href={link.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline truncate flex-1"
-                            >
-                                {link.label}
-                            </a>
-                            <button
-                                onClick={() => handleRemove(idx)}
-                                className="text-zinc-400 hover:text-red-600 transition-colors"
-                                title="Remove link"
-                            >
-                                ✕
-                            </button>
-                        </div>
+                        <LinkPreviewCard
+                            key={idx}
+                            url={link.url}
+                            label={link.label}
+                            onRemove={() => handleRemove(idx)}
+                            readOnly={false}
+                        />
                     ))}
                 </div>
             )}

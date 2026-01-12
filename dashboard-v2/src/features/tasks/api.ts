@@ -1,5 +1,5 @@
 import { httpClient } from '@/services/http';
-import type { Task, AttachmentInfo, AttachmentListResponse } from '@/types';
+import type { Task, AttachmentInfo, AttachmentListResponse, LinkPreview } from '@/types';
 
 export interface CreateTaskDTO {
     entity_name: string;
@@ -84,4 +84,8 @@ export const taskApi = {
             '/api/tasks/parse-nl',
             { text }
         ).then(res => res.data),
+
+    // Link Preview
+    getLinkPreview: (url: string) =>
+        httpClient.get<LinkPreview>('/api/link-preview', { params: { url } }).then(res => res.data),
 };

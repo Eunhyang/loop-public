@@ -37,7 +37,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config, google_accounts, dashboard, comments
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config, google_accounts, dashboard, comments, link_preview
 from .utils.vault_utils import get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -346,6 +346,7 @@ app.include_router(config.router)  # tsk-n8n-14: Impact Model Config SSOT
 app.include_router(google_accounts.router)  # tsk-dashboard-ux-v1-24: Google OAuth 계정 연결
 app.include_router(dashboard.router)        # tsk-022-26: Dashboard v2 Init API
 app.include_router(comments.router)         # tsk-023-39: Comments + @mentions
+app.include_router(link_preview.router, prefix="/api", tags=["link-preview"])  # tsk-023-1768228605920: Link Preview
 
 # OAuth 2.0 Router (키는 loop-auth와 공유됨)
 app.include_router(oauth_router)

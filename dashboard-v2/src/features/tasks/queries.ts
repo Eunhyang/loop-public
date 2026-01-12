@@ -208,3 +208,14 @@ export const useParseTaskNL = () => {
         mutationFn: (text: string) => taskApi.parseNaturalLanguage(text),
     });
 };
+
+// Link Preview hook
+export const useLinkPreview = (url: string | null) => {
+    return useQuery({
+        queryKey: queryKeys.linkPreview(url),
+        queryFn: () => taskApi.getLinkPreview(url!),
+        enabled: !!url && url.startsWith('http'),
+        staleTime: 60 * 60 * 1000, // 1 hour client-side cache
+        retry: 1, // Only retry once on failure
+    });
+};

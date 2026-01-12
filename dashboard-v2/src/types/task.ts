@@ -56,3 +56,12 @@ export interface AttachmentListResponse {
     total_count: number;
     total_size: number;
 }
+
+export interface LinkPreview {
+    url: string;
+    title: string | null;
+    description: string | null;
+    image: string | null;
+    site_name: string | null;
+    favicon: string | null;
+}

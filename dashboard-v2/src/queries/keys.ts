@@ -11,4 +11,6 @@ export const queryKeys = {
   // Activity panel keys
   activityComments: (entityType: string, entityId: string) => ['activity', 'comments', entityType, entityId] as const,
   activityHistory: (entityId: string) => ['activity', 'history', entityId] as const,
+  // Link Preview
+  linkPreview: (url: string | null) => ['linkPreview', url] as const,
 };
