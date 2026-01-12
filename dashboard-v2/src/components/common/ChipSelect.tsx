@@ -1,4 +1,4 @@
-import { EntityChip } from './entity';
+import { EntitySelector, type EntitySelectorOption } from './entity';
 import type { ChipColor } from './chipColors';
 
 export interface ChipOption {
@@ -19,8 +19,7 @@ export interface ChipSelectProps {
 
 /**
  * ChipSelect - Notion-style single-select chip component
- *
- * Refactored to use EntityChip for consistent styling.
+ * Refactored to use the common EntitySelector for consistent logic and styling.
  */
 export function ChipSelect({
   options,
@@ -30,32 +29,22 @@ export function ChipSelect({
   label,
   'aria-label': ariaLabel,
 }: ChipSelectProps) {
+  const selectorOptions: EntitySelectorOption[] = options.map(opt => ({
+    id: opt.value,
+    label: opt.label,
+    color: opt.color,
+    icon: opt.icon,
+  }));
+
   return (
-    <div>
-      {label && (
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
-          {label}
-        </label>
-      )}
-      <div
-        role="radiogroup"
-        aria-label={ariaLabel || label}
-        className="flex flex-wrap gap-2"
-      >
-        {options.map((option) => (
-          <EntityChip
-            key={option.value}
-            label={option.label}
-            value={option.value}
-            icon={option.icon}
-            isSelected={option.value === value}
-            disabled={disabled}
-            color={option.color}
-            onClick={onChange}
-            mode="select"
-          />
-        ))}
-      </div>
-    </div>
+    <EntitySelector
+      label={label}
+      options={selectorOptions}
+      selectedIds={[value]}
+      maxVisible={options.length} // Show all by default for basic ChipSelect
+      onSelect={onChange}
+      disabled={disabled}
+      className="w-full"
+    />
   );
 }

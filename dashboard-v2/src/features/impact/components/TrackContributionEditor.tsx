@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { EntityChip } from '@/components/common/entity';
+import { EntityChip, EntitySelector, type EntitySelectorOption } from '@/components/common/entity';
 import type { Track, TrackContribution } from '@/types';
 import { trackColor } from '@/components/common/chipColors';
 import { validateTrackWeights, weightToPercent, percentToWeight } from '../utils/calculator';
@@ -81,6 +81,15 @@ export function TrackContributionEditor({
     return track?.entity_name || trackId;
   }, [tracks]);
 
+  // Convert tracks to options for EntitySelector
+  const selectorOptions: EntitySelectorOption[] = useMemo(() => {
+    return tracks.map(t => ({
+      id: t.entity_id,
+      label: t.entity_name,
+      color: trackColor,
+    }));
+  }, [tracks]);
+
   // Readonly display
   if (readonly) {
     if (!value || value.length === 0) {
@@ -90,16 +99,14 @@ export function TrackContributionEditor({
     return (
       <div className="flex gap-2 flex-wrap py-1">
         {value.map((contrib) => (
-          <button
+          <EntityChip
             key={contrib.to}
-            type="button"
-            onClick={(e) => handleTrackChipClick(e, contrib.to)}
-            className="inline-flex items-center gap-1 px-2 py-1 bg-amber-50 border border-amber-200 rounded text-xs text-amber-700 hover:bg-amber-100 transition-colors cursor-pointer"
-            title={contrib.rationale || `Weight: ${weightToPercent(contrib.weight)}%`}
-          >
-            <span>{getTrackName(contrib.to)}</span>
-            <span className="font-medium">({weightToPercent(contrib.weight)}%)</span>
-          </button>
+            label={`${getTrackName(contrib.to)} (${weightToPercent(contrib.weight)}%)`}
+            mode="link"
+            color={trackColor}
+            onNavigate={() => onTrackClick?.(contrib.to)}
+            disabled={true}
+          />
         ))}
       </div>
     );
@@ -109,24 +116,15 @@ export function TrackContributionEditor({
   return (
     <div className="space-y-3">
       {/* Track Selection Chips */}
-      <div className="flex flex-wrap gap-2">
-        {tracks.map((track) => {
-          const isSelected = contributionMap.has(track.entity_id);
-          return (
-            <EntityChip
-              key={track.entity_id}
-              label={track.entity_name}
-              value={track.entity_id}
-              isSelected={isSelected}
-              disabled={readonly}
-              mode="link"
-              color={trackColor}
-              onClick={handleToggleTrack}
-              onNavigate={() => onTrackClick?.(track.entity_id)}
-            />
-          );
-        })}
-      </div>
+      <EntitySelector
+        options={selectorOptions}
+        selectedIds={value.map(c => c.to)}
+        maxVisible={6}
+        mode="link"
+        disabled={readonly}
+        onSelect={handleToggleTrack}
+        onNavigate={onTrackClick}
+      />
 
       {/* Weight Inputs for Selected Tracks */}
       {value.length > 0 && (

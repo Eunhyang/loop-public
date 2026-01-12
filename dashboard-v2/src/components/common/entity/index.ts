@@ -4,3 +4,4 @@ export { EntityIdGroup } from './EntityIdGroup';
 export { IdBadge } from './IdBadge';
 export { StaticBadge } from './StaticBadge';
 export { EntityChip, type EntityChipProps } from './EntityChip';
+export { EntitySelector, type EntitySelectorProps } from './EntitySelector';

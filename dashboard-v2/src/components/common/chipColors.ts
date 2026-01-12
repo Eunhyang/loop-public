@@ -85,6 +85,15 @@ export const projectColor: ChipColor = {
 };
 
 /**
+ * Hypothesis colors (for hypothesis selection chips)
+ */
+export const hypothesisColor: ChipColor = {
+  bg: 'bg-white border-zinc-200',
+  text: 'text-zinc-500',
+  selected: '!bg-[#f5f3ff] !text-[#5b21b6] !border-[#ddd6fe]',
+};
+
+/**
  * Unassigned state color (low emphasis)
  */
 export const unassignedColor: ChipColor = {
