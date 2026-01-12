@@ -1,11 +1,11 @@
 ---
 entity_type: Project
 entity_id: prj-008
-entity_name: 파일럿 프로젝트 후보
+entity_name: 파일럿 프로젝트 설계 및 진행
 created: 2025-12-18
 updated: '2026-01-13'
 status: planning
-parent_id: trk-4
+parent_id: trk-6
 aliases:
 - prj-008
 - 파일럿 프로젝트 후보
