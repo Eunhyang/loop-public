@@ -132,10 +132,28 @@ export const useDuplicateTask = () => {
 
     return useMutation({
         mutationFn: (id: string) => taskApi.duplicateTask(id),
-        onSuccess: () => {
-            // Invalidate all task-related queries to show new task
-            queryClient.invalidateQueries({ queryKey: queryKeys.tasks() });
-            queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
+        onSuccess: (response) => {
+            // Extract new task data from response
+            const newTask = response.data.task;
+            const newTaskId = response.data.task_id;
+
+            // Proactive cache population - prevents "Loading..." state
+            if (newTask) {
+                // 1. Set individual task cache (enables immediate drawer render)
+                queryClient.setQueryData(queryKeys.task(newTaskId), newTask);
+
+                // 2. Update dashboardInit tasks array (updates Kanban board)
+                const dashboardData = queryClient.getQueryData<any>(queryKeys.dashboardInit);
+                if (dashboardData) {
+                    queryClient.setQueryData(queryKeys.dashboardInit, {
+                        ...dashboardData,
+                        tasks: [...dashboardData.tasks, newTask],
+                    });
+                }
+            }
+
+            // 3. Invalidate filtered task queries (refetch in background)
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
         },
     });
 };

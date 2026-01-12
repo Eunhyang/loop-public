@@ -96,7 +96,7 @@ export function EntityDrawer() {
     if (!id || type !== 'task') return;
     duplicateTask(id, {
       onSuccess: (response) => {
-        const newTaskId = response.data.new_task_id;
+        const newTaskId = response.data.task_id;
         // Open the duplicated task in edit mode
         openEntityDrawer({ type: 'task', mode: 'edit', id: newTaskId });
       }

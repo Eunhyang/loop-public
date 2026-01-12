@@ -13,6 +13,21 @@ export interface CreateTaskDTO {
     notes?: string;
 }
 
+export interface ValidationResult {
+    valid: boolean;
+    errors?: string[];
+    warnings?: string[];
+}
+
+export interface TaskResponse {
+    success: boolean;
+    task_id: string;
+    file_path: string;
+    message: string;
+    task?: Task;
+    validation?: ValidationResult;
+}
+
 export const taskApi = {
     getTasks: (params?: { status?: string; assignee?: string }) =>
         httpClient.get<{ tasks: Task[] }>('/api/tasks', { params }).then(res => ({ data: res.data.tasks })),
@@ -30,7 +45,7 @@ export const taskApi = {
         httpClient.delete(`/api/tasks/${id}`),
 
     duplicateTask: (id: string) =>
-        httpClient.post<{ new_task_id: string; source_task_id: string }>(`/api/tasks/${id}/duplicate`),
+        httpClient.post<TaskResponse>(`/api/tasks/${id}/duplicate`),
 
     // Attachment methods
     getAttachments: (taskId: string) =>
