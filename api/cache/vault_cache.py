@@ -254,7 +254,7 @@ class VaultCache:
             return entry.path if entry else None
 
     def set_task(self, task_id: str, data: Dict[str, Any], path: Path) -> None:
-        """Task 캐시 업데이트 (생성/수정 후 호출)"""
+        """Task 캐시 업데이트 (생성/수정 후 호출, TTL 갱신 포함)"""
         with self._lock:
             data['_path'] = str(path.relative_to(self.vault_path))
             self.tasks[task_id] = CacheEntry(
@@ -263,6 +263,19 @@ class VaultCache:
                 mtime=path.stat().st_mtime
             )
             logger.debug(f"Cache updated: {task_id}")
+
+            # CRITICAL: 디렉토리 last_check 타임스탬프 갱신
+            now = time.time()
+
+            # Task가 있는 디렉토리 타입 판별 (projects_dir vs programs_dir)
+            # Task는 주로 projects_dir 하위에 위치
+            key = self._get_dir_mtime_key(self.projects_dir, 'Task')
+            self._dir_last_check[key] = now
+
+            # Program Rounds Task도 갱신
+            if self.programs_dir:
+                rounds_key = self._get_dir_mtime_key(self.programs_dir, 'Task_Rounds')
+                self._dir_last_check[rounds_key] = now
 
     def remove_task(self, task_id: str) -> bool:
         """Task 캐시에서 제거 (삭제 후 호출)"""
@@ -502,8 +515,23 @@ class VaultCache:
             return entry.data.copy()
 
     def get_all_projects(self) -> List[Dict[str, Any]]:
-        """모든 Project 조회"""
+        """모든 Project 조회 (TTL 기반 자동 새로고침)"""
         with self._lock:
+            # public vault projects 리로드 체크
+            reload_needed = self._should_reload_dir(self.projects_dir, 'Project')
+
+            # exec vault projects 리로드 체크
+            if self.exec_projects_dir and self._should_reload_dir(self.exec_projects_dir, 'ExecProject'):
+                reload_needed = True
+
+            if reload_needed:
+                self.projects.clear()
+                self._project_count = 0
+                self._exec_project_count = 0
+                self._load_projects()
+                if self.exec_projects_dir:
+                    self._load_exec_projects()
+
             results = []
             for project_id, entry in list(self.projects.items()):
                 results.append(entry.data.copy())
@@ -536,7 +564,7 @@ class VaultCache:
             return entry.path.parent
 
     def set_project(self, project_id: str, data: Dict[str, Any], path: Path) -> None:
-        """Project 캐시 업데이트"""
+        """Project 캐시 업데이트 (TTL 갱신 포함)"""
         with self._lock:
             data['_path'] = str(path.relative_to(self.vault_path))
             data['_dir'] = str(path.parent.relative_to(self.vault_path))
@@ -545,6 +573,18 @@ class VaultCache:
                 path=path,
                 mtime=path.stat().st_mtime
             )
+
+            # CRITICAL: 디렉토리 last_check 타임스탬프 갱신
+            now = time.time()
+
+            # public vault
+            key = self._get_dir_mtime_key(self.projects_dir, 'Project')
+            self._dir_last_check[key] = now
+
+            # exec vault (해당되는 경우)
+            if self.exec_projects_dir and str(path).startswith(str(self.exec_vault_path)):
+                exec_key = self._get_dir_mtime_key(self.exec_projects_dir, 'ExecProject')
+                self._dir_last_check[exec_key] = now
 
     def remove_project(self, project_id: str) -> bool:
         """Project 캐시에서 제거"""
