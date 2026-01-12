@@ -37,7 +37,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config, google_accounts, dashboard, comments, link_preview
+from .routers import tasks, projects, programs, tracks, hypotheses, conditions, strategy, search, pending, mcp_composite, autofill, audit, ai, build, attachments, youtube_weekly, config, google_accounts, dashboard, comments, link_preview, impact_batch
 from .utils.vault_utils import get_vault_dir
 from .constants import get_all_constants
 from .cache import get_cache
@@ -347,6 +347,7 @@ app.include_router(google_accounts.router)  # tsk-dashboard-ux-v1-24: Google OAu
 app.include_router(dashboard.router)        # tsk-022-26: Dashboard v2 Init API
 app.include_router(comments.router)         # tsk-023-39: Comments + @mentions
 app.include_router(link_preview.router, prefix="/api", tags=["link-preview"])  # tsk-023-1768228605920: Link Preview
+app.include_router(impact_batch.router)     # tsk-000gpt-1768236851889: Expected Impact Batch Fill API
 
 # OAuth 2.0 Router (키는 loop-auth와 공유됨)
 app.include_router(oauth_router)
@@ -377,6 +378,12 @@ if MCP_AVAILABLE:
         "mcp_update_project_api_mcp_project__project_id__put",
         "mcp_create_task_api_mcp_task_post",
         "mcp_update_task_api_mcp_task__task_id__put",
+        # Expected Impact Batch Fill API (tsk-000gpt-1768236851889)
+        "get_expected_impact_worklist_api_mcp_impact_expected_worklist_post",
+        "suggest_batch_api_mcp_impact_expected_suggest_batch_post",
+        "preview_expected_impact_api_mcp_impact_expected_preview_post",
+        "apply_batch_api_mcp_impact_expected_apply_batch_post",
+        "get_impact_model_config_api_config_impact_model_get",
     ]
     mcp = FastApiMCP(
         app,

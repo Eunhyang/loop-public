@@ -260,3 +260,376 @@ async def get_expected_impact_worklist(
         total_matched=len(filtered),
         items=items
     )
+
+
+@router.post("/suggest-batch", response_model=SuggestBatchResponse)
+async def suggest_batch(
+    request: SuggestBatchRequest,
+    http_request: Request
+):
+    """
+    Generate LLM suggestions for batch of projects
+
+    Calls LLM per project sequentially (not batch) for safer token management
+    Continues processing even if individual projects fail (partial success pattern)
+    """
+    from ..services.llm_service import get_llm_service
+    from ..prompts.expected_impact import (
+        EXPECTED_IMPACT_SYSTEM_PROMPT,
+        build_simple_expected_impact_prompt
+    )
+
+    # Generate run_id if not provided
+    run_id = request.run_id or generate_run_id()
+
+    cache = get_cache()
+    llm = get_llm_service()
+
+    suggestions = []
+    success_count = 0
+    failed_count = 0
+
+    # Process each project sequentially
+    for item in request.items:
+        project_id = item.project_id
+
+        # Get project from cache
+        projects = cache.get_projects()
+        project = next((p for p in projects if p.get("entity_id") == project_id), None)
+
+        if not project:
+            suggestions.append(SuggestBatchSuggestion(
+                project_id=project_id,
+                status="error",
+                error="Project not found"
+            ))
+            failed_count += 1
+            continue
+
+        try:
+            # Build prompt
+            prompt = build_simple_expected_impact_prompt(
+                project_name=project.get("entity_name", ""),
+                project_description=project.get("description", project.get("goal", "")),
+                conditions_3y=project.get("conditions_3y", [])
+            )
+
+            # Call LLM
+            result = await llm.call_llm(
+                prompt=prompt,
+                system_prompt=EXPECTED_IMPACT_SYSTEM_PROMPT,
+                provider=request.provider,
+                response_format="json"
+            )
+
+            if not result["success"]:
+                suggestions.append(SuggestBatchSuggestion(
+                    project_id=project_id,
+                    status="error",
+                    error=result.get("error", "LLM call failed")
+                ))
+                failed_count += 1
+                continue
+
+            content = result["content"]
+
+            # Parse LLM response
+            suggested_fields = {}
+            reasoning = {}
+            warnings = []
+
+            # tier
+            if "tier" in content:
+                tier_data = content["tier"]
+                if isinstance(tier_data, dict):
+                    suggested_fields["tier"] = tier_data.get("value", "operational")
+                    reasoning["tier"] = tier_data.get("reasoning", "")
+                else:
+                    suggested_fields["tier"] = tier_data
+
+            # impact_magnitude
+            if "impact_magnitude" in content:
+                mag_data = content["impact_magnitude"]
+                if isinstance(mag_data, dict):
+                    suggested_fields["impact_magnitude"] = mag_data.get("value", "mid")
+                    reasoning["impact_magnitude"] = mag_data.get("reasoning", "")
+                else:
+                    suggested_fields["impact_magnitude"] = mag_data
+
+            # confidence
+            if "confidence" in content:
+                conf_data = content["confidence"]
+                if isinstance(conf_data, dict):
+                    suggested_fields["confidence"] = conf_data.get("value", 0.7)
+                    reasoning["confidence"] = conf_data.get("reasoning", "")
+                else:
+                    suggested_fields["confidence"] = conf_data
+
+            # contributes
+            if "contributes" in content:
+                contrib_data = content["contributes"]
+                if isinstance(contrib_data, dict):
+                    suggested_fields["contributes"] = contrib_data.get("value", [])
+                    reasoning["contributes"] = contrib_data.get("reasoning", "")
+                else:
+                    suggested_fields["contributes"] = contrib_data
+
+            # Calculate expected score
+            calculated_fields = {}
+            if all(k in suggested_fields for k in ["tier", "impact_magnitude", "confidence"]):
+                try:
+                    score_result = calculate_expected_score(
+                        tier=suggested_fields["tier"],
+                        magnitude=suggested_fields["impact_magnitude"],
+                        confidence=suggested_fields["confidence"],
+                        contributes=suggested_fields.get("contributes", [])
+                    )
+                    calculated_fields["expected_score"] = score_result["score"]
+                    calculated_fields["score_components"] = score_result
+                except Exception as e:
+                    warnings.append(f"Score calculation failed: {str(e)}")
+
+            suggestions.append(SuggestBatchSuggestion(
+                project_id=project_id,
+                status="success",
+                suggested_fields=suggested_fields,
+                calculated_fields=calculated_fields,
+                reasoning=reasoning,
+                warnings=warnings
+            ))
+            success_count += 1
+
+        except Exception as e:
+            suggestions.append(SuggestBatchSuggestion(
+                project_id=project_id,
+                status="error",
+                error=f"Unexpected error: {str(e)}"
+            ))
+            failed_count += 1
+
+    return SuggestBatchResponse(
+        run_id=run_id,
+        mode=request.mode,
+        suggestions=suggestions,
+        summary={
+            "total": len(request.items),
+            "success": success_count,
+            "failed": failed_count
+        }
+    )
+
+
+@router.post("/preview", response_model=PreviewResponse)
+async def preview_expected_impact(
+    request: PreviewRequest,
+    http_request: Request
+):
+    """
+    Preview Expected Impact scores before applying
+
+    Calculates scores for draft fields and compares with current values
+    Validates tier/condition alignment
+    """
+    cache = get_cache()
+
+    # Get project from cache
+    projects = cache.get_projects()
+    project = next((p for p in projects if p.get("entity_id") == request.project_id), None)
+
+    if not project:
+        raise HTTPException(status_code=404, detail=f"Project not found: {request.project_id}")
+
+    # Current expected_impact
+    current_impact = project.get("expected_impact", {})
+
+    # Calculate scores for draft
+    draft = request.draft
+    calculated = {}
+    warnings = []
+
+    if all(k in draft for k in ["tier", "impact_magnitude", "confidence"]):
+        try:
+            score_result = calculate_expected_score(
+                tier=draft["tier"],
+                magnitude=draft["impact_magnitude"],
+                confidence=draft["confidence"],
+                contributes=draft.get("contributes", [])
+            )
+            calculated["expected_score"] = score_result["score"]
+            calculated["score_components"] = score_result
+        except Exception as e:
+            warnings.append(f"Score calculation failed: {str(e)}")
+
+    # Build diff
+    diff = {}
+    for key in ["tier", "impact_magnitude", "confidence", "contributes"]:
+        if key in draft:
+            before = current_impact.get(key)
+            after = draft[key]
+            if before != after:
+                diff[key] = PreviewDiff(before=before, after=after)
+
+    # Add calculated score to diff
+    if "expected_score" in calculated:
+        before_score = current_impact.get("expected_score")
+        after_score = calculated["expected_score"]
+        if before_score != after_score:
+            diff["expected_score"] = PreviewDiff(before=before_score, after=after_score)
+
+    # Validate tier/condition alignment
+    draft_tier = draft.get("tier")
+    conditions_3y = project.get("conditions_3y", [])
+
+    if draft_tier == "strategic" and not conditions_3y:
+        warnings.append("Strategic tier requires conditions_3y to be set")
+    elif draft_tier != "strategic" and conditions_3y:
+        warnings.append(f"Tier '{draft_tier}' with conditions_3y set - may want strategic tier")
+
+    return PreviewResponse(
+        project_id=request.project_id,
+        calculated=calculated,
+        diff=diff,
+        warnings=warnings
+    )
+
+
+@router.post("/apply-batch", response_model=ApplyBatchResponse)
+async def apply_batch(
+    request: ApplyBatchRequest,
+    http_request: Request
+):
+    """
+    Apply batch updates to Expected Impact fields
+
+    Safety features:
+    - Validates DERIVED_FIELDS block (validated_by, realized_sum)
+    - Partial success pattern (continues on individual failures)
+    - Audit logging with run_id
+    - Atomic file writes via update_entity_frontmatter
+    """
+    # Generate run_id if not provided
+    run_id = request.run_id or generate_run_id()
+
+    # DERIVED_FIELDS validation (already in Pydantic model, but double-check)
+    DERIVED_FIELDS = {'validated_by', 'realized_sum'}
+
+    # Check all updates for derived fields
+    for update in request.updates:
+        patch = update.patch
+        if any(key in DERIVED_FIELDS for key in patch.keys()):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Cannot write to derived fields: {DERIVED_FIELDS}"
+            )
+        if 'expected_impact' in patch and isinstance(patch['expected_impact'], dict):
+            if any(key in DERIVED_FIELDS for key in patch['expected_impact'].keys()):
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Cannot write to derived fields in expected_impact: {DERIVED_FIELDS}"
+                )
+
+    # Process updates
+    results = []
+    success_count = 0
+    failed_count = 0
+    skipped_count = 0
+
+    for update in request.updates:
+        project_id = update.project_id
+        patch = update.patch
+
+        try:
+            # Find entity file
+            entity_file = find_entity_file(project_id, "Project")
+            if not entity_file:
+                results.append(ApplyBatchResult(
+                    project_id=project_id,
+                    status="failed",
+                    error="Project file not found"
+                ))
+                failed_count += 1
+                continue
+
+            # Apply update
+            success = update_entity_frontmatter(entity_file, patch)
+
+            if success:
+                results.append(ApplyBatchResult(
+                    project_id=project_id,
+                    status="success",
+                    updated_at=datetime.now().isoformat(),
+                    applied_fields=list(patch.keys())
+                ))
+                success_count += 1
+            else:
+                results.append(ApplyBatchResult(
+                    project_id=project_id,
+                    status="failed",
+                    error="Failed to update frontmatter"
+                ))
+                failed_count += 1
+
+        except Exception as e:
+            results.append(ApplyBatchResult(
+                project_id=project_id,
+                status="failed",
+                error=f"Unexpected error: {str(e)}"
+            ))
+            failed_count += 1
+
+    # Audit logging
+    audit_logged = False
+    decision_log_path = get_vault_dir() / "_build" / "decision_log.jsonl"
+
+    try:
+        # Simple append-only logging
+        log_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "run_id": run_id,
+            "decision": "batch_apply",
+            "mode": request.mode,
+            "commit_message": request.commit_message,
+            "total_updates": len(request.updates),
+            "success": success_count,
+            "failed": failed_count,
+            "results": [
+                {
+                    "project_id": r.project_id,
+                    "status": r.status,
+                    "applied_fields": r.applied_fields
+                }
+                for r in results if r.status == "success"
+            ]
+        }
+
+        import json
+        decision_log_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(decision_log_path, "a") as f:
+            f.write(json.dumps(log_entry) + "\n")
+
+        audit_logged = True
+    except Exception as e:
+        print(f"Warning: Failed to write audit log: {e}")
+
+    return ApplyBatchResponse(
+        run_id=run_id,
+        mode=request.mode,
+        results=results,
+        audit=ApplyBatchAudit(
+            decision_log_path=str(decision_log_path),
+            logged=audit_logged,
+            user_id=getattr(http_request.state, 'user_id', None) if hasattr(http_request, 'state') else None
+        ),
+        validation=ApplyBatchValidation(
+            total_updates=len(request.updates),
+            validated=len(request.updates),
+            blocked_by_derived_fields=0,
+            schema_errors=0
+        ),
+        summary={
+            "total": len(request.updates),
+            "success": success_count,
+            "failed": failed_count,
+            "skipped": skipped_count
+        }
+    )
