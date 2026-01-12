@@ -40,7 +40,10 @@ RUN pip install --no-cache-dir \
     openai \
     anthropic \
     # Text extraction (tsk-dashboard-ux-v1-21)
-    pdfplumber
+    pdfplumber \
+    # HTML/XML parsing (link preview)
+    beautifulsoup4 \
+    lxml
 
 # API 코드 및 설정 파일 복사
 COPY api/ ./api/
