@@ -4,6 +4,7 @@ interface AttachmentItemProps {
     attachment: AttachmentInfo;
     onDownload: () => void;
     onDelete?: () => void;
+    onPreview?: () => void;
     isDeleting?: boolean;
     readOnly?: boolean;
 }
@@ -16,7 +17,7 @@ const formatFileSize = (bytes: number): string => {
     return `${Math.round(bytes / Math.pow(k, i) * 10) / 10} ${sizes[i]}`;
 };
 
-export const AttachmentItem = ({ attachment, onDownload, onDelete, isDeleting = false, readOnly = false }: AttachmentItemProps) => {
+export const AttachmentItem = ({ attachment, onDownload, onDelete, onPreview, isDeleting = false, readOnly = false }: AttachmentItemProps) => {
     return (
         <div className="flex items-center gap-3 p-2 hover:bg-zinc-50 rounded group">
             {/* File Icon */}
@@ -26,9 +27,12 @@ export const AttachmentItem = ({ attachment, onDownload, onDelete, isDeleting = 
 
             {/* File Info */}
             <div className="flex-1 min-w-0">
-                <div className="text-sm text-zinc-900 truncate">
+                <button
+                    onClick={onPreview}
+                    className="text-sm text-zinc-900 truncate block text-left hover:text-blue-600 hover:underline cursor-pointer"
+                >
                     {attachment.filename}
-                </div>
+                </button>
                 <div className="text-xs text-zinc-500">
                     {formatFileSize(attachment.size)}
                     {attachment.uploaded_at && (

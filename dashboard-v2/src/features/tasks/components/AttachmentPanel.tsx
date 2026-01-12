@@ -112,6 +112,11 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
         });
     };
 
+    const handlePreview = (filename: string) => {
+        const url = `/api/tasks/${taskId}/attachments/${encodeURIComponent(filename)}`;
+        window.open(url, '_blank');
+    };
+
     const handleDelete = async (filename: string) => {
         if (!confirm(`Delete "${filename}"?`)) return;
 
@@ -217,6 +222,7 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
                             attachment={attachment}
                             onDownload={() => handleDownload(attachment.filename)}
                             onDelete={readOnly ? undefined : () => handleDelete(attachment.filename)}
+                            onPreview={() => handlePreview(attachment.filename)}
                             isDeleting={deleteMutation.isPending}
                             readOnly={readOnly}
                         />
