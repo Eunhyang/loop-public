@@ -202,3 +202,9 @@ export const useDeleteAttachment = () => {
         },
     });
 };
+
+export const useParseTaskNL = () => {
+    return useMutation({
+        mutationFn: (text: string) => taskApi.parseNaturalLanguage(text),
+    });
+};

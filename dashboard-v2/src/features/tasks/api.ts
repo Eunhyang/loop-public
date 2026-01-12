@@ -77,4 +77,11 @@ export const taskApi = {
 
     deleteAttachment: (taskId: string, filename: string) =>
         httpClient.delete(`/api/tasks/${taskId}/attachments/${encodeURIComponent(filename)}`),
+
+    // Natural Language Parsing
+    parseNaturalLanguage: (text: string) =>
+        httpClient.post<{ success: boolean; parsed_fields: Partial<Task>; run_id?: string }>(
+            '/api/tasks/parse-nl',
+            { text }
+        ).then(res => res.data),
 };

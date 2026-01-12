@@ -545,3 +545,147 @@ def duplicate_task(task_id: str):
         message=f"Task duplicated successfully from {task_id}",
         task=new_frontmatter
     )
+
+
+@router.post("/parse-nl")
+async def parse_task_natural_language(request: dict):
+    """
+    자연어 텍스트를 파싱하여 Task 필드 제안
+
+    Request Body:
+        {
+            "text": "로그인 버그 수정, 김철수, 높은 우선순위, 내일까지"
+        }
+
+    Returns:
+        Partial<Task> - 파싱된 필드들
+    """
+    from ..services.llm_service import LLMService
+    from ..constants import TASK_STATUS, TASK_PRIORITY, TASK_TYPES
+
+    text = request.get("text", "").strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Text is required")
+
+    # Get members from cache
+    cache = get_cache()
+    members = cache.get_all_members()
+    member_names = [m.get("id") for m in members if m.get("id")]
+
+    # Get projects from cache
+    projects = cache.get_all_projects()
+    project_options = [
+        {"id": p.get("entity_id"), "name": p.get("entity_name")}
+        for p in projects
+        if p.get("entity_id") and p.get("entity_name")
+    ]
+
+    # Build prompt
+    system_prompt = f"""You are a task parsing assistant. Parse natural language text into structured task fields.
+
+Available assignees: {', '.join(member_names)}
+Available statuses: {', '.join(TASK_STATUS)}
+Available priorities: {', '.join(TASK_PRIORITY)}
+Available types: {', '.join(TASK_TYPES)}
+
+Return a JSON object with the following fields (only include fields you can extract):
+{{
+    "entity_name": "task title/description",
+    "assignee": "one of the available assignees (match by name similarity)",
+    "priority": "one of: critical, high, medium, low",
+    "status": "one of: todo, doing, hold, done, blocked (default: todo)",
+    "type": "one of: dev, bug, strategy, research, ops, meeting",
+    "due": "YYYY-MM-DD format (parse relative dates like '내일', '오늘', 'tomorrow')",
+    "notes": "additional notes if any"
+}}
+
+Current date: {datetime.now().strftime('%Y-%m-%d')}
+
+Parse relative dates:
+- "오늘", "today" → {datetime.now().strftime('%Y-%m-%d')}
+- "내일", "tomorrow" → {(datetime.now() + __import__('datetime').timedelta(days=1)).strftime('%Y-%m-%d')}
+
+Priority keywords:
+- "긴급", "critical" → critical
+- "높은", "high", "중요한" → high
+- "보통", "medium" → medium
+- "낮은", "low" → low
+
+Type keywords:
+- "버그", "bug", "수정" → bug
+- "개발", "dev", "구현" → dev
+- "전략", "strategy" → strategy
+- "연구", "research" → research
+- "운영", "ops" → ops
+- "회의", "meeting" → meeting"""
+
+    user_prompt = f"Parse this text into task fields: {text}"
+
+    # Call LLM
+    llm = LLMService()
+    try:
+        result = await llm.call_llm(
+            prompt=user_prompt,
+            system_prompt=system_prompt,
+            provider="anthropic",
+            model="claude-sonnet-4-20250514",
+            temperature=0.3,
+            max_tokens=1024,
+            response_format="json",
+            entity_context={"action": "parse_task_nl", "text_length": len(text)},
+            log_run=True
+        )
+
+        if not result["success"]:
+            raise HTTPException(
+                status_code=500,
+                detail=f"LLM parsing failed: {result.get('error', 'Unknown error')}"
+            )
+
+        parsed_fields = result["content"]
+
+        # Validate and normalize fields
+        response = {}
+
+        if "entity_name" in parsed_fields and parsed_fields["entity_name"]:
+            response["entity_name"] = parsed_fields["entity_name"]
+
+        if "assignee" in parsed_fields and parsed_fields["assignee"]:
+            # Validate assignee exists
+            if parsed_fields["assignee"] in member_names:
+                response["assignee"] = parsed_fields["assignee"]
+
+        if "priority" in parsed_fields and parsed_fields["priority"]:
+            if parsed_fields["priority"] in TASK_PRIORITY:
+                response["priority"] = parsed_fields["priority"]
+
+        if "status" in parsed_fields and parsed_fields["status"]:
+            if parsed_fields["status"] in TASK_STATUS:
+                response["status"] = parsed_fields["status"]
+
+        if "type" in parsed_fields and parsed_fields["type"]:
+            if parsed_fields["type"] in TASK_TYPES:
+                response["type"] = parsed_fields["type"]
+
+        if "due" in parsed_fields and parsed_fields["due"]:
+            # Validate date format (YYYY-MM-DD)
+            try:
+                datetime.strptime(parsed_fields["due"], "%Y-%m-%d")
+                response["due"] = parsed_fields["due"]
+            except ValueError:
+                pass  # Skip invalid dates
+
+        if "notes" in parsed_fields and parsed_fields["notes"]:
+            response["notes"] = parsed_fields["notes"]
+
+        return {
+            "success": True,
+            "parsed_fields": response,
+            "run_id": result.get("run_id")
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Parsing error: {str(e)}"
+        )
