@@ -134,7 +134,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     const coreMemberOptions: ChipOption[] = useMemo(() => {
         return memberOptions.filter(opt => {
             const member = dashboardData?.members?.find((m: any) => m.id === opt.value);
-            return member && CORE_ROLES.includes(member.role);
+            return member && CORE_ROLES.includes(member.role) && opt.active;
         });
     }, [memberOptions, dashboardData?.members]);
 

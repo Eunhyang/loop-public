@@ -292,7 +292,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     const coreMemberOptions: ChipOption[] = useMemo(() => {
         return memberOptions.filter(opt => {
             const member = dashboardData?.members?.find((m: any) => m.name === opt.value);
-            return member && CORE_ROLES.includes(member.role);
+            return member && CORE_ROLES.includes(member.role) && opt.active;
         });
     }, [memberOptions, dashboardData?.members]);
 
