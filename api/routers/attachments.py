@@ -1,28 +1,35 @@
 """
-Attachment API Router
+Attachment API Router (tsk-023-1768204346395)
 
 Task 첨부파일 업로드, 조회, 삭제 엔드포인트
-- POST /{task_id}/attachments - 파일 업로드
+- POST /{task_id}/attachments - 파일 업로드 + 텍스트 즉시 추출
 - GET /{task_id}/attachments - 목록 조회
-- GET /{task_id}/attachments/{filename} - 파일 서빙
-- DELETE /{task_id}/attachments/{filename} - 파일 삭제
+- GET /{task_id}/attachments/{filename} - 파일 서빙 (인라인 표시)
+- DELETE /{task_id}/attachments/{filename} - 파일 삭제 + 캐시 삭제
 
-Storage: {VAULT_DIR}/_attachments/{task_id}/{filename}
+Clean Architecture:
+- Router: HTTP 핸들링만
+- Service: 비즈니스 로직
+- Utils: 보안/파일 헬퍼
 """
 
 import os
-import re
 import mimetypes
-import unicodedata
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, Query
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 
 from ..models.entities import AttachmentInfo, AttachmentResponse, AttachmentListResponse, TextExtractionResponse
 from ..services.text_extractor import get_text_extractor
+from ..services.attachment_service import AttachmentService
+from ..utils.file_security import (
+    secure_filename,
+    find_file_with_unicode_normalization,
+    validate_path_safety
+)
 from ..cache import get_cache
 from ..utils.vault_utils import get_vault_dir
 from .audit import log_entity_action
@@ -33,165 +40,26 @@ router = APIRouter(prefix="/api/tasks", tags=["attachments"])
 VAULT_DIR = get_vault_dir()
 ATTACHMENTS_DIR = VAULT_DIR / "_attachments"
 
-# ============================================
-# Constants (PRD 정의)
-# ============================================
-ALLOWED_EXTENSIONS = {
-    ".pdf", ".hwp", ".hwpx", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
-    ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg",
-    ".mp3", ".wav", ".m4a", ".ogg", ".flac",
-    ".mp4", ".mov", ".avi", ".mkv",
-    ".txt", ".md", ".csv", ".json",
-    ".zip", ".tar", ".gz",
-}
-
-MAX_FILE_SIZE = 100 * 1024 * 1024  # 100MB per file
-MAX_TASK_SIZE = 500 * 1024 * 1024  # 500MB per task
+# Service 인스턴스 (싱글톤)
+_attachment_service: Optional[AttachmentService] = None
 
 
-# ============================================
-# Security Helpers
-# ============================================
-def secure_filename(filename: str) -> str:
-    """
-    파일명 안전하게 변환 (path traversal 방지)
-
-    - Unicode normalization
-    - 위험 문자 제거 (../, ..\, /, \, :, 등)
-    - 공백 → 언더스코어
-    - 최대 255자 제한
-    """
-    # 기본 파일명 추출 (경로 제거)
-    filename = os.path.basename(filename)
-
-    # Null bytes 제거
-    filename = filename.replace('\x00', '')
-
-    # Path traversal 패턴 제거
-    filename = re.sub(r'\.\.+', '', filename)  # .., ..., 등
-    filename = re.sub(r'[/\\:]', '_', filename)  # /, \, : → _
-
-    # URL 인코딩된 시퀀스 제거 (%2e, %2f 등)
-    filename = re.sub(r'%[0-9a-fA-F]{2}', '', filename)
-
-    # 위험한 특수문자 제거 (알파벳, 숫자, -, _, . 만 허용)
-    filename = re.sub(r'[^\w\s\-.]', '', filename, flags=re.UNICODE)
-
-    # 연속 공백/언더스코어 정리
-    filename = re.sub(r'[\s]+', '_', filename)
-    filename = re.sub(r'_+', '_', filename)
-
-    # 앞뒤 공백/점/언더스코어 제거
-    filename = filename.strip(' ._')
-
-    # 파일명 길이 제한 (확장자 포함 255자)
-    if len(filename) > 255:
-        name, ext = os.path.splitext(filename)
-        filename = name[:255 - len(ext)] + ext
-
-    # 빈 파일명 방지
-    if not filename:
-        filename = "unnamed"
-
-    return filename
-
-
-def validate_extension(filename: str) -> bool:
-    """확장자 검증 (대소문자 무시, 마지막 확장자만 검사)"""
-    ext = os.path.splitext(filename)[1].lower()
-    return ext in ALLOWED_EXTENSIONS
+def get_attachment_service() -> AttachmentService:
+    """AttachmentService 싱글톤 반환"""
+    global _attachment_service
+    if _attachment_service is None:
+        _attachment_service = AttachmentService(
+            attachments_dir=ATTACHMENTS_DIR,
+            text_extractor=get_text_extractor()
+        )
+    return _attachment_service
 
 
 def get_task_attachments_dir(task_id: str) -> Path:
-    """Task별 첨부파일 디렉토리 경로"""
-    # Task ID도 sanitize (path traversal 방지)
+    """Task별 첨부파일 디렉토리 경로 (text extraction endpoint용)"""
+    import re
     safe_task_id = re.sub(r'[^\w\-]', '', task_id)
     return ATTACHMENTS_DIR / safe_task_id
-
-
-def find_file_with_unicode_normalization(task_dir: Path, filename: str) -> Optional[Path]:
-    """
-    Unicode 정규화를 고려한 파일 찾기
-
-    macOS는 파일명을 NFD(분해형)로 저장하지만,
-    API 요청은 NFC(조합형)로 들어올 수 있음.
-    양쪽 형태로 검색하여 파일을 찾음.
-    """
-    if not task_dir.exists():
-        return None
-
-    # 1. 원본 파일명으로 시도
-    file_path = task_dir / filename
-    if file_path.exists():
-        return file_path
-
-    # 2. NFC 정규화로 시도
-    nfc_filename = unicodedata.normalize('NFC', filename)
-    file_path = task_dir / nfc_filename
-    if file_path.exists():
-        return file_path
-
-    # 3. NFD 정규화로 시도
-    nfd_filename = unicodedata.normalize('NFD', filename)
-    file_path = task_dir / nfd_filename
-    if file_path.exists():
-        return file_path
-
-    # 4. 디렉토리 내 파일들과 정규화 비교
-    nfc_target = unicodedata.normalize('NFC', filename)
-    for existing_file in task_dir.iterdir():
-        if unicodedata.normalize('NFC', existing_file.name) == nfc_target:
-            return existing_file
-
-    return None
-
-
-def get_unique_filename(target_dir: Path, filename: str) -> str:
-    """
-    중복 파일명 처리 - 자동 리네임
-
-    filename.pdf → filename.pdf
-    filename.pdf (exists) → filename_1.pdf
-    filename_1.pdf (exists) → filename_2.pdf
-    """
-    if not (target_dir / filename).exists():
-        return filename
-
-    name, ext = os.path.splitext(filename)
-    counter = 1
-    while (target_dir / f"{name}_{counter}{ext}").exists():
-        counter += 1
-
-    return f"{name}_{counter}{ext}"
-
-
-def get_task_total_size(task_dir: Path) -> int:
-    """Task 첨부파일 총 크기 계산"""
-    if not task_dir.exists():
-        return 0
-
-    total = 0
-    for file in task_dir.iterdir():
-        if file.is_file():
-            total += file.stat().st_size
-    return total
-
-
-def validate_path_safety(base_dir: Path, target_path: Path) -> bool:
-    """
-    Path traversal 공격 방지
-    target_path가 base_dir 내부에 있는지 검증
-
-    Codex 피드백: startswith는 안전하지 않음 (예: /tmp/attachments_evil/file)
-    Path.is_relative_to (Python 3.9+) 사용
-    """
-    try:
-        resolved_base = base_dir.resolve()
-        resolved_target = target_path.resolve()
-        # Python 3.9+ is_relative_to 사용 (startswith보다 안전)
-        return resolved_target.is_relative_to(resolved_base)
-    except (ValueError, OSError):
-        return False
 
 
 # ============================================
@@ -201,14 +69,16 @@ def validate_path_safety(base_dir: Path, target_path: Path) -> bool:
 @router.post("/{task_id}/attachments", response_model=AttachmentResponse)
 async def upload_attachment(task_id: str, file: UploadFile = File(...)):
     """
-    Task에 첨부파일 업로드
+    Task에 첨부파일 업로드 + 텍스트 즉시 추출 (Feature 1)
 
-    - 허용 확장자: PDF, HWP, Office 문서, 이미지, 오디오, 비디오, 텍스트, 압축 파일
+    - 허용 확장자: PDF, HWP, Office 문서, 이미지, 텍스트, 압축 파일
     - 파일당 최대 100MB
     - Task당 최대 500MB
     - 중복 파일명 자동 리네임
+    - PDF 등 지원 형식은 텍스트 즉시 추출
     """
     cache = get_cache()
+    service = get_attachment_service()
 
     # 1. Task 존재 검증
     task_path = cache.get_task_path(task_id)
@@ -219,110 +89,56 @@ async def upload_attachment(task_id: str, file: UploadFile = File(...)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
 
-    safe_filename = secure_filename(file.filename)
-
-    # 3. 확장자 검증
-    if not validate_extension(safe_filename):
-        ext = os.path.splitext(safe_filename)[1].lower()
-        raise HTTPException(
-            status_code=400,
-            detail=f"File extension not allowed: {ext}. Allowed: {', '.join(sorted(ALLOWED_EXTENSIONS))}"
-        )
-
-    # 4. 저장 디렉토리 준비
-    task_dir = get_task_attachments_dir(task_id)
-    task_dir.mkdir(parents=True, exist_ok=True)
-
-    # 5. Task 총 용량 검증
-    current_total = get_task_total_size(task_dir)
-    if current_total >= MAX_TASK_SIZE:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Task attachment limit exceeded ({MAX_TASK_SIZE // (1024*1024)}MB max)"
-        )
-
-    # 6. 중복 파일명 처리
-    final_filename = get_unique_filename(task_dir, safe_filename)
-    target_path = task_dir / final_filename
-
-    # 7. Path safety 검증
-    if not validate_path_safety(ATTACHMENTS_DIR, target_path):
-        raise HTTPException(status_code=400, detail="Invalid file path")
-
-    # 8. 파일 저장 (청크 단위로 읽어서 크기 제한 적용)
-    # Codex 피드백: finally 블록에서 UploadFile.close() 호출하여 모든 경로에서 리소스 정리
-    file_size = 0
+    # 3. 파일 내용 읽기
     try:
-        with open(target_path, 'wb') as f:
-            while True:
-                chunk = await file.read(1024 * 1024)  # 1MB 청크
-                if not chunk:
-                    break
-                file_size += len(chunk)
-
-                # 파일 크기 제한 검증
-                if file_size > MAX_FILE_SIZE:
-                    f.close()
-                    target_path.unlink()  # 실패 시 삭제
-                    raise HTTPException(
-                        status_code=400,
-                        detail=f"File too large ({MAX_FILE_SIZE // (1024*1024)}MB max)"
-                    )
-
-                # Task 총 용량 제한 검증
-                if current_total + file_size > MAX_TASK_SIZE:
-                    f.close()
-                    target_path.unlink()
-                    raise HTTPException(
-                        status_code=400,
-                        detail=f"Task attachment limit exceeded ({MAX_TASK_SIZE // (1024*1024)}MB max)"
-                    )
-
-                f.write(chunk)
-    except HTTPException:
-        raise
+        content = await file.read()
     except Exception as e:
-        # 저장 실패 시 정리
-        if target_path.exists():
-            target_path.unlink()
-        raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Failed to read file: {str(e)}")
     finally:
-        # 9. UploadFile 정리 - 성공/실패 모든 경로에서 리소스 정리
         await file.close()
 
-    # 10. Content-Type 추론
-    content_type, _ = mimetypes.guess_type(final_filename)
+    # 4. Service로 저장 (텍스트 즉시 추출 포함)
+    try:
+        result = service.save_file(task_id, file.filename, content)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    # 5. Content-Type 추론
+    content_type, _ = mimetypes.guess_type(result.filename)
     if not content_type:
         content_type = "application/octet-stream"
 
-    # 11. 응답 생성
+    # 6. 응답 생성
     uploaded_at = datetime.now().isoformat()
     attachment_info = AttachmentInfo(
-        filename=final_filename,
-        size=file_size,
+        filename=result.filename,
+        size=result.size,
         content_type=content_type,
         uploaded_at=uploaded_at,
-        url=f"/api/tasks/{task_id}/attachments/{final_filename}"
+        url=f"/api/tasks/{task_id}/attachments/{result.filename}"
     )
 
-    # 12. 감사 로그
+    # 7. 감사 로그
     log_entity_action(
         action="attachment_upload",
         entity_type="Task",
         entity_id=task_id,
-        entity_name=final_filename,
+        entity_name=result.filename,
         details={
             "original_filename": file.filename,
-            "saved_filename": final_filename,
-            "size": file_size,
-            "content_type": content_type
+            "saved_filename": result.filename,
+            "size": result.size,
+            "content_type": content_type,
+            "text_extracted": result.is_text_available
         }
     )
 
     return AttachmentResponse(
         success=True,
         task_id=task_id,
-        message=f"File uploaded successfully: {final_filename}",
+        message=f"File uploaded successfully: {result.filename}",
         attachment=attachment_info
     )
 
@@ -330,7 +146,7 @@ async def upload_attachment(task_id: str, file: UploadFile = File(...)):
 @router.get("/{task_id}/attachments", response_model=AttachmentListResponse)
 def list_attachments(task_id: str):
     """
-    Task 첨부파일 목록 조회
+    Task 첨부파일 목록 조회 (캐시 .txt 포함)
 
     Returns:
         - attachments: 파일 목록 (filename, size, content_type, uploaded_at, url)
@@ -338,15 +154,17 @@ def list_attachments(task_id: str):
         - total_size: 총 파일 크기 (bytes)
     """
     cache = get_cache()
+    service = get_attachment_service()
 
     # Task 존재 검증
     task_path = cache.get_task_path(task_id)
     if not task_path:
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
 
-    task_dir = get_task_attachments_dir(task_id)
+    # Service로 목록 조회
+    file_list = service.list_files(task_id)
 
-    if not task_dir.exists():
+    if not file_list:
         return AttachmentListResponse(
             success=True,
             task_id=task_id,
@@ -358,23 +176,25 @@ def list_attachments(task_id: str):
     attachments = []
     total_size = 0
 
-    for file_path in sorted(task_dir.iterdir()):
-        if not file_path.is_file():
-            continue
-
-        stat = file_path.stat()
-        content_type, _ = mimetypes.guess_type(file_path.name)
+    for file_info in file_list:
+        content_type, _ = mimetypes.guess_type(file_info.filename)
         if not content_type:
             content_type = "application/octet-stream"
 
+        # CRITICAL: Get file path to read mtime
+        file_path = service.get_file_path(task_id, file_info.filename)
+        uploaded_at = datetime.now().isoformat()  # Default
+        if file_path:
+            uploaded_at = datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+
         attachments.append(AttachmentInfo(
-            filename=file_path.name,
-            size=stat.st_size,
+            filename=file_info.filename,
+            size=file_info.size,
             content_type=content_type,
-            uploaded_at=datetime.fromtimestamp(stat.st_mtime).isoformat(),
-            url=f"/api/tasks/{task_id}/attachments/{file_path.name}"
+            uploaded_at=uploaded_at,
+            url=f"/api/tasks/{task_id}/attachments/{file_info.filename}"
         ))
-        total_size += stat.st_size
+        total_size += file_info.size
 
     return AttachmentListResponse(
         success=True,
@@ -388,107 +208,83 @@ def list_attachments(task_id: str):
 @router.get("/{task_id}/attachments/{filename}")
 def get_attachment(task_id: str, filename: str):
     """
-    첨부파일 다운로드/서빙
+    첨부파일 다운로드/서빙 + 인라인 표시 (Feature 3)
 
     - Content-Type 자동 설정
-    - Content-Disposition: attachment (다운로드 유도)
+    - Content-Disposition: inline or attachment
+    - 텍스트/이미지/PDF는 브라우저 인라인 표시
     """
     cache = get_cache()
+    service = get_attachment_service()
 
     # Task 존재 검증
     task_path = cache.get_task_path(task_id)
     if not task_path:
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
 
-    # 파일명 sanitize
-    safe_filename = secure_filename(filename)
-
-    task_dir = get_task_attachments_dir(task_id)
-
-    # Unicode 정규화를 고려한 파일 찾기 (macOS NFD 대응)
-    file_path = find_file_with_unicode_normalization(task_dir, safe_filename)
+    # Service로 파일 경로 조회
+    try:
+        file_path = service.get_file_path(task_id, filename)
+    except RuntimeError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     if not file_path:
         raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
-
-    # Path safety 검증
-    if not validate_path_safety(ATTACHMENTS_DIR, file_path):
-        raise HTTPException(status_code=400, detail="Invalid file path")
 
     # Content-Type 추론
     content_type, _ = mimetypes.guess_type(file_path.name)
     if not content_type:
         content_type = "application/octet-stream"
 
-    # FileResponse로 스트리밍 (대용량 파일 처리)
-    # Note: FileResponse가 filename 파라미터로 RFC 5987 인코딩 자동 처리
-    # 커스텀 Content-Disposition 헤더 사용 시 한글 파일명 UnicodeEncodeError 발생
+    # 인라인 표시 여부 판단 (Feature 3)
+    disposition = "inline" if service.should_display_inline(content_type) else "attachment"
+
+    # FileResponse로 스트리밍
     return FileResponse(
         path=file_path,
         media_type=content_type,
-        filename=safe_filename
+        filename=secure_filename(filename),
+        content_disposition_type=disposition
     )
 
 
 @router.delete("/{task_id}/attachments/{filename}", response_model=AttachmentResponse)
 def delete_attachment(task_id: str, filename: str):
     """
-    첨부파일 삭제
+    첨부파일 삭제 + 캐시 .txt 삭제 (Feature 2)
     """
     cache = get_cache()
+    service = get_attachment_service()
 
     # Task 존재 검증
     task_path = cache.get_task_path(task_id)
     if not task_path:
         raise HTTPException(status_code=404, detail=f"Task not found: {task_id}")
 
-    # 파일명 sanitize
-    safe_filename = secure_filename(filename)
+    # Service로 삭제 (캐시 .txt도 삭제)
+    try:
+        deleted = service.delete_file(task_id, filename)
+    except RuntimeError as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-    task_dir = get_task_attachments_dir(task_id)
-
-    # Unicode 정규화를 고려한 파일 찾기 (macOS NFD 대응)
-    file_path = find_file_with_unicode_normalization(task_dir, safe_filename)
-
-    if not file_path:
+    if not deleted:
         raise HTTPException(status_code=404, detail=f"Attachment not found: {filename}")
-
-    # Path safety 검증
-    if not validate_path_safety(ATTACHMENTS_DIR, file_path):
-        raise HTTPException(status_code=400, detail="Invalid file path")
-
-    # 파일 정보 백업 (로그용)
-    file_size = file_path.stat().st_size
-
-    # 파일 삭제
-    try:
-        file_path.unlink()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to delete file: {str(e)}")
-
-    # 빈 디렉토리 정리 (옵션, Codex 피드백: OSError 처리)
-    try:
-        if task_dir.exists() and not any(task_dir.iterdir()):
-            task_dir.rmdir()
-    except OSError:
-        pass  # 디렉토리 삭제 실패 시 무시 (다른 프로세스가 사용 중일 수 있음)
 
     # 감사 로그
     log_entity_action(
         action="attachment_delete",
         entity_type="Task",
         entity_id=task_id,
-        entity_name=safe_filename,
+        entity_name=secure_filename(filename),
         details={
-            "filename": safe_filename,
-            "size": file_size
+            "filename": filename
         }
     )
 
     return AttachmentResponse(
         success=True,
         task_id=task_id,
-        message=f"Attachment deleted: {safe_filename}"
+        message=f"Attachment deleted: {filename}"
     )
 
 
