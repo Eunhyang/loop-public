@@ -121,9 +121,21 @@ export const AttachmentPanel = ({ taskId, readOnly = false }: AttachmentPanelPro
                 },
             });
             if (!response.ok) throw new Error('Failed to fetch file');
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            window.open(url, '_blank');
+
+            const contentType = response.headers.get('content-type') || 'application/octet-stream';
+
+            // 텍스트 파일: UTF-8로 디코딩 후 Blob 생성 (한글 깨짐 방지)
+            if (contentType.startsWith('text/')) {
+                const text = await response.text();
+                const blob = new Blob([text], { type: 'text/plain; charset=utf-8' });
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank');
+            } else {
+                // 바이너리 파일 (PDF, 이미지 등)은 그대로
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank');
+            }
         } catch (err: any) {
             setError(`Failed to open file: ${err.message || 'Unknown error'}`);
         }

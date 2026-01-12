@@ -229,7 +229,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         type: prefill?.type || 'dev',
         start_date: prefill?.start_date || today,
         due: prefill?.due || today,
-        notes: prefill?.notes || '',
+        notes: prefill?.notes || TASK_TEMPLATES.default.content,
     });
 
     const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>('default');
