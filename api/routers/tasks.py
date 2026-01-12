@@ -580,10 +580,14 @@ async def parse_task_natural_language(request: dict):
         if p.get("entity_id") and p.get("entity_name")
     ]
 
+    # Build project options string
+    project_options_str = ', '.join([f"{p['id']}({p['name']})" for p in project_options])
+
     # Build prompt
     system_prompt = f"""You are a task parsing assistant. Parse natural language text into structured task fields.
 
 Available assignees: {', '.join(member_names)}
+Available projects: {project_options_str}
 Available statuses: {', '.join(TASK_STATUS)}
 Available priorities: {', '.join(TASK_PRIORITY)}
 Available types: {', '.join(TASK_TYPES)}
@@ -591,12 +595,13 @@ Available types: {', '.join(TASK_TYPES)}
 Return a JSON object with the following fields (only include fields you can extract):
 {{
     "entity_name": "task title/description",
+    "project_id": "one of the available project IDs (match by context/keywords)",
     "assignee": "one of the available assignees (match by name similarity)",
     "priority": "one of: critical, high, medium, low",
     "status": "one of: todo, doing, hold, done, blocked (default: todo)",
     "type": "one of: dev, bug, strategy, research, ops, meeting",
     "due": "YYYY-MM-DD format (parse relative dates like '내일', '오늘', 'tomorrow')",
-    "notes": "additional notes if any"
+    "notes": "apply template if mentioned, fill in user content into template structure"
 }}
 
 Current date: {datetime.now().strftime('%Y-%m-%d')}
@@ -617,7 +622,66 @@ Type keywords:
 - "전략", "strategy" → strategy
 - "연구", "research" → research
 - "운영", "ops" → ops
-- "회의", "meeting" → meeting"""
+- "회의", "meeting" → meeting
+
+Project matching:
+- Match project by keywords in project name (e.g., "Dashboard" → find Dashboard project)
+- If no clear match, leave project_id empty
+
+TEMPLATE APPLICATION (IMPORTANT):
+If user says "버그 템플릿", "bug template", "버그 템플릿 적용해줘":
+- Set type = "bug"
+- Apply bug template to notes with user's content filled in
+
+Bug Template (apply when user mentions 버그/bug template):
+```
+## Bug 설명
+**증상**: [fill user content here]
+**재현 단계**:
+1. [extract steps from user content]
+**예상 동작**:
+**실제 동작**: [fill user content here]
+---
+## 환경
+- Browser:
+- OS: [if mentioned, e.g., iOS]
+- Version:
+---
+## 해결 방안
+### 원인 분석
+### 수정 내용
+---
+## 검증
+- [ ] 버그 재현 불가 확인
+- [ ] 회귀 테스트 통과
+```
+
+Dev Template (apply when user mentions 개발/dev template):
+```
+## 목표
+**완료 조건**:
+1. [fill user content]
+---
+## 상세 내용
+### 배경
+### 작업 내용
+[fill user content]
+---
+## 체크리스트
+- [ ] 구현 완료
+- [ ] 테스트 통과
+- [ ] 빌드 성공
+---
+## Notes
+### Todo
+- [ ]
+### 작업 로그
+```
+
+When user provides content like "내용은 1. 로그인 하다가 접500발생 2. IOS에서 발생":
+- Parse "1. 로그인 하다가 접500발생" as bug symptom/step
+- Parse "IOS에서 발생" as environment info (OS: iOS)
+- Fill into appropriate template sections"""
 
     user_prompt = f"Parse this text into task fields: {text}"
 
@@ -649,6 +713,12 @@ Type keywords:
 
         if "entity_name" in parsed_fields and parsed_fields["entity_name"]:
             response["entity_name"] = parsed_fields["entity_name"]
+
+        if "project_id" in parsed_fields and parsed_fields["project_id"]:
+            # Validate project exists
+            valid_project_ids = [p["id"] for p in project_options]
+            if parsed_fields["project_id"] in valid_project_ids:
+                response["project_id"] = parsed_fields["project_id"]
 
         if "assignee" in parsed_fields and parsed_fields["assignee"]:
             # Validate assignee exists

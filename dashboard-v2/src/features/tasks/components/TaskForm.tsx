@@ -219,7 +219,8 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         reasoning,
     });
 
-    // Create mode form state
+    // Create mode form state - default dates to today
+    const today = new Date().toISOString().split('T')[0];
     const [createFormData, setCreateFormData] = useState({
         entity_name: prefill?.entity_name || '',
         project_id: prefill?.project_id || '',
@@ -227,8 +228,8 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
         priority: prefill?.priority || 'medium',
         status: prefill?.status || 'todo',
         type: prefill?.type || 'dev',
-        start_date: prefill?.start_date || '',
-        due: prefill?.due || '',
+        start_date: prefill?.start_date || today,
+        due: prefill?.due || today,
         notes: prefill?.notes || '',
     });
 
