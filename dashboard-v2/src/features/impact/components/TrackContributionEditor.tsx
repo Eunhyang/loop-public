@@ -1,4 +1,5 @@
 import { useMemo, useCallback } from 'react';
+import { EntityChip } from '@/components/common/entity';
 import type { Track, TrackContribution } from '@/types';
 import { trackColor } from '@/components/common/chipColors';
 import { validateTrackWeights, weightToPercent, percentToWeight } from '../utils/calculator';
@@ -112,26 +113,17 @@ export function TrackContributionEditor({
         {tracks.map((track) => {
           const isSelected = contributionMap.has(track.entity_id);
           return (
-            <button
+            <EntityChip
               key={track.entity_id}
-              type="button"
-              onClick={() => handleToggleTrack(track.entity_id)}
-              className={`
-                inline-flex items-center gap-1
-                px-2 py-0.5 text-xs rounded-md border
-                transition-all duration-150
-                focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1
-                ${isSelected
-                  ? `${trackColor.selected} font-semibold shadow-sm`
-                  : `${trackColor.bg} ${trackColor.text} border-transparent hover:border-zinc-300`
-                }
-                cursor-pointer
-              `}
-              aria-pressed={isSelected}
-            >
-              {isSelected && <span className="text-xs">+</span>}
-              <span>{track.entity_name}</span>
-            </button>
+              label={track.entity_name}
+              value={track.entity_id}
+              isSelected={isSelected}
+              disabled={readonly}
+              mode="link"
+              color={trackColor}
+              onClick={handleToggleTrack}
+              onNavigate={() => onTrackClick?.(track.entity_id)}
+            />
           );
         })}
       </div>

@@ -1,4 +1,5 @@
 import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
+import { EntityChip } from '@/components/common/entity';
 import type { Hypothesis } from '@/types';
 
 interface HypothesisSelectorProps {
@@ -81,11 +82,6 @@ export function HypothesisSelector({
     setIsPrimaryDropdownOpen(false);
   }, [onPrimaryChange, readonly]);
 
-  // Handle hypothesis chip click (for navigation)
-  const handleHypothesisClick = useCallback((e: React.MouseEvent, hypId: string) => {
-    e.stopPropagation();
-    onHypothesisClick?.(hypId);
-  }, [onHypothesisClick]);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -181,49 +177,17 @@ export function HypothesisSelector({
           {hypotheses.map((hyp) => {
             const isSelected = validatesSet.has(hyp.entity_id);
             return (
-              <div key={hyp.entity_id} className="inline-flex items-center">
-                <button
-                  type="button"
-                  onClick={() => handleToggleValidates(hyp.entity_id)}
-                  className={`
-                    inline-flex items-center gap-1
-                    px-2 py-0.5 text-xs rounded-l-md border
-                    transition-all duration-150
-                    focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-1
-                    ${isSelected
-                      ? `${hypothesisColor.selected} font-semibold shadow-sm`
-                      : `${hypothesisColor.bg} ${hypothesisColor.text} border-transparent hover:border-zinc-300`
-                    }
-                    cursor-pointer
-                  `}
-                  aria-pressed={isSelected}
-                  title={isSelected ? 'Deselect hypothesis' : 'Select hypothesis'}
-                >
-                  {isSelected && <span className="text-xs">+</span>}
-                  <span className="truncate max-w-[150px]">{hyp.entity_name}</span>
-                </button>
-                {/* View details button */}
-                {onHypothesisClick && (
-                  <button
-                    type="button"
-                    onClick={(e) => handleHypothesisClick(e, hyp.entity_id)}
-                    className={`
-                      px-1.5 py-0.5 text-xs rounded-r-md border-y border-r
-                      transition-all duration-150
-                      focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-1
-                      ${isSelected
-                        ? 'bg-purple-100 border-purple-300 text-purple-600 hover:bg-purple-200'
-                        : 'bg-zinc-50 border-zinc-200 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600'
-                      }
-                      cursor-pointer
-                    `}
-                    title="View hypothesis details"
-                    aria-label={`View details for ${hyp.entity_name}`}
-                  >
-                    →
-                  </button>
-                )}
-              </div>
+              <EntityChip
+                key={hyp.entity_id}
+                label={hyp.entity_name}
+                value={hyp.entity_id}
+                isSelected={isSelected}
+                disabled={readonly}
+                mode="link"
+                color={hypothesisColor}
+                onClick={handleToggleValidates}
+                onNavigate={() => onHypothesisClick?.(hyp.entity_id)}
+              />
             );
           })}
         </div>

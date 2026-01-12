@@ -4,6 +4,7 @@ import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
+import { EntityChip } from '@/components/common/entity';
 import { statusColors, priorityColors, memberColor, trackColor, programColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import type { Project, ExpectedImpact, TrackContribution } from '@/types';
@@ -357,13 +358,14 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     <label className="text-zinc-500 py-1">Track</label>
                     {isReadOnly ? (
                         project.parent_id ? (
-                            <button
-                                type="button"
-                                className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                                onClick={() => openEntityDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
-                            >
-                                {dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)?.entity_name || project.parent_id}
-                            </button>
+                            <div className="py-1">
+                                <EntityChip
+                                    label={dashboardData?.tracks?.find((t: any) => t.entity_id === project.parent_id)?.entity_name || project.parent_id}
+                                    mode="link"
+                                    color={trackColor}
+                                    onNavigate={() => openEntityDrawer({ type: 'track', mode: 'view', id: project.parent_id! })}
+                                />
+                            </div>
                         ) : (
                             <span className="text-zinc-400 py-1">No Track</span>
                         )
@@ -385,9 +387,14 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     <label className="text-zinc-500 py-1">Program</label>
                     {isReadOnly ? (
                         project.program_id ? (
-                            <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
-                                {programs?.find((p) => p.entity_id === project.program_id)?.entity_name || project.program_id}
-                            </span>
+                            <div className="py-1">
+                                <EntityChip
+                                    label={programs?.find((p) => p.entity_id === project.program_id)?.entity_name || project.program_id}
+                                    color={programColor}
+                                    // Programs don't have a drawer yet, but we keep the style
+                                    mode="select"
+                                />
+                            </div>
                         ) : (
                             <span className="text-zinc-400 py-1">No Program</span>
                         )

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { EntityChip } from './entity';
 import type { ChipColor } from './chipColors';
 
 export interface ChipOption {
@@ -179,40 +180,18 @@ export function ChipSelectExpand({
   };
 
   const renderChip = (option: ChipOption, isSelected: boolean) => {
-    const color = option.color;
-
     return (
-      <button
+      <EntityChip
         key={option.value}
-        type="button"
-        role="radio"
-        aria-checked={isSelected}
-        tabIndex={disabled ? -1 : 0}
+        label={option.label}
+        value={option.value}
+        icon={option.icon}
+        isSelected={isSelected}
         disabled={disabled}
-        onClick={() => handleChipClick(option.value)}
-        className={`
-          inline-flex items-center gap-1
-          px-2 py-0.5 text-xs rounded-md border
-          transition-all duration-150
-          focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-1
-          ${isSelected
-            ? color
-              ? `${color.selected} ${color.text} font-semibold shadow-sm`
-              : 'bg-zinc-900 text-white border-zinc-900 font-semibold shadow-sm'
-            : color
-              ? `${color.bg} ${color.text} border-transparent hover:border-zinc-300`
-              : 'bg-zinc-100 text-zinc-700 border-transparent hover:border-zinc-300'
-          }
-          ${disabled
-            ? 'opacity-50 cursor-not-allowed'
-            : 'cursor-pointer'
-          }
-        `}
-      >
-        {isSelected && <span className="text-xs">✓</span>}
-        {option.icon && <span>{option.icon}</span>}
-        <span className="capitalize truncate max-w-[120px]">{option.label}</span>
-      </button>
+        color={option.color}
+        onClick={handleChipClick}
+        mode="select"
+      />
     );
   };
 

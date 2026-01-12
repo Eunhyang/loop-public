@@ -6,6 +6,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
+import { EntityChip } from '@/components/common/entity';
 import { statusColors, priorityColors, taskTypeColors, memberColor, projectColor, getColor } from '@/components/common/chipColors';
 import { CORE_ROLES } from '@/features/tasks/selectors';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
@@ -650,9 +651,13 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('status') : undefined}
                 >
                     {isReadOnly ? (
-                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                            {String(getFieldValue('status') || '')}
-                        </span>
+                        <div className="py-1">
+                            <EntityChip
+                                label={String(getFieldValue('status') || '')}
+                                color={getColor(String(getFieldValue('status') || 'todo'), statusColors)}
+                                mode="select"
+                            />
+                        </div>
                     ) : (
                         <div className="py-1">
                             <ChipSelect
@@ -672,9 +677,13 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('priority') : undefined}
                 >
                     {isReadOnly ? (
-                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit capitalize">
-                            {String(getFieldValue('priority') || 'medium')}
-                        </span>
+                        <div className="py-1">
+                            <EntityChip
+                                label={String(getFieldValue('priority') || 'medium')}
+                                color={getColor(String(getFieldValue('priority') || 'medium'), priorityColors)}
+                                mode="select"
+                            />
+                        </div>
                     ) : (
                         <div className="py-1">
                             <ChipSelect
@@ -729,9 +738,14 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('project_id') : undefined}
                 >
                     {isReadOnly ? (
-                        <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit">
-                            {String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id') || '-')}
-                        </span>
+                        <div className="py-1">
+                            <EntityChip
+                                label={String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id') || '-')}
+                                color={projectColor}
+                                mode="link"
+                                onNavigate={() => handleRelationClickInternal(getFieldValue('project_id') as string, 'project')}
+                            />
+                        </div>
                     ) : projectOptions.length > 6 ? (
                         <div className="py-1">
                             <ChipSelectExpand
@@ -793,12 +807,14 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                 {Boolean(getFieldValue('project_id')) && (
                     <>
                         <label className="text-zinc-500 py-1">Project</label>
-                        <span
-                            className="inline-block px-2 py-0.5 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700 w-fit cursor-pointer hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
-                            onClick={() => handleRelationClickInternal(getFieldValue('project_id') as string, 'project')}
-                        >
-                            {String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id'))}
-                        </span>
+                        <div className="py-1">
+                            <EntityChip
+                                label={String(dashboardData?.projects?.find((p: any) => p.entity_id === getFieldValue('project_id'))?.entity_name || getFieldValue('project_id'))}
+                                color={projectColor}
+                                mode="link"
+                                onNavigate={() => handleRelationClickInternal(getFieldValue('project_id') as string, 'project')}
+                            />
+                        </div>
                     </>
                 )}
 
