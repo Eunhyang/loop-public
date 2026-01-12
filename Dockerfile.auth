@@ -24,11 +24,14 @@ COPY api/main_auth.py ./api/
 COPY api/oauth/ ./api/oauth/
 COPY api/templates/ ./api/templates/
 
-# 파일 권한 설정 (UID 1000 사용자가 읽을 수 있도록)
-RUN chmod -R 755 /app && chmod -R 644 /app/api/*.py
+# Entrypoint 스크립트 복사
+COPY entrypoint-auth.sh /entrypoint.sh
+
+# 파일 권한 설정
+RUN chmod -R 755 /app && chmod -R 644 /app/api/*.py && chmod +x /entrypoint.sh
 
 # 포트 노출
 EXPOSE 8083
 
-# 서버 실행
-CMD ["uvicorn", "api.main_auth:app", "--host", "0.0.0.0", "--port", "8083"]
+# Entrypoint로 시작 (디렉토리 생성 후 uvicorn 실행)
+ENTRYPOINT ["/entrypoint.sh"]
