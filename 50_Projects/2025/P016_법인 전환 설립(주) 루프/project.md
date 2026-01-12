@@ -37,6 +37,7 @@ tags:
 - 운영
 priority_flag: high
 track_contributes: []
+program_id: pgm-ops
 ---
 # 법인 전환 설립(주) 루프
 
