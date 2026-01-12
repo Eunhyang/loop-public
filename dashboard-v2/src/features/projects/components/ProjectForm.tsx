@@ -111,16 +111,24 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     }, [id, taskStatuses]);
 
     // Member options (for owner ChipSelectExpand)
-    // ProjectForm uses m.id (unlike TaskForm which uses m.name)
-    // Filter: active members only, exclude role="Unassigned" (미정)
+    // Included inactive members with (Inactive) label, sorted to the bottom
     const memberOptions: ChipOption[] = useMemo(() => {
-        return (dashboardData?.members || [])
-            .filter((m: any) => m.active !== false && m.role !== 'Unassigned')
+        const members = (dashboardData?.members || [])
+            .filter((m: any) => m.role !== 'Unassigned');
+
+        return members
             .map((m: any) => ({
                 value: m.id, // ProjectForm uses m.id
-                label: m.name,
+                label: m.active === false ? `${m.name} (Inactive)` : m.name,
                 color: memberColor,
-            }));
+                active: m.active !== false
+            }))
+            .sort((a, b) => {
+                // Secondary sort: name
+                if (a.active === b.active) return a.label.localeCompare(b.label);
+                // Primary sort: active first
+                return a.active ? -1 : 1;
+            });
     }, [dashboardData?.members]);
 
     const coreMemberOptions: ChipOption[] = useMemo(() => {

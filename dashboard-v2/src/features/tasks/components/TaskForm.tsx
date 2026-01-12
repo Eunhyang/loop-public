@@ -269,15 +269,24 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
     }, [dashboardData?.constants?.task?.types]);
 
     // Member options (for assignee ChipSelectExpand)
-    // Filter: active members only, exclude role="Unassigned" (미정)
+    // Included inactive members with (Inactive) label, sorted to the bottom
     const memberOptions: ChipOption[] = useMemo(() => {
-        return (dashboardData?.members || [])
-            .filter((m: any) => m.active !== false && m.role !== 'Unassigned')
+        const members = (dashboardData?.members || [])
+            .filter((m: any) => m.role !== 'Unassigned');
+
+        return members
             .map((m: any) => ({
                 value: m.name, // TaskForm uses m.name (not m.id)
-                label: m.name,
+                label: m.active === false ? `${m.name} (Inactive)` : m.name,
                 color: memberColor,
-            }));
+                active: m.active !== false
+            }))
+            .sort((a, b) => {
+                // Secondary sort: name
+                if (a.active === b.active) return a.label.localeCompare(b.label);
+                // Primary sort: active first
+                return a.active ? -1 : 1;
+            });
     }, [dashboardData?.members]);
 
     const coreMemberOptions: ChipOption[] = useMemo(() => {
