@@ -11,9 +11,7 @@ aliases:
 - 코칭 서비스 운영 체계 재구축
 outgoing_relations: []
 validates:
-- hyp-4-03
-- hyp-4-04
-- hyp-4-05
+- hyp-1-01
 validated_by: []
 owner: 한명학
 budget: null
@@ -29,11 +27,15 @@ condition_contributes:
 - to: cond-e
   weight: 0.2
   description: 팀 역량/프로세스 표준화
-track_contributes: []
+track_contributes:
+- to: trk-4
+  weight: 0.7
+  description: 코칭 서비스 운영 체계 재구축은 Track_4_Coaching의 목표 달성에 기여할 것으로 예상됩니다.
 expected_impact:
-  statement: 운영 체계가 수립되면 코칭 서비스 품질 일관성과 확장 가능성이 확보된다
-  metric: 프로토콜 문서화 + 코치 온보딩 적용
-  target: 핵심 프로토콜 3개 이상 문서화 + 신규 코치 1명 이상 적용
+  tier: enabling
+  impact_magnitude: mid
+  confidence: 0.5
+  condition_contributes: []
 realized_impact:
   outcome: null
   evidence: null
@@ -44,7 +46,7 @@ conditions_3y:
 - cond-e
 tags: []
 priority_flag: medium
-primary_hypothesis_id: hyp-4-03
+primary_hypothesis_id: hyp-1-01
 ---
 # 코칭 서비스 운영 체계 재구축
 
