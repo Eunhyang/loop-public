@@ -181,11 +181,16 @@ class LLMService:
                 "model": model,
                 "messages": messages,
                 "temperature": temperature,
-                "max_tokens": max_tokens,
             }
 
-            # JSON mode (gpt-4o, gpt-4o-mini 지원)
-            if response_format == "json" and model in ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"]:
+            # GPT-5 시리즈는 max_completion_tokens 사용
+            if model and model.startswith("gpt-5"):
+                kwargs["max_completion_tokens"] = max_tokens
+            else:
+                kwargs["max_tokens"] = max_tokens
+
+            # JSON mode (gpt-4o, gpt-4o-mini, gpt-5-mini 지원)
+            if response_format == "json" and model in ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-5-mini"]:
                 kwargs["response_format"] = {"type": "json_object"}
 
             response = await self.openai_client.chat.completions.create(**kwargs)
