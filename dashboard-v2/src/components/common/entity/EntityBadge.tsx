@@ -1,6 +1,6 @@
 import { useRelationClick } from '../hooks/useRelationClick';
 import { EntityChip } from './EntityChip';
-import { statusColors, priorityColors, taskTypeColors, memberColor, projectColor, trackColor, programColor, getColor, defaultColor } from '../chipColors';
+import { taskTypeColors, projectColor, trackColor, programColor, defaultColor } from '../chipColors';
 
 type EntityType = 'task' | 'project' | 'program' | 'track' | 'condition' | 'hypothesis';
 
@@ -19,15 +19,6 @@ const entityIcons: Record<EntityType, string> = {
   track: '📊',
   condition: '⚠️',
   hypothesis: '💡',
-};
-
-const entityColorMaps: Record<EntityType, any> = {
-  task: taskTypeColors,
-  project: projectColor,
-  program: programColor,
-  track: trackColor,
-  condition: statusColors, // Fallback to status colors for conditions
-  hypothesis: statusColors, // Fallback
 };
 
 /**

@@ -18,7 +18,6 @@ export interface ChipSelectExpandProps {
   label?: string;
   allowUnassigned?: boolean;
   unassignedLabel?: string;
-  'aria-label'?: string;
 }
 
 /**
@@ -34,7 +33,6 @@ export function ChipSelectExpand({
   label,
   allowUnassigned = false,
   unassignedLabel = 'Unassigned',
-  'aria-label': ariaLabel,
 }: ChipSelectExpandProps) {
   // Combine and normalize options
   const selectorOptions: EntitySelectorOption[] = useMemo(() => {

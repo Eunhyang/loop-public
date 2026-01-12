@@ -14,7 +14,6 @@ export interface ChipSelectProps {
   onChange: (value: string) => void;
   disabled?: boolean;
   label?: string;
-  'aria-label'?: string;
 }
 
 /**
@@ -27,7 +26,6 @@ export function ChipSelect({
   onChange,
   disabled = false,
   label,
-  'aria-label': ariaLabel,
 }: ChipSelectProps) {
   const selectorOptions: EntitySelectorOption[] = options.map(opt => ({
     id: opt.value,
