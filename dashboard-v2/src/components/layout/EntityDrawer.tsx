@@ -54,8 +54,7 @@ export function EntityDrawer() {
     return `${modeNames[mode]} ${entityNames[type]}`;
   };
 
-  // Generate subtitle (entity ID for edit/view modes)
-  const subtitle = mode !== 'create' && id ? id : undefined;
+
 
   // Handle delete action
   const handleDelete = () => {
@@ -167,7 +166,6 @@ export function EntityDrawer() {
       isOpen={true}
       onClose={closeEntityDrawer}
       title={getTitle()}
-      subtitle={subtitle}
       width={type === 'task' && isDrawerExpanded ? 'w-full' : 'w-[600px]'}
       isExpanded={isDrawerExpanded}
       onToggleExpand={type === 'task' ? toggleDrawerExpand : undefined}
