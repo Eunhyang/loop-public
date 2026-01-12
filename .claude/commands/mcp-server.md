@@ -37,7 +37,7 @@ loop-auth (8084) ─── OAuth 인증 서버 (독립)
 
 $ARGUMENTS
 
-(rebuild / restart / logs / status / stop)
+(rebuild / rollback / restart / logs / status / stop / rebuild-all)
 
 ## Execution Steps
 
@@ -64,33 +64,65 @@ sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker logs --tail 50 loop-api 2>&1'
 ```
 
-### Restart (restart)
-```bash
-sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker restart loop-api 2>&1'
-```
-
-### Rebuild (rebuild)
-Rebuild loop-api (OAuth keys/DB preserved in volume, auth session maintained):
-
-**Step 1: Sync vaults first (MANDATORY)**
-
-> **IMPORTANT**: Before Docker rebuild, run `/nas-git local-sync` first.
-> This ensures local changes are synced to NAS before rebuilding the container.
->
-> **Claude: Execute `/nas-git local-sync` skill before proceeding to Step 2.**
-
-**Step 2: Docker rebuild (using docker compose)**
+### Rollback (rollback)
+**Instant rollback to previous version** (switches nginx back to old container):
 ```bash
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  DOCKER REBUILD (docker compose)"
+echo "  BLUE-GREEN ROLLBACK"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
 cd /volume1/LOOP_CORE/vault/LOOP
-/var/packages/ContainerManager/target/usr/bin/docker compose up -d --build --force-recreate loop-api
+./scripts/rollback.sh
 " 2>&1'
 ```
+
+> **Rollback Process**:
+> - Detects current active color (blue/green)
+> - Starts previous container if not running
+> - Health checks previous container
+> - Switches nginx back to previous version
+> - **Takes ~30 seconds** (instant switch, no rebuild needed)
+
+### Restart (restart)
+**Quick restart of current active container** (for config changes without code changes):
+```bash
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S /var/packages/ContainerManager/target/usr/bin/docker restart loop-api 2>&1'
+```
+
+> **Note**: With Blue-Green deployment, use `rebuild` for code changes, not `restart`.
+
+### Rebuild (rebuild)
+**Zero-downtime Blue-Green deployment** (OAuth keys/DB preserved in volume, auth session maintained):
+
+**Step 1: Sync vaults first (MANDATORY)**
+
+> **IMPORTANT**: Before deployment, run `/nas-git local-sync` first.
+> This ensures local changes are synced to NAS before rebuilding the container.
+>
+> **Claude: Execute `/nas-git local-sync` skill before proceeding to Step 2.**
+
+**Step 2: Blue-Green Deployment**
+```bash
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  BLUE-GREEN DEPLOYMENT (Zero-Downtime)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+sshpass -p 'Dkssud272902*' ssh -p 22 -o StrictHostKeyChecking=no Sosilab@100.93.242.60 'echo "Dkssud272902*" | sudo -S bash -c "
+cd /volume1/LOOP_CORE/vault/LOOP
+./scripts/deploy-blue-green.sh
+" 2>&1'
+```
+
+> **Blue-Green Strategy**:
+> - Builds new version (green) while current (blue) serves traffic
+> - Health checks new container (30 attempts × 10s = 5min max)
+> - Switches nginx upstream to new version
+> - Verifies traffic for 30s before stopping old container
+> - **Zero downtime** - API stays available throughout deployment
+> - **Instant rollback** available via `./scripts/rollback.sh`
 
 ### Full rebuild (rebuild-all)
 Complete fresh start including OAuth keys/DB (auth session reset):
