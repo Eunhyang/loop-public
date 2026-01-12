@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useUi } from '@/contexts/UiContext';
 import { DrawerShell } from '@/components/common/DrawerShell';
+import { Toast } from '@/components/common/Toast';
 import { TaskForm } from '@/features/tasks/components/TaskForm';
 import { useDeleteTask, useDuplicateTask } from '@/features/tasks/queries';
 import { ProjectForm } from '@/features/projects/components/ProjectForm';
@@ -24,9 +26,12 @@ import { ConditionForm } from '@/features/strategy/components/ConditionForm';
 export function EntityDrawer() {
   const { activeEntityDrawer, closeEntityDrawer, isDrawerExpanded, toggleDrawerExpand, canGoBack, popDrawer, canGoForward, goForward, openEntityDrawer } = useUi();
   const { mutate: deleteTask } = useDeleteTask();
-  const { mutate: duplicateTask } = useDuplicateTask();
+  const { mutate: duplicateTask, isPending: isDuplicating } = useDuplicateTask();
   const { mutate: deleteProject } = useDeleteProject();
   const { mutate: deleteProgram } = useDeleteProgram();
+
+  // Toast state
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   if (!activeEntityDrawer) return null;
 
@@ -97,8 +102,13 @@ export function EntityDrawer() {
     duplicateTask(id, {
       onSuccess: (response) => {
         const newTaskId = response.data.task_id;
+        // Show success toast
+        setToast({ message: 'Task duplicated successfully!', type: 'success' });
         // Open the duplicated task in edit mode
         openEntityDrawer({ type: 'task', mode: 'edit', id: newTaskId });
+      },
+      onError: () => {
+        setToast({ message: 'Failed to duplicate task', type: 'error' });
       }
     });
   };
@@ -122,9 +132,10 @@ export function EntityDrawer() {
           {type === 'task' && (
             <button
               onClick={handleDuplicate}
-              className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors font-medium"
+              disabled={isDuplicating}
+              className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Duplicate
+              {isDuplicating ? 'Duplicating...' : 'Duplicate'}
             </button>
           )}
         </div>
@@ -159,23 +170,33 @@ export function EntityDrawer() {
   };
 
   return (
-    <DrawerShell
-      isOpen={true}
-      onClose={closeEntityDrawer}
-      title={getTitle()}
-      width={type === 'task' && isDrawerExpanded ? 'w-full' : 'w-[600px]'}
-      isExpanded={isDrawerExpanded}
-      onToggleExpand={type === 'task' ? toggleDrawerExpand : undefined}
-      showExpandButton={type === 'task'}
-      onBack={popDrawer}
-      showBackButton={canGoBack}
-      onForward={goForward}
-      showForwardButton={canGoForward}
-      footer={renderFooter()}
-      entityId={id}
-      entityType={type as any}
-    >
-      {renderForm()}
-    </DrawerShell>
+    <>
+      <DrawerShell
+        isOpen={true}
+        onClose={closeEntityDrawer}
+        title={getTitle()}
+        width={type === 'task' && isDrawerExpanded ? 'w-full' : 'w-[600px]'}
+        isExpanded={isDrawerExpanded}
+        onToggleExpand={type === 'task' ? toggleDrawerExpand : undefined}
+        showExpandButton={type === 'task'}
+        onBack={popDrawer}
+        showBackButton={canGoBack}
+        onForward={goForward}
+        showForwardButton={canGoForward}
+        footer={renderFooter()}
+        entityId={id}
+        entityType={type as any}
+      >
+        {renderForm()}
+      </DrawerShell>
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+    </>
   );
 }
