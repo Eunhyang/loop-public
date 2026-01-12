@@ -1,6 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
-import { EntityBadge, EntityBadgeGroup, StaticBadge, EntityIdGroup } from '@/components/common/entity';
+import { EntityBadge, EntityBadgeGroup, StaticBadge } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Condition } from '@/types';
 
@@ -32,9 +32,6 @@ export const ConditionForm = ({ id }: ConditionFormProps) => {
                     <strong>View Only:</strong> Conditions cannot be edited from the dashboard. Use vault files directly.
                 </div>
             </div>
-
-            {/* Header with ID and Share */}
-            <EntityIdGroup id={condition.entity_id} type="condition" className="-mx-6 !pt-0 !pb-4" />
 
             {/* Title */}
             <h2 className="text-2xl font-bold text-zinc-900 mb-6">{condition.entity_name}</h2>

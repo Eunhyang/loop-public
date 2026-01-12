@@ -3,7 +3,6 @@ import { useTask, useUpdateTask, useCreateTask, useParseTaskNL } from '@/feature
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
 import { useToast } from '@/contexts/ToastContext';
-import { EntityIdGroup } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
@@ -625,9 +624,6 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
 
     return (
         <div className="flex-1 overflow-y-auto">
-            {/* ID Badge */}
-            {id && <EntityIdGroup id={id} type="task" />}
-
             {/* Title Section */}
             <div className="px-6 pb-2">
                 {isReadOnly ? (

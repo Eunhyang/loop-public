@@ -174,7 +174,7 @@ export function EntityDrawer() {
       showBackButton={canGoBack}
       footer={renderFooter()}
       entityId={id}
-      entityType={favoriteEntityType}
+      entityType={type as any}
     >
       {renderForm()}
     </DrawerShell>

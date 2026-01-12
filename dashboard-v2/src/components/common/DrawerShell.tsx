@@ -1,5 +1,6 @@
 import { useEffect, useRef, useId, type ReactNode } from 'react';
 import { FavoriteStarButton, type EntityType } from '@/features/favorites';
+import { EntityIdGroup } from '@/components/common/entity/EntityIdGroup';
 
 export interface DrawerShellProps {
   isOpen: boolean;
@@ -147,9 +148,8 @@ export function DrawerShell({
         aria-labelledby={titleId}
         aria-describedby={subtitle ? subtitleId : undefined}
         tabIndex={-1}
-        className={`fixed top-0 right-0 h-full ${isExpanded ? 'w-full' : width} bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 h-full ${isExpanded ? 'w-full' : width} bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 flex-shrink-0">
@@ -171,7 +171,9 @@ export function DrawerShell({
               <h2 id={titleId} className="text-xl font-semibold text-gray-900 truncate">
                 {title}
               </h2>
-              {subtitle && (
+              {entityId && entityType ? (
+                <EntityIdGroup id={entityId} type={entityType as any} className="mt-1" />
+              ) : subtitle && (
                 <p id={subtitleId} className="text-sm text-gray-500 mt-1">
                   {subtitle}
                 </p>

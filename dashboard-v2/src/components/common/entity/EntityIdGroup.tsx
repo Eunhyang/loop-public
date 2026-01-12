@@ -34,7 +34,7 @@ export const EntityIdGroup = ({ id, type, className = '' }: EntityIdGroupProps) 
     };
 
     return (
-        <div className={`px-6 pt-4 pb-2 ${className}`}>
+        <div className={`flex items-center ${className || 'px-6 pt-4 pb-2'}`}>
             <span
                 className="font-mono text-xs text-zinc-400 cursor-pointer hover:text-zinc-900 px-2 py-1 bg-zinc-50 rounded transition-colors"
                 onClick={copyId}

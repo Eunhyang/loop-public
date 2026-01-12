@@ -1,6 +1,6 @@
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { PropertiesGrid, PropertyRow, SectionDivider } from '@/components/common/form';
-import { EntityBadge, EntityBadgeGroup, StaticBadge, EntityIdGroup } from '@/components/common/entity';
+import { EntityBadge, EntityBadgeGroup, StaticBadge } from '@/components/common/entity';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import type { Track } from '@/types';
 
@@ -33,9 +33,6 @@ export const TrackForm = ({ id }: TrackFormProps) => {
                     <strong>View Only:</strong> Tracks cannot be edited from the dashboard. Use vault files directly.
                 </div>
             </div>
-
-            {/* Header with ID and Share */}
-            <EntityIdGroup id={track.entity_id} type="track" className="-mx-6 !pt-0 !pb-4" />
 
             {/* Title */}
             <h2 className="text-2xl font-bold text-zinc-900 mb-6">{track.entity_name}</h2>

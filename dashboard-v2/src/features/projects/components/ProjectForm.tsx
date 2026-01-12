@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { useProject, useCreateProject, useUpdateProject, usePrograms } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
 import { useUi } from '@/contexts/UiContext';
-import { EntityIdGroup } from '@/components/common/entity';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
 import { statusColors, priorityColors, memberColor, trackColor, programColor, getColor } from '@/components/common/chipColors';
@@ -270,9 +269,6 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
         return (
             <div className="flex-1 overflow-y-auto">
-                {/* ID Badge */}
-                {id && <EntityIdGroup id={id} type="project" />}
-
                 {/* Title Section */}
                 <div className="px-6 pb-2">
                     {isReadOnly ? (
