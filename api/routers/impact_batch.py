@@ -368,11 +368,10 @@ def build_constraints_from_context(
         ]
 
     allowed_track_ids: List[str] = []
-    tracks = cache.get_all_tracks() if hasattr(cache, 'get_all_tracks') else []
-    allowed_track_ids = [
-        t.get("entity_id") for t in tracks if t.get("entity_id")
-    ]
-    if not allowed_track_ids and project.get("parent_id"):
+    context_track = context.get("track")
+    if context_track and context_track.get("entity_id"):
+        allowed_track_ids = [context_track.get("entity_id")]
+    elif project.get("parent_id"):
         allowed_track_ids = [project.get("parent_id")]
 
     allowed_hypothesis_ids: List[str] = []
@@ -411,6 +410,28 @@ def build_constraints_from_context(
         warnings.append("missing_constraints")
 
     return constraints, warnings
+
+
+def merge_constraints(
+    primary: Optional[SuggestBatchConstraints],
+    fallback: SuggestBatchConstraints
+) -> SuggestBatchConstraints:
+    """Merge constraints, filling missing fields from fallback."""
+    if primary is None:
+        return fallback
+
+    return SuggestBatchConstraints(
+        allowed_condition_ids=primary.allowed_condition_ids or fallback.allowed_condition_ids,
+        allowed_track_ids=primary.allowed_track_ids or fallback.allowed_track_ids,
+        allowed_hypothesis_ids=primary.allowed_hypothesis_ids or fallback.allowed_hypothesis_ids,
+        allowed_parent_chain=primary.allowed_parent_chain or fallback.allowed_parent_chain,
+        max_validates=primary.max_validates if primary.max_validates is not None else fallback.max_validates,
+        contributes_weight_sum_max=(
+            primary.contributes_weight_sum_max
+            if primary.contributes_weight_sum_max is not None
+            else fallback.contributes_weight_sum_max
+        )
+    )
 
 
 def normalize_contribute_items(items: Any, id_key: str) -> List[Dict[str, Any]]:
@@ -724,7 +745,25 @@ async def suggest_batch(
             failed_count += 1
             continue
 
-        item_constraints = item.constraints or request.constraints
+        context = gather_project_context(
+            project=project,
+            include_flags={
+                "project_body": False,
+                "parent_chain": True,
+                "track_context": True,
+                "condition_context": True,
+                "candidate_hypotheses": True
+            },
+            cache=cache
+        )
+        auto_constraints, _ = build_constraints_from_context(
+            project=project,
+            context=context,
+            cache=cache,
+            config=config
+        )
+
+        item_constraints = merge_constraints(item.constraints or request.constraints, auto_constraints)
         if (
             not item_constraints
             or not item_constraints.allowed_condition_ids
