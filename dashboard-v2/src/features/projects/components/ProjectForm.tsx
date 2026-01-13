@@ -362,6 +362,24 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         )}
                     </ReviewFieldWrapper>
 
+                    {/* Deadline */}
+                    <label className="text-zinc-500 py-1">Deadline</label>
+                    <ReviewFieldWrapper
+                        isSuggested={Boolean(isReviewMode && reviewMode?.isSuggested('deadline'))}
+                        reasoning={isReviewMode ? reviewMode?.getReasoning('deadline') : undefined}
+                    >
+                        {isReadOnly ? (
+                            <span className="text-zinc-700 text-xs">{String(getFieldValue('deadline') || '-')}</span>
+                        ) : (
+                            <input
+                                type="date"
+                                className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                value={(getFieldValue('deadline') as string) || ''}
+                                onChange={(e) => handleFieldChange('deadline', e.target.value || null)}
+                            />
+                        )}
+                    </ReviewFieldWrapper>
+
                     {/* Track */}
                     <label className="text-zinc-500 py-1">Track</label>
                     {isReadOnly ? (
