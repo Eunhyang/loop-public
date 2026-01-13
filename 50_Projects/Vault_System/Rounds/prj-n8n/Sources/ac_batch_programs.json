@@ -11,18 +11,18 @@
         "url_selector": "td.subject > a",
         "status_selector": "td.status"
       },
-      "notes": "K-Startup 창업지원 공고 목록 페이지"
+      "notes": "K-Startup \ucc3d\uc5c5\uc9c0\uc6d0 \uacf5\uace0 \ubaa9\ub85d \ud398\uc774\uc9c0"
     },
     {
       "name": "google",
       "type": "search",
-      "query_template": "2026 batch program 모집 {ac_name}",
+      "query_template": "2026 batch program \ubaa8\uc9d1 {ac_name}",
       "result_limit": 5,
       "parse": {
         "link_selector": "a[href]",
         "title_selector": "h3"
       },
-      "notes": "Google 검색을 통한 각 accelerator 공식 페이지 크롤링"
+      "notes": "Google \uac80\uc0c9\uc744 \ud1b5\ud55c \uac01 accelerator \uacf5\uc2dd \ud398\uc774\uc9c0 \ud06c\ub864\ub9c1"
     }
   ],
   "accelerators": [
@@ -129,7 +129,7 @@
   ],
   "config": {
     "deadline_threshold_days": 14,
-    "discord_webhook": "${DISCORD_WEBHOOK_URL}",
+    "discord_webhook": "https://discord.com/api/webhooks/1460564297754218528/Oi5o7NsSOTKGxIVeojSL_zVol0EMzkls6fGmIQkGDI2SWjK1GZ5HqYV4rH0GDmiqqddi",
     "schedule_cron": "0 6 * * *",
     "google_search_delay_ms": 2000,
     "max_retries": 3,
@@ -149,8 +149,8 @@
         "format": "YYYY-MM-DD"
       },
       {
-        "pattern": "\\d{4}년 \\d{1,2}월 \\d{1,2}일",
-        "format": "YYYY년 MM월 DD일"
+        "pattern": "\\d{4}\ub144 \\d{1,2}\uc6d4 \\d{1,2}\uc77c",
+        "format": "YYYY\ub144 MM\uc6d4 DD\uc77c"
       },
       {
         "pattern": "\\d{1,2}/\\d{1,2}",
@@ -160,29 +160,29 @@
     ],
     "status_keywords": {
       "open": [
-        "모집중",
-        "접수중",
-        "신청가능",
+        "\ubaa8\uc9d1\uc911",
+        "\uc811\uc218\uc911",
+        "\uc2e0\uccad\uac00\ub2a5",
         "open",
         "accepting applications"
       ],
       "closed": [
-        "마감",
-        "종료",
-        "완료",
+        "\ub9c8\uac10",
+        "\uc885\ub8cc",
+        "\uc644\ub8cc",
         "closed",
         "ended"
       ],
       "rolling": [
-        "상시모집",
-        "상시",
+        "\uc0c1\uc2dc\ubaa8\uc9d1",
+        "\uc0c1\uc2dc",
         "rolling",
         "ongoing"
       ]
     },
     "redaction_patterns": [
-      "\\d+억원",
-      "\\d+만원",
+      "\\d+\uc5b5\uc6d0",
+      "\\d+\ub9cc\uc6d0",
       "\\$\\d+[KM]",
       "equity \\d+%",
       "SAFE \\$\\d+",

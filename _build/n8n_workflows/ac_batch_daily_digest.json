@@ -284,7 +284,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $json.config.discord_webhook || '' }}",
+        "url": "https://discord.com/api/webhooks/1460564297754218528/Oi5o7NsSOTKGxIVeojSL_zVol0EMzkls6fGmIQkGDI2SWjK1GZ5HqYV4rH0GDmiqqddi",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ { content: $json.message } }}",
@@ -346,7 +346,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $json.config.discord_webhook || '' }}",
+        "url": "https://discord.com/api/webhooks/1460564297754218528/Oi5o7NsSOTKGxIVeojSL_zVol0EMzkls6fGmIQkGDI2SWjK1GZ5HqYV4rH0GDmiqqddi",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ { content: $json.message } }}",
