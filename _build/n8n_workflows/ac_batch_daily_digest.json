@@ -1,0 +1,611 @@
+{
+  "name": "ac-batch-daily-digest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 15 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-trigger",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.yaml' : 'https://mcp.sosilab.synology.me/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.yaml' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000,
+          "responseFormat": "json"
+        }
+      },
+      "id": "load-yaml",
+      "name": "Load YAML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Read SSOT YAML from vault via LOOP API"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst yaml = require('yaml');\n\nfunction extractContent(payload) {\n  if (!payload) return '';\n  if (typeof payload === 'string') return payload;\n  if (typeof payload.content === 'string') return payload.content;\n  if (typeof payload.file === 'string') return payload.file;\n  if (Array.isArray(payload.files)) {\n    const match = payload.files.find(f => f && typeof f.content === 'string');\n    if (match) return match.content;\n  }\n  if (payload.files && typeof payload.files.content === 'string') return payload.files.content;\n  return '';\n}\n\nlet config = {};\nconst errors = [];\n\ntry {\n  const content = extractContent(input);\n  if (!content) {\n    errors.push({ stage: 'load_yaml', message: 'YAML content missing' });\n  } else {\n    config = yaml.parse(content) || {};\n  }\n} catch (err) {\n  errors.push({ stage: 'load_yaml', message: String(err) });\n}\n\nconst sources = Array.isArray(config.sources) ? config.sources : [];\nconst accelerators = Array.isArray(config.accelerators) ? config.accelerators : [];\nconst parsingRules = config.parsing_rules || {};\nconst runtimeConfig = config.config || {};\n\n$workflow.staticData.ac_batch_errors = errors;\n$workflow.staticData.ac_batch_config = {\n  sources,\n  accelerators,\n  parsing_rules: parsingRules,\n  config: runtimeConfig\n};\n$workflow.staticData.google_entries = [];\n$workflow.staticData.kstartup_entries = [];\n\nreturn [{\n  json: {\n    sources,\n    accelerators,\n    parsing_rules: parsingRules,\n    config: runtimeConfig,\n    errors\n  }\n}];"
+      },
+      "id": "parse-yaml",
+      "name": "Parse YAML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        300
+      ],
+      "notes": "Parse YAML SSOT and seed workflow staticData"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ ($('Parse YAML').first().json.sources || []).find(s => s.name === 'k-startup')?.url || 'https://www.k-startup.go.kr/web/contents/bizpbanc.do' }}",
+        "options": {
+          "timeout": 30000,
+          "responseFormat": "string"
+        }
+      },
+      "id": "fetch-kstartup",
+      "name": "Fetch K-Startup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Fetch listing HTML from K-Startup"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = ($input.first().json.body || $input.first().json.data || $input.first().json || '').toString();\nconst configData = $('Parse YAML').first().json;\nconst sources = configData.sources || [];\nconst accelerators = configData.accelerators || [];\nconst parsingRules = configData.parsing_rules || {};\nconst runtimeConfig = configData.config || {};\n\nconst errors = Array.isArray($workflow.staticData.ac_batch_errors) ? [...$workflow.staticData.ac_batch_errors] : [];\nconst entries = [];\n\nconst kSource = sources.find(s => s.name === 'k-startup') || {};\nconst selectors = kSource.parse || {};\n\nfunction normalizeDate(text) {\n  if (!text) return null;\n  const patterns = (parsingRules.date_patterns || []).map(p => p.pattern);\n  for (const pattern of patterns) {\n    const re = new RegExp(pattern);\n    const match = text.match(re);\n    if (!match) continue;\n    const raw = match[0];\n    if (/\\d{4}\\.\\d{2}\\.\\d{2}/.test(raw)) {\n      return raw.replace(/\\./g, '-');\n    }\n    if (/\\d{4}-\\d{2}-\\d{2}/.test(raw)) {\n      return raw;\n    }\n    if (/\\d{4}\ub144/.test(raw)) {\n      const cleaned = raw.replace(/\ub144|\uc6d4/g, '-').replace(/\uc77c/g, '').replace(/\\s+/g, '');\n      const parts = cleaned.split('-').filter(Boolean);\n      if (parts.length >= 3) {\n        const [y, m, d] = parts;\n        return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;\n      }\n    }\n    if (/\\d{1,2}\\/\\d{1,2}/.test(raw)) {\n      const [mRaw, dRaw] = raw.split('/');\n      const now = new Date();\n      const year = now.getFullYear();\n      const date = new Date(year, parseInt(mRaw, 10) - 1, parseInt(dRaw, 10));\n      const iso = date.toISOString().slice(0, 10);\n      return iso;\n    }\n  }\n  return null;\n}\n\nfunction detectStatus(text) {\n  const keywords = parsingRules.status_keywords || {};\n  const haystack = (text || '').toLowerCase();\n  if ((keywords.open || []).some(k => haystack.includes(k.toLowerCase()))) return 'open';\n  if ((keywords.closed || []).some(k => haystack.includes(k.toLowerCase()))) return 'closed';\n  if ((keywords.rolling || []).some(k => haystack.includes(k.toLowerCase()))) return 'rolling';\n  return 'unknown';\n}\n\nif (!html || !html.trim()) {\n  errors.push({ stage: 'kstartup_fetch', message: 'Empty HTML response' });\n} else {\n  try {\n    const cheerio = require('cheerio');\n    const $ = cheerio.load(html);\n    const rows = $(selectors.item_selector || 'tr');\n    const today = new Date().toISOString().slice(0, 10);\n    rows.each((_, row) => {\n      const title = $(row).find(selectors.title_selector || 'td.subject a').first().text().trim();\n      const dateText = $(row).find(selectors.date_selector || 'td.date').first().text().trim();\n      const statusText = $(row).find(selectors.status_selector || 'td.status').first().text().trim();\n      const link = $(row).find(selectors.url_selector || 'td.subject a').first().attr('href') || '';\n      const url = link.startsWith('http') ? link : (link ? `https://www.k-startup.go.kr${link}` : '');\n      if (!title) return;\n      entries.push({\n        ac_name: 'K-Startup',\n        program_name: title,\n        cohort: null,\n        status: detectStatus(statusText),\n        application_deadline: normalizeDate(dateText),\n        apply_open_date: null,\n        start_date: null,\n        location: null,\n        url,\n        source: 'k-startup',\n        first_seen: today,\n        last_seen: today,\n        notes: ''\n      });\n    });\n  } catch (err) {\n    errors.push({ stage: 'kstartup_parse', message: String(err) });\n  }\n}\n\n$workflow.staticData.ac_batch_errors = errors;\n$workflow.staticData.kstartup_entries = entries;\n\nconst accelItems = (accelerators.length ? accelerators : [{ name: 'unknown', search_enabled: false }]).map(acc => ({\n  json: {\n    accelerator: acc,\n    config: runtimeConfig,\n    parsing_rules: parsingRules,\n    errors\n  }\n}));\n\nreturn accelItems;"
+      },
+      "id": "parse-kstartup",
+      "name": "Parse K-Startup",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1080,
+        300
+      ],
+      "notes": "Parse listing HTML and seed accelerators"
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "split-accelerators",
+      "name": "Split Accelerators",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1300,
+        300
+      ],
+      "notes": "Process accelerators sequentially"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst sources = $workflow.staticData.ac_batch_config?.sources || [];\nconst googleSource = sources.find(s => s.name === 'google') || {};\nconst template = googleSource.query_template || '2026 batch program \ubaa8\uc9d1 {ac_name}';\nconst query = template.replace('{ac_name}', item.accelerator?.name || '');\n\nreturn [{\n  json: {\n    ...item,\n    query,\n    google_result_limit: googleSource.result_limit || 5\n  }\n}];"
+      },
+      "id": "build-google-query",
+      "name": "Build Google Query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        300
+      ],
+      "notes": "Construct Google search query"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'https://www.google.com/search?q=' + encodeURIComponent($json.query) }}",
+        "options": {
+          "timeout": 30000,
+          "responseFormat": "string",
+          "response": {
+            "response": {
+              "includeInputData": true
+            }
+          }
+        }
+      },
+      "id": "google-search",
+      "name": "Google Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1740,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Fetch Google results page"
+    },
+    {
+      "parameters": {
+        "jsCode": "return await (async () => {\n  const payload = $input.first().json;\n  const inputData = payload.$input?.item?.json || payload.$input?.items?.[0]?.json || {};\n  const html = (payload.body || payload.data || '').toString();\n  const item = { ...inputData, ...payload };\n  const errors = Array.isArray($workflow.staticData.ac_batch_errors) ? [...$workflow.staticData.ac_batch_errors] : [];\n\n  if (payload.error) {\n    errors.push({ stage: 'google_search', message: JSON.stringify(payload.error) });\n  }\n\n  function extractUrls(text) {\n    const urls = [];\n    const regex = /\\/url\\?q=([^&]+)/g;\n    let match;\n    while ((match = regex.exec(text)) !== null) {\n      const raw = decodeURIComponent(match[1]);\n      if (!raw.startsWith('http')) continue;\n      if (raw.includes('google.com')) continue;\n      urls.push(raw);\n    }\n    return Array.from(new Set(urls));\n  }\n\n  const urls = html ? extractUrls(html) : [];\n  const limited = urls.slice(0, item.google_result_limit || 5);\n  const topUrls = limited.slice(0, 3);\n\n  const delayMs = item.config?.google_search_delay_ms || 2000;\n  if (delayMs > 0) {\n    await new Promise(resolve => setTimeout(resolve, delayMs));\n  }\n\n  $workflow.staticData.ac_batch_errors = errors;\n\n  return [{\n    json: {\n      ...item,\n      official_url: topUrls[0] || null,\n      official_urls: topUrls,\n      errors\n    }\n  }];\n})();"
+      },
+      "id": "parse-google-results",
+      "name": "Parse Google Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        300
+      ],
+      "notes": "Extract top URLs and apply rate limiting"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.official_url || '' }}",
+        "options": {
+          "timeout": 30000,
+          "responseFormat": "string",
+          "response": {
+            "response": {
+              "includeInputData": true
+            }
+          }
+        }
+      },
+      "id": "fetch-official-pages",
+      "name": "Fetch Official Pages",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2180,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Fetch accelerator program page"
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $input.first().json;\nconst inputData = payload.$input?.item?.json || payload.$input?.items?.[0]?.json || {};\nconst merged = { ...inputData, ...payload };\nconst html = (merged.body || merged.data || '').toString();\nconst errors = Array.isArray($workflow.staticData.ac_batch_errors) ? [...$workflow.staticData.ac_batch_errors] : [];\n\nconst parsingRules = merged.parsing_rules || {};\nconst accelerator = merged.accelerator || {};\nconst urls = Array.isArray(merged.official_urls) ? merged.official_urls : [];\n\nfunction normalizeDate(text) {\n  if (!text) return null;\n  const patterns = (parsingRules.date_patterns || []).map(p => p.pattern);\n  for (const pattern of patterns) {\n    const re = new RegExp(pattern);\n    const match = text.match(re);\n    if (!match) continue;\n    const raw = match[0];\n    if (/\\d{4}\\.\\d{2}\\.\\d{2}/.test(raw)) {\n      return raw.replace(/\\./g, '-');\n    }\n    if (/\\d{4}-\\d{2}-\\d{2}/.test(raw)) {\n      return raw;\n    }\n    if (/\\d{4}\ub144/.test(raw)) {\n      const cleaned = raw.replace(/\ub144|\uc6d4/g, '-').replace(/\uc77c/g, '').replace(/\\s+/g, '');\n      const parts = cleaned.split('-').filter(Boolean);\n      if (parts.length >= 3) {\n        const [y, m, d] = parts;\n        return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;\n      }\n    }\n    if (/\\d{1,2}\\/\\d{1,2}/.test(raw)) {\n      const [mRaw, dRaw] = raw.split('/');\n      const now = new Date();\n      const year = now.getFullYear();\n      const date = new Date(year, parseInt(mRaw, 10) - 1, parseInt(dRaw, 10));\n      return date.toISOString().slice(0, 10);\n    }\n  }\n  return null;\n}\n\nfunction detectStatus(text) {\n  const keywords = parsingRules.status_keywords || {};\n  const haystack = (text || '').toLowerCase();\n  if ((keywords.open || []).some(k => haystack.includes(k.toLowerCase()))) return 'open';\n  if ((keywords.closed || []).some(k => haystack.includes(k.toLowerCase()))) return 'closed';\n  if ((keywords.rolling || []).some(k => haystack.includes(k.toLowerCase()))) return 'rolling';\n  return 'unknown';\n}\n\nfunction extractTitle(text) {\n  const match = text.match(/<title[^>]*>([^<]+)<\\/title>/i);\n  if (match) return match[1].trim();\n  return accelerator.name || 'Program';\n}\n\nconst today = new Date().toISOString().slice(0, 10);\nconst entries = [];\n\nif (!merged.official_url || !html) {\n  errors.push({ stage: 'official_fetch', message: 'Missing official page content' });\n} else {\n  const text = html.replace(/<[^>]+>/g, ' ');\n  const entry = {\n    ac_name: accelerator.name || 'Unknown',\n    program_name: extractTitle(html),\n    cohort: null,\n    status: detectStatus(text),\n    application_deadline: normalizeDate(text),\n    apply_open_date: null,\n    start_date: null,\n    location: null,\n    url: merged.official_url,\n    source: 'google',\n    first_seen: today,\n    last_seen: today,\n    notes: ''\n  };\n  entries.push(entry);\n}\n\n$workflow.staticData.google_entries = ($workflow.staticData.google_entries || []).concat(entries);\n$workflow.staticData.ac_batch_errors = errors;\n\nreturn [{ json: { accelerator, processed_urls: urls.length || 0, errors } }];"
+      },
+      "id": "parse-official-pages",
+      "name": "Parse Official Pages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        300
+      ],
+      "notes": "Parse official page for status/deadline"
+    },
+    {
+      "parameters": {
+        "jsCode": "const configData = $workflow.staticData.ac_batch_config || {};\nconst runtimeConfig = configData.config || {};\nconst parsingRules = configData.parsing_rules || {};\n\nconst kstartupEntries = $workflow.staticData.kstartup_entries || [];\nconst googleEntries = $workflow.staticData.google_entries || [];\n\nconst errors = Array.isArray($workflow.staticData.ac_batch_errors) ? [...$workflow.staticData.ac_batch_errors] : [];\n\nconst crypto = require('crypto');\nfunction programId(entry) {\n  const raw = `${entry.ac_name || ''}|${entry.program_name || ''}|${entry.cohort || ''}|${entry.url || ''}`;\n  return crypto.createHash('sha256').update(raw).digest('hex').slice(0, 12);\n}\n\nconst combined = [...kstartupEntries, ...googleEntries];\nconst seen = new Map();\nfor (const entry of combined) {\n  const id = entry.program_id || programId(entry);\n  if (!seen.has(id)) {\n    entry.program_id = id;\n    seen.set(id, entry);\n  }\n}\n\nreturn [{\n  json: {\n    entries: Array.from(seen.values()),\n    config: runtimeConfig,\n    parsing_rules: parsingRules,\n    errors\n  }\n}];"
+      },
+      "id": "normalize-data",
+      "name": "Normalize Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        520
+      ],
+      "notes": "Merge K-Startup and Google entries"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst entries = item.entries || [];\nconst patterns = (item.parsing_rules?.redaction_patterns || []).map(p => new RegExp(p, 'gi'));\n\nfor (const entry of entries) {\n  if (!entry.notes) continue;\n  let text = entry.notes;\n  for (const re of patterns) {\n    text = text.replace(re, '[redacted]');\n  }\n  entry.notes = text;\n}\n\nreturn [{ json: { ...item, entries } }];"
+      },
+      "id": "redact-sensitive",
+      "name": "Redact Sensitive",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        520
+      ],
+      "notes": "Remove sensitive numeric terms"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-read?paths=public/_build/_state/ac_batch_programs.json' : 'https://mcp.sosilab.synology.me/api/mcp/file-read?paths=public/_build/_state/ac_batch_programs.json' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000,
+          "responseFormat": "json"
+        }
+      },
+      "id": "load-previous-snapshot",
+      "name": "Load Previous Snapshot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1740,
+        520
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Fallback snapshot from vault file"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst entries = item.entries || [];\nconst config = item.config || {};\nconst errors = item.errors || [];\n\nconst stateKey = config.state_storage_key || 'ac_batch_programs_snapshot';\nlet previousEntries = ($workflow.staticData[stateKey] && $workflow.staticData[stateKey].entries) || [];\n\nfunction extractSnapshot(payload) {\n  if (!payload) return null;\n  if (payload.entries) return payload;\n  if (Array.isArray(payload.files)) {\n    const match = payload.files.find(f => f && f.content);\n    if (match) return JSON.parse(match.content);\n  }\n  if (payload.content) return JSON.parse(payload.content);\n  return null;\n}\n\nif (!previousEntries.length) {\n  try {\n    const snapshot = extractSnapshot($('Load Previous Snapshot').first().json);\n    if (snapshot && Array.isArray(snapshot.entries)) {\n      previousEntries = snapshot.entries;\n    }\n  } catch (err) {\n    errors.push({ stage: 'snapshot_parse', message: String(err) });\n  }\n}\n\nconst prevMap = new Map(previousEntries.map(e => [e.program_id, e]));\nconst now = new Date();\nconst today = now.toISOString().slice(0, 10);\nconst threshold = config.deadline_threshold_days || 14;\n\nconst groups = {\n  new: [],\n  updated: [],\n  deadline_soon: [],\n  active: []\n};\n\nfunction daysUntil(dateStr) {\n  if (!dateStr) return null;\n  const target = new Date(dateStr);\n  if (Number.isNaN(target.getTime())) return null;\n  return Math.ceil((target - now) / (1000 * 60 * 60 * 24));\n}\n\nfor (const entry of entries) {\n  const prev = prevMap.get(entry.program_id);\n  if (!prev) {\n    entry.first_seen = entry.first_seen || today;\n    groups.new.push(entry);\n  } else {\n    entry.first_seen = prev.first_seen || today;\n    const changed = prev.application_deadline !== entry.application_deadline || prev.status !== entry.status;\n    if (changed) {\n      groups.updated.push({ ...entry, previous: prev });\n    }\n  }\n  entry.last_seen = today;\n  const days = daysUntil(entry.application_deadline);\n  if (days !== null && days <= threshold && ['open', 'rolling'].includes(entry.status)) {\n    groups.deadline_soon.push(entry);\n  }\n  if (['open', 'rolling'].includes(entry.status)) {\n    groups.active.push(entry);\n  }\n}\n\nconst snapshot = {\n  generated_at: new Date().toISOString(),\n  entries\n};\n\n$workflow.staticData[stateKey] = snapshot;\n\nreturn [{\n  json: {\n    groups,\n    snapshot,\n    config,\n    errors\n  }\n}];"
+      },
+      "id": "diff-and-classify",
+      "name": "Diff and Classify",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        520
+      ],
+      "notes": "Compare with previous snapshot and classify"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst groups = item.groups || {};\nconst config = item.config || {};\nconst limit = config.discord_max_chars || 2000;\n\nconst dateStr = new Date().toISOString().slice(0, 10);\nconst header = `AC Batch Digest - ${dateStr} (KST)`;\nconst counts = `New: ${groups.new?.length || 0} | Updated: ${groups.updated?.length || 0} | Deadline Soon: ${groups.deadline_soon?.length || 0} | Open/Rolling: ${groups.active?.length || 0}`;\n\nfunction formatEntry(entry) {\n  const name = entry.cohort ? `${entry.program_name} (${entry.cohort})` : entry.program_name;\n  const deadline = entry.application_deadline ? `deadline: ${entry.application_deadline}` : entry.status;\n  return `- ${entry.ac_name} - ${name} | ${deadline} | ${entry.url}`;\n}\n\nfunction section(title, entries) {\n  if (!entries || entries.length === 0) return '';\n  const lines = entries.map(formatEntry).join('\\n');\n  return `**${title}**\\n${lines}`;\n}\n\nconst sections = [\n  section('New', groups.new),\n  section('Updated', groups.updated),\n  section(`Deadline Soon (<=${config.deadline_threshold_days || 14}d)`, groups.deadline_soon),\n  section('Open / Rolling', groups.active)\n].filter(Boolean);\n\nconst messages = [];\nlet current = `${header}\\n${counts}`;\n\nfor (const block of sections) {\n  const next = `${current}\\n\\n${block}`;\n  if (next.length > limit && current !== `${header}\\n${counts}`) {\n    messages.push(current);\n    current = `${header}\\n${counts}\\n\\n${block}`;\n  } else if (next.length > limit) {\n    messages.push(current);\n    current = `${header}\\n${counts}\\n\\n${block}`;\n  } else {\n    current = next;\n  }\n}\n\nmessages.push(current);\n\nreturn messages.map((message, index) => ({\n  json: {\n    message,\n    snapshot: item.snapshot,\n    config,\n    is_last_message: index === messages.length - 1\n  }\n}));"
+      },
+      "id": "format-discord-message",
+      "name": "Format Discord Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        520
+      ],
+      "notes": "Format digest message and split for Discord"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.config.discord_webhook || $env.DISCORD_WEBHOOK_URL || '' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { content: $json.message } }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "send-discord",
+      "name": "Send Discord",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        520
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Post digest to Discord"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-write' : 'https://mcp.sosilab.synology.me/api/mcp/file-write' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { path: 'public/_build/_state/ac_batch_programs.json', content: JSON.stringify($json.snapshot, null, 2) } }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "save-snapshot",
+      "name": "Save Snapshot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2620,
+        520
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Write snapshot to vault file"
+    },
+    {
+      "parameters": {
+        "jsCode": "const errors = Array.isArray($workflow.staticData.ac_batch_errors) ? $workflow.staticData.ac_batch_errors : [];\nconst config = $workflow.staticData.ac_batch_config?.config || {};\nconst threshold = config.error_alert_threshold || 3;\n\nif (!errors.length || errors.length < threshold) {\n  return [];\n}\n\nconst lines = errors.slice(0, 10).map((e, i) => `${i + 1}. ${e.stage}: ${e.message}`);\nconst message = `AC Batch Digest Errors (${errors.length})\\n` + lines.join('\\n');\n\nreturn [{ json: { message, config } }];"
+      },
+      "id": "build-error-message",
+      "name": "Build Error Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        740
+      ],
+      "notes": "Send alert only if error count exceeds threshold"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.config.discord_webhook || $env.DISCORD_WEBHOOK_URL || '' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { content: $json.message } }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "send-error-alert",
+      "name": "Discord Error Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        740
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Post error summary to Discord"
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Load YAML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load YAML": {
+      "main": [
+        [
+          {
+            "node": "Parse YAML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse YAML": {
+      "main": [
+        [
+          {
+            "node": "Fetch K-Startup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch K-Startup": {
+      "main": [
+        [
+          {
+            "node": "Parse K-Startup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse K-Startup": {
+      "main": [
+        [
+          {
+            "node": "Split Accelerators",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Accelerators": {
+      "main": [
+        [
+          {
+            "node": "Build Google Query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Google Query": {
+      "main": [
+        [
+          {
+            "node": "Google Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Search": {
+      "main": [
+        [
+          {
+            "node": "Parse Google Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Google Results": {
+      "main": [
+        [
+          {
+            "node": "Fetch Official Pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Official Pages": {
+      "main": [
+        [
+          {
+            "node": "Parse Official Pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Official Pages": {
+      "main": [
+        [
+          {
+            "node": "Split Accelerators",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Data": {
+      "main": [
+        [
+          {
+            "node": "Redact Sensitive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redact Sensitive": {
+      "main": [
+        [
+          {
+            "node": "Load Previous Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Previous Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Diff and Classify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Diff and Classify": {
+      "main": [
+        [
+          {
+            "node": "Format Discord Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Discord Message": {
+      "main": [
+        [
+          {
+            "node": "Send Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Discord": {
+      "main": [
+        [
+          {
+            "node": "Save Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Error Message": {
+      "main": [
+        [
+          {
+            "node": "Discord Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "staticData": {
+    "ac_batch_errors": [],
+    "ac_batch_config": {},
+    "google_entries": [],
+    "kstartup_entries": []
+  },
+  "meta": {
+    "templateId": "ac-batch-daily-digest-v1",
+    "created": "2026-01-14",
+    "updated": "2026-01-14",
+    "description": "Daily digest of accelerator batch programs from K-Startup and Google search."
+  },
+  "tags": [
+    {
+      "name": "n8n"
+    },
+    {
+      "name": "digest"
+    },
+    {
+      "name": "automation"
+    }
+  ]
+}
