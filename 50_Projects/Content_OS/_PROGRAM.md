@@ -3,7 +3,7 @@ entity_type: Program
 entity_id: pgm-content-os
 entity_name: Content OS
 created: 2025-12-31
-updated: 2025-12-31
+updated: 2026-01-14
 status: doing
 
 # === Program 정의 ===
@@ -121,7 +121,8 @@ priority_flag: high
 
 | Round | Cycle | Status | Link |
 |-------|-------|--------|------|
-| MVP 개발 | 2025-12 | active | [[prj-018]] |
+| MVP 개발 | 2025-12 | active | [[prj-content-os]] |
+| Dashboard v2 마이그레이션 | 2026-01 | todo | [[prj-waoz74]] |
 
 ---
 
