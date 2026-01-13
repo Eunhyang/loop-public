@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-kkokkkok-v1028
 entity_name: KkokKkok App v1.0.28 - Hotfix
 created: 2026-01-02
-updated: '2026-01-13'
+updated: '2026-01-14'
 status: done
 parent_id: trk-1
 aliases:

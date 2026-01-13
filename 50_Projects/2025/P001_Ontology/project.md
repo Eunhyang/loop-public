@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-001
 entity_name: Ontology v0.1
 created: 2025-12-18
-updated: '2026-01-13'
+updated: '2026-01-14'
 status: doing
 parent_id: trk-2
 track_id: trk-2

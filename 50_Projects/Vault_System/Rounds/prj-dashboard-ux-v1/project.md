@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-dashboard-ux-v1
 entity_name: 대시보드 UX 개선 v1
 created: 2025-12-26
-updated: '2026-01-13'
+updated: '2026-01-14'
 status: planning
 program_id: pgm-vault-system
 cycle: '2025'
