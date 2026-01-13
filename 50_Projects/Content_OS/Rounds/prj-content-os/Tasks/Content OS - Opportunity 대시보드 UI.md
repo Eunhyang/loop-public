@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-content-os-02
 entity_name: Content OS - Opportunity 대시보드 UI
 created: 2025-12-31
-updated: '2026-01-13'
+updated: '2026-01-14'
 status: todo
 parent_id: prj-content-os
 project_id: prj-content-os
