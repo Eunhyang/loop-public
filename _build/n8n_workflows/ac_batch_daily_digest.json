@@ -24,7 +24,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.yaml' : 'https://mcp.sosilab.synology.me/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.yaml' }}",
+        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.json' : 'https://mcp.sosilab.synology.me/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.json' }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "options": {
@@ -33,7 +33,7 @@
         }
       },
       "id": "load-yaml",
-      "name": "Load YAML",
+      "name": "Load Config JSON",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
@@ -42,26 +42,26 @@
       ],
       "onError": "continueRegularOutput",
       "alwaysOutputData": true,
-      "notes": "Read SSOT YAML from vault via LOOP API"
+      "notes": "Read SSOT JSON from vault via LOOP API"
     },
     {
       "parameters": {
-        "jsCode": "const input = $input.first().json;\nconst yaml = require('yaml');\n\nfunction extractContent(payload) {\n  if (!payload) return '';\n  if (typeof payload === 'string') return payload;\n  if (typeof payload.content === 'string') return payload.content;\n  if (typeof payload.file === 'string') return payload.file;\n  if (Array.isArray(payload.files)) {\n    const match = payload.files.find(f => f && typeof f.content === 'string');\n    if (match) return match.content;\n  }\n  if (payload.files && typeof payload.files.content === 'string') return payload.files.content;\n  return '';\n}\n\nlet config = {};\nconst errors = [];\n\ntry {\n  const content = extractContent(input);\n  if (!content) {\n    errors.push({ stage: 'load_yaml', message: 'YAML content missing' });\n  } else {\n    config = yaml.parse(content) || {};\n  }\n} catch (err) {\n  errors.push({ stage: 'load_yaml', message: String(err) });\n}\n\nconst sources = Array.isArray(config.sources) ? config.sources : [];\nconst accelerators = Array.isArray(config.accelerators) ? config.accelerators : [];\nconst parsingRules = config.parsing_rules || {};\nconst runtimeConfig = config.config || {};\n\n$workflow.staticData.ac_batch_errors = errors;\n$workflow.staticData.ac_batch_config = {\n  sources,\n  accelerators,\n  parsing_rules: parsingRules,\n  config: runtimeConfig\n};\n$workflow.staticData.google_entries = [];\n$workflow.staticData.kstartup_entries = [];\n\nreturn [{\n  json: {\n    sources,\n    accelerators,\n    parsing_rules: parsingRules,\n    config: runtimeConfig,\n    errors\n  }\n}];"
+        "jsCode": "const input = $input.first().json;\n\nfunction extractContent(payload) {\n  if (!payload) return '';\n  if (typeof payload === 'string') return payload;\n  if (typeof payload.content === 'string') return payload.content;\n  if (typeof payload.file === 'string') return payload.file;\n  if (Array.isArray(payload.files)) {\n    const match = payload.files.find(f => f && typeof f.content === 'string');\n    if (match) return match.content;\n  }\n  if (payload.files && typeof payload.files.content === 'string') return payload.files.content;\n  return '';\n}\n\nlet config = {};\nconst errors = [];\n\ntry {\n  const content = extractContent(input);\n  if (!content) {\n    errors.push({ stage: 'load_config', message: 'Config content missing' });\n  } else {\n    config = JSON.parse(content);\n  }\n} catch (err) {\n  errors.push({ stage: 'load_config', message: String(err) });\n}\n\nconst sources = Array.isArray(config.sources) ? config.sources : [];\nconst accelerators = Array.isArray(config.accelerators) ? config.accelerators : [];\nconst parsingRules = config.parsing_rules || {};\nconst runtimeConfig = config.config || {};\n\n$workflow.staticData.ac_batch_errors = errors;\n$workflow.staticData.ac_batch_config = {\n  sources,\n  accelerators,\n  parsing_rules: parsingRules,\n  config: runtimeConfig\n};\n$workflow.staticData.google_entries = [];\n$workflow.staticData.kstartup_entries = [];\n\nreturn [{\n  json: {\n    sources,\n    accelerators,\n    parsing_rules: parsingRules,\n    config: runtimeConfig,\n    errors\n  }\n}];"
       },
       "id": "parse-yaml",
-      "name": "Parse YAML",
+      "name": "Parse Config JSON",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         640,
         300
       ],
-      "notes": "Parse YAML SSOT and seed workflow staticData"
+      "notes": "Parse JSON SSOT and seed workflow staticData"
     },
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ ($('Parse YAML').first().json.sources || []).find(s => s.name === 'k-startup')?.url || 'https://www.k-startup.go.kr/web/contents/bizpbanc.do' }}",
+        "url": "={{ ($('Parse Config JSON').first().json.sources || []).find(s => s.name === 'k-startup')?.url || 'https://www.k-startup.go.kr/web/contents/bizpbanc.do' }}",
         "options": {
           "timeout": 30000,
           "responseFormat": "string"
@@ -81,7 +81,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const html = ($input.first().json.body || $input.first().json.data || $input.first().json || '').toString();\nconst configData = $('Parse YAML').first().json;\nconst sources = configData.sources || [];\nconst accelerators = configData.accelerators || [];\nconst parsingRules = configData.parsing_rules || {};\nconst runtimeConfig = configData.config || {};\n\nconst errors = Array.isArray($workflow.staticData.ac_batch_errors) ? [...$workflow.staticData.ac_batch_errors] : [];\nconst entries = [];\n\nconst kSource = sources.find(s => s.name === 'k-startup') || {};\nconst selectors = kSource.parse || {};\n\nfunction normalizeDate(text) {\n  if (!text) return null;\n  const patterns = (parsingRules.date_patterns || []).map(p => p.pattern);\n  for (const pattern of patterns) {\n    const re = new RegExp(pattern);\n    const match = text.match(re);\n    if (!match) continue;\n    const raw = match[0];\n    if (/\\d{4}\\.\\d{2}\\.\\d{2}/.test(raw)) {\n      return raw.replace(/\\./g, '-');\n    }\n    if (/\\d{4}-\\d{2}-\\d{2}/.test(raw)) {\n      return raw;\n    }\n    if (/\\d{4}\ub144/.test(raw)) {\n      const cleaned = raw.replace(/\ub144|\uc6d4/g, '-').replace(/\uc77c/g, '').replace(/\\s+/g, '');\n      const parts = cleaned.split('-').filter(Boolean);\n      if (parts.length >= 3) {\n        const [y, m, d] = parts;\n        return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;\n      }\n    }\n    if (/\\d{1,2}\\/\\d{1,2}/.test(raw)) {\n      const [mRaw, dRaw] = raw.split('/');\n      const now = new Date();\n      const year = now.getFullYear();\n      const date = new Date(year, parseInt(mRaw, 10) - 1, parseInt(dRaw, 10));\n      const iso = date.toISOString().slice(0, 10);\n      return iso;\n    }\n  }\n  return null;\n}\n\nfunction detectStatus(text) {\n  const keywords = parsingRules.status_keywords || {};\n  const haystack = (text || '').toLowerCase();\n  if ((keywords.open || []).some(k => haystack.includes(k.toLowerCase()))) return 'open';\n  if ((keywords.closed || []).some(k => haystack.includes(k.toLowerCase()))) return 'closed';\n  if ((keywords.rolling || []).some(k => haystack.includes(k.toLowerCase()))) return 'rolling';\n  return 'unknown';\n}\n\nif (!html || !html.trim()) {\n  errors.push({ stage: 'kstartup_fetch', message: 'Empty HTML response' });\n} else {\n  try {\n    const cheerio = require('cheerio');\n    const $ = cheerio.load(html);\n    const rows = $(selectors.item_selector || 'tr');\n    const today = new Date().toISOString().slice(0, 10);\n    rows.each((_, row) => {\n      const title = $(row).find(selectors.title_selector || 'td.subject a').first().text().trim();\n      const dateText = $(row).find(selectors.date_selector || 'td.date').first().text().trim();\n      const statusText = $(row).find(selectors.status_selector || 'td.status').first().text().trim();\n      const link = $(row).find(selectors.url_selector || 'td.subject a').first().attr('href') || '';\n      const url = link.startsWith('http') ? link : (link ? `https://www.k-startup.go.kr${link}` : '');\n      if (!title) return;\n      entries.push({\n        ac_name: 'K-Startup',\n        program_name: title,\n        cohort: null,\n        status: detectStatus(statusText),\n        application_deadline: normalizeDate(dateText),\n        apply_open_date: null,\n        start_date: null,\n        location: null,\n        url,\n        source: 'k-startup',\n        first_seen: today,\n        last_seen: today,\n        notes: ''\n      });\n    });\n  } catch (err) {\n    errors.push({ stage: 'kstartup_parse', message: String(err) });\n  }\n}\n\n$workflow.staticData.ac_batch_errors = errors;\n$workflow.staticData.kstartup_entries = entries;\n\nconst accelItems = (accelerators.length ? accelerators : [{ name: 'unknown', search_enabled: false }]).map(acc => ({\n  json: {\n    accelerator: acc,\n    config: runtimeConfig,\n    parsing_rules: parsingRules,\n    errors\n  }\n}));\n\nreturn accelItems;"
+        "jsCode": "const html = ($input.first().json.body || $input.first().json.data || $input.first().json || '').toString();\nconst configData = $('Parse Config JSON').first().json;\nconst sources = configData.sources || [];\nconst accelerators = configData.accelerators || [];\nconst parsingRules = configData.parsing_rules || {};\nconst runtimeConfig = configData.config || {};\n\nconst errors = Array.isArray($workflow.staticData.ac_batch_errors) ? [...$workflow.staticData.ac_batch_errors] : [];\nconst entries = [];\n\nconst kSource = sources.find(s => s.name === 'k-startup') || {};\nconst selectors = kSource.parse || {};\n\nfunction normalizeDate(text) {\n  if (!text) return null;\n  const patterns = (parsingRules.date_patterns || []).map(p => p.pattern);\n  for (const pattern of patterns) {\n    const re = new RegExp(pattern);\n    const match = text.match(re);\n    if (!match) continue;\n    const raw = match[0];\n    if (/\\d{4}\\.\\d{2}\\.\\d{2}/.test(raw)) {\n      return raw.replace(/\\./g, '-');\n    }\n    if (/\\d{4}-\\d{2}-\\d{2}/.test(raw)) {\n      return raw;\n    }\n    if (/\\d{4}\ub144/.test(raw)) {\n      const cleaned = raw.replace(/\ub144|\uc6d4/g, '-').replace(/\uc77c/g, '').replace(/\\s+/g, '');\n      const parts = cleaned.split('-').filter(Boolean);\n      if (parts.length >= 3) {\n        const [y, m, d] = parts;\n        return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;\n      }\n    }\n    if (/\\d{1,2}\\/\\d{1,2}/.test(raw)) {\n      const [mRaw, dRaw] = raw.split('/');\n      const now = new Date();\n      const year = now.getFullYear();\n      const date = new Date(year, parseInt(mRaw, 10) - 1, parseInt(dRaw, 10));\n      const iso = date.toISOString().slice(0, 10);\n      return iso;\n    }\n  }\n  return null;\n}\n\nfunction detectStatus(text) {\n  const keywords = parsingRules.status_keywords || {};\n  const haystack = (text || '').toLowerCase();\n  if ((keywords.open || []).some(k => haystack.includes(k.toLowerCase()))) return 'open';\n  if ((keywords.closed || []).some(k => haystack.includes(k.toLowerCase()))) return 'closed';\n  if ((keywords.rolling || []).some(k => haystack.includes(k.toLowerCase()))) return 'rolling';\n  return 'unknown';\n}\n\nif (!html || !html.trim()) {\n  errors.push({ stage: 'kstartup_fetch', message: 'Empty HTML response' });\n} else {\n  try {\n    const cheerio = require('cheerio');\n    const $ = cheerio.load(html);\n    const rows = $(selectors.item_selector || 'tr');\n    const today = new Date().toISOString().slice(0, 10);\n    rows.each((_, row) => {\n      const title = $(row).find(selectors.title_selector || 'td.subject a').first().text().trim();\n      const dateText = $(row).find(selectors.date_selector || 'td.date').first().text().trim();\n      const statusText = $(row).find(selectors.status_selector || 'td.status').first().text().trim();\n      const link = $(row).find(selectors.url_selector || 'td.subject a').first().attr('href') || '';\n      const url = link.startsWith('http') ? link : (link ? `https://www.k-startup.go.kr${link}` : '');\n      if (!title) return;\n      entries.push({\n        ac_name: 'K-Startup',\n        program_name: title,\n        cohort: null,\n        status: detectStatus(statusText),\n        application_deadline: normalizeDate(dateText),\n        apply_open_date: null,\n        start_date: null,\n        location: null,\n        url,\n        source: 'k-startup',\n        first_seen: today,\n        last_seen: today,\n        notes: ''\n      });\n    });\n  } catch (err) {\n    errors.push({ stage: 'kstartup_parse', message: String(err) });\n  }\n}\n\n$workflow.staticData.ac_batch_errors = errors;\n$workflow.staticData.kstartup_entries = entries;\n\nconst accelItems = (accelerators.length ? accelerators : [{ name: 'unknown', search_enabled: false }]).map(acc => ({\n  json: {\n    accelerator: acc,\n    config: runtimeConfig,\n    parsing_rules: parsingRules,\n    errors\n  }\n}));\n\nreturn accelItems;"
       },
       "id": "parse-kstartup",
       "name": "Parse K-Startup",
@@ -372,25 +372,25 @@
       "main": [
         [
           {
-            "node": "Load YAML",
+            "node": "Load Config JSON",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Load YAML": {
+    "Load Config JSON": {
       "main": [
         [
           {
-            "node": "Parse YAML",
+            "node": "Parse Config JSON",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Parse YAML": {
+    "Parse Config JSON": {
       "main": [
         [
           {

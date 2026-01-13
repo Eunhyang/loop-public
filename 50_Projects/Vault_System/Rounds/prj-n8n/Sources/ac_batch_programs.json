@@ -1,0 +1,204 @@
+{
+  "sources": [
+    {
+      "name": "k-startup",
+      "type": "listing",
+      "url": "https://www.k-startup.go.kr/web/contents/bizpbanc.do",
+      "parse": {
+        "item_selector": "div.board-list > table > tbody > tr",
+        "title_selector": "td.subject > a",
+        "date_selector": "td.date",
+        "url_selector": "td.subject > a",
+        "status_selector": "td.status"
+      },
+      "notes": "K-Startup 창업지원 공고 목록 페이지"
+    },
+    {
+      "name": "google",
+      "type": "search",
+      "query_template": "2026 batch program 모집 {ac_name}",
+      "result_limit": 5,
+      "parse": {
+        "link_selector": "a[href]",
+        "title_selector": "h3"
+      },
+      "notes": "Google 검색을 통한 각 accelerator 공식 페이지 크롤링"
+    }
+  ],
+  "accelerators": [
+    {
+      "name": "Antler Korea",
+      "search_enabled": true,
+      "official_url": "https://www.antler.co/location/korea"
+    },
+    {
+      "name": "Primer",
+      "search_enabled": true,
+      "official_url": "https://www.primer.kr"
+    },
+    {
+      "name": "SparkLabs",
+      "search_enabled": true,
+      "official_url": "https://www.sparklabs.co.kr"
+    },
+    {
+      "name": "D.CAMP",
+      "search_enabled": true,
+      "official_url": "https://dcamp.kr"
+    },
+    {
+      "name": "FuturePlay",
+      "search_enabled": true,
+      "official_url": "https://www.futureplay.co"
+    },
+    {
+      "name": "Plug and Play",
+      "search_enabled": true,
+      "official_url": "https://www.plugandplaytechcenter.com"
+    },
+    {
+      "name": "500 Global",
+      "search_enabled": true,
+      "official_url": "https://500.co"
+    },
+    {
+      "name": "Y Combinator",
+      "search_enabled": true,
+      "official_url": "https://www.ycombinator.com"
+    },
+    {
+      "name": "Techstars",
+      "search_enabled": true,
+      "official_url": "https://www.techstars.com"
+    },
+    {
+      "name": "Google for Startups",
+      "search_enabled": true,
+      "official_url": "https://startup.google.com"
+    },
+    {
+      "name": "Microsoft for Startups",
+      "search_enabled": true,
+      "official_url": "https://www.microsoft.com/startups"
+    },
+    {
+      "name": "AWS Activate",
+      "search_enabled": true,
+      "official_url": "https://aws.amazon.com/activate"
+    },
+    {
+      "name": "K-Accelerator",
+      "search_enabled": true,
+      "official_url": "https://www.k-accelerator.kr"
+    },
+    {
+      "name": "Tips Town",
+      "search_enabled": true,
+      "official_url": "https://www.tipstown.or.kr"
+    },
+    {
+      "name": "Korea Startup Forum",
+      "search_enabled": true,
+      "official_url": "https://kstartupforum.org"
+    },
+    {
+      "name": "Seoul Innovation Park",
+      "search_enabled": true,
+      "official_url": "https://seoulinnovationpark.kr"
+    },
+    {
+      "name": "Born2Global",
+      "search_enabled": true,
+      "official_url": "https://www.born2global.com"
+    },
+    {
+      "name": "KDB Startup",
+      "search_enabled": true,
+      "official_url": "https://www.kdb.co.kr"
+    },
+    {
+      "name": "IBK Startup",
+      "search_enabled": true,
+      "official_url": "https://www.ibk.co.kr"
+    },
+    {
+      "name": "Hana Ventures",
+      "search_enabled": true,
+      "official_url": "https://www.hanaventures.com"
+    }
+  ],
+  "config": {
+    "deadline_threshold_days": 14,
+    "discord_webhook": "${DISCORD_WEBHOOK_URL}",
+    "schedule_cron": "0 6 * * *",
+    "google_search_delay_ms": 2000,
+    "max_retries": 3,
+    "request_timeout_ms": 30000,
+    "discord_max_chars": 2000,
+    "snapshot_retention": 7,
+    "state_storage_key": "ac_batch_programs_snapshot"
+  },
+  "parsing_rules": {
+    "date_patterns": [
+      {
+        "pattern": "\\d{4}\\.\\d{2}\\.\\d{2}",
+        "format": "YYYY.MM.DD"
+      },
+      {
+        "pattern": "\\d{4}-\\d{2}-\\d{2}",
+        "format": "YYYY-MM-DD"
+      },
+      {
+        "pattern": "\\d{4}년 \\d{1,2}월 \\d{1,2}일",
+        "format": "YYYY년 MM월 DD일"
+      },
+      {
+        "pattern": "\\d{1,2}/\\d{1,2}",
+        "format": "MM/DD",
+        "notes": "Infer current year if date within 6 months"
+      }
+    ],
+    "status_keywords": {
+      "open": [
+        "모집중",
+        "접수중",
+        "신청가능",
+        "open",
+        "accepting applications"
+      ],
+      "closed": [
+        "마감",
+        "종료",
+        "완료",
+        "closed",
+        "ended"
+      ],
+      "rolling": [
+        "상시모집",
+        "상시",
+        "rolling",
+        "ongoing"
+      ]
+    },
+    "redaction_patterns": [
+      "\\d+억원",
+      "\\d+만원",
+      "\\$\\d+[KM]",
+      "equity \\d+%",
+      "SAFE \\$\\d+",
+      "\\d+% equity",
+      "pre-money \\$\\d+",
+      "post-money \\$\\d+"
+    ]
+  },
+  "error_handling": {
+    "retry_strategy": {
+      "max_attempts": 3,
+      "delay_ms": 5000,
+      "exponential_backoff": true
+    },
+    "partial_failure_mode": "continue",
+    "error_alert_threshold": 3
+  },
+  "notes": "This configuration file serves as the Single Source of Truth (SSOT) for the\nAC Batch Daily Digest workflow. All data sources, accelerators, parsing rules,\nand configuration are centralized here to enable easy updates without modifying\nthe n8n workflow JSON.\n\nThe workflow reads this YAML file at runtime and uses it to:\n- Fetch data from K-Startup and Google\n- Parse HTML/JSON responses\n- Classify programs by status\n- Format Discord messages\n- Handle errors and edge cases\n\nTo add a new accelerator, simply append to the accelerators[] array.\nTo modify parsing rules, update the parsing_rules section.\n"
+}
