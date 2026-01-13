@@ -32,7 +32,6 @@ from ..models.impact_expected import (
     ValidationError
 )
 from ..services import impact_expected_service as service
-from ..services.llm_service import get_llm_client
 from ..cache import get_cache
 from ..utils.vault_utils import get_vault_dir
 from .pending import update_entity_frontmatter, find_entity_file
