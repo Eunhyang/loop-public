@@ -24,7 +24,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.json' : 'https://mcp.sosilab.synology.me/api/mcp/file-read?paths=public/50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.json' }}",
+        "url": "https://mcp.sosilab.synology.me/api/mcp/file-read?paths=50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.json",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "options": {
@@ -233,7 +233,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-read?paths=public/_build/_state/ac_batch_programs.json' : 'https://mcp.sosilab.synology.me/api/mcp/file-read?paths=public/_build/_state/ac_batch_programs.json' }}",
+        "url": "https://mcp.sosilab.synology.me/api/mcp/file-read?paths=_build/_state/ac_batch_programs.json",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "options": {
@@ -284,7 +284,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $json.config.discord_webhook || $env.DISCORD_WEBHOOK_URL || '' }}",
+        "url": "={{ $json.config.discord_webhook || '' }}",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ { content: $json.message } }}",
@@ -307,12 +307,12 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.LOOP_API_URL ? $env.LOOP_API_URL + '/api/mcp/file-write' : 'https://mcp.sosilab.synology.me/api/mcp/file-write' }}",
+        "url": "https://mcp.sosilab.synology.me/api/mcp/file-write",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { path: 'public/_build/_state/ac_batch_programs.json', content: JSON.stringify($json.snapshot, null, 2) } }}",
+        "jsonBody": "={{ { path: '_build/_state/ac_batch_programs.json', content: JSON.stringify($json.snapshot, null, 2) } }}",
         "options": {
           "timeout": 30000
         }
@@ -346,7 +346,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $json.config.discord_webhook || $env.DISCORD_WEBHOOK_URL || '' }}",
+        "url": "={{ $json.config.discord_webhook || '' }}",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ { content: $json.message } }}",
