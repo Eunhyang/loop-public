@@ -33,9 +33,7 @@ export const LinkPreviewCard: React.FC<LinkPreviewCardProps> = ({
     const { data: preview, isLoading, isError } = useLinkPreview(url);
 
     const handleCardClick = () => {
-        if (readOnly || !onRemove) {
-            window.open(url, '_blank', 'noopener,noreferrer');
-        }
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
 
     const handleRemoveClick = (e: React.MouseEvent) => {
