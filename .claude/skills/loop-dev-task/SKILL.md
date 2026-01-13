@@ -335,6 +335,7 @@ Task file synced to worktree:
 
 > **🚨 CRITICAL: Must read parent Project file BEFORE writing Tech Spec**
 > **🚨 MANDATORY: Tech Spec must follow parent Project's architecture rules**
+> **🚨 MANDATORY: Write Tech Spec and Todo in Korean (한글로 작성)**
 > **Skip conditions: In Existing Task Mode, skip if Notes already filled**
 
 #### Step 5-1: Read Parent Project File (MANDATORY FIRST)
@@ -365,6 +366,7 @@ Project Architecture Rules:
 #### Step 5-2: Write Tech Spec (Following Project Rules)
 
 > **MANDATORY: Tech Spec must align with parent Project's architecture**
+> **MANDATORY: Write all content in Korean (한글로 작성)**
 
 Edit Task file Notes section:
 
@@ -408,14 +410,16 @@ lib/
 
 #### Step 5-3: Write Todo
 
+> **MANDATORY: Write all tasks in Korean (한글로 작성)**
+
 ```markdown
 ### Todo
-- [ ] [Specific implementation task 1]
-- [ ] [Specific implementation task 2]
-- [ ] [Specific implementation task 3]
-- [ ] [Specific implementation task 4]
-- [ ] Write tests
-- [ ] Verify build
+- [ ] [구체적인 구현 작업 1]
+- [ ] [구체적인 구현 작업 2]
+- [ ] [구체적인 구현 작업 3]
+- [ ] [구체적인 구현 작업 4]
+- [ ] 테스트 작성
+- [ ] 빌드 검증
 
 ### Work Log
 <!-- Auto-logged by workthrough skill -->
