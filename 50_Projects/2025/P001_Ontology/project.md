@@ -71,6 +71,7 @@ realized_impact:
   outcome: null
   evidence: null
   updated: null
+deadline: '2026-01-31'
 ---
 # Project: Ontology v0.1
 

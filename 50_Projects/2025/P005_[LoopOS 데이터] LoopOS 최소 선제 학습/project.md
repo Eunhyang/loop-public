@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-005
 entity_name: LoopOS - 최소 선제 학습
 created: 2025-12-18
-updated: '2026-01-12'
+updated: '2026-01-13'
 status: planning
 parent_id: trk-2
 aliases:
@@ -16,7 +16,7 @@ validates:
 validated_by: []
 owner: 김은향
 budget: null
-deadline: null
+deadline: '2026-01-30'
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: enabling
 impact_magnitude: mid

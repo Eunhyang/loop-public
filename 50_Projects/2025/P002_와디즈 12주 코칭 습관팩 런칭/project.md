@@ -4,7 +4,7 @@ entity_id: prj-002
 entity_name: 와디즈 - 12주 습관 코칭 패키지
 created: 2025-12-18
 updated: '2026-01-13'
-status: planning
+status: done
 parent_id: trk-6
 aliases:
 - prj-002
@@ -17,7 +17,7 @@ validates:
 validated_by: []
 owner: 김은향
 budget: null
-deadline: null
+deadline: '2026-01-10'
 hypothesis_text: 12주 습관 코칭 패키지가 와디즈 크라우드펀딩에서 시장 수요를 검증할 수 있다
 tier: tactical
 impact_magnitude: high
