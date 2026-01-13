@@ -540,7 +540,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                     <div className="grid grid-cols-2 gap-4">
                         {/* Start Date */}
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-medium text-zinc-700">Start Date</label>
+                            <label className="block text-sm font-medium text-zinc-700">Start</label>
                             <input
                                 type="date"
                                 className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
@@ -551,7 +551,7 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
 
                         {/* Due Date */}
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-medium text-zinc-700">Due Date</label>
+                            <label className="block text-sm font-medium text-zinc-700">Due</label>
                             <input
                                 type="date"
                                 className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
@@ -778,39 +778,50 @@ export const TaskForm = ({ mode, id, prefill, suggestedFields, reasoning, onRela
                 </ReviewFieldWrapper>
 
                 {/* Date Fields */}
-                <label className="text-zinc-500 py-1">Start Date</label>
-                <ReviewFieldWrapper
-                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('start_date') : false}
-                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('start_date') : undefined}
-                >
-                    {isReadOnly ? (
-                        <span className="text-zinc-700">{String(getFieldValue('start_date') || '-')}</span>
-                    ) : (
-                        <input
-                            type="date"
-                            className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                            value={(getFieldValue('start_date') as string) || ''}
-                            onChange={(e) => handleFieldChangeInternal('start_date', e.target.value)}
-                        />
-                    )}
-                </ReviewFieldWrapper>
+                <label className="text-zinc-500 py-1">Dates</label>
+                <div className="flex items-center gap-4">
+                    {/* Start Date */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs text-zinc-500">Start:</span>
+                        <ReviewFieldWrapper
+                            isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('start_date') : false}
+                            reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('start_date') : undefined}
+                        >
+                            {isReadOnly ? (
+                                <span className="text-zinc-700">{String(getFieldValue('start_date') || '-')}</span>
+                            ) : (
+                                <input
+                                    type="date"
+                                    className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                    value={(getFieldValue('start_date') as string) || ''}
+                                    onChange={(e) => handleFieldChangeInternal('start_date', e.target.value)}
+                                />
+                            )}
+                        </ReviewFieldWrapper>
+                    </div>
 
-                <label className="text-zinc-500 py-1">Due Date</label>
-                <ReviewFieldWrapper
-                    isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('due') : false}
-                    reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('due') : undefined}
-                >
-                    {isReadOnly ? (
-                        <span className="text-zinc-700 text-xs">{String(getFieldValue('due') || '-')}</span>
-                    ) : (
-                        <input
-                            type="date"
-                            className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
-                            value={(getFieldValue('due') as string) || ''}
-                            onChange={(e) => handleFieldChangeInternal('due', e.target.value)}
-                        />
-                    )}
-                </ReviewFieldWrapper>
+                    <span className="text-zinc-300">~</span>
+
+                    {/* Due Date */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs text-zinc-500">Due:</span>
+                        <ReviewFieldWrapper
+                            isSuggested={isReviewMode && reviewMode ? reviewMode.isSuggested('due') : false}
+                            reasoning={isReviewMode && reviewMode ? reviewMode.getReasoning('due') : undefined}
+                        >
+                            {isReadOnly ? (
+                                <span className="text-zinc-700 text-xs">{String(getFieldValue('due') || '-')}</span>
+                            ) : (
+                                <input
+                                    type="date"
+                                    className="border border-zinc-200 px-2 py-0.5 rounded bg-white text-zinc-700 text-xs w-fit focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 outline-none shadow-sm"
+                                    value={(getFieldValue('due') as string) || ''}
+                                    onChange={(e) => handleFieldChangeInternal('due', e.target.value)}
+                                />
+                            )}
+                        </ReviewFieldWrapper>
+                    </div>
+                </div>
 
                 {/* Relations - Project */}
                 {Boolean(getFieldValue('project_id')) && (
