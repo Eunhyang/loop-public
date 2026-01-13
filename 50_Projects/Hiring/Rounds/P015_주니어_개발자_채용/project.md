@@ -11,8 +11,7 @@ aliases:
 - prj-015
 - 주니어 개발자 채용
 outgoing_relations: []
-validates:
-- hyp-001
+validates: []
 validated_by: []
 owner: 한명학
 budget: null
@@ -37,6 +36,10 @@ tags:
 priority_flag: high
 track_contributes: []
 primary_hypothesis_id: hyp-001
+condition_contributes:
+- to: cond-d
+  weight: 1.0
+  description: 팀의 역량을 강화하기 위해 주니어 개발자를 채용함으로써 팀의 성과에 기여할 것으로 예상됨.
 ---
 # 주니어 개발자 채용
 
