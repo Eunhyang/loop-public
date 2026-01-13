@@ -3,17 +3,17 @@ entity_type: Project
 entity_id: prj-waoz74
 entity_name: Content OS - Dashboard v2
 created: 2026-01-14
-updated: 2026-01-14
+updated: '2026-01-14'
 status: todo
 parent_id: trk-3
 aliases:
-  - prj-waoz74
-  - Content OS - Dashboard v2
+- prj-waoz74
+- Content OS - Dashboard v2
 program_id: pgm-content-os
 cycle: 2026-01
 outgoing_relations: []
 validates:
-  - hyp-3-01
+- hyp-3-01
 validated_by: []
 primary_hypothesis_id: hyp-3-01
 owner: 김은향
@@ -25,12 +25,13 @@ tier: enabling
 impact_magnitude: high
 confidence: 0.6
 condition_contributes:
-  - to: cond-a
-    weight: 0.6
-    description: Content OS 플랫폼 고도화를 통한 운영 효율 증대
+- to: cond-a
+  weight: 0.6
+  description: Content OS 플랫폼 고도화를 통한 운영 효율 증대
 track_contributes: []
 expected_impact:
-  statement: Dashboard v2 마이그레이션이 완료되면 Content OS의 모든 기능이 Vite 기반의 경량, 빠른 인터페이스로 통합되어 사용자 경험이 개선된다
+  statement: Dashboard v2 마이그레이션이 완료되면 Content OS의 모든 기능이 Vite 기반의 경량, 빠른 인터페이스로 통합되어
+    사용자 경험이 개선된다
   metric: 기능_마이그레이션_완료도
   target: 15개 태스크 완료 (100%)
 realized_impact:
@@ -42,16 +43,15 @@ realized_impact:
   time_range: null
   metrics_snapshot: {}
 conditions_3y:
-  - cond-a
+- cond-a
 tags:
-  - content-os
-  - dashboard
-  - vite
-  - frontend
-  - migration
+- content-os
+- dashboard
+- vite
+- frontend
+- migration
 priority_flag: high
 ---
-
 # Content OS - Dashboard v2
 
 > Project ID: `prj-waoz74` | Track: `trk-3` | Program: `pgm-content-os` | Status: todo
@@ -60,9 +60,7 @@ priority_flag: high
 
 ## 프로젝트 개요
 
-Content OS의 프론트엔드를 Next.js에서 Vite 기반의 경량 대시보드(dashboard-v2)로 마이그레이션합니다.
-기존 Content OS 애플리케이션의 4개 화면(Opportunity, Video Explorer, Task Pipeline, Retro)을 새로운 Vite 스택으로 재구현하고,
-LOOP Vault API와의 통합을 완료합니다.
+Content OS의 프론트엔드를 Next.js에서 Vite 기반의 경량 대시보드(dashboard-v2)로 마이그레이션합니다. 기존 Content OS 애플리케이션의 4개 화면(Opportunity, Video Explorer, Task Pipeline, Retro)을 새로운 Vite 스택으로 재구현하고, LOOP Vault API와의 통합을 완료합니다.
 
 ---
 
@@ -73,7 +71,7 @@ LOOP Vault API와의 통합을 완료합니다.
 1. **15개 태스크 완료**: 모든 마이그레이션 태스크 구현 및 테스트 완료
 2. **API 통합**: Content OS 백엔드 API와 LOOP Vault API의 전체 통합
 3. **기능 패리티**: 기존 Next.js 버전의 모든 주요 기능이 새 대시보드에서 작동
-4. **성능 개선**: Vite 기반으로 빌드 시간 >80% 감소, 로딩 시간 개선
+4. **성능 개선**: Vite 기반으로 빌드 시간 &gt;80% 감소, 로딩 시간 개선
 
 ### 실패 신호
 
@@ -161,24 +159,39 @@ LOOP Vault API와의 통합을 완료합니다.
 ### 총 15개 태스크
 
 **Phase 1: 기초 및 API (Task 1-7)**
+
 - [x] Task 1: Content OS 인벤토리 맵핑 + 라이브러리 분석
+
 - [x] Task 2: 라우팅 및 네비게이션 통합
+
 - [x] Task 3: API 마이그레이션 스펙 작성
+
 - [x] Task 4: OAuth 인증 시스템 Vite 이전
+
 - [x] Task 5: YouTube Analytics/Search API 마이그레이션
+
 - [x] Task 6: Content OS 데이터 API 마이그레이션
+
 - [x] Task 7: Dashboard v2 Scaffold 구성
 
 **Phase 2: 프론트엔드 UI 구현 (Task 8-13)**
+
 - [ ] Task 8: Vite에서 OAuth 인증 플로우 구현
+
 - [ ] Task 9: Opportunity 대시보드 UI 마이그레이션
+
 - [ ] Task 10: Video Explorer UI 마이그레이션
+
 - [ ] Task 11: Task Pipeline 칸반 UI 마이그레이션
+
 - [ ] Task 12: Retro (회고) 대시보드 UI 마이그레이션
+
 - [ ] Task 13: Performance 대시보드 최적화
 
 **Phase 3: 통합 및 배포 (Task 14-15)**
+
 - [ ] Task 14: SSOT 빌드 안정화 및 데이터 동기화
+
 - [ ] Task 15: Next.js 앱 레거시 처리 및 deprecation
 
 ---
@@ -220,21 +233,25 @@ pnpm lint
 ## 주요 기능 정의
 
 ### 1. Opportunity 대시보드
+
 - 키워드별 FinalScore 시각화
 - "왜 지금?" 추천 이유 표시
 - 추천 콘텐츠 번들
 
 ### 2. Video Explorer
+
 - 검색 및 필터링
 - 테이블 기반 영상 라이브러리
 - 메타데이터 표시 (조회수, CTR, 평가)
 
 ### 3. Task Pipeline
+
 - 4단계 칸반 (Draft → Approved → Published → Reviewed)
 - 드래그앤드롭으로 상태 변경
 - Evidence 연계
 
 ### 4. Retro (회고) 대시보드
+
 - A/B 학습 카드
 - Evidence 자동 수집 및 분류
 - 가설 연결
@@ -244,7 +261,7 @@ pnpm lint
 ## 의존성 및 블로커
 
 | 항목 | 상태 | 설명 |
-|------|------|------|
+| --- | --- | --- |
 | LOOP Vault MCP API | ✅ 완성 | `/api/mcp/*` 엔드포인트 준비 완료 |
 | Content OS 백엔드 API | ✅ 완성 | Firebase + REST API 준비 |
 | OAuth 인증 | ✅ 완성 | loop-auth 컨테이너 운영 중 |
@@ -255,11 +272,13 @@ pnpm lint
 ## 성과 지표
 
 ### Expected Impact
-- **빌드 시간**: 현재 ~40초 → 목표 ~5초 (80% 개선)
+
+- **빌드 시간**: 현재 \~40초 → 목표 \~5초 (80% 개선)
 - **개발 편의성**: HMR 적용으로 개발 생산성 20% 개선
 - **유지보수성**: 15개 태스크 완료로 마이그레이션 100% 완료
 
 ### Realized Impact (사후)
+
 - 실제 사용자 만족도 (1-5점)
 - 주간 운영 시간 절감 (시간)
 - 기능 버그 발생률 감소 (%)
@@ -269,9 +288,9 @@ pnpm lint
 ## 리스크 및 대응
 
 | 리스크 | 확률 | 영향 | 대응책 |
-|--------|------|------|--------|
+| --- | --- | --- | --- |
 | API 통합 지연 | 중간 | 높음 | Mock API 우선 구현 후 실제 API 통합 |
-| 성능 이슈 | 낮음 | 중간 | Lighthouse 점수 >90 목표, 번들 크기 분석 |
+| 성능 이슈 | 낮음 | 중간 | Lighthouse 점수 &gt;90 목표, 번들 크기 분석 |
 | 사용자 경험 차이 | 중간 | 중간 | 기존 앱과 병렬 운영, 사용자 피드백 수집 |
 
 ---
@@ -307,5 +326,4 @@ Key files:
 
 ---
 
-**Created**: 2026-01-14
-**Owner**: 김은향
+**Created**: 2026-01-14 **Owner**: 김은향
