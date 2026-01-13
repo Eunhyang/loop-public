@@ -57,4 +57,4 @@ COPY --from=frontend /frontend/dist ./dashboard-v2-dist/
 EXPOSE 8081
 
 # 서버 실행
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8081"]
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8081", "--limit-max-requests", "104857600"]

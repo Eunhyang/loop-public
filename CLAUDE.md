@@ -45,7 +45,7 @@ python3 scripts/build_impact.py .                       # Build impact.json
 python3 scripts/check_orphans.py .                      # Find orphaned entities
 
 # API Server (local)
-poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
+poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081 --limit-max-requests 104857600
 
 # Docker (NAS) - Note: 8082 → 8081 mapping
 docker compose up -d && docker compose logs -f loop-api

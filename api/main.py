@@ -6,10 +6,10 @@ Task/Project를 웹 UI에서 생성/수정/삭제할 수 있도록 REST API 제�
 
 Usage:
     # Development
-    uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
+    uvicorn api.main:app --reload --host 0.0.0.0 --port 8081 --limit-max-requests 104857600
 
     # Production
-    uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
+    uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2 --limit-max-requests 104857600
 
 Endpoints:
     GET  /                       - 칸반 보드 UI

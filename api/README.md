@@ -19,13 +19,13 @@ poetry install --extras api
 cd /Volumes/LOOP_CORE/vault/LOOP
 
 # Poetry 환경에서 실행
-poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081
+poetry run uvicorn api.main:app --reload --host 0.0.0.0 --port 8081 --limit-max-requests 104857600
 ```
 
 ### 3. 프로덕션 모드 실행
 
 ```bash
-poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2
+poetry run uvicorn api.main:app --host 0.0.0.0 --port 8081 --workers 2 --limit-max-requests 104857600
 ```
 
 ### 4. 접속
@@ -257,6 +257,7 @@ cd /volume1/LOOP_CORE/vault/LOOP
 nohup poetry run uvicorn api.main:app \
   --host 0.0.0.0 \
   --port 8081 \
+  --limit-max-requests 104857600 \
   > /volume1/LOOP_CORE/logs/api-server.log 2>&1 &
 
 # PID 확인
@@ -305,6 +306,7 @@ cd "$VAULT_DIR"
 nohup poetry run uvicorn api.main:app \
   --host 0.0.0.0 \
   --port 8081 \
+  --limit-max-requests 104857600 \
   > "$LOG_FILE" 2>&1 &
 
 echo $! > "$PID_FILE"
