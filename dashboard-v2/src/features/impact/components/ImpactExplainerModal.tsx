@@ -77,7 +77,7 @@ export function ImpactExplainerModal({
             id="explainer-modal-title"
             className="text-lg font-semibold text-zinc-900"
           >
-            Expected Impact Score
+            임팩트 점수 산출 안내
           </h2>
           <button
             ref={closeButtonRef}
@@ -106,7 +106,7 @@ export function ImpactExplainerModal({
           {/* Formula */}
           <div>
             <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
-              Formula
+              계산 방식
             </h3>
             <div className="bg-zinc-50 p-3 rounded-lg border border-zinc-200 space-y-2">
               <div>
@@ -121,37 +121,37 @@ export function ImpactExplainerModal({
               </div>
             </div>
             <p className="text-xs text-zinc-500 mt-2">
-              All scores are normalized to /10 for consistent comparison across tiers
+              모든 점수는 등급 간 일관된 비교를 위해 10점 만점으로 보정됩니다.
             </p>
           </div>
 
           {/* Points Table */}
           <div>
             <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
-              Magnitude Points
+              크기(Magnitude)별 가중치
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="bg-zinc-50">
                     <th className="px-3 py-2 text-left font-medium text-zinc-700 border border-zinc-200">
-                      Tier / Magnitude
+                      등급 / 크기
                     </th>
                     <th className="px-3 py-2 text-center font-medium text-zinc-700 border border-zinc-200">
-                      High
+                      높음
                     </th>
                     <th className="px-3 py-2 text-center font-medium text-zinc-700 border border-zinc-200">
-                      Mid
+                      중간
                     </th>
                     <th className="px-3 py-2 text-center font-medium text-zinc-700 border border-zinc-200">
-                      Low
+                      낮음
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td className="px-3 py-2 font-medium text-zinc-900 border border-zinc-200">
-                      Strategic
+                      핵심 전략 (Strategic)
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
                       {MAGNITUDE_POINTS.strategic.high}
@@ -165,7 +165,7 @@ export function ImpactExplainerModal({
                   </tr>
                   <tr className="bg-zinc-50/50">
                     <td className="px-3 py-2 font-medium text-zinc-900 border border-zinc-200">
-                      Enabling
+                      실행 가속 (Enabling)
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
                       {MAGNITUDE_POINTS.enabling.high}
@@ -179,7 +179,7 @@ export function ImpactExplainerModal({
                   </tr>
                   <tr>
                     <td className="px-3 py-2 font-medium text-zinc-900 border border-zinc-200">
-                      Operational
+                      상시 운영 (Operational)
                     </td>
                     <td className="px-3 py-2 text-center text-zinc-700 border border-zinc-200">
                       {MAGNITUDE_POINTS.operational.high}
@@ -204,29 +204,29 @@ export function ImpactExplainerModal({
             return (
               <div>
                 <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
-                  Current Calculation
+                  점수 산출 내역
                 </h3>
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-600">Tier:</span>
+                    <span className="text-zinc-600">등급:</span>
                     <span className="font-medium text-zinc-900 capitalize">
                       {currentScore.tier}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-600">Magnitude:</span>
+                    <span className="text-zinc-600">크기:</span>
                     <span className="font-medium text-zinc-900 capitalize">
                       {currentScore.magnitude}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-600">Base Points:</span>
+                    <span className="text-zinc-600">기본 점수:</span>
                     <span className="font-medium text-zinc-900">
                       {currentScore.basePoints}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-600">Confidence:</span>
+                    <span className="text-zinc-600">신뢰도:</span>
                     <span className="font-medium text-zinc-900">
                       {(currentScore.confidence * 100).toFixed(0)}%
                     </span>
@@ -234,13 +234,13 @@ export function ImpactExplainerModal({
                   <hr className="border-blue-200" />
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span className="text-zinc-600">Raw Score:</span>
+                      <span className="text-zinc-600">가중 점수 (Raw):</span>
                       <span className="font-medium text-zinc-900">
                         {currentScore.basePoints} × {currentScore.confidence.toFixed(2)} = {rawScore.toFixed(2)} / {tierMax.toFixed(1)}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm font-semibold">
-                      <span className="text-zinc-700">Normalized:</span>
+                      <span className="text-zinc-700">보정 점수 (Normalized):</span>
                       <span className="text-blue-700">
                         ({rawScore.toFixed(2)} / {tierMax.toFixed(1)}) × 10 ={' '}
                         {formatScore(currentScore.score, currentScore.maxScore)}
@@ -255,25 +255,25 @@ export function ImpactExplainerModal({
           {/* Tier Descriptions */}
           <div>
             <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-2">
-              Tier Descriptions
+              등급 상세 설명
             </h3>
             <dl className="space-y-2 text-sm">
               <div>
-                <dt className="font-medium text-zinc-900">Strategic</dt>
+                <dt className="font-medium text-zinc-900">핵심 전략 (Strategic)</dt>
                 <dd className="text-zinc-600 ml-4">
-                  Directly affects business outcomes and long-term goals
+                  비즈니스 성과와 장기 목표에 직접적인 영향을 미치는 핵심 과제
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-zinc-900">Enabling</dt>
+                <dt className="font-medium text-zinc-900">실행 가속 (Enabling)</dt>
                 <dd className="text-zinc-600 ml-4">
-                  Enables strategic goals and accelerates capabilities
+                  전략적 목표 달성을 돕고 조직의 역량과 실행 속도를 높이는 토대 과제
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-zinc-900">Operational</dt>
+                <dt className="font-medium text-zinc-900">상시 운영 (Operational)</dt>
                 <dd className="text-zinc-600 ml-4">
-                  Day-to-day improvements and maintenance
+                  일상적인 효율 개선 및 안정적인 프로젝트 유지관리를 위한 상시 과제
                 </dd>
               </div>
             </dl>
@@ -283,11 +283,7 @@ export function ImpactExplainerModal({
         {/* Footer */}
         <div className="sticky bottom-0 bg-white border-t border-zinc-200 px-6 py-3">
           <p className="text-xs text-zinc-500 text-center">
-            Press{' '}
-            <kbd className="px-1.5 py-0.5 text-xs font-mono bg-zinc-100 border border-zinc-200 rounded">
-              Escape
-            </kbd>{' '}
-            or click outside to close
+            Esc 키를 누르거나 창 밖을 클릭하면 닫힙니다.
           </p>
         </div>
       </div>

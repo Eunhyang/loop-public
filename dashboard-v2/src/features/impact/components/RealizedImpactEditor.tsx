@@ -48,20 +48,20 @@ export function RealizedImpactEditor({
 }: RealizedImpactEditorProps) {
   const [jsonError, setJsonError] = useState<string | null>(null);
 
-  // Default empty state
-  const impact: RealizedImpact = value ?? {
-    verdict: null,
-    outcome: null,
-    evidence_links: [],
-    decided: null,
-    window_id: null,
-    time_range: null,
-    metrics_snapshot: {},
-    normalized_delta: null,
-    evidence_strength: null,
-    attribution_share: null,
-    learning_value: null,
-  };
+  // Ensure impact object has all fields even if input value is partial
+  const impact: RealizedImpact = useMemo(() => ({
+    verdict: value?.verdict ?? null,
+    outcome: value?.outcome ?? null,
+    evidence_links: value?.evidence_links ?? [],
+    decided: value?.decided ?? null,
+    window_id: value?.window_id ?? null,
+    time_range: value?.time_range ?? null,
+    metrics_snapshot: value?.metrics_snapshot ?? {},
+    normalized_delta: value?.normalized_delta ?? null,
+    evidence_strength: value?.evidence_strength ?? null,
+    attribution_share: value?.attribution_share ?? null,
+    learning_value: value?.learning_value ?? null,
+  }), [value]);
 
   // Calculate B Score with live update (Issue #7 from Codex - handle nulls)
   const scoreResult = useMemo(() => {
@@ -253,7 +253,7 @@ export function RealizedImpactEditor({
             Evidence Links (one per line)
           </label>
           <textarea
-            value={impact.evidence_links.join('\n')}
+            value={(impact.evidence_links ?? []).join('\n')}
             onChange={(e) => handleChange('evidence_links', e.target.value.split('\n').filter(l => l.trim()))}
             rows={3}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -299,9 +299,8 @@ export function RealizedImpactEditor({
             value={JSON.stringify(impact.metrics_snapshot, null, 2)}
             onChange={(e) => handleJsonChange(e.target.value)}
             rows={4}
-            className={`block w-full rounded-md shadow-sm font-mono text-xs ${
-              jsonError ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
-            }`}
+            className={`block w-full rounded-md shadow-sm font-mono text-xs ${jsonError ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+              }`}
           />
           {jsonError && <div className="text-sm text-red-600 mt-1">{jsonError}</div>}
         </div>
