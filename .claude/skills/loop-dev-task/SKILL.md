@@ -64,24 +64,24 @@ Step 0-1 → Step 0-2 → Step 3 (conditional) → Step 4 (conditional) → Step
 
 **For `/new-dev-task`:**
 ```
-PRD Preparation Progress:
-- [ ] Step 1: Environment detection
-- [ ] Step 2: Collect Task info
-- [ ] Step 3: Create Git branch
-- [ ] Step 4: Create Task + Sync + Merge
-- [ ] Step 5-1: Read parent Project file (architecture rules)
-- [ ] Step 5-2: Write Tech Spec (following Project rules)
-- [ ] Step 5-3: Write Todo
-- [ ] Step 5.5: Get Codex PRD feedback
-- [ ] Step 5.6: Update PRD with feedback
-- [ ] STOP and suggest /start-dev-task
+PRD 준비 진행상황:
+- [ ] Step 1: 환경 감지
+- [ ] Step 2: Task 정보 수집
+- [ ] Step 3: Git 브랜치 생성
+- [ ] Step 4: Task 생성 + 동기화 + 병합
+- [ ] Step 5-1: 부모 프로젝트 파일 읽기 (아키텍처 규칙)
+- [ ] Step 5-2: Tech Spec 작성 (한글, 프로젝트 규칙 준수)
+- [ ] Step 5-3: Todo 작성 (한글)
+- [ ] Step 5.5: Codex PRD 피드백 받기
+- [ ] Step 5.6: 피드백 반영하여 PRD 업데이트
+- [ ] STOP 후 /start-dev-task 제안
 ```
 
 **For `/start-dev-task`:**
 ```
-Implementation Progress:
-- [ ] Step 6: codex-claude-loop (implementation)
-- [ ] Step 7: Validation
+구현 진행상황:
+- [ ] Step 6: codex-claude-loop (구현)
+- [ ] Step 7: 검증
 ```
 
 ---
@@ -651,7 +651,9 @@ To finalize: /done-dev-task
 - Determine mode at Step 0 first
 - Confirm each step completion before proceeding
 - Read parent Project file before writing Tech Spec
-- Fill Notes section (Tech Spec following Project rules, Todo)
+- **🚨 Fill Notes section in Korean (Tech Spec, Todo - 한글 작성 필수)**
+  - Tech Spec following Project rules
+  - Todo with specific tasks
 - Get Codex PRD feedback and update PRD
 - **🛑 STOP after Step 5.6 in /new-dev-task and suggest /start-dev-task**
 - **🚨 Call `codex-claude-loop` via Skill tool in Step 6 (/start-dev-task only)**
