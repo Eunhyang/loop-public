@@ -76,6 +76,7 @@ export function ExpectedImpactEditor({
     tier: value?.tier || 'enabling',
     impact_magnitude: value?.impact_magnitude || 'mid',
     confidence: value?.confidence ?? 0.5,
+    contributes: value?.contributes || [],
     rationale: value?.rationale || '',
   }), [value]);
 

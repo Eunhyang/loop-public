@@ -12,6 +12,7 @@ import { MarkdownEditor } from '@/components/MarkdownEditor/MarkdownEditor';
 import { ReviewFieldWrapper } from '@/components/common/ReviewFieldWrapper';
 import { useReviewMode } from '@/hooks/useReviewMode';
 import { ImpactSection } from '@/features/impact/components/ImpactSection';
+import { calculateExpectedScore } from '@/features/impact/utils/calculator';
 import { TrackContributionEditor } from '@/features/impact/components/TrackContributionEditor';
 import { HypothesisSelector } from '@/features/impact/components/HypothesisSelector';
 
@@ -52,6 +53,9 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
         status: prefill?.status || dashboardData?.constants?.project?.status_default || 'todo',
         priority_flag: prefill?.priority_flag || 'medium',
         description: '',
+        expected_impact: (prefill?.expected_impact as ExpectedImpact | undefined) || null,
+        validates: (prefill?.validates as string[] | undefined) || [],
+        primary_hypothesis_id: (prefill?.primary_hypothesis_id as string | undefined) || '',
     });
 
     const [formError, setFormError] = useState<string | null>(null);
@@ -169,6 +173,32 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             label: p.entity_name,
             color: programColor,
         })), [programs]);
+
+    const hasHypotheses = useMemo(() => (dashboardData?.hypotheses?.length || 0) > 0, [dashboardData?.hypotheses]);
+
+    const isFormValid = useMemo(() => {
+        if (mode !== 'create') return true;
+        if (isDashboardLoading || !hasHypotheses) return false;
+
+        return Boolean(
+            formData.entity_name.trim() &&
+            formData.owner &&
+            formData.expected_impact &&
+            formData.validates.length > 0 &&
+            formData.primary_hypothesis_id &&
+            formData.validates.includes(formData.primary_hypothesis_id)
+        );
+    }, [mode, isDashboardLoading, hasHypotheses, formData]);
+
+    const expectedScore = useMemo(() => {
+        if (!formData.expected_impact) return null;
+        const result = calculateExpectedScore(
+            formData.expected_impact.tier,
+            formData.expected_impact.impact_magnitude,
+            formData.expected_impact.confidence
+        );
+        return result.score.toFixed(2);
+    }, [formData.expected_impact]);
 
     useEffect(() => {
         if (dashboardData?.constants?.project?.status_default && !prefill?.status) {
@@ -623,12 +653,39 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             setFormError('Owner is required');
             return;
         }
+        if (!hasHypotheses) {
+            setFormError('등록된 가설이 없습니다. 먼저 가설을 생성하세요.');
+            return;
+        }
+        if (!formData.expected_impact) {
+            setFormError('Expected Impact를 입력하세요.');
+            return;
+        }
+        if (formData.validates.length === 0) {
+            setFormError('가설을 1개 이상 선택하세요.');
+            return;
+        }
+        if (!formData.primary_hypothesis_id) {
+            setFormError('Primary hypothesis를 선택하세요.');
+            return;
+        }
+        if (!formData.validates.includes(formData.primary_hypothesis_id)) {
+            setFormError('Primary hypothesis는 선택한 가설 중 하나여야 합니다.');
+            return;
+        }
 
         createProject(
             {
                 ...formData,
                 parent_id: formData.parent_id || undefined,
-                program_id: formData.program_id || undefined
+                program_id: formData.program_id || undefined,
+                expected_impact: formData.expected_impact,
+                validates: formData.validates,
+                primary_hypothesis_id: formData.primary_hypothesis_id,
+                conditions_3y: [],
+                autofill_expected_impact: false,
+                // backend expects priority, but API front uses priority_flag
+                priority: formData.priority_flag,
             },
             {
                 onSuccess: () => {
@@ -734,6 +791,49 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     />
                 </div>
 
+                {/* Expected Impact (Required) */}
+                <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                        <label className="block text-sm font-medium text-zinc-700">Expected Impact *</label>
+                        {expectedScore && (
+                            <span className="text-xs text-zinc-600">A Score: {expectedScore}</span>
+                        )}
+                    </div>
+                    <ImpactSection
+                        expectedImpact={formData.expected_impact || undefined}
+                        realizedImpact={undefined}
+                        onExpectedChange={(impact) => setFormData(prev => ({ ...prev, expected_impact: impact }))}
+                        onRealizedChange={(_impact) => {}}
+                        mode="create"
+                    />
+                </div>
+
+                {/* Hypotheses (Required) */}
+                <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                        <label className="block text-sm font-medium text-zinc-700">Hypotheses *</label>
+                        {!hasHypotheses && !isDashboardLoading && (
+                            <span className="text-xs text-red-500">가설이 없습니다. 먼저 생성하세요.</span>
+                        )}
+                    </div>
+                    {isDashboardLoading ? (
+                        <span className="text-sm text-zinc-400">Hypotheses 불러오는 중...</span>
+                    ) : !hasHypotheses ? (
+                        <div className="text-sm text-zinc-500">
+                            등록된 가설이 없습니다. 새 가설을 만든 뒤 프로젝트를 생성하세요.
+                        </div>
+                    ) : (
+                        <HypothesisSelector
+                            hypotheses={dashboardData?.hypotheses || []}
+                            validates={formData.validates}
+                            primaryHypothesisId={formData.primary_hypothesis_id || null}
+                            onValidatesChange={(validates) => setFormData(prev => ({ ...prev, validates }))}
+                            onPrimaryChange={(primary) => setFormData(prev => ({ ...prev, primary_hypothesis_id: primary || '' }))}
+                            onHypothesisClick={(hypId) => pushDrawer({ type: 'hypothesis', mode: 'view', id: hypId })}
+                        />
+                    )}
+                </div>
+
                 {/* Description */}
                 <div className="space-y-1.5">
                     <label className="block text-sm font-medium text-zinc-700">Description (Optional)</label>
@@ -757,7 +857,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 </button>
                 <button
                     type="submit"
-                    disabled={isPending}
+                    disabled={isPending || !isFormValid}
                     className="px-3 py-1.5 text-xs font-semibold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isPending ? 'Creating...' : 'Create Project'}

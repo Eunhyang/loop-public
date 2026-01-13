@@ -82,10 +82,11 @@ class TaskUpdate(BaseModel):
 
 class ExpectedImpactInput(BaseModel):
     """Expected Impact 입력 (수동 설정용)"""
-    tier: str = Field(default="operational", description="strategic | enabling | operational | none")
-    impact_magnitude: str = Field(default="mid", description="high | mid | low")
-    confidence: float = Field(default=0.7, ge=0.0, le=1.0, description="신뢰도")
-    contributes: List[dict] = Field(default_factory=list, description="[{cond_id, weight}]")
+    tier: str = Field(default="operational", pattern="^(strategic|enabling|operational)$", description="strategic | enabling | operational")
+    impact_magnitude: str = Field(default="mid", pattern="^(high|mid|low)$", description="high | mid | low")
+    confidence: float = Field(default=0.7, ge=0.0, le=1.0, description="신뢰도 (0.0~1.0)")
+    contributes: List[str] = Field(default_factory=list, description="연결된 조건 IDs")
+    rationale: Optional[str] = Field(default=None, description="Impact 판단 근거")
 
 
 class ProjectCreate(BaseModel):
@@ -99,6 +100,8 @@ class ProjectCreate(BaseModel):
     # Autofill 옵션
     autofill_expected_impact: bool = Field(default=False, description="True면 LLM으로 Expected Impact 자동 채움")
     expected_impact: Optional[ExpectedImpactInput] = Field(default=None, description="수동 Expected Impact 설정")
+    validates: Optional[List[str]] = Field(default=None, description="가설 IDs")
+    primary_hypothesis_id: Optional[str] = Field(default=None, description="Primary hypothesis ID")
     llm_provider: str = Field(default="openai", description="openai | anthropic")
     # Auto-validation 옵션
     auto_validate: bool = Field(default=False, description="생성 후 AI 스키마 검증 자동 실행")

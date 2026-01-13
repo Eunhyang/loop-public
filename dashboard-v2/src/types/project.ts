@@ -2,6 +2,7 @@ export interface ExpectedImpact {
   tier: 'strategic' | 'enabling' | 'operational';
   impact_magnitude: 'high' | 'mid' | 'low';
   confidence: number; // 0.0 ~ 1.0
+  contributes?: string[];
   rationale?: string;
 }
 

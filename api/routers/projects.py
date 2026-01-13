@@ -120,6 +120,35 @@ async def create_project(project: ProjectCreate):
                 detail=f"Program not found: {project.program_id}"
             )
 
+    # 1.5 필수 입력 검증 (autofill_expected_impact=False 일 때)
+    if not project.autofill_expected_impact:
+        if not project.validates or len(project.validates) == 0:
+            raise HTTPException(status_code=400, detail="At least one hypothesis required in validates")
+        if not project.primary_hypothesis_id:
+            raise HTTPException(status_code=400, detail="primary_hypothesis_id is required")
+        if project.primary_hypothesis_id not in project.validates:
+            raise HTTPException(
+                status_code=400,
+                detail=f"primary_hypothesis_id ({project.primary_hypothesis_id}) must be in validates list"
+            )
+        # Hypothesis 존재 여부 확인
+        for hyp_id in project.validates:
+            hyp = cache.get_hypothesis(hyp_id)
+            if not hyp:
+                raise HTTPException(status_code=400, detail=f"Hypothesis not found: {hyp_id}")
+
+        if not project.expected_impact:
+            raise HTTPException(status_code=400, detail="expected_impact is required when autofill_expected_impact=False")
+
+        allowed_tiers = {"strategic", "enabling", "operational"}
+        allowed_magnitudes = {"high", "mid", "low"}
+        if project.expected_impact.tier not in allowed_tiers:
+            raise HTTPException(status_code=400, detail="expected_impact.tier must be strategic|enabling|operational")
+        if project.expected_impact.impact_magnitude not in allowed_magnitudes:
+            raise HTTPException(status_code=400, detail="expected_impact.impact_magnitude must be high|mid|low")
+        if project.expected_impact.confidence is None:
+            raise HTTPException(status_code=400, detail="expected_impact.confidence is required")
+
     # 2. Project ID 생성 (캐시 기반)
     project_id = cache.get_next_project_id()
     # ID 형식: prj-NNN (숫자) 또는 prj-{name} (텍스트)
@@ -160,6 +189,11 @@ async def create_project(project: ProjectCreate):
     if project.conditions_3y:
         frontmatter["conditions_3y"] = project.conditions_3y
 
+    if project.validates:
+        frontmatter["validates"] = project.validates
+    if project.primary_hypothesis_id:
+        frontmatter["primary_hypothesis_id"] = project.primary_hypothesis_id
+
     # 5. Expected Impact 처리
     expected_impact_result = None
     expected_score = None
@@ -181,7 +215,8 @@ async def create_project(project: ProjectCreate):
             "tier": project.expected_impact.tier,
             "impact_magnitude": project.expected_impact.impact_magnitude,
             "confidence": project.expected_impact.confidence,
-            "contributes": project.expected_impact.contributes
+            "contributes": project.expected_impact.contributes,
+            "rationale": project.expected_impact.rationale
         }
         frontmatter["expected_impact"] = expected_impact_result
 
