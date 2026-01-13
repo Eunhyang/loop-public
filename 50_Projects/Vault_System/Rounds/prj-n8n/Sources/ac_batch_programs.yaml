@@ -1,0 +1,208 @@
+# AC Batch Programs - Source Configuration (SSOT)
+# This file defines data sources, accelerators, and parsing rules for the Daily Digest workflow
+
+sources:
+  - name: "k-startup"
+    type: "listing"
+    url: "https://www.k-startup.go.kr/web/contents/bizpbanc.do"
+    parse:
+      item_selector: "div.board-list > table > tbody > tr"
+      title_selector: "td.subject > a"
+      date_selector: "td.date"
+      url_selector: "td.subject > a"
+      status_selector: "td.status"
+    notes: "K-Startup 창업지원 공고 목록 페이지"
+
+  - name: "google"
+    type: "search"
+    query_template: "2026 batch program 모집 {ac_name}"
+    result_limit: 5
+    parse:
+      link_selector: "a[href]"
+      title_selector: "h3"
+    notes: "Google 검색을 통한 각 accelerator 공식 페이지 크롤링"
+
+accelerators:
+  # Tier 1: Major Korean Accelerators
+  - name: "Antler Korea"
+    search_enabled: true
+    official_url: "https://www.antler.co/location/korea"
+
+  - name: "Primer"
+    search_enabled: true
+    official_url: "https://www.primer.kr"
+
+  - name: "SparkLabs"
+    search_enabled: true
+    official_url: "https://www.sparklabs.co.kr"
+
+  - name: "D.CAMP"
+    search_enabled: true
+    official_url: "https://dcamp.kr"
+
+  - name: "FuturePlay"
+    search_enabled: true
+    official_url: "https://www.futureplay.co"
+
+  # Tier 2: Corporate & Global Accelerators
+  - name: "Plug and Play"
+    search_enabled: true
+    official_url: "https://www.plugandplaytechcenter.com"
+
+  - name: "500 Global"
+    search_enabled: true
+    official_url: "https://500.co"
+
+  - name: "Y Combinator"
+    search_enabled: true
+    official_url: "https://www.ycombinator.com"
+
+  - name: "Techstars"
+    search_enabled: true
+    official_url: "https://www.techstars.com"
+
+  - name: "Google for Startups"
+    search_enabled: true
+    official_url: "https://startup.google.com"
+
+  - name: "Microsoft for Startups"
+    search_enabled: true
+    official_url: "https://www.microsoft.com/startups"
+
+  - name: "AWS Activate"
+    search_enabled: true
+    official_url: "https://aws.amazon.com/activate"
+
+  # Tier 3: Specialized & Regional
+  - name: "K-Accelerator"
+    search_enabled: true
+    official_url: "https://www.k-accelerator.kr"
+
+  - name: "Tips Town"
+    search_enabled: true
+    official_url: "https://www.tipstown.or.kr"
+
+  - name: "Korea Startup Forum"
+    search_enabled: true
+    official_url: "https://kstartupforum.org"
+
+  - name: "Seoul Innovation Park"
+    search_enabled: true
+    official_url: "https://seoulinnovationpark.kr"
+
+  - name: "Born2Global"
+    search_enabled: true
+    official_url: "https://www.born2global.com"
+
+  - name: "KDB Startup"
+    search_enabled: true
+    official_url: "https://www.kdb.co.kr"
+
+  - name: "IBK Startup"
+    search_enabled: true
+    official_url: "https://www.ibk.co.kr"
+
+  - name: "Hana Ventures"
+    search_enabled: true
+    official_url: "https://www.hanaventures.com"
+
+config:
+  # Deadline threshold for "Deadline Soon" classification (days)
+  deadline_threshold_days: 14
+
+  # Discord webhook URL (set via n8n environment variable)
+  discord_webhook: "${DISCORD_WEBHOOK_URL}"
+
+  # Schedule: Daily at 15:00 KST (06:00 UTC)
+  schedule_cron: "0 6 * * *"
+
+  # Rate limiting for Google search
+  google_search_delay_ms: 2000
+
+  # Maximum retries for HTTP requests
+  max_retries: 3
+
+  # Request timeout (ms)
+  request_timeout_ms: 30000
+
+  # Discord message character limit
+  discord_max_chars: 2000
+
+  # Snapshot retention (number of previous snapshots to keep)
+  snapshot_retention: 7
+
+  # State storage key for n8n Static Data
+  state_storage_key: "ac_batch_programs_snapshot"
+
+parsing_rules:
+  # Date extraction patterns (regex)
+  date_patterns:
+    - pattern: '\d{4}\.\d{2}\.\d{2}'
+      format: 'YYYY.MM.DD'
+    - pattern: '\d{4}-\d{2}-\d{2}'
+      format: 'YYYY-MM-DD'
+    - pattern: '\d{4}년 \d{1,2}월 \d{1,2}일'
+      format: 'YYYY년 MM월 DD일'
+    - pattern: '\d{1,2}/\d{1,2}'
+      format: 'MM/DD'
+      notes: 'Infer current year if date within 6 months'
+
+  # Status detection keywords
+  status_keywords:
+    open:
+      - '모집중'
+      - '접수중'
+      - '신청가능'
+      - 'open'
+      - 'accepting applications'
+    closed:
+      - '마감'
+      - '종료'
+      - '완료'
+      - 'closed'
+      - 'ended'
+    rolling:
+      - '상시모집'
+      - '상시'
+      - 'rolling'
+      - 'ongoing'
+
+  # Redaction patterns (remove sensitive financial info)
+  redaction_patterns:
+    - '\d+억원'
+    - '\d+만원'
+    - '\$\d+[KM]'
+    - 'equity \d+%'
+    - 'SAFE \$\d+'
+    - '\d+% equity'
+    - 'pre-money \$\d+'
+    - 'post-money \$\d+'
+
+error_handling:
+  # Retry strategy for failed HTTP requests
+  retry_strategy:
+    max_attempts: 3
+    delay_ms: 5000
+    exponential_backoff: true
+
+  # Partial failure handling
+  partial_failure_mode: "continue"  # continue | abort
+
+  # Discord error alert threshold
+  error_alert_threshold: 3  # Send alert if >= 3 sources fail
+
+notes: |
+  This configuration file serves as the Single Source of Truth (SSOT) for the
+  AC Batch Daily Digest workflow. All data sources, accelerators, parsing rules,
+  and configuration are centralized here to enable easy updates without modifying
+  the n8n workflow JSON.
+
+  The workflow reads this YAML file at runtime and uses it to:
+  - Fetch data from K-Startup and Google
+  - Parse HTML/JSON responses
+  - Classify programs by status
+  - Format Discord messages
+  - Handle errors and edge cases
+
+  To add a new accelerator, simply append to the accelerators[] array.
+  To modify parsing rules, update the parsing_rules section.
