@@ -11,11 +11,22 @@ horizon: "6week"
 deadline: 2026-02-23
 
 # === 계층 관계 ===
-parent_id: trk-4
+parent_id: prj-012
 aliases:
   - hyp-4-13
   - 한끼꼭꼭_챌린지_코칭전환
   - kkok_challenge_conversion
+
+outgoing_relations:
+  - type: supports
+    target_id: trk-4
+    description: "코칭/운영 트랙의 리드/리텐션 기반"
+  - type: supports
+    target_id: prj-012
+    description: "챌린지 운영 프로젝트의 핵심 가설"
+  - type: depends_on
+    target_id: hyp-4-12
+    description: "유지(Stickiness)가 확보돼야 문의/전환이 의미 있게 발생"
 
 # === 가설 정의 (필수 4요소) ===
 hypothesis_question: "챌린지 참여 과정에서 드러나는 문제(앱 사용 어려움/다이어트 불안/탈다이어트 접근)가 30분 미니코칭 문의/신청으로 전환되는가?"
@@ -55,7 +66,7 @@ loop_layer: ["Emotional Loop"]
 tags: ["challenge", "conversion", "coaching", "lead", "2026", "trk-4"]
 
 # === 검증 연결 ===
-validates: [prj-012]
+validates: [cond-b, cond-d]
 validated_by: []
 
 # === Condition 기여 ===

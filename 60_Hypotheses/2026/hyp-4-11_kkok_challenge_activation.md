@@ -11,11 +11,19 @@ horizon: "2week"
 deadline: 2026-01-20
 
 # === 계층 관계 ===
-parent_id: trk-4
+parent_id: prj-012
 aliases:
   - hyp-4-11
   - 한끼꼭꼭_챌린지_첫참여
   - kkok_challenge_activation
+
+outgoing_relations:
+  - type: supports
+    target_id: trk-4
+    description: "코칭/운영 트랙의 리드/리텐션 기반"
+  - type: supports
+    target_id: prj-012
+    description: "챌린지 운영 프로젝트의 핵심 가설"
 
 # === 가설 정의 (필수 4요소) ===
 hypothesis_question: "챌린지 공지(기부/100원 적립 포함)만으로도 초기 참여(첫 인증)가 유의미하게 발생하는가?"
@@ -52,7 +60,7 @@ loop_layer: ["Habit Loop"]
 tags: ["challenge", "community", "activation", "kkokkkok", "2026", "trk-4"]
 
 # === 검증 연결 ===
-validates: [prj-012]
+validates: [cond-b, cond-d]
 validated_by: []
 
 # === Condition 기여 ===

@@ -11,11 +11,22 @@ horizon: "6week"
 deadline: 2026-02-23
 
 # === 계층 관계 ===
-parent_id: trk-4
+parent_id: prj-012
 aliases:
   - hyp-4-12
   - 한끼꼭꼭_챌린지_유지
   - kkok_challenge_stickiness
+
+outgoing_relations:
+  - type: supports
+    target_id: trk-4
+    description: "코칭/운영 트랙의 리드/리텐션 기반"
+  - type: supports
+    target_id: prj-012
+    description: "챌린지 운영 프로젝트의 핵심 가설"
+  - type: depends_on
+    target_id: hyp-4-11
+    description: "첫 참여(Activation)가 성립해야 유지(Stickiness) 평가 가능"
 
 # === 가설 정의 (필수 4요소) ===
 hypothesis_question: "못하는 날 허용 + 작은 보상 구조가 참여자의 재참여(돌아오기)를 만들어 6주 챌린지 유지율을 끌어올리는가?"
@@ -60,7 +71,7 @@ loop_layer: ["Habit Loop"]
 tags: ["challenge", "retention", "stickiness", "kkokkkok", "2026", "trk-4"]
 
 # === 검증 연결 ===
-validates: [prj-012]
+validates: [cond-b, cond-d]
 validated_by: []
 
 # === Condition 기여 ===
