@@ -6,6 +6,7 @@ export interface ChipOption {
   label: string;
   color?: ChipColor;
   icon?: string;
+  active?: boolean;
 }
 
 export interface ChipSelectProps {
