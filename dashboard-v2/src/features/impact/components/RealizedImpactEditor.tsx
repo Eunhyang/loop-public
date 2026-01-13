@@ -106,28 +106,28 @@ export function RealizedImpactEditor({
     return (
       <div className="space-y-4 text-sm">
         <div>
-          <div className="font-semibold">B Score</div>
+          <div className="font-semibold text-zinc-500">실현 임팩트 (B Score)</div>
           <div>{scoreResult.score.toFixed(2)} / {scoreResult.maxScore.toFixed(1)}</div>
         </div>
         <div>
-          <div className="font-semibold">Delta</div>
+          <div className="font-semibold text-zinc-500">목표 달성률 (Delta)</div>
           <div>{impact.normalized_delta != null ? `${toPercent(impact.normalized_delta)}%` : 'N/A'}</div>
         </div>
         <div>
-          <div className="font-semibold">Strength</div>
-          <div>{impact.evidence_strength ?? 'N/A'}</div>
+          <div className="font-semibold text-zinc-500">증거 수준 (Strength)</div>
+          <div>{(EVIDENCE_STRENGTH_OPTIONS.find(o => o.value === impact.evidence_strength)?.label || impact.evidence_strength || 'N/A')}</div>
         </div>
         <div>
-          <div className="font-semibold">Attribution</div>
+          <div className="font-semibold text-zinc-500">기여도 (Attribution)</div>
           <div>{impact.attribution_share != null ? `${toPercent(impact.attribution_share)}%` : 'N/A'}</div>
         </div>
         <div>
-          <div className="font-semibold">Verdict</div>
-          <div>{impact.verdict ?? 'N/A'}</div>
+          <div className="font-semibold text-zinc-500">판단 (Verdict)</div>
+          <div>{(VERDICT_OPTIONS.find(o => o.value === impact.verdict)?.label || impact.verdict || 'N/A')}</div>
         </div>
         <div>
-          <div className="font-semibold">Outcome</div>
-          <div>{impact.outcome ?? 'N/A'}</div>
+          <div className="font-semibold text-zinc-500">결과 (Outcome)</div>
+          <div>{(OUTCOME_OPTIONS.find(o => o.value === impact.outcome)?.label || impact.outcome || 'N/A')}</div>
         </div>
       </div>
     );
@@ -137,30 +137,30 @@ export function RealizedImpactEditor({
     <div className="space-y-6">
       {reasoning && (
         <div className="text-sm bg-amber-50 border border-amber-200 rounded p-3">
-          <div className="font-semibold text-amber-900">Suggestion:</div>
+          <div className="font-semibold text-amber-900">제안 (Suggestion):</div>
           <div className="text-amber-800">{reasoning}</div>
         </div>
       )}
 
       {/* B Score Display */}
-      <div className="bg-blue-50 border border-blue-200 rounded p-3">
-        <div className="text-sm font-semibold text-blue-900">Live B Score</div>
+      <div className="bg-blue-50 border border-blue-200 rounded p-4">
+        <div className="text-sm font-semibold text-blue-900">실현 임팩트 점수</div>
         <div className="text-2xl font-bold text-blue-900">
           {scoreResult.score.toFixed(2)} / {scoreResult.maxScore.toFixed(1)}
         </div>
         <div className="text-xs text-blue-700 mt-1">
-          Formula: {scoreResult.normalizedDelta.toFixed(2)} × {scoreResult.evidenceStrength} ({EVIDENCE_STRENGTH_OPTIONS.find(o => o.value === scoreResult.evidenceStrength)?.description}) × {scoreResult.attributionShare.toFixed(2)}
+          공식: {scoreResult.normalizedDelta.toFixed(2)} × {scoreResult.evidenceStrength} ({EVIDENCE_STRENGTH_OPTIONS.find(o => o.value === scoreResult.evidenceStrength)?.description}) × {scoreResult.attributionShare.toFixed(2)}
         </div>
       </div>
 
       {/* Score Calculation Section */}
       <div className="space-y-4">
-        <h4 className="font-semibold text-gray-900">Score Calculation</h4>
+        <h4 className="font-semibold text-gray-900">점수 산출 상세</h4>
 
         {/* Normalized Delta Slider */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Normalized Delta (Target Achievement): {toPercent(impact.normalized_delta).toFixed(0)}%
+            목표 달성률 (Normalized Delta): {toPercent(impact.normalized_delta).toFixed(0)}%
           </label>
           <input
             type="range"
@@ -176,7 +176,7 @@ export function RealizedImpactEditor({
         {/* Evidence Strength */}
         <div>
           <ChipSelect
-            label="Evidence Strength"
+            label="증거 수준 (Evidence Strength)"
             options={EVIDENCE_STRENGTH_OPTIONS.map(o => ({ value: o.value, label: o.label }))}
             value={impact.evidence_strength ?? 'weak'}
             onChange={(v) => handleChange('evidence_strength', v as 'strong' | 'medium' | 'weak')}
@@ -186,7 +186,7 @@ export function RealizedImpactEditor({
         {/* Attribution Share Slider */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Attribution Share (Project Contribution): {toPercent(impact.attribution_share ?? 1.0).toFixed(0)}%
+            기여도 (Attribution Share): {toPercent(impact.attribution_share ?? 1.0).toFixed(0)}%
           </label>
           <input
             type="range"
@@ -202,7 +202,7 @@ export function RealizedImpactEditor({
         {/* Learning Value */}
         <div>
           <ChipSelect
-            label="Learning Value"
+            label="학습 가치 (Learning Value)"
             options={LEARNING_VALUE_OPTIONS}
             value={impact.learning_value ?? 'medium'}
             onChange={(v) => handleChange('learning_value', v as 'high' | 'medium' | 'low')}
@@ -212,12 +212,12 @@ export function RealizedImpactEditor({
 
       {/* Decision Section */}
       <div className="space-y-4 border-t pt-4">
-        <h4 className="font-semibold text-gray-900">Decision</h4>
+        <h4 className="font-semibold text-gray-900">의사결정</h4>
 
         {/* Verdict */}
         <div>
           <ChipSelect
-            label="Verdict"
+            label="판단 (Verdict)"
             options={VERDICT_OPTIONS.map(o => ({ value: o.value ?? '', label: o.label }))}
             value={impact.verdict ?? 'pending'}
             onChange={(v) => handleChange('verdict', v as RealizedImpact['verdict'])}
@@ -227,7 +227,7 @@ export function RealizedImpactEditor({
         {/* Outcome */}
         <div>
           <ChipSelect
-            label="Outcome"
+            label="결과 (Outcome)"
             options={OUTCOME_OPTIONS.map(o => ({ value: o.value ?? '', label: o.label }))}
             value={impact.outcome ?? 'inconclusive'}
             onChange={(v) => handleChange('outcome', v as RealizedImpact['outcome'])}
@@ -237,7 +237,7 @@ export function RealizedImpactEditor({
         {/* Decided Date */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Decided Date (YYYY-MM-DD)
+            결정일 (YYYY-MM-DD)
           </label>
           <input
             type="date"
@@ -250,7 +250,7 @@ export function RealizedImpactEditor({
         {/* Evidence Links */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Evidence Links (one per line)
+            근거 자료 링크 (한 줄에 하나씩 입력)
           </label>
           <textarea
             value={(impact.evidence_links ?? []).join('\n')}
@@ -263,11 +263,11 @@ export function RealizedImpactEditor({
 
       {/* Window Section (Optional/Advanced) */}
       <div className="space-y-4 border-t pt-4">
-        <h4 className="font-semibold text-gray-900">Evaluation Window (Optional)</h4>
+        <h4 className="font-semibold text-gray-900">평가 주기 (Evaluation Window - 선택사항)</h4>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Window ID (YYYY-MM | YYYY-QN | YYYY-HN)
+            주기 ID (window_id: 예. 2026-01, 2026-Q1)
           </label>
           <input
             type="text"
@@ -280,7 +280,7 @@ export function RealizedImpactEditor({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Time Range (YYYY-MM-DD..YYYY-MM-DD)
+            기간 설정 (YYYY-MM-DD..YYYY-MM-DD)
           </label>
           <input
             type="text"
@@ -293,7 +293,7 @@ export function RealizedImpactEditor({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Metrics Snapshot (JSON)
+            지표 스냅샷 (Metrics Snapshot - JSON)
           </label>
           <textarea
             value={JSON.stringify(impact.metrics_snapshot, null, 2)}

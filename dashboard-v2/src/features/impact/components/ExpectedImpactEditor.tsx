@@ -141,20 +141,20 @@ export function ExpectedImpactEditor({
   // Readonly display
   if (readonly) {
     if (!value) {
-      return <span className="text-zinc-400 py-1">No impact specified</span>;
+      return <span className="text-zinc-400 py-1">임팩트 정보가 없습니다</span>;
     }
 
     return (
       <div className="space-y-2">
         <div className="flex gap-2 flex-wrap items-center">
           <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
-            Tier: {value.tier || 'N/A'}
+            등급: {(TIER_OPTIONS.find(o => o.value === value.tier)?.label || value.tier || 'N/A')}
           </span>
           <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
-            Magnitude: {value.impact_magnitude || 'N/A'}
+            크기: {(MAGNITUDE_OPTIONS.find(o => o.value === value.impact_magnitude)?.label || value.impact_magnitude || 'N/A')}
           </span>
           <span className="inline-block px-2 py-1 bg-zinc-50 border border-zinc-200 rounded text-xs text-zinc-700">
-            Confidence: {value.confidence != null ? (value.confidence * 100).toFixed(0) + '%' : 'N/A'}
+            신뢰도: {value.confidence != null ? (value.confidence * 100).toFixed(0) + '%' : 'N/A'}
           </span>
           <ImpactScoreDisplay score={score} />
         </div>
@@ -170,7 +170,7 @@ export function ExpectedImpactEditor({
     <div className="space-y-4">
       {/* Score Display */}
       <div className="flex items-center gap-3">
-        <span className="text-xs text-zinc-500">Score:</span>
+        <span className="text-xs text-zinc-500">보정 점수:</span>
         <ImpactScoreDisplay score={score} />
       </div>
 
@@ -180,7 +180,7 @@ export function ExpectedImpactEditor({
           options={tierChipOptions}
           value={currentValue.tier}
           onChange={handleTierChange}
-          label="Tier"
+          label="등급 (Tier)"
           aria-label="Impact tier"
         />
       </div>
@@ -191,7 +191,7 @@ export function ExpectedImpactEditor({
           options={magnitudeChipOptions}
           value={currentValue.impact_magnitude}
           onChange={handleMagnitudeChange}
-          label="Magnitude"
+          label="크기 (Magnitude)"
           aria-label="Impact magnitude"
         />
       </div>
@@ -199,7 +199,7 @@ export function ExpectedImpactEditor({
       {/* Confidence Slider */}
       <div className="space-y-1.5">
         <label className="block text-sm font-medium text-zinc-700">
-          Confidence: {(currentValue.confidence * 100).toFixed(0)}%
+          신뢰도 (Confidence): {(currentValue.confidence * 100).toFixed(0)}%
         </label>
         <div className="flex items-center gap-3">
           <input
@@ -221,12 +221,12 @@ export function ExpectedImpactEditor({
       {/* Rationale */}
       <div className="space-y-1.5">
         <label className="block text-sm font-medium text-zinc-700">
-          Rationale
+          산출 근거 (Rationale)
         </label>
         <textarea
           value={currentValue.rationale || ''}
           onChange={handleRationaleChange}
-          placeholder="Enter the reasoning behind this impact assessment..."
+          placeholder="이 임팩트 평가에 대한 근거를 입력하세요..."
           className="w-full min-h-[80px] px-3 py-2 text-sm border border-zinc-200 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-y"
           aria-label="Impact rationale"
         />

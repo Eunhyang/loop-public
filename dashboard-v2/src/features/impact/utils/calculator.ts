@@ -44,9 +44,9 @@ export const MAX_POINTS_BY_TIER: Record<ImpactTier, number> = {
  * SSOT: impact_model_config.yml tiers section
  */
 export const TIER_OPTIONS: Array<{ value: ImpactTier; label: string }> = [
-  { value: 'strategic', label: 'Strategic' },
-  { value: 'enabling', label: 'Enabling' },
-  { value: 'operational', label: 'Operational' },
+  { value: 'strategic', label: '핵심 전략 (Strategic)' },
+  { value: 'enabling', label: '실행 가속 (Enabling)' },
+  { value: 'operational', label: '상시 운영 (Operational)' },
 ];
 
 /**
@@ -55,9 +55,9 @@ export const TIER_OPTIONS: Array<{ value: ImpactTier; label: string }> = [
  * Note: Uses 'mid' not 'medium' to match API
  */
 export const MAGNITUDE_OPTIONS: Array<{ value: ImpactMagnitude; label: string }> = [
-  { value: 'high', label: 'High' },
-  { value: 'mid', label: 'Mid' },
-  { value: 'low', label: 'Low' },
+  { value: 'high', label: '높음 (High)' },
+  { value: 'mid', label: '중간 (Mid)' },
+  { value: 'low', label: '낮음 (Low)' },
 ];
 
 /**
@@ -174,28 +174,28 @@ export const EVIDENCE_STRENGTH_OPTIONS: Array<{
   label: string;
   description: string;
 }> = [
-  { value: 'strong', label: 'Strong', description: '정량적 데이터, 명확한 인과관계' },
-  { value: 'medium', label: 'Medium', description: '정성적 증거, 합리적 추론' },
-  { value: 'weak', label: 'Weak', description: '간접 증거, 약한 연관성' },
-];
+    { value: 'strong', label: '확실 (Strong)', description: '정량적 데이터, 명확한 인과관계' },
+    { value: 'medium', label: '보통 (Medium)', description: '정성적 증거, 합리적 추론' },
+    { value: 'weak', label: '부족 (Weak)', description: '간접 증거, 약한 연관성' },
+  ];
 
 /**
  * Verdict options for UI (SSOT: schema_constants.yaml:525)
  */
 export const VERDICT_OPTIONS: Array<{ value: Verdict; label: string }> = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'go', label: 'Go' },
-  { value: 'no-go', label: 'No-Go' },
-  { value: 'pivot', label: 'Pivot' },
+  { value: 'pending', label: '대기 (Pending)' },
+  { value: 'go', label: '실행 (Go)' },
+  { value: 'no-go', label: '보류 (No-Go)' },
+  { value: 'pivot', label: '피벗 (Pivot)' },
 ];
 
 /**
  * Outcome options for UI (SSOT: schema_constants.yaml:526)
  */
 export const OUTCOME_OPTIONS: Array<{ value: Outcome; label: string }> = [
-  { value: 'supported', label: 'Supported' },
-  { value: 'rejected', label: 'Rejected' },
-  { value: 'inconclusive', label: 'Inconclusive' },
+  { value: 'supported', label: '입증됨 (Supported)' },
+  { value: 'rejected', label: '기각됨 (Rejected)' },
+  { value: 'inconclusive', label: '판단불가 (Inconclusive)' },
 ];
 
 /**
@@ -205,10 +205,10 @@ export const LEARNING_VALUE_OPTIONS: Array<{
   value: 'high' | 'medium' | 'low';
   label: string;
 }> = [
-  { value: 'high', label: 'High' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'low', label: 'Low' },
-];
+    { value: 'high', label: '높음 (High)' },
+    { value: 'medium', label: '보통 (Medium)' },
+    { value: 'low', label: '낮음 (Low)' },
+  ];
 
 /**
  * Calculate realized impact (B) score
