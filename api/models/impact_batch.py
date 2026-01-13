@@ -10,6 +10,165 @@ from pydantic import BaseModel, Field, field_validator
 
 
 # ============================================
+# New Models for v2 API (Phase 3)
+# ============================================
+
+class OutputContract(BaseModel):
+    """Required fields specification for LLM output"""
+    must_set: List[str] = Field(
+        description="Fields that must be filled (tier, impact_magnitude, confidence, etc.)"
+    )
+    contributes_rules: Dict[str, Any] = Field(
+        description="Rules for condition_contributes and track_contributes"
+    )
+    hypothesis_rules: Dict[str, Any] = Field(
+        description="Rules for hypothesis linking (validates, primary_hypothesis_id)"
+    )
+
+
+class ScoringContext(BaseModel):
+    """Impact model context for LLM"""
+    impact_model_version: str = Field(
+        description="Version of impact_model_config.yml"
+    )
+    tier_points: Dict[str, Dict[str, float]] = Field(
+        description="magnitude_points table from config"
+    )
+    display_rules: Dict[str, Any] = Field(
+        description="Display formatting rules"
+    )
+
+
+class ContributeItem(BaseModel):
+    """Single contribution item (condition or track)"""
+    condition_id: Optional[str] = None
+    track_id: Optional[str] = None
+    weight: float = Field(ge=0.0, le=1.0, description="Contribution weight (0.0-1.0)")
+
+
+class ApplyPatch(BaseModel):
+    """SSOT-ready patch format (v5.3 schema compliant)"""
+    expected_impact: Dict[str, Any] = Field(
+        description="Impact statement, metric, target (NO contributes inside)"
+    )
+    condition_contributes: List[ContributeItem] = Field(
+        default_factory=list,
+        description="TOP-LEVEL field: condition contributions"
+    )
+    track_contributes: List[ContributeItem] = Field(
+        default_factory=list,
+        description="TOP-LEVEL field: track contributions"
+    )
+    validates: List[str] = Field(
+        default_factory=list,
+        description="Hypothesis IDs this project validates"
+    )
+    primary_hypothesis_id: Optional[str] = Field(
+        default=None,
+        description="Primary hypothesis being tested"
+    )
+    assumptions: List[str] = Field(
+        default_factory=list,
+        description="Key assumptions"
+    )
+    evidence_refs: List[str] = Field(
+        default_factory=list,
+        description="Supporting evidence references"
+    )
+    linking_reason: Optional[str] = Field(
+        default=None,
+        description="Why this project links to hypotheses/conditions/tracks"
+    )
+
+
+class StructuredReasoning(BaseModel):
+    """Audit-ready reasoning breakdown"""
+    tier_reason: str = Field(description="Why this tier was chosen")
+    magnitude_reason: str = Field(description="Why this magnitude")
+    confidence_reason: str = Field(description="Factors affecting confidence")
+    assumptions: List[str] = Field(
+        default_factory=list,
+        description="Key assumptions"
+    )
+    evidence_refs: List[str] = Field(
+        default_factory=list,
+        description="Supporting evidence"
+    )
+    linking_reason: Optional[str] = Field(
+        default=None,
+        description="Why this links to hypotheses/conditions/tracks"
+    )
+    rollup_reason: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Reasoning for condition/track weight allocation"
+    )
+
+
+class CalculatedFields(BaseModel):
+    """Complete score calculation results"""
+    magnitude_points: float = Field(description="Base points for tier/magnitude")
+    expected_score_raw: float = Field(description="Raw calculated score")
+    max_score_by_tier: float = Field(description="Max possible score for this tier")
+    normalized_score_10: float = Field(description="Normalized to 0-10 scale")
+    display_star_5: Optional[float] = Field(default=None, description="5-star display rating")
+    calculation: str = Field(description="Calculation formula string")
+
+
+class FieldValidationError(BaseModel):
+    """Structured field-level error (NEW - Codex Finding #5)"""
+    field_path: str = Field(
+        description="e.g., 'expected_impact.statement', 'condition_contributes[0].weight'"
+    )
+    error_type: str = Field(
+        description="missing_required | invalid_type | invalid_value | constraint_violation"
+    )
+    message: str
+    expected: Optional[Any] = Field(default=None, description="Expected value/type")
+    actual: Optional[Any] = Field(default=None, description="Actual value received")
+    constraint: Optional[str] = Field(default=None, description="Constraint rule violated")
+
+
+class EnhancedPreviewRequest(BaseModel):
+    """Complete preview request schema (NEW - Codex Finding #5)"""
+    project_id: str
+    apply_patch: ApplyPatch  # Use new ApplyPatch model
+    parent_chain: Optional[List[str]] = Field(
+        default=None,
+        description="For hierarchy validation"
+    )
+    existing_contributes: Optional[Dict] = Field(
+        default=None,
+        description="Current state for diff"
+    )
+    validate_weights: bool = Field(default=True, description="Enable weight sum check")
+    validate_hypothesis_links: bool = Field(
+        default=True,
+        description="Enable strategic tier check"
+    )
+
+
+class EnhancedPreviewResponse(BaseModel):
+    """Complete response with validation results (NEW - Codex Finding #5)"""
+    project_id: str
+    status: str = Field(description="valid | warnings | errors")
+    validation_passed: bool
+    warnings: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Structured warnings (non-blocking)"
+    )
+    errors: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Structured errors (blocking)"
+    )
+    apply_patch_preview: ApplyPatch
+    impact_preview: CalculatedFields
+    changes_summary: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="{'added': [...], 'removed': [...], 'modified': [...]}"
+    )
+
+
+# ============================================
 # Worklist Models
 # ============================================
 
@@ -63,6 +222,14 @@ class WorklistResponse(BaseModel):
     run_id: str = Field(description="Server-generated run ID (run-YYYYMMDD-HHMMSS-{random})")
     total_matched: int
     items: List[WorklistItem]
+    required_output_contract: Optional[OutputContract] = Field(
+        default=None,
+        description="Required fields specification for LLM"
+    )
+    scoring_context: Optional[ScoringContext] = Field(
+        default=None,
+        description="Impact model context"
+    )
 
 
 # ============================================
@@ -109,17 +276,21 @@ class SuggestBatchSuggestion(BaseModel):
     """LLM suggestion for single project"""
     project_id: str
     status: str = Field(description="success | error")
+    apply_patch: Optional[ApplyPatch] = Field(
+        default=None,
+        description="v5.3 schema compliant patch (new format)"
+    )
     suggested_fields: Dict[str, Any] = Field(
         default_factory=dict,
-        description="LLM suggested fields (tier, impact_magnitude, confidence, contributes)"
+        description="LLM suggested fields (DEPRECATED - use apply_patch)"
     )
-    calculated_fields: Dict[str, Any] = Field(
-        default_factory=dict,
-        description="Server calculated fields (expected_score)"
+    calculated_fields: Optional[CalculatedFields] = Field(
+        default=None,
+        description="Server calculated fields with complete breakdown"
     )
-    reasoning: Dict[str, str] = Field(
-        default_factory=dict,
-        description="LLM reasoning per field"
+    reasoning: Optional[StructuredReasoning] = Field(
+        default=None,
+        description="Structured reasoning breakdown"
     )
     warnings: List[str] = Field(
         default_factory=list,
@@ -132,6 +303,11 @@ class SuggestBatchResponse(BaseModel):
     """Response with batch suggestions"""
     run_id: str
     mode: str
+    schema_version: str = Field(default="v2", description="API schema version")
+    impact_model_version: Optional[str] = Field(
+        default=None,
+        description="Version from impact_model_config.yml"
+    )
     suggestions: List[SuggestBatchSuggestion]
     summary: Dict[str, int] = Field(
         description="Summary stats (total, success, failed)"
@@ -229,11 +405,20 @@ class ApplyBatchRequest(BaseModel):
 class ApplyBatchResult(BaseModel):
     """Result for single project update"""
     project_id: str
-    status: str = Field(description="success | failed | skipped")
+    status: str = Field(description="success | validation_error | write_error | skipped")
     updated_at: Optional[str] = None
     applied_fields: List[str] = Field(
         default_factory=list,
         description="List of fields successfully applied"
+    )
+    applied_patch: Optional[ApplyPatch] = Field(
+        default=None,
+        description="The patch that was applied"
+    )
+    file_path: Optional[str] = None
+    validation_errors: List[FieldValidationError] = Field(
+        default_factory=list,
+        description="Field-level validation errors (NEW - Codex Finding #5)"
     )
     error: Optional[str] = None
 

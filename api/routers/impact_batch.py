@@ -21,6 +21,12 @@ from ..models.impact_batch import (
     WorklistRequest,
     WorklistResponse,
     WorklistItem,
+    OutputContract,
+    ScoringContext,
+    ApplyPatch,
+    StructuredReasoning,
+    CalculatedFields,
+    FieldValidationError,
     SuggestBatchRequest,
     SuggestBatchResponse,
     SuggestBatchSuggestion,
@@ -35,8 +41,13 @@ from ..models.impact_batch import (
 )
 from ..cache import get_cache
 from ..utils.vault_utils import get_vault_dir
-from ..utils.impact_calculator import calculate_expected_score
+from ..utils.impact_calculator import (
+    calculate_expected_score_with_breakdown,
+    calculate_expected_score,
+    load_impact_config
+)
 from .pending import find_entity_file, update_entity_frontmatter
+import yaml
 
 router = APIRouter(prefix="/api/mcp/impact/expected", tags=["impact-batch"])
 
@@ -55,6 +66,147 @@ def generate_run_id() -> str:
     timestamp = now.strftime("%Y%m%d-%H%M%S")
     random_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
     return f"run-{timestamp}-{random_suffix}"
+
+
+def validate_patch_fields(patch: Dict[str, Any], cache) -> List[FieldValidationError]:
+    """
+    Validate patch fields and return structured errors
+
+    Phase 7: Field-level validation for apply-batch endpoint
+    """
+    errors = []
+
+    # 1. Required field validation
+    if "expected_impact" in patch:
+        expected_impact = patch["expected_impact"]
+        if isinstance(expected_impact, dict):
+            statement = expected_impact.get("statement", "").strip()
+            if not statement:
+                errors.append(FieldValidationError(
+                    field_path="expected_impact.statement",
+                    error_type="missing_required",
+                    message="Impact statement is required"
+                ))
+
+    # 2. Type validation for weights
+    if "condition_contributes" in patch:
+        contributes = patch["condition_contributes"]
+        if isinstance(contributes, list):
+            for idx, item in enumerate(contributes):
+                if not isinstance(item, dict):
+                    errors.append(FieldValidationError(
+                        field_path=f"condition_contributes[{idx}]",
+                        error_type="invalid_type",
+                        message="Each contribute item must be a dict",
+                        expected="dict",
+                        actual=type(item).__name__
+                    ))
+                    continue
+
+                weight = item.get("weight")
+                if weight is not None:
+                    if not isinstance(weight, (int, float)):
+                        errors.append(FieldValidationError(
+                            field_path=f"condition_contributes[{idx}].weight",
+                            error_type="invalid_type",
+                            message="Weight must be a number",
+                            expected="float",
+                            actual=type(weight).__name__
+                        ))
+                    elif not (0.0 <= weight <= 1.0):
+                        errors.append(FieldValidationError(
+                            field_path=f"condition_contributes[{idx}].weight",
+                            error_type="invalid_value",
+                            message="Weight must be between 0.0 and 1.0",
+                            expected="0.0-1.0",
+                            actual=weight
+                        ))
+
+    if "track_contributes" in patch:
+        contributes = patch["track_contributes"]
+        if isinstance(contributes, list):
+            for idx, item in enumerate(contributes):
+                if not isinstance(item, dict):
+                    errors.append(FieldValidationError(
+                        field_path=f"track_contributes[{idx}]",
+                        error_type="invalid_type",
+                        message="Each contribute item must be a dict",
+                        expected="dict",
+                        actual=type(item).__name__
+                    ))
+                    continue
+
+                weight = item.get("weight")
+                if weight is not None:
+                    if not isinstance(weight, (int, float)):
+                        errors.append(FieldValidationError(
+                            field_path=f"track_contributes[{idx}].weight",
+                            error_type="invalid_type",
+                            message="Weight must be a number",
+                            expected="float",
+                            actual=type(weight).__name__
+                        ))
+                    elif not (0.0 <= weight <= 1.0):
+                        errors.append(FieldValidationError(
+                            field_path=f"track_contributes[{idx}].weight",
+                            error_type="invalid_value",
+                            message="Weight must be between 0.0 and 1.0",
+                            expected="0.0-1.0",
+                            actual=weight
+                        ))
+
+    # 3. Constraint validation - weight sum <= 1.0
+    if "condition_contributes" in patch:
+        contributes = patch["condition_contributes"]
+        if isinstance(contributes, list):
+            total_weight = sum(
+                item.get("weight", 0.0)
+                for item in contributes
+                if isinstance(item, dict)
+            )
+            if total_weight > 1.0:
+                errors.append(FieldValidationError(
+                    field_path="condition_contributes",
+                    error_type="constraint_violation",
+                    message=f"Total weight {total_weight} exceeds maximum 1.0",
+                    constraint="weight_sum_max_1.0",
+                    actual=total_weight
+                ))
+
+    if "track_contributes" in patch:
+        contributes = patch["track_contributes"]
+        if isinstance(contributes, list):
+            total_weight = sum(
+                item.get("weight", 0.0)
+                for item in contributes
+                if isinstance(item, dict)
+            )
+            if total_weight > 1.0:
+                errors.append(FieldValidationError(
+                    field_path="track_contributes",
+                    error_type="constraint_violation",
+                    message=f"Total weight {total_weight} exceeds maximum 1.0",
+                    constraint="weight_sum_max_1.0",
+                    actual=total_weight
+                ))
+
+    # 4. Reference validation - hypothesis IDs must exist
+    if "validates" in patch:
+        validates = patch["validates"]
+        if isinstance(validates, list):
+            hypotheses = cache.get_all_hypotheses() if hasattr(cache, 'get_all_hypotheses') else []
+            hyp_ids = {h.get("entity_id") for h in hypotheses}
+
+            for idx, hyp_id in enumerate(validates):
+                if hyp_id not in hyp_ids:
+                    errors.append(FieldValidationError(
+                        field_path=f"validates[{idx}]",
+                        error_type="invalid_value",
+                        message=f"Hypothesis {hyp_id} not found in vault",
+                        actual=hyp_id
+                    ))
+
+    return errors
 
 
 def build_parent_chain(project: Dict[str, Any], cache) -> List[str]:
@@ -255,10 +407,34 @@ async def get_expected_impact_worklist(
     # Generate server-side run_id
     run_id = generate_run_id()
 
+    # Load impact config for contract + context
+    config = load_impact_config()
+
+    # Build OutputContract
+    output_contract = OutputContract(
+        must_set=[
+            "tier",
+            "impact_magnitude",
+            "confidence",
+            "expected_impact.statement"
+        ],
+        contributes_rules=config.get("validation", {}).get("project", {}).get("contributes_rules", {}),
+        hypothesis_rules=config.get("hypothesis_rules", {})
+    )
+
+    # Build ScoringContext
+    scoring_context = ScoringContext(
+        impact_model_version=config.get("version", "1.3.0"),
+        tier_points=config.get("magnitude_points", {}),
+        display_rules=config.get("display_rules", {})
+    )
+
     return WorklistResponse(
         run_id=run_id,
         total_matched=len(filtered),
-        items=items
+        items=items,
+        required_output_contract=output_contract,
+        scoring_context=scoring_context
     )
 
 
@@ -333,68 +509,131 @@ async def suggest_batch(
 
             content = result["content"]
 
-            # Parse LLM response
-            suggested_fields = {}
-            reasoning = {}
+            # Parse LLM response (v5.3 schema)
+            suggested_fields = {}  # Keep for backward compatibility (deprecated)
+            reasoning_dict = {}
             warnings = []
 
-            # tier
+            # Extract tier
+            tier_value = None
+            tier_reason = ""
             if "tier" in content:
                 tier_data = content["tier"]
                 if isinstance(tier_data, dict):
-                    suggested_fields["tier"] = tier_data.get("value", "operational")
-                    reasoning["tier"] = tier_data.get("reasoning", "")
+                    tier_value = tier_data.get("value", "operational")
+                    tier_reason = tier_data.get("reasoning", "")
                 else:
-                    suggested_fields["tier"] = tier_data
+                    tier_value = tier_data
+                suggested_fields["tier"] = tier_value
 
-            # impact_magnitude
+            # Extract impact_magnitude
+            magnitude_value = None
+            magnitude_reason = ""
             if "impact_magnitude" in content:
                 mag_data = content["impact_magnitude"]
                 if isinstance(mag_data, dict):
-                    suggested_fields["impact_magnitude"] = mag_data.get("value", "mid")
-                    reasoning["impact_magnitude"] = mag_data.get("reasoning", "")
+                    magnitude_value = mag_data.get("value", "mid")
+                    magnitude_reason = mag_data.get("reasoning", "")
                 else:
-                    suggested_fields["impact_magnitude"] = mag_data
+                    magnitude_value = mag_data
+                suggested_fields["impact_magnitude"] = magnitude_value
 
-            # confidence
+            # Extract confidence
+            confidence_value = 0.7
+            confidence_reason = ""
             if "confidence" in content:
                 conf_data = content["confidence"]
                 if isinstance(conf_data, dict):
-                    suggested_fields["confidence"] = conf_data.get("value", 0.7)
-                    reasoning["confidence"] = conf_data.get("reasoning", "")
+                    confidence_value = conf_data.get("value", 0.7)
+                    confidence_reason = conf_data.get("reasoning", "")
                 else:
-                    suggested_fields["confidence"] = conf_data
+                    confidence_value = conf_data
+                suggested_fields["confidence"] = confidence_value
 
-            # contributes
-            if "contributes" in content:
-                contrib_data = content["contributes"]
-                if isinstance(contrib_data, dict):
-                    suggested_fields["contributes"] = contrib_data.get("value", [])
-                    reasoning["contributes"] = contrib_data.get("reasoning", "")
-                else:
-                    suggested_fields["contributes"] = contrib_data
+            # Extract v5.3 schema fields
+            validates = content.get("validates", [])
+            primary_hypothesis_id = content.get("primary_hypothesis_id")
+            condition_contributes = content.get("condition_contributes", [])
+            track_contributes = content.get("track_contributes", [])
+            assumptions = content.get("assumptions", [])
+            evidence_refs = content.get("evidence_refs", [])
+            linking_reason = content.get("linking_reason")
+            summary = content.get("summary", "")
 
-            # Calculate expected score
-            calculated_fields = {}
-            if all(k in suggested_fields for k in ["tier", "impact_magnitude", "confidence"]):
+            # Build ApplyPatch (v5.3 compliant)
+            apply_patch = ApplyPatch(
+                expected_impact={
+                    "statement": summary,
+                    "metric": content.get("metric"),
+                    "target": content.get("target")
+                },
+                condition_contributes=condition_contributes,
+                track_contributes=track_contributes,
+                validates=validates,
+                primary_hypothesis_id=primary_hypothesis_id,
+                assumptions=assumptions,
+                evidence_refs=evidence_refs,
+                linking_reason=linking_reason
+            )
+
+            # Build StructuredReasoning
+            structured_reasoning = StructuredReasoning(
+                tier_reason=tier_reason,
+                magnitude_reason=magnitude_reason,
+                confidence_reason=confidence_reason,
+                assumptions=assumptions,
+                evidence_refs=evidence_refs,
+                linking_reason=linking_reason,
+                rollup_reason={
+                    "condition_contributes": f"Allocated {len(condition_contributes)} conditions",
+                    "track_contributes": f"Allocated {len(track_contributes)} tracks"
+                }
+            )
+
+            # Calculate expected score (FIXED: use _with_breakdown, no contributes param)
+            calculated_fields_obj = None
+            if tier_value and magnitude_value and confidence_value is not None:
                 try:
-                    score_result = calculate_expected_score(
-                        tier=suggested_fields["tier"],
-                        magnitude=suggested_fields["impact_magnitude"],
-                        confidence=suggested_fields["confidence"],
-                        contributes=suggested_fields.get("contributes", [])
+                    # Load config to get display rules
+                    config = load_impact_config()
+                    display_rules = config.get("display_rules", {})
+                    star_thresholds = display_rules.get("star_thresholds", {})
+
+                    score_result = calculate_expected_score_with_breakdown(
+                        tier=tier_value,
+                        magnitude=magnitude_value,
+                        confidence=confidence_value
                     )
-                    calculated_fields["expected_score"] = score_result["score"]
-                    calculated_fields["score_components"] = score_result
+
+                    # Calculate star rating
+                    normalized = score_result["normalized_10"]
+                    display_star = 1
+                    for stars, (min_score, max_score) in star_thresholds.items():
+                        if min_score <= normalized < max_score:
+                            display_star = int(stars)
+                            break
+
+                    calculated_fields_obj = CalculatedFields(
+                        magnitude_points=score_result["tier_points"],
+                        expected_score_raw=score_result["score"],
+                        max_score_by_tier=score_result["max_score_by_tier"],
+                        normalized_score_10=score_result["normalized_10"],
+                        display_star_5=float(display_star),
+                        calculation=score_result["formula"]
+                    )
+
+                    # Also populate legacy calculated_fields dict for backward compat
+                    suggested_fields["expected_score"] = score_result["score"]
                 except Exception as e:
                     warnings.append(f"Score calculation failed: {str(e)}")
 
             suggestions.append(SuggestBatchSuggestion(
                 project_id=project_id,
                 status="success",
-                suggested_fields=suggested_fields,
-                calculated_fields=calculated_fields,
-                reasoning=reasoning,
+                apply_patch=apply_patch,
+                suggested_fields=suggested_fields,  # Deprecated but kept for compatibility
+                calculated_fields=calculated_fields_obj,
+                reasoning=structured_reasoning,
                 warnings=warnings
             ))
             success_count += 1
@@ -407,9 +646,14 @@ async def suggest_batch(
             ))
             failed_count += 1
 
+    # Load config for version info
+    config = load_impact_config()
+
     return SuggestBatchResponse(
         run_id=run_id,
         mode=request.mode,
+        schema_version="v2",
+        impact_model_version=config.get("version", "1.3.0"),
         suggestions=suggestions,
         summary={
             "total": len(request.items),
@@ -429,6 +673,9 @@ async def preview_expected_impact(
 
     Calculates scores for draft fields and compares with current values
     Validates tier/condition alignment
+
+    NOTE: This is the legacy simple preview endpoint.
+    For enhanced validation, see the implementation below with additional checks.
     """
     cache = get_cache()
 
@@ -446,23 +693,86 @@ async def preview_expected_impact(
     draft = request.draft
     calculated = {}
     warnings = []
+    errors = []
 
     if all(k in draft for k in ["tier", "impact_magnitude", "confidence"]):
         try:
-            score_result = calculate_expected_score(
+            # Use new breakdown function
+            score_result = calculate_expected_score_with_breakdown(
                 tier=draft["tier"],
                 magnitude=draft["impact_magnitude"],
-                confidence=draft["confidence"],
-                contributes=draft.get("contributes", [])
+                confidence=draft["confidence"]
             )
             calculated["expected_score"] = score_result["score"]
             calculated["score_components"] = score_result
         except Exception as e:
-            warnings.append(f"Score calculation failed: {str(e)}")
+            errors.append({"field": "score_calculation", "message": str(e)})
+
+    # Enhanced validation (Phase 6)
+
+    # 1. Weight sum validation
+    if "condition_contributes" in draft:
+        condition_contributes = draft["condition_contributes"]
+        if isinstance(condition_contributes, list):
+            total_weight = sum(item.get("weight", 0.0) for item in condition_contributes)
+            if total_weight > 1.0:
+                warnings.append({
+                    "field": "condition_contributes",
+                    "issue": "weight_sum_exceeded",
+                    "current": total_weight,
+                    "max": 1.0
+                })
+
+    if "track_contributes" in draft:
+        track_contributes = draft["track_contributes"]
+        if isinstance(track_contributes, list):
+            total_weight = sum(item.get("weight", 0.0) for item in track_contributes)
+            if total_weight > 1.0:
+                warnings.append({
+                    "field": "track_contributes",
+                    "issue": "weight_sum_exceeded",
+                    "current": total_weight,
+                    "max": 1.0
+                })
+
+    # 2. Strategic tier hypothesis validation
+    draft_tier = draft.get("tier")
+    validates = draft.get("validates", [])
+    if draft_tier == "strategic" and len(validates) == 0:
+        warnings.append({
+            "field": "validates",
+            "issue": "strategic_requires_hypothesis",
+            "tier": "strategic"
+        })
+
+    # 3. Parent chain alignment (if parent_chain provided)
+    if hasattr(request, 'parent_chain') and request.parent_chain:
+        # Check if condition_contributes align with parent conditions
+        if "condition_contributes" in draft:
+            for item in draft["condition_contributes"]:
+                cond_id = item.get("condition_id")
+                if cond_id and cond_id not in request.parent_chain:
+                    warnings.append({
+                        "field": "condition_contributes",
+                        "issue": "condition_not_in_parent_chain",
+                        "condition_id": cond_id
+                    })
+
+    # 4. Hypothesis existence check (if validates provided)
+    if validates:
+        hypotheses = cache.get_all_hypotheses() if hasattr(cache, 'get_all_hypotheses') else []
+        hyp_ids = {h.get("entity_id") for h in hypotheses}
+        for hyp_id in validates:
+            if hyp_id not in hyp_ids:
+                warnings.append({
+                    "field": "validates",
+                    "issue": "hypothesis_not_found",
+                    "hypothesis_id": hyp_id
+                })
 
     # Build diff
     diff = {}
-    for key in ["tier", "impact_magnitude", "confidence", "contributes"]:
+    for key in ["tier", "impact_magnitude", "confidence", "condition_contributes", "track_contributes", "validates"]:
         if key in draft:
             before = current_impact.get(key)
             after = draft[key]
@@ -476,10 +786,8 @@ async def preview_expected_impact(
         if before_score != after_score:
             diff["expected_score"] = PreviewDiff(before=before_score, after=after_score)
 
-    # Validate tier/condition alignment
-    draft_tier = draft.get("tier")
+    # Legacy tier/condition alignment check
     conditions_3y = project.get("conditions_3y", [])
-
     if draft_tier == "strategic" and not conditions_3y:
         warnings.append("Strategic tier requires conditions_3y to be set")
     elif draft_tier != "strategic" and conditions_3y:
@@ -528,17 +836,35 @@ async def apply_batch(
                     detail=f"Cannot write to derived fields in expected_impact: {DERIVED_FIELDS}"
                 )
 
+    # Get cache for validation
+    cache = get_cache()
+
     # Process updates
     results = []
     success_count = 0
     failed_count = 0
     skipped_count = 0
+    validation_error_count = 0
 
     for update in request.updates:
         project_id = update.project_id
         patch = update.patch
 
         try:
+            # Phase 7: Field-level validation
+            validation_errors = validate_patch_fields(patch, cache)
+
+            if validation_errors:
+                results.append(ApplyBatchResult(
+                    project_id=project_id,
+                    status="validation_error",
+                    validation_errors=validation_errors,
+                    error=f"Field validation failed with {len(validation_errors)} errors"
+                ))
+                validation_error_count += 1
+                failed_count += 1
+                continue
+
             # Find entity file
             entity_file = find_entity_file(project_id, "Project")
             if not entity_file:
@@ -558,13 +884,14 @@ async def apply_batch(
                     project_id=project_id,
                     status="success",
                     updated_at=datetime.now().isoformat(),
-                    applied_fields=list(patch.keys())
+                    applied_fields=list(patch.keys()),
+                    file_path=str(entity_file)
                 ))
                 success_count += 1
             else:
                 results.append(ApplyBatchResult(
                     project_id=project_id,
-                    status="failed",
+                    status="write_error",
                     error="Failed to update frontmatter"
                 ))
                 failed_count += 1
@@ -622,9 +949,9 @@ async def apply_batch(
         ),
         validation=ApplyBatchValidation(
             total_updates=len(request.updates),
-            validated=len(request.updates),
-            blocked_by_derived_fields=0,
-            schema_errors=0
+            validated=len(request.updates) - validation_error_count,
+            blocked_by_derived_fields=0,  # Already blocked before loop
+            schema_errors=validation_error_count
         ),
         summary={
             "total": len(request.updates),

@@ -339,6 +339,33 @@ metrics_snapshot:
   max_keys: 20
 
 # ============================================
+# Hypothesis Linking Rules (v2 추가)
+# ============================================
+# Expected Impact Batch API v2에서 사용
+# LLM이 가설 연결 시 준수해야 할 규칙
+
+hypothesis_rules:
+  strategic_must_validate: true  # Strategic tier는 validates 필드 권장
+  max_hypotheses_per_project: 3  # 프로젝트당 최대 가설 링크 수
+  weight_sum_max: 1.0             # contributes weight 합계 상한
+
+# ============================================
+# Display Formatting Rules (v2 추가)
+# ============================================
+# 점수 표시 및 UI 렌더링 규칙
+
+display_rules:
+  score_display_mode: "stars_5"   # "stars_5" | "normalized_10" | "raw"
+  decimal_places: 2               # 소수점 자릿수
+  show_breakdown: true            # 계산 과정 표시 여부
+  star_thresholds:                # Score → Star 매핑
+    5: [9.0, 10.0]
+    4: [7.0, 9.0]
+    3: [5.0, 7.0]
+    2: [3.0, 5.0]
+    1: [0.0, 3.0]
+
+# ============================================
 # Evidence Quality Meta (v1.3.0 추가)
 # ============================================
 # LOOP_PHILOSOPHY 8.1: "숫자의 신뢰 구조가 없으면 그럴듯한 점수로 끝난다"

@@ -31,13 +31,13 @@ def load_impact_config() -> Dict[str, Any]:
         return yaml.safe_load(f)
 
 
-def calculate_expected_score(
+def calculate_expected_score_with_breakdown(
     tier: str,
     magnitude: str,
     confidence: float
-) -> float:
+) -> Dict[str, Any]:
     """
-    Expected Score (A) 계산
+    Expected Score (A) 계산 with complete breakdown
 
     공식: ExpectedScore = magnitude_points[tier][magnitude] × confidence
 
@@ -47,7 +47,15 @@ def calculate_expected_score(
         confidence: 0.0 ~ 1.0
 
     Returns:
-        Expected Score (float)
+        Dict with keys:
+            - score: float (final score)
+            - tier_points: float (base points for tier/magnitude)
+            - confidence: float (applied confidence)
+            - tier: str (echoed input)
+            - magnitude: str (echoed input)
+            - formula: str (calculation formula)
+            - max_score_by_tier: float (max possible for this tier)
+            - normalized_10: float (score normalized to 0-10 scale)
 
     Raises:
         ValueError: 잘못된 tier 또는 magnitude
@@ -64,8 +72,53 @@ def calculate_expected_score(
     # confidence 범위 검증
     confidence = max(0.0, min(1.0, confidence))
 
-    base_points = magnitude_points[tier][magnitude]
-    return base_points * confidence
+    tier_points = magnitude_points[tier][magnitude]
+    score = tier_points * confidence
+
+    # Calculate max possible for this tier
+    max_score_by_tier = max(magnitude_points[tier].values())
+
+    # Normalize to 0-10 scale
+    normalized_10 = (score / max_score_by_tier) * 10 if max_score_by_tier > 0 else 0.0
+
+    return {
+        "score": score,
+        "tier_points": tier_points,
+        "confidence": confidence,
+        "tier": tier,
+        "magnitude": magnitude,
+        "formula": f"{tier_points} × {confidence}",
+        "max_score_by_tier": max_score_by_tier,
+        "normalized_10": round(normalized_10, 2)
+    }
+
+
+def calculate_expected_score(
+    tier: str,
+    magnitude: str,
+    confidence: float
+) -> float:
+    """
+    Expected Score (A) 계산 - Legacy wrapper for backward compatibility
+
+    DEPRECATED: Use calculate_expected_score_with_breakdown() for full details.
+    This function is maintained for existing callers in projects.py, autofill.py, ai.py.
+
+    공식: ExpectedScore = magnitude_points[tier][magnitude] × confidence
+
+    Args:
+        tier: "strategic" | "enabling" | "operational"
+        magnitude: "high" | "mid" | "low"
+        confidence: 0.0 ~ 1.0
+
+    Returns:
+        Expected Score (float)
+
+    Raises:
+        ValueError: 잘못된 tier 또는 magnitude
+    """
+    result = calculate_expected_score_with_breakdown(tier, magnitude, confidence)
+    return result["score"]
 
 
 def calculate_realized_score(

@@ -247,7 +247,7 @@ def build_simple_expected_impact_prompt(
 
 위 프로젝트의 Impact 필드를 제안해주세요.
 
-### 출력 형식 (JSON)
+### 출력 형식 (JSON) - v5.3 Schema
 
 {{
   "tier": {{
@@ -262,7 +262,28 @@ def build_simple_expected_impact_prompt(
     "value": 0.0-1.0,
     "reasoning": "판단 근거"
   }},
-  "summary": "1-2문장 핵심 요약"
+  "summary": "1-2문장 핵심 요약",
+
+  "validates": ["hyp-001", "hyp-002"],
+  "primary_hypothesis_id": "hyp-001",
+
+  "condition_contributes": [
+    {{"condition_id": "cnd-3y-001", "weight": 0.5}},
+    {{"condition_id": "cnd-3y-002", "weight": 0.3}}
+  ],
+  "track_contributes": [
+    {{"track_id": "trk-001", "weight": 0.4}}
+  ],
+
+  "assumptions": ["Key assumption 1", "Key assumption 2"],
+  "evidence_refs": ["Link to data", "Previous project results"],
+  "linking_reason": "Why this links to selected hypotheses/conditions/tracks"
 }}
+
+IMPORTANT RULES (v5.3 Schema):
+- `expected_impact` object only contains: statement, metric, target (NO contributes inside)
+- `condition_contributes` and `track_contributes` are TOP-LEVEL fields
+- Strategic tier SHOULD have at least 1 item in `validates` list
+- Total weight in contributes lists should not exceed 1.0
 
 JSON만 반환하세요. Markdown 코드블록을 사용하지 마세요."""
