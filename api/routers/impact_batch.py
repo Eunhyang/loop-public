@@ -11,11 +11,13 @@ Safety: Per-item validation, partial success pattern, audit logging
 """
 
 from datetime import datetime
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Tuple
 import random
 import string
+import re
 from fastapi import APIRouter, HTTPException, Request
 from pathlib import Path
+from pydantic import ValidationError
 
 from ..models.impact_batch import (
     WorklistRequest,
@@ -23,7 +25,12 @@ from ..models.impact_batch import (
     WorklistItem,
     OutputContract,
     ScoringContext,
+    SuggestBatchConstraints,
     ApplyPatch,
+    ExpectedImpactPatch,
+    HypothesisLinks,
+    Contributes,
+    SuggestBatchError,
     StructuredReasoning,
     CalculatedFields,
     FieldValidationError,
@@ -43,7 +50,6 @@ from ..cache import get_cache
 from ..utils.vault_utils import get_vault_dir
 from ..utils.impact_calculator import (
     calculate_expected_score_with_breakdown,
-    calculate_expected_score,
     load_impact_config
 )
 from .pending import find_entity_file, update_entity_frontmatter
@@ -341,6 +347,218 @@ def gather_project_context(
     return context
 
 
+def build_constraints_from_context(
+    project: Dict[str, Any],
+    context: Dict[str, Any],
+    cache,
+    config: Dict[str, Any]
+) -> Tuple[SuggestBatchConstraints, List[str]]:
+    """Build allowed ID constraints from context (best-effort)."""
+    warnings: List[str] = []
+
+    allowed_condition_ids: List[str] = []
+    context_conditions = context.get("conditions") or []
+    if context_conditions:
+        allowed_condition_ids = [
+            c.get("entity_id") for c in context_conditions if c.get("entity_id")
+        ]
+    elif project.get("conditions_3y"):
+        allowed_condition_ids = [
+            cond_id for cond_id in project.get("conditions_3y", []) if cond_id
+        ]
+
+    allowed_track_ids: List[str] = []
+    tracks = cache.get_all_tracks() if hasattr(cache, 'get_all_tracks') else []
+    allowed_track_ids = [
+        t.get("entity_id") for t in tracks if t.get("entity_id")
+    ]
+    if not allowed_track_ids and project.get("parent_id"):
+        allowed_track_ids = [project.get("parent_id")]
+
+    allowed_hypothesis_ids: List[str] = []
+    candidate_hypotheses = context.get("candidate_hypotheses") or []
+    if candidate_hypotheses:
+        allowed_hypothesis_ids = [
+            h.get("entity_id") for h in candidate_hypotheses if h.get("entity_id")
+        ]
+    else:
+        allowed_hypothesis_ids = [
+            h.get("entity_id")
+            for h in filter_candidate_hypotheses(project.get("parent_id"), cache)
+            if h.get("entity_id")
+        ]
+
+    allowed_parent_chain = context.get("parent_chain") or build_parent_chain(project, cache)
+
+    hypothesis_rules = config.get("hypothesis_rules", {})
+    max_validates = hypothesis_rules.get("max_hypotheses_per_project")
+    contributes_rules = config.get("validation", {}).get("project", {}).get("contributes_rules", {})
+    contributes_weight_sum_max = contributes_rules.get(
+        "weight_sum_max",
+        hypothesis_rules.get("weight_sum_max")
+    )
+
+    constraints = SuggestBatchConstraints(
+        allowed_condition_ids=allowed_condition_ids,
+        allowed_track_ids=allowed_track_ids,
+        allowed_hypothesis_ids=allowed_hypothesis_ids,
+        allowed_parent_chain=allowed_parent_chain,
+        max_validates=max_validates,
+        contributes_weight_sum_max=contributes_weight_sum_max
+    )
+
+    if not allowed_condition_ids or not allowed_track_ids or not allowed_hypothesis_ids:
+        warnings.append("missing_constraints")
+
+    return constraints, warnings
+
+
+def normalize_contribute_items(items: Any, id_key: str) -> List[Dict[str, Any]]:
+    """Normalize contribute items to ensure id_key is present."""
+    if not isinstance(items, list):
+        return []
+
+    normalized = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        item_id = item.get(id_key) or item.get("to")
+        normalized.append({
+            id_key: item_id,
+            "weight": item.get("weight"),
+            "description": item.get("description")
+        })
+    return normalized
+
+
+def validate_apply_patch_constraints(
+    apply_patch: ApplyPatch,
+    constraints: SuggestBatchConstraints,
+    parent_id: Optional[str]
+) -> List[SuggestBatchError]:
+    """Validate apply_patch against constraints and policy rules."""
+    errors: List[SuggestBatchError] = []
+
+    expected_impact = apply_patch.expected_impact
+    if not expected_impact.tier:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="expected_impact.tier is required"))
+    if not expected_impact.impact_magnitude:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="expected_impact.impact_magnitude is required"))
+    if expected_impact.confidence is None:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="expected_impact.confidence is required"))
+    if not expected_impact.statement:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="expected_impact.statement is required"))
+
+    validates = apply_patch.hypothesis_links.validates
+    primary_hypothesis_id = apply_patch.hypothesis_links.primary_hypothesis_id
+    if not validates:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="hypothesis_links.validates is required"))
+    if not primary_hypothesis_id:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="hypothesis_links.primary_hypothesis_id is required"))
+    if primary_hypothesis_id and primary_hypothesis_id not in validates:
+        errors.append(SuggestBatchError(
+            code="PRIMARY_NOT_IN_VALIDATES",
+            message="primary_hypothesis_id must be included in validates"
+        ))
+
+    if constraints.max_validates is not None and len(validates) > constraints.max_validates:
+        errors.append(SuggestBatchError(
+            code="CONSTRAINT_VIOLATION",
+            message=f"validates exceeds max_validates={constraints.max_validates}"
+        ))
+
+    condition_contributes = apply_patch.contributes.condition_contributes
+    if not condition_contributes:
+        errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="contributes.condition_contributes is required"))
+
+    for item in condition_contributes:
+        if item.condition_id not in constraints.allowed_condition_ids:
+            errors.append(SuggestBatchError(
+                code="INVALID_ID",
+                message=f"condition_id {item.condition_id} not in allowed_condition_ids"
+            ))
+
+    track_contributes = apply_patch.contributes.track_contributes
+    for item in track_contributes:
+        if item.track_id not in constraints.allowed_track_ids:
+            errors.append(SuggestBatchError(
+                code="INVALID_ID",
+                message=f"track_id {item.track_id} not in allowed_track_ids"
+            ))
+        if parent_id and item.track_id == parent_id:
+            errors.append(SuggestBatchError(
+                code="TRACK_CONTRIBUTE_PRIMARY",
+                message="track_contributes cannot include parent_id"
+            ))
+
+    for hyp_id in validates:
+        if hyp_id not in constraints.allowed_hypothesis_ids:
+            errors.append(SuggestBatchError(
+                code="INVALID_ID",
+                message=f"hypothesis_id {hyp_id} not in allowed_hypothesis_ids"
+            ))
+
+    if primary_hypothesis_id and primary_hypothesis_id not in constraints.allowed_hypothesis_ids:
+        errors.append(SuggestBatchError(
+            code="INVALID_ID",
+            message=f"primary_hypothesis_id {primary_hypothesis_id} not in allowed_hypothesis_ids"
+        ))
+
+    weight_sum_max = constraints.contributes_weight_sum_max or 1.0
+    cond_weight_sum = sum(item.weight for item in condition_contributes)
+    if cond_weight_sum > weight_sum_max:
+        errors.append(SuggestBatchError(
+            code="WEIGHT_SUM_EXCEEDED",
+            message=f"condition_contributes weight sum {cond_weight_sum} exceeds max {weight_sum_max}"
+        ))
+
+    track_weight_sum = sum(item.weight for item in track_contributes)
+    if track_weight_sum > weight_sum_max:
+        errors.append(SuggestBatchError(
+            code="WEIGHT_SUM_EXCEEDED",
+            message=f"track_contributes weight sum {track_weight_sum} exceeds max {weight_sum_max}"
+        ))
+
+    return errors
+
+
+def build_frontmatter_patch(apply_patch: ApplyPatch) -> Dict[str, Any]:
+    """Map v2 apply_patch to SSOT frontmatter fields."""
+    expected_impact = apply_patch.expected_impact
+
+    return {
+        "tier": expected_impact.tier,
+        "impact_magnitude": expected_impact.impact_magnitude,
+        "confidence": expected_impact.confidence,
+        "expected_impact": {
+            "statement": expected_impact.statement,
+            "metric": expected_impact.metric,
+            "target": expected_impact.target
+        },
+        "validates": apply_patch.hypothesis_links.validates,
+        "primary_hypothesis_id": apply_patch.hypothesis_links.primary_hypothesis_id,
+        "condition_contributes": [
+            {
+                "condition_id": item.condition_id,
+                "weight": item.weight,
+                "description": item.description
+            }
+            for item in apply_patch.contributes.condition_contributes
+        ],
+        "track_contributes": [
+            {
+                "track_id": item.track_id,
+                "weight": item.weight,
+                "description": item.description
+            }
+            for item in apply_patch.contributes.track_contributes
+        ],
+        "assumptions": apply_patch.assumptions,
+        "evidence_refs": apply_patch.evidence_refs,
+        "linking_reason": apply_patch.linking_reason
+    }
+
+
 # ============================================
 # API Endpoints
 # ============================================
@@ -362,6 +580,7 @@ async def get_expected_impact_worklist(
     """
     cache = get_cache()
     projects = cache.get_all_projects()
+    config = load_impact_config()
 
     # Filter by missing expected_impact
     filtered = []
@@ -395,28 +614,36 @@ async def get_expected_impact_worklist(
             include_flags=request.include.model_dump(),
             cache=cache
         )
+        constraints, warnings = build_constraints_from_context(
+            project=p,
+            context=context,
+            cache=cache,
+            config=config
+        )
 
         items.append(WorklistItem(
             project_id=p.get("entity_id"),
             project_name=p.get("entity_name", ""),
             status=p.get("status", "unknown"),
             parent_id=p.get("parent_id"),
-            context=context
+            context=context,
+            constraints=constraints,
+            warnings=warnings
         ))
 
     # Generate server-side run_id
     run_id = generate_run_id()
 
-    # Load impact config for contract + context
-    config = load_impact_config()
-
     # Build OutputContract
     output_contract = OutputContract(
         must_set=[
-            "tier",
-            "impact_magnitude",
-            "confidence",
-            "expected_impact.statement"
+            "expected_impact.tier",
+            "expected_impact.impact_magnitude",
+            "expected_impact.confidence",
+            "expected_impact.statement",
+            "hypothesis_links.validates",
+            "hypothesis_links.primary_hypothesis_id",
+            "contributes.condition_contributes"
         ],
         contributes_rules=config.get("validation", {}).get("project", {}).get("contributes_rules", {}),
         hypothesis_rules=config.get("hypothesis_rules", {})
@@ -460,6 +687,21 @@ async def suggest_batch(
 
     cache = get_cache()
     llm = get_llm_service()
+    config = load_impact_config()
+
+    output_contract = OutputContract(
+        must_set=[
+            "expected_impact.tier",
+            "expected_impact.impact_magnitude",
+            "expected_impact.confidence",
+            "expected_impact.statement",
+            "hypothesis_links.validates",
+            "hypothesis_links.primary_hypothesis_id",
+            "contributes.condition_contributes"
+        ],
+        contributes_rules=config.get("validation", {}).get("project", {}).get("contributes_rules", {}),
+        hypothesis_rules=config.get("hypothesis_rules", {})
+    )
 
     suggestions = []
     success_count = 0
@@ -477,7 +719,25 @@ async def suggest_batch(
             suggestions.append(SuggestBatchSuggestion(
                 project_id=project_id,
                 status="error",
-                error="Project not found"
+                error=SuggestBatchError(code="NOT_FOUND", message="Project not found")
+            ))
+            failed_count += 1
+            continue
+
+        item_constraints = item.constraints or request.constraints
+        if (
+            not item_constraints
+            or not item_constraints.allowed_condition_ids
+            or not item_constraints.allowed_track_ids
+            or not item_constraints.allowed_hypothesis_ids
+        ):
+            suggestions.append(SuggestBatchSuggestion(
+                project_id=project_id,
+                status="failed",
+                error=SuggestBatchError(
+                    code="MISSING_CONSTRAINTS",
+                    message="constraints are required for suggest_batch"
+                )
             ))
             failed_count += 1
             continue
@@ -487,7 +747,8 @@ async def suggest_batch(
             prompt = build_simple_expected_impact_prompt(
                 project_name=project.get("entity_name", ""),
                 project_description=project.get("description", project.get("goal", "")),
-                conditions_3y=project.get("conditions_3y", [])
+                conditions_3y=project.get("conditions_3y", []),
+                constraints=item_constraints.model_dump()
             )
 
             # Call LLM
@@ -502,7 +763,10 @@ async def suggest_batch(
                 suggestions.append(SuggestBatchSuggestion(
                     project_id=project_id,
                     status="error",
-                    error=result.get("error", "LLM call failed")
+                    error=SuggestBatchError(
+                        code="LLM_FAILED",
+                        message=result.get("error", "LLM call failed")
+                    )
                 ))
                 failed_count += 1
                 continue
@@ -511,7 +775,6 @@ async def suggest_batch(
 
             # Parse LLM response (v5.3 schema)
             suggested_fields = {}  # Keep for backward compatibility (deprecated)
-            reasoning_dict = {}
             warnings = []
 
             # Extract tier
@@ -552,31 +815,82 @@ async def suggest_batch(
 
             # Extract v5.3 schema fields
             validates = content.get("validates", [])
+            if not isinstance(validates, list):
+                validates = [validates] if validates else []
             primary_hypothesis_id = content.get("primary_hypothesis_id")
-            condition_contributes = content.get("condition_contributes", [])
-            track_contributes = content.get("track_contributes", [])
+            condition_contributes = normalize_contribute_items(
+                content.get("condition_contributes", []),
+                "condition_id"
+            )
+            track_contributes = normalize_contribute_items(
+                content.get("track_contributes", []),
+                "track_id"
+            )
             assumptions = content.get("assumptions", [])
+            if not isinstance(assumptions, list):
+                assumptions = [assumptions] if assumptions else []
             evidence_refs = content.get("evidence_refs", [])
+            if not isinstance(evidence_refs, list):
+                evidence_refs = [evidence_refs] if evidence_refs else []
             linking_reason = content.get("linking_reason")
-            summary = content.get("summary", "")
+            if isinstance(linking_reason, str):
+                linking_reason = {"summary": linking_reason}
+                warnings.append("linking_reason_unstructured")
+            summary = content.get("summary") or content.get("statement", "")
 
             # Build ApplyPatch (v5.3 compliant)
-            apply_patch = ApplyPatch(
-                expected_impact={
-                    "statement": summary,
-                    "metric": content.get("metric"),
-                    "target": content.get("target")
-                },
-                condition_contributes=condition_contributes,
-                track_contributes=track_contributes,
-                validates=validates,
-                primary_hypothesis_id=primary_hypothesis_id,
-                assumptions=assumptions,
-                evidence_refs=evidence_refs,
-                linking_reason=linking_reason
+            try:
+                apply_patch = ApplyPatch(
+                    expected_impact=ExpectedImpactPatch(
+                        tier=tier_value,
+                        impact_magnitude=magnitude_value,
+                        confidence=confidence_value,
+                        statement=summary,
+                        metric=content.get("metric"),
+                        target=content.get("target")
+                    ),
+                    hypothesis_links=HypothesisLinks(
+                        validates=validates,
+                        primary_hypothesis_id=primary_hypothesis_id
+                    ),
+                    contributes=Contributes(
+                        condition_contributes=condition_contributes,
+                        track_contributes=track_contributes
+                    ),
+                    assumptions=assumptions,
+                    evidence_refs=evidence_refs,
+                    linking_reason=linking_reason
+                )
+            except ValidationError as e:
+                suggestions.append(SuggestBatchSuggestion(
+                    project_id=project_id,
+                    status="failed",
+                    error=SuggestBatchError(
+                        code="INVALID_APPLY_PATCH",
+                        message=str(e)
+                    )
+                ))
+                failed_count += 1
+                continue
+
+            constraint_errors = validate_apply_patch_constraints(
+                apply_patch=apply_patch,
+                constraints=item_constraints,
+                parent_id=project.get("parent_id")
             )
+            if constraint_errors:
+                suggestions.append(SuggestBatchSuggestion(
+                    project_id=project_id,
+                    status="failed",
+                    error=constraint_errors[0]
+                ))
+                failed_count += 1
+                continue
 
             # Build StructuredReasoning
+            if not (re.search(r"(cond-|trk-|hyp-)", tier_reason) or re.search(r"(cond-|trk-|hyp-)", magnitude_reason)):
+                warnings.append("reasoning_missing_entity_ids")
+
             structured_reasoning = StructuredReasoning(
                 tier_reason=tier_reason,
                 magnitude_reason=magnitude_reason,
@@ -594,8 +908,6 @@ async def suggest_batch(
             calculated_fields_obj = None
             if tier_value and magnitude_value and confidence_value is not None:
                 try:
-                    # Load config to get display rules
-                    config = load_impact_config()
                     display_rules = config.get("display_rules", {})
                     star_thresholds = display_rules.get("star_thresholds", {})
 
@@ -642,18 +954,19 @@ async def suggest_batch(
             suggestions.append(SuggestBatchSuggestion(
                 project_id=project_id,
                 status="error",
-                error=f"Unexpected error: {str(e)}"
+                error=SuggestBatchError(
+                    code="UNEXPECTED_ERROR",
+                    message=f"Unexpected error: {str(e)}"
+                )
             ))
             failed_count += 1
-
-    # Load config for version info
-    config = load_impact_config()
 
     return SuggestBatchResponse(
         run_id=run_id,
         mode=request.mode,
-        schema_version="v2",
+        schema_version="impact.suggest_batch.v2",
         impact_model_version=config.get("version", "1.3.0"),
+        required_output_contract=output_contract,
         suggestions=suggestions,
         summary={
             "total": len(request.items),
@@ -824,6 +1137,11 @@ async def apply_batch(
     # Check all updates for derived fields
     for update in request.updates:
         patch = update.patch
+        if not patch and update.apply_patch:
+            patch = build_frontmatter_patch(update.apply_patch)
+
+        if not patch:
+            continue
         if any(key in DERIVED_FIELDS for key in patch.keys()):
             raise HTTPException(
                 status_code=400,
@@ -849,6 +1167,18 @@ async def apply_batch(
     for update in request.updates:
         project_id = update.project_id
         patch = update.patch
+        if not patch and update.apply_patch:
+            patch = build_frontmatter_patch(update.apply_patch)
+
+        if not patch:
+            results.append(ApplyBatchResult(
+                project_id=project_id,
+                status="validation_error",
+                error="Missing patch or apply_patch"
+            ))
+            validation_error_count += 1
+            failed_count += 1
+            continue
 
         try:
             # Phase 7: Field-level validation

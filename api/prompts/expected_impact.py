@@ -78,7 +78,8 @@ def build_expected_impact_prompt(
     track: Optional[Dict[str, Any]] = None,
     conditions: Optional[List[Dict[str, Any]]] = None,
     northstar_summary: Optional[str] = None,
-    similar_projects: Optional[List[Dict[str, Any]]] = None
+    similar_projects: Optional[List[Dict[str, Any]]] = None,
+    constraints: Optional[Dict[str, Any]] = None
 ) -> str:
     """
     Expected Impact 프롬프트 생성
@@ -145,6 +146,26 @@ def build_expected_impact_prompt(
     # 판단 기준을 yml에서 동적 로드
     criteria_text = _build_criteria_from_config()
 
+    # Constraints (allowed IDs)
+    constraints_text = ""
+    if constraints:
+        allowed_conditions = ", ".join(constraints.get("allowed_condition_ids", []))
+        allowed_tracks = ", ".join(constraints.get("allowed_track_ids", []))
+        allowed_hypotheses = ", ".join(constraints.get("allowed_hypothesis_ids", []))
+        allowed_parent_chain = ", ".join(constraints.get("allowed_parent_chain", []))
+        max_validates = constraints.get("max_validates")
+        weight_sum_max = constraints.get("contributes_weight_sum_max")
+        constraints_text = f"""
+### 제약 (반드시 준수)
+- allowed_condition_ids: [{allowed_conditions}]
+- allowed_track_ids: [{allowed_tracks}]
+- allowed_hypothesis_ids: [{allowed_hypotheses}]
+- allowed_parent_chain: [{allowed_parent_chain}]
+- max_validates: {max_validates}
+- contributes_weight_sum_max: {weight_sum_max}
+- 위 리스트 외 ID는 절대 생성하지 마세요.
+"""
+
     # 출력 형식 가이드 (v5.3 정합: contributes -> condition_contributes)
     output_format = f"""
 ## 요청
@@ -171,14 +192,14 @@ def build_expected_impact_prompt(
   }},
   "condition_contributes": [
     {{
-      "to": "cond-X",
+      "condition_id": "cond-X",
       "weight": 0.0-1.0,
       "description": "Condition 기여 설명"
     }}
   ],
   "track_contributes": [
     {{
-      "to": "trk-N",
+      "track_id": "trk-N",
       "weight": 0.0-1.0,
       "description": "Secondary Track 기여 설명 (선택사항)"
     }}
@@ -197,6 +218,11 @@ def build_expected_impact_prompt(
 - track_contributes: Secondary Track (trk-1~6)에 대한 기여 (선택사항)
 - validates: 검증 대상 가설 ID 목록 (hyp-X-XX)
 - primary_hypothesis_id: 프로젝트의 핵심 가설 ID
+
+**제약:**
+- allowed IDs만 사용 (constraints를 참조)
+- track_contributes에는 parent_id를 넣지 마세요
+- contributes weight 합계 <= 1.0
 """
 
     return f"""{project_info}
@@ -208,6 +234,7 @@ def build_expected_impact_prompt(
 {track_info}
 {condition_info}
 {ns_info}
+{constraints_text}
 ---
 
 {similar_info}
@@ -220,7 +247,8 @@ def build_expected_impact_prompt(
 def build_simple_expected_impact_prompt(
     project_name: str,
     project_description: str,
-    conditions_3y: Optional[List[str]] = None
+    conditions_3y: Optional[List[str]] = None,
+    constraints: Optional[Dict[str, Any]] = None
 ) -> str:
     """
     간단한 Expected Impact 프롬프트 (최소 정보로)
@@ -235,6 +263,25 @@ def build_simple_expected_impact_prompt(
     """
     conditions_text = ", ".join(conditions_3y) if conditions_3y else "없음"
 
+    constraints_text = ""
+    if constraints:
+        allowed_conditions = ", ".join(constraints.get("allowed_condition_ids", []))
+        allowed_tracks = ", ".join(constraints.get("allowed_track_ids", []))
+        allowed_hypotheses = ", ".join(constraints.get("allowed_hypothesis_ids", []))
+        allowed_parent_chain = ", ".join(constraints.get("allowed_parent_chain", []))
+        max_validates = constraints.get("max_validates")
+        weight_sum_max = constraints.get("contributes_weight_sum_max")
+        constraints_text = f"""
+## 제약 (반드시 준수)
+- allowed_condition_ids: [{allowed_conditions}]
+- allowed_track_ids: [{allowed_tracks}]
+- allowed_hypothesis_ids: [{allowed_hypotheses}]
+- allowed_parent_chain: [{allowed_parent_chain}]
+- max_validates: {max_validates}
+- contributes_weight_sum_max: {weight_sum_max}
+- 위 리스트 외 ID는 절대 생성하지 마세요.
+"""
+
     return f"""## 프로젝트 정보
 
 - 이름: {project_name}
@@ -242,6 +289,7 @@ def build_simple_expected_impact_prompt(
 - 연결된 3년 조건: {conditions_text}
 
 ---
+{constraints_text}
 
 ## 요청
 
@@ -268,11 +316,11 @@ def build_simple_expected_impact_prompt(
   "primary_hypothesis_id": "hyp-001",
 
   "condition_contributes": [
-    {{"condition_id": "cnd-3y-001", "weight": 0.5}},
-    {{"condition_id": "cnd-3y-002", "weight": 0.3}}
+    {{"condition_id": "cond-a", "weight": 0.5}},
+    {{"condition_id": "cond-b", "weight": 0.3}}
   ],
   "track_contributes": [
-    {{"track_id": "trk-001", "weight": 0.4}}
+    {{"track_id": "trk-2", "weight": 0.4}}
   ],
 
   "assumptions": ["Key assumption 1", "Key assumption 2"],

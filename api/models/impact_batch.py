@@ -6,7 +6,7 @@ preview, and atomic batch updates of Expected Impact fields.
 """
 
 from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 # ============================================
@@ -39,34 +39,63 @@ class ScoringContext(BaseModel):
     )
 
 
-class ContributeItem(BaseModel):
-    """Single contribution item (condition or track)"""
-    condition_id: Optional[str] = None
-    track_id: Optional[str] = None
+class SuggestBatchConstraints(BaseModel):
+    """Constraints for suggest_batch output validation"""
+    allowed_condition_ids: List[str] = Field(default_factory=list)
+    allowed_track_ids: List[str] = Field(default_factory=list)
+    allowed_hypothesis_ids: List[str] = Field(default_factory=list)
+    allowed_parent_chain: List[str] = Field(default_factory=list)
+    max_validates: Optional[int] = None
+    contributes_weight_sum_max: Optional[float] = None
+
+
+class ConditionContributeItem(BaseModel):
+    """Single condition contribution item"""
+    condition_id: str
     weight: float = Field(ge=0.0, le=1.0, description="Contribution weight (0.0-1.0)")
+    description: Optional[str] = None
+
+
+class TrackContributeItem(BaseModel):
+    """Single track contribution item"""
+    track_id: str
+    weight: float = Field(ge=0.0, le=1.0, description="Contribution weight (0.0-1.0)")
+    description: Optional[str] = None
+
+
+class ExpectedImpactPatch(BaseModel):
+    """Expected impact fields to be stored"""
+    tier: Optional[str] = None
+    impact_magnitude: Optional[str] = None
+    confidence: Optional[float] = None
+    statement: Optional[str] = None
+    metric: Optional[str] = None
+    target: Optional[str] = None
+
+
+class HypothesisLinks(BaseModel):
+    """Hypothesis link fields"""
+    validates: List[str] = Field(default_factory=list)
+    primary_hypothesis_id: Optional[str] = None
+
+
+class Contributes(BaseModel):
+    """Contribution fields"""
+    condition_contributes: List[ConditionContributeItem] = Field(default_factory=list)
+    track_contributes: List[TrackContributeItem] = Field(default_factory=list)
+
+
+class SuggestBatchError(BaseModel):
+    """Structured error response for suggestions"""
+    code: str
+    message: str
 
 
 class ApplyPatch(BaseModel):
     """SSOT-ready patch format (v5.3 schema compliant)"""
-    expected_impact: Dict[str, Any] = Field(
-        description="Impact statement, metric, target (NO contributes inside)"
-    )
-    condition_contributes: List[ContributeItem] = Field(
-        default_factory=list,
-        description="TOP-LEVEL field: condition contributions"
-    )
-    track_contributes: List[ContributeItem] = Field(
-        default_factory=list,
-        description="TOP-LEVEL field: track contributions"
-    )
-    validates: List[str] = Field(
-        default_factory=list,
-        description="Hypothesis IDs this project validates"
-    )
-    primary_hypothesis_id: Optional[str] = Field(
-        default=None,
-        description="Primary hypothesis being tested"
-    )
+    expected_impact: ExpectedImpactPatch
+    hypothesis_links: HypothesisLinks = Field(default_factory=HypothesisLinks)
+    contributes: Contributes = Field(default_factory=Contributes)
     assumptions: List[str] = Field(
         default_factory=list,
         description="Key assumptions"
@@ -75,7 +104,7 @@ class ApplyPatch(BaseModel):
         default_factory=list,
         description="Supporting evidence references"
     )
-    linking_reason: Optional[str] = Field(
+    linking_reason: Optional[Dict[str, Any]] = Field(
         default=None,
         description="Why this project links to hypotheses/conditions/tracks"
     )
@@ -94,7 +123,7 @@ class StructuredReasoning(BaseModel):
         default_factory=list,
         description="Supporting evidence"
     )
-    linking_reason: Optional[str] = Field(
+    linking_reason: Optional[Dict[str, Any]] = Field(
         default=None,
         description="Why this links to hypotheses/conditions/tracks"
     )
@@ -215,6 +244,14 @@ class WorklistItem(BaseModel):
         default_factory=dict,
         description="Project context (parent_chain, track, conditions, hypotheses)"
     )
+    constraints: Optional[SuggestBatchConstraints] = Field(
+        default=None,
+        description="Allowed IDs and constraint rules derived from context"
+    )
+    warnings: List[str] = Field(
+        default_factory=list,
+        description="Worklist warnings (e.g., missing_constraints)"
+    )
 
 
 class WorklistResponse(BaseModel):
@@ -239,6 +276,10 @@ class WorklistResponse(BaseModel):
 class SuggestBatchItem(BaseModel):
     """Single project for batch suggestion"""
     project_id: str
+    constraints: Optional[SuggestBatchConstraints] = Field(
+        default=None,
+        description="Optional per-item constraints"
+    )
 
 
 class SuggestBatchRequest(BaseModel):
@@ -258,9 +299,9 @@ class SuggestBatchRequest(BaseModel):
         default="openai",
         description="LLM provider (openai | anthropic)"
     )
-    constraints: Dict[str, Any] = Field(
-        default_factory=dict,
-        description="Optional constraints (e.g., force_tier, max_confidence)"
+    constraints: Optional[SuggestBatchConstraints] = Field(
+        default=None,
+        description="Optional default constraints for items"
     )
 
     @field_validator('mode')
@@ -275,7 +316,7 @@ class SuggestBatchRequest(BaseModel):
 class SuggestBatchSuggestion(BaseModel):
     """LLM suggestion for single project"""
     project_id: str
-    status: str = Field(description="success | error")
+    status: str = Field(description="success | failed | error")
     apply_patch: Optional[ApplyPatch] = Field(
         default=None,
         description="v5.3 schema compliant patch (new format)"
@@ -296,17 +337,21 @@ class SuggestBatchSuggestion(BaseModel):
         default_factory=list,
         description="Validation warnings"
     )
-    error: Optional[str] = None
+    error: Optional[SuggestBatchError] = None
 
 
 class SuggestBatchResponse(BaseModel):
     """Response with batch suggestions"""
     run_id: str
     mode: str
-    schema_version: str = Field(default="v2", description="API schema version")
+    schema_version: str = Field(default="impact.suggest_batch.v2", description="API schema version")
     impact_model_version: Optional[str] = Field(
         default=None,
         description="Version from impact_model_config.yml"
+    )
+    required_output_contract: Optional[OutputContract] = Field(
+        default=None,
+        description="Required fields specification for LLM"
     )
     suggestions: List[SuggestBatchSuggestion]
     summary: Dict[str, int] = Field(
@@ -354,14 +399,22 @@ class PreviewResponse(BaseModel):
 class ApplyBatchUpdate(BaseModel):
     """Single project update in batch"""
     project_id: str
-    patch: Dict[str, Any] = Field(
-        description="Fields to update (nested expected_impact dict)"
+    patch: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Legacy patch (frontmatter fields)"
+    )
+    apply_patch: Optional[ApplyPatch] = Field(
+        default=None,
+        description="v2 apply_patch (expected_impact + hypothesis_links + contributes)"
     )
 
     @field_validator('patch')
     @classmethod
     def validate_no_derived_fields(cls, v):
         """Block writes to derived fields"""
+        if v is None:
+            return v
+
         DERIVED_FIELDS = {'validated_by', 'realized_sum'}
 
         # Check top-level keys
@@ -374,6 +427,12 @@ class ApplyBatchUpdate(BaseModel):
                 raise ValueError(f"Cannot write to derived fields: {DERIVED_FIELDS}")
 
         return v
+
+    @model_validator(mode="after")
+    def validate_patch_presence(self):
+        if not self.patch and not self.apply_patch:
+            raise ValueError("Either patch or apply_patch must be provided")
+        return self
 
 
 class ApplyBatchRequest(BaseModel):
