@@ -13,6 +13,13 @@ HEALTH_CHECK_MAX_ATTEMPTS=30
 HEALTH_CHECK_INTERVAL=10
 POST_SWITCH_VERIFICATION_SECONDS=30
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Change to project root directory
+cd "$PROJECT_ROOT" || {
+    echo "ERROR: Failed to change to project root: $PROJECT_ROOT"
+    exit 1
+}
 
 # Color output
 RED='\033[0;31m'
