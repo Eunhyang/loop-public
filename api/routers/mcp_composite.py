@@ -194,6 +194,14 @@ def get_role_and_scope(request: Request) -> Tuple[str, str]:
         if role and scope:
             return role, scope
 
+    # 1.5 x-api-token 기반 간단 검증 (LOOP API Token)
+    # 헤더의 x-api-token 값이 서버 환경변수 LOOP_API_TOKEN과 일치하면
+    # 관리자로 취급하여 mcp:write 권한 부여 (기존 워크플로우 호환 목적)
+    api_token = request.headers.get("x-api-token")
+    expected = os.getenv("LOOP_API_TOKEN")
+    if api_token and expected and api_token == expected:
+        return "admin", "mcp:write"
+
     # 2. Authorization 헤더에서 직접 JWT 확인
     auth_header = request.headers.get("authorization")
     if auth_header and auth_header.startswith("Bearer "):
