@@ -312,7 +312,8 @@ def validate_expected_output(
     # 5. Entity references validation
     cache = get_cache()
     vault_entities = {
-        'hypotheses': {h['entity_id']: True for h in cache.get_all_hypotheses().values()},
+        # get_all_hypotheses returns a list, not a dict
+        'hypotheses': {h['entity_id']: True for h in cache.get_all_hypotheses()},
         'conditions': {c['entity_id']: True for c in cache.get_all_conditions()},
         'tracks': {t['entity_id']: True for t in cache.get_all_tracks()}
     }
