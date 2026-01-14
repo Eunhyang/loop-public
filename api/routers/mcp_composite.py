@@ -75,6 +75,21 @@ class FileContent(BaseModel):
     truncated: bool
 
 
+class FileWriteRequest(BaseModel):
+    """Vault 파일 쓰기 요청"""
+    path: str
+    content: str
+    encoding: Optional[str] = "utf-8"
+
+
+class FileWriteResponse(BaseModel):
+    """Vault 파일 쓰기 응답"""
+    success: bool
+    path: str
+    bytes_written: int
+    updated_at: str
+
+
 class SearchAndReadResponse(BaseModel):
     """검색 + 읽기 결과"""
     query: str
@@ -492,6 +507,45 @@ async def file_read(
         "total_files": len(results),
         "files": results
     }
+
+
+@router.post("/file-write", response_model=FileWriteResponse)
+def file_write(request: Request, payload: FileWriteRequest):
+    """
+    Vault 파일 직접 쓰기
+
+    - mcp:write 또는 mcp:admin scope 필요
+    - EXCLUDE_PATTERNS에 해당하는 경로는 거부
+    """
+    require_write_access(request)
+    vault_dir = get_vault_dir()
+
+    file_path = (vault_dir / payload.path).resolve()
+
+    # 경로 탈출 방지
+    try:
+        file_path.relative_to(vault_dir.resolve())
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Path traversal not allowed")
+
+    # 제외 패턴 체크
+    if any(exclude in str(file_path) for exclude in EXCLUDE_PATTERNS):
+        raise HTTPException(status_code=403, detail="Path excluded from write access")
+
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    encoding = payload.encoding or "utf-8"
+    try:
+        bytes_written = file_path.write_text(payload.content, encoding=encoding)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to write file: {e}")
+
+    return FileWriteResponse(
+        success=True,
+        path=str(file_path.relative_to(vault_dir)),
+        bytes_written=bytes_written,
+        updated_at=datetime.now().isoformat()
+    )
 
 
 @router.get("/project/{project_id}/context")
