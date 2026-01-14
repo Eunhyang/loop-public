@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-008-05
 entity_name: 꼭꼭 앱 iOS/Android 배포
 created: 2025-12-23
-updated: '2026-01-14'
+updated: '2026-01-15'
 status: todo
 parent_id: prj-008
 project_id: prj-008
