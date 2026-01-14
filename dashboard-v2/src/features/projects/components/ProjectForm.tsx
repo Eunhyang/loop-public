@@ -684,8 +684,6 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 primary_hypothesis_id: formData.primary_hypothesis_id,
                 conditions_3y: [],
                 autofill_expected_impact: false,
-                // backend expects priority, but API front uses priority_flag
-                priority: formData.priority_flag,
             },
             {
                 onSuccess: () => {
