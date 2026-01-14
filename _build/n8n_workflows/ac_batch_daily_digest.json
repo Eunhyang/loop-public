@@ -25,8 +25,16 @@
       "parameters": {
         "method": "GET",
         "url": "https://mcp.sosilab.synology.me/api/mcp/file-read?paths=50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs.json",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
+        "authentication": "none",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-token",
+              "value": "loop_2024_kanban_secret"
+            }
+          ]
+        },
         "options": {
           "timeout": 30000,
           "responseFormat": "json"
@@ -42,7 +50,7 @@
       ],
       "onError": "continueRegularOutput",
       "alwaysOutputData": true,
-      "notes": "Read SSOT JSON from vault via LOOP API"
+      "notes": "Read SSOT JSON from vault via LOOP API (authenticated with x-api-token)"
     },
     {
       "parameters": {
@@ -234,8 +242,16 @@
         "parameters": {
             "method": "GET",
             "url": "https://mcp.sosilab.synology.me/api/mcp/file-read?paths=50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs_snapshot.json",
-            "authentication": "predefinedCredentialType",
-            "nodeCredentialType": "httpHeaderAuth",
+            "authentication": "none",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "x-api-token",
+                  "value": "loop_2024_kanban_secret"
+                }
+              ]
+            },
             "options": {
                 "timeout": 30000,
                 "responseFormat": "json"
@@ -251,7 +267,7 @@
       ],
       "onError": "continueRegularOutput",
       "alwaysOutputData": true,
-      "notes": "Fallback snapshot from vault file"
+      "notes": "Fallback snapshot from vault file (authenticated with x-api-token)"
     },
     {
       "parameters": {
@@ -308,8 +324,16 @@
       "parameters": {
         "method": "POST",
         "url": "https://mcp.sosilab.synology.me/api/mcp/file-write",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
+        "authentication": "none",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-token",
+              "value": "loop_2024_kanban_secret"
+            }
+          ]
+        },
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ { path: '50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs_snapshot.json', content: JSON.stringify($json.snapshot, null, 2) } }}",
@@ -327,7 +351,7 @@
       ],
       "onError": "continueRegularOutput",
       "alwaysOutputData": true,
-      "notes": "Write snapshot to vault file"
+      "notes": "Write snapshot to vault file (authenticated with x-api-token)"
     },
     {
       "parameters": {

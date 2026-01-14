@@ -11,7 +11,7 @@ Create entities via API. API handles validation, ID generation, and file creatio
 
 ```bash
 [ -z "$LOOP_API_TOKEN" ] && source ~/dev/loop/.envrc
-API_URL="${LOOP_API_URL:-https://mcp.sosilab.synology.me}"
+API_URL="${LOOP_API_URL:-http://localhost:8081}"
 ```
 
 ## Vault Selection
@@ -54,16 +54,18 @@ TASK_ID=$(echo "$RESPONSE" | jq -r '.task_id')
 echo "Task created: $TASK_ID"
 ```
 
-### Step 3: Sync Local
+### Step 3: Verify Local File
 
 ```bash
-# Use nas-git skill for bidirectional sync
-Skill(skill: "nas-git", args: "local-sync")
-```
+# API creates file locally at localhost:8081 - no sync needed
+TASK_FILE=$(grep -rl "entity_id: \"$TASK_ID\"" ~/dev/loop/public/50_Projects/*/Tasks/*.md 2>/dev/null | head -1)
 
-**Verify:**
-```bash
-grep "entity_id: $TASK_ID" ~/dev/loop/public/50_Projects/*/Tasks/*.md
+if [ -z "$TASK_FILE" ]; then
+  echo "ERROR: Task file not found. API may have failed."
+  exit 1
+fi
+
+echo "Task file created: $TASK_FILE"
 ```
 
 ---
@@ -95,12 +97,21 @@ RESPONSE=$(curl -fsS -X POST "$API_URL/api/projects" \
     }')
 
 PROJECT_ID=$(echo "$RESPONSE" | jq -r '.project_id')
+echo "Project created: $PROJECT_ID"
 ```
 
-### Step 3: Sync Local
+### Step 3: Verify Local File
 
 ```bash
-Skill(skill: "nas-git", args: "local-sync")
+# API creates file locally at localhost:8081 - no sync needed
+PROJECT_FILE=$(grep -rl "entity_id: \"$PROJECT_ID\"" ~/dev/loop/public/50_Projects/ 2>/dev/null | head -1)
+
+if [ -z "$PROJECT_FILE" ]; then
+  echo "ERROR: Project file not found. API may have failed."
+  exit 1
+fi
+
+echo "Project file created: $PROJECT_FILE"
 ```
 
 ---
