@@ -61,7 +61,9 @@ except ImportError:
 # ============================================
 # FastAPI App
 # ============================================
-load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
+base_dir = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=base_dir / ".env")
+load_dotenv(dotenv_path=base_dir / "api" / ".env", override=True)
 
 app = FastAPI(
     title="LOOP Dashboard API",
