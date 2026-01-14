@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-n8n
 entity_name: n8n Vault 자동화
 created: 2025-12-27
-updated: '2026-01-14'
+updated: '2026-01-15'
 status: doing
 program_id: pgm-vault-system
 cycle: '2025'

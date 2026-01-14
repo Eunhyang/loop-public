@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-015
 entity_name: Hiring - 임단(주니어 개발자 채용)
 created: 2025-12-25
-updated: '2026-01-14'
+updated: '2026-01-15'
 status: done
 parent_id: trk-6
 program_id: pgm-hiring

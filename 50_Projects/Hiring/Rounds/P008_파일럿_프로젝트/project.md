@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-008
 entity_name: Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행)
 created: 2025-12-18
-updated: '2026-01-14'
+updated: '2026-01-15'
 status: planning
 parent_id: trk-4
 aliases:
