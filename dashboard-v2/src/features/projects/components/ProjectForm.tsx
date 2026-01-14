@@ -351,7 +351,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
         }
     };
 
-    const renderExpectedAiCard = () => {
+    const renderExpectedAiActions = () => {
         const aiScore =
             (expectedAiResult?.calculated_fields as any)?.score ??
             (expectedAiResult?.calculated_fields as any)?.score_total ??
@@ -364,74 +364,48 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 : null);
 
         return (
-            <div className="border border-zinc-200 rounded-lg p-3 bg-white space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                    <div className="text-sm font-semibold text-zinc-800">AI Expected Impact</div>
-                    {aiScore && (
-                        <span className="text-xs text-zinc-600">A Score: {aiScore}</span>
-                    )}
-                </div>
-                <div className="text-[11px] text-zinc-500">
-                    제목/오너/트랙+컨텍스트(200자 이상)가 필요합니다. 기본 펜딩, 보조 즉시 적용(권한 조건).
-                </div>
-                <div className="flex items-center gap-2 text-[11px] text-zinc-500">
-                    <button
-                        type="button"
-                        onClick={() => setIsImpactChatOpen(true)}
-                        className="px-2 py-1 text-[11px] font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50"
-                    >
-                        대화 패널 열기
-                    </button>
-                    <span className="text-zinc-400">AI 생성/피드백 흐름을 대화로 확인하세요.</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                    <button
-                        type="button"
-                        disabled={!expectedEnabled || isInferringExpected}
-                        onClick={() => handleExpectedAi('preview')}
-                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-40"
-                    >
-                        {isInferringExpected ? '생성 중...' : 'AI 생성'}
-                    </button>
-                    <button
-                        type="button"
-                        disabled={!expectedEnabled || isInferringExpected}
-                        onClick={() => handleExpectedAi('pending')}
-                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 disabled:opacity-40"
-                    >
-                        펜딩으로 보내기
-                    </button>
-                    <button
-                        type="button"
-                        disabled={!expectedEnabled || isInferringExpected}
-                        onClick={() => handleExpectedAi('apply')}
-                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 disabled:opacity-40"
-                    >
-                        즉시 적용
-                    </button>
-                </div>
-                <textarea
-                    value={expectedAiFeedback}
-                    onChange={(e) => setExpectedAiFeedback(e.target.value)}
-                    placeholder="피드백을 입력하고 AI 생성/재생성을 누르세요."
-                    className="w-full min-h-[64px] px-2.5 py-2 text-xs border border-zinc-200 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
-                />
-                {expectedAiError && (
-                    <div className="text-xs text-red-500">{expectedAiError}</div>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-600">
+                <span className="text-sm font-semibold text-zinc-800">AI Expected Impact</span>
+                {aiScore && <span className="text-xs text-zinc-600">A Score: {aiScore}</span>}
+                {expectedAiResult?.diff_summary && (
+                    <span className="text-[11px] text-zinc-500">Diff: {expectedAiResult.diff_summary}</span>
                 )}
-                {expectedAiResult?.output && (
-                    <div className="text-xs text-zinc-700 space-y-1 border border-zinc-100 rounded p-2 bg-zinc-50">
-                        <div className="font-semibold text-zinc-800">미리보기</div>
-                        <div>Tier: {expectedAiResult.output.tier}</div>
-                        <div>Magnitude: {expectedAiResult.output.impact_magnitude}</div>
-                        <div>Confidence: {Math.round((expectedAiResult.output.confidence || 0) * 100)}%</div>
-                        {expectedAiResult.diff_summary && (
-                            <div className="text-[11px] text-zinc-500">Diff: {expectedAiResult.diff_summary}</div>
-                        )}
-                    </div>
-                )}
+                <button
+                    type="button"
+                    onClick={() => setIsImpactChatOpen(true)}
+                    className="px-2 py-1 text-[11px] font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50"
+                >
+                    대화 패널 열기
+                </button>
+                <button
+                    type="button"
+                    disabled={!expectedEnabled || isInferringExpected}
+                    onClick={() => handleExpectedAi('preview')}
+                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-40"
+                >
+                    {isInferringExpected ? '생성 중...' : 'AI 생성'}
+                </button>
+                <button
+                    type="button"
+                    disabled={!expectedEnabled || isInferringExpected}
+                    onClick={() => handleExpectedAi('pending')}
+                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 disabled:opacity-40"
+                >
+                    펜딩으로 보내기
+                </button>
+                <button
+                    type="button"
+                    disabled={!expectedEnabled || isInferringExpected}
+                    onClick={() => handleExpectedAi('apply')}
+                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 disabled:opacity-40"
+                >
+                    즉시 적용
+                </button>
                 {!expectedEnabled && (
-                    <div className="text-[11px] text-zinc-500">{expectedDisabledReason}</div>
+                    <span className="text-[11px] text-zinc-500">{expectedDisabledReason}</span>
+                )}
+                {expectedAiError && (
+                    <span className="text-[11px] text-red-500">{expectedAiError}</span>
                 )}
             </div>
         );
@@ -645,9 +619,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
 
 
+        const rightPadding = isImpactChatOpen ? 'pr-[380px]' : '';
+
         return (
             <>
-                <div className="flex-1 overflow-y-auto">
+                <div className={`flex-1 overflow-y-auto ${rightPadding}`}>
                 {/* Title Section */}
                 <div className="px-6 pb-2">
                     {isReadOnly ? (
@@ -816,7 +792,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
                     {/* Expected Impact AI */}
                     <div className="col-span-2">
-                        {renderExpectedAiCard()}
+                        {renderExpectedAiActions()}
                     </div>
 
                     {/* Impact Section (A + B) */}
@@ -1051,13 +1027,13 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     return (
         <>
             <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0">
-                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                <div className={`flex-1 overflow-y-auto p-6 space-y-4 ${isImpactChatOpen ? 'pr-[380px]' : ''}`}>
                     {/* Error Message */}
                     {(formError || error) && (
                         <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
                             {formError || (error as any)?.message}
-                    </div>
-                )}
+                        </div>
+                    )}
 
                 {/* Name */}
                 <div className="space-y-1.5">
@@ -1143,7 +1119,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 </div>
 
                 {/* Expected Impact AI */}
-                {renderExpectedAiCard()}
+                {renderExpectedAiActions()}
 
                 {/* Expected Impact (Required) */}
                 <div className="space-y-2">
@@ -1203,19 +1179,19 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 </div>
             </div>
 
-            {/* Footer */}
+                {/* Footer */}
                 <div className="flex-shrink-0 p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
                     <button
                         type="button"
                         onClick={closeEntityDrawer}
                         className="px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    disabled={isPending || !isFormValid}
-                    className="px-3 py-1.5 text-xs font-semibold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isPending || !isFormValid}
+                        className="px-3 py-1.5 text-xs font-semibold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isPending ? 'Creating...' : 'Create Project'}
                     </button>
