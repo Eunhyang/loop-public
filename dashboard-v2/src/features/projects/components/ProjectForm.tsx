@@ -476,7 +476,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     const renderImpactChatPanel = () => {
         if (!isImpactChatOpen) return null;
         return (
-            <div className="fixed top-0 right-0 h-full w-[360px] border-l border-zinc-200 bg-white shadow-lg z-40 flex flex-col">
+            <div className="w-[360px] flex-shrink-0 border-l border-zinc-200 bg-white shadow-lg flex flex-col h-full">
                 <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-200">
                     <div className="text-sm font-semibold text-zinc-800">AI Expected Impact 대화</div>
                     <button
@@ -619,11 +619,10 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
 
 
-        const rightPadding = isImpactChatOpen ? 'pr-[380px]' : '';
-
         return (
-            <>
-                <div className={`flex-1 overflow-y-auto ${rightPadding}`}>
+            <div className="flex flex-row-reverse h-full">
+                {isImpactChatOpen && renderImpactChatPanel()}
+                <div className="flex-1 min-w-0 overflow-y-auto">
                 {/* Title Section */}
                 <div className="px-6 pb-2">
                     {isReadOnly ? (
@@ -963,8 +962,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     />
                 </div>
                 </div>
-                {renderImpactChatPanel()}
-            </>
+            </div>
         );
     }
 
@@ -1025,9 +1023,10 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0">
-                <div className={`flex-1 overflow-y-auto p-6 space-y-4 ${isImpactChatOpen ? 'pr-[380px]' : ''}`}>
+        <div className="flex flex-row-reverse h-full">
+            {isImpactChatOpen && renderImpactChatPanel()}
+            <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0 flex-1 min-w-0">
+                <div className="flex-1 overflow-y-auto p-6 space-y-4">
                     {/* Error Message */}
                     {(formError || error) && (
                         <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
@@ -1197,7 +1196,6 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     </button>
                 </div>
             </form>
-            {renderImpactChatPanel()}
-        </>
+        </div>
     );
 };
