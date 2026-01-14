@@ -238,6 +238,8 @@ class InferHypothesisDraftRequest(BaseModel):
     schema_version: str = Field(default="5.3", description="스키마 버전")
     create_pending: bool = Field(default=True, description="pending 생성 여부")
     source_workflow: Optional[str] = Field(default=None, description="tsk-n8n-18: n8n 워크플로우 이름")
+    previous_output: Optional[Dict[str, Any]] = Field(default=None, description="Previous draft to inform regeneration")
+    user_feedback: Optional[str] = Field(default=None, description="User feedback to refine draft")
 
 
 class InferHypothesisDraftResponse(BaseModel):
@@ -257,6 +259,7 @@ class InferHypothesisDraftResponse(BaseModel):
     # 추가 정보
     skipped: bool = Field(default=False, description="처리가 스킵됨")
     skip_reason: Optional[str] = Field(default=None, description="스킵 사유")
+    iteration: Optional[int] = Field(default=None, description="Server-managed iteration number")
 
 
 # ============================================
@@ -705,6 +708,7 @@ async def infer_project_impact(request: InferProjectImpactRequest):
         run_id = request.run_id
     else:
         run_id = generate_run_id()
+    iteration = 1 + (1 if request.previous_output else 0)
 
     # 2. 프로젝트 조회
     project = get_project_by_id(request.project_id)
@@ -2235,6 +2239,14 @@ async def infer_hypothesis_draft(request: InferHypothesisDraftRequest):
             conditions_3y=conditions_3y
         )
 
+    # Append previous output + user feedback for regeneration loop
+    if request.previous_output:
+        prompt += "\n\nPrevious draft:\n"
+        prompt += json.dumps(request.previous_output, ensure_ascii=False)
+    if request.user_feedback:
+        prompt += "\n\nUser feedback to apply:\n"
+        prompt += request.user_feedback
+
     # 9. LLM 호출
     llm = get_llm_service()
     result = await llm.call_llm(
@@ -2312,6 +2324,19 @@ async def infer_hypothesis_draft(request: InferHypothesisDraftRequest):
         "evidence_readiness": evidence_readiness
     }
 
+    diff = {
+        "hypothesis_draft": {
+            "old": request.previous_output,
+            "new": hypothesis_draft
+        }
+    }
+    diff_summary = "Hypothesis draft updated" if request.previous_output else "New hypothesis draft"
+    current_state = {
+        "hypothesis_text": project.get("hypothesis_text"),
+        "validates": validates,
+        "primary_hypothesis_id": project.get("primary_hypothesis_id")
+    }
+
     # 16. Mode별 처리
     pending_info = None
 
@@ -2331,7 +2356,12 @@ async def infer_hypothesis_draft(request: InferHypothesisDraftRequest):
                 "hypothesis_draft": hypothesis_draft,
                 "project_link": project_link,
                 "_quality_score": quality_score,
-                "_evidence_readiness": evidence_readiness
+                "_evidence_readiness": evidence_readiness,
+                "diff": diff,
+                "diff_summary": diff_summary,
+                "current_state": current_state,
+                "iteration": iteration,
+                "run_id": run_id
             },
             reasoning=content.get("reasoning", {}),
             run_id=run_id,
@@ -2376,5 +2406,6 @@ async def infer_hypothesis_draft(request: InferHypothesisDraftRequest):
         evidence_readiness=evidence_readiness,
         project_link=project_link,
         pending=pending_info,
-        audit_ref=audit_ref
+        audit_ref=audit_ref,
+        iteration=iteration
     )

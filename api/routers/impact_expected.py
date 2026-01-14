@@ -32,9 +32,16 @@ from ..models.impact_expected import (
     ValidationError
 )
 from ..services import impact_expected_service as service
+from ..services import impact_expected_inference as inference
 from ..cache import get_cache
 from ..utils.vault_utils import get_vault_dir
-from .pending import update_entity_frontmatter, find_entity_file
+from .pending import (
+    update_entity_frontmatter,
+    find_entity_file,
+    load_pending,
+    save_pending,
+    generate_review_id,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +58,117 @@ def generate_run_id() -> str:
     timestamp = now.strftime("%Y%m%d-%H%M%S")
     random_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
     return f"run-{timestamp}-{random_suffix}"
+
+
+def output_to_patch(output) -> Dict[str, Any]:
+    """Map ImpactExpectedOutput -> frontmatter patch dict."""
+    return {
+        'expected_impact': {
+            'tier': output.tier,
+            'impact_magnitude': output.impact_magnitude,
+            'confidence': output.confidence,
+            'summary': output.summary
+        },
+        'validates': output.validates,
+        'primary_hypothesis_id': output.primary_hypothesis_id,
+        'condition_contributes': [
+            {'condition_id': c.condition_id, 'weight': c.weight}
+            for c in output.condition_contributes
+        ],
+        'track_contributes': [
+            {'track_id': t.track_id, 'weight': t.weight}
+            for t in output.track_contributes
+        ],
+        'assumptions': output.assumptions,
+        'evidence_refs': output.evidence_refs,
+        'linking_reason': output.linking_reason
+    }
+
+
+def build_diff(current: Dict[str, Any], patch: Dict[str, Any]) -> Dict[str, Any]:
+    """Compute shallow diff between current project fields and proposed patch."""
+    diff: Dict[str, Any] = {}
+    for key, new_value in patch.items():
+        old_value = current.get(key)
+        if old_value != new_value:
+            diff[key] = {"old": old_value, "new": new_value}
+    return diff
+
+
+def build_diff_summary(diff: Dict[str, Any]) -> str:
+    """Human-friendly short summary of changed fields."""
+    if not diff:
+        return ""
+    keys = list(diff.keys())
+    return f"Changed: {', '.join(keys)}"
+
+
+def create_pending_expected(
+    project_id: str,
+    project_name: str,
+    output,
+    calculated_fields: Dict[str, Any],
+    current_project: Dict[str, Any],
+    run_id: str,
+    actor: str,
+    source_workflow: str = None
+) -> Dict[str, Any]:
+    """Create or update pending review entry for Expected Impact."""
+    data = load_pending()
+    reviews = data.get("reviews", [])
+
+    patch = output_to_patch(output)
+    diff = build_diff(current_project or {}, patch)
+    diff_summary = build_diff_summary(diff)
+
+    review_id = None
+    existing_idx = None
+    for idx, r in enumerate(reviews):
+        if r.get("entity_id") == project_id and r.get("status") == "pending":
+            existing_idx = idx
+            review_id = r.get("id")
+            break
+
+    if not review_id:
+        review_id = generate_review_id()
+
+    pending_record = {
+        "id": review_id,
+        "entity_id": project_id,
+        "entity_type": "Project",
+        "entity_name": project_name,
+        "suggested_fields": {
+            "expected_impact": patch.get("expected_impact"),
+            "validates": patch.get("validates"),
+            "primary_hypothesis_id": patch.get("primary_hypothesis_id"),
+            "condition_contributes": patch.get("condition_contributes"),
+            "track_contributes": patch.get("track_contributes"),
+            "assumptions": patch.get("assumptions"),
+            "evidence_refs": patch.get("evidence_refs"),
+            "linking_reason": patch.get("linking_reason"),
+            "calculated_fields": calculated_fields,
+            "current_expected_impact": (current_project or {}).get("expected_impact"),
+            "diff": diff,
+            "diff_summary": diff_summary,
+        },
+        "reasoning": {},
+        "created_at": datetime.now().isoformat(),
+        "status": "pending",
+        "source": "impact_expected_infer",
+        "run_id": run_id,
+        "actor": actor,
+        "source_workflow": source_workflow,
+    }
+
+    if existing_idx is not None:
+        pending_record["updated_at"] = datetime.now().isoformat()
+        reviews[existing_idx] = pending_record
+    else:
+        reviews.append(pending_record)
+
+    data["reviews"] = reviews
+    save_pending(data)
+    return pending_record
 
 
 # ============================================
@@ -90,7 +208,7 @@ async def suggest_from_external_llm(request: SuggestRequest):
     Submit external LLM output (e.g., from ChatGPT) for validation.
 
     Normalizes the output, validates it, and calculates score.
-    Does NOT apply changes - use /apply-batch for that.
+    Supports preview | pending | apply modes. Server always revalidates.
 
     Args:
         request: Project ID and raw LLM output
@@ -101,6 +219,13 @@ async def suggest_from_external_llm(request: SuggestRequest):
     project_id = request.project_id
 
     try:
+        mode = request.mode or "preview"
+        cache = get_cache()
+        project = cache.get_project(project_id) or {}
+        project_name = project.get("entity_name", project_id)
+        run_id = generate_run_id()
+        iteration = 1 + (1 if request.previous_output else 0)
+
         # Normalize LLM output
         output = service.normalize_llm_output(request.llm_output)
 
@@ -118,12 +243,48 @@ async def suggest_from_external_llm(request: SuggestRequest):
                     ValidationError(field="calculated_fields", error=str(e))
                 )
 
+        # Build diff/patch for downstream use
+        patch = output_to_patch(output)
+        diff = build_diff(project, patch)
+        diff_summary = build_diff_summary(diff)
+
+        # Pending or apply handling (only when valid)
+        if not validation_errors:
+            if mode == "pending":
+                create_pending_expected(
+                    project_id=project_id,
+                    project_name=project_name,
+                    output=output,
+                    calculated_fields=calculated_fields or {},
+                    current_project=project,
+                    run_id=run_id,
+                    actor=request.actor or "api",
+                    source_workflow=request.source_workflow
+                )
+            elif mode == "apply":
+                # Server-side revalidation + apply
+                revalidation = service.validate_expected_output(output, project_id)
+                if revalidation:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=f"Server-side validation failed: {len(revalidation)} errors"
+                    )
+                vault_dir = get_vault_dir()
+                project_file = find_entity_file(project_id, "Project")
+                if not project_file:
+                    raise HTTPException(status_code=404, detail="Project file not found")
+                update_entity_frontmatter(project_file, patch)
+
         return InferenceResult(
             project_id=project_id,
             output=output,
             validation_errors=validation_errors,
             calculated_fields=calculated_fields,
-            success=len(validation_errors) == 0
+            success=len(validation_errors) == 0,
+            run_id=run_id,
+            iteration=iteration,
+            diff=diff,
+            diff_summary=diff_summary
         )
 
     except ValueError as e:
@@ -155,15 +316,81 @@ async def infer_with_internal_llm(request: InferRequest):
     project_id = request.project_id
 
     try:
-        # Build context
+        mode = request.mode or "preview"
         context = service.build_expected_context(project_id)
+        base_run_id = generate_run_id()
+        iteration = 1 + (1 if request.previous_output else 0)
 
         # Call LLM
-        # TODO: Integrate with llm_service to call API
-        # For now, return error as this needs LLM integration
-        raise HTTPException(
-            status_code=status.HTTP_501_NOT_IMPLEMENTED,
-            detail="Internal LLM inference not yet implemented - use /suggest with external LLM"
+        output, meta = await inference.run_internal_inference(
+            project_id=project_id,
+            context=context,
+            provider=request.provider or "anthropic",
+            previous_output=request.previous_output,
+            user_feedback=request.user_feedback,
+            actor=request.actor or "api",
+        )
+
+        run_id = meta.get("run_id") or base_run_id
+
+        # Validate output
+        validation_errors = service.validate_expected_output(output, project_id)
+
+        # Calculate fields if validation passed
+        calculated_fields = None
+        if not validation_errors:
+            try:
+                calculated_fields = service.build_calculated_fields(output)
+            except Exception as e:
+                logger.error(f"Failed to calculate fields for {project_id}: {e}")
+                validation_errors.append(
+                    ValidationError(field="calculated_fields", error=str(e))
+                )
+
+        # Build diff/patch for downstream use
+        cache = get_cache()
+        project = cache.get_project(project_id) or {}
+        project_name = project.get("entity_name", project_id)
+        patch = output_to_patch(output)
+        diff = build_diff(project, patch)
+        diff_summary = build_diff_summary(diff)
+
+        # Pending / Apply flows
+        if not validation_errors:
+            if mode == "pending":
+                create_pending_expected(
+                    project_id=project_id,
+                    project_name=project_name,
+                    output=output,
+                    calculated_fields=calculated_fields or {},
+                    current_project=project,
+                    run_id=run_id,
+                    actor=request.actor or "api",
+                    source_workflow=request.source_workflow
+                )
+            elif mode == "apply":
+                revalidation = service.validate_expected_output(output, project_id)
+                if revalidation:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=f"Server-side validation failed: {len(revalidation)} errors"
+                    )
+                vault_dir = get_vault_dir()
+                project_file = find_entity_file(project_id, "Project")
+                if not project_file:
+                    raise HTTPException(status_code=404, detail="Project file not found")
+                update_entity_frontmatter(project_file, patch)
+
+        return InferenceResult(
+            project_id=project_id,
+            output=output,
+            validation_errors=validation_errors,
+            calculated_fields=calculated_fields,
+            success=len(validation_errors) == 0,
+            run_id=run_id,
+            iteration=iteration,
+            diff=diff,
+            diff_summary=diff_summary
         )
 
     except ValueError as e:
@@ -305,34 +532,13 @@ async def apply_batch_updates(request: ApplyBatchRequest):
                 continue
 
             # Find project file
-            project_file = find_entity_file(vault_dir, project_id)
+            project_file = find_entity_file(project_id, "Project")
             if not project_file:
                 failed[project_id] = "Project file not found"
                 continue
 
             # Build update patch
-            output = update.output
-            patch = {
-                'expected_impact': {
-                    'tier': output.tier,
-                    'impact_magnitude': output.impact_magnitude,
-                    'confidence': output.confidence,
-                    'summary': output.summary
-                },
-                'validates': output.validates,
-                'primary_hypothesis_id': output.primary_hypothesis_id,
-                'condition_contributes': [
-                    {'condition_id': c.condition_id, 'weight': c.weight}
-                    for c in output.condition_contributes
-                ],
-                'track_contributes': [
-                    {'track_id': t.track_id, 'weight': t.weight}
-                    for t in output.track_contributes
-                ],
-                'assumptions': output.assumptions,
-                'evidence_refs': output.evidence_refs,
-                'linking_reason': output.linking_reason
-            }
+            patch = output_to_patch(update.output)
 
             # Apply update
             update_entity_frontmatter(project_file, patch)

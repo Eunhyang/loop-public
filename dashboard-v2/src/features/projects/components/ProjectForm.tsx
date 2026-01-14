@@ -15,6 +15,8 @@ import { ImpactSection } from '@/features/impact/components/ImpactSection';
 import { calculateExpectedScore } from '@/features/impact/utils/calculator';
 import { TrackContributionEditor } from '@/features/impact/components/TrackContributionEditor';
 import { HypothesisSelector } from '@/features/impact/components/HypothesisSelector';
+import { useInferExpectedImpact, useInferHypothesisDraft } from '@/features/impact';
+import type { ExpectedInferResponse, HypothesisInferResponse, ExpectedMode } from '@/features/impact/api';
 
 interface ProjectFormProps {
     mode: 'create' | 'edit' | 'view' | 'review';
@@ -41,6 +43,8 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     });
     const { mutate: createProject, isPending, error } = useCreateProject();
     const { mutate: updateProject } = useUpdateProject();
+    const { mutateAsync: inferExpectedImpact, isPending: isInferringExpected } = useInferExpectedImpact();
+    const { mutateAsync: inferHypothesisDraft, isPending: isInferringHypothesis } = useInferHypothesisDraft();
     const { data: dashboardData, isLoading: isDashboardLoading } = useDashboardInit();
     const { data: programs, isLoading: isProgramsLoading, error: programsError } = usePrograms();
     const { closeEntityDrawer, pushDrawer } = useUi();
@@ -59,6 +63,12 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     });
 
     const [formError, setFormError] = useState<string | null>(null);
+    const [expectedAiResult, setExpectedAiResult] = useState<ExpectedInferResponse | null>(null);
+    const [expectedAiFeedback, setExpectedAiFeedback] = useState('');
+    const [expectedAiError, setExpectedAiError] = useState<string | null>(null);
+    const [hypothesisAiResult, setHypothesisAiResult] = useState<HypothesisInferResponse | null>(null);
+    const [hypothesisAiFeedback, setHypothesisAiFeedback] = useState('');
+    const [hypothesisAiError, setHypothesisAiError] = useState<string | null>(null);
 
     // Constants
     const statuses = dashboardData?.constants?.project?.status || ['todo', 'doing', 'hold', 'done'];
@@ -200,6 +210,38 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
         return result.score.toFixed(2);
     }, [formData.expected_impact]);
 
+    const contextText = useMemo(() => {
+        if (mode === 'create') return formData.description || '';
+        const p: any = project || {};
+        return p._body || p.description || p.hypothesis_text || '';
+    }, [mode, formData.description, project]);
+
+    const hasContextText = useMemo(() => {
+        return (contextText?.trim().length || 0) >= 200;
+    }, [contextText]);
+
+    const hasTrackOrCondition = useMemo(() => {
+        if (mode === 'create') return Boolean(formData.parent_id);
+        const p: any = project || {};
+        return Boolean(p.parent_id || (p.conditions_3y && p.conditions_3y.length > 0));
+    }, [mode, formData.parent_id, project]);
+
+    const aiReady = useMemo(() => {
+        const name = mode === 'create' ? formData.entity_name : project?.entity_name;
+        const ownerVal = mode === 'create' ? formData.owner : (project as any)?.owner;
+        return Boolean(name && ownerVal && hasTrackOrCondition && hasContextText);
+    }, [mode, formData.entity_name, formData.owner, project, hasTrackOrCondition, hasContextText]);
+
+    const aiReadyReason = useMemo(() => {
+        if (aiReady) return '';
+        return '제목, 오너, 트랙/컨디션, 컨텍스트 200자 이상이 필요합니다.';
+    }, [aiReady]);
+
+    const expectedEnabled = aiReady && mode !== 'create' && Boolean(id);
+    const expectedDisabledReason = !aiReady ? aiReadyReason : (mode === 'create' ? '프로젝트 저장 후 사용 가능합니다.' : '프로젝트 ID가 필요합니다.');
+    const hypothesisEnabled = expectedEnabled;
+    const hypothesisDisabledReason = expectedDisabledReason;
+
     useEffect(() => {
         if (dashboardData?.constants?.project?.status_default && !prefill?.status) {
             setFormData(prev => ({
@@ -239,6 +281,180 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
         };
         return colors[status] || 'text-zinc-400';
     };
+
+    const handleExpectedAi = async (aiMode: ExpectedMode) => {
+        if (!id) {
+            setExpectedAiError('프로젝트 ID가 필요합니다.');
+            return;
+        }
+        setExpectedAiError(null);
+        try {
+            const res = await inferExpectedImpact({
+                project_id: id,
+                mode: aiMode,
+                previous_output: expectedAiResult?.output,
+                user_feedback: expectedAiFeedback || undefined,
+                actor: 'dashboard',
+            });
+            setExpectedAiResult(res);
+            if (aiMode === 'preview' && res.output && mode === 'create') {
+                setFormData(prev => ({ ...prev, expected_impact: res.output }));
+            }
+        } catch (err: any) {
+            const detail = err?.response?.data?.detail || err?.message || 'Failed to run Expected Impact inference';
+            setExpectedAiError(detail);
+        }
+    };
+
+    const handleHypothesisAi = async (aiMode: 'preview' | 'pending') => {
+        if (!id) {
+            setHypothesisAiError('프로젝트 ID가 필요합니다.');
+            return;
+        }
+        setHypothesisAiError(null);
+        try {
+            const res = await inferHypothesisDraft({
+                project_id: id,
+                mode: aiMode,
+                previous_output: hypothesisAiResult?.hypothesis_draft,
+                user_feedback: hypothesisAiFeedback || undefined,
+                actor: 'dashboard',
+            });
+            setHypothesisAiResult(res);
+        } catch (err: any) {
+            const detail = err?.response?.data?.detail || err?.message || 'Failed to run Hypothesis draft';
+            setHypothesisAiError(detail);
+        }
+    };
+
+    const renderExpectedAiCard = () => {
+        const aiScore =
+            (expectedAiResult?.calculated_fields as any)?.score ??
+            (expectedAiResult?.calculated_fields as any)?.score_total ??
+            (expectedAiResult?.output
+                ? calculateExpectedScore(
+                    expectedAiResult.output.tier,
+                    expectedAiResult.output.impact_magnitude,
+                    expectedAiResult.output.confidence
+                ).score.toFixed(2)
+                : null);
+
+        return (
+            <div className="border border-zinc-200 rounded-lg p-3 bg-white space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                    <div className="text-sm font-semibold text-zinc-800">AI Expected Impact</div>
+                    {aiScore && (
+                        <span className="text-xs text-zinc-600">A Score: {aiScore}</span>
+                    )}
+                </div>
+                <div className="text-[11px] text-zinc-500">
+                    제목/오너/트랙+컨텍스트(200자 이상)가 필요합니다. 기본 펜딩, 보조 즉시 적용(권한 조건).
+                </div>
+                <div className="flex flex-wrap gap-2">
+                    <button
+                        type="button"
+                        disabled={!expectedEnabled || isInferringExpected}
+                        onClick={() => handleExpectedAi('preview')}
+                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-40"
+                    >
+                        {isInferringExpected ? '생성 중...' : 'AI 생성'}
+                    </button>
+                    <button
+                        type="button"
+                        disabled={!expectedEnabled || isInferringExpected}
+                        onClick={() => handleExpectedAi('pending')}
+                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 disabled:opacity-40"
+                    >
+                        펜딩으로 보내기
+                    </button>
+                    <button
+                        type="button"
+                        disabled={!expectedEnabled || isInferringExpected}
+                        onClick={() => handleExpectedAi('apply')}
+                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 disabled:opacity-40"
+                    >
+                        즉시 적용
+                    </button>
+                </div>
+                <textarea
+                    value={expectedAiFeedback}
+                    onChange={(e) => setExpectedAiFeedback(e.target.value)}
+                    placeholder="피드백 입력 후 재생성 (선택)"
+                    className="w-full min-h-[64px] px-2.5 py-2 text-xs border border-zinc-200 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+                />
+                {expectedAiError && (
+                    <div className="text-xs text-red-500">{expectedAiError}</div>
+                )}
+                {expectedAiResult?.output && (
+                    <div className="text-xs text-zinc-700 space-y-1 border border-zinc-100 rounded p-2 bg-zinc-50">
+                        <div className="font-semibold text-zinc-800">미리보기</div>
+                        <div>Tier: {expectedAiResult.output.tier}</div>
+                        <div>Magnitude: {expectedAiResult.output.impact_magnitude}</div>
+                        <div>Confidence: {Math.round((expectedAiResult.output.confidence || 0) * 100)}%</div>
+                        <div>Summary: {expectedAiResult.output.summary}</div>
+                        {expectedAiResult.diff_summary && (
+                            <div className="text-[11px] text-zinc-500">Diff: {expectedAiResult.diff_summary}</div>
+                        )}
+                    </div>
+                )}
+                {!expectedEnabled && (
+                    <div className="text-[11px] text-zinc-500">{expectedDisabledReason}</div>
+                )}
+            </div>
+        );
+    };
+
+    const renderHypothesisAiCard = () => (
+        <div className="border border-zinc-200 rounded-lg p-3 bg-white space-y-2">
+            <div className="flex items-center justify-between gap-2">
+                <div className="text-sm font-semibold text-zinc-800">AI Hypothesis Draft</div>
+                {hypothesisAiResult?.iteration ? (
+                    <span className="text-xs text-zinc-600">iter {hypothesisAiResult.iteration}</span>
+                ) : null}
+            </div>
+            <div className="text-[11px] text-zinc-500">
+                제목/오너/트랙+컨텍스트(200자 이상)가 필요합니다. preview는 로컬 확인, pending은 리뷰 전송.
+            </div>
+            <div className="flex flex-wrap gap-2">
+                <button
+                    type="button"
+                    disabled={!hypothesisEnabled || isInferringHypothesis}
+                    onClick={() => handleHypothesisAi('preview')}
+                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-40"
+                >
+                    {isInferringHypothesis ? '생성 중...' : 'AI 초안'}
+                </button>
+                <button
+                    type="button"
+                    disabled={!hypothesisEnabled || isInferringHypothesis}
+                    onClick={() => handleHypothesisAi('pending')}
+                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 disabled:opacity-40"
+                >
+                    펜딩으로 보내기
+                </button>
+            </div>
+            <textarea
+                value={hypothesisAiFeedback}
+                onChange={(e) => setHypothesisAiFeedback(e.target.value)}
+                placeholder="피드백 입력 후 재생성 (선택)"
+                className="w-full min-h-[64px] px-2.5 py-2 text-xs border border-zinc-200 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+            />
+            {hypothesisAiError && (
+                <div className="text-xs text-red-500">{hypothesisAiError}</div>
+            )}
+            {hypothesisAiResult?.hypothesis_draft && (
+                <div className="text-xs text-zinc-700 space-y-1 border border-zinc-100 rounded p-2 bg-zinc-50">
+                    <div className="font-semibold text-zinc-800">초안 미리보기</div>
+                    <pre className="text-[11px] whitespace-pre-wrap break-words">
+                        {JSON.stringify(hypothesisAiResult.hypothesis_draft, null, 2)}
+                    </pre>
+                </div>
+            )}
+            {!hypothesisEnabled && (
+                <div className="text-[11px] text-zinc-500">{hypothesisDisabledReason}</div>
+            )}
+        </div>
+    );
 
     // Edit/View mode - show project details (editable or read-only)
     if (mode !== 'create') {
@@ -474,6 +690,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         </div>
                     )}
 
+                    {/* Expected Impact AI */}
+                    <div className="col-span-2">
+                        {renderExpectedAiCard()}
+                    </div>
+
                     {/* Impact Section (A + B) */}
                     <div className="col-span-2">
                         <ImpactSection
@@ -521,6 +742,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                             readonly={isReadOnly}
                         />
                     </ReviewFieldWrapper>
+
+                    {/* Hypothesis AI */}
+                    <div className="col-span-2">
+                        {renderHypothesisAiCard()}
+                    </div>
                 </div>
 
                 {/* Tasks Section */}
@@ -789,6 +1015,9 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     />
                 </div>
 
+                {/* Expected Impact AI */}
+                {renderExpectedAiCard()}
+
                 {/* Expected Impact (Required) */}
                 <div className="space-y-2">
                     <div className="flex items-center gap-2">
@@ -831,6 +1060,9 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         />
                     )}
                 </div>
+
+                {/* Hypothesis AI */}
+                {renderHypothesisAiCard()}
 
                 {/* Description */}
                 <div className="space-y-1.5">

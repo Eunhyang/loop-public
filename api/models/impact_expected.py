@@ -176,12 +176,22 @@ class SuggestRequest(BaseModel):
     """Request to submit external LLM output"""
     project_id: str = Field(description="Project ID")
     llm_output: Dict[str, Any] = Field(description="Raw LLM output (JSON)")
+    mode: Literal["preview", "pending", "apply"] = Field(default="preview", description="preview | pending | apply")
+    previous_output: Optional[ImpactExpectedOutput] = Field(default=None, description="Previous output for diff/iteration")
+    user_feedback: Optional[str] = Field(default=None, description="User feedback to guide validation or re-run")
+    actor: Optional[str] = Field(default="api", description="Caller identifier (api, dashboard, n8n, claude)")
+    source_workflow: Optional[str] = Field(default=None, description="Workflow name (e.g., n8n flow)")
 
 
 class InferRequest(BaseModel):
     """Request to run internal LLM inference"""
     project_id: str = Field(description="Project ID")
     provider: Optional[str] = Field(default="anthropic", description="LLM provider (anthropic, openai, etc.)")
+    mode: Literal["preview", "pending", "apply"] = Field(default="preview", description="preview | pending | apply")
+    previous_output: Optional[ImpactExpectedOutput] = Field(default=None, description="Previous output for diff/iteration")
+    user_feedback: Optional[str] = Field(default=None, description="User feedback to guide re-generation")
+    actor: Optional[str] = Field(default="api", description="Caller identifier (api, dashboard, n8n, claude)")
+    source_workflow: Optional[str] = Field(default=None, description="Workflow name (e.g., n8n flow)")
 
 
 class ValidationError(BaseModel):
@@ -197,6 +207,10 @@ class InferenceResult(BaseModel):
     validation_errors: List[ValidationError] = Field(default_factory=list)
     calculated_fields: Optional[Dict[str, Any]] = None
     success: bool = Field(description="True if validation passed")
+    run_id: Optional[str] = Field(default=None, description="LLM/audit run id")
+    iteration: Optional[int] = Field(default=None, description="Server-managed iteration number")
+    diff: Optional[Dict[str, Any]] = Field(default=None, description="Diff between current and proposed")
+    diff_summary: Optional[str] = Field(default=None, description="Short summary of proposed change")
 
 
 class PreviewRequest(BaseModel):
@@ -217,7 +231,7 @@ class PreviewResponse(BaseModel):
 class ApplyBatchRequest(BaseModel):
     """Request to apply batch updates"""
     updates: List[InferenceResult] = Field(description="List of validated updates to apply")
-    run_id: str = Field(description="Audit run ID")
+    run_id: Optional[str] = Field(default=None, description="Audit run ID")
 
 
 class ApplyBatchResponse(BaseModel):

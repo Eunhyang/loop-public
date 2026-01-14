@@ -64,3 +64,6 @@ export type {
 
 // Re-export RealizedImpact from project types for convenience
 export type { RealizedImpact } from '@/types';
+
+// API hooks
+export { useInferExpectedImpact, useInferHypothesisDraft } from './queries';
