@@ -495,12 +495,17 @@ def validate_apply_patch_constraints(
         errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="contributes.condition_contributes is required"))
 
     track_contributes = apply_patch.contributes.track_contributes
+    seen_track_ids = set()
     for item in track_contributes:
-        if parent_id and item.track_id == parent_id:
+        if item.track_id is None:
+            continue
+        if item.track_id in seen_track_ids:
             errors.append(SuggestBatchError(
-                code="TRACK_CONTRIBUTE_PRIMARY",
-                message="track_contributes cannot include parent_id"
+                code="DUPLICATE_TRACK_CONTRIBUTE",
+                message=f"track_contributes has duplicate track_id {item.track_id}"
             ))
+            break
+        seen_track_ids.add(item.track_id)
 
     weight_sum_max = constraints.contributes_weight_sum_max or 1.0
     cond_weight_sum = sum(item.weight for item in condition_contributes)
@@ -518,6 +523,49 @@ def validate_apply_patch_constraints(
         ))
 
     return errors
+
+
+def auto_fix_track_contributes(
+    apply_patch: ApplyPatch,
+    parent_id: Optional[str]
+) -> Optional[Dict[str, Any]]:
+    """
+    Auto-fix track_contributes by removing entries that duplicate parent_id
+    or are missing/blank track_id. Returns structured warning if applied.
+    """
+    removed = []
+    kept = []
+    filtered = []
+
+    for idx, item in enumerate(apply_patch.contributes.track_contributes):
+        track_id = item.track_id.strip() if isinstance(item.track_id, str) else (item.track_id or "")
+        if (parent_id and track_id == parent_id) or track_id == "":
+            removed.append({
+                "json_path": f"$.apply_patch.track_contributes[{idx}]",
+                "track_id": item.track_id,
+                "weight": item.weight
+            })
+            continue
+        kept.append({
+            "track_id": item.track_id,
+            "weight": item.weight
+        })
+        filtered.append(item)
+
+    if removed:
+        apply_patch.contributes.track_contributes = filtered
+        return {
+            "code": "AUTO_FIX_TRACK_CONTRIBUTE_PRIMARY",
+            "message": "Removed track_contributes items that duplicated parent_id (primary track).",
+            "details": {
+                "parent_id": parent_id,
+                "removed": removed,
+                "kept": kept,
+                "notes": "Primary track is expressed by parent_id. track_contributes is for cross-track only."
+            }
+        }
+
+    return None
 
 
 def build_allowlist_violation_error(
@@ -544,6 +592,8 @@ def build_allowlist_violation_error(
     allowed_tracks = constraints.allowed_track_ids or []
     if allowed_tracks:
         for idx, item in enumerate(apply_patch.contributes.track_contributes):
+            if not item.track_id:
+                continue
             if item.track_id not in allowed_tracks:
                 violations.append(ConstraintViolation(
                     rule_id="ALLOWLIST_TRACK_ID",
@@ -966,6 +1016,14 @@ async def suggest_batch(
                 ))
                 failed_count += 1
                 continue
+
+            # Auto-fix track_contributes duplicating parent_id or blank track_id
+            auto_fix_warning = auto_fix_track_contributes(
+                apply_patch=apply_patch,
+                parent_id=project.get("parent_id")
+            )
+            if auto_fix_warning:
+                warnings.append(auto_fix_warning)
 
             violation_error = build_allowlist_violation_error(
                 apply_patch=apply_patch,

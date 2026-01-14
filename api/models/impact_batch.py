@@ -58,7 +58,7 @@ class ConditionContributeItem(BaseModel):
 
 class TrackContributeItem(BaseModel):
     """Single track contribution item"""
-    track_id: str
+    track_id: Optional[str] = Field(default=None, description="Track ID (None/blank will be auto-fixed out)")
     weight: float = Field(ge=0.0, le=1.0, description="Contribution weight (0.0-1.0)")
     description: Optional[str] = None
 
@@ -359,9 +359,9 @@ class SuggestBatchSuggestion(BaseModel):
         default=None,
         description="Structured reasoning breakdown"
     )
-    warnings: List[str] = Field(
+    warnings: List[Any] = Field(
         default_factory=list,
-        description="Validation warnings"
+        description="Validation warnings (string or structured objects)"
     )
     error: Optional[SuggestBatchError] = None
 
