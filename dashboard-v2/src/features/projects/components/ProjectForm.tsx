@@ -986,6 +986,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         placeholder={isReadOnly ? '' : '프로젝트 설명을 작성하세요...'}
                     />
                 </div>
+                </div>
                 {renderImpactChatPanel()}
             </>
         );
