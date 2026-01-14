@@ -231,14 +231,14 @@
       "notes": "Remove sensitive numeric terms"
     },
     {
-      "parameters": {
-        "method": "GET",
-        "url": "https://mcp.sosilab.synology.me/api/mcp/file-read?paths=_build/_state/ac_batch_programs.json",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
-        "options": {
-          "timeout": 30000,
-          "responseFormat": "json"
+        "parameters": {
+            "method": "GET",
+            "url": "https://mcp.sosilab.synology.me/api/mcp/file-read?paths=50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs_snapshot.json",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "httpHeaderAuth",
+            "options": {
+                "timeout": 30000,
+                "responseFormat": "json"
         }
       },
       "id": "load-previous-snapshot",
@@ -312,7 +312,7 @@
         "nodeCredentialType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ { path: '_build/_state/ac_batch_programs.json', content: JSON.stringify($json.snapshot, null, 2) } }}",
+        "jsonBody": "={{ { path: '50_Projects/Vault_System/Rounds/prj-n8n/Sources/ac_batch_programs_snapshot.json', content: JSON.stringify($json.snapshot, null, 2) } }}",
         "options": {
           "timeout": 30000
         }
