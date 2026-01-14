@@ -535,7 +535,7 @@
       "main": [
         [
           {
-            "node": "Load Previous Snapshot",
+            "node": "Diff and Classify",
             "type": "main",
             "index": 0
           }
