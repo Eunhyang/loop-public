@@ -27,12 +27,12 @@ export default defineConfig(({ mode }) => ({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://mcp.sosilab.synology.me',
+        target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
       },
       '/oauth': {
-        target: 'https://mcp.sosilab.synology.me',
+        target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
       },
@@ -42,12 +42,12 @@ export default defineConfig(({ mode }) => ({
     port: 3002,
     proxy: {
       '/api': {
-        target: 'https://mcp.sosilab.synology.me',
+        target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
       },
       '/oauth': {
-        target: 'https://mcp.sosilab.synology.me',
+        target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
       },
