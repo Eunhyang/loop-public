@@ -73,7 +73,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     const [hypothesisAiFeedback, setHypothesisAiFeedback] = useState('');
     const [hypothesisAiError, setHypothesisAiError] = useState<string | null>(null);
     const [isImpactChatOpen, setIsImpactChatOpen] = useState(false);
-    const [impactChatMessages, setImpactChatMessages] = useState<Array<{ role: 'ai' | 'user'; text: string }>>([]);
+    const [impactChatMessages, setImpactChatMessages] = useState<Array<{ role: 'ai' | 'user'; text: string; canApply?: boolean }>>([]);
 
     // Constants
     const statuses = dashboardData?.constants?.project?.status || ['todo', 'doing', 'hold', 'done'];
@@ -314,7 +314,14 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             if (res.diff_summary) {
                 summaryParts.push(`Diff: ${res.diff_summary}`);
             }
-            setImpactChatMessages(prev => [...prev, { role: 'ai', text: summaryParts.join(' | ') }]);
+            setImpactChatMessages(prev => [
+                ...prev,
+                {
+                    role: 'ai',
+                    text: summaryParts.join(' | '),
+                    canApply: aiMode === 'preview' || aiMode === 'pending'
+                }
+            ]);
             if (aiMode === 'preview' && res.output && mode === 'create') {
                 setFormData(prev => ({ ...prev, expected_impact: res.output || null }));
             }
@@ -376,30 +383,6 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     className="px-2 py-1 text-[11px] font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50"
                 >
                     대화 패널 열기
-                </button>
-                <button
-                    type="button"
-                    disabled={!expectedEnabled || isInferringExpected}
-                    onClick={() => handleExpectedAi('preview')}
-                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-40"
-                >
-                    {isInferringExpected ? '생성 중...' : 'AI 생성'}
-                </button>
-                <button
-                    type="button"
-                    disabled={!expectedEnabled || isInferringExpected}
-                    onClick={() => handleExpectedAi('pending')}
-                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 disabled:opacity-40"
-                >
-                    펜딩으로 보내기
-                </button>
-                <button
-                    type="button"
-                    disabled={!expectedEnabled || isInferringExpected}
-                    onClick={() => handleExpectedAi('apply')}
-                    className="px-2.5 py-1.5 text-xs font-semibold rounded border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 disabled:opacity-40"
-                >
-                    즉시 적용
                 </button>
                 {!expectedEnabled && (
                     <span className="text-[11px] text-zinc-500">{expectedDisabledReason}</span>
