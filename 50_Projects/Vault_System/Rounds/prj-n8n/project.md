@@ -264,6 +264,7 @@ _build/n8n_workflows/
 | tsk-n8n-23 | n8n - Entity Validator Auto-Apply 기능 | todo |
 | tsk-n8n-24 | n8n - YouTube Performance Collector | done |
 | tsk-000n8n-1768057225620 | n8n - Entity Validator Auto-Apply 기능 | todo |
+| tsk-000n8n-1768410727494 | n8n - ac-batch-daily-digest Save Snapshot 502 에러 수정 | doing |
 
 ---
 
