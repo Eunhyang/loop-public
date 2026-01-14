@@ -53,7 +53,8 @@ def _build_prompt(
 async def run_internal_inference(
     project_id: str,
     context: ImpactExpectedContext,
-    provider: str = "anthropic",
+    provider: str = "openai",
+    model: str = "gpt-5.1",
     previous_output: Optional[ImpactExpectedOutput] = None,
     user_feedback: Optional[str] = None,
     actor: str = "api"
@@ -74,6 +75,7 @@ async def run_internal_inference(
         prompt=prompt,
         system_prompt=system_prompt,
         provider=provider,
+        model=model,
         response_format="json",
         entity_context={
             "entity_id": project_id,

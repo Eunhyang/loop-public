@@ -190,9 +190,11 @@ class LLMService:
                 kwargs["temperature"] = temperature
                 kwargs["max_tokens"] = max_tokens
 
-            # JSON mode (gpt-4o, gpt-4o-mini, gpt-5-mini 지원)
-            if response_format == "json" and model in ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-5-mini"]:
-                kwargs["response_format"] = {"type": "json_object"}
+            # JSON mode (gpt-4o 계열 + gpt-5.*)
+            if response_format == "json":
+                json_models = {"gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-5-mini"}
+                if model in json_models or (model and model.startswith("gpt-5")):
+                    kwargs["response_format"] = {"type": "json_object"}
 
             response = await self.openai_client.chat.completions.create(**kwargs)
             raw_content = response.choices[0].message.content

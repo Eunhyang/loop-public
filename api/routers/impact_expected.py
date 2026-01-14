@@ -320,12 +320,18 @@ async def infer_with_internal_llm(request: InferRequest):
         context = service.build_expected_context(project_id)
         base_run_id = generate_run_id()
         iteration = 1 + (1 if request.previous_output else 0)
+        provider = request.provider or "openai"
+        if provider != "openai":
+            logger.info(f"Forcing provider to openai (was {provider}) for Expected Impact inference")
+            provider = "openai"
+        model = "gpt-5.1"
 
         # Call LLM
         output, meta = await inference.run_internal_inference(
             project_id=project_id,
             context=context,
-            provider=request.provider or "anthropic",
+            provider=provider,
+            model=model,
             previous_output=request.previous_output,
             user_feedback=request.user_feedback,
             actor=request.actor or "api",

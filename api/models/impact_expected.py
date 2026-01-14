@@ -186,7 +186,7 @@ class SuggestRequest(BaseModel):
 class InferRequest(BaseModel):
     """Request to run internal LLM inference"""
     project_id: str = Field(description="Project ID")
-    provider: Optional[str] = Field(default="anthropic", description="LLM provider (anthropic, openai, etc.)")
+    provider: Optional[str] = Field(default="openai", description="LLM provider (openai only for internal inference)")
     mode: Literal["preview", "pending", "apply"] = Field(default="preview", description="preview | pending | apply")
     previous_output: Optional[ImpactExpectedOutput] = Field(default=None, description="Previous output for diff/iteration")
     user_feedback: Optional[str] = Field(default=None, description="User feedback to guide re-generation")
