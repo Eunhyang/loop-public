@@ -3,26 +3,26 @@
     {
       "name": "k-startup",
       "type": "listing",
-      "url": "https://www.k-startup.go.kr/web/contents/bizpbanc.do",
+      "url": "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do",
       "parse": {
-        "item_selector": "div.board-list > table > tbody > tr",
-        "title_selector": "td.subject > a",
-        "date_selector": "td.date",
-        "url_selector": "td.subject > a",
-        "status_selector": "td.status"
+        "item_selector": "#bizPbancList ul > li",
+        "title_selector": "p.tit",
+        "url_selector": "a[href*=\"go_view\"]",
+        "date_selector": "span.list",
+        "status_selector": "span.flag.day"
       },
-      "notes": "K-Startup \ucc3d\uc5c5\uc9c0\uc6d0 \uacf5\uace0 \ubaa9\ub85d \ud398\uc774\uc9c0"
+      "notes": "K-Startup 창업지원 공고 목록 페이지"
     },
     {
       "name": "google",
       "type": "search",
-      "query_template": "2026 batch program \ubaa8\uc9d1 {ac_name}",
+      "query_template": "2026 batch program 모집 {ac_name}",
       "result_limit": 5,
       "parse": {
         "link_selector": "a[href]",
         "title_selector": "h3"
       },
-      "notes": "Google \uac80\uc0c9\uc744 \ud1b5\ud55c \uac01 accelerator \uacf5\uc2dd \ud398\uc774\uc9c0 \ud06c\ub864\ub9c1"
+      "notes": "Google 검색을 통한 각 accelerator 공식 페이지 크롤링"
     }
   ],
   "accelerators": [
@@ -149,8 +149,8 @@
         "format": "YYYY-MM-DD"
       },
       {
-        "pattern": "\\d{4}\ub144 \\d{1,2}\uc6d4 \\d{1,2}\uc77c",
-        "format": "YYYY\ub144 MM\uc6d4 DD\uc77c"
+        "pattern": "\\d{4}년 \\d{1,2}월 \\d{1,2}일",
+        "format": "YYYY년 MM월 DD일"
       },
       {
         "pattern": "\\d{1,2}/\\d{1,2}",
@@ -160,29 +160,29 @@
     ],
     "status_keywords": {
       "open": [
-        "\ubaa8\uc9d1\uc911",
-        "\uc811\uc218\uc911",
-        "\uc2e0\uccad\uac00\ub2a5",
+        "모집중",
+        "접수중",
+        "신청가능",
         "open",
         "accepting applications"
       ],
       "closed": [
-        "\ub9c8\uac10",
-        "\uc885\ub8cc",
-        "\uc644\ub8cc",
+        "마감",
+        "종료",
+        "완료",
         "closed",
         "ended"
       ],
       "rolling": [
-        "\uc0c1\uc2dc\ubaa8\uc9d1",
-        "\uc0c1\uc2dc",
+        "상시모집",
+        "상시",
         "rolling",
         "ongoing"
       ]
     },
     "redaction_patterns": [
-      "\\d+\uc5b5\uc6d0",
-      "\\d+\ub9cc\uc6d0",
+      "\\d+억원",
+      "\\d+만원",
       "\\$\\d+[KM]",
       "equity \\d+%",
       "SAFE \\$\\d+",
