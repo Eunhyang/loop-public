@@ -470,8 +470,33 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         닫기
                     </button>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 text-[11px] text-zinc-500 border-b border-zinc-200">
-                    <span>필드별 근거:</span>
+                <div className="flex items-center gap-2 px-4 py-2 text-[11px] text-zinc-500 border-b border-zinc-200 flex-wrap">
+                    <span className="font-semibold text-zinc-700 text-xs">대화/액션</span>
+                    <button
+                        type="button"
+                        disabled={!expectedEnabled || isInferringExpected}
+                        onClick={() => handleExpectedAi('preview')}
+                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-40"
+                    >
+                        {isInferringExpected ? '생성 중...' : 'AI 생성'}
+                    </button>
+                    <button
+                        type="button"
+                        disabled={!expectedEnabled || isInferringExpected}
+                        onClick={() => handleExpectedAi('pending')}
+                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 disabled:opacity-40"
+                    >
+                        펜딩으로 보내기
+                    </button>
+                    <button
+                        type="button"
+                        disabled={!expectedEnabled || isInferringExpected}
+                        onClick={() => handleExpectedAi('apply')}
+                        className="px-2.5 py-1.5 text-xs font-semibold rounded border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 disabled:opacity-40"
+                    >
+                        즉시 적용
+                    </button>
+                    <span className="text-zinc-400">필드별 근거</span>
                     <button
                         type="button"
                         className="px-2 py-1 rounded border border-zinc-200 hover:bg-zinc-50 text-[11px]"
@@ -493,6 +518,9 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     >
                         왜 Confidence?
                     </button>
+                    {!expectedEnabled && (
+                        <span className="text-[11px] text-zinc-500">{expectedDisabledReason}</span>
+                    )}
                 </div>
                 <div className="flex-1 overflow-auto px-4 py-3 space-y-3">
                     {impactChatMessages.length === 0 && (
@@ -511,6 +539,18 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                                 {msg.role === 'ai' ? 'AI' : 'YOU'}
                             </div>
                             <div className="whitespace-pre-wrap break-words text-xs">{msg.text}</div>
+                            {msg.role === 'ai' && msg.canApply && (
+                                <div className="mt-2">
+                                    <button
+                                        type="button"
+                                        disabled={!expectedEnabled || isInferringExpected}
+                                        onClick={() => handleExpectedAi('apply')}
+                                        className="px-2.5 py-1 text-[11px] font-semibold rounded border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 disabled:opacity-40"
+                                    >
+                                        적용
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
