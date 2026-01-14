@@ -85,10 +85,36 @@ class Contributes(BaseModel):
     track_contributes: List[TrackContributeItem] = Field(default_factory=list)
 
 
+class ConstraintViolation(BaseModel):
+    """Allowlist/constraint violation detail"""
+    rule_id: str = Field(description="Identifier for violated rule (e.g., ALLOWLIST_CONDITION_ID)")
+    severity: str = Field(description="error | warning")
+    field: str = Field(description="Field name (e.g., condition_id)")
+    json_path: str = Field(description="JSON path to offending value (e.g., $.apply_patch.condition_contributes[0].condition_id)")
+    invalid_value: Any = Field(description="The value that violated the rule")
+    allowed_values: List[str] = Field(default_factory=list, description="Allowed values for the field")
+    hint: Optional[str] = Field(default=None, description="Optional remediation hint")
+
+
+class ViolationSummary(BaseModel):
+    """Summary of violations"""
+    total_violations: int
+    errors: int
+    warnings: int = 0
+
+
 class SuggestBatchError(BaseModel):
     """Structured error response for suggestions"""
     code: str
     message: str
+    violations: List[ConstraintViolation] = Field(
+        default_factory=list,
+        description="Structured allowlist/constraint violations"
+    )
+    summary: Optional[ViolationSummary] = Field(
+        default=None,
+        description="Summary counts for violations"
+    )
 
 
 class ApplyPatch(BaseModel):

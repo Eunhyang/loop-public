@@ -33,6 +33,8 @@ from ..models.impact_batch import (
     SuggestBatchError,
     StructuredReasoning,
     CalculatedFields,
+    ConstraintViolation,
+    ViolationSummary,
     FieldValidationError,
     SuggestBatchRequest,
     SuggestBatchResponse,
@@ -492,38 +494,13 @@ def validate_apply_patch_constraints(
     if not condition_contributes:
         errors.append(SuggestBatchError(code="MISSING_REQUIRED", message="contributes.condition_contributes is required"))
 
-    for item in condition_contributes:
-        if item.condition_id not in constraints.allowed_condition_ids:
-            errors.append(SuggestBatchError(
-                code="INVALID_ID",
-                message=f"condition_id {item.condition_id} not in allowed_condition_ids"
-            ))
-
     track_contributes = apply_patch.contributes.track_contributes
     for item in track_contributes:
-        if item.track_id not in constraints.allowed_track_ids:
-            errors.append(SuggestBatchError(
-                code="INVALID_ID",
-                message=f"track_id {item.track_id} not in allowed_track_ids"
-            ))
         if parent_id and item.track_id == parent_id:
             errors.append(SuggestBatchError(
                 code="TRACK_CONTRIBUTE_PRIMARY",
                 message="track_contributes cannot include parent_id"
             ))
-
-    for hyp_id in validates:
-        if hyp_id not in constraints.allowed_hypothesis_ids:
-            errors.append(SuggestBatchError(
-                code="INVALID_ID",
-                message=f"hypothesis_id {hyp_id} not in allowed_hypothesis_ids"
-            ))
-
-    if primary_hypothesis_id and primary_hypothesis_id not in constraints.allowed_hypothesis_ids:
-        errors.append(SuggestBatchError(
-            code="INVALID_ID",
-            message=f"primary_hypothesis_id {primary_hypothesis_id} not in allowed_hypothesis_ids"
-        ))
 
     weight_sum_max = constraints.contributes_weight_sum_max or 1.0
     cond_weight_sum = sum(item.weight for item in condition_contributes)
@@ -541,6 +518,84 @@ def validate_apply_patch_constraints(
         ))
 
     return errors
+
+
+def build_allowlist_violation_error(
+    apply_patch: ApplyPatch,
+    constraints: SuggestBatchConstraints
+) -> Optional[SuggestBatchError]:
+    """Build structured allowlist violation error per template."""
+    violations: List[ConstraintViolation] = []
+
+    allowed_conditions = constraints.allowed_condition_ids or []
+    if allowed_conditions:
+        for idx, item in enumerate(apply_patch.contributes.condition_contributes):
+            if item.condition_id not in allowed_conditions:
+                violations.append(ConstraintViolation(
+                    rule_id="ALLOWLIST_CONDITION_ID",
+                    severity="error",
+                    field="condition_id",
+                    json_path=f"$.apply_patch.condition_contributes[{idx}].condition_id",
+                    invalid_value=item.condition_id,
+                    allowed_values=allowed_conditions,
+                    hint="Use only IDs provided by worklist.context.conditions[].entity_id"
+                ))
+
+    allowed_tracks = constraints.allowed_track_ids or []
+    if allowed_tracks:
+        for idx, item in enumerate(apply_patch.contributes.track_contributes):
+            if item.track_id not in allowed_tracks:
+                violations.append(ConstraintViolation(
+                    rule_id="ALLOWLIST_TRACK_ID",
+                    severity="error",
+                    field="track_id",
+                    json_path=f"$.apply_patch.track_contributes[{idx}].track_id",
+                    invalid_value=item.track_id,
+                    allowed_values=allowed_tracks,
+                    hint="Choose from worklist.context.track.entity_id (and optional cross-track allowlist)"
+                ))
+
+    allowed_hypotheses = constraints.allowed_hypothesis_ids or []
+    if allowed_hypotheses:
+        for idx, hyp_id in enumerate(apply_patch.hypothesis_links.validates):
+            if hyp_id not in allowed_hypotheses:
+                violations.append(ConstraintViolation(
+                    rule_id="ALLOWLIST_HYPOTHESIS_ID",
+                    severity="error",
+                    field="hypothesis_id",
+                    json_path=f"$.apply_patch.validates[{idx}]",
+                    invalid_value=hyp_id,
+                    allowed_values=allowed_hypotheses,
+                    hint="Choose from worklist.context.candidate_hypotheses[].entity_id"
+                ))
+
+        primary_hypothesis_id = apply_patch.hypothesis_links.primary_hypothesis_id
+        if primary_hypothesis_id and primary_hypothesis_id not in allowed_hypotheses:
+            violations.append(ConstraintViolation(
+                rule_id="ALLOWLIST_PRIMARY_HYPOTHESIS_ID",
+                severity="error",
+                field="primary_hypothesis_id",
+                json_path="$.apply_patch.primary_hypothesis_id",
+                invalid_value=primary_hypothesis_id,
+                allowed_values=allowed_hypotheses,
+                hint="Primary must be one of validates[] AND within allowlist"
+            ))
+
+    if not violations:
+        return None
+
+    summary = ViolationSummary(
+        total_violations=len(violations),
+        errors=len(violations),
+        warnings=0
+    )
+
+    return SuggestBatchError(
+        code="CONSTRAINT_VIOLATION",
+        message="One or more fields violated allowlist constraints.",
+        violations=violations,
+        summary=summary
+    )
 
 
 def build_frontmatter_patch(apply_patch: ApplyPatch) -> Dict[str, Any]:
@@ -908,6 +963,24 @@ async def suggest_batch(
                         code="INVALID_APPLY_PATCH",
                         message=str(e)
                     )
+                ))
+                failed_count += 1
+                continue
+
+            violation_error = build_allowlist_violation_error(
+                apply_patch=apply_patch,
+                constraints=item_constraints
+            )
+            if violation_error:
+                suggestions.append(SuggestBatchSuggestion(
+                    project_id=project_id,
+                    status="failed",
+                    apply_patch=None,
+                    suggested_fields={},
+                    calculated_fields=None,
+                    reasoning=None,
+                    warnings=[],
+                    error=violation_error
                 ))
                 failed_count += 1
                 continue
