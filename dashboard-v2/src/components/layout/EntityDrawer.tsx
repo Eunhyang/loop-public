@@ -175,7 +175,13 @@ export function EntityDrawer() {
         isOpen={true}
         onClose={closeEntityDrawer}
         title={getTitle()}
-        width={type === 'task' && isDrawerExpanded ? 'w-full' : 'w-[600px]'}
+        width={
+          type === 'task' && isDrawerExpanded
+            ? 'w-full'
+            : type === 'project'
+              ? 'w-[960px]'
+              : 'w-[600px]'
+        }
         isExpanded={isDrawerExpanded}
         onToggleExpand={type === 'task' ? toggleDrawerExpand : undefined}
         showExpandButton={type === 'task'}
