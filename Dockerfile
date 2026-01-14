@@ -5,7 +5,7 @@ FROM node:20-slim AS frontend
 
 WORKDIR /frontend
 COPY dashboard-v2/package*.json ./
-RUN npm ci --silent
+RUN npm ci
 COPY dashboard-v2/ ./
 RUN npm run build
 
