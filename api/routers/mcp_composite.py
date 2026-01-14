@@ -16,6 +16,7 @@ Endpoints:
     GET /api/mcp/schema              - 스키마/상수 정보 (기존 API 위임)
 """
 
+import os
 import re
 import json
 from pathlib import Path
