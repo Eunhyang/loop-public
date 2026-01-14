@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { impactApi } from './api';
-import type {
-  ExpectedInferRequest,
-  ExpectedInferResponse,
-  HypothesisInferRequest,
-  HypothesisInferResponse,
-} from './api';
+import type { ExpectedInferRequest } from './api';
+import type { ExpectedInferResponse } from './api';
+import type { HypothesisInferRequest } from './api';
+import type { HypothesisInferResponse } from './api';
 import { queryKeys } from '@/queries/keys';
 
 export const useInferExpectedImpact = () => {

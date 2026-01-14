@@ -298,7 +298,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             });
             setExpectedAiResult(res);
             if (aiMode === 'preview' && res.output && mode === 'create') {
-                setFormData(prev => ({ ...prev, expected_impact: res.output }));
+                setFormData(prev => ({ ...prev, expected_impact: res.output || null }));
             }
         } catch (err: any) {
             const detail = err?.response?.data?.detail || err?.message || 'Failed to run Expected Impact inference';
@@ -391,7 +391,6 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         <div>Tier: {expectedAiResult.output.tier}</div>
                         <div>Magnitude: {expectedAiResult.output.impact_magnitude}</div>
                         <div>Confidence: {Math.round((expectedAiResult.output.confidence || 0) * 100)}%</div>
-                        <div>Summary: {expectedAiResult.output.summary}</div>
                         {expectedAiResult.diff_summary && (
                             <div className="text-[11px] text-zinc-500">Diff: {expectedAiResult.diff_summary}</div>
                         )}
