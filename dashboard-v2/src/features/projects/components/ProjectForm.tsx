@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useProject, useCreateProject, useUpdateProject, usePrograms } from '../queries';
 import { useDashboardInit } from '@/queries/useDashboardInit';
+import { queryKeys } from '@/queries/keys';
 import { useUi } from '@/contexts/UiContext';
 import { ChipSelect, type ChipOption } from '@/components/common/ChipSelect';
 import { ChipSelectExpand } from '@/components/common/ChipSelectExpand';
@@ -48,6 +50,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     const { data: dashboardData, isLoading: isDashboardLoading } = useDashboardInit();
     const { data: programs, isLoading: isProgramsLoading, error: programsError } = usePrograms();
     const { closeEntityDrawer, pushDrawer } = useUi();
+    const queryClient = useQueryClient();
 
     const [formData, setFormData] = useState({
         entity_name: prefill?.entity_name || '',
@@ -69,6 +72,8 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     const [hypothesisAiResult, setHypothesisAiResult] = useState<HypothesisInferResponse | null>(null);
     const [hypothesisAiFeedback, setHypothesisAiFeedback] = useState('');
     const [hypothesisAiError, setHypothesisAiError] = useState<string | null>(null);
+    const [isImpactChatOpen, setIsImpactChatOpen] = useState(false);
+    const [impactChatMessages, setImpactChatMessages] = useState<Array<{ role: 'ai' | 'user'; text: string }>>([]);
 
     // Constants
     const statuses = dashboardData?.constants?.project?.status || ['todo', 'doing', 'hold', 'done'];
@@ -287,7 +292,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             setExpectedAiError('프로젝트 ID가 필요합니다.');
             return;
         }
+        setIsImpactChatOpen(true);
         setExpectedAiError(null);
+        if (expectedAiFeedback.trim()) {
+            setImpactChatMessages(prev => [...prev, { role: 'user', text: expectedAiFeedback.trim() }]);
+        }
         try {
             const res = await inferExpectedImpact({
                 project_id: id,
@@ -297,12 +306,27 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 actor: 'dashboard',
             });
             setExpectedAiResult(res);
+            const summaryParts = [
+                `Tier: ${res.output?.tier ?? '-'}`,
+                `Magnitude: ${res.output?.impact_magnitude ?? '-'}`,
+                `Confidence: ${res.output?.confidence !== undefined ? Math.round((res.output.confidence || 0) * 100) + '%' : '-'}`,
+            ];
+            if (res.diff_summary) {
+                summaryParts.push(`Diff: ${res.diff_summary}`);
+            }
+            setImpactChatMessages(prev => [...prev, { role: 'ai', text: summaryParts.join(' | ') }]);
             if (aiMode === 'preview' && res.output && mode === 'create') {
                 setFormData(prev => ({ ...prev, expected_impact: res.output || null }));
+            }
+            if (aiMode === 'apply' && res.output) {
+                setFormData(prev => ({ ...prev, expected_impact: res.output || null }));
+                queryClient.invalidateQueries({ queryKey: queryKeys.project(id) });
+                queryClient.invalidateQueries({ queryKey: queryKeys.dashboardInit });
             }
         } catch (err: any) {
             const detail = err?.response?.data?.detail || err?.message || 'Failed to run Expected Impact inference';
             setExpectedAiError(detail);
+            setImpactChatMessages(prev => [...prev, { role: 'ai', text: `에러: ${detail}` }]);
         }
     };
 
@@ -350,6 +374,16 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 <div className="text-[11px] text-zinc-500">
                     제목/오너/트랙+컨텍스트(200자 이상)가 필요합니다. 기본 펜딩, 보조 즉시 적용(권한 조건).
                 </div>
+                <div className="flex items-center gap-2 text-[11px] text-zinc-500">
+                    <button
+                        type="button"
+                        onClick={() => setIsImpactChatOpen(true)}
+                        className="px-2 py-1 text-[11px] font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50"
+                    >
+                        대화 패널 열기
+                    </button>
+                    <span className="text-zinc-400">AI 생성/피드백 흐름을 대화로 확인하세요.</span>
+                </div>
                 <div className="flex flex-wrap gap-2">
                     <button
                         type="button"
@@ -379,7 +413,7 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                 <textarea
                     value={expectedAiFeedback}
                     onChange={(e) => setExpectedAiFeedback(e.target.value)}
-                    placeholder="피드백 입력 후 재생성 (선택)"
+                    placeholder="피드백을 입력하고 AI 생성/재생성을 누르세요."
                     className="w-full min-h-[64px] px-2.5 py-2 text-xs border border-zinc-200 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
                 />
                 {expectedAiError && (
@@ -455,6 +489,96 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
         </div>
     );
 
+    const handleAskWhy = (field: 'tier' | 'magnitude' | 'confidence') => {
+        const target = {
+            tier: 'Tier가 왜 이렇게 나왔는지 설명해줘.',
+            magnitude: 'Impact Magnitude가 왜 이렇게 나왔는지 설명해줘.',
+            confidence: 'Confidence가 왜 이렇게 나왔는지 설명해줘.',
+        }[field];
+        setExpectedAiFeedback(target);
+        handleExpectedAi('preview');
+    };
+
+    const renderImpactChatPanel = () => {
+        if (!isImpactChatOpen) return null;
+        return (
+            <div className="fixed top-0 right-0 h-full w-[360px] border-l border-zinc-200 bg-white shadow-lg z-40 flex flex-col">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-200">
+                    <div className="text-sm font-semibold text-zinc-800">AI Expected Impact 대화</div>
+                    <button
+                        type="button"
+                        onClick={() => setIsImpactChatOpen(false)}
+                        className="text-xs text-zinc-500 hover:text-zinc-700"
+                    >
+                        닫기
+                    </button>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 text-[11px] text-zinc-500 border-b border-zinc-200">
+                    <span>필드별 근거:</span>
+                    <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-zinc-200 hover:bg-zinc-50 text-[11px]"
+                        onClick={() => handleAskWhy('tier')}
+                    >
+                        왜 Tier?
+                    </button>
+                    <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-zinc-200 hover:bg-zinc-50 text-[11px]"
+                        onClick={() => handleAskWhy('magnitude')}
+                    >
+                        왜 Magnitude?
+                    </button>
+                    <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-zinc-200 hover:bg-zinc-50 text-[11px]"
+                        onClick={() => handleAskWhy('confidence')}
+                    >
+                        왜 Confidence?
+                    </button>
+                </div>
+                <div className="flex-1 overflow-auto px-4 py-3 space-y-3">
+                    {impactChatMessages.length === 0 && (
+                        <div className="text-[11px] text-zinc-400">AI 생성 후 대화가 여기에 표시됩니다.</div>
+                    )}
+                    {impactChatMessages.map((msg, idx) => (
+                        <div
+                            key={`${msg.role}-${idx}`}
+                            className={`rounded-md px-3 py-2 text-sm leading-relaxed ${
+                                msg.role === 'ai'
+                                    ? 'bg-zinc-100 text-zinc-800 border border-zinc-200'
+                                    : 'bg-blue-50 text-blue-800 border border-blue-100'
+                            }`}
+                        >
+                            <div className="text-[11px] uppercase tracking-wide mb-1 text-zinc-500">
+                                {msg.role === 'ai' ? 'AI' : 'YOU'}
+                            </div>
+                            <div className="whitespace-pre-wrap break-words text-xs">{msg.text}</div>
+                        </div>
+                    ))}
+                </div>
+                <div className="border-t border-zinc-200 p-3 space-y-2">
+                    <textarea
+                        value={expectedAiFeedback}
+                        onChange={(e) => setExpectedAiFeedback(e.target.value)}
+                        placeholder="질문/피드백을 입력하세요. (예: Tier가 왜 strategic인지 설명해줘)"
+                        className="w-full min-h-[64px] px-2.5 py-2 text-xs border border-zinc-200 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
+                    />
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            disabled={isInferringExpected}
+                            onClick={() => handleExpectedAi('preview')}
+                            className="px-3 py-1.5 text-xs font-semibold rounded border border-zinc-200 bg-white hover:bg-zinc-50 disabled:opacity-50"
+                        >
+                            질문 보내기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     // Edit/View mode - show project details (editable or read-only)
     if (mode !== 'create') {
         if (isLoadingProject || isDashboardLoading || !project || !dashboardData) {
@@ -522,7 +646,8 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
 
 
         return (
-            <div className="flex-1 overflow-y-auto">
+            <>
+                <div className="flex-1 overflow-y-auto">
                 {/* Title Section */}
                 <div className="px-6 pb-2">
                     {isReadOnly ? (
@@ -861,7 +986,8 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                         placeholder={isReadOnly ? '' : '프로젝트 설명을 작성하세요...'}
                     />
                 </div>
-            </div>
+                {renderImpactChatPanel()}
+            </>
         );
     }
 
@@ -922,12 +1048,13 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0">
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                {/* Error Message */}
-                {(formError || error) && (
-                    <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
-                        {formError || (error as any)?.message}
+        <>
+            <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0">
+                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                    {/* Error Message */}
+                    {(formError || error) && (
+                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200">
+                            {formError || (error as any)?.message}
                     </div>
                 )}
 
@@ -1076,11 +1203,11 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
             </div>
 
             {/* Footer */}
-            <div className="flex-shrink-0 p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
-                <button
-                    type="button"
-                    onClick={closeEntityDrawer}
-                    className="px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors"
+                <div className="flex-shrink-0 p-4 border-t border-zinc-200 flex justify-end gap-3 bg-zinc-50">
+                    <button
+                        type="button"
+                        onClick={closeEntityDrawer}
+                        className="px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded transition-colors"
                 >
                     Cancel
                 </button>
@@ -1088,10 +1215,12 @@ export const ProjectForm = ({ mode, id, prefill, suggestedFields, reasoning, onF
                     type="submit"
                     disabled={isPending || !isFormValid}
                     className="px-3 py-1.5 text-xs font-semibold !bg-[#f0f9ff] hover:!bg-[#e0f2fe] !text-[#082f49] border border-[#bae6fd] rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {isPending ? 'Creating...' : 'Create Project'}
-                </button>
-            </div>
-        </form>
+                    >
+                        {isPending ? 'Creating...' : 'Create Project'}
+                    </button>
+                </div>
+            </form>
+            {renderImpactChatPanel()}
+        </>
     );
 };
