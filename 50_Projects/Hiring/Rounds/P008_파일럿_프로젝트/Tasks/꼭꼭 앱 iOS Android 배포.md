@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-008-05
 entity_name: 꼭꼭 앱 iOS/Android 배포
 created: 2025-12-23
-updated: '2026-01-11'
+updated: '2026-01-14'
 status: todo
 parent_id: prj-008
 project_id: prj-008
@@ -17,8 +17,8 @@ outgoing_relations:
 validates: []
 validated_by: []
 assignee: 김은향
-start_date: '2026-01-13'
-due: '2026-01-13'
+start_date: '2026-01-15'
+due: '2026-01-15'
 priority: high
 estimated_hours: null
 actual_hours: null
