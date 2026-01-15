@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-15T19:50:31.655744",
+  "generated": "2026-01-15T20:00:08.792773",
   "total_entities": 515,
   "nodes": [
     {
@@ -3911,7 +3911,7 @@
       "id": "tsk-0000os-1768466096543",
       "type": "Task",
       "name": "Content OS - Dashboard V2 Scaffold",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096543.md",
       "assignee": "김은향"
     },
@@ -8331,7 +8331,6 @@
       "tsk-0000os-1768466096034",
       "tsk-0000os-1768466087103",
       "tsk-0000os-1768466105945",
-      "tsk-0000os-1768466096543",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466263435",
       "tsk-0000os-1768466267924",
@@ -8739,6 +8738,7 @@
       "tsk-0000os-1768465946312",
       "tsk-0000os-1768465929225",
       "tsk-0000os-1768466086422",
+      "tsk-0000os-1768466096543",
       "tsk-0000os-1768465946730",
       "tsk-0000os-1768465926049",
       "prj-kkokkkok-v1028",
