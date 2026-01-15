@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 519
+total_entities: 520
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 519개
+- **총 엔티티**: 520개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 38 |
-| Task | 391 |
+| Task | 392 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,10 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | assumed | 1 |
 | doing | 69 |
-| done | 313 |
+| done | 316 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 113 |
+| todo | 111 |
 | validating | 7 |
 
 ---
@@ -145,7 +145,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (391개)
+## Task (392개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -160,7 +160,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-0000os-1768465946730` | Content OS - Routing Navigation Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465946730.md` |
 | `tsk-0000os-1768466086422` | Content OS - API Content Data | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466086422.md` |
 | `tsk-0000os-1768466087103` | Content OS - Auth Flow in Vite | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466087103.md` |
-| `tsk-0000os-1768466096034` | Content OS - Migrate Opportunity UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096034.md` |
+| `tsk-0000os-1768466096034` | Content OS - Migrate Opportunity UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096034.md` |
 | `tsk-0000os-1768466096543` | Content OS - Dashboard V2 Scaffold | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096543.md` |
 | `tsk-0000os-1768466105945` | Content OS - Migrate Explorer UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466105945.md` |
 | `tsk-0000os-1768466256660` | Content OS - Deprecate Next App | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466256660.md` |
@@ -324,7 +324,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768462246386` | API - exec-api를 api로 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md` |
 | `tsk-023-1768488217439` | Dashboard - 3Y Conditions 라벨링 SSOT 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md` |
 | `tsk-023-1768488334785` | Dashboard - AI Chat Panel 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md` |
-| `tsk-023-1768494544353` | Infra - MCP 전용 컨테이너 분리 (loop-mcp) | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md` |
+| `tsk-023-1768494544353` | Infra - MCP 전용 컨테이너 분리 (loop-mcp) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md` |
+| `tsk-023-1768494638451` | Dashboard - ProjectForm Edit footer 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494638451.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -827,6 +828,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768488217439 (Dashboard - 3Y Conditions 라벨링 SSOT 구현)
   - tsk-023-1768488334785 (Dashboard - AI Chat Panel 구현)
   - tsk-023-1768494544353 (Infra - MCP 전용 컨테이너 분리 (loop-mcp))
+  - tsk-023-1768494638451 (Dashboard - ProjectForm Edit footer 통합)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

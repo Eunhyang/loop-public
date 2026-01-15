@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T01:30:08.315962",
-  "total_entities": 519,
+  "generated": "2026-01-16T01:45:08.386496",
+  "total_entities": 520,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -3513,8 +3513,16 @@
       "id": "tsk-023-1768494544353",
       "type": "Task",
       "name": "Infra - MCP 전용 컨테이너 분리 (loop-mcp)",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768494638451",
+      "type": "Task",
+      "name": "Dashboard - ProjectForm Edit footer 통합",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494638451.md",
       "assignee": "김은향"
     },
     {
@@ -3990,7 +3998,7 @@
       "id": "tsk-0000os-1768466096034",
       "type": "Task",
       "name": "Content OS - Migrate Opportunity UI",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096034.md",
       "assignee": "김은향"
     },
@@ -6520,6 +6528,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768494638451",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8154,6 +8167,7 @@
       "tsk-023-1768488217439",
       "tsk-023-1768488334785",
       "tsk-023-1768494544353",
+      "tsk-023-1768494638451",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8380,7 +8394,6 @@
       "tsk-023-1768414580485",
       "tsk-023-1768414580551",
       "tsk-023-1768488334785",
-      "tsk-023-1768494544353",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466105945",
       "tsk-0000os-1768466262169",
@@ -8388,7 +8401,6 @@
       "tsk-0000os-1768466267924",
       "tsk-0000os-1768466256660",
       "tsk-0000os-1768466274272",
-      "tsk-0000os-1768466096034",
       "tsk-mzjr8a-1768196988716",
       "tsk-mzjr8a-1768231080040",
       "tsk-021-1768369981548",
@@ -8766,6 +8778,8 @@
       "tsk-023-1768462246386",
       "tsk-023-30",
       "tsk-023-1768488217439",
+      "tsk-023-1768494544353",
+      "tsk-023-1768494638451",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
       "tsk-685ac7-1767962816968",
@@ -8799,6 +8813,7 @@
       "tsk-0000os-1768466096543",
       "tsk-0000os-1768465946730",
       "tsk-0000os-1768465926049",
+      "tsk-0000os-1768466096034",
       "prj-kkokkkok-v1028",
       "tsk-kkokkkok-v1028-01",
       "tsk-aduxpf-1767959129481",
