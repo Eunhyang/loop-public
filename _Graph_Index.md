@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-15
 updated: 2026-01-15
-total_entities: 515
+total_entities: 517
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 515개
+- **총 엔티티**: 517개
 - **마지막 업데이트**: 2026-01-15
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 38 |
-| Task | 387 |
+| Task | 389 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,10 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | assumed | 1 |
 | doing | 68 |
-| done | 310 |
+| done | 311 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 113 |
+| todo | 114 |
 | validating | 7 |
 
 ---
@@ -145,7 +145,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (387개)
+## Task (389개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -217,6 +217,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-011-01` | 리크루팅 사이트) 원택님 피드백 반영 | todo | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md` |
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
 | `tsk-012-1768140940912` | 오픈 카톡방 챌린지 - 챌린지 기획 및 공유 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768140940912.md` |
+| `tsk-012-1768488181984` | CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768488181984.md` |
 | `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
@@ -320,6 +321,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768414580485` | Dashboard v2 - AI Expected Impact 대화형 패널 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768414580485.md` |
 | `tsk-023-1768414580551` | Dashboard v2 - AI Expected Impact 대화형 패널 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768414580551.md` |
 | `tsk-023-1768462246386` | API - exec-api를 api로 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md` |
+| `tsk-023-1768488217439` | Dashboard - 3Y Conditions 라벨링 SSOT 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -698,6 +700,7 @@ tags: ["meta", "graph", "index"]
   - hyp-4-13 (한끼꼭꼭 챌린지 - 미니코칭 전환)
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
   - tsk-012-1768140940912 (오픈 카톡방 챌린지 - 챌린지 기획 및 공유)
+  - tsk-012-1768488181984 (CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일))
   - tsk-11nt0p-1767960275703 (와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효))
   - tsk-1igiyf-1767945247366 (와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉))
   - tsk-1m08zu-1767945274325 (와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등))
@@ -818,6 +821,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768414580485 (Dashboard v2 - AI Expected Impact 대화형 패널)
   - tsk-023-1768414580551 (Dashboard v2 - AI Expected Impact 대화형 패널)
   - tsk-023-1768462246386 (API - exec-api를 api로 통합)
+  - tsk-023-1768488217439 (Dashboard - 3Y Conditions 라벨링 SSOT 구현)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
