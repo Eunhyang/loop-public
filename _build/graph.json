@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T02:45:07.826335",
-  "total_entities": 522,
+  "generated": "2026-01-16T03:00:08.143657",
+  "total_entities": 523,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -3542,6 +3542,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768499125620",
+      "type": "Task",
+      "name": "Dashboard - Hypothesis CRUD 구현",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768499125620.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -6559,6 +6567,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768499125620",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8196,6 +8209,7 @@
       "tsk-023-1768494638451",
       "tsk-023-1768496364389",
       "tsk-023-1768496347729",
+      "tsk-023-1768499125620",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8422,6 +8436,7 @@
       "tsk-023-1768414580485",
       "tsk-023-1768414580551",
       "tsk-023-1768488334785",
+      "tsk-023-1768499125620",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466263435",
