@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-15T23:45:07.463823",
-  "total_entities": 517,
+  "generated": "2026-01-16T00:00:07.880516",
+  "total_entities": 518,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -1587,7 +1587,7 @@
       "id": "tsk-26-1768441882042",
       "type": "Task",
       "name": "다온 - w02 편집 영상 검토",
-      "status": "todo",
+      "status": "doing",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md",
       "assignee": "한명학"
     },
@@ -3502,6 +3502,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768488334785",
+      "type": "Task",
+      "name": "Dashboard - AI Chat Panel 구현",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -3626,6 +3634,14 @@
       "name": "랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등)",
       "status": "doing",
       "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-1768488324886",
+      "type": "Task",
+      "name": "콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15)",
+      "status": "done",
+      "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md",
       "assignee": "한명학"
     },
     {
@@ -3848,15 +3864,6 @@
       "name": "Content OS - YouTube 페이지네이션 구현",
       "status": "doing",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-content-os-02",
-      "type": "Task",
-      "name": "Content OS - Opportunity 대시보드 UI",
-      "status": "todo",
-      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md",
-      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -4661,6 +4668,11 @@
     },
     {
       "source": "trk-2",
+      "target": "prj-001",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
       "target": "prj-003",
       "type": "parent_of"
     },
@@ -4767,11 +4779,6 @@
     {
       "source": "trk-4",
       "target": "hyp-4-10",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-4",
-      "target": "prj-001",
       "type": "parent_of"
     },
     {
@@ -6495,6 +6502,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768488334785",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -6557,6 +6569,11 @@
     {
       "source": "prj-014",
       "target": "tsk-014-1768471047156",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-014",
+      "target": "tsk-014-1768488324886",
       "type": "parent_of"
     },
     {
@@ -6662,11 +6679,6 @@
     {
       "source": "prj-content-os",
       "target": "tsk-0000os-1768241491256",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
-      "target": "tsk-content-os-02",
       "type": "parent_of"
     },
     {
@@ -8127,6 +8139,7 @@
       "tsk-023-30",
       "tsk-023-1768462246386",
       "tsk-023-1768488217439",
+      "tsk-023-1768488334785",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8140,6 +8153,7 @@
       "tsk-uhklhc-1767959944222",
       "tsk-014-1768241993366",
       "tsk-014-1768471047156",
+      "tsk-014-1768488324886",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
@@ -8161,7 +8175,6 @@
       "tsk-0000os-1768066362208",
       "tsk-0000os-1767984076358",
       "tsk-0000os-1768241491256",
-      "tsk-content-os-02",
       "tsk-0000os-1768331167938",
       "tsk-0000os-1768465946312",
       "tsk-0000os-1768465929225",
@@ -8342,7 +8355,6 @@
       "tsk-26-1768238654295",
       "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
-      "tsk-26-1768441882042",
       "tsk-dashboard-ux-v1-27",
       "tsk-000n8n-1768410727494",
       "tsk-feedback-01",
@@ -8354,8 +8366,8 @@
       "tsk-023-1768414580485",
       "tsk-023-1768414580551",
       "tsk-023-1768488217439",
+      "tsk-023-1768488334785",
       "tsk-685ac7-1767962904466",
-      "tsk-content-os-02",
       "tsk-0000os-1768466096034",
       "tsk-0000os-1768466105945",
       "tsk-0000os-1768466262169",
@@ -8419,6 +8431,7 @@
       "pgm-youtube-weekly",
       "prj-yt-wegovy",
       "prj-yt-W02-26",
+      "tsk-26-1768441882042",
       "pgm-vault-system",
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-24",
@@ -8745,6 +8758,7 @@
       "tsk-685ac7-1767962904992",
       "tsk-685ac7-1767962905272",
       "tsk-014-1768241993366",
+      "tsk-014-1768488324886",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",

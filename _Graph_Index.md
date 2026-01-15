@@ -2,9 +2,9 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2026-01-15
-updated: 2026-01-15
-total_entities: 517
+created: 2026-01-16
+updated: 2026-01-16
+total_entities: 518
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,8 +17,8 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 517개
-- **마지막 업데이트**: 2026-01-15
+- **총 엔티티**: 518개
+- **마지막 업데이트**: 2026-01-16
 
 ### 타입별
 | Type | Count |
@@ -29,18 +29,18 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 38 |
-| Task | 389 |
+| Task | 390 |
 | Hypothesis | 50 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
 | assumed | 1 |
-| doing | 68 |
-| done | 311 |
+| doing | 69 |
+| done | 312 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 114 |
+| todo | 113 |
 | validating | 7 |
 
 ---
@@ -145,7 +145,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (389개)
+## Task (390개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -223,6 +223,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
 | `tsk-014-1768241993366` | 코칭 랜딩페이지 리뉴얼 - 은향 리뷰 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768241993366.md` |
 | `tsk-014-1768471047156` | 랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md` |
+| `tsk-014-1768488324886` | 콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15) | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -322,6 +323,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768414580551` | Dashboard v2 - AI Expected Impact 대화형 패널 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768414580551.md` |
 | `tsk-023-1768462246386` | API - exec-api를 api로 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md` |
 | `tsk-023-1768488217439` | Dashboard - 3Y Conditions 라벨링 SSOT 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md` |
+| `tsk-023-1768488334785` | Dashboard - AI Chat Panel 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -375,7 +377,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768238550460` | YouTube W02 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238550460.md` |
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
-| `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
+| `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -411,7 +413,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-b4fa1e-1767962909096` | Dashboard v2 - Pending Review 페이지 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962909096.md` |
 | `tsk-bpnbz2-1768237849865` | Dashboard - Task Drawer Duplicate Loading 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768237849865.md` |
 | `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
-| `tsk-content-os-02` | Content OS - Opportunity 대시보드 UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Opportunity 대시보드 UI.md` |
 | `tsk-content-os-04` | Content OS - Task Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
 | `tsk-content-os-05` | Content OS - 회고 대시보드 UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
 | `tsk-content-os-06` | ContentOS - Performance Dashboard Phase 1 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md` |
@@ -711,6 +712,7 @@ tags: ["meta", "graph", "index"]
   - tsk-014-1768228019327 (랜딩페이지 리뉴얼 - 레퍼런스 서칭 중)
   - tsk-014-1768241993366 (코칭 랜딩페이지 리뉴얼 - 은향 리뷰)
   - tsk-014-1768471047156 (랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등))
+  - tsk-014-1768488324886 (콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15))
   - tsk-1ca2sj-1767960085150 (유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획)
   - tsk-1q091r-1767960173667 (코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획)
   - tsk-685ac7-1767962816709 (꼭꼭Fit 3기 환급 검토)
@@ -822,6 +824,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768414580551 (Dashboard v2 - AI Expected Impact 대화형 패널)
   - tsk-023-1768462246386 (API - exec-api를 api로 통합)
   - tsk-023-1768488217439 (Dashboard - 3Y Conditions 라벨링 SSOT 구현)
+  - tsk-023-1768488334785 (Dashboard - AI Chat Panel 구현)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -895,7 +898,6 @@ tags: ["meta", "graph", "index"]
   - tsk-022-03 (ContentOS - Firebase 스키마 보완 패치)
   - tsk-022-15 (ContentOS - Firebase Rules/Indexes 배포)
   - tsk-content-os-01 (Content OS - 프로젝트 초기 세팅)
-  - tsk-content-os-02 (Content OS - Opportunity 대시보드 UI)
   - tsk-content-os-04 (Content OS - Task Pipeline UI)
   - tsk-content-os-05 (Content OS - 회고 대시보드 UI)
   - tsk-content-os-06 (ContentOS - Performance Dashboard Phase 1)
@@ -1069,6 +1071,7 @@ tags: ["meta", "graph", "index"]
   - hyp-2-08 (데이터로 루프 재구성)
   - hyp-2-09 (데이터 품질 리포트가 행동을 바꿈)
   - hyp-2-10 (투자/외부 설득용 신뢰도)
+  - prj-001 (Ontology v0.1)
   - prj-003 (LoopOS - V0 데이터 설계)
   - prj-005 (LoopOS - 최소 선제 학습)
   - prj-019 (Dual-Vault - 정비)
@@ -1103,7 +1106,6 @@ tags: ["meta", "graph", "index"]
   - hyp-4-09 (코칭→데이터 엔진)
   - hyp-4-10 (코칭 포지셔닝)
   - pgm-cs (CS·고객지원)
-  - prj-001 (Ontology v0.1)
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행))
   - prj-012 (CS - 2026 Q1)
@@ -1157,5 +1159,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2026-01-15
+**Auto-generated**: 2026-01-16
 **Script**: scripts/build_graph_index.py
