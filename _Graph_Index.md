@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 524
+total_entities: 525
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 524개
+- **총 엔티티**: 525개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 38 |
-| Task | 396 |
+| Task | 397 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -40,7 +40,7 @@ tags: ["meta", "graph", "index"]
 | done | 320 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 111 |
+| todo | 112 |
 | validating | 7 |
 
 ---
@@ -145,7 +145,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (396개)
+## Task (397개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -330,6 +330,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768496364389` | Dashboard - Split Drawer (Cmd+클릭 시 좌우 분할) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496364389.md` |
 | `tsk-023-1768499125620` | Dashboard - Hypothesis CRUD 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768499125620.md` |
 | `tsk-023-1768500289204` | Dashboard - Hypothesis Candidates API 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md` |
+| `tsk-023-1768501503985` | Dashboard - Expected Impact Gate 추가 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -837,6 +838,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768496364389 (Dashboard - Split Drawer (Cmd+클릭 시 좌우 분할))
   - tsk-023-1768499125620 (Dashboard - Hypothesis CRUD 구현)
   - tsk-023-1768500289204 (Dashboard - Hypothesis Candidates API 구현)
+  - tsk-023-1768501503985 (Dashboard - Expected Impact Gate 추가)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

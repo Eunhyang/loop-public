@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T03:15:07.952712",
-  "total_entities": 524,
+  "generated": "2026-01-16T03:30:07.816273",
+  "total_entities": 525,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -3558,6 +3558,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768501503985",
+      "type": "Task",
+      "name": "Dashboard - Expected Impact Gate 추가",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -6585,6 +6593,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768501503985",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8224,6 +8237,7 @@
       "tsk-023-1768496347729",
       "tsk-023-1768499125620",
       "tsk-023-1768500289204",
+      "tsk-023-1768501503985",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8451,6 +8465,7 @@
       "tsk-023-1768414580551",
       "tsk-023-1768488334785",
       "tsk-023-1768500289204",
+      "tsk-023-1768501503985",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466263435",
