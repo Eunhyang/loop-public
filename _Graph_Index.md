@@ -37,10 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | assumed | 1 |
 | doing | 69 |
-| done | 320 |
+| done | 322 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 112 |
+| todo | 110 |
 | validating | 7 |
 
 ---
@@ -329,8 +329,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768496347729` | Dashboard - Track 통합 + Conditions_3Y UI 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496347729.md` |
 | `tsk-023-1768496364389` | Dashboard - Split Drawer (Cmd+클릭 시 좌우 분할) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496364389.md` |
 | `tsk-023-1768499125620` | Dashboard - Hypothesis CRUD 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768499125620.md` |
-| `tsk-023-1768500289204` | Dashboard - Hypothesis Candidates API 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md` |
-| `tsk-023-1768501503985` | Dashboard - Expected Impact Gate 추가 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md` |
+| `tsk-023-1768500289204` | Dashboard - Hypothesis Candidates API 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md` |
+| `tsk-023-1768501503985` | Dashboard - Expected Impact Gate 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
