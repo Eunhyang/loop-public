@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T00:15:08.210320",
+  "generated": "2026-01-16T00:30:07.442767",
   "total_entities": 518,
   "nodes": [
     {
@@ -3485,14 +3485,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-023-1768488334785",
-      "type": "Task",
-      "name": "Dashboard - AI Chat Panel 구현",
-      "status": "todo",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-023-30",
       "type": "Task",
       "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
@@ -3507,6 +3499,14 @@
       "name": "Dashboard - 3Y Conditions 라벨링 SSOT 구현",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768488334785",
+      "type": "Task",
+      "name": "Dashboard - AI Chat Panel 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md",
       "assignee": "김은향"
     },
     {
@@ -6493,17 +6493,17 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-1768488334785",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
       "target": "tsk-023-30",
       "type": "parent_of"
     },
     {
       "source": "prj-023",
       "target": "tsk-023-1768488217439",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768488334785",
       "type": "parent_of"
     },
     {
@@ -8137,9 +8137,9 @@
       "tsk-023-1768414580485",
       "tsk-023-1768414580551",
       "tsk-023-1768462246386",
-      "tsk-023-1768488334785",
       "tsk-023-30",
       "tsk-023-1768488217439",
+      "tsk-023-1768488334785",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8365,7 +8365,6 @@
       "tsk-023-1768386479760",
       "tsk-023-1768414580485",
       "tsk-023-1768414580551",
-      "tsk-023-1768488334785",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466096034",
       "tsk-0000os-1768466105945",
@@ -8751,6 +8750,7 @@
       "tsk-023-1768462246386",
       "tsk-023-30",
       "tsk-023-1768488217439",
+      "tsk-023-1768488334785",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
       "tsk-685ac7-1767962816968",
