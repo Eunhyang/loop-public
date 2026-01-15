@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-005-01
 entity_name: '[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차'
 created: 2025-12-18
-updated: '2026-01-10'
+updated: '2026-01-16'
 status: todo
 parent_id: prj-005
 project_id: prj-005
