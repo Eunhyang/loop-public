@@ -1,5 +1,0 @@
-export { CommentSection } from './CommentSection'
-export { CommentEditor } from './CommentEditor'
-export { CommentItem } from './CommentItem'
-export * from './types'
-export * from './queries'

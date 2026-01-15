@@ -1,58 +1,51 @@
-# Obsidian (전체 폴더 - 개인 설정, 충돌 방지)
-.obsidian/
+# ============================================
+# NAS Vault Git - Vault Only Configuration
+# ============================================
+# SSOT for: 00_*, 01_*, 10_*, 20_*, 30_*, 40_*, 50_*, 60_*, 70_*, 90_* folders
+# Code files are deployed separately, not tracked here
 
-# Mac 시스템 파일
+# === System Files ===
 .DS_Store
 .Trash-*
-
-# Synology NAS 메타데이터
 @eaDir/
 */@eaDir/
-
-# IntelliJ IDEA
+.obsidian/
 .idea/
-
-# 임시 파일
 *.tmp
 *.temp
 ~$*
 
-# Claude Code lock file (NAS sync 충돌 방지)
-.claude-commit.lock
+# === Code Folders (tracked in local git repo) ===
+api/
+dashboard-v2/
+shared/
+scripts/
+doc/
+nginx/
+apps/
+exec/
+reviews/
+_dashboard/
+_attachments/
+.claude/
+.agent/
 
-# === Auto-generated files ===
-# _Graph_Index.md는 pre-commit hook에서 자동 생성/커밋됨
-
-# Python 환경
+# === Build/Runtime Files ===
+_build/
 __pycache__/
 *.py[cod]
 .venv/
 *.egg-info/
-
-# Poetry
 poetry.lock
 .env
 .envrc
-
 _exec_vault
-api/oauth/keys/private.pem
+Dockerfile
+docker-compose.yml
+poetry.toml
+pyproject.toml
+.implementation_plan.md
+ExportBlock-*/
 
-# Build logs (자동 생성 로그 - 동기화 충돌 방지)
-_build/ai_audit/
-_build/run_log/
-_build/build_logs/
-_build/audit.log
-_build/git-sync.log
-_build/local-sync.log
-_build/local-sync-stdout.log
-_build/local-sync-stderr.log
-_build/pending_reviews.json
-
-# Attachments (tsk-dashboard-ux-v1-18: Task 첨부파일 - NAS에만 저장)
-_attachments/
-
-# OAuth DB (runtime, not tracked - prevents read-only errors from git-sync)
-api/oauth/oauth.db
-api/oauth/oauth.db-wal
-api/oauth/oauth.db-shm
-api/oauth/google_oauth.db
+# === Lock Files ===
+.claude-commit.lock
