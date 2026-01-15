@@ -135,7 +135,7 @@ priority_flag: high
 | tsk-0000os-1768331167938 | Content OS - Inventory and Mapping | 김은향 | todo |  |
 | tsk-content-os-15 | Content OS - YouTube Studio 스냅샷 시스템 | 김은향 | todo |  |
 | tsk-0000os-1768465926049 | Content OS - API Migration Spec | 김은향 | todo | 2026-01-15 |
-| tsk-0000os-1768465929225 | Content OS - YouTube Search Analytics API | 김은향 | todo |  |
+| tsk-0000os-1768465929225 | Content OS - YouTube Search Analytics API | 김은향 | done |  |
 | tsk-0000os-1768465946730 | Content OS - Routing Navigation Integration | 김은향 | todo | 2026-01-15 |
 | tsk-0000os-1768466087103 | Content OS - Auth Flow in Vite | 김은향 | todo | 2026-01-15 |
 | tsk-0000os-1768466086422 | Content OS - API Content Data | 김은향 | todo | 2026-01-15 |
