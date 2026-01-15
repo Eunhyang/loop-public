@@ -134,6 +134,18 @@ priority_flag: high
 | tsk-content-os-14 | ContentOS - YouTube Analytics 전체 메트릭 수집 | 김은향 | doing | 2026-01-10 |
 | tsk-0000os-1768331167938 | Content OS - Inventory and Mapping | 김은향 | todo |  |
 | tsk-content-os-15 | Content OS - YouTube Studio 스냅샷 시스템 | 김은향 | todo |  |
+| tsk-0000os-1768465926049 | Content OS - API Migration Spec | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768465929225 | Content OS - YouTube Search Analytics API | 김은향 | todo |  |
+| tsk-0000os-1768465946730 | Content OS - Routing Navigation Integration | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466087103 | Content OS - Auth Flow in Vite | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466086422 | Content OS - API Content Data | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466105945 | Content OS - Migrate Explorer UI | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466096543 | Content OS - Dashboard V2 Scaffold | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466262169 | Content OS - Stabilize SSOT Build | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466263435 | Content OS - Migrate Retro UI | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466274272 | Content OS - Migrate Pipeline UI | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466267924 | Content OS - Migrate Performance UI | 김은향 | todo | 2026-01-15 |
+| tsk-0000os-1768466256660 | Content OS - Deprecate Next App | 김은향 | todo | 2026-01-15 |
 
 ---
 
