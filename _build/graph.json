@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T04:00:31.334819",
+  "generated": "2026-01-16T06:15:09.296702",
   "total_entities": 526,
   "nodes": [
     {
@@ -3485,15 +3485,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-023-30",
-      "type": "Task",
-      "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-023-1768488217439",
       "type": "Task",
       "name": "Dashboard - 3Y Conditions 라벨링 SSOT 구현",
@@ -3571,6 +3562,15 @@
       "name": "API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성",
       "status": "todo",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-30",
+      "type": "Task",
+      "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -4093,19 +4093,19 @@
       "owner": "김은향"
     },
     {
-      "id": "tsk-aduxpf-1767959129481",
-      "type": "Task",
-      "name": "앱 유로 구독 - iOS 구독 안 됨",
-      "status": "done",
-      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-mzjr8a-1768196988716",
       "type": "Task",
       "name": "1.0.29 - 재로그인시 MealDiary 사진 안보임",
       "status": "todo",
       "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768196988716.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-aduxpf-1767959129481",
+      "type": "Task",
+      "name": "앱 유로 구독 - iOS 구독 안 됨",
+      "status": "done",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
       "assignee": "김은향"
     },
     {
@@ -6557,11 +6557,6 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-30",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
       "target": "tsk-023-1768488217439",
       "type": "parent_of"
     },
@@ -6608,6 +6603,11 @@
     {
       "source": "prj-023",
       "target": "tsk-023-1768502769059",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-30",
       "type": "parent_of"
     },
     {
@@ -6867,12 +6867,12 @@
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-aduxpf-1767959129481",
+      "target": "tsk-mzjr8a-1768196988716",
       "type": "parent_of"
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-mzjr8a-1768196988716",
+      "target": "tsk-aduxpf-1767959129481",
       "type": "parent_of"
     },
     {
@@ -8241,7 +8241,6 @@
       "tsk-023-1768414580485",
       "tsk-023-1768414580551",
       "tsk-023-1768462246386",
-      "tsk-023-30",
       "tsk-023-1768488217439",
       "tsk-023-1768488334785",
       "tsk-023-1768494544353",
@@ -8252,6 +8251,7 @@
       "tsk-023-1768500289204",
       "tsk-023-1768501503985",
       "tsk-023-1768502769059",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8303,8 +8303,8 @@
       "tsk-0000os-1768465926049",
       "tsk-0000os-1768466096034",
       "tsk-kkokkkok-v1028-01",
-      "tsk-aduxpf-1767959129481",
       "tsk-mzjr8a-1768196988716",
+      "tsk-aduxpf-1767959129481",
       "tsk-mzjr8a-1768231080040",
       "tsk-021-01",
       "tsk-021-1767964326285",
@@ -8860,7 +8860,6 @@
       "tsk-bpnbz2-1768237849865",
       "tsk-023-1768244708843",
       "tsk-023-1768462246386",
-      "tsk-023-30",
       "tsk-023-1768488217439",
       "tsk-023-1768494544353",
       "tsk-023-1768494638451",
@@ -8869,6 +8868,7 @@
       "tsk-023-1768499125620",
       "tsk-023-1768500289204",
       "tsk-023-1768501503985",
+      "tsk-023-30",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
       "tsk-685ac7-1767962816968",

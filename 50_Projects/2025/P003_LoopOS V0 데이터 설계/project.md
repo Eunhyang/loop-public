@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-003
 entity_name: LoopOS - V0 데이터 설계
 created: 2025-12-18
-updated: '2026-01-15'
+updated: '2026-01-16'
 status: doing
 parent_id: trk-2
 aliases:
