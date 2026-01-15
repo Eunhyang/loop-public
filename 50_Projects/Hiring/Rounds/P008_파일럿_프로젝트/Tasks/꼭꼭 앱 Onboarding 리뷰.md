@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-008-04
 entity_name: 꼭꼭 앱 Onboarding UI/UX 리뷰
 created: 2025-12-23
-updated: '2025-12-27'
+updated: '2026-01-15'
 status: done
 closed: 2025-12-26
 parent_id: prj-008
@@ -44,9 +44,12 @@ notes: '# 꼭꼭 앱 Onboarding UI/UX 리뷰
 
   - [ ] 기획 의도 확인
 
+
   - [ ] UX 플로우 검토
 
+
   - [ ] 디자인 QA
+
 
   - [ ] 피드백 전달
 
@@ -60,9 +63,7 @@ notes: '# 꼭꼭 앱 Onboarding UI/UX 리뷰
   ## 참고
 
 
-  - 리뷰 대상: [[tsk-008-01|[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX]]
-
-  '
+  - 리뷰 대상: \[\[tsk-008-01|\[단님\] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX\]\]'
 ---
 # 꼭꼭 앱 Onboarding UI/UX 리뷰
 

@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-n8n-22
 entity_name: Retro Synth - B Score 계산 fallback 시스템
 created: 2026-01-06
-updated: '2026-01-13'
+updated: '2026-01-15'
 status: doing
 parent_id: prj-n8n
 project_id: prj-n8n
