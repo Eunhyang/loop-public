@@ -37,10 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | assumed | 1 |
 | doing | 69 |
-| done | 317 |
+| done | 319 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 112 |
+| todo | 110 |
 | validating | 7 |
 
 ---
@@ -326,8 +326,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768488334785` | Dashboard - AI Chat Panel 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md` |
 | `tsk-023-1768494544353` | Infra - MCP 전용 컨테이너 분리 (loop-mcp) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md` |
 | `tsk-023-1768494638451` | Dashboard - ProjectForm Edit footer 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494638451.md` |
-| `tsk-023-1768496347729` | Dashboard - Track 통합 + Conditions_3Y UI 개선 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496347729.md` |
-| `tsk-023-1768496364389` | Dashboard - Split Drawer (Cmd+클릭 시 좌우 분할) | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496364389.md` |
+| `tsk-023-1768496347729` | Dashboard - Track 통합 + Conditions_3Y UI 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496347729.md` |
+| `tsk-023-1768496364389` | Dashboard - Split Drawer (Cmd+클릭 시 좌우 분할) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496364389.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
