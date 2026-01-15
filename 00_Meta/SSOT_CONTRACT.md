@@ -70,7 +70,6 @@ tags: ["meta", "ssot", "contract", "governance"]
 |--------------|--------------|------|-------------|
 | `_Graph_Index.md` | `build_graph_index.py` | 엔티티 그래프 인덱스 | pre-commit |
 | `_build/impact.json` | `build_impact.py` | A/B 점수 계산 결과 | 수동 |
-| `_build/index.json` | - | 검색 인덱스 | - |
 | `_build/ai_audit/` | n8n workflow | AI 감사 로그 | 자동 |
 | `_build/run_log/` | API server | 실행 로그 | 자동 |
 | `90_Archive/00_Catalog/` | `build_archive_catalog.py` | 아카이브 카탈로그 | pre-commit |
