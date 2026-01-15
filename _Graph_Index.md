@@ -37,10 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | assumed | 1 |
 | doing | 67 |
-| done | 309 |
+| done | 310 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 115 |
+| todo | 114 |
 | validating | 7 |
 
 ---
@@ -159,7 +159,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-0000os-1768465946312` | Content OS - YouTube OAuth API Migration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465946312.md` |
 | `tsk-0000os-1768465946730` | Content OS - Routing Navigation Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465946730.md` |
 | `tsk-0000os-1768466086422` | Content OS - API Content Data | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466086422.md` |
-| `tsk-0000os-1768466087103` | Content OS - Auth Flow in Vite | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466087103.md` |
+| `tsk-0000os-1768466087103` | Content OS - Auth Flow in Vite | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466087103.md` |
 | `tsk-0000os-1768466096034` | Content OS - Migrate Opportunity UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096034.md` |
 | `tsk-0000os-1768466096543` | Content OS - Dashboard V2 Scaffold | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096543.md` |
 | `tsk-0000os-1768466105945` | Content OS - Migrate Explorer UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466105945.md` |

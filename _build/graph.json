@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-15T20:00:08.792773",
+  "generated": "2026-01-15T20:15:07.763199",
   "total_entities": 515,
   "nodes": [
     {
@@ -3887,7 +3887,7 @@
       "id": "tsk-0000os-1768466087103",
       "type": "Task",
       "name": "Content OS - Auth Flow in Vite",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466087103.md",
       "assignee": "김은향"
     },
@@ -8329,7 +8329,6 @@
       "tsk-014-1768471047156",
       "tsk-content-os-02",
       "tsk-0000os-1768466096034",
-      "tsk-0000os-1768466087103",
       "tsk-0000os-1768466105945",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466263435",
@@ -8737,6 +8736,7 @@
       "tsk-0000os-1768066362208",
       "tsk-0000os-1768465946312",
       "tsk-0000os-1768465929225",
+      "tsk-0000os-1768466087103",
       "tsk-0000os-1768466086422",
       "tsk-0000os-1768466096543",
       "tsk-0000os-1768465946730",
