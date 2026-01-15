@@ -5,6 +5,7 @@
 set -e
 
 VAULT_DIR="/volume1/LOOP_CORE/vault/LOOP"
+CODE_DIR="/volume1/LOOP_CLevel/dev/loop-code"
 LOG_FILE="/volume1/LOOP_CORE/vault/LOOP/_build/git-sync.log"
 MAX_LOG_LINES=1000
 
@@ -28,6 +29,16 @@ if [ -f "$LOG_FILE" ] && [ $(wc -l < "$LOG_FILE") -gt $MAX_LOG_LINES ]; then
 fi
 
 log "=== Git Sync 시작 ==="
+
+# 0. Graph Index 재생성 (변경사항 있을 때만)
+if [ -n "$(git status --porcelain)" ]; then
+    log "Graph Index 재생성 중..."
+    if python3 "$CODE_DIR/scripts/build_graph_index.py" "$VAULT_DIR" 2>&1; then
+        log "Graph Index 재생성 완료"
+    else
+        log "WARNING: Graph Index 재생성 실패 (계속 진행)"
+    fi
+fi
 
 # 1. 변경사항 확인 및 커밋 (pre-commit hook 스킵)
 if [ -n "$(git status --porcelain)" ]; then
