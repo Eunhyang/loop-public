@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-15T20:15:07.763199",
+  "generated": "2026-01-15T22:45:07.430182",
   "total_entities": 515,
   "nodes": [
     {
@@ -1586,7 +1586,7 @@
     {
       "id": "tsk-26-1768441882042",
       "type": "Task",
-      "name": "Youtube w02 - 다온님 편집 영상 검토",
+      "name": "다온 - w02 편집 영상 검토",
       "status": "todo",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md",
       "assignee": "한명학"

@@ -373,7 +373,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768238550460` | YouTube W02 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238550460.md` |
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
-| `tsk-26-1768441882042` | Youtube w02 - 다온님 편집 영상 검토 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
+| `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -1013,7 +1013,7 @@ tags: ["meta", "graph", "index"]
   - tsk-26-1768238550460 (YouTube W02 - 원고 작성)
   - tsk-26-1768238602412 (YouTube W02 - 편집본 확인)
   - tsk-26-1768238654295 (YouTube W02 - 추가편집(필요한 영상등 추가))
-  - tsk-26-1768441882042 (Youtube w02 - 다온님 편집 영상 검토)
+  - tsk-26-1768441882042 (다온 - w02 편집 영상 검토)
   - tsk-yt-01 (법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사))
   - tsk-yt-w02-26-01 (YouTube W02 - 주제 선정)
   - tsk-yt-w02-26-02 (YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가)
