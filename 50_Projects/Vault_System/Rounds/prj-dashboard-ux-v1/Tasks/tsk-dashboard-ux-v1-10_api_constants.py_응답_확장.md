@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-dashboard-ux-v1-10
 entity_name: api/constants.py 응답 확장
 created: 2025-12-27
-updated: '2026-01-12'
+updated: '2026-01-16'
 status: doing
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
