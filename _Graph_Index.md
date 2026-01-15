@@ -36,11 +36,11 @@ tags: ["meta", "graph", "index"]
 | Status | Count |
 |--------|-------|
 | assumed | 1 |
-| doing | 67 |
+| doing | 68 |
 | done | 310 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 114 |
+| todo | 113 |
 | validating | 7 |
 
 ---
@@ -221,7 +221,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-04` | W33 업로드 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
 | `tsk-014-1768241993366` | 코칭 랜딩페이지 리뉴얼 - 은향 리뷰 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768241993366.md` |
-| `tsk-014-1768471047156` | 랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(인스타, 유튜브 등) | todo | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md` |
+| `tsk-014-1768471047156` | 랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -707,7 +707,7 @@ tags: ["meta", "graph", "index"]
 - **prj-014** (코칭 서비스 운영 체계 재구축)
   - tsk-014-1768228019327 (랜딩페이지 리뉴얼 - 레퍼런스 서칭 중)
   - tsk-014-1768241993366 (코칭 랜딩페이지 리뉴얼 - 은향 리뷰)
-  - tsk-014-1768471047156 (랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(인스타, 유튜브 등))
+  - tsk-014-1768471047156 (랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등))
   - tsk-1ca2sj-1767960085150 (유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획)
   - tsk-1q091r-1767960173667 (코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획)
   - tsk-685ac7-1767962816709 (꼭꼭Fit 3기 환급 검토)
