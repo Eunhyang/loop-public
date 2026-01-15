@@ -142,6 +142,16 @@ condition_ids:
   - cond-e
 
 # ============================================
+# Condition Labels (Dashboard UI용)
+# ============================================
+condition_labels:
+  cond-a: "CondA-PMF신호"
+  cond-b: "CondB-패턴/데이터"
+  cond-c: "CondC-글로벌데이터"
+  cond-d: "CondD-런웨이"
+  cond-e: "CondE-팀"
+
+# ============================================
 # Program Types (상시 운영 프로그램)
 # ============================================
 program_types:
