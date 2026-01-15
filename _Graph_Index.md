@@ -37,10 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | assumed | 1 |
 | doing | 69 |
-| done | 314 |
+| done | 313 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 111 |
+| todo | 112 |
 | validating | 7 |
 
 ---
@@ -323,7 +323,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768414580551` | Dashboard v2 - AI Expected Impact 대화형 패널 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768414580551.md` |
 | `tsk-023-1768462246386` | API - exec-api를 api로 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md` |
 | `tsk-023-1768488217439` | Dashboard - 3Y Conditions 라벨링 SSOT 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md` |
-| `tsk-023-1768488334785` | Dashboard - AI Chat Panel 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md` |
+| `tsk-023-1768488334785` | Dashboard - AI Chat Panel 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
