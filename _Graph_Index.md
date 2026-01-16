@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 540
+total_entities: 541
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 540개
+- **총 엔티티**: 541개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 39 |
-| Task | 411 |
+| Task | 412 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,11 +37,11 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 69 |
-| done | 325 |
+| doing | 68 |
+| done | 327 |
 | fixed | 1 |
-| planning | 15 |
-| todo | 121 |
+| planning | 16 |
+| todo | 120 |
 | validating | 7 |
 
 ---
@@ -106,7 +106,7 @@ tags: ["meta", "graph", "index"]
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
-| `prj-001` | Ontology v0.1 | doing | `50_Projects/2025/P001_Ontology/project.md` |
+| `prj-001` | Ontology v0.1 | planning | `50_Projects/2025/P001_Ontology/project.md` |
 | `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
 | `prj-003` | LoopOS - V0 데이터 설계 | doing | `50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md` |
 | `prj-005` | LoopOS - 최소 선제 학습 | planning | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md` |
@@ -147,7 +147,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (411개)
+## Task (412개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -220,6 +220,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
 | `tsk-012-1768140940912` | 오픈 카톡방 챌린지 - 챌린지 기획 및 공유 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768140940912.md` |
 | `tsk-012-1768488181984` | CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768488181984.md` |
+| `tsk-012-1768546729259` | 와디즈 마무리 - 알람신청 이벤트 결과 공지 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768546729259.md` |
 | `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
@@ -335,7 +336,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768501503985` | Dashboard - Expected Impact Gate 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md` |
 | `tsk-023-1768502769059` | API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md` |
 | `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
-| `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
+| `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -725,6 +726,7 @@ tags: ["meta", "graph", "index"]
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
   - tsk-012-1768140940912 (오픈 카톡방 챌린지 - 챌린지 기획 및 공유)
   - tsk-012-1768488181984 (CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일))
+  - tsk-012-1768546729259 (와디즈 마무리 - 알람신청 이벤트 결과 공지)
   - tsk-11nt0p-1767960275703 (와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효))
   - tsk-1igiyf-1767945247366 (와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉))
   - tsk-1m08zu-1767945274325 (와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등))
@@ -1187,7 +1189,7 @@ tags: ["meta", "graph", "index"]
 
 ### Critical 엔티티
 
-- **prj-001**: Ontology v0.1 (status: doing)
+- **prj-001**: Ontology v0.1 (status: planning)
 - **tsk-kkokkkok-v1028-01**: Calendar - 2026년 캘린더 표시 버그 수정 (status: done)
 - **ns-001**: 10년 비전 (status: fixed)
 - **mh-3**: MH3_데이터_모델링_가능 (status: validating)
