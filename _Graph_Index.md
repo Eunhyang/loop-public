@@ -37,8 +37,8 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 66 |
-| done | 328 |
+| doing | 65 |
+| done | 329 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
@@ -108,7 +108,7 @@ tags: ["meta", "graph", "index"]
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `prj-001` | Ontology v0.1 | planning | `50_Projects/2025/P001_Ontology/project.md` |
-| `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
+| `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | doing | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
 | `prj-003` | LoopOS - V0 데이터 설계 | doing | `50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md` |
 | `prj-005` | LoopOS - 최소 선제 학습 | planning | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md` |
 | `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
@@ -223,7 +223,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-012-1768546729259` | 와디즈 마무리 - 알람신청 이벤트 결과 공지 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768546729259.md` |
 | `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
-| `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
+| `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
 | `tsk-014-1768241993366` | 코칭 랜딩페이지 리뉴얼 - 은향 리뷰 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768241993366.md` |
 | `tsk-014-1768471047156` | 랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md` |
 | `tsk-014-1768488324886` | 콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15) | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md` |
@@ -242,7 +242,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-016-01` | 법인 정관 작성 후 최종 검토 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
 | `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
 | `tsk-016-03` | 법인 전환 - 신동진 고문님 계약서 전달(정신과 전문의) | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-03.md` |
-| `tsk-016-1768195418764` | 법인 운영 - 포괄양수도 계약 및 기장 수임 계약서 작성 | doing | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-1768195418764.md` |
+| `tsk-016-1768195418764` | 법인 운영 - 포괄양수도 계약 및 기장 수임 계약서 작성 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-1768195418764.md` |
 | `tsk-018-01` | API - VaultCache exec vault 프로젝트 로드 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md` |
 | `tsk-018-02` | API - exec vault 프로젝트 스캔 로직 리팩토링 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - exec vault 프로젝트 스캔 로직 리팩토링.md` |
 | `tsk-018-03` | API - SSOT 아키텍처 통합 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/API - SSOT 아키텍처 통합.md` |
