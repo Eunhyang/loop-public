@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 549
+total_entities: 547
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 549개
+- **총 엔티티**: 547개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -28,7 +28,7 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 12 |
-| Project | 42 |
+| Project | 40 |
 | Task | 415 |
 | Hypothesis | 50 |
 
@@ -41,7 +41,7 @@ tags: ["meta", "graph", "index"]
 | done | 338 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 18 |
+| planning | 16 |
 | todo | 115 |
 | validating | 7 |
 
@@ -105,7 +105,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (42개)
+## Project (40개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -130,14 +130,12 @@ tags: ["meta", "graph", "index"]
 | `prj-151f61` | Test - MCP Write API 완성 | planning | `50_Projects/2025/P151_Test_MCP_Write_API_완성/project.md` |
 | `prj-156anu` | Antler - 엔틀러코리아 제너레이터 8기 지원 | planning | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md` |
 | `prj-1t7iu4` | MCP API - Deployment Optimization | doing | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md` |
-| `prj-5spsm4` | Infra Ops - 2026 Q1 | planning | `50_Projects/2025/P5_Infra_Ops_2026_Q1/project.md` |
 | `prj-5w69jw` | Vault - Hypothesis 유지 전략 | planning | `50_Projects/2025/P5_Vault_Hypothesis_유지_전략/project.md` |
 | `prj-api-exec-vault` | API - Exec Vault 통합 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md` |
 | `prj-content-os` | Content OS - MVP 개발 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/project.md` |
 | `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/project.md` |
 | `prj-enlnjr` | MCP API - Deployment Optimization | planning | `50_Projects/2025/Penlnjr_MCP_API_Deployment_Optimization/project.md` |
 | `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-feedback-system/project.md` |
-| `prj-hxp6yz` | Infra Ops - 2026 Q1 | planning | `50_Projects/2025/Phxp6yz_Infra_Ops_2026_Q1/project.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md` |
 | `prj-infra-ops-2026q1` | Infra Ops - 2026 Q1 | doing | `50_Projects/2026/Infra_Ops_2026_Q1/project.md` |
 | `prj-kkokkkok-v1028` | KkokKkok App v1.0.28 - Hotfix | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/project.md` |
@@ -615,9 +613,9 @@ tags: ["meta", "graph", "index"]
 | `hyp-4-12` | 한끼꼭꼭 챌린지 - 유지 재참여 | validating | `60_Hypotheses/2026/hyp-4-12_kkok_challenge_stickiness.md` |
 | `hyp-4-13` | 한끼꼭꼭 챌린지 - 미니코칭 전환 | validating | `60_Hypotheses/2026/hyp-4-13_kkok_challenge_conversion_minicoaching.md` |
 | `hyp-6-01` | 전면 유료화 성립 | todo | `60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md` |
-| `hyp-6-02` | 전환율 최소선 | todo | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
+| `hyp-6-02` | 앱 전환율 최소선 | todo | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
 | `hyp-6-03` | 환불/클레임 통제 | todo | `60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md` |
-| `hyp-6-04` | 가격·플랜 최적 조합 존재 | todo | `60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md` |
+| `hyp-6-04` | 앱 가격·플랜 최적 조합 존재 | todo | `60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md` |
 | `hyp-6-05` | 유료 유지/이탈 | todo | `60_Hypotheses/2026/hyp-6-05_유료_유지_이탈.md` |
 | `hyp-6-06` | 유료 가치 패키지 | todo | `60_Hypotheses/2026/hyp-6-06_유료_가치패키지.md` |
 | `hyp-6-07` | 코칭→앱 업셀 | todo | `60_Hypotheses/2026/hyp-6-07_코칭_앱업셀.md` |
@@ -1175,9 +1173,9 @@ tags: ["meta", "graph", "index"]
   - prj-011 (사이드프로젝트 리크루팅 사이트 제작)
 - **trk-6** (Track_6_Revenue)
   - hyp-6-01 (전면 유료화 성립)
-  - hyp-6-02 (전환율 최소선)
+  - hyp-6-02 (앱 전환율 최소선)
   - hyp-6-03 (환불/클레임 통제)
-  - hyp-6-04 (가격·플랜 최적 조합 존재)
+  - hyp-6-04 (앱 가격·플랜 최적 조합 존재)
   - hyp-6-05 (유료 유지/이탈)
   - hyp-6-06 (유료 가치 패키지)
   - hyp-6-07 (코칭→앱 업셀)
@@ -1195,8 +1193,6 @@ tags: ["meta", "graph", "index"]
   - prj-016 (법인 전환 설립(주) 루프)
   - prj-021 (경영관리 - 2026 Q1)
   - prj-156anu (Antler - 엔틀러코리아 제너레이터 8기 지원)
-  - prj-5spsm4 (Infra Ops - 2026 Q1)
-  - prj-hxp6yz (Infra Ops - 2026 Q1)
   - prj-infra-ops-2026q1 (Infra Ops - 2026 Q1)
 
 ---

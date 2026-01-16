@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T01:15:07.721751",
-  "total_entities": 549,
+  "generated": "2026-01-17T01:45:07.937764",
+  "total_entities": 547,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -229,7 +229,7 @@
     {
       "id": "hyp-6-02",
       "type": "Hypothesis",
-      "name": "전환율 최소선",
+      "name": "앱 전환율 최소선",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-02_전환율_최소선.md"
     },
@@ -243,7 +243,7 @@
     {
       "id": "hyp-6-04",
       "type": "Hypothesis",
-      "name": "가격·플랜 최적 조합 존재",
+      "name": "앱 가격·플랜 최적 조합 존재",
       "status": "todo",
       "path": "60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md"
     },
@@ -1066,30 +1066,6 @@
       ],
       "priority_flag": "high",
       "owner": "김은향"
-    },
-    {
-      "id": "prj-5spsm4",
-      "type": "Project",
-      "name": "Infra Ops - 2026 Q1",
-      "status": "planning",
-      "path": "50_Projects/2025/P5_Infra_Ops_2026_Q1/project.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "owner": "한명학"
-    },
-    {
-      "id": "prj-hxp6yz",
-      "type": "Project",
-      "name": "Infra Ops - 2026 Q1",
-      "status": "planning",
-      "path": "50_Projects/2025/Phxp6yz_Infra_Ops_2026_Q1/project.md",
-      "conditions_3y": [
-        "cond-d"
-      ],
-      "priority_flag": "medium",
-      "owner": "한명학"
     },
     {
       "id": "pgm-hiring",
@@ -5183,16 +5159,6 @@
     },
     {
       "source": "trk-6",
-      "target": "prj-5spsm4",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
-      "target": "prj-hxp6yz",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-6",
       "target": "prj-015",
       "type": "parent_of"
     },
@@ -8144,8 +8110,6 @@
       "prj-016",
       "prj-156anu",
       "prj-002",
-      "prj-5spsm4",
-      "prj-hxp6yz",
       "prj-006",
       "prj-008",
       "prj-015",
@@ -8241,8 +8205,6 @@
       "prj-1t7iu4",
       "prj-12329q",
       "prj-waoz74",
-      "prj-5spsm4",
-      "prj-hxp6yz",
       "prj-006",
       "prj-008",
       "prj-015",
@@ -8881,8 +8843,6 @@
       "prj-5w69jw",
       "prj-enlnjr",
       "prj-12329q",
-      "prj-5spsm4",
-      "prj-hxp6yz",
       "prj-008",
       "prj-020",
       "prj-yt-w33",
