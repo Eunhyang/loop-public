@@ -37,12 +37,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 63 |
-| done | 334 |
+| doing | 62 |
+| done | 336 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
-| todo | 115 |
+| todo | 114 |
 | validating | 7 |
 
 ---
@@ -155,7 +155,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-0000os-1767981542605` | ContentOS - Performance Dashboard 상태 표시 개선 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767981542605.md` |
 | `tsk-0000os-1768066362208` | Content OS - Performance 페이지 스냅샷 데이터 통합 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768066362208.md` |
 | `tsk-0000os-1768241491256` | Content OS - YouTube 페이지네이션 구현 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md` |
-| `tsk-0000os-1768331167938` | Content OS - Inventory and Mapping | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768331167938.md` |
+| `tsk-0000os-1768331167938` | Content OS - Inventory and Mapping | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768331167938.md` |
 | `tsk-0000os-1768465926049` | Content OS - API Migration Spec | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465926049.md` |
 | `tsk-0000os-1768465929225` | Content OS - YouTube Search Analytics API | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465929225.md` |
 | `tsk-0000os-1768465946312` | Content OS - YouTube OAuth API Migration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465946312.md` |
@@ -335,7 +335,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
 | `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
 | `tsk-023-1768554593687` | Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md` |
-| `tsk-023-1768559066017` | Dashboard - Form migration | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md` |
+| `tsk-023-1768559066017` | Dashboard - Form migration | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |

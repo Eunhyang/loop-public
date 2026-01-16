@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T19:45:07.299395",
+  "generated": "2026-01-16T20:00:07.840225",
   "total_entities": 539,
   "nodes": [
     {
@@ -3671,7 +3671,7 @@
       "id": "tsk-023-1768559066017",
       "type": "Task",
       "name": "Dashboard - Form migration",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md",
       "assignee": "김은향"
     },
@@ -4028,7 +4028,7 @@
       "id": "tsk-0000os-1768331167938",
       "type": "Task",
       "name": "Content OS - Inventory and Mapping",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768331167938.md",
       "assignee": "김은향"
     },
@@ -8681,7 +8681,6 @@
       "tsk-023-1768027776050",
       "tsk-023-1768331190178",
       "tsk-023-1768386479760",
-      "tsk-023-1768559066017",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466256660",
@@ -9005,6 +9004,7 @@
       "tsk-023-1768545831670",
       "tsk-023-30",
       "tsk-023-1768554593687",
+      "tsk-023-1768559066017",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -9033,6 +9033,7 @@
       "tsk-content-os-15",
       "tsk-0000os-1768066362208",
       "tsk-0000os-1768241491256",
+      "tsk-0000os-1768331167938",
       "tsk-0000os-1768465946312",
       "tsk-0000os-1768465929225",
       "tsk-0000os-1768466087103",
@@ -9110,7 +9111,6 @@
       "pgm-content-os",
       "prj-content-os",
       "tsk-os-1767962821657",
-      "tsk-0000os-1768331167938",
       "pgm-kkokkkok-app-release",
       "prj-022",
       "pgm-ops",
