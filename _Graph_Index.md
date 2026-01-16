@@ -37,12 +37,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 67 |
-| done | 338 |
+| doing | 66 |
+| done | 337 |
 | fixed | 1 |
-| hold | 1 |
+| hold | 2 |
 | planning | 16 |
-| todo | 115 |
+| todo | 116 |
 | validating | 7 |
 
 ---
@@ -220,7 +220,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-008-05` | 꼭꼭 앱 iOS/Android 배포 | todo | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 iOS Android 배포.md` |
 | `tsk-011-01` | 리크루팅 사이트) 원택님 피드백 반영 | todo | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md` |
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
-| `tsk-012-1768140940912` | 오픈 카톡방 챌린지 - 챌린지 기획 및 공유 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768140940912.md` |
+| `tsk-012-1768140940912` | 오픈 카톡방 챌린지 - 챌린지 기획 및 공유 | doing | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768140940912.md` |
 | `tsk-012-1768488181984` | CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768488181984.md` |
 | `tsk-012-1768546729259` | 와디즈 마무리 - 알람신청 이벤트 결과 공지 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768546729259.md` |
 | `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
@@ -376,12 +376,12 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768052656145` | Antler 서류  - 기술전문가 또는 빌더 내용 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md` |
 | `tsk-156anu-1768116970407` | Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md` |
 | `tsk-156anu-1768117071989` | Antler 서류 - 피칭덱 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md` |
-| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 (전략 세우기) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
+| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 (전략 세우기) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
 | `tsk-156anu-1768236267952` | Antler 2차 -  3분 비디오 촬영 및 업로드 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md` |
 | `tsk-156anu-1768239501209` | Antler 2차 -  Take Home Test 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md` |
 | `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
 | `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
-| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
+| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | hold | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
 | `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/17) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |

@@ -11,8 +11,6 @@ aliases:
 - '[와디즈] 12주 코칭 습관팩 런칭'
 outgoing_relations: []
 validates:
-- hyp-4-01
-- hyp-4-03
 - hyp-6-09
 validated_by: []
 owner: 한명학
@@ -31,9 +29,12 @@ condition_contributes:
   description: 코칭 데이터 수집 기반 마련
 track_contributes: []
 expected_impact:
-  statement: 이 프로젝트가 성공하면 12주 코칭 습관팩에 대한 시장 수요가 존재하고 와디즈 채널이 유효함이 증명된다
-  metric: 펀딩 달성률 + 서포터 수
-  target: 목표 금액 100% 달성 + 서포터 50명 이상
+  tier: enabling
+  impact_magnitude: mid
+  confidence: 0.3
+  contributes: []
+  rationale: 와디즈 프로젝트를 처음 해보는 것이라 어느정도의 영향을 미칠지 확신하기 어렵고, 우리 서비스의 FIT, 철학과 와디즈 핵심
+    고객군의 성격과 FIT하기 어려워보임
 realized_impact:
   outcome: null
   evidence: null
@@ -47,6 +48,7 @@ priority_flag: medium
 tasks:
 - tsk-002-02
 - tsk-002-13
+primary_hypothesis_id: hyp-6-09
 ---
 # \[와디즈\] 12주 코칭 습관팩 런칭
 
