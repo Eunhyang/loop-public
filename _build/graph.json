@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T12:15:07.465257",
+  "generated": "2026-01-16T12:45:08.189520",
   "total_entities": 537,
   "nodes": [
     {
@@ -4124,7 +4124,7 @@
       "id": "tsk-0000os-1768466274272",
       "type": "Task",
       "name": "Content OS - Migrate Pipeline UI",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466274272.md",
       "assignee": "김은향"
     },
@@ -8663,7 +8663,6 @@
       "tsk-0000os-1768466263435",
       "tsk-0000os-1768466267924",
       "tsk-0000os-1768466256660",
-      "tsk-0000os-1768466274272",
       "tsk-mzjr8a-1768231080040",
       "tsk-mzjr8a-1768196988716",
       "tsk-021-1768369981548",
@@ -9080,6 +9079,7 @@
       "tsk-0000os-1768466086422",
       "tsk-0000os-1768466105945",
       "tsk-0000os-1768466096543",
+      "tsk-0000os-1768466274272",
       "tsk-0000os-1768465946730",
       "tsk-0000os-1768465926049",
       "tsk-0000os-1768466096034",
