@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T19:15:10.181857",
-  "total_entities": 542,
+  "generated": "2026-01-16T19:30:07.616064",
+  "total_entities": 543,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -3700,6 +3700,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768559066017",
+      "type": "Task",
+      "name": "Dashboard - Form migration",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -3711,7 +3719,7 @@
     {
       "id": "prj-014",
       "type": "Project",
-      "name": "코칭 서비스 운영 체계 재구축",
+      "name": "꼭꼭FIT 랜딩 페이지 - 리뉴얼",
       "status": "doing",
       "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md",
       "conditions_3y": [
@@ -6828,6 +6836,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768559066017",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8489,6 +8502,7 @@
       "tsk-023-1768545831670",
       "tsk-023-30",
       "tsk-023-1768554593687",
+      "tsk-023-1768559066017",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8728,6 +8742,7 @@
       "tsk-023-1768414580551",
       "tsk-023-1768488334785",
       "tsk-023-1768502769059",
+      "tsk-023-1768559066017",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466256660",

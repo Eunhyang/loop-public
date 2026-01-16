@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 542
+total_entities: 543
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 542개
+- **총 엔티티**: 543개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 39 |
-| Task | 413 |
+| Task | 414 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -42,7 +42,7 @@ tags: ["meta", "graph", "index"]
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
-| todo | 119 |
+| todo | 120 |
 | validating | 7 |
 
 ---
@@ -116,7 +116,7 @@ tags: ["meta", "graph", "index"]
 | `prj-008` | Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행) | planning | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/project.md` |
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | hold | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |
 | `prj-012` | CS - 2026 Q1 | planning | `50_Projects/CS/Rounds/P012_CS_2026Q1/project.md` |
-| `prj-014` | 코칭 서비스 운영 체계 재구축 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md` |
+| `prj-014` | 꼭꼭FIT 랜딩 페이지 - 리뉴얼 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md` |
 | `prj-015` | Hiring - 임단(주니어 개발자 채용) | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/project.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | planning | `50_Projects/2025/P016_법인 전환 설립(주) 루프/project.md` |
 | `prj-019` | Dual-Vault - 정비 | doing | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/project.md` |
@@ -148,7 +148,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (413개)
+## Task (414개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -339,6 +339,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
 | `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
 | `tsk-023-1768554593687` | Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md` |
+| `tsk-023-1768559066017` | Dashboard - Form migration | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -735,7 +736,7 @@ tags: ["meta", "graph", "index"]
   - tsk-33df47-1767962906458 (고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등))
   - tsk-8tr202-1767945301054 (와디즈 마무리 - 와디즈 자료 및 구독권 전달(총 6명))
   - tsk-9xy6p0-1767945215240 (와디즈 마무리 - 와디즈 리워드 포장(포장지, 스티커, 책 포장지 등 구매))
-- **prj-014** (코칭 서비스 운영 체계 재구축)
+- **prj-014** (꼭꼭FIT 랜딩 페이지 - 리뉴얼)
   - tsk-014-1768228019327 (랜딩페이지 리뉴얼 - 레퍼런스 서칭 중)
   - tsk-014-1768241993366 (코칭 랜딩페이지 리뉴얼 - 은향 리뷰)
   - tsk-014-1768471047156 (랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등))
@@ -864,6 +865,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768536435979 (Dashboard - Pending Review validates 배열 필드 병합 표시)
   - tsk-023-1768545831670 (API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경))
   - tsk-023-1768554593687 (Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼))
+  - tsk-023-1768559066017 (Dashboard - Form migration)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -1160,7 +1162,7 @@ tags: ["meta", "graph", "index"]
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행))
   - prj-012 (CS - 2026 Q1)
-  - prj-014 (코칭 서비스 운영 체계 재구축)
+  - prj-014 (꼭꼭FIT 랜딩 페이지 - 리뉴얼)
   - prj-12329q (오픈 채팅방 활성화 - 챌린지 운영 1차)
 - **trk-5** (Track_5_Partnership)
   - prj-011 (사이드프로젝트 리크루팅 사이트 제작)
