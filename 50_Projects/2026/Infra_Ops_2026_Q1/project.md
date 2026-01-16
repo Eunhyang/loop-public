@@ -2,28 +2,28 @@
 entity_type: Project
 entity_id: prj-infra-ops-2026q1
 entity_name: Infra Ops - 2026 Q1
-created: "2026-01-16"
-updated: "2026-01-16"
+created: '2026-01-16'
+updated: '2026-01-17'
 status: doing
 parent_id: trk-6
 program_id: pgm-kkokkkokfit-web
 conditions_3y:
-  - cond-d
+- cond-d
 owner: 한명학
 aliases:
-  - Infra Ops 2026 Q1
-  - 인프라 운영 2026 Q1
+- Infra Ops 2026 Q1
+- 인프라 운영 2026 Q1
 outgoing_relations: []
 validates: []
 validated_by: []
 tags:
-  - project
-  - infra
-  - ops
-  - quarterly
+- project
+- infra
+- ops
+- quarterly
 priority_flag: high
+track_contributes: []
 ---
-
 # Infra Ops - 2026 Q1
 
 > Project ID: `prj-infra-ops-2026q1` | Track: `trk-6` | Status: doing
