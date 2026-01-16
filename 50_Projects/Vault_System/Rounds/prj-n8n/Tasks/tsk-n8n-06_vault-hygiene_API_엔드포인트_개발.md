@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-n8n-06
 entity_name: vault-hygiene - API 엔드포인트 개발
 created: 2025-12-29
-updated: '2026-01-13'
+updated: '2026-01-16'
 status: doing
 parent_id: prj-n8n
 project_id: prj-n8n
