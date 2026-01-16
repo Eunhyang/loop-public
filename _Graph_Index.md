@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 547
+total_entities: 545
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 547개
+- **총 엔티티**: 545개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 12 |
 | Project | 40 |
-| Task | 415 |
+| Task | 413 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,8 +37,8 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 66 |
-| done | 337 |
+| doing | 61 |
+| done | 340 |
 | fixed | 1 |
 | hold | 2 |
 | planning | 16 |
@@ -151,7 +151,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (415개)
+## Task (413개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -292,14 +292,12 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1767962861523` | TaskForm - Body 템플릿 시스템 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767962861523.md` |
 | `tsk-023-1767973768058` | Dashboard - Notion-style Activity Panel 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767973768058.md` |
 | `tsk-023-1767974842230` | Dashboard - Task Drawer PR/Commit 필드 추가 (React) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767974842230.md` |
-| `tsk-023-1767976149072` | Dashboard - Activity Panel Global Feed 구현 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976149072.md` |
 | `tsk-023-1767976230998` | Dashboard - Activity Panel Global Feed 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976230998.md` |
 | `tsk-023-1767978736649` | Dashboard - Calendar Week View 스크롤 버그 수정 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767978736649.md` |
-| `tsk-023-1767982971107` | Dashboard - API 배포 시 JWKS_URL 설정 추가 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767982971107.md` |
 | `tsk-023-1768026376001` | Vault API - Task duplicate 기능 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768026376001.md` |
 | `tsk-023-1768027776050` | Dashboard - Favorites 기능 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768027776050.md` |
 | `tsk-023-1768028623070` | Dashboard - Comment Discord 알림 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768028623070.md` |
-| `tsk-023-1768030620896` | Dashboard - Discord 알림 링크 추가 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768030620896.md` |
+| `tsk-023-1768030620896` | Dashboard - Discord 알림 링크 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768030620896.md` |
 | `tsk-023-1768032255632` | Dashboard - Favorites 기능 확장 (Task + Project + Program) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768032255632.md` |
 | `tsk-023-1768045340391` | Dashboard - Comment Discord 알림 내용 표시 및 링크 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768045340391.md` |
 | `tsk-023-1768045355850` | Dashboard - 댓글 작성자 표시 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768045355850.md` |
@@ -356,7 +354,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-31` | EntityDrawer - 뒤로가기 네비게이션 스택 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-31.md` |
 | `tsk-023-32` | Dashboard - Notion 스타일 ChipSelect 공통 모듈 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-32.md` |
 | `tsk-023-33` | Dashboard - WYSIWYG Markdown Editor 공용 컴포넌트 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-33.md` |
-| `tsk-023-34` | Pending Review - Review Mode 구현 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-34.md` |
+| `tsk-023-34` | Pending Review - Review Mode 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-34.md` |
 | `tsk-023-35` | Dashboard - ChipSelectExpand 구현 (assignee, owner, project) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-35.md` |
 | `tsk-023-36` | API - Project body 조회/수정 기능 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-36.md` |
 | `tsk-023-38` | VaultCache - get_project_path 메서드 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-38.md` |
@@ -454,7 +452,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-07` | validate_schema.py YAML 일원화 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-07_validate_schema.py_YAML_일원화.md` |
 | `tsk-dashboard-ux-v1-08` | build_graph_index.py YAML 일원화 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-08_build_graph_index.py_YAML_일원화.md` |
 | `tsk-dashboard-ux-v1-09` | loop-entity-creator 문서 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-09_loop-entity-creator_문서_수정.md` |
-| `tsk-dashboard-ux-v1-10` | api/constants.py 응답 확장 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md` |
+| `tsk-dashboard-ux-v1-10` | api/constants.py 응답 확장 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md` |
 | `tsk-dashboard-ux-v1-11` | schema_registry.md 상수 분리 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-11_schema_registry.md_상수_분리.md` |
 | `tsk-dashboard-ux-v1-12` | state.js YAML 일원화 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-12_state.js_YAML_일원화.md` |
 | `tsk-dashboard-ux-v1-13` | Dashboard Links Field - Task/Project에 외부 링크 필드 추가 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-13_Dashboard_Links_Field.md` |
@@ -823,10 +821,8 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1767962861523 (TaskForm - Body 템플릿 시스템)
   - tsk-023-1767973768058 (Dashboard - Notion-style Activity Panel 구현)
   - tsk-023-1767974842230 (Dashboard - Task Drawer PR/Commit 필드 추가 (React))
-  - tsk-023-1767976149072 (Dashboard - Activity Panel Global Feed 구현)
   - tsk-023-1767976230998 (Dashboard - Activity Panel Global Feed 구현)
   - tsk-023-1767978736649 (Dashboard - Calendar Week View 스크롤 버그 수정)
-  - tsk-023-1767982971107 (Dashboard - API 배포 시 JWKS_URL 설정 추가)
   - tsk-023-1768026376001 (Vault API - Task duplicate 기능)
   - tsk-023-1768027776050 (Dashboard - Favorites 기능 구현)
   - tsk-023-1768028623070 (Dashboard - Comment Discord 알림 추가)

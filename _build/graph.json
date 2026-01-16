@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T02:00:14.407590",
-  "total_entities": 547,
+  "generated": "2026-01-17T02:15:07.345155",
+  "total_entities": 545,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -2250,7 +2250,7 @@
       "id": "tsk-dashboard-ux-v1-10",
       "type": "Task",
       "name": "api/constants.py 응답 확장",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md",
       "priority_flag": "medium",
       "assignee": "김은향"
@@ -3245,14 +3245,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-023-1767976149072",
-      "type": "Task",
-      "name": "Dashboard - Activity Panel Global Feed 구현",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976149072.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-023-1767976230998",
       "type": "Task",
       "name": "Dashboard - Activity Panel Global Feed 구현",
@@ -3290,14 +3282,6 @@
       "name": "Dashboard - Calendar Week View 스크롤 버그 수정",
       "status": "todo",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767978736649.md",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-023-1767982971107",
-      "type": "Task",
-      "name": "Dashboard - API 배포 시 JWKS_URL 설정 추가",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767982971107.md",
       "assignee": "김은향"
     },
     {
@@ -3529,7 +3513,7 @@
       "id": "tsk-023-34",
       "type": "Task",
       "name": "Pending Review - Review Mode 구현",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-34.md",
       "priority_flag": "high",
       "assignee": "김은향"
@@ -3546,7 +3530,7 @@
       "id": "tsk-023-1768030620896",
       "type": "Task",
       "name": "Dashboard - Discord 알림 링크 추가",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768030620896.md",
       "assignee": "김은향"
     },
@@ -6634,11 +6618,6 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-1767976149072",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
       "target": "tsk-023-1767976230998",
       "type": "parent_of"
     },
@@ -6660,11 +6639,6 @@
     {
       "source": "prj-023",
       "target": "tsk-023-1767978736649",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
-      "target": "tsk-023-1767982971107",
       "type": "parent_of"
     },
     {
@@ -8505,13 +8479,11 @@
       "tsk-023-1767973768058",
       "tsk-uegvfe-1767941662809",
       "tsk-023-1767974842230",
-      "tsk-023-1767976149072",
       "tsk-023-1767976230998",
       "tsk-023-1768026376001",
       "tsk-023-1768028623070",
       "tsk-023-1768032255632",
       "tsk-023-1767978736649",
-      "tsk-023-1767982971107",
       "tsk-023-1768045340391",
       "tsk-023-1768045355850",
       "tsk-023-1768046291674",
@@ -8983,6 +8955,7 @@
       "tsk-dashboard-ux-v1-39",
       "tsk-v1-1767962818462",
       "tsk-v1-1767962821895",
+      "tsk-dashboard-ux-v1-10",
       "tsk-dashboard-ux-v1-29",
       "tsk-dashboard-ux-v1-31",
       "tsk-019-27",
@@ -9109,6 +9082,8 @@
       "tsk-023-1768228605920",
       "tsk-bpnbz2-1768237849865",
       "tsk-023-1768244708843",
+      "tsk-023-34",
+      "tsk-023-1768030620896",
       "tsk-023-1768156139268",
       "tsk-023-1768462246386",
       "tsk-023-1768488217439",
@@ -9203,7 +9178,6 @@
       "pgm-vault-system",
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-24",
-      "tsk-dashboard-ux-v1-10",
       "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-04",
       "tsk-mcp-rbac-03",
@@ -9217,10 +9191,6 @@
       "prj-api-exec-vault",
       "prj-feedback-system",
       "prj-023",
-      "tsk-023-1767976149072",
-      "tsk-023-1767982971107",
-      "tsk-023-34",
-      "tsk-023-1768030620896",
       "pgm-coaching",
       "prj-014",
       "tsk-1ca2sj-1767960085150",
