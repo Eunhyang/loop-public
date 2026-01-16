@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 541
+total_entities: 542
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 541개
+- **총 엔티티**: 542개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 39 |
-| Task | 412 |
+| Task | 413 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -42,7 +42,7 @@ tags: ["meta", "graph", "index"]
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
-| todo | 119 |
+| todo | 120 |
 | validating | 7 |
 
 ---
@@ -148,7 +148,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (412개)
+## Task (413개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -338,6 +338,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768502769059` | API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md` |
 | `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
 | `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
+| `tsk-023-1768554593687` | Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼) | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -862,6 +863,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768502769059 (API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성)
   - tsk-023-1768536435979 (Dashboard - Pending Review validates 배열 필드 병합 표시)
   - tsk-023-1768545831670 (API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경))
+  - tsk-023-1768554593687 (Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼))
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

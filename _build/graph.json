@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T17:45:07.669743",
-  "total_entities": 541,
+  "generated": "2026-01-16T18:15:07.464110",
+  "total_entities": 542,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -2233,20 +2233,20 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-019-27",
-      "type": "Task",
-      "name": "Dashboard - Google Calendar events API 400 에러 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-dashboard-ux-v1-31",
       "type": "Task",
       "name": "Dashboard - Task Type Chip 즉시 저장 버그 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-019-27",
+      "type": "Task",
+      "name": "Dashboard - Google Calendar events API 400 에러 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3689,6 +3689,14 @@
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
       "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768554593687",
+      "type": "Task",
+      "name": "Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼)",
+      "status": "todo",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md",
       "assignee": "김은향"
     },
     {
@@ -6091,12 +6099,12 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-019-27",
+      "target": "tsk-dashboard-ux-v1-31",
       "type": "parent_of"
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-31",
+      "target": "tsk-019-27",
       "type": "parent_of"
     },
     {
@@ -6812,6 +6820,11 @@
     {
       "source": "prj-023",
       "target": "tsk-023-30",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768554593687",
       "type": "parent_of"
     },
     {
@@ -8315,8 +8328,8 @@
       "tsk-dashboard-ux-v1-24",
       "tsk-dashboard-ux-v1-10",
       "tsk-dashboard-ux-v1-29",
-      "tsk-019-27",
       "tsk-dashboard-ux-v1-31",
+      "tsk-019-27",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-mcp-rbac-04",
@@ -8475,6 +8488,7 @@
       "tsk-023-1768536435979",
       "tsk-023-1768545831670",
       "tsk-023-30",
+      "tsk-023-1768554593687",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8714,6 +8728,7 @@
       "tsk-023-1768414580551",
       "tsk-023-1768488334785",
       "tsk-023-1768502769059",
+      "tsk-023-1768554593687",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
       "tsk-0000os-1768466256660",
@@ -8897,8 +8912,8 @@
       "tsk-v1-1767962818462",
       "tsk-v1-1767962821895",
       "tsk-dashboard-ux-v1-29",
-      "tsk-019-27",
       "tsk-dashboard-ux-v1-31",
+      "tsk-019-27",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-impact-schema-v2-01",
