@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T06:15:09.296702",
-  "total_entities": 526,
+  "generated": "2026-01-16T11:45:08.632700",
+  "total_entities": 537,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -1589,6 +1589,108 @@
       "name": "다온 - w02 편집 영상 검토",
       "status": "doing",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj-yt-W03-26",
+      "type": "Project",
+      "name": "YouTube - W03-26",
+      "status": "active",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/project.md",
+      "conditions_3y": [
+        "cond-a"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-01",
+      "type": "Task",
+      "name": "YouTube W03-26 - 주제 선정",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-01.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-yt-w03-26-02",
+      "type": "Task",
+      "name": "YouTube W03-26 - 원고 작성",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-03",
+      "type": "Task",
+      "name": "YouTube W03-26 - 원고 수정 + 촬영",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-04",
+      "type": "Task",
+      "name": "YouTube W03-26 - 편집 외주",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-04.md",
+      "priority_flag": "medium",
+      "assignee": "외주"
+    },
+    {
+      "id": "tsk-yt-w03-26-05",
+      "type": "Task",
+      "name": "YouTube W03-26 - 썸네일 + 업로드",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-05.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-06",
+      "type": "Task",
+      "name": "YouTube W03-26 - 쇼츠 #1",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-06.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-07",
+      "type": "Task",
+      "name": "YouTube W03-26 - 쇼츠 #2",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-07.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-08",
+      "type": "Task",
+      "name": "YouTube W03-26 - 쇼츠 #3",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-08.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-09",
+      "type": "Task",
+      "name": "YouTube W03-26 - 쇼츠 #4",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-09.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w03-26-10",
+      "type": "Task",
+      "name": "YouTube W03-26 - 쇼츠 #5",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-10.md",
+      "priority_flag": "medium",
       "assignee": "한명학"
     },
     {
@@ -5012,6 +5114,11 @@
     },
     {
       "source": "trk-3",
+      "target": "prj-yt-W03-26",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
       "target": "pgm-content-os",
       "type": "parent_of"
     },
@@ -5638,6 +5745,56 @@
     {
       "source": "prj-yt-W02-26",
       "target": "tsk-26-1768441882042",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-yt-w03-26-10",
       "type": "parent_of"
     },
     {
@@ -7823,6 +7980,7 @@
       "prj-waoz74",
       "prj-yt-wegovy",
       "prj-yt-W02-26",
+      "prj-yt-W03-26",
       "pgm-content-os",
       "prj-content-os",
       "prj-kkokkkok-v1028",
@@ -7908,6 +8066,7 @@
       "prj-yt-w33",
       "prj-yt-wegovy",
       "prj-yt-W02-26",
+      "prj-yt-W03-26",
       "prj-vault-gpt",
       "prj-dashboard-ux-v1",
       "prj-mcp-dual-vault-rbac",
@@ -8037,6 +8196,16 @@
       "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
       "tsk-26-1768441882042",
+      "tsk-yt-w03-26-01",
+      "tsk-yt-w03-26-02",
+      "tsk-yt-w03-26-03",
+      "tsk-yt-w03-26-04",
+      "tsk-yt-w03-26-05",
+      "tsk-yt-w03-26-06",
+      "tsk-yt-w03-26-07",
+      "tsk-yt-w03-26-08",
+      "tsk-yt-w03-26-09",
+      "tsk-yt-w03-26-10",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-03",
       "tsk-vault-gpt-04",
@@ -8467,6 +8636,16 @@
       "tsk-26-1768238654295",
       "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
+      "tsk-yt-w03-26-01",
+      "tsk-yt-w03-26-02",
+      "tsk-yt-w03-26-03",
+      "tsk-yt-w03-26-04",
+      "tsk-yt-w03-26-05",
+      "tsk-yt-w03-26-06",
+      "tsk-yt-w03-26-07",
+      "tsk-yt-w03-26-08",
+      "tsk-yt-w03-26-09",
+      "tsk-yt-w03-26-10",
       "tsk-dashboard-ux-v1-27",
       "tsk-000n8n-1768410727494",
       "tsk-feedback-01",
@@ -8923,6 +9102,9 @@
       "tsk-012-1768140940912",
       "tsk-012-1768488181984",
       "retro:2025-annual"
+    ],
+    "active": [
+      "prj-yt-W03-26"
     ],
     "fixed": [
       "ns-001"

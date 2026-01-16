@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 526
+total_entities: 537
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 526개
+- **총 엔티티**: 537개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -28,19 +28,20 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 10 |
-| Project | 38 |
-| Task | 398 |
+| Project | 39 |
+| Task | 408 |
 | Hypothesis | 50 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
+| active | 1 |
 | assumed | 1 |
 | doing | 69 |
 | done | 322 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 111 |
+| todo | 121 |
 | validating | 7 |
 
 ---
@@ -101,7 +102,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (38개)
+## Project (39개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -141,11 +142,12 @@ tags: ["meta", "graph", "index"]
 | `prj-w5kz77` | KkokKkok Backend - Maintenance | planning | `50_Projects/2025/Pw5kz77_KkokKkok_Backend_Maintenance/project.md` |
 | `prj-waoz74` | Content OS - Dashboard v2 | todo | `50_Projects/Content_OS/Rounds/prj-waoz74/project.md` |
 | `prj-yt-W02-26` | YouTube - W02 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/project.md` |
+| `prj-yt-W03-26` | YouTube - W03-26 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/project.md` |
 | `prj-yt-w33` | YouTube - W33 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/project.md` |
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (398개)
+## Task (408개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -546,6 +548,16 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-w02-26-08` | YouTube W02 - 쇼츠 #3 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-08_쇼츠_3.md` |
 | `tsk-yt-w02-26-09` | YouTube W02 - 쇼츠 #4 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-09_쇼츠_4.md` |
 | `tsk-yt-w02-26-10` | YouTube W02 - 쇼츠 #5 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-10_쇼츠_5.md` |
+| `tsk-yt-w03-26-01` | YouTube W03-26 - 주제 선정 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-01.md` |
+| `tsk-yt-w03-26-02` | YouTube W03-26 - 원고 작성 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md` |
+| `tsk-yt-w03-26-03` | YouTube W03-26 - 원고 수정 + 촬영 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md` |
+| `tsk-yt-w03-26-04` | YouTube W03-26 - 편집 외주 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-04.md` |
+| `tsk-yt-w03-26-05` | YouTube W03-26 - 썸네일 + 업로드 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-05.md` |
+| `tsk-yt-w03-26-06` | YouTube W03-26 - 쇼츠 #1 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-06.md` |
+| `tsk-yt-w03-26-07` | YouTube W03-26 - 쇼츠 #2 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-07.md` |
+| `tsk-yt-w03-26-08` | YouTube W03-26 - 쇼츠 #3 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-08.md` |
+| `tsk-yt-w03-26-09` | YouTube W03-26 - 쇼츠 #4 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-09.md` |
+| `tsk-yt-w03-26-10` | YouTube W03-26 - 쇼츠 #5 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-10.md` |
 | `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
 
 
@@ -1047,6 +1059,17 @@ tags: ["meta", "graph", "index"]
   - tsk-yt-w02-26-08 (YouTube W02 - 쇼츠 #3)
   - tsk-yt-w02-26-09 (YouTube W02 - 쇼츠 #4)
   - tsk-yt-w02-26-10 (YouTube W02 - 쇼츠 #5)
+- **prj-yt-W03-26** (YouTube - W03-26)
+  - tsk-yt-w03-26-01 (YouTube W03-26 - 주제 선정)
+  - tsk-yt-w03-26-02 (YouTube W03-26 - 원고 작성)
+  - tsk-yt-w03-26-03 (YouTube W03-26 - 원고 수정 + 촬영)
+  - tsk-yt-w03-26-04 (YouTube W03-26 - 편집 외주)
+  - tsk-yt-w03-26-05 (YouTube W03-26 - 썸네일 + 업로드)
+  - tsk-yt-w03-26-06 (YouTube W03-26 - 쇼츠 #1)
+  - tsk-yt-w03-26-07 (YouTube W03-26 - 쇼츠 #2)
+  - tsk-yt-w03-26-08 (YouTube W03-26 - 쇼츠 #3)
+  - tsk-yt-w03-26-09 (YouTube W03-26 - 쇼츠 #4)
+  - tsk-yt-w03-26-10 (YouTube W03-26 - 쇼츠 #5)
 - **prj-yt-w33** (YouTube - W33)
   - tsk-014-03 (W33 촬영)
   - tsk-014-04 (W33 업로드)
@@ -1108,6 +1131,7 @@ tags: ["meta", "graph", "index"]
   - prj-content-os (Content OS - MVP 개발)
   - prj-waoz74 (Content OS - Dashboard v2)
   - prj-yt-W02-26 (YouTube - W02)
+  - prj-yt-W03-26 (YouTube - W03-26)
   - prj-yt-w33 (YouTube - W33)
   - prj-yt-wegovy (위고비 유튜브 콘텐츠 기획)
 - **trk-4** (Track_4_Coaching)
