@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 543
+total_entities: 539
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 543개
+- **총 엔티티**: 539개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 39 |
-| Task | 414 |
+| Task | 410 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,12 +37,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 65 |
-| done | 331 |
+| doing | 63 |
+| done | 334 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
-| todo | 120 |
+| todo | 115 |
 | validating | 7 |
 
 ---
@@ -148,13 +148,13 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (414개)
+## Task (410개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `tsk-0000os-1767981542605` | ContentOS - Performance Dashboard 상태 표시 개선 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767981542605.md` |
 | `tsk-0000os-1768066362208` | Content OS - Performance 페이지 스냅샷 데이터 통합 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768066362208.md` |
-| `tsk-0000os-1768241491256` | Content OS - YouTube 페이지네이션 구현 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md` |
+| `tsk-0000os-1768241491256` | Content OS - YouTube 페이지네이션 구현 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md` |
 | `tsk-0000os-1768331167938` | Content OS - Inventory and Mapping | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768331167938.md` |
 | `tsk-0000os-1768465926049` | Content OS - API Migration Spec | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465926049.md` |
 | `tsk-0000os-1768465929225` | Content OS - YouTube Search Analytics API | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465929225.md` |
@@ -177,7 +177,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-000n8n-1768068452347` | n8n - YouTube 데이터 수집 + Discord 알림 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-000n8n-1768068452347.md` |
 | `tsk-000n8n-1768113632728` | n8n - Auto-Apply 단순화 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-000n8n-1768113632728.md` |
 | `tsk-000n8n-1768298290374` | AC Batch - Daily Digest | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-000n8n-1768298290374.md` |
-| `tsk-000n8n-1768410727494` | n8n - ac-batch-daily-digest Save Snapshot 502 에러 수정 | todo | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-000n8n-1768410727494.md` |
 | `tsk-001-01` | Event 엔티티 검증 | todo | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-001.md` |
 | `tsk-001-02` | Episode 엔티티 검증 | todo | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-002.md` |
 | `tsk-001-03` | 스키마 문서화 | done | `50_Projects/2025/P001_Ontology/Tasks/tsk-prj001-003.md` |
@@ -311,7 +310,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768152055162` | Dashboard - Notes 편집 시 커서 점프 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768152055162.md` |
 | `tsk-023-1768155181799` | Dashboard - Pending Review Expected Impact UI 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768155181799.md` |
 | `tsk-023-1768155858638` | Dashboard - Project Drawer 신규 필드 UI | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768155858638.md` |
-| `tsk-023-1768156139268` | Schema - Collaboration Fields 공통 모듈화 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768156139268.md` |
+| `tsk-023-1768156139268` | Schema - Collaboration Fields 공통 모듈화 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768156139268.md` |
 | `tsk-023-1768159599590` | Dashboard - Project Attachments + Links 기능 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768159599590.md` |
 | `tsk-023-1768201736397` | Quick Create Task - 자연어 AI prefill | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768201736397.md` |
 | `tsk-023-1768202003964` | Dashboard - Constants SSOT 연동 (하드코딩 제거) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768202003964.md` |
@@ -323,11 +322,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768244708843` | Dashboard - 업데이트 후 변경사항이 원래대로 돌아오는 문제 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768244708843.md` |
 | `tsk-023-1768331190178` | Create Project Gate - Require Hypothesis + Expected Impact | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768331190178.md` |
 | `tsk-023-1768386479760` | Dashboard v2 - Expected/Hypothesis AI feedback loop | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768386479760.md` |
-| `tsk-023-1768414580485` | Dashboard v2 - AI Expected Impact 대화형 패널 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768414580485.md` |
-| `tsk-023-1768414580551` | Dashboard v2 - AI Expected Impact 대화형 패널 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768414580551.md` |
 | `tsk-023-1768462246386` | API - exec-api를 api로 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md` |
 | `tsk-023-1768488217439` | Dashboard - 3Y Conditions 라벨링 SSOT 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md` |
-| `tsk-023-1768488334785` | Dashboard - AI Chat Panel 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488334785.md` |
 | `tsk-023-1768494544353` | Infra - MCP 전용 컨테이너 분리 (loop-mcp) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md` |
 | `tsk-023-1768494638451` | Dashboard - ProjectForm Edit footer 통합 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494638451.md` |
 | `tsk-023-1768496347729` | Dashboard - Track 통합 + Conditions_3Y UI 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496347729.md` |
@@ -335,7 +331,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768499125620` | Dashboard - Hypothesis CRUD 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768499125620.md` |
 | `tsk-023-1768500289204` | Dashboard - Hypothesis Candidates API 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md` |
 | `tsk-023-1768501503985` | Dashboard - Expected Impact Gate 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md` |
-| `tsk-023-1768502769059` | API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md` |
+| `tsk-023-1768502769059` | API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md` |
 | `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
 | `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
 | `tsk-023-1768554593687` | Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md` |
@@ -849,11 +845,8 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768244708843 (Dashboard - 업데이트 후 변경사항이 원래대로 돌아오는 문제 수정)
   - tsk-023-1768331190178 (Create Project Gate - Require Hypothesis + Expected Impact)
   - tsk-023-1768386479760 (Dashboard v2 - Expected/Hypothesis AI feedback loop)
-  - tsk-023-1768414580485 (Dashboard v2 - AI Expected Impact 대화형 패널)
-  - tsk-023-1768414580551 (Dashboard v2 - AI Expected Impact 대화형 패널)
   - tsk-023-1768462246386 (API - exec-api를 api로 통합)
   - tsk-023-1768488217439 (Dashboard - 3Y Conditions 라벨링 SSOT 구현)
-  - tsk-023-1768488334785 (Dashboard - AI Chat Panel 구현)
   - tsk-023-1768494544353 (Infra - MCP 전용 컨테이너 분리 (loop-mcp))
   - tsk-023-1768494638451 (Dashboard - ProjectForm Edit footer 통합)
   - tsk-023-1768496347729 (Dashboard - Track 통합 + Conditions_3Y UI 개선)
@@ -1016,7 +1009,6 @@ tags: ["meta", "graph", "index"]
   - tsk-000n8n-1768068452347 (n8n - YouTube 데이터 수집 + Discord 알림)
   - tsk-000n8n-1768113632728 (n8n - Auto-Apply 단순화)
   - tsk-000n8n-1768298290374 (AC Batch - Daily Digest)
-  - tsk-000n8n-1768410727494 (n8n - ac-batch-daily-digest Save Snapshot 502 에러 수정)
   - tsk-n8n-01 (n8n Docker 배포 및 파이프라인 구축)
   - tsk-n8n-02 (n8n 자동화 워크플로우 구축)
   - tsk-n8n-03 (n8n - Project Impact Score 자동화 n8n 워크플로우)
