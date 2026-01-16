@@ -37,12 +37,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 68 |
+| doing | 67 |
 | done | 338 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 18 |
-| todo | 114 |
+| todo | 115 |
 | validating | 7 |
 
 ---
@@ -385,6 +385,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
 | `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
 | `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/17) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
+| `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
@@ -509,7 +510,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
 | `tsk-n8n-04` | n8n LLM 프롬프트 템플릿 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md` |
 | `tsk-n8n-05` | API 비즈니스 로직 통합 - 스킬→API 공통화 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md` |
-| `tsk-n8n-06` | vault-hygiene - API 엔드포인트 개발 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-06_vault-hygiene_API_엔드포인트_개발.md` |
 | `tsk-n8n-07` | AI Router - Evidence 추론 엔드포인트 구현 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md` |
 | `tsk-n8n-08` | n8n - Workflow v4 구현 및 E2E 테스트 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-08_Workflow_v4_구현_및_E2E_테스트.md` |
 | `tsk-n8n-09` | n8n - Phase 1/2 AI Router 통합 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md` |
@@ -914,6 +914,7 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768573665233 (Antler 2차 - 비디오 면접 관련 내용 확인)
   - tsk-156anu-1768575996462 (Antler 3차 - AI몬스터 면접 연습 (01/16))
   - tsk-156anu-1768576137968 (Antler 3차 - AI몬스터 면접 연습 (01/17))
+  - tsk-156anu-1768579596258 (Antler 3차 - AI몬스터 면접 진행)
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
 - **prj-1t7iu4** (MCP API - Deployment Optimization)
   - tsk-1t7iu4-1768242340825 (Blue-Green Deployment - MCP API)
@@ -1028,7 +1029,6 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-03 (n8n - Project Impact Score 자동화 n8n 워크플로우)
   - tsk-n8n-04 (n8n LLM 프롬프트 템플릿 개선)
   - tsk-n8n-05 (API 비즈니스 로직 통합 - 스킬→API 공통화)
-  - tsk-n8n-06 (vault-hygiene - API 엔드포인트 개발)
   - tsk-n8n-07 (AI Router - Evidence 추론 엔드포인트 구현)
   - tsk-n8n-08 (n8n - Workflow v4 구현 및 E2E 테스트)
   - tsk-n8n-09 (n8n - Phase 1/2 AI Router 통합)

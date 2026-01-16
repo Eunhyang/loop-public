@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-17T01:00:07.911554",
+  "generated": "2026-01-17T01:15:07.721751",
   "total_entities": 549,
   "nodes": [
     {
@@ -834,6 +834,14 @@
       "name": "Antler 3차 - AI몬스터 면접 연습 (01/17)",
       "status": "todo",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-156anu-1768579596258",
+      "type": "Task",
+      "name": "Antler 3차 - AI몬스터 면접 진행",
+      "status": "todo",
+      "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md",
       "assignee": "김은향"
     },
     {
@@ -2641,15 +2649,6 @@
       "name": "n8n - YouTube Performance Collector",
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-24_YouTube_Performance_Collector.md",
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-n8n-06",
-      "type": "Task",
-      "name": "vault-hygiene - API 엔드포인트 개발",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-06_vault-hygiene_API_엔드포인트_개발.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -5563,6 +5562,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-156anu",
+      "target": "tsk-156anu-1768579596258",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-002",
       "target": "tsk-002-04",
       "type": "parent_of"
@@ -6370,11 +6374,6 @@
     {
       "source": "prj-n8n",
       "target": "tsk-000n8n-1768113632728",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-n8n",
-      "target": "tsk-n8n-06",
       "type": "parent_of"
     },
     {
@@ -8317,6 +8316,7 @@
       "tsk-156anu-1768573665233",
       "tsk-156anu-1768575996462",
       "tsk-156anu-1768576137968",
+      "tsk-156anu-1768579596258",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",
@@ -8488,7 +8488,6 @@
       "tsk-000n8n-1768068452347",
       "tsk-000n8n-1768113632728",
       "tsk-n8n-24",
-      "tsk-n8n-06",
       "tsk-n8n-16",
       "tsk-n8n-22",
       "tsk-000n8n-1768057225620",
@@ -8814,6 +8813,7 @@
       "tsk-005-01",
       "tsk-011-01",
       "tsk-156anu-1768576137968",
+      "tsk-156anu-1768579596258",
       "tsk-002-08",
       "tsk-002-06",
       "tsk-002-09",
@@ -9263,7 +9263,6 @@
       "tsk-impact-schema-v2-05",
       "prj-n8n",
       "tsk-n8n-24",
-      "tsk-n8n-06",
       "tsk-n8n-16",
       "tsk-n8n-22",
       "prj-019",
