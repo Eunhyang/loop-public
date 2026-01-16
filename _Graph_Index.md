@@ -38,10 +38,10 @@ tags: ["meta", "graph", "index"]
 | active | 1 |
 | assumed | 1 |
 | doing | 69 |
-| done | 323 |
+| done | 324 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 121 |
+| todo | 120 |
 | validating | 7 |
 
 ---
@@ -334,7 +334,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768500289204` | Dashboard - Hypothesis Candidates API 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md` |
 | `tsk-023-1768501503985` | Dashboard - Expected Impact Gate 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md` |
 | `tsk-023-1768502769059` | API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md` |
-| `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
+| `tsk-023-1768536435979` | Dashboard - Pending Review validates 배열 필드 병합 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
