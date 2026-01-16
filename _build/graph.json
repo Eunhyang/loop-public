@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-17T00:15:08.205712",
+  "generated": "2026-01-17T00:30:08.322845",
   "total_entities": 549,
   "nodes": [
     {
@@ -823,7 +823,7 @@
     {
       "id": "tsk-156anu-1768575996462",
       "type": "Task",
-      "name": "Antler 3차 - AI몬스터 면접 연습 (01/17)",
+      "name": "Antler 3차 - AI몬스터 면접 연습 (01/16)",
       "status": "doing",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md",
       "assignee": "김은향"
@@ -831,7 +831,7 @@
     {
       "id": "tsk-156anu-1768576137968",
       "type": "Task",
-      "name": "Antler 3차 - AI몬스터 면접 연습 (01/18)",
+      "name": "Antler 3차 - AI몬스터 면접 연습 (01/17)",
       "status": "todo",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
       "assignee": "김은향"

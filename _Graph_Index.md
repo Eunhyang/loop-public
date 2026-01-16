@@ -383,8 +383,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768239501209` | Antler 2차 -  Take Home Test 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md` |
 | `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
 | `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
-| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/17) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
-| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
+| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
+| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/17) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
@@ -912,8 +912,8 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768239501209 (Antler 2차 -  Take Home Test 작성)
   - tsk-156anu-1768239514823 (Antler 2차 -  3분 비디오 기획(대본 작성))
   - tsk-156anu-1768573665233 (Antler 2차 - 비디오 면접 관련 내용 확인)
-  - tsk-156anu-1768575996462 (Antler 3차 - AI몬스터 면접 연습 (01/17))
-  - tsk-156anu-1768576137968 (Antler 3차 - AI몬스터 면접 연습 (01/18))
+  - tsk-156anu-1768575996462 (Antler 3차 - AI몬스터 면접 연습 (01/16))
+  - tsk-156anu-1768576137968 (Antler 3차 - AI몬스터 면접 연습 (01/17))
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
 - **prj-1t7iu4** (MCP API - Deployment Optimization)
   - tsk-1t7iu4-1768242340825 (Blue-Green Deployment - MCP API)
