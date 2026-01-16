@@ -22,7 +22,6 @@ outgoing_relations:
   target_id: trk-2
   description: Track 2 Data의 핵심 프로젝트
 validates:
-- mh-3
 - hyp-2-01
 - hyp-2-02
 validated_by: []

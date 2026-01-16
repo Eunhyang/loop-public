@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T21:00:07.636805",
+  "generated": "2026-01-16T22:00:10.133860",
   "total_entities": 539,
   "nodes": [
     {
@@ -7631,11 +7631,6 @@
     {
       "source": "hyp-4-13",
       "target": "cond-d",
-      "type": "validates"
-    },
-    {
-      "source": "prj-001",
-      "target": "mh-3",
       "type": "validates"
     },
     {
