@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T17:30:07.529562",
+  "generated": "2026-01-16T17:45:07.669743",
   "total_entities": 541,
   "nodes": [
     {
@@ -835,7 +835,7 @@
         "cond-d"
       ],
       "priority_flag": "medium",
-      "owner": "김은향"
+      "owner": "한명학"
     },
     {
       "id": "tsk-002-04",
@@ -4108,7 +4108,7 @@
       "id": "tsk-0000os-1768466263435",
       "type": "Task",
       "name": "Content OS - Migrate Retro UI",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466263435.md",
       "assignee": "김은향"
     },
@@ -8716,7 +8716,6 @@
       "tsk-023-1768502769059",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
-      "tsk-0000os-1768466263435",
       "tsk-0000os-1768466256660",
       "tsk-mzjr8a-1768542536681",
       "tsk-mzjr8a-1768196988716",
@@ -9068,6 +9067,7 @@
       "tsk-0000os-1768466086422",
       "tsk-0000os-1768466105945",
       "tsk-0000os-1768466096543",
+      "tsk-0000os-1768466263435",
       "tsk-0000os-1768466267924",
       "tsk-0000os-1768466274272",
       "tsk-0000os-1768465946730",

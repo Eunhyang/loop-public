@@ -15,7 +15,7 @@ validates:
 - hyp-4-03
 - hyp-6-09
 validated_by: []
-owner: 김은향
+owner: 한명학
 budget: null
 deadline: '2026-01-10'
 hypothesis_text: 12주 습관 코칭 패키지가 와디즈 크라우드펀딩에서 시장 수요를 검증할 수 있다

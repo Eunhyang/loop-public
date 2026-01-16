@@ -38,11 +38,11 @@ tags: ["meta", "graph", "index"]
 | active | 1 |
 | assumed | 1 |
 | doing | 65 |
-| done | 329 |
+| done | 330 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
-| todo | 120 |
+| todo | 119 |
 | validating | 7 |
 
 ---
@@ -167,7 +167,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-0000os-1768466105945` | Content OS - Migrate Explorer UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466105945.md` |
 | `tsk-0000os-1768466256660` | Content OS - Deprecate Next App | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466256660.md` |
 | `tsk-0000os-1768466262169` | Content OS - Stabilize SSOT Build | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466262169.md` |
-| `tsk-0000os-1768466263435` | Content OS - Migrate Retro UI | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466263435.md` |
+| `tsk-0000os-1768466263435` | Content OS - Migrate Retro UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466263435.md` |
 | `tsk-0000os-1768466267924` | Content OS - Migrate Performance UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466267924.md` |
 | `tsk-0000os-1768466274272` | Content OS - Migrate Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466274272.md` |
 | `tsk-000gpt-1768236851889` | Expected Impact - Batch Fill MCP API | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-000gpt-1768236851889.md` |
