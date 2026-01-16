@@ -37,9 +37,10 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 68 |
-| done | 327 |
+| doing | 66 |
+| done | 328 |
 | fixed | 1 |
+| hold | 1 |
 | planning | 16 |
 | todo | 120 |
 | validating | 7 |
@@ -113,7 +114,7 @@ tags: ["meta", "graph", "index"]
 | `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
 | `prj-007` | Hiring - 안지온님(엔씨온 외부 비서) | done | `50_Projects/2025/P007_외부 비서/project.md` |
 | `prj-008` | Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행) | planning | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/project.md` |
-| `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | doing | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |
+| `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | hold | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |
 | `prj-012` | CS - 2026 Q1 | planning | `50_Projects/CS/Rounds/P012_CS_2026Q1/project.md` |
 | `prj-014` | 코칭 서비스 운영 체계 재구축 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md` |
 | `prj-015` | Hiring - 임단(주니어 개발자 채용) | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/project.md` |
@@ -152,7 +153,6 @@ tags: ["meta", "graph", "index"]
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `tsk-0000os-1767981542605` | ContentOS - Performance Dashboard 상태 표시 개선 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767981542605.md` |
-| `tsk-0000os-1767984076358` | Content OS - YouTube 페이지네이션 구현 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767984076358.md` |
 | `tsk-0000os-1768066362208` | Content OS - Performance 페이지 스냅샷 데이터 통합 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768066362208.md` |
 | `tsk-0000os-1768241491256` | Content OS - YouTube 페이지네이션 구현 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md` |
 | `tsk-0000os-1768331167938` | Content OS - Inventory and Mapping | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768331167938.md` |
@@ -262,6 +262,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-021-1768197408582` | 외부 비서 활용 - 지우님 할일 전달(1월 9일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768197408582.md` |
 | `tsk-021-1768369981548` | HR - 원천세 신고 | todo | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768369981548.md` |
 | `tsk-021-1768370031417` | 세무 - 25 Q3~Q4 부가세 신고 | todo | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768370031417.md` |
+| `tsk-021-1768546807989` | 부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md` |
 | `tsk-022-02` | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md` |
 | `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
 | `tsk-022-06` | 콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md` |
@@ -794,6 +795,7 @@ tags: ["meta", "graph", "index"]
   - tsk-021-1768197408582 (외부 비서 활용 - 지우님 할일 전달(1월 9일))
   - tsk-021-1768369981548 (HR - 원천세 신고)
   - tsk-021-1768370031417 (세무 - 25 Q3~Q4 부가세 신고)
+  - tsk-021-1768546807989 (부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제))
   - tsk-1addiu-1767960317370 (외부 비서 활용 - 지우님 할일 전달(1월 12일))
   - tsk-fcaef7-1767962901871 (원천세 납부 - 용역비 3건)
 - **prj-023** (Dashboard - React+TS 마이그레이션)
@@ -912,7 +914,6 @@ tags: ["meta", "graph", "index"]
   - tsk-0vault-1768106628300 (OAuth - SQLite busy_timeout 설정)
 - **prj-content-os** (Content OS - MVP 개발)
   - tsk-0000os-1767981542605 (ContentOS - Performance Dashboard 상태 표시 개선)
-  - tsk-0000os-1767984076358 (Content OS - YouTube 페이지네이션 구현)
   - tsk-0000os-1768066362208 (Content OS - Performance 페이지 스냅샷 데이터 통합)
   - tsk-0000os-1768241491256 (Content OS - YouTube 페이지네이션 구현)
   - tsk-0000os-1768331167938 (Content OS - Inventory and Mapping)

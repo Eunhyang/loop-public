@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T16:00:07.748247",
+  "generated": "2026-01-16T16:15:07.402569",
   "total_entities": 541,
   "nodes": [
     {
@@ -590,13 +590,13 @@
       "id": "prj-011",
       "type": "Project",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
-      "status": "doing",
+      "status": "hold",
       "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md",
       "conditions_3y": [
         "cond-c",
         "cond-d"
       ],
-      "priority_flag": "medium",
+      "priority_flag": "high",
       "owner": "김은향"
     },
     {
@@ -4033,14 +4033,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-0000os-1767984076358",
-      "type": "Task",
-      "name": "Content OS - YouTube 페이지네이션 구현",
-      "status": "doing",
-      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767984076358.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-0000os-1768241491256",
       "type": "Task",
       "name": "Content OS - YouTube 페이지네이션 구현",
@@ -4345,6 +4337,14 @@
       "name": "세무 - 25 Q3~Q4 부가세 신고",
       "status": "todo",
       "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768370031417.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1768546807989",
+      "type": "Task",
+      "name": "부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md",
       "assignee": "한명학"
     },
     {
@@ -6981,11 +6981,6 @@
     },
     {
       "source": "prj-content-os",
-      "target": "tsk-0000os-1767984076358",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
       "target": "tsk-0000os-1768241491256",
       "type": "parent_of"
     },
@@ -7132,6 +7127,11 @@
     {
       "source": "prj-021",
       "target": "tsk-021-1768370031417",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1768546807989",
       "type": "parent_of"
     },
     {
@@ -8508,7 +8508,6 @@
       "tsk-content-os-14",
       "tsk-content-os-15",
       "tsk-0000os-1768066362208",
-      "tsk-0000os-1767984076358",
       "tsk-0000os-1768241491256",
       "tsk-0000os-1768331167938",
       "tsk-0000os-1768465946312",
@@ -8539,6 +8538,7 @@
       "tsk-1addiu-1767960317370",
       "tsk-021-1768369981548",
       "tsk-021-1768370031417",
+      "tsk-021-1768546807989",
       "tsk-012-01",
       "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",
@@ -9082,6 +9082,7 @@
       "tsk-021-1768197408582",
       "tsk-fcaef7-1767962901871",
       "tsk-1addiu-1767960317370",
+      "tsk-021-1768546807989",
       "tsk-012-01",
       "tsk-1igiyf-1767945247366",
       "tsk-1m08zu-1767945274325",
@@ -9095,7 +9096,6 @@
     ],
     "doing": [
       "prj-003",
-      "prj-011",
       "tsk-016-1768195418764",
       "prj-1t7iu4",
       "pgm-hiring",
@@ -9139,7 +9139,6 @@
       "pgm-content-os",
       "prj-content-os",
       "tsk-os-1767962821657",
-      "tsk-0000os-1767984076358",
       "tsk-0000os-1768241491256",
       "tsk-0000os-1768331167938",
       "pgm-kkokkkok-app-release",
@@ -9162,6 +9161,9 @@
       "status-budget",
       "status-runway",
       "status-team"
+    ],
+    "hold": [
+      "prj-011"
     ],
     "active": [
       "prj-yt-W03-26"
