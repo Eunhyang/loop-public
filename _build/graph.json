@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T22:00:10.133860",
-  "total_entities": 539,
+  "generated": "2026-01-16T23:45:08.017171",
+  "total_entities": 544,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -759,7 +759,7 @@
     {
       "id": "tsk-156anu-1768199827383",
       "type": "Task",
-      "name": "Antler 2차 - 비디오 면접 관련 내용 확인",
+      "name": "Antler 3차 - AI몬스터 면접 준비",
       "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md",
       "assignee": "김은향"
@@ -810,6 +810,14 @@
       "name": "Antler 서류 - 지원서 문항 추출 및 초안 목차 생성",
       "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-156anu-1768573665233",
+      "type": "Task",
+      "name": "Antler 2차 - 비디오 면접 관련 내용 확인",
+      "status": "done",
+      "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md",
       "assignee": "김은향"
     },
     {
@@ -1034,6 +1042,30 @@
       ],
       "priority_flag": "high",
       "owner": "김은향"
+    },
+    {
+      "id": "prj-5spsm4",
+      "type": "Project",
+      "name": "Infra Ops - 2026 Q1",
+      "status": "planning",
+      "path": "50_Projects/2025/P5_Infra_Ops_2026_Q1/project.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-hxp6yz",
+      "type": "Project",
+      "name": "Infra Ops - 2026 Q1",
+      "status": "planning",
+      "path": "50_Projects/2025/Phxp6yz_Infra_Ops_2026_Q1/project.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
     },
     {
       "id": "pgm-hiring",
@@ -4435,6 +4467,24 @@
       "assignee": "한명학"
     },
     {
+      "id": "pgm-coachos",
+      "type": "Program",
+      "name": "CoachOS",
+      "status": "doing",
+      "path": "50_Projects/CoachOS/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "pgm-kkokkkokfit-web",
+      "type": "Program",
+      "name": "kkokkkokfit Web",
+      "status": "doing",
+      "path": "50_Projects/Kkokkkokfit_Web/_PROGRAM.md",
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
       "id": "ns-001",
       "type": "NorthStar",
       "name": "10년 비전",
@@ -4914,6 +4964,11 @@
       "type": "parent_of"
     },
     {
+      "source": "trk-2",
+      "target": "pgm-coachos",
+      "type": "parent_of"
+    },
+    {
       "source": "trk-4",
       "target": "hyp-4-01",
       "type": "parent_of"
@@ -5085,12 +5140,27 @@
     },
     {
       "source": "trk-6",
+      "target": "prj-5spsm4",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-hxp6yz",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
       "target": "prj-015",
       "type": "parent_of"
     },
     {
       "source": "trk-6",
       "target": "prj-021",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "pgm-kkokkkokfit-web",
       "type": "parent_of"
     },
     {
@@ -5426,6 +5496,11 @@
     {
       "source": "prj-156anu",
       "target": "tsk-1pg1i9-1767935607817",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-156anu",
+      "target": "tsk-156anu-1768573665233",
       "type": "parent_of"
     },
     {
@@ -7374,6 +7449,26 @@
       "type": "supports"
     },
     {
+      "source": "pgm-coachos",
+      "target": "trk-2",
+      "type": "supports"
+    },
+    {
+      "source": "pgm-coachos",
+      "target": "trk-4",
+      "type": "supports"
+    },
+    {
+      "source": "pgm-kkokkkokfit-web",
+      "target": "pgm-coachos",
+      "type": "depends_on"
+    },
+    {
+      "source": "pgm-kkokkkokfit-web",
+      "target": "trk-6",
+      "type": "enables"
+    },
+    {
       "source": "trk-1",
       "target": "trk-6",
       "type": "enables"
@@ -7986,6 +8081,8 @@
       "prj-016",
       "prj-156anu",
       "prj-002",
+      "prj-5spsm4",
+      "prj-hxp6yz",
       "prj-006",
       "prj-008",
       "prj-015",
@@ -8080,6 +8177,8 @@
       "prj-1t7iu4",
       "prj-12329q",
       "prj-waoz74",
+      "prj-5spsm4",
+      "prj-hxp6yz",
       "prj-006",
       "prj-008",
       "prj-015",
@@ -8149,6 +8248,7 @@
       "tsk-156anu-1768048041857",
       "tsk-156anu-1768117071989",
       "tsk-1pg1i9-1767935607817",
+      "tsk-156anu-1768573665233",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",
@@ -8527,7 +8627,9 @@
       "pgm-content-os",
       "pgm-kkokkkok-app-release",
       "pgm-ops",
-      "pgm-cs"
+      "pgm-cs",
+      "pgm-coachos",
+      "pgm-kkokkkokfit-web"
     ],
     "NorthStar": [
       "ns-001"
@@ -8708,6 +8810,8 @@
       "prj-5w69jw",
       "prj-enlnjr",
       "prj-12329q",
+      "prj-5spsm4",
+      "prj-hxp6yz",
       "prj-008",
       "prj-020",
       "prj-yt-w33",
@@ -8753,6 +8857,7 @@
       "tsk-156anu-1768048041857",
       "tsk-156anu-1768117071989",
       "tsk-1pg1i9-1767935607817",
+      "tsk-156anu-1768573665233",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",
@@ -9112,6 +9217,8 @@
       "prj-021",
       "pgm-cs",
       "tsk-11nt0p-1767960275703",
+      "pgm-coachos",
+      "pgm-kkokkkokfit-web",
       "trk-1",
       "trk-2",
       "trk-3",

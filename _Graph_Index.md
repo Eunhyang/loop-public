@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 539
+total_entities: 544
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 539개
+- **총 엔티티**: 544개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -27,9 +27,9 @@ tags: ["meta", "graph", "index"]
 | MetaHypothesis | 4 |
 | Condition | 5 |
 | Track | 6 |
-| Program | 10 |
-| Project | 39 |
-| Task | 410 |
+| Program | 12 |
+| Project | 41 |
+| Task | 411 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,11 +37,11 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 62 |
-| done | 337 |
+| doing | 64 |
+| done | 338 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 16 |
+| planning | 18 |
 | todo | 113 |
 | validating | 7 |
 
@@ -87,23 +87,25 @@ tags: ["meta", "graph", "index"]
 | `trk-6` | Track_6_Revenue | doing | `20_Strategy/12M_Tracks/2026/Track_6_Revenue.md` |
 
 
-## Program (10개)
+## Program (12개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `pgm-coaching` | 코칭서비스 | doing | `50_Projects/Coaching/_PROGRAM.md` |
+| `pgm-coachos` | CoachOS | doing | `50_Projects/CoachOS/_PROGRAM.md` |
 | `pgm-content-os` | Content OS | doing | `50_Projects/Content_OS/_PROGRAM.md` |
 | `pgm-cs` | CS·고객지원 | doing | `50_Projects/CS/_PROGRAM.md` |
 | `pgm-grants` | 정부지원사업 | doing | `50_Projects/Grants/_PROGRAM.md` |
 | `pgm-hiring` | 채용 | doing | `50_Projects/Hiring/_PROGRAM.md` |
 | `pgm-kkokkkok-app-release` | 꼭꼭앱 Release Train | doing | `50_Projects/KkokKkok_Release/_PROGRAM.md` |
+| `pgm-kkokkkokfit-web` | kkokkkokfit Web | doing | `50_Projects/Kkokkkokfit_Web/_PROGRAM.md` |
 | `pgm-ops` | 운영/경영 관리 | doing | `50_Projects/Ops/_PROGRAM.md` |
 | `pgm-tips` | 투자/TIPS 준비 | doing | `50_Projects/TIPS_Batch/_PROGRAM.md` |
 | `pgm-vault-system` | Vault 시스템 체계화 | doing | `50_Projects/Vault_System/_PROGRAM.md` |
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (39개)
+## Project (41개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -128,12 +130,14 @@ tags: ["meta", "graph", "index"]
 | `prj-151f61` | Test - MCP Write API 완성 | planning | `50_Projects/2025/P151_Test_MCP_Write_API_완성/project.md` |
 | `prj-156anu` | Antler - 엔틀러코리아 제너레이터 8기 지원 | planning | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md` |
 | `prj-1t7iu4` | MCP API - Deployment Optimization | doing | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md` |
+| `prj-5spsm4` | Infra Ops - 2026 Q1 | planning | `50_Projects/2025/P5_Infra_Ops_2026_Q1/project.md` |
 | `prj-5w69jw` | Vault - Hypothesis 유지 전략 | planning | `50_Projects/2025/P5_Vault_Hypothesis_유지_전략/project.md` |
 | `prj-api-exec-vault` | API - Exec Vault 통합 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md` |
 | `prj-content-os` | Content OS - MVP 개발 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/project.md` |
 | `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/project.md` |
 | `prj-enlnjr` | MCP API - Deployment Optimization | planning | `50_Projects/2025/Penlnjr_MCP_API_Deployment_Optimization/project.md` |
 | `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-feedback-system/project.md` |
+| `prj-hxp6yz` | Infra Ops - 2026 Q1 | planning | `50_Projects/2025/Phxp6yz_Infra_Ops_2026_Q1/project.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md` |
 | `prj-kkokkkok-v1028` | KkokKkok App v1.0.28 - Hotfix | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/project.md` |
 | `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/project.md` |
@@ -148,7 +152,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (410개)
+## Task (411개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -372,10 +376,11 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768052656145` | Antler 서류  - 기술전문가 또는 빌더 내용 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md` |
 | `tsk-156anu-1768116970407` | Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md` |
 | `tsk-156anu-1768117071989` | Antler 서류 - 피칭덱 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md` |
-| `tsk-156anu-1768199827383` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
+| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
 | `tsk-156anu-1768236267952` | Antler 2차 -  3분 비디오 촬영 및 업로드 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md` |
 | `tsk-156anu-1768239501209` | Antler 2차 -  Take Home Test 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md` |
 | `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
+| `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
@@ -896,10 +901,11 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768052656145 (Antler 서류  - 기술전문가 또는 빌더 내용 작성)
   - tsk-156anu-1768116970407 (Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향))
   - tsk-156anu-1768117071989 (Antler 서류 - 피칭덱 작성)
-  - tsk-156anu-1768199827383 (Antler 2차 - 비디오 면접 관련 내용 확인)
+  - tsk-156anu-1768199827383 (Antler 3차 - AI몬스터 면접 준비)
   - tsk-156anu-1768236267952 (Antler 2차 -  3분 비디오 촬영 및 업로드)
   - tsk-156anu-1768239501209 (Antler 2차 -  Take Home Test 작성)
   - tsk-156anu-1768239514823 (Antler 2차 -  3분 비디오 기획(대본 작성))
+  - tsk-156anu-1768573665233 (Antler 2차 - 비디오 면접 관련 내용 확인)
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
 - **prj-1t7iu4** (MCP API - Deployment Optimization)
   - tsk-1t7iu4-1768242340825 (Blue-Green Deployment - MCP API)
@@ -1115,6 +1121,7 @@ tags: ["meta", "graph", "index"]
   - hyp-2-08 (데이터로 루프 재구성)
   - hyp-2-09 (데이터 품질 리포트가 행동을 바꿈)
   - hyp-2-10 (투자/외부 설득용 신뢰도)
+  - pgm-coachos (CoachOS)
   - prj-001 (Ontology v0.1)
   - prj-003 (LoopOS - V0 데이터 설계)
   - prj-005 (LoopOS - 최소 선제 학습)
@@ -1173,12 +1180,15 @@ tags: ["meta", "graph", "index"]
   - hyp-6-12 (월매출 런웨이 최소선)
   - hyp-6-13 (TIPS/투자 요구조건 충족)
   - hyp-6-14 (실제 자금조달 성립)
+  - pgm-kkokkkokfit-web (kkokkkokfit Web)
   - prj-002 (와디즈 - 12주 습관 코칭 패키지)
   - prj-007 (Hiring - 안지온님(엔씨온 외부 비서))
   - prj-015 (Hiring - 임단(주니어 개발자 채용))
   - prj-016 (법인 전환 설립(주) 루프)
   - prj-021 (경영관리 - 2026 Q1)
   - prj-156anu (Antler - 엔틀러코리아 제너레이터 8기 지원)
+  - prj-5spsm4 (Infra Ops - 2026 Q1)
+  - prj-hxp6yz (Infra Ops - 2026 Q1)
 
 ---
 
