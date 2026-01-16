@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-16T20:00:07.840225",
+  "generated": "2026-01-16T21:00:07.636805",
   "total_entities": 539,
   "nodes": [
     {
@@ -4108,7 +4108,7 @@
       "id": "tsk-0000os-1768466256660",
       "type": "Task",
       "name": "Content OS - Deprecate Next App",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466256660.md",
       "assignee": "김은향"
     },
@@ -8683,7 +8683,6 @@
       "tsk-023-1768386479760",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
-      "tsk-0000os-1768466256660",
       "tsk-mzjr8a-1768542536681",
       "tsk-mzjr8a-1768196988716",
       "tsk-mzjr8a-1768231080040",
@@ -9042,6 +9041,7 @@
       "tsk-0000os-1768466096543",
       "tsk-0000os-1768466263435",
       "tsk-0000os-1768466267924",
+      "tsk-0000os-1768466256660",
       "tsk-0000os-1768466274272",
       "tsk-0000os-1768465946730",
       "tsk-0000os-1768465926049",

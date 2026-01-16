@@ -6,7 +6,7 @@ created: 2025-12-27
 updated: '2026-01-16'
 status: doing
 parent_id: prj-dashboard-ux-v1
-project_id: prj-dashboard-ux-v1
+project_id: prj-023
 aliases:
 - tsk-dashboard-ux-v1-10
 outgoing_relations: []

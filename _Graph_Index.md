@@ -38,11 +38,11 @@ tags: ["meta", "graph", "index"]
 | active | 1 |
 | assumed | 1 |
 | doing | 62 |
-| done | 336 |
+| done | 337 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 16 |
-| todo | 114 |
+| todo | 113 |
 | validating | 7 |
 
 ---
@@ -165,7 +165,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-0000os-1768466096034` | Content OS - Migrate Opportunity UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096034.md` |
 | `tsk-0000os-1768466096543` | Content OS - Dashboard V2 Scaffold | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096543.md` |
 | `tsk-0000os-1768466105945` | Content OS - Migrate Explorer UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466105945.md` |
-| `tsk-0000os-1768466256660` | Content OS - Deprecate Next App | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466256660.md` |
+| `tsk-0000os-1768466256660` | Content OS - Deprecate Next App | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466256660.md` |
 | `tsk-0000os-1768466262169` | Content OS - Stabilize SSOT Build | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466262169.md` |
 | `tsk-0000os-1768466263435` | Content OS - Migrate Retro UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466263435.md` |
 | `tsk-0000os-1768466267924` | Content OS - Migrate Performance UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466267924.md` |
