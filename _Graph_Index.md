@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-16
 updated: 2026-01-16
-total_entities: 538
+total_entities: 539
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 538개
+- **총 엔티티**: 539개
 - **마지막 업데이트**: 2026-01-16
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 10 |
 | Project | 39 |
-| Task | 409 |
+| Task | 410 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -41,7 +41,7 @@ tags: ["meta", "graph", "index"]
 | done | 324 |
 | fixed | 1 |
 | planning | 15 |
-| todo | 120 |
+| todo | 121 |
 | validating | 7 |
 
 ---
@@ -147,7 +147,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (409개)
+## Task (410개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -492,6 +492,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-mcp-rbac-04` | MCP - 복합 API exec vault 필터링 | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-04_복합_API_exec_vault_필터링.md` |
 | `tsk-mzjr8a-1768196988716` | 1.0.29 - 재로그인시 MealDiary 사진 안보임 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768196988716.md` |
 | `tsk-mzjr8a-1768231080040` | 꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다) | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md` |
+| `tsk-mzjr8a-1768542536681` | 꼭꼭 앱 - 마이그레이션 코드  | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
 | `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
@@ -1000,6 +1001,7 @@ tags: ["meta", "graph", "index"]
   - tsk-aduxpf-1767959129481 (앱 유로 구독 - iOS 구독 안 됨)
   - tsk-mzjr8a-1768196988716 (1.0.29 - 재로그인시 MealDiary 사진 안보임)
   - tsk-mzjr8a-1768231080040 (꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다))
+  - tsk-mzjr8a-1768542536681 (꼭꼭 앱 - 마이그레이션 코드 )
 - **prj-n8n** (n8n Vault 자동화)
   - tsk-000n8n-1768057225620 (n8n - Entity Validator Auto-Apply 기능)
   - tsk-000n8n-1768068452347 (n8n - YouTube 데이터 수집 + Discord 알림)

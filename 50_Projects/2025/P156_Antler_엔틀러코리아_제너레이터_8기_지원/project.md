@@ -5,7 +5,7 @@ entity_name: Antler - 엔틀러코리아 제너레이터 8기 지원
 created: '2026-01-09'
 updated: '2026-01-16'
 status: planning
-owner: 김은향
+owner: 한명학
 priority_flag: medium
 parent_id: trk-6
 program_id: pgm-tips
