@@ -2,9 +2,9 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2026-01-16
-updated: 2026-01-16
-total_entities: 544
+created: 2026-01-17
+updated: 2026-01-17
+total_entities: 549
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,8 +17,8 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 544개
-- **마지막 업데이트**: 2026-01-16
+- **총 엔티티**: 549개
+- **마지막 업데이트**: 2026-01-17
 
 ### 타입별
 | Type | Count |
@@ -28,8 +28,8 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 6 |
 | Program | 12 |
-| Project | 41 |
-| Task | 411 |
+| Project | 42 |
+| Task | 415 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,12 +37,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 64 |
+| doing | 68 |
 | done | 338 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 18 |
-| todo | 113 |
+| todo | 114 |
 | validating | 7 |
 
 ---
@@ -105,7 +105,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (41개)
+## Project (42개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -139,6 +139,7 @@ tags: ["meta", "graph", "index"]
 | `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-feedback-system/project.md` |
 | `prj-hxp6yz` | Infra Ops - 2026 Q1 | planning | `50_Projects/2025/Phxp6yz_Infra_Ops_2026_Q1/project.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md` |
+| `prj-infra-ops-2026q1` | Infra Ops - 2026 Q1 | doing | `50_Projects/2026/Infra_Ops_2026_Q1/project.md` |
 | `prj-kkokkkok-v1028` | KkokKkok App v1.0.28 - Hotfix | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/project.md` |
 | `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/project.md` |
 | `prj-mzjr8a` | KkokKkok App v1.0.29 - Release | planning | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/project.md` |
@@ -152,7 +153,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (411개)
+## Task (415개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -230,6 +231,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768241993366` | 코칭 랜딩페이지 리뉴얼 - 은향 리뷰 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768241993366.md` |
 | `tsk-014-1768471047156` | 랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md` |
 | `tsk-014-1768488324886` | 콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15) | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md` |
+| `tsk-014-1768575802981` | 랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 19:00) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -376,11 +378,13 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768052656145` | Antler 서류  - 기술전문가 또는 빌더 내용 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md` |
 | `tsk-156anu-1768116970407` | Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md` |
 | `tsk-156anu-1768117071989` | Antler 서류 - 피칭덱 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md` |
-| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
+| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 (전략 세우기) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
 | `tsk-156anu-1768236267952` | Antler 2차 -  3분 비디오 촬영 및 업로드 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md` |
 | `tsk-156anu-1768239501209` | Antler 2차 -  Take Home Test 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md` |
 | `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
 | `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
+| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/17) | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
+| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
@@ -490,6 +494,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-impact-schema-v2-05` | Schema - Derived 필드 롤업 로직 완성 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-02_Derived_롤업_로직.md` |
 | `tsk-impact-v2-06` | Evidence - 품질 메타 표준화 + 승인 로그 구현 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-06_Evidence_품질메타_승인로그.md` |
 | `tsk-impact-v2-07` | Schema - autofill infer - audit + decision_log + n8n 연동 | done | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/Tasks/tsk-impact-v2-07_autofill_infer_audit_decision_log.md` |
+| `tsk-infra-ops-2026q1-aws-01` | AWS Billing Suspension -> Reactivation (Postmortem) | done | `50_Projects/2026/Infra_Ops_2026_Q1/Tasks/tsk-infra-ops-2026q1-aws-01.md` |
 | `tsk-kkokkkok-v1028-01` | Calendar - 2026년 캘린더 표시 버그 수정 | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/Tasks/tsk-kkokkkok-v1028-01.md` |
 | `tsk-kly0ry-1767960471502` | LOOP API - Task ID 패턴 수정 (prj_hash 기반) | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-kly0ry-1767960471502.md` |
 | `tsk-mcp-rbac-01` | User 모델 role 필드 + CLI | done | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-01_User_Model_Role.md` |
@@ -742,6 +747,7 @@ tags: ["meta", "graph", "index"]
   - tsk-014-1768241993366 (코칭 랜딩페이지 리뉴얼 - 은향 리뷰)
   - tsk-014-1768471047156 (랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등))
   - tsk-014-1768488324886 (콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15))
+  - tsk-014-1768575802981 (랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 19:00))
   - tsk-1ca2sj-1767960085150 (유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획)
   - tsk-1q091r-1767960173667 (코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획)
   - tsk-685ac7-1767962816709 (꼭꼭Fit 3기 환급 검토)
@@ -901,11 +907,13 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768052656145 (Antler 서류  - 기술전문가 또는 빌더 내용 작성)
   - tsk-156anu-1768116970407 (Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향))
   - tsk-156anu-1768117071989 (Antler 서류 - 피칭덱 작성)
-  - tsk-156anu-1768199827383 (Antler 3차 - AI몬스터 면접 준비)
+  - tsk-156anu-1768199827383 (Antler 3차 - AI몬스터 면접 준비 (전략 세우기))
   - tsk-156anu-1768236267952 (Antler 2차 -  3분 비디오 촬영 및 업로드)
   - tsk-156anu-1768239501209 (Antler 2차 -  Take Home Test 작성)
   - tsk-156anu-1768239514823 (Antler 2차 -  3분 비디오 기획(대본 작성))
   - tsk-156anu-1768573665233 (Antler 2차 - 비디오 면접 관련 내용 확인)
+  - tsk-156anu-1768575996462 (Antler 3차 - AI몬스터 면접 연습 (01/17))
+  - tsk-156anu-1768576137968 (Antler 3차 - AI몬스터 면접 연습 (01/18))
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
 - **prj-1t7iu4** (MCP API - Deployment Optimization)
   - tsk-1t7iu4-1768242340825 (Blue-Green Deployment - MCP API)
@@ -1189,6 +1197,7 @@ tags: ["meta", "graph", "index"]
   - prj-156anu (Antler - 엔틀러코리아 제너레이터 8기 지원)
   - prj-5spsm4 (Infra Ops - 2026 Q1)
   - prj-hxp6yz (Infra Ops - 2026 Q1)
+  - prj-infra-ops-2026q1 (Infra Ops - 2026 Q1)
 
 ---
 
@@ -1214,5 +1223,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2026-01-16
+**Auto-generated**: 2026-01-17
 **Script**: scripts/build_graph_index.py

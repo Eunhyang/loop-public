@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-151f61
 entity_name: Test - MCP Write API 완성
 created: '2026-01-09'
-updated: '2026-01-16'
+updated: '2026-01-17'
 status: planning
 owner: 김은향
 priority_flag: medium

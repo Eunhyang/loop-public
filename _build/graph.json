@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-16T23:45:08.017171",
-  "total_entities": 544,
+  "generated": "2026-01-17T00:15:08.205712",
+  "total_entities": 549,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -759,8 +759,8 @@
     {
       "id": "tsk-156anu-1768199827383",
       "type": "Task",
-      "name": "Antler 3차 - AI몬스터 면접 준비",
-      "status": "done",
+      "name": "Antler 3차 - AI몬스터 면접 준비 (전략 세우기)",
+      "status": "doing",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md",
       "assignee": "김은향"
     },
@@ -818,6 +818,22 @@
       "name": "Antler 2차 - 비디오 면접 관련 내용 확인",
       "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-156anu-1768575996462",
+      "type": "Task",
+      "name": "Antler 3차 - AI몬스터 면접 연습 (01/17)",
+      "status": "doing",
+      "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-156anu-1768576137968",
+      "type": "Task",
+      "name": "Antler 3차 - AI몬스터 면접 연습 (01/18)",
+      "status": "todo",
+      "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
       "assignee": "김은향"
     },
     {
@@ -3683,15 +3699,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-023-30",
-      "type": "Task",
-      "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-023-1768554593687",
       "type": "Task",
       "name": "Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼)",
@@ -3705,6 +3712,15 @@
       "name": "Dashboard - Form migration",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-30",
+      "type": "Task",
+      "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -3840,6 +3856,14 @@
       "name": "콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15)",
       "status": "done",
       "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-1768575802981",
+      "type": "Task",
+      "name": "랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 19:00)",
+      "status": "doing",
+      "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md",
       "assignee": "한명학"
     },
     {
@@ -4235,19 +4259,19 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-aduxpf-1767959129481",
-      "type": "Task",
-      "name": "앱 유로 구독 - iOS 구독 안 됨",
-      "status": "done",
-      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-mzjr8a-1768231080040",
       "type": "Task",
       "name": "꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다)",
       "status": "todo",
       "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-aduxpf-1767959129481",
+      "type": "Task",
+      "name": "앱 유로 구독 - iOS 구독 안 됨",
+      "status": "done",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
       "assignee": "김은향"
     },
     {
@@ -4483,6 +4507,26 @@
       "path": "50_Projects/Kkokkkokfit_Web/_PROGRAM.md",
       "priority_flag": "high",
       "owner": "김은향"
+    },
+    {
+      "id": "prj-infra-ops-2026q1",
+      "type": "Project",
+      "name": "Infra Ops - 2026 Q1",
+      "status": "doing",
+      "path": "50_Projects/2026/Infra_Ops_2026_Q1/project.md",
+      "conditions_3y": [
+        "cond-d"
+      ],
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-infra-ops-2026q1-aws-01",
+      "type": "Task",
+      "name": "AWS Billing Suspension -> Reactivation (Postmortem)",
+      "status": "done",
+      "path": "50_Projects/2026/Infra_Ops_2026_Q1/Tasks/tsk-infra-ops-2026q1-aws-01.md",
+      "assignee": "한명학"
     },
     {
       "id": "ns-001",
@@ -5164,6 +5208,11 @@
       "type": "parent_of"
     },
     {
+      "source": "trk-6",
+      "target": "prj-infra-ops-2026q1",
+      "type": "parent_of"
+    },
+    {
       "source": "trk-3",
       "target": "hyp-3-01",
       "type": "parent_of"
@@ -5501,6 +5550,16 @@
     {
       "source": "prj-156anu",
       "target": "tsk-156anu-1768573665233",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-156anu",
+      "target": "tsk-156anu-1768575996462",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-156anu",
+      "target": "tsk-156anu-1768576137968",
       "type": "parent_of"
     },
     {
@@ -6850,17 +6909,17 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-30",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
       "target": "tsk-023-1768554593687",
       "type": "parent_of"
     },
     {
       "source": "prj-023",
       "target": "tsk-023-1768559066017",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-30",
       "type": "parent_of"
     },
     {
@@ -6931,6 +6990,11 @@
     {
       "source": "prj-014",
       "target": "tsk-014-1768488324886",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-014",
+      "target": "tsk-014-1768575802981",
       "type": "parent_of"
     },
     {
@@ -7125,12 +7189,12 @@
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-aduxpf-1767959129481",
+      "target": "tsk-mzjr8a-1768231080040",
       "type": "parent_of"
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-mzjr8a-1768231080040",
+      "target": "tsk-aduxpf-1767959129481",
       "type": "parent_of"
     },
     {
@@ -8090,6 +8154,7 @@
       "pgm-tips",
       "prj-021",
       "prj-012",
+      "prj-infra-ops-2026q1",
       "trk-4",
       "trk-5"
     ],
@@ -8202,7 +8267,8 @@
       "prj-mzjr8a",
       "prj-022",
       "prj-021",
-      "prj-012"
+      "prj-012",
+      "prj-infra-ops-2026q1"
     ],
     "Task": [
       "tsk-1g52x6-1767942368593",
@@ -8249,6 +8315,8 @@
       "tsk-156anu-1768117071989",
       "tsk-1pg1i9-1767935607817",
       "tsk-156anu-1768573665233",
+      "tsk-156anu-1768575996462",
+      "tsk-156anu-1768576137968",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",
@@ -8539,9 +8607,9 @@
       "tsk-023-1768502769059",
       "tsk-023-1768536435979",
       "tsk-023-1768545831670",
-      "tsk-023-30",
       "tsk-023-1768554593687",
       "tsk-023-1768559066017",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8556,6 +8624,7 @@
       "tsk-014-1768241993366",
       "tsk-014-1768471047156",
       "tsk-014-1768488324886",
+      "tsk-014-1768575802981",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
@@ -8594,8 +8663,8 @@
       "tsk-kkokkkok-v1028-01",
       "tsk-mzjr8a-1768542536681",
       "tsk-mzjr8a-1768196988716",
-      "tsk-aduxpf-1767959129481",
       "tsk-mzjr8a-1768231080040",
+      "tsk-aduxpf-1767959129481",
       "tsk-021-01",
       "tsk-021-1767964326285",
       "tsk-021-1767965869633",
@@ -8615,7 +8684,8 @@
       "tsk-9xy6p0-1767945215240",
       "tsk-012-1768140940912",
       "tsk-012-1768488181984",
-      "tsk-012-1768546729259"
+      "tsk-012-1768546729259",
+      "tsk-infra-ops-2026q1-aws-01"
     ],
     "Program": [
       "pgm-hiring",
@@ -8743,6 +8813,7 @@
       "tsk-005-02",
       "tsk-005-01",
       "tsk-011-01",
+      "tsk-156anu-1768576137968",
       "tsk-002-08",
       "tsk-002-06",
       "tsk-002-09",
@@ -8850,7 +8921,6 @@
       "tsk-156anu-1768236267952",
       "tsk-156anu-1768239501209",
       "tsk-156anu-1768239514823",
-      "tsk-156anu-1768199827383",
       "tsk-156anu-1768025743558",
       "tsk-156anu-1768039688709",
       "tsk-156anu-1768047928102",
@@ -9101,9 +9171,9 @@
       "tsk-023-1768502769059",
       "tsk-023-1768536435979",
       "tsk-023-1768545831670",
-      "tsk-023-30",
       "tsk-023-1768554593687",
       "tsk-023-1768559066017",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -9166,10 +9236,13 @@
       "tsk-012-1768140940912",
       "tsk-012-1768488181984",
       "tsk-012-1768546729259",
+      "tsk-infra-ops-2026q1-aws-01",
       "retro:2025-annual"
     ],
     "doing": [
       "prj-003",
+      "tsk-156anu-1768199827383",
+      "tsk-156anu-1768575996462",
       "prj-002",
       "prj-1t7iu4",
       "pgm-hiring",
@@ -9207,6 +9280,7 @@
       "tsk-685ac7-1767962817221",
       "tsk-uhklhc-1767959944222",
       "tsk-014-1768471047156",
+      "tsk-014-1768575802981",
       "pgm-tips",
       "pgm-content-os",
       "prj-content-os",
@@ -9219,6 +9293,7 @@
       "tsk-11nt0p-1767960275703",
       "pgm-coachos",
       "pgm-kkokkkokfit-web",
+      "prj-infra-ops-2026q1",
       "trk-1",
       "trk-2",
       "trk-3",

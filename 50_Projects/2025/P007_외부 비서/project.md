@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-007
 entity_name: Hiring - 안지온님(엔씨온 외부 비서)
 created: 2025-12-18
-updated: '2026-01-16'
+updated: '2026-01-17'
 status: done
 closed: 2025-12-23
 parent_id: trk-6
