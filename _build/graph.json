@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-17T23:30:08.410655",
+  "generated": "2026-01-18T00:00:08.055022",
   "total_entities": 561,
   "nodes": [
     {
@@ -229,9 +229,9 @@
     {
       "id": "hyp-6-01",
       "type": "Hypothesis",
-      "name": "전면 유료화 성립",
-      "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md"
+      "name": "주니어 개발자 온보딩이 내부 고객의 개발 병목을 줄인다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-01.md"
     },
     {
       "id": "hyp-6-02",
@@ -7874,11 +7874,6 @@
       "type": "validates"
     },
     {
-      "source": "hyp-6-01",
-      "target": "cond-e",
-      "type": "validates"
-    },
-    {
       "source": "hyp-6-12",
       "target": "cond-e",
       "type": "validates"
@@ -7966,6 +7961,26 @@
     {
       "source": "prj-006",
       "target": "hyp-4-07",
+      "type": "validates"
+    },
+    {
+      "source": "prj-015",
+      "target": "hyp-1-07",
+      "type": "validates"
+    },
+    {
+      "source": "prj-015",
+      "target": "hyp-1-04",
+      "type": "validates"
+    },
+    {
+      "source": "prj-015",
+      "target": "hyp-2-04",
+      "type": "validates"
+    },
+    {
+      "source": "prj-015",
+      "target": "hyp-6-01",
       "type": "validates"
     },
     {
@@ -8881,6 +8896,7 @@
   "by_status": {
     "planning": [
       "hyp-{TRK}-{SEQ}",
+      "hyp-6-01",
       "hyp-3-02",
       "hyp-4-11",
       "prj-{NUMBER}",
@@ -8933,7 +8949,6 @@
       "hyp-4-08",
       "hyp-4-09",
       "hyp-4-10",
-      "hyp-6-01",
       "hyp-6-02",
       "hyp-6-03",
       "hyp-6-04",

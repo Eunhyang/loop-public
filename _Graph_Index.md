@@ -2,8 +2,8 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2026-01-17
-updated: 2026-01-17
+created: 2026-01-18
+updated: 2026-01-18
 total_entities: 561
 auto_generated: true
 tags: ["meta", "graph", "index"]
@@ -18,7 +18,7 @@ tags: ["meta", "graph", "index"]
 ## 요약 통계
 
 - **총 엔티티**: 561개
-- **마지막 업데이트**: 2026-01-17
+- **마지막 업데이트**: 2026-01-18
 
 ### 타입별
 | Type | Count |
@@ -42,8 +42,8 @@ tags: ["meta", "graph", "index"]
 | done | 356 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 20 |
-| todo | 114 |
+| planning | 21 |
+| todo | 113 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -625,7 +625,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-4-11` | 랜딩 상단 후기·변화 증거가 상담 전환을 올림 | planning | `60_Hypotheses/2026/hyp-4-11.md` |
 | `hyp-4-12` | 한끼꼭꼭 챌린지 - 유지 재참여 | validating | `60_Hypotheses/2026/hyp-4-12_kkok_challenge_stickiness.md` |
 | `hyp-4-13` | 한끼꼭꼭 챌린지 - 미니코칭 전환 | validating | `60_Hypotheses/2026/hyp-4-13_kkok_challenge_conversion_minicoaching.md` |
-| `hyp-6-01` | 전면 유료화 성립 | todo | `60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md` |
+| `hyp-6-01` | 주니어 개발자 온보딩이 내부 고객의 개발 병목을 줄인다 | planning | `60_Hypotheses/2026/hyp-6-01.md` |
 | `hyp-6-02` | 앱 전환율 최소선 | todo | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
 | `hyp-6-03` | 환불/클레임 통제 | todo | `60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md` |
 | `hyp-6-04` | 앱 가격·플랜 최적 조합 존재 | todo | `60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md` |
@@ -1201,7 +1201,7 @@ tags: ["meta", "graph", "index"]
 - **trk-5** (Track_5_Partnership)
   - prj-011 (사이드프로젝트 리크루팅 사이트 제작)
 - **trk-6** (Track_6_Revenue)
-  - hyp-6-01 (전면 유료화 성립)
+  - hyp-6-01 (주니어 개발자 온보딩이 내부 고객의 개발 병목을 줄인다)
   - hyp-6-02 (앱 전환율 최소선)
   - hyp-6-03 (환불/클레임 통제)
   - hyp-6-04 (앱 가격·플랜 최적 조합 존재)
@@ -1248,5 +1248,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2026-01-17
+**Auto-generated**: 2026-01-18
 **Script**: scripts/build_graph_index.py

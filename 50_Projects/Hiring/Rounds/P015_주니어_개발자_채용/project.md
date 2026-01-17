@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-015
 entity_name: Hiring - 임단(주니어 개발자 채용)
 created: 2025-12-25
-updated: '2026-01-16'
+updated: '2026-01-17'
 status: done
 parent_id: trk-6
 program_id: pgm-hiring
@@ -11,7 +11,11 @@ aliases:
 - prj-015
 - 주니어 개발자 채용
 outgoing_relations: []
-validates: []
+validates:
+- hyp-1-07
+- hyp-1-04
+- hyp-2-04
+- hyp-6-01
 validated_by: []
 owner: 한명학
 budget: null
@@ -35,11 +39,15 @@ tags:
 - developer
 priority_flag: high
 track_contributes: []
-primary_hypothesis_id: hyp-001
+primary_hypothesis_id: hyp-6-01
 condition_contributes:
 - to: cond-d
-  weight: 1.0
-  description: 팀의 역량을 강화하기 위해 주니어 개발자를 채용함으로써 팀의 성과에 기여할 것으로 예상됨.
+  weight: 0.3
+  description: 주니어 개발자의 채용이 팀의 역량을 강화하는 데 기여할 것으로 예상됨.
+- to: cond-e
+  weight: 0.55
+- to: cond-a
+  weight: 0.15
 ---
 # 주니어 개발자 채용
 
