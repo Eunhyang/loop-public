@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-dashboard-ux-v1-31
 entity_name: Dashboard - Task Type Chip 즉시 저장 버그 수정
 created: 2026-01-06
-updated: '2026-01-17'
+updated: '2026-01-18'
 status: done
 closed: 2026-01-06
 parent_id: prj-dashboard-ux-v1
@@ -17,8 +17,8 @@ assignee: 김은향
 start_date: 2026-01-06
 due: '2026-01-11'
 priority: high
-estimated_hours: null
-actual_hours: null
+estimated_hours: 8
+actual_hours: 8
 type: bug
 target_project: loop
 tags:

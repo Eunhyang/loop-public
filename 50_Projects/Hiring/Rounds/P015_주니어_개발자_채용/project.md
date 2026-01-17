@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-015
 entity_name: Hiring - 임단(주니어 개발자 채용)
 created: 2025-12-25
-updated: '2026-01-17'
+updated: '2026-01-18'
 status: done
 parent_id: trk-6
 program_id: pgm-hiring
@@ -11,11 +11,7 @@ aliases:
 - prj-015
 - 주니어 개발자 채용
 outgoing_relations: []
-validates:
-- hyp-1-07
-- hyp-1-04
-- hyp-2-04
-- hyp-6-01
+validates: []
 validated_by: []
 owner: 한명학
 budget: null

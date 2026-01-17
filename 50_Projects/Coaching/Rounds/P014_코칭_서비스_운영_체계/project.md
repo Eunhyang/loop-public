@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-014
 entity_name: 꼭꼭FIT 랜딩 페이지 - 리뉴얼
 created: 2025-12-18
-updated: '2026-01-17'
+updated: '2026-01-18'
 status: doing
 parent_id: trk-4
 aliases:

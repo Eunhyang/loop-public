@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-api-exec-vault
 entity_name: API - Exec Vault 통합
 created: 2026-01-02
-updated: '2026-01-17'
+updated: '2026-01-18'
 status: doing
 program_id: pgm-vault-system
 cycle: '2026'

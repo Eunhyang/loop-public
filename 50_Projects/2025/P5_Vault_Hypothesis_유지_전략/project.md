@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-5w69jw
 entity_name: Vault - Hypothesis 유지 전략
 created: '2026-01-12'
-updated: '2026-01-17'
+updated: '2026-01-18'
 status: planning
 owner: 김은향
 priority_flag: medium
