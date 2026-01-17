@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-18
 updated: 2026-01-18
-total_entities: 563
+total_entities: 564
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 563개
+- **총 엔티티**: 564개
 - **마지막 업데이트**: 2026-01-18
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 427 |
+| Task | 428 |
 | Hypothesis | 51 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 1 |
 | doing | 60 |
-| done | 357 |
+| done | 358 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 21 |
@@ -154,7 +154,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (427개)
+## Task (428개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -354,6 +354,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768639226829` | Entity Validator - validates 가설 추천 프롬프트 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639226829.md` |
 | `tsk-023-1768639817374` | Pending API - approve 후 캐시 갱신 로직 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639817374.md` |
 | `tsk-023-1768662785986` | Pending Review 단순화 - Project Save 기반 + 탭 제거 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768662785986.md` |
+| `tsk-023-1768664856131` | n8n - entity-validator 워크플로우 라우팅 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768664856131.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -900,6 +901,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768639226829 (Entity Validator - validates 가설 추천 프롬프트 개선)
   - tsk-023-1768639817374 (Pending API - approve 후 캐시 갱신 로직 추가)
   - tsk-023-1768662785986 (Pending Review 단순화 - Project Save 기반 + 탭 제거)
+  - tsk-023-1768664856131 (n8n - entity-validator 워크플로우 라우팅 버그 수정)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
