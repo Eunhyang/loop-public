@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T22:00:07.630903",
-  "total_entities": 561,
+  "generated": "2026-01-17T22:15:07.844912",
+  "total_entities": 560,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -780,7 +780,7 @@
       "id": "tsk-156anu-1768199827383",
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 준비 (전략 세우기)",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md",
       "assignee": "김은향"
     },
@@ -4334,18 +4334,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "prj-022",
-      "type": "Project",
-      "name": "KkokKkok App v1.0.29 - 캘린더 월뷰 개선",
-      "status": "doing",
-      "path": "50_Projects/KkokKkok_Release/Rounds/P022_v1029_캘린더_월뷰_개선/project.md",
-      "conditions_3y": [
-        "cond-a"
-      ],
-      "priority_flag": "high",
-      "owner": "김은향"
-    },
-    {
       "id": "pgm-ops",
       "type": "Program",
       "name": "운영/경영 관리",
@@ -4984,11 +4972,6 @@
     {
       "source": "trk-1",
       "target": "prj-mzjr8a",
-      "type": "parent_of"
-    },
-    {
-      "source": "trk-1",
-      "target": "prj-022",
       "type": "parent_of"
     },
     {
@@ -7642,11 +7625,6 @@
       "type": "supports"
     },
     {
-      "source": "prj-022",
-      "target": "trk-4",
-      "type": "supports"
-    },
-    {
       "source": "pgm-coachos",
       "target": "trk-2",
       "type": "supports"
@@ -7978,7 +7956,7 @@
     },
     {
       "source": "prj-014",
-      "target": "hyp-1-01",
+      "target": "hyp-4-11",
       "type": "validates"
     },
     {
@@ -8289,7 +8267,6 @@
       "prj-content-os",
       "prj-kkokkkok-v1028",
       "prj-mzjr8a",
-      "prj-022",
       "trk-1",
       "trk-3"
     ]
@@ -8386,7 +8363,6 @@
       "prj-content-os",
       "prj-kkokkkok-v1028",
       "prj-mzjr8a",
-      "prj-022",
       "prj-021",
       "prj-012",
       "prj-infra-ops-2026q1"
@@ -8972,7 +8948,6 @@
       "tsk-005-02",
       "tsk-005-01",
       "tsk-011-01",
-      "tsk-156anu-1768199827383",
       "tsk-156anu-1768579596258",
       "tsk-002-08",
       "tsk-002-06",
@@ -9059,6 +9034,7 @@
       "tsk-156anu-1768236267952",
       "tsk-156anu-1768239501209",
       "tsk-156anu-1768239514823",
+      "tsk-156anu-1768199827383",
       "tsk-156anu-1768025743558",
       "tsk-156anu-1768039688709",
       "tsk-156anu-1768047928102",
@@ -9431,7 +9407,6 @@
       "prj-content-os",
       "tsk-os-1767962821657",
       "pgm-kkokkkok-app-release",
-      "prj-022",
       "pgm-ops",
       "prj-021",
       "pgm-cs",

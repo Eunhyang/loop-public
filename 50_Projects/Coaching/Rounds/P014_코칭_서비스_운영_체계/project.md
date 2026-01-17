@@ -11,7 +11,7 @@ aliases:
 - 코칭 서비스 운영 체계 재구축
 outgoing_relations: []
 validates:
-- hyp-1-01
+- hyp-4-11
 validated_by: []
 owner: 한명학
 budget: null
@@ -43,7 +43,7 @@ conditions_3y:
 - cond-e
 tags: []
 priority_flag: medium
-primary_hypothesis_id: hyp-1-01
+primary_hypothesis_id: hyp-4-11
 program_id: pgm-coaching
 ---
 # 코칭 서비스 운영 체계 재구축
