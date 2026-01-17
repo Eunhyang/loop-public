@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T19:45:07.635222",
-  "total_entities": 562,
+  "generated": "2026-01-17T21:45:08.172307",
+  "total_entities": 561,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -391,14 +391,6 @@
       ],
       "priority_flag": "critical",
       "owner": "김은향"
-    },
-    {
-      "id": "tsk-1g52x6-1767942368593",
-      "type": "Task",
-      "name": "test - test213",
-      "status": "todo",
-      "path": "50_Projects/2025/P001_Ontology/Tasks/tsk-1g52x6-1767942368593.md",
-      "assignee": "김은향"
     },
     {
       "id": "tsk-001-02",
@@ -3313,14 +3305,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-023-1767978736649",
-      "type": "Task",
-      "name": "Dashboard - Calendar Week View 스크롤 버그 수정",
-      "status": "todo",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767978736649.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-023-1768045340391",
       "type": "Task",
       "name": "Dashboard - Comment Discord 알림 내용 표시 및 링크 수정",
@@ -3932,6 +3916,14 @@
       "status": "doing",
       "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md",
       "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-1768653594228",
+      "type": "Task",
+      "name": "랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달",
+      "status": "done",
+      "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md",
+      "assignee": "김은향"
     },
     {
       "id": "pgm-tips",
@@ -5436,11 +5428,6 @@
     },
     {
       "source": "prj-001",
-      "target": "tsk-1g52x6-1767942368593",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-001",
       "target": "tsk-001-02",
       "type": "parent_of"
     },
@@ -6801,11 +6788,6 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-1767978736649",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
       "target": "tsk-023-1768045340391",
       "type": "parent_of"
     },
@@ -7142,6 +7124,11 @@
     {
       "source": "prj-014",
       "target": "tsk-014-1768627876217",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-014",
+      "target": "tsk-014-1768653594228",
       "type": "parent_of"
     },
     {
@@ -8406,7 +8393,6 @@
     ],
     "Task": [
       "tsk-{PRJ_NUMBER}-{SEQ}",
-      "tsk-1g52x6-1767942368593",
       "tsk-001-02",
       "tsk-001-03",
       "tsk-001-01",
@@ -8694,7 +8680,6 @@
       "tsk-023-1768026376001",
       "tsk-023-1768028623070",
       "tsk-023-1768032255632",
-      "tsk-023-1767978736649",
       "tsk-023-1768045340391",
       "tsk-023-1768045355850",
       "tsk-023-1768046291674",
@@ -8768,6 +8753,7 @@
       "tsk-014-1768488324886",
       "tsk-014-1768575802981",
       "tsk-014-1768627876217",
+      "tsk-014-1768653594228",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
@@ -8971,7 +8957,6 @@
       "hyp-6-13",
       "hyp-6-14",
       "tsk-{PRJ_NUMBER}-{SEQ}",
-      "tsk-1g52x6-1767942368593",
       "tsk-001-02",
       "tsk-001-01",
       "tsk-003-01",
@@ -9020,7 +9005,6 @@
       "tsk-yt-w03-26-10",
       "tsk-dashboard-ux-v1-27",
       "tsk-feedback-01",
-      "tsk-023-1767978736649",
       "tsk-023-43",
       "tsk-023-1768027776050",
       "tsk-023-1768331190178",
@@ -9349,6 +9333,7 @@
       "tsk-685ac7-1767962905272",
       "tsk-014-1768241993366",
       "tsk-014-1768488324886",
+      "tsk-014-1768653594228",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",

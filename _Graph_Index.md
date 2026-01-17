@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 562
+total_entities: 561
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 562개
+- **총 엔티티**: 561개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 425 |
+| Task | 424 |
 | Hypothesis | 51 |
 | Experiment | 1 |
 
@@ -39,11 +39,11 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 1 |
 | doing | 62 |
-| done | 351 |
+| done | 352 |
 | fixed | 1 |
 | hold | 2 |
 | planning | 20 |
-| todo | 116 |
+| todo | 114 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -155,7 +155,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (425개)
+## Task (424개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -235,6 +235,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768488324886` | 콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15) | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md` |
 | `tsk-014-1768575802981` | 랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md` |
 | `tsk-014-1768627876217` | 랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md` |
+| `tsk-014-1768653594228` | 랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -300,7 +301,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1767973768058` | Dashboard - Notion-style Activity Panel 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767973768058.md` |
 | `tsk-023-1767974842230` | Dashboard - Task Drawer PR/Commit 필드 추가 (React) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767974842230.md` |
 | `tsk-023-1767976230998` | Dashboard - Activity Panel Global Feed 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976230998.md` |
-| `tsk-023-1767978736649` | Dashboard - Calendar Week View 스크롤 버그 수정 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767978736649.md` |
 | `tsk-023-1768026376001` | Vault API - Task duplicate 기능 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768026376001.md` |
 | `tsk-023-1768027776050` | Dashboard - Favorites 기능 구현 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768027776050.md` |
 | `tsk-023-1768028623070` | Dashboard - Comment Discord 알림 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768028623070.md` |
@@ -401,7 +401,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
 | `tsk-1ca2sj-1767960085150` | 유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1ca2sj-1767960085150.md` |
-| `tsk-1g52x6-1767942368593` | test - test213 | todo | `50_Projects/2025/P001_Ontology/Tasks/tsk-1g52x6-1767942368593.md` |
 | `tsk-1igiyf-1767945247366` | 와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1igiyf-1767945247366.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
 | `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
@@ -694,7 +693,6 @@ tags: ["meta", "graph", "index"]
   - tsk-001-01 (Event 엔티티 검증)
   - tsk-001-02 (Episode 엔티티 검증)
   - tsk-001-03 (스키마 문서화)
-  - tsk-1g52x6-1767942368593 (test - test213)
 - **prj-002** (와디즈 - 12주 습관 코칭 패키지)
   - tsk-002-03 (11/25: 오픈예정 공개)
   - tsk-002-04 (11/22: 심사 통과, 광고 소재 제작 (크))
@@ -768,6 +766,7 @@ tags: ["meta", "graph", "index"]
   - tsk-014-1768488324886 (콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15))
   - tsk-014-1768575802981 (랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00))
   - tsk-014-1768627876217 (랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석)
+  - tsk-014-1768653594228 (랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달)
   - tsk-1ca2sj-1767960085150 (유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획)
   - tsk-1q091r-1767960173667 (코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획)
   - tsk-685ac7-1767962816709 (꼭꼭Fit 3기 환급 검토)
@@ -848,7 +847,6 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1767973768058 (Dashboard - Notion-style Activity Panel 구현)
   - tsk-023-1767974842230 (Dashboard - Task Drawer PR/Commit 필드 추가 (React))
   - tsk-023-1767976230998 (Dashboard - Activity Panel Global Feed 구현)
-  - tsk-023-1767978736649 (Dashboard - Calendar Week View 스크롤 버그 수정)
   - tsk-023-1768026376001 (Vault API - Task duplicate 기능)
   - tsk-023-1768027776050 (Dashboard - Favorites 기능 구현)
   - tsk-023-1768028623070 (Dashboard - Comment Discord 알림 추가)
