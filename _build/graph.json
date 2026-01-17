@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T23:00:08.327773",
-  "total_entities": 560,
+  "generated": "2026-01-17T23:15:07.599402",
+  "total_entities": 561,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -852,7 +852,7 @@
       "id": "tsk-156anu-1768576137968",
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 연습 (01/18)",
-      "status": "hold",
+      "status": "todo",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
       "assignee": "김은향"
     },
@@ -1652,6 +1652,15 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-26-1768658545586",
+      "type": "Task",
+      "name": "YouTube W02 - 다온님 영상편집 2차 내용 확인",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-yt-W03-26",
       "type": "Project",
       "name": "YouTube - W03-26",
@@ -1688,7 +1697,7 @@
       "status": "todo",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md",
       "priority_flag": "medium",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "tsk-yt-w03-26-04",
@@ -5990,6 +5999,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-26-1768658545586",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-yt-W03-26",
       "target": "tsk-yt-w03-26-01",
       "type": "parent_of"
@@ -8484,6 +8498,7 @@
       "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
       "tsk-26-1768441882042",
+      "tsk-26-1768658545586",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
@@ -8948,6 +8963,7 @@
       "tsk-005-02",
       "tsk-005-01",
       "tsk-011-01",
+      "tsk-156anu-1768576137968",
       "tsk-156anu-1768579596258",
       "tsk-002-08",
       "tsk-002-06",
@@ -8968,6 +8984,7 @@
       "tsk-26-1768238654295",
       "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
+      "tsk-26-1768658545586",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
@@ -9431,8 +9448,7 @@
       "status-team"
     ],
     "hold": [
-      "prj-011",
-      "tsk-156anu-1768576137968"
+      "prj-011"
     ],
     "active": [
       "prj-yt-W03-26",

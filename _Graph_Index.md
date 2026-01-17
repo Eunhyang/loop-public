@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 560
+total_entities: 561
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 560개
+- **총 엔티티**: 561개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 424 |
+| Task | 425 |
 | Hypothesis | 51 |
 | Experiment | 1 |
 
@@ -41,9 +41,9 @@ tags: ["meta", "graph", "index"]
 | doing | 61 |
 | done | 353 |
 | fixed | 1 |
-| hold | 2 |
+| hold | 1 |
 | planning | 20 |
-| todo | 113 |
+| todo | 115 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -154,7 +154,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (424개)
+## Task (425개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -394,7 +394,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
 | `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
 | `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
-| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | hold | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
+| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
@@ -409,6 +409,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
 | `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
+| `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -1092,6 +1093,7 @@ tags: ["meta", "graph", "index"]
   - tsk-26-1768238602412 (YouTube W02 - 편집본 확인)
   - tsk-26-1768238654295 (YouTube W02 - 추가편집(필요한 영상등 추가))
   - tsk-26-1768441882042 (다온 - w02 편집 영상 검토)
+  - tsk-26-1768658545586 (YouTube W02 - 다온님 영상편집 2차 내용 확인)
   - tsk-yt-01 (법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사))
   - tsk-yt-w02-26-01 (YouTube W02 - 주제 선정)
   - tsk-yt-w02-26-02 (YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가)

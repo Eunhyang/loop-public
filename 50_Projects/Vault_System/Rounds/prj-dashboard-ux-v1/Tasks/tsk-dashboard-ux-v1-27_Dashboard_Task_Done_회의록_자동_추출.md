@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-dashboard-ux-v1-27
 entity_name: Dashboard - Task Done 회의록 자동 추출
 created: 2026-01-06
-updated: '2026-01-11'
+updated: '2026-01-17'
 status: todo
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
@@ -15,8 +15,8 @@ outgoing_relations:
 validates: []
 validated_by: []
 assignee: 김은향
-start_date: null
-due: '2026-01-18'
+start_date: '2026-01-20'
+due: '2026-01-20'
 priority: medium
 estimated_hours: null
 actual_hours: null
