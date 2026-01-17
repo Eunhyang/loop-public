@@ -12,6 +12,8 @@ aliases:
 outgoing_relations: []
 validates:
 - hyp-6-09
+- hyp-6-10
+- hyp-6-11
 validated_by: []
 owner: 한명학
 budget: null
@@ -48,7 +50,7 @@ priority_flag: medium
 tasks:
 - tsk-002-02
 - tsk-002-13
-primary_hypothesis_id: null
+primary_hypothesis_id: hyp-6-09
 ---
 # \[와디즈\] 12주 코칭 습관팩 런칭
 

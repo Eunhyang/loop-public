@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-18T01:45:08.240773",
-  "total_entities": 565,
+  "generated": "2026-01-18T02:30:08.018619",
+  "total_entities": 566,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -3807,6 +3807,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768670951852",
+      "type": "Task",
+      "name": "AI Inference - 다단계 Project Validation API 및 Dashboard 버튼",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768670951852.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -7095,6 +7103,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768670951852",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8015,6 +8028,16 @@
       "type": "validates"
     },
     {
+      "source": "prj-002",
+      "target": "hyp-6-10",
+      "type": "validates"
+    },
+    {
+      "source": "prj-002",
+      "target": "hyp-6-11",
+      "type": "validates"
+    },
+    {
       "source": "prj-waoz74",
       "target": "hyp-3-01",
       "type": "validates"
@@ -8808,6 +8831,7 @@
       "tsk-023-1768662785986",
       "tsk-023-1768664856131",
       "tsk-023-30",
+      "tsk-023-1768670951852",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -9400,6 +9424,7 @@
       "tsk-023-1768662785986",
       "tsk-023-1768664856131",
       "tsk-023-30",
+      "tsk-023-1768670951852",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
