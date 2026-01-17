@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-18
 updated: 2026-01-18
-total_entities: 564
+total_entities: 565
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 564개
+- **총 엔티티**: 565개
 - **마지막 업데이트**: 2026-01-18
 
 ### 타입별
@@ -30,7 +30,7 @@ tags: ["meta", "graph", "index"]
 | Program | 12 |
 | Project | 40 |
 | Task | 428 |
-| Hypothesis | 51 |
+| Hypothesis | 52 |
 | Experiment | 1 |
 
 ### 상태별
@@ -42,7 +42,7 @@ tags: ["meta", "graph", "index"]
 | done | 358 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 21 |
+| planning | 22 |
 | todo | 113 |
 | unknown | 1 |
 | validating | 6 |
@@ -588,7 +588,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (51개)
+## Hypothesis (52개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -613,6 +613,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-2-08` | 데이터로 루프 재구성 | todo | `60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md` |
 | `hyp-2-09` | 데이터 품질 리포트가 행동을 바꿈 | todo | `60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md` |
 | `hyp-2-10` | 투자/외부 설득용 신뢰도 | todo | `60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md` |
+| `hyp-2-11` | Exec↔Vault 통합 API가 실행→근거→결정 속도를 높인다 | planning | `60_Hypotheses/2026/hyp-2-11.md` |
 | `hyp-3-01` | Content OS 기획시간 50% 단축 | assumed | `60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md` |
 | `hyp-3-02` | 폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호 | planning | `60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md` |
 | `hyp-4-01` | 심화 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md` |
@@ -1161,6 +1162,7 @@ tags: ["meta", "graph", "index"]
   - hyp-2-08 (데이터로 루프 재구성)
   - hyp-2-09 (데이터 품질 리포트가 행동을 바꿈)
   - hyp-2-10 (투자/외부 설득용 신뢰도)
+  - hyp-2-11 (Exec↔Vault 통합 API가 실행→근거→결정 속도를 높인다)
   - pgm-coachos (CoachOS)
   - prj-001 (Ontology v0.1)
   - prj-003 (LoopOS - V0 데이터 설계)

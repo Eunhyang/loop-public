@@ -33,7 +33,10 @@ aliases:
 - API - Exec Vault 통합
 - Exec Vault API
 outgoing_relations: []
-validates: []
+validates:
+- hyp-2-02
+- hyp-2-03
+- hyp-2-09
 validated_by: []
 tags:
 - project
@@ -43,6 +46,11 @@ tags:
 - dual-vault
 priority_flag: high
 track_contributes: []
+summary: CondE(팀)에서 “실행이 곧 데이터가 되는가”를 풀기 위해 Exec↔Vault 통합 API를 만들어 실행 기록을 자동 적재·조회
+  가능하게 함으로써 PM/Dev/Data가 같은 근거로 빠르게 결정·반복하도록 전진시키는 프로젝트.
+links: []
+attachments: []
+condition_contributes: []
 ---
 # API - Exec Vault 통합
 

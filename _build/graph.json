@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-18T01:30:07.955086",
-  "total_entities": 564,
+  "generated": "2026-01-18T01:45:08.240773",
+  "total_entities": 565,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -358,6 +358,13 @@
       "name": "한끼꼭꼭 챌린지 - 미니코칭 전환",
       "status": "validating",
       "path": "60_Hypotheses/2026/hyp-4-13_kkok_challenge_conversion_minicoaching.md"
+    },
+    {
+      "id": "hyp-2-11",
+      "type": "Hypothesis",
+      "name": "Exec↔Vault 통합 API가 실행→근거→결정 속도를 높인다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-2-11.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -5059,6 +5066,11 @@
     },
     {
       "source": "trk-2",
+      "target": "hyp-2-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
       "target": "prj-001",
       "type": "parent_of"
     },
@@ -8018,6 +8030,21 @@
       "type": "validates"
     },
     {
+      "source": "prj-api-exec-vault",
+      "target": "hyp-2-02",
+      "type": "validates"
+    },
+    {
+      "source": "prj-api-exec-vault",
+      "target": "hyp-2-03",
+      "type": "validates"
+    },
+    {
+      "source": "prj-api-exec-vault",
+      "target": "hyp-2-09",
+      "type": "validates"
+    },
+    {
       "source": "prj-014",
       "target": "hyp-4-11",
       "type": "validates"
@@ -8386,7 +8413,8 @@
       "hyp-3-02",
       "hyp-4-11",
       "hyp-4-12",
-      "hyp-4-13"
+      "hyp-4-13",
+      "hyp-2-11"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -8936,6 +8964,7 @@
       "hyp-6-01",
       "hyp-3-02",
       "hyp-4-11",
+      "hyp-2-11",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",
