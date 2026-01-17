@@ -42,6 +42,9 @@ conditions_3y:
 tags: []
 priority_flag: medium
 primary_hypothesis_id: hyp-2-01
+summary: 'ㅇ
+
+  ㅇ'
 ---
 # LoopOS V0 데이터 설계
 

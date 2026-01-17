@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 551
+total_entities: 553
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 551개
+- **총 엔티티**: 553개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 12 |
 | Project | 40 |
-| Task | 419 |
+| Task | 421 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -38,11 +38,11 @@ tags: ["meta", "graph", "index"]
 | active | 1 |
 | assumed | 1 |
 | doing | 62 |
-| done | 345 |
+| done | 348 |
 | fixed | 1 |
 | hold | 2 |
 | planning | 16 |
-| todo | 116 |
+| todo | 115 |
 | validating | 7 |
 
 ---
@@ -151,7 +151,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (419개)
+## Task (421개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -265,9 +265,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-021-1767965869633` | 빌드업 사업 마무리 - 12월 지원금 서류 제출(급여명세서, 이체확인증, 4대 보험 완납증명서 등) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767965869633.md` |
 | `tsk-021-1768146049610` | 빌드업 사업 마무리 - 12월 선지급 건 추가자료 제출(임금대장, 4대보험 완납증명서 등 4건) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768146049610.md` |
 | `tsk-021-1768197408582` | 외부 비서 활용 - 지우님 할일 전달(1월 9일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768197408582.md` |
-| `tsk-021-1768369981548` | HR - 원천세 신고 | todo | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768369981548.md` |
+| `tsk-021-1768369981548` | HR - 원천세 신고('25년 12월분) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768369981548.md` |
 | `tsk-021-1768370031417` | 세무 - 25 Q3~Q4 부가세 신고 | todo | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768370031417.md` |
 | `tsk-021-1768546807989` | 부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md` |
+| `tsk-021-1768635878173` | 경영관리 - 4대 보험료 납부(1월 분) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768635878173.md` |
 | `tsk-022-02` | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md` |
 | `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
 | `tsk-022-06` | 콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md` |
@@ -344,6 +345,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768628306653` | Dashboard - Confidence Scorecard | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768628306653.md` |
 | `tsk-023-1768631606970` | Pending - 검색바 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631606970.md` |
 | `tsk-023-1768631745980` | Pending - Strategic Context prefetch 및 캐싱 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631745980.md` |
+| `tsk-023-1768635015525` | ProjectForm - summary 필드 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768635015525.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -806,9 +808,10 @@ tags: ["meta", "graph", "index"]
   - tsk-021-1767965869633 (빌드업 사업 마무리 - 12월 지원금 서류 제출(급여명세서, 이체확인증, 4대 보험 완납증명서 등))
   - tsk-021-1768146049610 (빌드업 사업 마무리 - 12월 선지급 건 추가자료 제출(임금대장, 4대보험 완납증명서 등 4건))
   - tsk-021-1768197408582 (외부 비서 활용 - 지우님 할일 전달(1월 9일))
-  - tsk-021-1768369981548 (HR - 원천세 신고)
+  - tsk-021-1768369981548 (HR - 원천세 신고('25년 12월분))
   - tsk-021-1768370031417 (세무 - 25 Q3~Q4 부가세 신고)
   - tsk-021-1768546807989 (부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제))
+  - tsk-021-1768635878173 (경영관리 - 4대 보험료 납부(1월 분))
   - tsk-1addiu-1767960317370 (외부 비서 활용 - 지우님 할일 전달(1월 12일))
   - tsk-fcaef7-1767962901871 (원천세 납부 - 용역비 3건)
 - **prj-023** (Dashboard - React+TS 마이그레이션)
@@ -876,6 +879,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768628306653 (Dashboard - Confidence Scorecard)
   - tsk-023-1768631606970 (Pending - 검색바 추가)
   - tsk-023-1768631745980 (Pending - Strategic Context prefetch 및 캐싱)
+  - tsk-023-1768635015525 (ProjectForm - summary 필드 추가)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
