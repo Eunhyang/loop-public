@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-17T23:15:07.599402",
+  "generated": "2026-01-17T23:30:08.410655",
   "total_entities": 561,
   "nodes": [
     {
@@ -1647,7 +1647,7 @@
       "id": "tsk-26-1768441882042",
       "type": "Task",
       "name": "다온 - w02 편집 영상 검토",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md",
       "assignee": "한명학"
     },
@@ -4314,7 +4314,7 @@
       "id": "tsk-mzjr8a-1768542536681",
       "type": "Task",
       "name": "꼭꼭 앱 - 마이그레이션 코드 ",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md",
       "assignee": "한명학"
     },
@@ -4486,7 +4486,7 @@
       "id": "tsk-11nt0p-1767960275703",
       "type": "Task",
       "name": "와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효)",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-11nt0p-1767960275703.md",
       "assignee": "한명학"
     },
@@ -9003,7 +9003,6 @@
       "tsk-023-1768386479760",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
-      "tsk-mzjr8a-1768542536681",
       "tsk-mzjr8a-1768196988716",
       "tsk-mzjr8a-1768231080040",
       "tsk-021-1768370031417",
@@ -9111,6 +9110,7 @@
       "tsk-186i77-1767945624590",
       "tsk-yt-w02-26-03",
       "tsk-26-1768238550460",
+      "tsk-26-1768441882042",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-03",
       "tsk-vault-gpt-04",
@@ -9362,6 +9362,7 @@
       "tsk-0000os-1768466096034",
       "prj-kkokkkok-v1028",
       "tsk-kkokkkok-v1028-01",
+      "tsk-mzjr8a-1768542536681",
       "tsk-aduxpf-1767959129481",
       "tsk-021-01",
       "tsk-021-1767964326285",
@@ -9374,6 +9375,7 @@
       "tsk-021-1768546807989",
       "tsk-021-1768635878173",
       "tsk-012-01",
+      "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",
       "tsk-1m08zu-1767945274325",
       "tsk-33df47-1767962906458",
@@ -9394,7 +9396,6 @@
       "pgm-youtube-weekly",
       "prj-yt-wegovy",
       "prj-yt-W02-26",
-      "tsk-26-1768441882042",
       "pgm-vault-system",
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-24",
@@ -9427,7 +9428,6 @@
       "pgm-ops",
       "prj-021",
       "pgm-cs",
-      "tsk-11nt0p-1767960275703",
       "tsk-012-1768140940912",
       "pgm-coachos",
       "pgm-kkokkkokfit-web",

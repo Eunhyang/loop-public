@@ -38,12 +38,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 1 |
-| doing | 61 |
-| done | 353 |
+| doing | 59 |
+| done | 356 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 20 |
-| todo | 115 |
+| todo | 114 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -378,7 +378,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-42` | Dashboard - ProjectForm View 모드 리팩토링 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-42.md` |
 | `tsk-023-43` | Dashboard - Notes 인라인 이미지 삽입 기능 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-43.md` |
 | `tsk-0vault-1768106628300` | OAuth - SQLite busy_timeout 설정 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/tsk-0vault-1768106628300.md` |
-| `tsk-11nt0p-1767960275703` | 와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효) | doing | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-11nt0p-1767960275703.md` |
+| `tsk-11nt0p-1767960275703` | 와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-11nt0p-1767960275703.md` |
 | `tsk-156anu-1768025743558` | Antler 서류 - Founder이력서 작성 (김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768025743558.md` |
 | `tsk-156anu-1768028031839` | Antler 서류 - Founder이력서 작성 (한명학) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768028031839.md` |
 | `tsk-156anu-1768039688709` | Antler 서류 - 피칭덱 틀 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768039688709.md` |
@@ -408,7 +408,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768238550460` | YouTube W02 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238550460.md` |
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
-| `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
+| `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
 | `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
@@ -514,7 +514,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-mcp-rbac-04` | MCP - 복합 API exec vault 필터링 | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-04_복합_API_exec_vault_필터링.md` |
 | `tsk-mzjr8a-1768196988716` | 1.0.29 - 재로그인시 MealDiary 사진 안보임 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768196988716.md` |
 | `tsk-mzjr8a-1768231080040` | 꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다) | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md` |
-| `tsk-mzjr8a-1768542536681` | 꼭꼭 앱 - 마이그레이션 코드  | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md` |
+| `tsk-mzjr8a-1768542536681` | 꼭꼭 앱 - 마이그레이션 코드  | done | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
 | `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
