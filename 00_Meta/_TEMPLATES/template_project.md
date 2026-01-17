@@ -71,6 +71,7 @@ tags: []
 priority_flag: medium
 
 # === 협업 필드 ===
+summary: null                     # 1-2줄 프로젝트 요약 (리스트/hover용)
 notes: null
 links: []
 attachments: []

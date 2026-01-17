@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 549
+total_entities: 551
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 549개
+- **총 엔티티**: 551개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 12 |
 | Project | 40 |
-| Task | 417 |
+| Task | 419 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -38,7 +38,7 @@ tags: ["meta", "graph", "index"]
 | active | 1 |
 | assumed | 1 |
 | doing | 62 |
-| done | 342 |
+| done | 344 |
 | fixed | 1 |
 | hold | 2 |
 | planning | 16 |
@@ -151,7 +151,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (417개)
+## Task (419개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -342,6 +342,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768559066017` | Dashboard - Form migration | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md` |
 | `tsk-023-1768621773613` | API - Expected Impact 프롬프트 SSOT 개선 (Phase 1) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768621773613.md` |
 | `tsk-023-1768628306653` | Dashboard - Confidence Scorecard | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768628306653.md` |
+| `tsk-023-1768631606970` | Pending - 검색바 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631606970.md` |
+| `tsk-023-1768631745980` | Pending - Strategic Context prefetch 및 캐싱 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631745980.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -872,6 +874,8 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768559066017 (Dashboard - Form migration)
   - tsk-023-1768621773613 (API - Expected Impact 프롬프트 SSOT 개선 (Phase 1))
   - tsk-023-1768628306653 (Dashboard - Confidence Scorecard)
+  - tsk-023-1768631606970 (Pending - 검색바 추가)
+  - tsk-023-1768631745980 (Pending - Strategic Context prefetch 및 캐싱)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
