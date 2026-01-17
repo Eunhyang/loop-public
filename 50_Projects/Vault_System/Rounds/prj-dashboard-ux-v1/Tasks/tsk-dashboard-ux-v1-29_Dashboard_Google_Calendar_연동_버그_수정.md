@@ -17,8 +17,8 @@ assignee: 김은향
 start_date: 2026-01-06
 due: '2026-01-11'
 priority: high
-estimated_hours: null
-actual_hours: null
+estimated_hours: 8
+actual_hours: 8
 type: bug
 target_project: loop
 tags:
