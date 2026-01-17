@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 545
+total_entities: 549
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 545개
+- **총 엔티티**: 549개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 6 |
 | Program | 12 |
 | Project | 40 |
-| Task | 413 |
+| Task | 417 |
 | Hypothesis | 50 |
 
 ### 상태별
@@ -37,12 +37,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 1 |
 | assumed | 1 |
-| doing | 61 |
-| done | 340 |
+| doing | 62 |
+| done | 342 |
 | fixed | 1 |
 | hold | 2 |
 | planning | 16 |
-| todo | 116 |
+| todo | 117 |
 | validating | 7 |
 
 ---
@@ -151,7 +151,7 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 
 
-## Task (413개)
+## Task (417개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -230,6 +230,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768471047156` | 랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md` |
 | `tsk-014-1768488324886` | 콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15) | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md` |
 | `tsk-014-1768575802981` | 랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md` |
+| `tsk-014-1768627876217` | 랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -242,6 +243,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-015-11` | Hiring - 개발자 온보딩 문서 v1 작성 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
 | `tsk-015-12` | Hiring - 개발 환경 세팅 문서 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
 | `tsk-015-13` | Hiring - Day1 Onboarding 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
+| `tsk-015-1768627947254` | sosi - 타이머 UI 개선: 물 차오르는 애니메이션 + 마지막 한입 UX | todo | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-1768627947254.md` |
 | `tsk-016-01` | 법인 정관 작성 후 최종 검토 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
 | `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
 | `tsk-016-03` | 법인 전환 - 신동진 고문님 계약서 전달(정신과 전문의) | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-03.md` |
@@ -338,6 +340,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768545831670` | API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md` |
 | `tsk-023-1768554593687` | Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md` |
 | `tsk-023-1768559066017` | Dashboard - Form migration | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md` |
+| `tsk-023-1768621773613` | API - Expected Impact 프롬프트 SSOT 개선 (Phase 1) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768621773613.md` |
+| `tsk-023-1768628306653` | Dashboard - Confidence Scorecard | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768628306653.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -744,6 +748,7 @@ tags: ["meta", "graph", "index"]
   - tsk-014-1768471047156 (랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등))
   - tsk-014-1768488324886 (콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15))
   - tsk-014-1768575802981 (랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00))
+  - tsk-014-1768627876217 (랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석)
   - tsk-1ca2sj-1767960085150 (유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획)
   - tsk-1q091r-1767960173667 (코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획)
   - tsk-685ac7-1767962816709 (꼭꼭Fit 3기 환급 검토)
@@ -767,6 +772,7 @@ tags: ["meta", "graph", "index"]
   - tsk-015-11 (Hiring - 개발자 온보딩 문서 v1 작성)
   - tsk-015-12 (Hiring - 개발 환경 세팅 문서)
   - tsk-015-13 (Hiring - Day1 Onboarding 진행)
+  - tsk-015-1768627947254 (sosi - 타이머 UI 개선: 물 차오르는 애니메이션 + 마지막 한입 UX)
   - tsk-022575-1767962905630 (주니어 개발자 채용 - 김민서님 커피챗 15:00)
 - **prj-016** (법인 전환 설립(주) 루프)
   - tsk-016-01 (법인 정관 작성 후 최종 검토)
@@ -864,6 +870,8 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768545831670 (API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경))
   - tsk-023-1768554593687 (Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼))
   - tsk-023-1768559066017 (Dashboard - Form migration)
+  - tsk-023-1768621773613 (API - Expected Impact 프롬프트 SSOT 개선 (Phase 1))
+  - tsk-023-1768628306653 (Dashboard - Confidence Scorecard)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

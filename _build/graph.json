@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T12:30:07.528672",
-  "total_entities": 545,
+  "generated": "2026-01-17T15:30:08.044091",
+  "total_entities": 549,
   "nodes": [
     {
       "id": "hyp-1-01",
@@ -1333,6 +1333,14 @@
       "name": "주니어 개발자 채용 - 김민서님 커피챗 15:00",
       "status": "done",
       "path": "50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-022575-1767962905630.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-015-1768627947254",
+      "type": "Task",
+      "name": "sosi - 타이머 UI 개선: 물 차오르는 애니메이션 + 마지막 한입 UX",
+      "status": "todo",
+      "path": "50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-1768627947254.md",
       "assignee": "김은향"
     },
     {
@@ -3683,6 +3691,22 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768621773613",
+      "type": "Task",
+      "name": "API - Expected Impact 프롬프트 SSOT 개선 (Phase 1)",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768621773613.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768628306653",
+      "type": "Task",
+      "name": "Dashboard - Confidence Scorecard",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768628306653.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -3823,6 +3847,14 @@
       "name": "랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00)",
       "status": "doing",
       "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-014-1768627876217",
+      "type": "Task",
+      "name": "랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석",
+      "status": "doing",
+      "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md",
       "assignee": "한명학"
     },
     {
@@ -5727,6 +5759,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-015",
+      "target": "tsk-015-1768627947254",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-020",
       "target": "tsk-020-1768137610590",
       "type": "parent_of"
@@ -6862,6 +6899,16 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768621773613",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768628306653",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -6934,6 +6981,11 @@
     {
       "source": "prj-014",
       "target": "tsk-014-1768575802981",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-014",
+      "target": "tsk-014-1768627876217",
       "type": "parent_of"
     },
     {
@@ -8285,6 +8337,7 @@
       "tsk-015-12",
       "tsk-015-13",
       "tsk-022575-1767962905630",
+      "tsk-015-1768627947254",
       "tsk-020-1768137610590",
       "tsk-8ebd16-1767962820437",
       "tsk-8ebd16-1767962820938",
@@ -8533,6 +8586,8 @@
       "tsk-023-1768554593687",
       "tsk-023-1768559066017",
       "tsk-023-30",
+      "tsk-023-1768621773613",
+      "tsk-023-1768628306653",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8548,6 +8603,7 @@
       "tsk-014-1768471047156",
       "tsk-014-1768488324886",
       "tsk-014-1768575802981",
+      "tsk-014-1768627876217",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
@@ -8747,6 +8803,7 @@
       "prj-waoz74",
       "tsk-006-03",
       "tsk-008-05",
+      "tsk-015-1768627947254",
       "tsk-yt-w02-26-06",
       "tsk-yt-w02-26-07",
       "tsk-yt-w02-26-08",
@@ -9100,6 +9157,8 @@
       "tsk-023-1768554593687",
       "tsk-023-1768559066017",
       "tsk-023-30",
+      "tsk-023-1768621773613",
+      "tsk-023-1768628306653",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -9198,6 +9257,7 @@
       "tsk-uhklhc-1767959944222",
       "tsk-014-1768471047156",
       "tsk-014-1768575802981",
+      "tsk-014-1768627876217",
       "pgm-tips",
       "pgm-content-os",
       "prj-content-os",
