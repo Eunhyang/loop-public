@@ -22,11 +22,11 @@ impact_magnitude: mid
 confidence: 0.7
 condition_contributes:
 - to: cond-b
-  weight: 0.15
-  description: 코칭 품질 향상 → 데이터 품질 향상 (간접)
-- to: cond-e
   weight: 0.2
-  description: 팀 역량/프로세스 표준화
+  description: 코칭 품질 향상 → 데이터 품질 향상 (간접)
+- to: cond-d
+  weight: 0.6
+  description: null
 track_contributes: []
 expected_impact:
   tier: enabling
