@@ -42,10 +42,10 @@ tags: ["meta", "graph", "index"]
 | done | 351 |
 | fixed | 1 |
 | hold | 2 |
-| planning | 19 |
+| planning | 20 |
 | todo | 116 |
 | unknown | 1 |
-| validating | 7 |
+| validating | 6 |
 
 ---
 
@@ -623,7 +623,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-4-08` | 코칭 결과물의 상품성 | todo | `60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md` |
 | `hyp-4-09` | 코칭→데이터 엔진 | todo | `60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md` |
 | `hyp-4-10` | 코칭 포지셔닝 | todo | `60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md` |
-| `hyp-4-11` | 한끼꼭꼭 챌린지 - 첫 참여 발생 | validating | `60_Hypotheses/2026/hyp-4-11_kkok_challenge_activation.md` |
+| `hyp-4-11` | 랜딩 상단 후기·변화 증거가 상담 전환을 올림 | planning | `60_Hypotheses/2026/hyp-4-11.md` |
 | `hyp-4-12` | 한끼꼭꼭 챌린지 - 유지 재참여 | validating | `60_Hypotheses/2026/hyp-4-12_kkok_challenge_stickiness.md` |
 | `hyp-4-13` | 한끼꼭꼭 챌린지 - 미니코칭 전환 | validating | `60_Hypotheses/2026/hyp-4-13_kkok_challenge_conversion_minicoaching.md` |
 | `hyp-6-01` | 전면 유료화 성립 | todo | `60_Hypotheses/2026/hyp-6-01_전면유료화_성립.md` |
@@ -749,7 +749,6 @@ tags: ["meta", "graph", "index"]
 - **prj-011** (사이드프로젝트 리크루팅 사이트 제작)
   - tsk-011-01 (리크루팅 사이트) 원택님 피드백 반영)
 - **prj-012** (CS - 2026 Q1)
-  - hyp-4-11 (한끼꼭꼭 챌린지 - 첫 참여 발생)
   - hyp-4-12 (한끼꼭꼭 챌린지 - 유지 재참여)
   - hyp-4-13 (한끼꼭꼭 챌린지 - 미니코칭 전환)
   - tsk-012-01 ([고객 관리] 카카오톡 채널 활성화 방안 기획)
@@ -1194,6 +1193,7 @@ tags: ["meta", "graph", "index"]
   - hyp-4-08 (코칭 결과물의 상품성)
   - hyp-4-09 (코칭→데이터 엔진)
   - hyp-4-10 (코칭 포지셔닝)
+  - hyp-4-11 (랜딩 상단 후기·변화 증거가 상담 전환을 올림)
   - pgm-cs (CS·고객지원)
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행))

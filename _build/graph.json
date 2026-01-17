@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-17T18:15:08.377811",
+  "generated": "2026-01-17T19:45:07.635222",
   "total_entities": 562,
   "nodes": [
     {
@@ -341,9 +341,9 @@
     {
       "id": "hyp-4-11",
       "type": "Hypothesis",
-      "name": "한끼꼭꼭 챌린지 - 첫 참여 발생",
-      "status": "validating",
-      "path": "60_Hypotheses/2026/hyp-4-11_kkok_challenge_activation.md"
+      "name": "랜딩 상단 후기·변화 증거가 상담 전환을 올림",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-11.md"
     },
     {
       "id": "hyp-4-12",
@@ -5171,6 +5171,11 @@
     },
     {
       "source": "trk-4",
+      "target": "hyp-4-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
       "target": "prj-12329q",
       "type": "parent_of"
     },
@@ -5357,11 +5362,6 @@
     {
       "source": "trk-3",
       "target": "prj-content-os",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-012",
-      "target": "hyp-4-11",
       "type": "parent_of"
     },
     {
@@ -7525,16 +7525,6 @@
       "type": "parent_of"
     },
     {
-      "source": "hyp-4-11",
-      "target": "trk-4",
-      "type": "supports"
-    },
-    {
-      "source": "hyp-4-11",
-      "target": "prj-012",
-      "type": "supports"
-    },
-    {
       "source": "hyp-4-12",
       "target": "trk-4",
       "type": "supports"
@@ -7917,16 +7907,6 @@
     {
       "source": "hyp-6-14",
       "target": "cond-e",
-      "type": "validates"
-    },
-    {
-      "source": "hyp-4-11",
-      "target": "cond-b",
-      "type": "validates"
-    },
-    {
-      "source": "hyp-4-11",
-      "target": "cond-d",
       "type": "validates"
     },
     {
@@ -8925,6 +8905,7 @@
     "planning": [
       "hyp-{TRK}-{SEQ}",
       "hyp-3-02",
+      "hyp-4-11",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",
@@ -9065,7 +9046,6 @@
       "hyp-3-01"
     ],
     "validating": [
-      "hyp-4-11",
       "hyp-4-12",
       "hyp-4-13",
       "mh-3",
