@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-17T17:30:07.783655",
-  "total_entities": 560,
+  "generated": "2026-01-17T18:15:08.377811",
+  "total_entities": 562,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -2301,20 +2301,20 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-dashboard-ux-v1-29",
-      "type": "Task",
-      "name": "Dashboard - Google Calendar 연동 버그 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-dashboard-ux-v1-31",
       "type": "Task",
       "name": "Dashboard - Task Type Chip 즉시 저장 버그 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-dashboard-ux-v1-29",
+      "type": "Task",
+      "name": "Dashboard - Google Calendar 연동 버그 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3710,15 +3710,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-023-30",
-      "type": "Task",
-      "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-023-1768621773613",
       "type": "Task",
       "name": "API - Expected Impact 프롬프트 SSOT 개선 (Phase 1)",
@@ -3764,6 +3755,31 @@
       "name": "API - hypothesis_seeder에 build_strategic_context 적용",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768637569532.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768639226829",
+      "type": "Task",
+      "name": "Entity Validator - validates 가설 추천 프롬프트 개선",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639226829.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768639817374",
+      "type": "Task",
+      "name": "Pending API - approve 후 캐시 갱신 로직 추가",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639817374.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-30",
+      "type": "Task",
+      "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
+      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -4310,19 +4326,19 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-mzjr8a-1768231080040",
-      "type": "Task",
-      "name": "꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다)",
-      "status": "todo",
-      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-aduxpf-1767959129481",
       "type": "Task",
       "name": "앱 유로 구독 - iOS 구독 안 됨",
       "status": "done",
       "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-mzjr8a-1768231080040",
+      "type": "Task",
+      "name": "꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다)",
+      "status": "todo",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md",
       "assignee": "김은향"
     },
     {
@@ -6310,12 +6326,12 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-29",
+      "target": "tsk-dashboard-ux-v1-31",
       "type": "parent_of"
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-31",
+      "target": "tsk-dashboard-ux-v1-29",
       "type": "parent_of"
     },
     {
@@ -7005,11 +7021,6 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-30",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-023",
       "target": "tsk-023-1768621773613",
       "type": "parent_of"
     },
@@ -7036,6 +7047,21 @@
     {
       "source": "prj-023",
       "target": "tsk-023-1768637569532",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768639226829",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768639817374",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-30",
       "type": "parent_of"
     },
     {
@@ -7310,12 +7336,12 @@
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-mzjr8a-1768231080040",
+      "target": "tsk-aduxpf-1767959129481",
       "type": "parent_of"
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-aduxpf-1767959129481",
+      "target": "tsk-mzjr8a-1768231080040",
       "type": "parent_of"
     },
     {
@@ -8583,8 +8609,8 @@
       "tsk-dashboard-ux-v1-24",
       "tsk-dashboard-ux-v1-10",
       "tsk-019-27",
-      "tsk-dashboard-ux-v1-29",
       "tsk-dashboard-ux-v1-31",
+      "tsk-dashboard-ux-v1-29",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-mcp-rbac-04",
@@ -8737,13 +8763,15 @@
       "tsk-023-1768545831670",
       "tsk-023-1768554593687",
       "tsk-023-1768559066017",
-      "tsk-023-30",
       "tsk-023-1768621773613",
       "tsk-023-1768628306653",
       "tsk-023-1768631606970",
       "tsk-023-1768631745980",
       "tsk-023-1768635015525",
       "tsk-023-1768637569532",
+      "tsk-023-1768639226829",
+      "tsk-023-1768639817374",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8798,8 +8826,8 @@
       "tsk-kkokkkok-v1028-01",
       "tsk-mzjr8a-1768542536681",
       "tsk-mzjr8a-1768196988716",
-      "tsk-mzjr8a-1768231080040",
       "tsk-aduxpf-1767959129481",
+      "tsk-mzjr8a-1768231080040",
       "tsk-021-01",
       "tsk-021-1767964326285",
       "tsk-021-1767965869633",
@@ -9181,8 +9209,8 @@
       "tsk-v1-1767962821895",
       "tsk-dashboard-ux-v1-10",
       "tsk-019-27",
-      "tsk-dashboard-ux-v1-29",
       "tsk-dashboard-ux-v1-31",
+      "tsk-dashboard-ux-v1-29",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-impact-schema-v2-01",
@@ -9323,13 +9351,15 @@
       "tsk-023-1768545831670",
       "tsk-023-1768554593687",
       "tsk-023-1768559066017",
-      "tsk-023-30",
       "tsk-023-1768621773613",
       "tsk-023-1768628306653",
       "tsk-023-1768631606970",
       "tsk-023-1768631745980",
       "tsk-023-1768635015525",
       "tsk-023-1768637569532",
+      "tsk-023-1768639226829",
+      "tsk-023-1768639817374",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
