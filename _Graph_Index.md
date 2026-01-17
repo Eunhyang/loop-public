@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-17
 updated: 2026-01-17
-total_entities: 553
+total_entities: 560
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 553개
+- **총 엔티티**: 560개
 - **마지막 업데이트**: 2026-01-17
 
 ### 타입별
@@ -26,23 +26,25 @@ tags: ["meta", "graph", "index"]
 | NorthStar | 1 |
 | MetaHypothesis | 4 |
 | Condition | 5 |
-| Track | 6 |
+| Track | 7 |
 | Program | 12 |
-| Project | 40 |
-| Task | 421 |
-| Hypothesis | 50 |
+| Project | 41 |
+| Task | 423 |
+| Hypothesis | 51 |
+| Experiment | 1 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
-| active | 1 |
+| active | 2 |
 | assumed | 1 |
 | doing | 62 |
-| done | 348 |
+| done | 349 |
 | fixed | 1 |
 | hold | 2 |
-| planning | 16 |
-| todo | 115 |
+| planning | 19 |
+| todo | 116 |
+| unknown | 1 |
 | validating | 7 |
 
 ---
@@ -75,7 +77,7 @@ tags: ["meta", "graph", "index"]
 | `cond-e` | Condition_E_Team | doing | `20_Strategy/3Y_Conditions_2026-2028/Condition_E_Team.md` |
 
 
-## Track (6개)
+## Track (7개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -85,6 +87,7 @@ tags: ["meta", "graph", "index"]
 | `trk-4` | Track_4_Coaching | doing | `20_Strategy/12M_Tracks/2026/Track_4_Coaching.md` |
 | `trk-5` | Track_5_Partnership | todo | `20_Strategy/12M_Tracks/2026/Track_5_Partnership.md` |
 | `trk-6` | Track_6_Revenue | doing | `20_Strategy/12M_Tracks/2026/Track_6_Revenue.md` |
+| `trk-{NUMBER}` | {트랙명} | active | `20_Strategy/_template_track.md` |
 
 
 ## Program (12개)
@@ -105,7 +108,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (40개)
+## Project (41개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -149,9 +152,10 @@ tags: ["meta", "graph", "index"]
 | `prj-yt-W03-26` | YouTube - W03-26 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/project.md` |
 | `prj-yt-w33` | YouTube - W33 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/project.md` |
 | `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
+| `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (421개)
+## Task (423개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -346,6 +350,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768631606970` | Pending - 검색바 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631606970.md` |
 | `tsk-023-1768631745980` | Pending - Strategic Context prefetch 및 캐싱 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631745980.md` |
 | `tsk-023-1768635015525` | ProjectForm - summary 필드 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768635015525.md` |
+| `tsk-023-1768637569532` | API - hypothesis_seeder에 build_strategic_context 적용 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768637569532.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -576,9 +581,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-w03-26-09` | YouTube W03-26 - 쇼츠 #4 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-09.md` |
 | `tsk-yt-w03-26-10` | YouTube W03-26 - 쇼츠 #5 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-10.md` |
 | `tsk-yt-wegovy-01` | 위고비 처방 및 구매 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md` |
+| `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (50개)
+## Hypothesis (51개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -632,6 +638,14 @@ tags: ["meta", "graph", "index"]
 | `hyp-6-12` | 월매출 런웨이 최소선 | todo | `60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md` |
 | `hyp-6-13` | TIPS/투자 요구조건 충족 | todo | `60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md` |
 | `hyp-6-14` | 실제 자금조달 성립 | todo | `60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md` |
+| `hyp-{TRK}-{SEQ}` | {가설 제목} | planning | `60_Hypotheses/_template_hypothesis.md` |
+
+
+## Experiment (1개)
+
+| ID | Name | Status | Path |
+|----|------|--------|------|
+| `exp-{NUMBER}` | {실험명} | planning | `70_Experiments/_template_experiment.md` |
 
 
 ---
@@ -880,6 +894,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768631606970 (Pending - 검색바 추가)
   - tsk-023-1768631745980 (Pending - Strategic Context prefetch 및 캐싱)
   - tsk-023-1768635015525 (ProjectForm - summary 필드 추가)
+  - tsk-023-1768637569532 (API - hypothesis_seeder에 build_strategic_context 적용)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

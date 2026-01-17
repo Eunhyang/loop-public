@@ -48,7 +48,7 @@ priority_flag: medium
 tasks:
 - tsk-002-02
 - tsk-002-13
-primary_hypothesis_id: hyp-6-09
+primary_hypothesis_id: null
 ---
 # \[와디즈\] 12주 코칭 습관팩 런칭
 

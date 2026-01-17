@@ -1,7 +1,14 @@
 {
-  "generated": "2026-01-17T16:45:07.850072",
-  "total_entities": 553,
+  "generated": "2026-01-17T17:30:07.783655",
+  "total_entities": 560,
   "nodes": [
+    {
+      "id": "hyp-{TRK}-{SEQ}",
+      "type": "Hypothesis",
+      "name": "{가설 제목}",
+      "status": "planning",
+      "path": "60_Hypotheses/_template_hypothesis.md"
+    },
     {
       "id": "hyp-1-01",
       "type": "Hypothesis",
@@ -351,6 +358,27 @@
       "name": "한끼꼭꼭 챌린지 - 미니코칭 전환",
       "status": "validating",
       "path": "60_Hypotheses/2026/hyp-4-13_kkok_challenge_conversion_minicoaching.md"
+    },
+    {
+      "id": "prj-{NUMBER}",
+      "type": "Project",
+      "name": "{프로젝트명}",
+      "status": "planning",
+      "path": "50_Projects/_template_project.md",
+      "conditions_3y": [
+        "cond-{CONDITION}"
+      ],
+      "priority_flag": "medium",
+      "owner": "{담당자}"
+    },
+    {
+      "id": "tsk-{PRJ_NUMBER}-{SEQ}",
+      "type": "Task",
+      "name": "{태스크명}",
+      "status": "todo",
+      "path": "50_Projects/_template_task.md",
+      "priority_flag": "medium",
+      "assignee": "{담당자}"
     },
     {
       "id": "prj-001",
@@ -3731,6 +3759,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768637569532",
+      "type": "Task",
+      "name": "API - hypothesis_seeder에 build_strategic_context 적용",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768637569532.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -4592,12 +4628,39 @@
       "priority_flag": "critical"
     },
     {
+      "id": "exp-{NUMBER}",
+      "type": "Experiment",
+      "name": "{실험명}",
+      "status": "planning",
+      "path": "70_Experiments/_template_experiment.md",
+      "priority_flag": "medium"
+    },
+    {
+      "id": "ev:{YYYY}-{NNNN}",
+      "type": "Evidence",
+      "name": "{프로젝트명} - Evidence",
+      "status": null,
+      "path": "70_Experiments/_template_evidence.md"
+    },
+    {
       "id": "retro:2025-annual",
       "type": "Retrospective",
       "name": "소식연구소 2025년 연간 회고",
       "status": "done",
       "path": "70_Experiments/2025/2025_연간_회고.md",
       "priority_flag": "critical"
+    },
+    {
+      "id": "trk-{NUMBER}",
+      "type": "Track",
+      "name": "{트랙명}",
+      "status": "active",
+      "path": "20_Strategy/_template_track.md",
+      "conditions_3y": [
+        "cond-{CONDITION}"
+      ],
+      "priority_flag": "medium",
+      "owner": "{담당자}"
     },
     {
       "id": "trk-1",
@@ -4815,6 +4878,11 @@
     }
   ],
   "edges": [
+    {
+      "source": "trk-{TRK}",
+      "target": "hyp-{TRK}-{SEQ}",
+      "type": "parent_of"
+    },
     {
       "source": "trk-1",
       "target": "hyp-1-01",
@@ -5338,6 +5406,16 @@
     {
       "source": "prj-012",
       "target": "tsk-012-1768546729259",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-{TRACK_NUMBER}",
+      "target": "prj-{NUMBER}",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-{PRJ_NUMBER}",
+      "target": "tsk-{PRJ_NUMBER}-{SEQ}",
       "type": "parent_of"
     },
     {
@@ -6956,6 +7034,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768637569532",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -7308,6 +7391,11 @@
     {
       "source": "ns-001",
       "target": "mh-4",
+      "type": "parent_of"
+    },
+    {
+      "source": "cond-{CONDITION}",
+      "target": "trk-{NUMBER}",
       "type": "parent_of"
     },
     {
@@ -7916,6 +8004,11 @@
       "type": "validates"
     },
     {
+      "source": "exp-{NUMBER}",
+      "target": "hyp-{HYP_NUMBER}",
+      "type": "validates"
+    },
+    {
       "source": "retro:2025-annual",
       "target": "mh-3",
       "type": "validates"
@@ -8137,6 +8230,10 @@
     }
   ],
   "conditions_3y_index": {
+    "cond-{CONDITION}": [
+      "prj-{NUMBER}",
+      "trk-{NUMBER}"
+    ],
     "cond-b": [
       "prj-001",
       "prj-003",
@@ -8206,6 +8303,7 @@
   },
   "by_type": {
     "Hypothesis": [
+      "hyp-{TRK}-{SEQ}",
       "hyp-1-01",
       "hyp-1-02",
       "hyp-1-03",
@@ -8258,6 +8356,7 @@
       "hyp-4-13"
     ],
     "Project": [
+      "prj-{NUMBER}",
       "prj-001",
       "prj-003",
       "prj-005",
@@ -8300,6 +8399,7 @@
       "prj-infra-ops-2026q1"
     ],
     "Task": [
+      "tsk-{PRJ_NUMBER}-{SEQ}",
       "tsk-1g52x6-1767942368593",
       "tsk-001-02",
       "tsk-001-03",
@@ -8643,6 +8743,7 @@
       "tsk-023-1768631606970",
       "tsk-023-1768631745980",
       "tsk-023-1768635015525",
+      "tsk-023-1768637569532",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8745,10 +8846,17 @@
       "mh-2",
       "mh-4"
     ],
+    "Experiment": [
+      "exp-{NUMBER}"
+    ],
+    "Evidence": [
+      "ev:{YYYY}-{NNNN}"
+    ],
     "Retrospective": [
       "retro:2025-annual"
     ],
     "Track": [
+      "trk-{NUMBER}",
       "trk-1",
       "trk-2",
       "trk-3",
@@ -8786,6 +8894,27 @@
     ]
   },
   "by_status": {
+    "planning": [
+      "hyp-{TRK}-{SEQ}",
+      "hyp-3-02",
+      "prj-{NUMBER}",
+      "prj-001",
+      "prj-005",
+      "prj-016",
+      "prj-151f61",
+      "prj-156anu",
+      "prj-w5kz77",
+      "prj-5w69jw",
+      "prj-enlnjr",
+      "prj-12329q",
+      "prj-008",
+      "prj-020",
+      "prj-yt-w33",
+      "prj-dashboard-ux-v1",
+      "prj-mzjr8a",
+      "prj-012",
+      "exp-{NUMBER}"
+    ],
     "todo": [
       "hyp-1-01",
       "hyp-1-02",
@@ -8832,6 +8961,7 @@
       "hyp-6-12",
       "hyp-6-13",
       "hyp-6-14",
+      "tsk-{PRJ_NUMBER}-{SEQ}",
       "tsk-1g52x6-1767942368593",
       "tsk-001-02",
       "tsk-001-01",
@@ -8905,24 +9035,6 @@
     ],
     "assumed": [
       "hyp-3-01"
-    ],
-    "planning": [
-      "hyp-3-02",
-      "prj-001",
-      "prj-005",
-      "prj-016",
-      "prj-151f61",
-      "prj-156anu",
-      "prj-w5kz77",
-      "prj-5w69jw",
-      "prj-enlnjr",
-      "prj-12329q",
-      "prj-008",
-      "prj-020",
-      "prj-yt-w33",
-      "prj-dashboard-ux-v1",
-      "prj-mzjr8a",
-      "prj-012"
     ],
     "validating": [
       "hyp-4-11",
@@ -9217,6 +9329,7 @@
       "tsk-023-1768631606970",
       "tsk-023-1768631745980",
       "tsk-023-1768635015525",
+      "tsk-023-1768637569532",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -9352,10 +9465,14 @@
       "tsk-156anu-1768576137968"
     ],
     "active": [
-      "prj-yt-W03-26"
+      "prj-yt-W03-26",
+      "trk-{NUMBER}"
     ],
     "fixed": [
       "ns-001"
+    ],
+    "unknown": [
+      "ev:{YYYY}-{NNNN}"
     ]
   }
 }
