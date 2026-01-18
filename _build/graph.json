@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T01:45:07.755152",
-  "total_entities": 581,
+  "generated": "2026-01-19T02:30:08.512867",
+  "total_entities": 583,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -372,6 +372,13 @@
       "name": "브랜드 재현성이 성과를 만든다.",
       "status": "assumed",
       "path": "60_Hypotheses/2026/hyp-3-03_브랜드_재현성이_성과를_만든다.md"
+    },
+    {
+      "id": "hyp-2-12",
+      "type": "Hypothesis",
+      "name": "Ontology Lite v1 - Edge Types Validation",
+      "status": null,
+      "path": "60_Hypotheses/2026/hyp-2-12_Ontology_Lite_v1_Edge_Types_Validation.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -4068,6 +4075,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-014-1768756487394",
+      "type": "Task",
+      "name": "코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향)",
+      "status": "todo",
+      "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-tips",
       "type": "Program",
       "name": "투자/TIPS 준비",
@@ -5192,6 +5207,11 @@
     {
       "source": "trk-2",
       "target": "hyp-2-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "hyp-2-12",
       "type": "parent_of"
     },
     {
@@ -7365,6 +7385,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-014",
+      "target": "tsk-014-1768756487394",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-017",
       "target": "tsk-e4476d-1767962910349",
       "type": "parent_of"
@@ -8231,12 +8256,7 @@
     },
     {
       "source": "prj-1kthoh",
-      "target": "hyp-2-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-1kthoh",
-      "target": "hyp-2-02",
+      "target": "hyp-2-12",
       "type": "validates"
     },
     {
@@ -8636,7 +8656,8 @@
       "hyp-4-12",
       "hyp-4-13",
       "hyp-2-11",
-      "hyp-3-03"
+      "hyp-3-03",
+      "hyp-2-12"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9058,6 +9079,7 @@
       "tsk-014-1768575802981",
       "tsk-014-1768627876217",
       "tsk-014-1768653594228",
+      "tsk-014-1768756487394",
       "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
@@ -9320,6 +9342,7 @@
       "tsk-023-1768331190178",
       "tsk-023-1768386479760",
       "tsk-685ac7-1767962904466",
+      "tsk-014-1768756487394",
       "tsk-0000os-1768466262169",
       "tsk-mzjr8a-1768742760758",
       "tsk-mzjr8a-1768231080040",
@@ -9347,6 +9370,10 @@
       "mh-1",
       "mh-2",
       "mh-4"
+    ],
+    "unknown": [
+      "hyp-2-12",
+      "ev:{YYYY}-{NNNN}"
     ],
     "done": [
       "tsk-001-03",
@@ -9797,9 +9824,6 @@
     ],
     "fixed": [
       "ns-001"
-    ],
-    "unknown": [
-      "ev:{YYYY}-{NNNN}"
     ]
   }
 }

@@ -31,8 +31,8 @@ track_contributes:
   weight: 0.2
   description: Track_4_Coaching은 고품질 데이터 생성을 목표로 하며, 프로젝트의 데이터 패턴화와 관련이 있습니다.
 validates:
-- hyp-2-01
-- hyp-2-02
+- hyp-2-12
+primary_hypothesis_id: hyp-2-12
 ---
 # Ontology - Vault Ontology Lite v1
 

@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 581
+total_entities: 583
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 581개
+- **총 엔티티**: 583개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,8 +29,8 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 441 |
-| Hypothesis | 53 |
+| Task | 442 |
+| Hypothesis | 54 |
 | Experiment | 1 |
 
 ### 상태별
@@ -44,8 +44,8 @@ tags: ["meta", "graph", "index"]
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 111 |
-| unknown | 1 |
+| todo | 112 |
+| unknown | 2 |
 | validating | 6 |
 
 ---
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (441개)
+## Task (442개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -239,6 +239,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768575802981` | 랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00) | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md` |
 | `tsk-014-1768627876217` | 랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md` |
 | `tsk-014-1768653594228` | 랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md` |
+| `tsk-014-1768756487394` | 코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향) | todo | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -603,7 +604,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (53개)
+## Hypothesis (54개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -629,6 +630,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-2-09` | 데이터 품질 리포트가 행동을 바꿈 | todo | `60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md` |
 | `hyp-2-10` | 투자/외부 설득용 신뢰도 | todo | `60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md` |
 | `hyp-2-11` | Exec↔Vault 통합 API가 실행→근거→결정 속도를 높인다 | planning | `60_Hypotheses/2026/hyp-2-11.md` |
+| `hyp-2-12` | Ontology Lite v1 - Edge Types Validation |  | `60_Hypotheses/2026/hyp-2-12_Ontology_Lite_v1_Edge_Types_Validation.md` |
 | `hyp-3-01` | Content OS 기획시간 50% 단축 | assumed | `60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md` |
 | `hyp-3-02` | 폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호 | planning | `60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md` |
 | `hyp-3-03` | 브랜드 재현성이 성과를 만든다. | assumed | `60_Hypotheses/2026/hyp-3-03_브랜드_재현성이_성과를_만든다.md` |
@@ -789,6 +791,7 @@ tags: ["meta", "graph", "index"]
   - tsk-014-1768575802981 (랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00))
   - tsk-014-1768627876217 (랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석)
   - tsk-014-1768653594228 (랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달)
+  - tsk-014-1768756487394 (코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향))
   - tsk-1ca2sj-1767960085150 (유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획)
   - tsk-1q091r-1767960173667 (코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획)
   - tsk-685ac7-1767962816709 (꼭꼭Fit 3기 환급 검토)
@@ -1193,6 +1196,7 @@ tags: ["meta", "graph", "index"]
   - hyp-2-09 (데이터 품질 리포트가 행동을 바꿈)
   - hyp-2-10 (투자/외부 설득용 신뢰도)
   - hyp-2-11 (Exec↔Vault 통합 API가 실행→근거→결정 속도를 높인다)
+  - hyp-2-12 (Ontology Lite v1 - Edge Types Validation)
   - pgm-coachos (CoachOS)
   - prj-001 (Ontology v0.1)
   - prj-003 (LoopOS - V0 데이터 설계)
