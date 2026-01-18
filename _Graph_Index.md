@@ -38,8 +38,8 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 1 |
-| doing | 60 |
-| done | 361 |
+| doing | 59 |
+| done | 362 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
@@ -262,7 +262,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-019-09` | Dual-Vault - exec ID 체계 정비 | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-09.md` |
 | `tsk-019-10` | Dashboard - Program 생성 API 및 UI | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-10.md` |
 | `tsk-019-11` | Dual-Vault - exec_rounds_path 자동 라우팅 | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-11.md` |
-| `tsk-019-1768662294871` | Vault - pending Project Expected Impact 채우기 | doing | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-1768662294871.md` |
 | `tsk-019-25` | Schema - Task type에 meeting 추가 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-25_Schema_Task_type에_meeting_추가.md` |
 | `tsk-019-27` | Dashboard - Google Calendar events API 400 에러 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md` |
 | `tsk-020-1768137610590` | 스타트업베이 마무리 - 12월 경영활동보고서 제출 | done | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md` |
@@ -357,6 +356,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768662785986` | Pending Review 단순화 - Project Save 기반 + 탭 제거 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768662785986.md` |
 | `tsk-023-1768664856131` | n8n - entity-validator 워크플로우 라우팅 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768664856131.md` |
 | `tsk-023-1768670951852` | AI Inference - 다단계 Project Validation API 및 Dashboard 버튼 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768670951852.md` |
+| `tsk-023-1768714509715` | Graph View - MVP 구현 (전략-실행 계층 시각화) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768714509715.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -810,7 +810,6 @@ tags: ["meta", "graph", "index"]
   - tsk-019-09 (Dual-Vault - exec ID 체계 정비)
   - tsk-019-10 (Dashboard - Program 생성 API 및 UI)
   - tsk-019-11 (Dual-Vault - exec_rounds_path 자동 라우팅)
-  - tsk-019-1768662294871 (Vault - pending Project Expected Impact 채우기)
   - tsk-61e939-1767962817717 (Dual-Vault - exec pre-commit hook)
   - tsk-61e939-1767962817965 (SSOT - Task 파일명 규칙 강제 구현)
   - tsk-61e939-1767962818712 (Dual-Vault - Program-Round 대시보드 통합)
@@ -906,6 +905,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768662785986 (Pending Review 단순화 - Project Save 기반 + 탭 제거)
   - tsk-023-1768664856131 (n8n - entity-validator 워크플로우 라우팅 버그 수정)
   - tsk-023-1768670951852 (AI Inference - 다단계 Project Validation API 및 Dashboard 버튼)
+  - tsk-023-1768714509715 (Graph View - MVP 구현 (전략-실행 계층 시각화))
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

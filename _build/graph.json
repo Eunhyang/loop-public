@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-18T14:00:07.649234",
+  "generated": "2026-01-18T14:45:08.015543",
   "total_entities": 567,
   "nodes": [
     {
@@ -2819,14 +2819,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-019-1768662294871",
-      "type": "Task",
-      "name": "Vault - pending Project Expected Impact 채우기",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-019-1768662294871.md",
-      "assignee": "김은향"
-    },
-    {
       "id": "prj-api-exec-vault",
       "type": "Project",
       "name": "API - Exec Vault 통합",
@@ -3820,6 +3812,14 @@
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
       "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768714509715",
+      "type": "Task",
+      "name": "Graph View - MVP 구현 (전략-실행 계층 시각화)",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768714509715.md",
       "assignee": "김은향"
     },
     {
@@ -6596,11 +6596,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-019",
-      "target": "tsk-019-1768662294871",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-api-exec-vault",
       "target": "tsk-018-03",
       "type": "parent_of"
@@ -7113,6 +7108,11 @@
     {
       "source": "prj-023",
       "target": "tsk-023-30",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768714509715",
       "type": "parent_of"
     },
     {
@@ -8724,7 +8724,6 @@
       "tsk-61e939-1767962819466",
       "tsk-61e939-1767962819719",
       "tsk-61e939-1767962820197",
-      "tsk-019-1768662294871",
       "tsk-018-01",
       "tsk-018-02",
       "tsk-018-03",
@@ -8840,6 +8839,7 @@
       "tsk-023-1768664856131",
       "tsk-023-1768670951852",
       "tsk-023-30",
+      "tsk-023-1768714509715",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -9436,6 +9436,7 @@
       "tsk-023-1768664856131",
       "tsk-023-1768670951852",
       "tsk-023-30",
+      "tsk-023-1768714509715",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -9528,7 +9529,6 @@
       "tsk-n8n-16",
       "tsk-n8n-22",
       "prj-019",
-      "tsk-019-1768662294871",
       "prj-api-exec-vault",
       "prj-feedback-system",
       "prj-023",
