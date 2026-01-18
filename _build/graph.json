@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-18T14:45:08.015543",
-  "total_entities": 567,
+  "generated": "2026-01-18T15:30:08.226577",
+  "total_entities": 568,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -3823,6 +3823,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768717061074",
+      "type": "Task",
+      "name": "Strategic Context - 프론트엔드 캐시 조립 구현",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717061074.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -7116,6 +7124,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768717061074",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8001,6 +8014,16 @@
       "type": "validates"
     },
     {
+      "source": "prj-003",
+      "target": "hyp-2-04",
+      "type": "validates"
+    },
+    {
+      "source": "prj-003",
+      "target": "hyp-2-08",
+      "type": "validates"
+    },
+    {
       "source": "prj-005",
       "target": "hyp-2-01",
       "type": "validates"
@@ -8840,6 +8863,7 @@
       "tsk-023-1768670951852",
       "tsk-023-30",
       "tsk-023-1768714509715",
+      "tsk-023-1768717061074",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -9437,6 +9461,7 @@
       "tsk-023-1768670951852",
       "tsk-023-30",
       "tsk-023-1768714509715",
+      "tsk-023-1768717061074",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
