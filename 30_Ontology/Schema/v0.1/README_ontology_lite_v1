@@ -1,0 +1,205 @@
+A) 계층 사전: NorthStar → MetaHypothesis → Condition → Track → Project → Hypothesis
+1) NorthStar
+
+의미: 조직이 장기적으로 “무엇을 만들고/어떤 세계를 만든다”의 최상위 좌표(거의 불변).
+
+판정: 참/거짓이 아니라 방향성. 다만 조직 운영상 “이 NorthStar를 계속 추구할 가치가 있는가”는 하위 계층이 증거를 축적해 간접 판정.
+
+2) MetaHypothesis
+
+의미: NorthStar가 성립하려면 참이어야 하는 상위 전제 가설 묶음.
+
+판정: “이 전제가 맞으면 하위 전략이 유효해진다 / 틀리면 전략 자체를 갈아엎는다” 수준의 가설.
+
+3) Condition
+
+의미: 전략을 계속 밀어도 되는지 판단하는 임계 조건(Stop/Go 게이트).
+
+핵심: 목표가 아니라 최소선(threshold).
+
+충족 시: 다음 단계/트랙이 열림(unlocks)
+
+붕괴 시: 전략/트랙이 깨짐(breaks) 또는 shutdown branch로 전환
+
+판정: 정량/정성 지표 + 붕괴 트리거로 반증 가능해야 함.
+
+4) Track
+
+의미: 12개월 실행 축(책임 단위). “어떤 실행 라인이 어떤 Condition을 충족시키는가?”
+
+역할:
+
+Condition을 validates(충족을 입증)하거나
+
+Condition/다른 Track을 enables(가능하게) 하고
+
+다른 Track/Condition에 depends_on(의존)함.
+
+판정: 진행률/리스크/핵심 목표(혹은 중단 신호)를 통해 운영.
+
+5) Project
+
+의미: Track 안에서 실제로 움직이는 실행 덩어리(기간/산출물/담당/태스크 묶음).
+
+역할: 대개 Condition을 직접 충족시키기보단 enables(인프라/선행조건 제공) 또는 Track/Hypothesis를 validates하는 “검증의 실행 주체”.
+
+특징: 하나의 Project가 여러 Condition에 기여할 수 있으니, 이건 parent_id가 아니라 edge(weight 포함) 로 표현하는 게 안전.
+
+6) Hypothesis
+
+의미: 검증 가능한 질문(측정 설계 포함). “이게 맞으면 어떤 결정을 강화/바꾸나?”
+
+역할: Condition/MetaHypothesis를 validates하는 가장 작은 단위의 증거 생산기.
+
+판정: success/failure criteria + measurement가 필수.
+
+(B) Agent가 이해하기 쉬운 전달 구조 (의미 + 기술)
+
+결론부터: 둘 다 필요해.
+
+의미적으로: “이 edge_type이 무슨 뜻이며 언제 써야 하는지”가 고정돼야 하고
+
+기술적으로: LLM이 바로 소비할 수 있는 정규화된 그래프 JSON(nodes/edges)로 줘야 해.
+
+권장 전달 포맷: “Schema + Graph + Retrieval Rules” 3종 세트
+1) Schema(온톨로지 요약)
+
+entity_types(필수 필드)
+
+edge_types(의미/제약)
+
+2) Graph Payload(실제 데이터)
+
+nodes: 최소 필드만
+
+edges: type/from/to + (weight/note/evidence)
+
+예시(Agent 입력용 최소형):
+
+{
+  "schema_version": "ontology_lite_v1",
+  "nodes": [
+    {"id":"cond-b","type":"Condition","title":"Condition_B_Loop_Dataset","status":"doing"},
+    {"id":"trk-2","type":"Track","title":"Track_2_Data","status":"doing"},
+    {"id":"prj-002","type":"Project","title":"와디즈 - 12주 습관 코칭 패키지","status":"doing"}
+  ],
+  "edges": [
+    {"type":"validates","from":"trk-2","to":"cond-b","note":"Track 2가 Condition B를 검증"},
+    {"type":"enables","from":"prj-002","to":"cond-b","weight":0.3,"note":"코칭 데이터 수집 기반"}
+  ],
+  "retrieval_rules": {
+    "default_depth": 2,
+    "max_nodes": 80,
+    "edge_whitelist": ["validates","enables","depends_on","unlocks","breaks","terminates"]
+  }
+}
+
+3) Retrieval Rules(서브그래프 뽑는 규칙)
+
+seed(시작 엔티티) + depth + edge whitelist
+
+중복/사이클 제거
+
+weight 있으면 우선순위
+
+이 3개를 같이 주면, LLM은 “추론으로 관계를 발명”하지 않고 정해진 그래프를 읽고 답하게 돼.
+
+C) 네 edge_types YAML 정합성 검사 + 수정안
+
+네가 준 초안:
+
+edge_types:
+  validates:
+    from: [Track, Project, Hypothesis]
+    to: [Condition, MetaHypothesis]
+  enables:
+    from: [Track, Project]
+    to: [Condition, Track]
+  depends_on:
+    from: [Track, Project]
+    to: [Track, Condition]
+  unlocks:
+    from: [Condition]
+    to: [StrategyPhase, Track]
+  breaks:
+    from: [Condition]
+    to: [Strategy, Track]
+  terminates:
+    from: [Track]
+    to: [Company]
+
+정합성 결론
+
+형식적으로 OK
+
+다만 의미 충돌/운영 리스크가 3개 있어:
+
+enables가 to: Track을 포함하면
+
+“Project → Track enables”가 너무 자주 나오면서 Track간 의존(depends_on) 과 의미가 섞일 위험
+
+권장: enables의 to Track은 유지해도 되지만, “언제 enables vs depends_on” 선택 규칙을 반드시 넣어야 함.
+
+validates에 Project가 들어갈 때
+
+Project는 보통 “실행 묶음”이라 직접 validates 하기보다, 그 안의 Hypothesis/Experiment가 validates하는 편이 깔끔함.
+
+하지만 너희 시스템에선 Project에 validates 배열이 이미 있으니 허용은 하되, evidence를 강제하는 게 좋음.
+
+terminates: Track -> Company
+
+강력한 관계라 남발되면 의미가 퇴색함.
+
+보통 “생존 트랙” 같은 일부 Track만 갖도록 제한 룰이 필요.
+
+추천 보강(최소 수정)
+
+edge_types는 그대로 두고, 각 타입별 “선택 규칙” + “필수 메타” 만 추가해.
+
+보강된 버전:
+
+edge_types:
+  validates:
+    meaning: "A의 결과가 B의 참/거짓(충족 여부)을 증거로 만든다"
+    from: [Track, Project, Hypothesis]
+    to: [Condition, MetaHypothesis]
+    required_meta: [evidence]
+    choose_when:
+      - "측정/실험/리포트 등 반증 가능한 근거가 붙는다"
+      - "B의 충족/붕괴 판정에 직접 쓰인다"
+
+  enables:
+    meaning: "A가 B를 가능하게 하는 선행조건/인프라를 제공한다"
+    from: [Track, Project]
+    to: [Condition, Track]
+    optional_meta: [weight, note]
+    choose_when:
+      - "A가 없으면 B가 느려지거나 불가능하지만, B의 성패 판정 그 자체는 아니다"
+      - "기여도를 weight로 표현할 수 있다(0~1)"
+
+  depends_on:
+    meaning: "A가 B에 의존한다(막히면 A도 막힘)"
+    from: [Track, Project]
+    to: [Track, Condition]
+    optional_meta: [risk_level, note]
+    choose_when:
+      - "B가 실패/지연되면 A도 구조적으로 못 한다"
+      - "enables와 혼동되면: '막히면 멈추나?'면 depends_on"
+
+  unlocks:
+    meaning: "Condition이 충족되면 다음 단계/트랙이 열린다"
+    from: [Condition]
+    to: [StrategyPhase, Track]
+
+  breaks:
+    meaning: "Condition이 붕괴되면 전략/트랙이 깨지거나 전환이 강제된다"
+    from: [Condition]
+    to: [Strategy, Track]
+    required_meta: [break_trigger]
+
+  terminates:
+    meaning: "해당 Track 실패가 회사 존속에 치명적이다"
+    from: [Track]
+    to: [Company]
+    guardrails:
+      - "생존 Track에만 사용(예: Runway/Regulatory 등)"

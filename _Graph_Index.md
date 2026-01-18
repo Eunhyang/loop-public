@@ -2,9 +2,9 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2026-01-18
-updated: 2026-01-18
-total_entities: 573
+created: 2026-01-19
+updated: 2026-01-19
+total_entities: 585
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,8 +17,8 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 573개
-- **마지막 업데이트**: 2026-01-18
+- **총 엔티티**: 585개
+- **마지막 업데이트**: 2026-01-19
 
 ### 타입별
 | Type | Count |
@@ -28,8 +28,8 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 7 |
 | Program | 12 |
-| Project | 40 |
-| Task | 434 |
+| Project | 41 |
+| Task | 445 |
 | Hypothesis | 53 |
 | Experiment | 1 |
 
@@ -39,12 +39,12 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 59 |
-| done | 368 |
+| done | 373 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 22 |
-| todo | 110 |
+| planning | 23 |
+| todo | 116 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -109,7 +109,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (40개)
+## Project (41개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -132,6 +132,7 @@ tags: ["meta", "graph", "index"]
 | `prj-12329q` | 오픈 채팅방 활성화 - 챌린지 운영 1차 | planning | `50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md` |
 | `prj-151f61` | Test - MCP Write API 완성 | planning | `50_Projects/2025/P151_Test_MCP_Write_API_완성/project.md` |
 | `prj-156anu` | Antler - 엔틀러코리아 제너레이터 8기 지원 | planning | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md` |
+| `prj-1kthoh` | Ontology - Vault Ontology Lite v1 | planning | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/project.md` |
 | `prj-1t7iu4` | MCP API - Deployment Optimization | doing | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md` |
 | `prj-5w69jw` | Vault - Hypothesis 유지 전략 | planning | `50_Projects/2025/P5_Vault_Hypothesis_유지_전략/project.md` |
 | `prj-api-exec-vault` | API - Exec Vault 통합 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md` |
@@ -155,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (434개)
+## Task (445개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -197,6 +198,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-002-11` | 와디즈 오픈 후 고객 대응 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 오픈 후 고객 대응.md` |
 | `tsk-002-12` | 와디즈 새소식 초안 작성 - 브랜드 방향성 위주 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md` |
 | `tsk-002-13` | Promotion - 2단계 트랜잭션 리팩토링 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-13.md` |
+| `tsk-002-1768743710425` | 와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768743710425.md` |
 | `tsk-003-01` | Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기 | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md` |
 | `tsk-003-02` | Loop OS V0 데이터 설계 – 4. Minimal Logging Spec | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md` |
 | `tsk-003-03` | Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화 | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md` |
@@ -227,6 +229,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-012-1768140940912` | 오픈 카톡방 챌린지 - 챌린지 기획 및 공유 | doing | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768140940912.md` |
 | `tsk-012-1768488181984` | CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768488181984.md` |
 | `tsk-012-1768546729259` | 와디즈 마무리 - 알람신청 이벤트 결과 공지 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768546729259.md` |
+| `tsk-012-1768743467036` | CS - 카카오톡 단톡방 활성화 및 유튜브, 카카오톡 채널 등 관리(01월 18일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768743467036.md` |
 | `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
@@ -275,6 +278,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-021-1768546807989` | 부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md` |
 | `tsk-021-1768635878173` | 경영관리 - 4대 보험료 납부(1월 분) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768635878173.md` |
 | `tsk-021-1768720733426` | 유튜브 편집자 구인 - 공고 게재(당근마켓) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768720733426.md` |
+| `tsk-021-1768743605059` | 코칭 인수인계 마무리 - 4기 정다은님 연락 | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768743605059.md` |
 | `tsk-022-02` | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md` |
 | `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
 | `tsk-022-06` | 콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md` |
@@ -362,6 +366,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768717908724` | AI Inference - Project Summary 버튼 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717908724.md` |
 | `tsk-023-1768721377517` | AI API - Vault Ontology Schema 컨텍스트 자동 주입 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768721377517.md` |
 | `tsk-023-1768729558248` | ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md` |
+| `tsk-023-1768742466` | Project Create 모드 AI 버튼 활성화 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768742466.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -389,6 +394,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-43` | Dashboard - Notes 인라인 이미지 삽입 기능 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-43.md` |
 | `tsk-0vault-1768106628300` | OAuth - SQLite busy_timeout 설정 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/tsk-0vault-1768106628300.md` |
 | `tsk-11nt0p-1767960275703` | 와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-11nt0p-1767960275703.md` |
+| `tsk-12329q-1768743358112` | 카카오톡 단톡방 챌린지 - 1주차 챌린지 결산 및 안내 | done | `50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/Tasks/tsk-12329q-1768743358112.md` |
 | `tsk-156anu-1768025743558` | Antler 서류 - Founder이력서 작성 (김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768025743558.md` |
 | `tsk-156anu-1768028031839` | Antler 서류 - Founder이력서 작성 (한명학) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768028031839.md` |
 | `tsk-156anu-1768039688709` | Antler 서류 - 피칭덱 틀 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768039688709.md` |
@@ -411,6 +417,11 @@ tags: ["meta", "graph", "index"]
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
 | `tsk-1ca2sj-1767960085150` | 유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1ca2sj-1767960085150.md` |
 | `tsk-1igiyf-1767945247366` | 와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1igiyf-1767945247366.md` |
+| `tsk-1kthoh-1768748042882` | Ontology Lite v1 - 엔티티 및 ID 규칙 정의 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748042882.md` |
+| `tsk-1kthoh-1768748072688` | Ontology Lite v1 - edge_types 사전 정의 및 예시 작성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md` |
+| `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
+| `tsk-1kthoh-1768748073383` | Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md` |
+| `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
 | `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
 | `tsk-1q091r-1767960173667` | 코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md` |
@@ -525,6 +536,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-mzjr8a-1768196988716` | 1.0.29 - 재로그인시 MealDiary 사진 안보임 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768196988716.md` |
 | `tsk-mzjr8a-1768231080040` | 꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다) | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md` |
 | `tsk-mzjr8a-1768542536681` | 꼭꼭 앱 - 마이그레이션 코드  | done | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md` |
+| `tsk-mzjr8a-1768742760758` | sosi - 식전 사진 카메라 전면→후면 버그 수정 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768742760758.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
 | `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
@@ -716,6 +728,7 @@ tags: ["meta", "graph", "index"]
   - tsk-002-11 (와디즈 오픈 후 고객 대응)
   - tsk-002-12 (와디즈 새소식 초안 작성 - 브랜드 방향성 위주)
   - tsk-002-13 (Promotion - 2단계 트랜잭션 리팩토링)
+  - tsk-002-1768743710425 (와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석)
   - tsk-19203a-1767940029834 (와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건))
   - tsk-88fe92-1767962815722 (12/17: 본펀딩 공개)
   - tsk-88fe92-1767962816218 (12/31: 펀딩 종료)
@@ -765,6 +778,7 @@ tags: ["meta", "graph", "index"]
   - tsk-012-1768140940912 (오픈 카톡방 챌린지 - 챌린지 기획 및 공유)
   - tsk-012-1768488181984 (CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일))
   - tsk-012-1768546729259 (와디즈 마무리 - 알람신청 이벤트 결과 공지)
+  - tsk-012-1768743467036 (CS - 카카오톡 단톡방 활성화 및 유튜브, 카카오톡 채널 등 관리(01월 18일))
   - tsk-11nt0p-1767960275703 (와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효))
   - tsk-1igiyf-1767945247366 (와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉))
   - tsk-1m08zu-1767945274325 (와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등))
@@ -839,6 +853,7 @@ tags: ["meta", "graph", "index"]
   - tsk-021-1768546807989 (부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제))
   - tsk-021-1768635878173 (경영관리 - 4대 보험료 납부(1월 분))
   - tsk-021-1768720733426 (유튜브 편집자 구인 - 공고 게재(당근마켓))
+  - tsk-021-1768743605059 (코칭 인수인계 마무리 - 4기 정다은님 연락)
   - tsk-1addiu-1767960317370 (외부 비서 활용 - 지우님 할일 전달(1월 12일))
   - tsk-fcaef7-1767962901871 (원천세 납부 - 용역비 3건)
 - **prj-023** (Dashboard - React+TS 마이그레이션)
@@ -944,6 +959,8 @@ tags: ["meta", "graph", "index"]
   - tsk-b4fa1e-1767962909096 (Dashboard v2 - Pending Review 페이지 구현)
   - tsk-bpnbz2-1768237849865 (Dashboard - Task Drawer Duplicate Loading 버그 수정)
   - tsk-uegvfe-1767941662809 (Dashboard - Task Drawer PR/Commit 필드 추가)
+- **prj-12329q** (오픈 채팅방 활성화 - 챌린지 운영 1차)
+  - tsk-12329q-1768743358112 (카카오톡 단톡방 챌린지 - 1주차 챌린지 결산 및 안내)
 - **prj-156anu** (Antler - 엔틀러코리아 제너레이터 8기 지원)
   - tsk-156anu-1768025743558 (Antler 서류 - Founder이력서 작성 (김은향))
   - tsk-156anu-1768028031839 (Antler 서류 - Founder이력서 작성 (한명학))
@@ -963,6 +980,12 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768576137968 (Antler 3차 - AI몬스터 면접 연습 (01/18))
   - tsk-156anu-1768579596258 (Antler 3차 - AI몬스터 면접 진행)
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
+- **prj-1kthoh** (Ontology - Vault Ontology Lite v1)
+  - tsk-1kthoh-1768748042882 (Ontology Lite v1 - 엔티티 및 ID 규칙 정의)
+  - tsk-1kthoh-1768748072688 (Ontology Lite v1 - edge_types 사전 정의 및 예시 작성)
+  - tsk-1kthoh-1768748072863 (Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성)
+  - tsk-1kthoh-1768748073383 (Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증)
+  - tsk-1kthoh-1768748985191 (Ontology Lite v1 - Strategic Context 매핑 함수 생성)
 - **prj-1t7iu4** (MCP API - Deployment Optimization)
   - tsk-1t7iu4-1768242340825 (Blue-Green Deployment - MCP API)
 - **prj-api-exec-vault** (API - Exec Vault 통합)
@@ -1066,6 +1089,7 @@ tags: ["meta", "graph", "index"]
   - tsk-mzjr8a-1768196988716 (1.0.29 - 재로그인시 MealDiary 사진 안보임)
   - tsk-mzjr8a-1768231080040 (꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다))
   - tsk-mzjr8a-1768542536681 (꼭꼭 앱 - 마이그레이션 코드 )
+  - tsk-mzjr8a-1768742760758 (sosi - 식전 사진 카메라 전면→후면 버그 수정)
 - **prj-n8n** (n8n Vault 자동화)
   - tsk-000n8n-1768057225620 (n8n - Entity Validator Auto-Apply 기능)
   - tsk-000n8n-1768068452347 (n8n - YouTube 데이터 수집 + Discord 알림)
@@ -1183,6 +1207,7 @@ tags: ["meta", "graph", "index"]
   - prj-005 (LoopOS - 최소 선제 학습)
   - prj-019 (Dual-Vault - 정비)
   - prj-023 (Dashboard - React+TS 마이그레이션)
+  - prj-1kthoh (Ontology - Vault Ontology Lite v1)
   - prj-5w69jw (Vault - Hypothesis 유지 전략)
   - prj-api-exec-vault (API - Exec Vault 통합)
   - prj-dashboard-ux-v1 (대시보드 UX 개선 v1)
@@ -1271,5 +1296,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2026-01-18
+**Auto-generated**: 2026-01-19
 **Script**: scripts/build_graph_index.py

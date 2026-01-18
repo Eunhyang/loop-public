@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-18T19:45:08.105338",
-  "total_entities": 573,
+  "generated": "2026-01-19T00:15:08.495313",
+  "total_entities": 585,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -1043,6 +1043,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-002-1768743710425",
+      "type": "Task",
+      "name": "와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석",
+      "status": "done",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768743710425.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "prj-5w69jw",
       "type": "Project",
       "name": "Vault - Hypothesis 유지 전략",
@@ -1090,6 +1098,14 @@
       "owner": "한명학"
     },
     {
+      "id": "tsk-12329q-1768743358112",
+      "type": "Task",
+      "name": "카카오톡 단톡방 챌린지 - 1주차 챌린지 결산 및 안내",
+      "status": "done",
+      "path": "50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/Tasks/tsk-12329q-1768743358112.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "prj-waoz74",
       "type": "Project",
       "name": "Content OS - Dashboard v2",
@@ -1100,6 +1116,58 @@
       ],
       "priority_flag": "high",
       "owner": "김은향"
+    },
+    {
+      "id": "prj-1kthoh",
+      "type": "Project",
+      "name": "Ontology - Vault Ontology Lite v1",
+      "status": "planning",
+      "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/project.md",
+      "conditions_3y": [
+        "cond-b"
+      ],
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768748042882",
+      "type": "Task",
+      "name": "Ontology Lite v1 - 엔티티 및 ID 규칙 정의",
+      "status": "todo",
+      "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748042882.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768748072688",
+      "type": "Task",
+      "name": "Ontology Lite v1 - edge_types 사전 정의 및 예시 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768748072863",
+      "type": "Task",
+      "name": "Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768748073383",
+      "type": "Task",
+      "name": "Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증",
+      "status": "todo",
+      "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768748985191",
+      "type": "Task",
+      "name": "Ontology Lite v1 - Strategic Context 매핑 함수 생성",
+      "status": "todo",
+      "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md",
+      "assignee": "김은향"
     },
     {
       "id": "pgm-hiring",
@@ -2324,20 +2392,20 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-019-27",
-      "type": "Task",
-      "name": "Dashboard - Google Calendar events API 400 에러 수정",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-dashboard-ux-v1-31",
       "type": "Task",
       "name": "Dashboard - Task Type Chip 즉시 저장 버그 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md",
+      "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-019-27",
+      "type": "Task",
+      "name": "Dashboard - Google Calendar events API 400 에러 수정",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3845,20 +3913,28 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768729558248",
+      "type": "Task",
+      "name": "ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768742466",
+      "type": "Task",
+      "name": "Project Create 모드 AI 버튼 활성화",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768742466.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-023-30",
       "type": "Task",
       "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
       "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-023-1768729558248",
-      "type": "Task",
-      "name": "ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast",
-      "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md",
       "assignee": "김은향"
     },
     {
@@ -4405,6 +4481,22 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-mzjr8a-1768742760758",
+      "type": "Task",
+      "name": "sosi - 식전 사진 카메라 전면→후면 버그 수정",
+      "status": "todo",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768742760758.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-mzjr8a-1768231080040",
+      "type": "Task",
+      "name": "꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다)",
+      "status": "todo",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "tsk-mzjr8a-1768196988716",
       "type": "Task",
       "name": "1.0.29 - 재로그인시 MealDiary 사진 안보임",
@@ -4418,14 +4510,6 @@
       "name": "앱 유로 구독 - iOS 구독 안 됨",
       "status": "done",
       "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-mzjr8a-1768231080040",
-      "type": "Task",
-      "name": "꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다)",
-      "status": "todo",
-      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md",
       "assignee": "김은향"
     },
     {
@@ -4546,6 +4630,14 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-021-1768743605059",
+      "type": "Task",
+      "name": "코칭 인수인계 마무리 - 4기 정다은님 연락",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768743605059.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-cs",
       "type": "Program",
       "name": "CS·고객지원",
@@ -4649,6 +4741,14 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-012-1768743467036",
+      "type": "Task",
+      "name": "CS - 카카오톡 단톡방 활성화 및 유튜브, 카카오톡 채널 등 관리(01월 18일)",
+      "status": "done",
+      "path": "50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768743467036.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-coachos",
       "type": "Program",
       "name": "CoachOS",
@@ -4676,7 +4776,7 @@
         "cond-d"
       ],
       "priority_flag": "high",
-      "owner": "한명학"
+      "owner": "김은향"
     },
     {
       "id": "tsk-infra-ops-2026q1-aws-01",
@@ -5154,6 +5254,11 @@
     },
     {
       "source": "trk-2",
+      "target": "prj-1kthoh",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
       "target": "prj-vault-gpt",
       "type": "parent_of"
     },
@@ -5513,6 +5618,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-012",
+      "target": "tsk-012-1768743467036",
+      "type": "parent_of"
+    },
+    {
       "source": "trk-{TRACK_NUMBER}",
       "target": "prj-{NUMBER}",
       "type": "parent_of"
@@ -5838,8 +5948,43 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-002",
+      "target": "tsk-002-1768743710425",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-1t7iu4",
       "target": "tsk-1t7iu4-1768242340825",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-12329q",
+      "target": "tsk-12329q-1768743358112",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768748042882",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768748072688",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768748072863",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768748073383",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768748985191",
       "type": "parent_of"
     },
     {
@@ -6414,12 +6559,12 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-019-27",
+      "target": "tsk-dashboard-ux-v1-31",
       "type": "parent_of"
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-31",
+      "target": "tsk-019-27",
       "type": "parent_of"
     },
     {
@@ -7179,12 +7324,12 @@
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-30",
+      "target": "tsk-023-1768729558248",
       "type": "parent_of"
     },
     {
       "source": "prj-023",
-      "target": "tsk-023-1768729558248",
+      "target": "tsk-023-30",
       "type": "parent_of"
     },
     {
@@ -7459,17 +7604,22 @@
     },
     {
       "source": "prj-mzjr8a",
+      "target": "tsk-mzjr8a-1768742760758",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-mzjr8a",
+      "target": "tsk-mzjr8a-1768231080040",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-mzjr8a",
       "target": "tsk-mzjr8a-1768196988716",
       "type": "parent_of"
     },
     {
       "source": "prj-mzjr8a",
       "target": "tsk-aduxpf-1767959129481",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-mzjr8a",
-      "target": "tsk-mzjr8a-1768231080040",
       "type": "parent_of"
     },
     {
@@ -7530,6 +7680,11 @@
     {
       "source": "prj-021",
       "target": "tsk-021-1768720733426",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1768743605059",
       "type": "parent_of"
     },
     {
@@ -8419,6 +8574,7 @@
       "prj-005",
       "prj-002",
       "prj-5w69jw",
+      "prj-1kthoh",
       "prj-006",
       "prj-008",
       "prj-vault-gpt",
@@ -8552,6 +8708,7 @@
       "prj-1t7iu4",
       "prj-12329q",
       "prj-waoz74",
+      "prj-1kthoh",
       "prj-006",
       "prj-008",
       "prj-015",
@@ -8641,7 +8798,14 @@
       "tsk-002-13",
       "tsk-002-10",
       "tsk-w5kz77-1767962815962",
+      "tsk-002-1768743710425",
       "tsk-1t7iu4-1768242340825",
+      "tsk-12329q-1768743358112",
+      "tsk-1kthoh-1768748042882",
+      "tsk-1kthoh-1768748072688",
+      "tsk-1kthoh-1768748072863",
+      "tsk-1kthoh-1768748073383",
+      "tsk-1kthoh-1768748985191",
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-03",
@@ -8762,8 +8926,8 @@
       "tsk-dashboard-ux-v1-24",
       "tsk-dashboard-ux-v1-10",
       "tsk-dashboard-ux-v1-29",
-      "tsk-019-27",
       "tsk-dashboard-ux-v1-31",
+      "tsk-019-27",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-mcp-rbac-04",
@@ -8930,8 +9094,9 @@
       "tsk-023-1768717061074",
       "tsk-023-1768717908724",
       "tsk-023-1768721377517",
-      "tsk-023-30",
       "tsk-023-1768729558248",
+      "tsk-023-1768742466",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -8986,9 +9151,10 @@
       "tsk-0000os-1768466096034",
       "tsk-kkokkkok-v1028-01",
       "tsk-mzjr8a-1768542536681",
+      "tsk-mzjr8a-1768742760758",
+      "tsk-mzjr8a-1768231080040",
       "tsk-mzjr8a-1768196988716",
       "tsk-aduxpf-1767959129481",
-      "tsk-mzjr8a-1768231080040",
       "tsk-021-01",
       "tsk-021-1767964326285",
       "tsk-021-1767965869633",
@@ -9001,6 +9167,7 @@
       "tsk-021-1768546807989",
       "tsk-021-1768635878173",
       "tsk-021-1768720733426",
+      "tsk-021-1768743605059",
       "tsk-012-01",
       "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",
@@ -9011,6 +9178,7 @@
       "tsk-012-1768140940912",
       "tsk-012-1768488181984",
       "tsk-012-1768546729259",
+      "tsk-012-1768743467036",
       "tsk-infra-ops-2026q1-aws-01"
     ],
     "Program": [
@@ -9103,6 +9271,7 @@
       "prj-5w69jw",
       "prj-enlnjr",
       "prj-12329q",
+      "prj-1kthoh",
       "prj-008",
       "prj-020",
       "prj-yt-w33",
@@ -9178,6 +9347,11 @@
       "tsk-002-07",
       "tsk-002-10",
       "prj-waoz74",
+      "tsk-1kthoh-1768748042882",
+      "tsk-1kthoh-1768748072688",
+      "tsk-1kthoh-1768748072863",
+      "tsk-1kthoh-1768748073383",
+      "tsk-1kthoh-1768748985191",
       "tsk-006-03",
       "tsk-008-05",
       "tsk-015-1768627947254",
@@ -9209,8 +9383,9 @@
       "tsk-023-1768386479760",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
-      "tsk-mzjr8a-1768196988716",
+      "tsk-mzjr8a-1768742760758",
       "tsk-mzjr8a-1768231080040",
+      "tsk-mzjr8a-1768196988716",
       "tsk-021-1768370031417",
       "trk-5",
       "cond-c",
@@ -9279,7 +9454,9 @@
       "tsk-88fe92-1767962903406",
       "tsk-002-13",
       "tsk-w5kz77-1767962815962",
+      "tsk-002-1768743710425",
       "tsk-1t7iu4-1768242340825",
+      "tsk-12329q-1768743358112",
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-04",
@@ -9376,8 +9553,8 @@
       "tsk-v1-1767962821895",
       "tsk-dashboard-ux-v1-10",
       "tsk-dashboard-ux-v1-29",
-      "tsk-019-27",
       "tsk-dashboard-ux-v1-31",
+      "tsk-019-27",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-impact-schema-v2-01",
@@ -9533,8 +9710,9 @@
       "tsk-023-1768717061074",
       "tsk-023-1768717908724",
       "tsk-023-1768721377517",
-      "tsk-023-30",
       "tsk-023-1768729558248",
+      "tsk-023-1768742466",
+      "tsk-023-30",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -9593,6 +9771,7 @@
       "tsk-021-1768546807989",
       "tsk-021-1768635878173",
       "tsk-021-1768720733426",
+      "tsk-021-1768743605059",
       "tsk-012-01",
       "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",
@@ -9602,6 +9781,7 @@
       "tsk-9xy6p0-1767945215240",
       "tsk-012-1768488181984",
       "tsk-012-1768546729259",
+      "tsk-012-1768743467036",
       "tsk-infra-ops-2026q1-aws-01",
       "retro:2025-annual"
     ],
