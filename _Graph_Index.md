@@ -39,12 +39,12 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 59 |
-| done | 374 |
+| done | 377 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 115 |
+| todo | 112 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -417,9 +417,9 @@ tags: ["meta", "graph", "index"]
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
 | `tsk-1ca2sj-1767960085150` | 유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1ca2sj-1767960085150.md` |
 | `tsk-1igiyf-1767945247366` | 와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1igiyf-1767945247366.md` |
-| `tsk-1kthoh-1768748042882` | Ontology Lite v1 - 엔티티 및 ID 규칙 정의 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748042882.md` |
-| `tsk-1kthoh-1768748072688` | Ontology Lite v1 - edge_types 사전 정의 및 예시 작성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md` |
-| `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
+| `tsk-1kthoh-1768748042882` | Ontology Lite v1 - 엔티티 및 ID 규칙 정의 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748042882.md` |
+| `tsk-1kthoh-1768748072688` | Ontology Lite v1 - edge_types 사전 정의 및 예시 작성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md` |
+| `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
 | `tsk-1kthoh-1768748073383` | Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md` |
 | `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
