@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-yt-W02-26
 entity_name: YouTube - W02
 created: '2026-01-03'
-updated: '2026-01-13'
+updated: '2026-01-18'
 status: doing
 program_id: pgm-youtube-weekly
 cycle: W02
@@ -41,9 +41,11 @@ priority_flag: medium
 
 ## 개요
 
-YouTube 1주 1업로드 프로그램의 W02 라운드.
+## YouTube 1주 1업로드 프로그램의 W02 라운드.\
+\
+목표
 
-**기간**: 2026-01-09 \~ 2026-01-24
+폭식 후 개입 MVP를 사용자에게 보여주고 반응이 있는지 확인해야함
 
 ---
 

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-18T13:00:08.283036",
-  "total_entities": 566,
+  "generated": "2026-01-18T14:00:07.649234",
+  "total_entities": 567,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -1776,6 +1776,14 @@
       "status": "doing",
       "path": "50_Projects/Vault_System/_PROGRAM.md",
       "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "prd:graph-view-mvp",
+      "type": "PRD",
+      "name": "PRD - Graph View MVP (Context + Path to NorthStar)",
+      "status": "draft",
+      "path": "50_Projects/Vault_System/PRD_Graph_View_MVP.md",
       "owner": "한명학"
     },
     {
@@ -8926,6 +8934,9 @@
       "pgm-coachos",
       "pgm-kkokkkokfit-web"
     ],
+    "PRD": [
+      "prd:graph-view-mvp"
+    ],
     "NorthStar": [
       "ns-001"
     ],
@@ -9562,6 +9573,9 @@
     "active": [
       "prj-yt-W03-26",
       "trk-{NUMBER}"
+    ],
+    "draft": [
+      "prd:graph-view-mvp"
     ],
     "fixed": [
       "ns-001"
