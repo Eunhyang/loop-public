@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-19T01:00:08.440273",
+  "generated": "2026-01-19T01:30:09.048215",
   "total_entities": 581,
   "nodes": [
     {
@@ -1124,7 +1124,8 @@
       "status": "planning",
       "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/project.md",
       "conditions_3y": [
-        "cond-b"
+        "cond-b",
+        "cond-d"
       ],
       "priority_flag": "medium",
       "owner": "김은향"
@@ -8229,6 +8230,16 @@
       "type": "validates"
     },
     {
+      "source": "prj-1kthoh",
+      "target": "hyp-2-01",
+      "type": "validates"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "hyp-2-02",
+      "type": "validates"
+    },
+    {
       "source": "prj-006",
       "target": "hyp-4-06",
       "type": "validates"
@@ -8545,6 +8556,7 @@
       "prj-016",
       "prj-156anu",
       "prj-002",
+      "prj-1kthoh",
       "prj-006",
       "prj-008",
       "prj-015",

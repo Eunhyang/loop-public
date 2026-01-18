@@ -14,14 +14,25 @@ aliases:
 tags: []
 conditions_3y:
 - cond-b
+- cond-d
 condition_contributes:
 - to: cond-b
   weight: 0.7
-  description: 프로젝트가 데이터 수가 아닌 재현 가능한 패턴을 늘리는 것에 직접적으로 기여하기 때문에 높은 기여도를 가집니다.
+  description: 프로젝트가 데이터 패턴을 재현하는 데 중점을 두고 있어, 재현 가능한 패턴의 수와 패턴 재현율이 중요한 지표입니다.
 - to: cond-d
   weight: 0.3
-  description: 프로젝트의 성공이 월 매출 또는 런웨이에 긍정적인 영향을 미칠 것으로 예상되지만, 직접적인 기여는 상대적으로 낮습니다.
-track_contributes: []
+  description: 프로젝트의 성공적인 실행은 매출 또는 런웨이의 지속 가능성에 영향을 미치므로, 이 조건도 중요한 기여를 합니다.
+track_contributes:
+- to: trk-1
+  weight: 0.7
+  description: Track_1_Product는 Loop Core OS 제품의 PMF 달성을 목표로 하며, 데이터 패턴화와 관련된 프로젝트의
+    성공에 기여할 수 있습니다.
+- to: trk-4
+  weight: 0.2
+  description: Track_4_Coaching은 고품질 데이터 생성을 목표로 하며, 프로젝트의 데이터 패턴화와 관련이 있습니다.
+validates:
+- hyp-2-01
+- hyp-2-02
 ---
 # Ontology - Vault Ontology Lite v1
 
