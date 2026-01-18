@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-18
 updated: 2026-01-18
-total_entities: 568
+total_entities: 573
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 568개
+- **총 엔티티**: 573개
 - **마지막 업데이트**: 2026-01-18
 
 ### 타입별
@@ -29,22 +29,22 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 430 |
-| Hypothesis | 52 |
+| Task | 434 |
+| Hypothesis | 53 |
 | Experiment | 1 |
 
 ### 상태별
 | Status | Count |
 |--------|-------|
 | active | 2 |
-| assumed | 1 |
+| assumed | 2 |
 | doing | 59 |
-| done | 363 |
+| done | 368 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 22 |
-| todo | 111 |
+| todo | 110 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -155,7 +155,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (430개)
+## Task (434개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -274,6 +274,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-021-1768370031417` | 세무 - 25 Q3~Q4 부가세 신고 | todo | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768370031417.md` |
 | `tsk-021-1768546807989` | 부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md` |
 | `tsk-021-1768635878173` | 경영관리 - 4대 보험료 납부(1월 분) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768635878173.md` |
+| `tsk-021-1768720733426` | 유튜브 편집자 구인 - 공고 게재(당근마켓) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768720733426.md` |
 | `tsk-022-02` | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md` |
 | `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
 | `tsk-022-06` | 콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md` |
@@ -358,6 +359,9 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768670951852` | AI Inference - 다단계 Project Validation API 및 Dashboard 버튼 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768670951852.md` |
 | `tsk-023-1768714509715` | Graph View - MVP 구현 (전략-실행 계층 시각화) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768714509715.md` |
 | `tsk-023-1768717061074` | Strategic Context - 프론트엔드 캐시 조립 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717061074.md` |
+| `tsk-023-1768717908724` | AI Inference - Project Summary 버튼 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717908724.md` |
+| `tsk-023-1768721377517` | AI API - Vault Ontology Schema 컨텍스트 자동 주입 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768721377517.md` |
+| `tsk-023-1768729558248` | ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -415,7 +419,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
 | `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
-| `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
+| `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -591,7 +595,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (52개)
+## Hypothesis (53개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -619,6 +623,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-2-11` | Exec↔Vault 통합 API가 실행→근거→결정 속도를 높인다 | planning | `60_Hypotheses/2026/hyp-2-11.md` |
 | `hyp-3-01` | Content OS 기획시간 50% 단축 | assumed | `60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md` |
 | `hyp-3-02` | 폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호 | planning | `60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md` |
+| `hyp-3-03` | 브랜드 재현성이 성과를 만든다. | assumed | `60_Hypotheses/2026/hyp-3-03_브랜드_재현성이_성과를_만든다.md` |
 | `hyp-4-01` | 심화 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md` |
 | `hyp-4-02` | GLP-1 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md` |
 | `hyp-4-03` | 완주율 | todo | `60_Hypotheses/2026/hyp-4-03_완주율.md` |
@@ -833,6 +838,7 @@ tags: ["meta", "graph", "index"]
   - tsk-021-1768370031417 (세무 - 25 Q3~Q4 부가세 신고)
   - tsk-021-1768546807989 (부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제))
   - tsk-021-1768635878173 (경영관리 - 4대 보험료 납부(1월 분))
+  - tsk-021-1768720733426 (유튜브 편집자 구인 - 공고 게재(당근마켓))
   - tsk-1addiu-1767960317370 (외부 비서 활용 - 지우님 할일 전달(1월 12일))
   - tsk-fcaef7-1767962901871 (원천세 납부 - 용역비 3건)
 - **prj-023** (Dashboard - React+TS 마이그레이션)
@@ -908,6 +914,9 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768670951852 (AI Inference - 다단계 Project Validation API 및 Dashboard 버튼)
   - tsk-023-1768714509715 (Graph View - MVP 구현 (전략-실행 계층 시각화))
   - tsk-023-1768717061074 (Strategic Context - 프론트엔드 캐시 조립 구현)
+  - tsk-023-1768717908724 (AI Inference - Project Summary 버튼 추가)
+  - tsk-023-1768721377517 (AI API - Vault Ontology Schema 컨텍스트 자동 주입)
+  - tsk-023-1768729558248 (ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -1185,6 +1194,7 @@ tags: ["meta", "graph", "index"]
 - **trk-3** (Track_3_Content)
   - hyp-3-01 (Content OS 기획시간 50% 단축)
   - hyp-3-02 (폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호)
+  - hyp-3-03 (브랜드 재현성이 성과를 만든다.)
   - pgm-content-os (Content OS)
   - pgm-youtube-weekly (YouTube 1주 1업로드)
   - prj-content-os (Content OS - MVP 개발)
