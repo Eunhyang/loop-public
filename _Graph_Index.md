@@ -39,12 +39,12 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 59 |
-| done | 373 |
+| done | 374 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 116 |
+| todo | 115 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -421,7 +421,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-1kthoh-1768748072688` | Ontology Lite v1 - edge_types 사전 정의 및 예시 작성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md` |
 | `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
 | `tsk-1kthoh-1768748073383` | Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md` |
-| `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
+| `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
 | `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
 | `tsk-1q091r-1767960173667` | 코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md` |

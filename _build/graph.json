@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-19T00:15:08.495313",
+  "generated": "2026-01-19T00:30:08.146215",
   "total_entities": 585,
   "nodes": [
     {
@@ -1165,7 +1165,7 @@
       "id": "tsk-1kthoh-1768748985191",
       "type": "Task",
       "name": "Ontology Lite v1 - Strategic Context 매핑 함수 생성",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md",
       "assignee": "김은향"
     },
@@ -9351,7 +9351,6 @@
       "tsk-1kthoh-1768748072688",
       "tsk-1kthoh-1768748072863",
       "tsk-1kthoh-1768748073383",
-      "tsk-1kthoh-1768748985191",
       "tsk-006-03",
       "tsk-008-05",
       "tsk-015-1768627947254",
@@ -9457,6 +9456,7 @@
       "tsk-002-1768743710425",
       "tsk-1t7iu4-1768242340825",
       "tsk-12329q-1768743358112",
+      "tsk-1kthoh-1768748985191",
       "tsk-006-01",
       "tsk-006-02",
       "tsk-006-04",
