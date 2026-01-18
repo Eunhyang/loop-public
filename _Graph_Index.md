@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 585
+total_entities: 581
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 585개
+- **총 엔티티**: 581개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 445 |
+| Task | 441 |
 | Hypothesis | 53 |
 | Experiment | 1 |
 
@@ -38,13 +38,13 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 59 |
+| doing | 56 |
 | done | 377 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 112 |
+| todo | 111 |
 | unknown | 1 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (445개)
+## Task (441개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -503,7 +503,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-24` | Dashboard - Google OAuth 계정 연결 | doing | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-24_Dashboard_Google_OAuth_계정_연결.md` |
 | `tsk-dashboard-ux-v1-25` | Dashboard - 캘린더 Google Calendar 연동 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-25_Dashboard_캘린더_Google_Calendar_연동.md` |
 | `tsk-dashboard-ux-v1-26` | Dashboard - Meeting Task Google Meet 생성 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-26_Dashboard_Meeting_Task_Google_Meet_생성.md` |
-| `tsk-dashboard-ux-v1-27` | Dashboard - Task Done 회의록 자동 추출 | todo | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-27_Dashboard_Task_Done_회의록_자동_추출.md` |
 | `tsk-dashboard-ux-v1-28` | Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-28_Dashboard_Calendar_사이드바_Google_계정_관리_UX_개선.md` |
 | `tsk-dashboard-ux-v1-29` | Dashboard - Google Calendar 연동 버그 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md` |
 | `tsk-dashboard-ux-v1-30` | 대시보드 - 코어멤버만 기본 표시 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-30_대시보드_코어멤버만_기본_표시.md` |
@@ -551,16 +550,13 @@ tags: ["meta", "graph", "index"]
 | `tsk-n8n-13` | Dashboard - Pending Reviews 필드 선택 UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md` |
 | `tsk-n8n-14` | Impact Model - SSOT 구조 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-14_Impact_Model_SSOT_구조_개선.md` |
 | `tsk-n8n-15` | Hypothesis - 고객중심 가설 강제 시스템 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-15_Hypothesis_고객중심_가설_강제_시스템.md` |
-| `tsk-n8n-16` | n8n - Workflow D Hypothesis Seeder | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-16_n8n_Workflow_D_Hypothesis_Seeder.md` |
 | `tsk-n8n-17` | Ontology-Lite - 무결성 검증 시스템 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-17_Ontology-Lite_무결성_검증_시스템.md` |
 | `tsk-n8n-18` | Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-18_Dashboard_Pending_Reviews_워크플로우_필터링_및_일괄_삭제.md` |
 | `tsk-n8n-19` | n8n - 워크플로우 source_workflow 필드 추가 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-19_n8n_워크플로우_source_workflow_필드_추가.md` |
 | `tsk-n8n-20` | Dashboard - Pending Panel Entity Preview UX 개선 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-20_Dashboard_Pending_Panel_Entity_Preview_UX_개선.md` |
 | `tsk-n8n-21` | Pending Review - 새로고침 기능 (개별 엔티티 재추론 API 및 Dashboard UI) | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-21_Pending_Review_새로고침_기능.md` |
-| `tsk-n8n-22` | Retro Synth - B Score 계산 fallback 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-22_Retro_Synth_B_Score_계산_fallback_시스템.md` |
 | `tsk-n8n-23` | n8n - Entity Validator Auto-Apply 기능 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-23_Entity_Validator_Auto-Apply.md` |
 | `tsk-n8n-24` | n8n - YouTube Performance Collector | doing | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-24_YouTube_Performance_Collector.md` |
-| `tsk-os-1767962821657` | ContentOS - Firebase DB 통합 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-os-1767962821657.md` |
 | `tsk-r6vqy6-1767945523056` | 법인 전환 - 세무법인 업무 협의(포괄양수도 계약, 향후 기장 대행) | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-r6vqy6-1767945523056.md` |
 | `tsk-uegvfe-1767941662809` | Dashboard - Task Drawer PR/Commit 필드 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-uegvfe-1767941662809.md` |
 | `tsk-uhklhc-1767959944222` | 유튜브 채널 성장, 브랜딩 - 보윤님 협업 콘텐츠 기획 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-uhklhc-1767959944222.md` |
@@ -1028,7 +1024,6 @@ tags: ["meta", "graph", "index"]
   - tsk-content-os-13 (ContentOS - Firebase 스키마 설계)
   - tsk-content-os-14 (ContentOS - YouTube Analytics 전체 메트릭 수집)
   - tsk-content-os-15 (Content OS - YouTube Studio 스냅샷 시스템)
-  - tsk-os-1767962821657 (ContentOS - Firebase DB 통합)
 - **prj-dashboard-ux-v1** (대시보드 UX 개선 v1)
   - tsk-019-25 (Schema - Task type에 meeting 추가)
   - tsk-019-27 (Dashboard - Google Calendar events API 400 에러 수정)
@@ -1057,7 +1052,6 @@ tags: ["meta", "graph", "index"]
   - tsk-dashboard-ux-v1-24 (Dashboard - Google OAuth 계정 연결)
   - tsk-dashboard-ux-v1-25 (Dashboard - 캘린더 Google Calendar 연동)
   - tsk-dashboard-ux-v1-26 (Dashboard - Meeting Task Google Meet 생성)
-  - tsk-dashboard-ux-v1-27 (Dashboard - Task Done 회의록 자동 추출)
   - tsk-dashboard-ux-v1-28 (Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선)
   - tsk-dashboard-ux-v1-29 (Dashboard - Google Calendar 연동 버그 수정)
   - tsk-dashboard-ux-v1-31 (Dashboard - Task Type Chip 즉시 저장 버그 수정)
@@ -1109,11 +1103,9 @@ tags: ["meta", "graph", "index"]
   - tsk-n8n-13 (Dashboard - Pending Reviews 필드 선택 UX 개선)
   - tsk-n8n-14 (Impact Model - SSOT 구조 개선)
   - tsk-n8n-15 (Hypothesis - 고객중심 가설 강제 시스템)
-  - tsk-n8n-16 (n8n - Workflow D Hypothesis Seeder)
   - tsk-n8n-17 (Ontology-Lite - 무결성 검증 시스템 구축)
   - tsk-n8n-18 (Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제)
   - tsk-n8n-20 (Dashboard - Pending Panel Entity Preview UX 개선)
-  - tsk-n8n-22 (Retro Synth - B Score 계산 fallback 시스템)
   - tsk-n8n-23 (n8n - Entity Validator Auto-Apply 기능)
 - **prj-vault-gpt** (ChatGPT Vault MCP 연결)
   - tsk-000gpt-1768236851889 (Expected Impact - Batch Fill MCP API)

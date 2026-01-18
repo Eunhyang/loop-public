@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T00:45:07.968276",
-  "total_entities": 585,
+  "generated": "2026-01-19T01:00:08.440273",
+  "total_entities": 581,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -2356,15 +2356,6 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-dashboard-ux-v1-27",
-      "type": "Task",
-      "name": "Dashboard - Task Done 회의록 자동 추출",
-      "status": "todo",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-27_Dashboard_Task_Done_회의록_자동_추출.md",
-      "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
       "id": "tsk-dashboard-ux-v1-24",
       "type": "Task",
       "name": "Dashboard - Google OAuth 계정 연결",
@@ -2753,27 +2744,6 @@
       "status": "doing",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-24_YouTube_Performance_Collector.md",
       "priority_flag": "medium",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-n8n-16",
-      "type": "Task",
-      "name": "n8n - Workflow D Hypothesis Seeder",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-16_n8n_Workflow_D_Hypothesis_Seeder.md",
-      "conditions_3y": [
-        "cond-e"
-      ],
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-n8n-22",
-      "type": "Task",
-      "name": "Retro Synth - B Score 계산 fallback 시스템",
-      "status": "doing",
-      "path": "50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-22_Retro_Synth_B_Score_계산_fallback_시스템.md",
-      "priority_flag": "high",
       "assignee": "김은향"
     },
     {
@@ -4255,15 +4225,6 @@
       "name": "ContentOS - Firebase Rules/Indexes 배포",
       "status": "done",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase Rules Indexes 배포.md",
-      "priority_flag": "high",
-      "assignee": "김은향"
-    },
-    {
-      "id": "tsk-os-1767962821657",
-      "type": "Task",
-      "name": "ContentOS - Firebase DB 통합",
-      "status": "doing",
-      "path": "50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-os-1767962821657.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -6539,11 +6500,6 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-27",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-dashboard-ux-v1",
       "target": "tsk-dashboard-ux-v1-24",
       "type": "parent_of"
     },
@@ -6720,16 +6676,6 @@
     {
       "source": "prj-n8n",
       "target": "tsk-000n8n-1768113632728",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-n8n",
-      "target": "tsk-n8n-16",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-n8n",
-      "target": "tsk-n8n-22",
       "type": "parent_of"
     },
     {
@@ -7489,11 +7435,6 @@
     },
     {
       "source": "prj-content-os",
-      "target": "tsk-os-1767962821657",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-content-os",
       "target": "tsk-0000os-1767981542605",
       "type": "parent_of"
     },
@@ -7889,11 +7830,6 @@
     },
     {
       "source": "tsk-v1-1767962818462",
-      "target": null,
-      "type": "depends_on"
-    },
-    {
-      "source": "tsk-dashboard-ux-v1-27",
       "target": null,
       "type": "depends_on"
     },
@@ -8594,7 +8530,6 @@
       "tsk-n8n-15",
       "tsk-n8n-19",
       "tsk-n8n-21",
-      "tsk-n8n-16",
       "prj-api-exec-vault",
       "prj-023",
       "prj-014",
@@ -8922,7 +8857,6 @@
       "tsk-dashboard-ux-v1-39",
       "tsk-v1-1767962818462",
       "tsk-v1-1767962821895",
-      "tsk-dashboard-ux-v1-27",
       "tsk-dashboard-ux-v1-24",
       "tsk-dashboard-ux-v1-10",
       "tsk-dashboard-ux-v1-29",
@@ -8962,8 +8896,6 @@
       "tsk-000n8n-1768068452347",
       "tsk-000n8n-1768113632728",
       "tsk-n8n-24",
-      "tsk-n8n-16",
-      "tsk-n8n-22",
       "tsk-000n8n-1768057225620",
       "tsk-000n8n-1768298290374",
       "tsk-kly0ry-1767960471502",
@@ -9128,7 +9060,6 @@
       "tsk-content-os-13",
       "tsk-022-03",
       "tsk-022-15",
-      "tsk-os-1767962821657",
       "tsk-0000os-1767981542605",
       "tsk-content-os-14",
       "tsk-content-os-15",
@@ -9371,7 +9302,6 @@
       "tsk-yt-w03-26-08",
       "tsk-yt-w03-26-09",
       "tsk-yt-w03-26-10",
-      "tsk-dashboard-ux-v1-27",
       "tsk-feedback-01",
       "tsk-023-43",
       "tsk-023-1768027776050",
@@ -9805,8 +9735,6 @@
       "tsk-impact-schema-v2-05",
       "prj-n8n",
       "tsk-n8n-24",
-      "tsk-n8n-16",
-      "tsk-n8n-22",
       "prj-019",
       "prj-api-exec-vault",
       "prj-feedback-system",
@@ -9822,7 +9750,6 @@
       "pgm-tips",
       "pgm-content-os",
       "prj-content-os",
-      "tsk-os-1767962821657",
       "pgm-kkokkkok-app-release",
       "pgm-ops",
       "prj-021",

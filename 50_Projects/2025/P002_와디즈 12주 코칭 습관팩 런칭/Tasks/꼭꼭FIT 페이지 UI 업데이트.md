@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-002-09
 entity_name: 꼭꼭FIT 페이지 UI 업데이트
 created: 2025-12-18
-updated: '2026-01-17'
+updated: '2026-01-19'
 status: todo
 parent_id: prj-002
 project_id: prj-002
@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-20'
+due: '2026-01-21'
 priority: high
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-20'
+start_date: '2026-01-21'
 notes: '# 꼭꼭FIT 페이지 UI 업데이트
 
 

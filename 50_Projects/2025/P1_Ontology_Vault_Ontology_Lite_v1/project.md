@@ -17,10 +17,10 @@ conditions_3y:
 condition_contributes:
 - to: cond-b
   weight: 0.7
-  description: 프로젝트가 성공하면 재현 가능한 패턴이 증가해야 하므로, 이 Condition의 기여도가 높다.
+  description: 프로젝트가 데이터 수가 아닌 재현 가능한 패턴을 늘리는 것에 직접적으로 기여하기 때문에 높은 기여도를 가집니다.
 - to: cond-d
   weight: 0.3
-  description: 런웨이와 매출이 전략 지속 가능성을 위해 중요하므로, 이 Condition도 기여한다.
+  description: 프로젝트의 성공이 월 매출 또는 런웨이에 긍정적인 영향을 미칠 것으로 예상되지만, 직접적인 기여는 상대적으로 낮습니다.
 track_contributes: []
 ---
 # Ontology - Vault Ontology Lite v1
