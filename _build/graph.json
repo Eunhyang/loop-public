@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-18T06:15:07.975391",
+  "generated": "2026-01-18T12:15:08.127278",
   "total_entities": 566,
   "nodes": [
     {
@@ -859,7 +859,7 @@
       "id": "tsk-156anu-1768576137968",
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 연습 (01/18)",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
       "assignee": "김은향"
     },
@@ -867,7 +867,7 @@
       "id": "tsk-156anu-1768579596258",
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 진행",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md",
       "assignee": "김은향"
     },
@@ -2300,11 +2300,11 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-dashboard-ux-v1-29",
+      "id": "tsk-019-27",
       "type": "Task",
-      "name": "Dashboard - Google Calendar 연동 버그 수정",
+      "name": "Dashboard - Google Calendar events API 400 에러 수정",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2318,11 +2318,11 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-019-27",
+      "id": "tsk-dashboard-ux-v1-29",
       "type": "Task",
-      "name": "Dashboard - Google Calendar events API 400 에러 수정",
+      "name": "Dashboard - Google Calendar 연동 버그 수정",
       "status": "done",
-      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
+      "path": "50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4358,11 +4358,11 @@
       "assignee": "한명학"
     },
     {
-      "id": "tsk-aduxpf-1767959129481",
+      "id": "tsk-mzjr8a-1768196988716",
       "type": "Task",
-      "name": "앱 유로 구독 - iOS 구독 안 됨",
-      "status": "done",
-      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
+      "name": "1.0.29 - 재로그인시 MealDiary 사진 안보임",
+      "status": "todo",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768196988716.md",
       "assignee": "김은향"
     },
     {
@@ -4374,11 +4374,11 @@
       "assignee": "김은향"
     },
     {
-      "id": "tsk-mzjr8a-1768196988716",
+      "id": "tsk-aduxpf-1767959129481",
       "type": "Task",
-      "name": "1.0.29 - 재로그인시 MealDiary 사진 안보임",
-      "status": "todo",
-      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768196988716.md",
+      "name": "앱 유로 구독 - iOS 구독 안 됨",
+      "status": "done",
+      "path": "50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-aduxpf-1767959129481.md",
       "assignee": "김은향"
     },
     {
@@ -6349,7 +6349,7 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-dashboard-ux-v1-29",
+      "target": "tsk-019-27",
       "type": "parent_of"
     },
     {
@@ -6359,7 +6359,7 @@
     },
     {
       "source": "prj-dashboard-ux-v1",
-      "target": "tsk-019-27",
+      "target": "tsk-dashboard-ux-v1-29",
       "type": "parent_of"
     },
     {
@@ -7379,7 +7379,7 @@
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-aduxpf-1767959129481",
+      "target": "tsk-mzjr8a-1768196988716",
       "type": "parent_of"
     },
     {
@@ -7389,7 +7389,7 @@
     },
     {
       "source": "prj-mzjr8a",
-      "target": "tsk-mzjr8a-1768196988716",
+      "target": "tsk-aduxpf-1767959129481",
       "type": "parent_of"
     },
     {
@@ -8665,9 +8665,9 @@
       "tsk-dashboard-ux-v1-27",
       "tsk-dashboard-ux-v1-24",
       "tsk-dashboard-ux-v1-10",
-      "tsk-dashboard-ux-v1-29",
-      "tsk-dashboard-ux-v1-31",
       "tsk-019-27",
+      "tsk-dashboard-ux-v1-31",
+      "tsk-dashboard-ux-v1-29",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-mcp-rbac-04",
@@ -8886,9 +8886,9 @@
       "tsk-0000os-1768466096034",
       "tsk-kkokkkok-v1028-01",
       "tsk-mzjr8a-1768542536681",
-      "tsk-aduxpf-1767959129481",
-      "tsk-mzjr8a-1768231080040",
       "tsk-mzjr8a-1768196988716",
+      "tsk-mzjr8a-1768231080040",
+      "tsk-aduxpf-1767959129481",
       "tsk-021-01",
       "tsk-021-1767964326285",
       "tsk-021-1767965869633",
@@ -9068,8 +9068,6 @@
       "tsk-005-02",
       "tsk-005-01",
       "tsk-011-01",
-      "tsk-156anu-1768576137968",
-      "tsk-156anu-1768579596258",
       "tsk-002-08",
       "tsk-002-06",
       "tsk-002-09",
@@ -9108,8 +9106,8 @@
       "tsk-023-1768386479760",
       "tsk-685ac7-1767962904466",
       "tsk-0000os-1768466262169",
-      "tsk-mzjr8a-1768231080040",
       "tsk-mzjr8a-1768196988716",
+      "tsk-mzjr8a-1768231080040",
       "tsk-021-1768370031417",
       "trk-5",
       "cond-c",
@@ -9164,6 +9162,8 @@
       "tsk-1pg1i9-1767935607817",
       "tsk-156anu-1768573665233",
       "tsk-156anu-1768575996462",
+      "tsk-156anu-1768576137968",
+      "tsk-156anu-1768579596258",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",
@@ -9270,9 +9270,9 @@
       "tsk-v1-1767962818462",
       "tsk-v1-1767962821895",
       "tsk-dashboard-ux-v1-10",
-      "tsk-dashboard-ux-v1-29",
-      "tsk-dashboard-ux-v1-31",
       "tsk-019-27",
+      "tsk-dashboard-ux-v1-31",
+      "tsk-dashboard-ux-v1-29",
       "tsk-mcp-rbac-01",
       "tsk-mcp-rbac-02",
       "tsk-impact-schema-v2-01",
