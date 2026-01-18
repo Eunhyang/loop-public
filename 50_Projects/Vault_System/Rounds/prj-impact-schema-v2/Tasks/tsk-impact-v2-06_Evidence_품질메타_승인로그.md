@@ -1,9 +1,9 @@
 ---
 entity_type: Task
 entity_id: tsk-impact-v2-06
-entity_name: "Evidence - 품질 메타 표준화 + 승인 로그 구현"
+entity_name: Evidence - 품질 메타 표준화 + 승인 로그 구현
 created: 2025-12-28
-updated: 2025-12-28
+updated: '2026-01-19'
 status: done
 closed: 2025-12-29
 assignee: 김은향
@@ -12,8 +12,128 @@ parent_id: prj-impact-schema-v2
 type: dev
 target_project: loop
 priority: high
+notes: "# Evidence - 품질 메타 표준화 + 승인 로그 구현\n\n## 목표\n\nLOOP_PHILOSOPHY.md 12절 결론에서\
+  \ 제시한 **가장 높은 ROI를 내는 두 가지 우선 구현**:\n\n1. **Evidence 품질 메타 표준화 + 자동 채움**\n2. **승인\
+  \ 로그(append-only) + audit(run) 로그로 재현/책임 구조 확보**\n\n---\n\n## 배경 (LOOP_PHILOSOPHY.md\
+  \ 발췌)\n\n### 8.1 Evidence 품질 메타(신뢰 구조)\n\nB는 숫자지만, **숫자의 신뢰 구조**가 없으면 \"그럴듯한 점수\"\
+  로 끝난다. 따라서 Evidence에는 최소한 아래 품질 메타가 필요하다:\n\n- **provenance**: auto/human/mixed\n\
+  - **source_refs**: 쿼리/링크/샘플\n- **sample_size**: 숫자 또는 sample_ids\n- **measurement_quality**:\
+  \ low/med/high\n- **counterfactual**: none/before_after/controlled (대조군/전후비교 유무)\n\
+  - **confounders**: 외부 변수 여부\n- **query/version**: 어떤 규칙/버전으로 계산했는지\n\n> 이걸 Vault+n8n으로도\
+  \ lite하게 충분히 만들 수 있다. (팔란티어가 강한 건 이걸 \"플랫폼 레벨\"로 해준다는 점이지만, 지금은 직접 최소 버전만 만들어도 됨)\n\
+  \n### 8.2 승인 로그(append-only)\n\nAI가 점점 더 많은 작업을 하게 될수록, \"누가 무엇을 승인했는지\"는 제품·조직의\
+  \ 안전장치가 된다.\n\n- **decision_log.jsonl** (append-only)\n- **audit/run 로그** (재현 가능한\
+  \ 디버깅)\n\nLoopOS ontology-lite 문서가 말하듯, \"인과 스위치는 ActionExecution\"이고 그건 트랜잭션이어야\
+  \ 한다. 회사 운영에서도 동일하게:\n\n- 누가 무엇을 승인했는지\n- 언제 어떤 판단으로 바꿨는지\n\n이게 1줄 로그로라도 남아야, 나중에\
+  \ 팔란티어 없이도 \"감사/재현\"이 가능해진다.\n\n---\n\n## 구현 범위\n\n### Part 1: Evidence 품질 메타 스키마\
+  \ 확장\n\n`00_Meta/schema_constants.yaml`에 Evidence 품질 메타 필드 추가:\n\n```yaml\nEvidence:\n\
+  \  # 기존 필드 (이미 정의됨)\n  - normalized_delta\n  - evidence_strength\n  - attribution_share\n\
+  \  - learning_value\n\n  # 신규 품질 메타 필드\n  - provenance           # auto | human\
+  \ | mixed\n  - source_refs          # [string] 쿼리/링크/샘플\n  - sample_size       \
+  \   # number | null\n  - measurement_quality  # low | medium | high\n  - counterfactual\
+  \       # none | before_after | controlled\n  - confounders          # [string]\
+  \ 외부 변수 목록\n  - query_version        # string (계산 규칙/버전)\n```\n\n### Part 2: 승인\
+  \ 로그 시스템\n\n1. **decision_log.jsonl** (append-only)\n\n   - 승인/거부 결정만 기록\n   - 형식:\
+  \ `{timestamp, decision, entity_id, entity_type, user, reason}`\n\n2. **audit.log\
+  \ 분리**\n\n   - 기존: 엔티티 CRUD 전체\n   - 변경: CRUD 로그만 (decision은 별도)\n\n3. **run_log/**\
+  \ (LLM 호출 기록)\n\n   - run_id 기반 실행 기록\n   - 재현/디버깅용\n\n### Part 3: 승인 API 엔드포인트\n\
+  \n```\nPOST /api/pending/{review_id}/approve\nPOST /api/pending/{review_id}/reject\n\
+  ```\n\n- 승인/거부 시 decision_log.jsonl에 자동 기록\n- 승인 시 엔티티에 필드 적용\n\n---\n\n## Notes\n\
+  \n### PRD (Product Requirements Document)\n\n프로젝트 컨텍스트\n\n- **Framework**: LOOP\
+  \ Vault (Obsidian + FastAPI + n8n)\n- **Architecture**: Document-based SSOT + Derived\
+  \ Build Artifacts\n- **Schema SSOT**: `00_Meta/schema_constants.yaml`\n- **Impact\
+  \ Config**: `impact_model_config.yml`\n- **API**: FastAPI (`api/`) with routers,\
+  \ services, prompts\n- **Key Principle**: \"계산은 코드가, 판단은 사람이\"\n\n주요 기능\n\n1. **Evidence\
+  \ 품질 메타 스키마 확장** - schema_constants.yaml에 신뢰 구조 필드 추가\n2. **decision_log.jsonl 구현**\
+  \ - append-only 승인/거부 로그\n3. **run_log 시스템** - LLM 호출 재현/디버깅용 기록\n4. **승인 API 엔드포인트**\
+  \ - approve/reject 전용 API\n\n성공 기준\n\n- [ ] schema_constants.yaml에 Evidence 품질 메타\
+  \ 필드 7개 추가\n\n- [ ] impact_model_config.yml에 evidence_quality_meta 섹션 추가\n\n- [\
+  \ ] validate_schema.py가 새 필드 정상 검증\n\n- [ ] decision_log.jsonl 파일 생성 및 append-only\
+  \ 동작\n\n- [ ] run_log/ 디렉토리 생성 및 LLM 호출 기록\n\n- [ ] POST /api/pending/{id}/approve\
+  \ 동작\n\n- [ ] POST /api/pending/{id}/reject 동작\n\n- [ ] 승인 시 엔티티에 필드 적용\n\n- [ ]\
+  \ 모든 결정이 decision_log에 기록됨\n\n---\n\n### Tech Spec\n\n파일 구조\n\n```\n00_Meta/\n└──\
+  \ schema_constants.yaml          # Evidence 품질 메타 필드 추가\n\nimpact_model_config.yml\
+  \            # evidence_quality_meta 섹션 추가\n\napi/\n├── routers/\n│   ├── pending.py\
+  \                 # approve/reject 엔드포인트 추가\n│   └── audit.py                  \
+  \ # decision_log 분리\n├── services/\n│   └── decision_logger.py         # NEW: append-only\
+  \ 로거\n└── utils/\n    └── run_logger.py              # NEW: LLM 호출 기록\n\n_build/\n\
+  ├── decision_log.jsonl             # NEW: 승인/거부 기록\n├── audit.log              \
+  \        # 기존: 엔티티 CRUD만\n└── run_log/                       # NEW: LLM 실행 기록\n\
+  \    └── {run_id}.json\n```\n\n1\\. Evidence 품질 메타 스키마 (schema_constants.yaml)\n\
+  \n**위치**: `00_Meta/schema_constants.yaml` - `known_fields.Evidence` 섹션\n\n**추가 필드**:\n\
+  \n```yaml\nEvidence:\n  # 신규 품질 메타 필드\n  - provenance           # auto | human |\
+  \ mixed\n  - source_refs          # [string] 쿼리 URL/링크/샘플 ID\n  - sample_size  \
+  \        # number | null\n  - measurement_quality  # low | medium | high\n  - counterfactual\
+  \       # none | before_after | controlled\n  - confounders          # [string]\
+  \ 외부 변수 목록\n  - query_version        # string (계산 규칙/버전)\n```\n\n2\\. Impact Model\
+  \ Config 확장 (impact_model_config.yml)\n\n```yaml\nevidence_quality_meta:\n  provenance:\n\
+  \    values: [auto, human, mixed]\n    default: human\n  measurement_quality:\n\
+  \    values: [low, medium, high]\n    default: medium\n  counterfactual:\n    values:\
+  \ [none, before_after, controlled]\n    default: none\n```\n\n3\\. Decision Logger\
+  \ Service (api/services/decision_logger.py)\n\n```python\ndef log_decision(\n  \
+  \  decision: str,           # approve | reject\n    entity_id: str,\n    entity_type:\
+  \ str,\n    review_id: str,\n    user: str,\n    reason: Optional[str] = None,\n\
+  \    applied_fields: Optional[Dict] = None\n) -> str:\n    \"\"\"decision_log.jsonl에\
+  \ 한 줄 추가 (append-only)\"\"\"\n```\n\n**로그 형식**:\n\n```jsonl\n{\"decision_id\": \"\
+  dec-20251228-xxxx\", \"timestamp\": \"...\", \"decision\": \"approve\", \"entity_id\"\
+  : \"prj-001\", ...}\n```\n\n4\\. Run Logger (api/utils/run_logger.py)\n\n```python\n\
+  def create_run_log(\n    run_id: str,\n    prompt: str,\n    system_prompt: str,\n\
+  \    response: Dict,\n    provider: str,\n    model: str,\n    entity_context: Optional[Dict]\
+  \ = None\n) -> Path:\n    \"\"\"_build/run_log/{run_id}.json 생성\"\"\"\n```\n\n5\\\
+  . 승인 API 엔드포인트 (api/routers/pending.py)\n\n```python\n@router.post(\"/{review_id}/approve\"\
+  )\nasync def approve_review(review_id: str, reason: Optional[str], user: str = \"\
+  api\")\n\n@router.post(\"/{review_id}/reject\")\nasync def reject_review(review_id:\
+  \ str, reason: str, user: str = \"api\")  # reason 필수\n```\n\n---\n\n### Todo\n\n\
+  1. \n\n- [x] schema_constants.yaml - Evidence 품질 메타 필드 추가 (v5.3)\n\n- [x] impact_model_config.yml\
+  \ - evidence_quality_meta 섹션 추가 (v1.3.0)\n\n- [x] api/services/decision_logger.py\
+  \ - 신규 생성 (append-only)\n\n- [x] api/utils/run_logger.py - 신규 생성 (LLM 호출 기록)\n\n\
+  - [x] api/routers/pending.py - approve/reject 엔드포인트 + decision_log 연동\n\n- [x] api/routers/audit.py\
+  \ - /decisions, /runs 조회 엔드포인트 추가\n\n- [x] api/services/llm_service.py - run_log\
+  \ 자동 기록 연동\n\n- [x] \\_build/decision_log.jsonl - 초기 파일 생성\n\n- [x] \\_build/run_log/\
+  \ - 디렉토리 생성\n\n---\n\n### 작업 로그\n\n2025-12-29: Evidence 품질 메타 표준화 + 승인 로그 구현\n\n\
+  **Overview**\n\nLOOP_PHILOSOPHY.md 12절에서 제시한 \"가장 높은 ROI를 내는 두 가지 우선 구현\"을 완료:\n\
+  \n1. Evidence 품질 메타 표준화: B Score(실제 성과 점수)의 신뢰 구조를 담보하는 7개 메타 필드 추가\n2. 승인 로그(append-only)\
+  \ + audit(run) 로그: AI 제안에 대한 인간 승인 추적 시스템\n\n핵심 철학: \"숫자의 신뢰 구조가 없으면 그럴듯한 점수로 끝난다\"\
+  \n\n**Context**\n\n문제 인식:\n\n- B Score는 숫자지만, 그 숫자가 어떻게 생성되었는지 알 수 없었음\n- AI가 점점\
+  \ 더 많은 작업을 하면서 \"누가 무엇을 승인했는지\" 추적 필요\n- 3개월 뒤에도 같은 결정을 같은 근거로 설명할 수 있어야 함\n\n해결\
+  \ 방향:\n\n- Evidence에 품질 메타 필드 추가 (provenance, measurement_quality, counterfactual\
+  \ 등)\n- decision_log.jsonl: append-only 승인/거부 로그\n- run_log/: LLM 호출 기록 (재현 가능한\
+  \ 디버깅)\n\n**Changes Made**\n\n1. Schema Constants 확장 (v5.2 → v5.3)\n\n   - Evidence\
+  \ 품질 메타 필드 7개 추가: provenance, source_refs, sample_size, measurement_quality, counterfactual,\
+  \ confounders, query_version\n\n2. Impact Model Config 확장 (v1.2.0 → v1.3.0)\n\n\
+  \   - evidence_quality_meta 섹션 추가\n\n3. Decision Logger Service (api/services/decision_logger.py)\n\
+  \n   - append-only 승인/거부 로그 시스템\n   - log_decision(), get_decisions(), get_entity_decision_history()\
+  \ 등\n\n4. Run Logger Utility (api/utils/run_logger.py)\n\n   - LLM 호출 기록 시스템\n \
+  \  - create_run_log(), get_run_log(), list_run_logs(), delete_old_run_logs()\n\n\
+  5. Pending Router 업데이트\n\n   - approve/reject 엔드포인트에 decision_log 자동 기록 연동\n\n6.\
+  \ Audit Router 확장\n\n   - /api/audit/decisions, /api/audit/runs 조회 엔드포인트 추가\n\n\
+  7. LLM Service 연동\n\n   - run_log 자동 기록 연동 (entity_context, log_run 파라미터 추가)\n\n\
+  **New API Endpoints**\n\n| Method | Path | Description |\n| --- | --- | --- |\n\
+  | POST | `/api/pending/{id}/approve` | 승인 + decision_log 기록 |\n| POST | `/api/pending/{id}/reject`\
+  \ | 거부 + decision_log 기록 |\n| GET | `/api/audit/decisions` | 결정 로그 조회 |\n| GET |\
+  \ `/api/audit/decisions/{id}` | 특정 결정 조회 |\n| GET | `/api/audit/decisions/entity/{id}`\
+  \ | 엔티티별 결정 히스토리 |\n| GET | `/api/audit/runs` | LLM 실행 로그 목록 |\n| GET | `/api/audit/runs/{id}`\
+  \ | 특정 실행 로그 상세 |\n| DELETE | `/api/audit/runs/cleanup` | 오래된 로그 삭제 |\n\n**File\
+  \ Changes Summary**\n\n| File | Change | Description |\n| --- | --- | --- |\n| `api/services/decision_logger.py`\
+  \ | 신규 | append-only 로거 (226 lines) |\n| `api/utils/run_logger.py` | 신규 | LLM 호출\
+  \ 기록 (223 lines) |\n| `api/routers/audit.py` | 수정 | /decisions, /runs 엔드포인트 (+116\
+  \ lines) |\n| `api/routers/pending.py` | 수정 | decision_log 연동 |\n| `api/services/llm_service.py`\
+  \ | 수정 | run_log 연동 |\n| `00_Meta/schema_constants.yaml` | 수정 | v5.3 (Evidence 품질\
+  \ 메타) |\n| `impact_model_config.yml` | 수정 | v1.3.0 (evidence_quality_meta) |\n|\
+  \ `_build/decision_log.jsonl` | 신규 | 초기화 |\n| `_build/run_log/` | 신규 | 디렉토리 생성 |\n\
+  \n**Verification Results**\n\n```bash\n$ python3 -c \"from api.routers import pending,\
+  \ audit; from api.services import llm_service, decision_logger; from api.utils import\
+  \ run_logger; print('All modules import successfully')\"\nAll modules import successfully\n\
+  ```\n\n**Summary**\n\n| 구분 | 변경 |\n| --- | --- |\n| Schema 버전 | 5.2 → **5.3** |\n\
+  | Impact Config 버전 | 1.2.0 → **1.3.0** |\n| 신규 파일 | 2개 (decision_logger.py, run_logger.py)\
+  \ |\n| 수정 파일 | 5개 |\n| 신규 API | 8개 엔드포인트 |\n\nLOOP_PHILOSOPHY 구현 현황:\n\n- 8.1 Evidence\
+  \ 품질 메타: ✅ 7개 필드 추가\n- 8.2 승인 로그 (append-only): ✅ decision_log.jsonl\n- 8.2 audit/run\
+  \ 로그: ✅ run_log/ 디렉토리\n\n**Next Steps**\n\n- n8n 워크플로우 연동: autofill 워크플로우에서 run_log\
+  \ 활용\n- Dashboard 연동: 결정 히스토리 UI 표시\n- 품질 메타 자동 채움: Evidence 생성 시 품질 메타 기본값 설정\n\
+  - Phase 2: quality_adjustment 활성화 (B Score에 품질 반영)\n\n온톨로지 lite v1 접점\n\n- `validates.evidence`는\
+  \ 00_Meta Evidence 스키마를 따름(SSOT 참조 선언)\n- `Action` 노드 생성 시, 승인 로그/decision_log와\
+  \ 연결할 키 규칙\n- run_log에서 graph_build(run_id)와 연결하는 trace_id 필드(재현성)"
 ---
-
 # Evidence - 품질 메타 표준화 + 승인 로그 구현
 
 ## 목표
