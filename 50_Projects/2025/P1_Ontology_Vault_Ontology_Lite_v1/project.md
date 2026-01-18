@@ -33,6 +33,15 @@ track_contributes:
 validates:
 - hyp-2-12
 primary_hypothesis_id: hyp-2-12
+summary: '[Track 2(Data)] Track 2(Data)에서 Ontology Lite v1의 edge_types 정의로 데이터 패턴화를
+  검증하는 프로젝트.'
+expected_impact:
+  tier: operational
+  impact_magnitude: low
+  confidence: 0.7
+  contributes: []
+  rationale: Ontology - Vault Ontology Lite v1 프로젝트는 데이터 패턴화 가능성을 높이는 데 기여하며, 전략 실행을
+    지원하는 기반 프로젝트로 평가됩니다.
 ---
 # Ontology - Vault Ontology Lite v1
 
