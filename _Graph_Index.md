@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 583
+total_entities: 585
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 583개
+- **총 엔티티**: 585개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 442 |
+| Task | 444 |
 | Hypothesis | 54 |
 | Experiment | 1 |
 
@@ -39,12 +39,12 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 56 |
-| done | 377 |
+| done | 378 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 112 |
+| todo | 113 |
 | unknown | 2 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (442개)
+## Task (444개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -413,6 +413,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
 | `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
+| `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
@@ -537,6 +538,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-mzjr8a-1768231080040` | 꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다) | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768231080040.md` |
 | `tsk-mzjr8a-1768542536681` | 꼭꼭 앱 - 마이그레이션 코드  | done | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md` |
 | `tsk-mzjr8a-1768742760758` | sosi - 식전 사진 카메라 전면→후면 버그 수정 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768742760758.md` |
+| `tsk-mzjr8a-1768791541000` | sosi - 푸시알림 긴급/중요 알림 채널 적용 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768791541000.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
 | `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
@@ -590,7 +592,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-w02-26-08` | YouTube W02 - 쇼츠 #3 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-08_쇼츠_3.md` |
 | `tsk-yt-w02-26-09` | YouTube W02 - 쇼츠 #4 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-09_쇼츠_4.md` |
 | `tsk-yt-w02-26-10` | YouTube W02 - 쇼츠 #5 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-10_쇼츠_5.md` |
-| `tsk-yt-w03-26-01` | YouTube W03-26 - 주제 선정 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-01.md` |
+| `tsk-yt-w03-26-01` | YouTube W03-26 - 주제 선정 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-01.md` |
 | `tsk-yt-w03-26-02` | YouTube W03-26 - 원고 작성 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md` |
 | `tsk-yt-w03-26-03` | YouTube W03-26 - 원고 수정 + 촬영 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md` |
 | `tsk-yt-w03-26-04` | YouTube W03-26 - 편집 외주 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-04.md` |
@@ -978,6 +980,7 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768575996462 (Antler 3차 - AI몬스터 면접 연습 (01/16))
   - tsk-156anu-1768576137968 (Antler 3차 - AI몬스터 면접 연습 (01/18))
   - tsk-156anu-1768579596258 (Antler 3차 - AI몬스터 면접 진행)
+  - tsk-156anu-1768803029885 (Antler 4차 - 면접 전략짜기)
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
 - **prj-1kthoh** (Ontology - Vault Ontology Lite v1)
   - tsk-1kthoh-1768748042882 (Ontology Lite v1 - 엔티티 및 ID 규칙 정의)
@@ -1087,6 +1090,7 @@ tags: ["meta", "graph", "index"]
   - tsk-mzjr8a-1768231080040 (꼭꼭 앱 - 마이그레이션 코드가 1개월 만에 풀리는 현상 지속됨(3개월, 1년 권 둘다))
   - tsk-mzjr8a-1768542536681 (꼭꼭 앱 - 마이그레이션 코드 )
   - tsk-mzjr8a-1768742760758 (sosi - 식전 사진 카메라 전면→후면 버그 수정)
+  - tsk-mzjr8a-1768791541000 (sosi - 푸시알림 긴급/중요 알림 채널 적용)
 - **prj-n8n** (n8n Vault 자동화)
   - tsk-000n8n-1768057225620 (n8n - Entity Validator Auto-Apply 기능)
   - tsk-000n8n-1768068452347 (n8n - YouTube 데이터 수집 + Discord 알림)
