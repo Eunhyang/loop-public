@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 589
+total_entities: 591
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 589개
+- **총 엔티티**: 591개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 448 |
+| Task | 450 |
 | Hypothesis | 54 |
 | Experiment | 1 |
 
@@ -39,12 +39,12 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 56 |
-| done | 380 |
+| done | 381 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 115 |
+| todo | 116 |
 | unknown | 2 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (448개)
+## Task (450개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -369,6 +369,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768729558248` | ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md` |
 | `tsk-023-1768742466` | Project Create 모드 AI 버튼 활성화 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768742466.md` |
 | `tsk-023-1768809114457` | API - Multi-Dock contributes에 reasoning 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768809114457.md` |
+| `tsk-023-1768817911261` | AI 추론 버그 수정 - 프론트엔드 description 무시 문제 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768817911261.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -436,6 +437,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
 | `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
 | `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
+| `tsk-26-1768817962653` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768817962653.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -938,6 +940,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768721377517 (AI API - Vault Ontology Schema 컨텍스트 자동 주입)
   - tsk-023-1768729558248 (ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast)
   - tsk-023-1768809114457 (API - Multi-Dock contributes에 reasoning 추가)
+  - tsk-023-1768817911261 (AI 추론 버그 수정 - 프론트엔드 description 무시 문제)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -1146,6 +1149,7 @@ tags: ["meta", "graph", "index"]
   - tsk-26-1768238654295 (YouTube W02 - 추가편집(필요한 영상등 추가))
   - tsk-26-1768441882042 (다온 - w02 편집 영상 검토)
   - tsk-26-1768658545586 (YouTube W02 - 다온님 영상편집 2차 내용 확인)
+  - tsk-26-1768817962653 (YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기)
   - tsk-yt-01 (법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사))
   - tsk-yt-w02-26-01 (YouTube W02 - 주제 선정)
   - tsk-yt-w02-26-02 (YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가)
