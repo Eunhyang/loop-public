@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 597
+total_entities: 598
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 597개
+- **총 엔티티**: 598개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 452 |
+| Task | 453 |
 | Hypothesis | 58 |
 | Experiment | 1 |
 
@@ -39,13 +39,13 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 56 |
-| done | 383 |
+| done | 384 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 24 |
+| planning | 25 |
 | todo | 116 |
-| unknown | 5 |
+| unknown | 4 |
 | validating | 6 |
 
 ---
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (452개)
+## Task (453개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -372,6 +372,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768817911261` | AI 추론 버그 수정 - 프론트엔드 description 무시 문제 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768817911261.md` |
 | `tsk-023-1768826648077` | API - file-read 디렉토리 지원 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768826648077.md` |
 | `tsk-023-1768827356397` | Dashboard - Vault Explorer 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768827356397.md` |
+| `tsk-023-1768828783525` | Dashboard - 프롬프트 템플릿 관리 기능 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768828783525.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -659,7 +660,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-4-13` | 한끼꼭꼭 챌린지 - 미니코칭 전환 | validating | `60_Hypotheses/2026/hyp-4-13_kkok_challenge_conversion_minicoaching.md` |
 | `hyp-4-14` | 오픈톡 인증자 수 증가 가설 |  | `60_Hypotheses/2026/hyp-4-14_오픈톡_인증자_수_증가_가설.md` |
 | `hyp-4-15` | 오픈톡 인증자 수 증가 가설 |  | `60_Hypotheses/2026/hyp-4-15_오픈톡_인증자_수_증가_가설.md` |
-| `hyp-4-16` | 오픈톡 활성화 효과 검증 |  | `60_Hypotheses/2026/hyp-4-16_오픈톡_활성화_효과_검증.md` |
+| `hyp-4-16` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다 | planning | `60_Hypotheses/2026/hyp-4-16.md` |
 | `hyp-6-01` | 주니어 개발자 온보딩이 내부 고객의 개발 병목을 줄인다 | planning | `60_Hypotheses/2026/hyp-6-01.md` |
 | `hyp-6-02` | 앱 전환율 최소선 | todo | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
 | `hyp-6-03` | 환불/클레임 통제 | todo | `60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md` |
@@ -949,6 +950,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768817911261 (AI 추론 버그 수정 - 프론트엔드 description 무시 문제)
   - tsk-023-1768826648077 (API - file-read 디렉토리 지원 추가)
   - tsk-023-1768827356397 (Dashboard - Vault Explorer 기능 구현)
+  - tsk-023-1768828783525 (Dashboard - 프롬프트 템플릿 관리 기능)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -1262,7 +1264,7 @@ tags: ["meta", "graph", "index"]
   - hyp-4-11 (랜딩 상단 후기·변화 증거가 상담 전환을 올림)
   - hyp-4-14 (오픈톡 인증자 수 증가 가설)
   - hyp-4-15 (오픈톡 인증자 수 증가 가설)
-  - hyp-4-16 (오픈톡 활성화 효과 검증)
+  - hyp-4-16 (오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다)
   - pgm-cs (CS·고객지원)
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행))

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T22:00:08.232813",
-  "total_entities": 597,
+  "generated": "2026-01-19T22:30:08.599136",
+  "total_entities": 598,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -404,9 +404,9 @@
     {
       "id": "hyp-4-16",
       "type": "Hypothesis",
-      "name": "오픈톡 활성화 효과 검증",
-      "status": null,
-      "path": "60_Hypotheses/2026/hyp-4-16_오픈톡_활성화_효과_검증.md"
+      "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-16.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -1153,6 +1153,10 @@
       "name": "오픈 채팅방 활성화 - 챌린지 운영 1차",
       "status": "planning",
       "path": "50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md",
+      "conditions_3y": [
+        "cond-b",
+        "cond-d"
+      ],
       "priority_flag": "medium",
       "owner": "한명학"
     },
@@ -4007,6 +4011,14 @@
       "name": "Dashboard - Vault Explorer 기능 구현",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768827356397.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768828783525",
+      "type": "Task",
+      "name": "Dashboard - 프롬프트 템플릿 관리 기능",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768828783525.md",
       "assignee": "김은향"
     },
     {
@@ -7470,6 +7482,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768828783525",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -8440,6 +8457,11 @@
       "type": "validates"
     },
     {
+      "source": "prj-12329q",
+      "target": "hyp-4-16",
+      "type": "validates"
+    },
+    {
       "source": "prj-waoz74",
       "target": "hyp-3-01",
       "type": "validates"
@@ -8746,6 +8768,7 @@
       "prj-005",
       "prj-002",
       "prj-5w69jw",
+      "prj-12329q",
       "prj-1kthoh",
       "prj-006",
       "prj-008",
@@ -8781,6 +8804,7 @@
       "prj-016",
       "prj-156anu",
       "prj-002",
+      "prj-12329q",
       "prj-1kthoh",
       "prj-006",
       "prj-008",
@@ -9280,6 +9304,7 @@
       "tsk-023-1768817911261",
       "tsk-023-1768826648077",
       "tsk-023-1768827356397",
+      "tsk-023-1768828783525",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -9447,6 +9472,7 @@
       "hyp-4-11",
       "hyp-2-11",
       "hyp-6-15",
+      "hyp-4-16",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",
@@ -9600,7 +9626,6 @@
       "hyp-2-12",
       "hyp-4-14",
       "hyp-4-15",
-      "hyp-4-16",
       "ev:{YYYY}-{NNNN}"
     ],
     "done": [
@@ -9916,6 +9941,7 @@
       "tsk-023-1768817911261",
       "tsk-023-1768826648077",
       "tsk-023-1768827356397",
+      "tsk-023-1768828783525",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
