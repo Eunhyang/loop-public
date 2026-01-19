@@ -38,11 +38,11 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 57 |
-| done | 379 |
+| doing | 56 |
+| done | 381 |
 | draft | 1 |
 | fixed | 1 |
-| hold | 2 |
+| hold | 1 |
 | planning | 23 |
 | todo | 116 |
 | unknown | 2 |
@@ -413,8 +413,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
 | `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
 | `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
-| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | hold | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
-| `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | doing | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
+| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
+| `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
 | `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
 | `tsk-156anu-1768805284323` | Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR))  | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md` |
 | `tsk-156anu-1768817617276` | Antler 4차 - 예상 면접 QnA 작성 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md` |

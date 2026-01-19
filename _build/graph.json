@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-19T20:00:08.494831",
+  "generated": "2026-01-19T20:15:08.212180",
   "total_entities": 591,
   "nodes": [
     {
@@ -873,7 +873,7 @@
       "id": "tsk-156anu-1768576137968",
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 연습 (01/18)",
-      "status": "hold",
+      "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
       "assignee": "김은향"
     },
@@ -881,7 +881,7 @@
       "id": "tsk-156anu-1768579596258",
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 진행",
-      "status": "doing",
+      "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md",
       "assignee": "김은향"
     },
@@ -9530,6 +9530,8 @@
       "tsk-1pg1i9-1767935607817",
       "tsk-156anu-1768573665233",
       "tsk-156anu-1768575996462",
+      "tsk-156anu-1768576137968",
+      "tsk-156anu-1768579596258",
       "tsk-156anu-1768803029885",
       "tsk-002-04",
       "tsk-002-03",
@@ -9882,7 +9884,6 @@
     ],
     "doing": [
       "prj-003",
-      "tsk-156anu-1768579596258",
       "prj-002",
       "prj-1t7iu4",
       "pgm-hiring",
@@ -9940,8 +9941,7 @@
       "status-team"
     ],
     "hold": [
-      "prj-011",
-      "tsk-156anu-1768576137968"
+      "prj-011"
     ],
     "active": [
       "prj-yt-W03-26",
