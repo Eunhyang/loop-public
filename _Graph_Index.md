@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 612
+total_entities: 614
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 612개
+- **총 엔티티**: 614개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 463 |
+| Task | 465 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 59 |
-| done | 393 |
+| done | 395 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (463개)
+## Task (465개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -380,6 +380,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768841419050` | Entity Form - 원본 파일 Vault Explorer로 열기 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768841419050.md` |
 | `tsk-023-1768842042959` | Vault Explorer 파일 생성 기능 추가 (노션 스타일) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842042959.md` |
 | `tsk-023-1768842493769` | MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842493769.md` |
+| `tsk-023-1768844444` | Strategic Context MCP Action 노출 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768844444.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -440,6 +441,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
 | `tsk-1kthoh-1768834361862` | Ontology Lite v1 - GTM 축(콘텐츠-앱-코칭-매출) 최소 확장 | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768834361862.md` |
 | `tsk-1kthoh-1768841096537` | Ontology Lite v1 - Strategic Context → Graph Normalizer (v1.1: GTM Subgraph Deterministic Merge) | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768841096537.md` |
+| `tsk-1kthoh-1768844455000` | GTM Subgraph Deterministic Merge (v1.1) | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768844455000.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
 | `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
 | `tsk-1q091r-1767960173667` | 코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md` |
@@ -971,6 +973,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768828783525 (Dashboard - 프롬프트 템플릿 관리 기능)
   - tsk-023-1768841419050 (Entity Form - 원본 파일 Vault Explorer로 열기)
   - tsk-023-1768842493769 (MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현)
+  - tsk-023-1768844444 (Strategic Context MCP Action 노출)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
