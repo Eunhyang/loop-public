@@ -10,6 +10,7 @@ cycle: W03-26
 parent_id: trk-3
 conditions_3y:
 - cond-a
+- cond-b
 aliases:
 - prj-yt-W03-26
 - YouTube - W03-26
@@ -34,6 +35,20 @@ tags:
 - w03-26
 - round
 priority_flag: medium
+condition_contributes:
+- to: cond-a
+  weight: 0.7
+  description: YouTube 콘텐츠가 Loop 언어로 문제를 설명하는 데 기여할 것으로 예상됨.
+- to: cond-b
+  weight: 0.3
+  description: 콘텐츠 제작을 통해 재현 가능한 패턴을 늘릴 가능성이 있음.
+track_contributes:
+- to: trk-1
+  weight: 0.5
+  description: Loop Core OS 제품이 국내 PMF를 달성하는 데 기여할 가능성이 있음.
+- to: trk-2
+  weight: 0.5
+  description: 코치+기록 기반 데이터의 패턴화 가능성이 YouTube 콘텐츠와 연계될 수 있음.
 ---
 # YouTube - W03-26
 

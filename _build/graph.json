@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T22:30:08.599136",
-  "total_entities": 598,
+  "generated": "2026-01-19T22:45:08.334489",
+  "total_entities": 599,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -407,6 +407,13 @@
       "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-4-16.md"
+    },
+    {
+      "id": "hyp-4-18",
+      "type": "Hypothesis",
+      "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 매일 리마인드와 주1회 하이라이트로 Week1 인증자 수를 늘린다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-18.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -1823,7 +1830,8 @@
       "status": "active",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/project.md",
       "conditions_3y": [
-        "cond-a"
+        "cond-a",
+        "cond-b"
       ],
       "priority_flag": "medium",
       "owner": "한명학"
@@ -5483,6 +5491,11 @@
     },
     {
       "source": "trk-4",
+      "target": "hyp-4-18",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
       "target": "prj-12329q",
       "type": "parent_of"
     },
@@ -8457,11 +8470,6 @@
       "type": "validates"
     },
     {
-      "source": "prj-12329q",
-      "target": "hyp-4-16",
-      "type": "validates"
-    },
-    {
       "source": "prj-waoz74",
       "target": "hyp-3-01",
       "type": "validates"
@@ -8772,6 +8780,7 @@
       "prj-1kthoh",
       "prj-006",
       "prj-008",
+      "prj-yt-W03-26",
       "prj-vault-gpt",
       "prj-mcp-dual-vault-rbac",
       "prj-impact-schema-v2",
@@ -8891,7 +8900,8 @@
       "hyp-6-15",
       "hyp-4-14",
       "hyp-4-15",
-      "hyp-4-16"
+      "hyp-4-16",
+      "hyp-4-18"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9473,6 +9483,7 @@
       "hyp-2-11",
       "hyp-6-15",
       "hyp-4-16",
+      "hyp-4-18",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",
