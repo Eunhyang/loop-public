@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T23:15:08.148905",
-  "total_entities": 601,
+  "generated": "2026-01-19T23:30:08.001702",
+  "total_entities": 607,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -428,6 +428,13 @@
       "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 챌린지 운영이 방 활성화와 서비스 유입률을 동시에 증가시킨다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-4-19.md"
+    },
+    {
+      "id": "hyp-4-20",
+      "type": "Hypothesis",
+      "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 인증 스크린샷 가이드가 서비스 유입률을 올린다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-20.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -1128,6 +1135,14 @@
       "name": "와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석",
       "status": "done",
       "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768743710425.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-002-1768832606756",
+      "type": "Task",
+      "name": "와디즈 마무리 - 비즈콘 비즈머니 충전 요청(소미님)",
+      "status": "done",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768832606756.md",
       "assignee": "한명학"
     },
     {
@@ -1838,6 +1853,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-26-1768832666705",
+      "type": "Task",
+      "name": "다온 - w02 유튜브 편집본 캡컷 공유 받음",
+      "status": "done",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768832666705.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "prj-yt-W03-26",
       "type": "Project",
       "name": "YouTube - W03-26",
@@ -1863,7 +1886,7 @@
       "id": "tsk-yt-w03-26-02",
       "type": "Task",
       "name": "YouTube W03-26 - 원고 작성",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md",
       "priority_flag": "medium",
       "assignee": "한명학"
@@ -4759,6 +4782,22 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-021-1768832764224",
+      "type": "Task",
+      "name": "세무 - 토스, 애플 등 매출내역 세무기장 전달('25년 하반기 부가세 처리)",
+      "status": "done",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832764224.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1768832996246",
+      "type": "Task",
+      "name": "코칭 인수인계 마무리 - 혜영님 식후감정일기 파일 업로드 요청",
+      "status": "doing",
+      "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832996246.md",
+      "assignee": "한명학"
+    },
+    {
       "id": "pgm-cs",
       "type": "Program",
       "name": "CS·고객지원",
@@ -4867,6 +4906,14 @@
       "name": "CS - 카카오톡 단톡방 활성화 및 유튜브, 카카오톡 채널 등 관리(01월 18일)",
       "status": "done",
       "path": "50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768743467036.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-012-1768832938598",
+      "type": "Task",
+      "name": "CS - 오픈 카톡방 및 기타 채널 대응(1.19)",
+      "status": "done",
+      "path": "50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768832938598.md",
       "assignee": "한명학"
     },
     {
@@ -5515,6 +5562,11 @@
     },
     {
       "source": "trk-4",
+      "target": "hyp-4-20",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
       "target": "prj-12329q",
       "type": "parent_of"
     },
@@ -5781,6 +5833,11 @@
     {
       "source": "prj-012",
       "target": "tsk-012-1768743467036",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-012",
+      "target": "tsk-012-1768832938598",
       "type": "parent_of"
     },
     {
@@ -6129,6 +6186,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-002",
+      "target": "tsk-002-1768832606756",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-1t7iu4",
       "target": "tsk-1t7iu4-1768242340825",
       "type": "parent_of"
@@ -6431,6 +6493,11 @@
     {
       "source": "prj-yt-W02-26",
       "target": "tsk-26-1768817962653",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-26-1768832666705",
       "type": "parent_of"
     },
     {
@@ -7889,6 +7956,16 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-021",
+      "target": "tsk-021-1768832764224",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1768832996246",
+      "type": "parent_of"
+    },
+    {
       "source": "ns-001",
       "target": "mh-3",
       "type": "parent_of"
@@ -8499,6 +8576,11 @@
       "type": "validates"
     },
     {
+      "source": "prj-12329q",
+      "target": "hyp-4-20",
+      "type": "validates"
+    },
+    {
       "source": "prj-waoz74",
       "target": "hyp-3-01",
       "type": "validates"
@@ -8947,7 +9029,8 @@
       "hyp-4-16",
       "hyp-4-18",
       "hyp-3-04",
-      "hyp-4-19"
+      "hyp-4-19",
+      "hyp-4-20"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9060,6 +9143,7 @@
       "tsk-002-10",
       "tsk-w5kz77-1767962815962",
       "tsk-002-1768743710425",
+      "tsk-002-1768832606756",
       "tsk-1t7iu4-1768242340825",
       "tsk-12329q-1768743358112",
       "tsk-1kthoh-1768748042882",
@@ -9121,6 +9205,7 @@
       "tsk-26-1768441882042",
       "tsk-26-1768658545586",
       "tsk-26-1768817962653",
+      "tsk-26-1768832666705",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
@@ -9434,6 +9519,8 @@
       "tsk-021-1768635878173",
       "tsk-021-1768720733426",
       "tsk-021-1768743605059",
+      "tsk-021-1768832764224",
+      "tsk-021-1768832996246",
       "tsk-012-01",
       "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",
@@ -9445,6 +9532,7 @@
       "tsk-012-1768488181984",
       "tsk-012-1768546729259",
       "tsk-012-1768743467036",
+      "tsk-012-1768832938598",
       "tsk-infra-ops-2026q1-aws-01"
     ],
     "Program": [
@@ -9532,6 +9620,7 @@
       "hyp-4-18",
       "hyp-3-04",
       "hyp-4-19",
+      "hyp-4-20",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",
@@ -9635,7 +9724,6 @@
       "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
       "tsk-26-1768817962653",
-      "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
       "tsk-yt-w03-26-04",
       "tsk-yt-w03-26-05",
@@ -9733,6 +9821,7 @@
       "tsk-002-13",
       "tsk-w5kz77-1767962815962",
       "tsk-002-1768743710425",
+      "tsk-002-1768832606756",
       "tsk-1t7iu4-1768242340825",
       "tsk-12329q-1768743358112",
       "tsk-1kthoh-1768748042882",
@@ -9780,7 +9869,9 @@
       "tsk-26-1768238550460",
       "tsk-26-1768441882042",
       "tsk-26-1768658545586",
+      "tsk-26-1768832666705",
       "tsk-yt-w03-26-01",
+      "tsk-yt-w03-26-02",
       "tsk-vault-gpt-01",
       "tsk-vault-gpt-03",
       "tsk-vault-gpt-04",
@@ -10060,6 +10151,7 @@
       "tsk-021-1768635878173",
       "tsk-021-1768720733426",
       "tsk-021-1768743605059",
+      "tsk-021-1768832764224",
       "tsk-012-01",
       "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",
@@ -10070,6 +10162,7 @@
       "tsk-012-1768488181984",
       "tsk-012-1768546729259",
       "tsk-012-1768743467036",
+      "tsk-012-1768832938598",
       "tsk-infra-ops-2026q1-aws-01",
       "retro:2025-annual"
     ],
@@ -10111,6 +10204,7 @@
       "pgm-kkokkkok-app-release",
       "pgm-ops",
       "prj-021",
+      "tsk-021-1768832996246",
       "pgm-cs",
       "tsk-012-1768140940912",
       "pgm-coachos",

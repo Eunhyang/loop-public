@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 601
+total_entities: 607
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 601개
+- **총 엔티티**: 607개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,8 +29,8 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 453 |
-| Hypothesis | 61 |
+| Task | 458 |
+| Hypothesis | 62 |
 | Experiment | 1 |
 
 ### 상태별
@@ -38,13 +38,13 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 56 |
-| done | 384 |
+| doing | 57 |
+| done | 389 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 28 |
-| todo | 116 |
+| planning | 29 |
+| todo | 115 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (453개)
+## Task (458개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -199,6 +199,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-002-12` | 와디즈 새소식 초안 작성 - 브랜드 방향성 위주 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md` |
 | `tsk-002-13` | Promotion - 2단계 트랜잭션 리팩토링 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-13.md` |
 | `tsk-002-1768743710425` | 와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768743710425.md` |
+| `tsk-002-1768832606756` | 와디즈 마무리 - 비즈콘 비즈머니 충전 요청(소미님) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768832606756.md` |
 | `tsk-003-01` | Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기 | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md` |
 | `tsk-003-02` | Loop OS V0 데이터 설계 – 4. Minimal Logging Spec | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md` |
 | `tsk-003-03` | Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화 | todo | `50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md` |
@@ -230,6 +231,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-012-1768488181984` | CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768488181984.md` |
 | `tsk-012-1768546729259` | 와디즈 마무리 - 알람신청 이벤트 결과 공지 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768546729259.md` |
 | `tsk-012-1768743467036` | CS - 카카오톡 단톡방 활성화 및 유튜브, 카카오톡 채널 등 관리(01월 18일) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768743467036.md` |
+| `tsk-012-1768832938598` | CS - 오픈 카톡방 및 기타 채널 대응(1.19) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768832938598.md` |
 | `tsk-014-03` | W33 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md` |
 | `tsk-014-04` | W33 업로드 | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md` |
 | `tsk-014-1768228019327` | 랜딩페이지 리뉴얼 - 레퍼런스 서칭 중 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md` |
@@ -280,6 +282,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-021-1768635878173` | 경영관리 - 4대 보험료 납부(1월 분) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768635878173.md` |
 | `tsk-021-1768720733426` | 유튜브 편집자 구인 - 공고 게재(당근마켓) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768720733426.md` |
 | `tsk-021-1768743605059` | 코칭 인수인계 마무리 - 4기 정다은님 연락 | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768743605059.md` |
+| `tsk-021-1768832764224` | 세무 - 토스, 애플 등 매출내역 세무기장 전달('25년 하반기 부가세 처리) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832764224.md` |
+| `tsk-021-1768832996246` | 코칭 인수인계 마무리 - 혜영님 식후감정일기 파일 업로드 요청 | doing | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832996246.md` |
 | `tsk-022-02` | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md` |
 | `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
 | `tsk-022-06` | 콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md` |
@@ -441,6 +445,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
 | `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
 | `tsk-26-1768817962653` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768817962653.md` |
+| `tsk-26-1768832666705` | 다온 - w02 유튜브 편집본 캡컷 공유 받음 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768832666705.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -602,7 +607,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-w02-26-09` | YouTube W02 - 쇼츠 #4 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-09_쇼츠_4.md` |
 | `tsk-yt-w02-26-10` | YouTube W02 - 쇼츠 #5 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-10_쇼츠_5.md` |
 | `tsk-yt-w03-26-01` | YouTube W03-26 - 주제 선정 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-01.md` |
-| `tsk-yt-w03-26-02` | YouTube W03-26 - 원고 작성 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md` |
+| `tsk-yt-w03-26-02` | YouTube W03-26 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md` |
 | `tsk-yt-w03-26-03` | YouTube W03-26 - 원고 수정 + 촬영 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md` |
 | `tsk-yt-w03-26-04` | YouTube W03-26 - 편집 외주 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-04.md` |
 | `tsk-yt-w03-26-05` | YouTube W03-26 - 썸네일 + 업로드 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-05.md` |
@@ -615,7 +620,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (61개)
+## Hypothesis (62개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -664,6 +669,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-4-16` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다 | planning | `60_Hypotheses/2026/hyp-4-16.md` |
 | `hyp-4-18` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 매일 리마인드와 주1회 하이라이트로 Week1 인증자 수를 늘린다 | planning | `60_Hypotheses/2026/hyp-4-18.md` |
 | `hyp-4-19` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 챌린지 운영이 방 활성화와 서비스 유입률을 동시에 증가시킨다 | planning | `60_Hypotheses/2026/hyp-4-19.md` |
+| `hyp-4-20` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 인증 스크린샷 가이드가 서비스 유입률을 올린다 | planning | `60_Hypotheses/2026/hyp-4-20.md` |
 | `hyp-6-01` | 주니어 개발자 온보딩이 내부 고객의 개발 병목을 줄인다 | planning | `60_Hypotheses/2026/hyp-6-01.md` |
 | `hyp-6-02` | 앱 전환율 최소선 | todo | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
 | `hyp-6-03` | 환불/클레임 통제 | todo | `60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md` |
@@ -745,6 +751,7 @@ tags: ["meta", "graph", "index"]
   - tsk-002-12 (와디즈 새소식 초안 작성 - 브랜드 방향성 위주)
   - tsk-002-13 (Promotion - 2단계 트랜잭션 리팩토링)
   - tsk-002-1768743710425 (와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석)
+  - tsk-002-1768832606756 (와디즈 마무리 - 비즈콘 비즈머니 충전 요청(소미님))
   - tsk-19203a-1767940029834 (와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건))
   - tsk-88fe92-1767962815722 (12/17: 본펀딩 공개)
   - tsk-88fe92-1767962816218 (12/31: 펀딩 종료)
@@ -795,6 +802,7 @@ tags: ["meta", "graph", "index"]
   - tsk-012-1768488181984 (CS - 유튜브, 카카오톡 채널 및 단톡방 활성화(1월 15일))
   - tsk-012-1768546729259 (와디즈 마무리 - 알람신청 이벤트 결과 공지)
   - tsk-012-1768743467036 (CS - 카카오톡 단톡방 활성화 및 유튜브, 카카오톡 채널 등 관리(01월 18일))
+  - tsk-012-1768832938598 (CS - 오픈 카톡방 및 기타 채널 대응(1.19))
   - tsk-11nt0p-1767960275703 (와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효))
   - tsk-1igiyf-1767945247366 (와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉))
   - tsk-1m08zu-1767945274325 (와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등))
@@ -871,6 +879,8 @@ tags: ["meta", "graph", "index"]
   - tsk-021-1768635878173 (경영관리 - 4대 보험료 납부(1월 분))
   - tsk-021-1768720733426 (유튜브 편집자 구인 - 공고 게재(당근마켓))
   - tsk-021-1768743605059 (코칭 인수인계 마무리 - 4기 정다은님 연락)
+  - tsk-021-1768832764224 (세무 - 토스, 애플 등 매출내역 세무기장 전달('25년 하반기 부가세 처리))
+  - tsk-021-1768832996246 (코칭 인수인계 마무리 - 혜영님 식후감정일기 파일 업로드 요청)
   - tsk-1addiu-1767960317370 (외부 비서 활용 - 지우님 할일 전달(1월 12일))
   - tsk-fcaef7-1767962901871 (원천세 납부 - 용역비 3건)
 - **prj-023** (Dashboard - React+TS 마이그레이션)
@@ -1163,6 +1173,7 @@ tags: ["meta", "graph", "index"]
   - tsk-26-1768441882042 (다온 - w02 편집 영상 검토)
   - tsk-26-1768658545586 (YouTube W02 - 다온님 영상편집 2차 내용 확인)
   - tsk-26-1768817962653 (YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기)
+  - tsk-26-1768832666705 (다온 - w02 유튜브 편집본 캡컷 공유 받음)
   - tsk-yt-01 (법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사))
   - tsk-yt-w02-26-01 (YouTube W02 - 주제 선정)
   - tsk-yt-w02-26-02 (YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가)
@@ -1271,6 +1282,7 @@ tags: ["meta", "graph", "index"]
   - hyp-4-16 (오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다)
   - hyp-4-18 (오픈 채팅방 활성화 - 챌린지 운영 1차: 매일 리마인드와 주1회 하이라이트로 Week1 인증자 수를 늘린다)
   - hyp-4-19 (오픈 채팅방 활성화 - 챌린지 운영 1차: 챌린지 운영이 방 활성화와 서비스 유입률을 동시에 증가시킨다)
+  - hyp-4-20 (오픈 채팅방 활성화 - 챌린지 운영 1차: 인증 스크린샷 가이드가 서비스 유입률을 올린다)
   - pgm-cs (CS·고객지원)
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행))

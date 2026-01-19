@@ -24,6 +24,7 @@ track_contributes:
   description: GLP-1 언어 선점과 Loop Narrative로 자연 유입 기반을 확보하는 데 기여할 수 있음.
 validates:
 - hyp-4-19
+- hyp-4-20
 primary_hypothesis_id: hyp-4-19
 condition_contributes:
 - to: cond-b
