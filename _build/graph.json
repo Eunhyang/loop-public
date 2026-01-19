@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T20:30:07.792209",
-  "total_entities": 591,
+  "generated": "2026-01-19T21:15:08.398563",
+  "total_entities": 592,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -379,6 +379,13 @@
       "name": "Ontology Lite v1 - Edge Types Validation",
       "status": null,
       "path": "60_Hypotheses/2026/hyp-2-12_Ontology_Lite_v1_Edge_Types_Validation.md"
+    },
+    {
+      "id": "hyp-6-15",
+      "type": "Hypothesis",
+      "name": "Antler 파트너 인터뷰가 투자 파이프라인을 유의미하게 확장한다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-6-15.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -1623,7 +1630,7 @@
         "cond-d"
       ],
       "priority_flag": "medium",
-      "owner": "한명학"
+      "owner": "김은향"
     },
     {
       "id": "tsk-yt-w02-26-01",
@@ -5512,6 +5519,11 @@
     },
     {
       "source": "trk-6",
+      "target": "hyp-6-15",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
       "target": "prj-007",
       "type": "parent_of"
     },
@@ -8276,6 +8288,11 @@
       "type": "validates"
     },
     {
+      "source": "hyp-6-15",
+      "target": "cond-d",
+      "type": "validates"
+    },
+    {
       "source": "prj-001",
       "target": "hyp-2-01",
       "type": "validates"
@@ -8318,6 +8335,11 @@
     {
       "source": "prj-005",
       "target": "hyp-2-04",
+      "type": "validates"
+    },
+    {
+      "source": "prj-156anu",
+      "target": "hyp-6-15",
       "type": "validates"
     },
     {
@@ -8769,7 +8791,8 @@
       "hyp-4-13",
       "hyp-2-11",
       "hyp-3-03",
-      "hyp-2-12"
+      "hyp-2-12",
+      "hyp-6-15"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9346,6 +9369,7 @@
       "hyp-3-02",
       "hyp-4-11",
       "hyp-2-11",
+      "hyp-6-15",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",

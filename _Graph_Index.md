@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 591
+total_entities: 592
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 591개
+- **총 엔티티**: 592개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -30,7 +30,7 @@ tags: ["meta", "graph", "index"]
 | Program | 12 |
 | Project | 41 |
 | Task | 450 |
-| Hypothesis | 54 |
+| Hypothesis | 55 |
 | Experiment | 1 |
 
 ### 상태별
@@ -43,7 +43,7 @@ tags: ["meta", "graph", "index"]
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 23 |
+| planning | 24 |
 | todo | 116 |
 | unknown | 2 |
 | validating | 6 |
@@ -612,7 +612,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (54개)
+## Hypothesis (55개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -669,6 +669,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-6-12` | 월매출 런웨이 최소선 | todo | `60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md` |
 | `hyp-6-13` | TIPS/투자 요구조건 충족 | todo | `60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md` |
 | `hyp-6-14` | 실제 자금조달 성립 | todo | `60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md` |
+| `hyp-6-15` | Antler 파트너 인터뷰가 투자 파이프라인을 유의미하게 확장한다 | planning | `60_Hypotheses/2026/hyp-6-15.md` |
 | `hyp-{TRK}-{SEQ}` | {가설 제목} | planning | `60_Hypotheses/_template_hypothesis.md` |
 
 
@@ -1275,6 +1276,7 @@ tags: ["meta", "graph", "index"]
   - hyp-6-12 (월매출 런웨이 최소선)
   - hyp-6-13 (TIPS/투자 요구조건 충족)
   - hyp-6-14 (실제 자금조달 성립)
+  - hyp-6-15 (Antler 파트너 인터뷰가 투자 파이프라인을 유의미하게 확장한다)
   - pgm-kkokkkokfit-web (kkokkkokfit Web)
   - prj-002 (와디즈 - 12주 습관 코칭 패키지)
   - prj-007 (Hiring - 안지온님(엔씨온 외부 비서))
