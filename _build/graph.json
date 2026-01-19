@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T18:45:07.852607",
-  "total_entities": 588,
+  "generated": "2026-01-19T19:15:08.569062",
+  "total_entities": 589,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -889,7 +889,7 @@
       "id": "tsk-156anu-1768803029885",
       "type": "Task",
       "name": "Antler 4차 - 면접 전략짜기",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md",
       "assignee": "김은향"
     },
@@ -899,6 +899,14 @@
       "name": "Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR)) ",
       "status": "todo",
       "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-156anu-1768817617276",
+      "type": "Task",
+      "name": "Antler 4차 - 예상 면접 QnA 작성",
+      "status": "todo",
+      "path": "50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md",
       "assignee": "김은향"
     },
     {
@@ -5901,6 +5909,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-156anu",
+      "target": "tsk-156anu-1768817617276",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-002",
       "target": "tsk-002-04",
       "type": "parent_of"
@@ -8824,6 +8837,7 @@
       "tsk-156anu-1768579596258",
       "tsk-156anu-1768803029885",
       "tsk-156anu-1768805284323",
+      "tsk-156anu-1768817617276",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",
@@ -9383,8 +9397,8 @@
       "tsk-005-02",
       "tsk-005-01",
       "tsk-011-01",
-      "tsk-156anu-1768803029885",
       "tsk-156anu-1768805284323",
+      "tsk-156anu-1768817617276",
       "tsk-002-08",
       "tsk-002-06",
       "tsk-002-09",
@@ -9488,6 +9502,7 @@
       "tsk-156anu-1768575996462",
       "tsk-156anu-1768576137968",
       "tsk-156anu-1768579596258",
+      "tsk-156anu-1768803029885",
       "tsk-002-04",
       "tsk-002-03",
       "tsk-19203a-1767940029834",

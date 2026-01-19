@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 588
+total_entities: 589
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 588개
+- **총 엔티티**: 589개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 447 |
+| Task | 448 |
 | Hypothesis | 54 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 56 |
-| done | 379 |
+| done | 380 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (447개)
+## Task (448개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -414,8 +414,9 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
 | `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
-| `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
+| `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
 | `tsk-156anu-1768805284323` | Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR))  | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md` |
+| `tsk-156anu-1768817617276` | Antler 4차 - 예상 면접 QnA 작성 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
@@ -986,6 +987,7 @@ tags: ["meta", "graph", "index"]
   - tsk-156anu-1768579596258 (Antler 3차 - AI몬스터 면접 진행)
   - tsk-156anu-1768803029885 (Antler 4차 - 면접 전략짜기)
   - tsk-156anu-1768805284323 (Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR)) )
+  - tsk-156anu-1768817617276 (Antler 4차 - 예상 면접 QnA 작성)
   - tsk-1pg1i9-1767935607817 (Antler 서류 - 지원서 문항 추출 및 초안 목차 생성)
 - **prj-1kthoh** (Ontology - Vault Ontology Lite v1)
   - tsk-1kthoh-1768748042882 (Ontology Lite v1 - 엔티티 및 ID 규칙 정의)
