@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 609
+total_entities: 608
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 609개
+- **총 엔티티**: 608개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 460 |
+| Task | 459 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -38,13 +38,13 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 58 |
-| done | 389 |
+| doing | 57 |
+| done | 390 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 29 |
-| todo | 116 |
+| todo | 115 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (460개)
+## Task (459개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -447,7 +447,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
 | `tsk-26-1768817962653` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768817962653.md` |
 | `tsk-26-1768832666705` | 다온 - w02 유튜브 편집본 캡컷 공유 받음 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768832666705.md` |
-| `tsk-26-1768837325077` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768837325077.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -599,7 +598,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-w5kz77-1767962815962` | 와디즈 리워드 발송 - 2년/1년 구독권 프로모션 코드 생성 및 테스트 | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-w5kz77-1767962815962.md` |
 | `tsk-yt-01` | 법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사) | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-01.md` |
 | `tsk-yt-w02-26-01` | YouTube W02 - 주제 선정 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-01_주제_선정.md` |
-| `tsk-yt-w02-26-02` | YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md` |
+| `tsk-yt-w02-26-02` | YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md` |
 | `tsk-yt-w02-26-03` | YouTube W02 - 원고 수정 + 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-03_원고_수정_촬영.md` |
 | `tsk-yt-w02-26-04` | YouTube W02 - 편집 외주 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-04_편집_외주.md` |
 | `tsk-yt-w02-26-05` | YouTube W02 - 썸네일 + 업로드 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-05_썸네일_업로드.md` |
@@ -1177,7 +1176,6 @@ tags: ["meta", "graph", "index"]
   - tsk-26-1768658545586 (YouTube W02 - 다온님 영상편집 2차 내용 확인)
   - tsk-26-1768817962653 (YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기)
   - tsk-26-1768832666705 (다온 - w02 유튜브 편집본 캡컷 공유 받음)
-  - tsk-26-1768837325077 (YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기)
   - tsk-yt-01 (법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사))
   - tsk-yt-w02-26-01 (YouTube W02 - 주제 선정)
   - tsk-yt-w02-26-02 (YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가)

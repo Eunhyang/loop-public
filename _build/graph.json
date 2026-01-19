@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-20T00:45:08.190116",
-  "total_entities": 609,
+  "generated": "2026-01-20T01:30:08.756766",
+  "total_entities": 608,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -1814,15 +1814,6 @@
       "status": "todo",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md",
       "priority_flag": "medium",
-      "assignee": "한명학"
-    },
-    {
-      "id": "tsk-yt-w02-26-02",
-      "type": "Task",
-      "name": "YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가",
-      "status": "doing",
-      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md",
-      "priority_flag": "medium",
       "assignee": "김은향"
     },
     {
@@ -1869,11 +1860,11 @@
       "assignee": "한명학"
     },
     {
-      "id": "tsk-26-1768837325077",
+      "id": "tsk-yt-w02-26-02",
       "type": "Task",
-      "name": "YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기",
-      "status": "todo",
-      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768837325077.md",
+      "name": "YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가",
+      "status": "done",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -6494,11 +6485,6 @@
     },
     {
       "source": "prj-yt-W02-26",
-      "target": "tsk-yt-w02-26-02",
-      "type": "parent_of"
-    },
-    {
-      "source": "prj-yt-W02-26",
       "target": "tsk-yt-w02-26-05",
       "type": "parent_of"
     },
@@ -6524,7 +6510,7 @@
     },
     {
       "source": "prj-yt-W02-26",
-      "target": "tsk-26-1768837325077",
+      "target": "tsk-yt-w02-26-02",
       "type": "parent_of"
     },
     {
@@ -9228,13 +9214,12 @@
       "tsk-26-1768238550460",
       "tsk-26-1768238602412",
       "tsk-26-1768238654295",
-      "tsk-yt-w02-26-02",
       "tsk-yt-w02-26-05",
       "tsk-26-1768441882042",
       "tsk-26-1768658545586",
       "tsk-26-1768817962653",
       "tsk-26-1768832666705",
-      "tsk-26-1768837325077",
+      "tsk-yt-w02-26-02",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
@@ -9753,7 +9738,6 @@
       "tsk-26-1768238654295",
       "tsk-yt-w02-26-05",
       "tsk-26-1768817962653",
-      "tsk-26-1768837325077",
       "tsk-yt-w03-26-03",
       "tsk-yt-w03-26-04",
       "tsk-yt-w03-26-05",
@@ -9900,6 +9884,7 @@
       "tsk-26-1768441882042",
       "tsk-26-1768658545586",
       "tsk-26-1768832666705",
+      "tsk-yt-w02-26-02",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-vault-gpt-01",
@@ -10206,7 +10191,6 @@
       "pgm-youtube-weekly",
       "prj-yt-wegovy",
       "prj-yt-W02-26",
-      "tsk-yt-w02-26-02",
       "pgm-vault-system",
       "prj-vault-gpt",
       "tsk-dashboard-ux-v1-24",
