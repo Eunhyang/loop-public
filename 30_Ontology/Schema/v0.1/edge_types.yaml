@@ -1,12 +1,13 @@
 schema_name: edge_types_dictionary
 schema_version: "1.0"
-updated_at: "2026-01-18"
+updated_at: "2026-01-20"
 purpose: "LLM agent가 관계를 추론하지 않도록 edge_type 의미를 고정한다"
 design_principles:
   - "edge는 항상 방향(from -> to)을 가진다"
   - "중복 의미를 만들지 않는다(ambiguous edges 금지)"
   - "모든 edge는 최소한 note(자연어 근거)를 권장한다"
   - "validates/breaks는 운영 의사결정에 직접 쓰이므로 메타를 더 강하게 요구한다"
+  - "GTM(콘텐츠/앱/코칭/매출) 관계는 '전략 관계'와 혼동되지 않도록 별도 edge_type으로 고정한다"
 
 # ------------------------------------------------------------
 # Global constraints / conventions
@@ -23,24 +24,30 @@ global:
     rule: "0~1 실수. 여러 edge의 weight 합은 1일 필요 없음(상대적 기여도 표기용)"
   cycles:
     default_policy: "허용하되, retrieval에서 depth 제한과 중복 제거로 통제한다"
+  naming:
+    rule: "YAML key는 파서 호환성을 위해 '.'(dot) 대신 '_'(underscore)를 사용한다. (예: gtm_activates_into)"
 
 # ------------------------------------------------------------
 # Edge Types
 # ------------------------------------------------------------
 edge_types:
 
+  # =========================
+  # Strategy Layer (논리/의사결정)
+  # =========================
+
   validates:
     meaning: "from가 생성한 증거가 to의 충족/참 여부를 판단하는 근거가 된다."
     from: ["Track", "Project", "Hypothesis"]
     to: ["Condition", "MetaHypothesis"]
     cardinality:
-      from_to: "N:N"        # 여러 from이 같은 to를 검증 가능, 하나의 from이 여러 to를 검증도 가능
-    cycles_allowed: false    # '검증'이 순환하면 판정이 꼬임. (A validates B and B validates A) 금지
+      from_to: "N:N"
+    cycles_allowed: false
     required_meta:
-      - evidence             # 링크/리포트/로그/대시보드 등 (없으면 validates 금지)
+      - evidence
     recommended_meta:
-      - strength             # weak|medium|strong
-      - measured_at          # YYYY-MM-DD
+      - strength
+      - measured_at
       - note
     choose_when:
       - "to의 판정(충족/붕괴)을 업데이트하는 직접 근거가 있을 때"
@@ -66,10 +73,10 @@ edge_types:
     to: ["Condition", "Track"]
     cardinality:
       from_to: "N:N"
-    cycles_allowed: true     # enable 루프는 현실에서 생김(인프라/팀/프로세스)
+    cycles_allowed: true
     required_meta: []
     recommended_meta:
-      - weight               # 기여도(선택)
+      - weight
       - note
     choose_when:
       - "from가 없으면 to가 느려지거나 불가능하지만, to의 판정 자체를 직접 측정하는 건 아닐 때"
@@ -93,7 +100,7 @@ edge_types:
     to: ["Track", "Condition"]
     cardinality:
       from_to: "N:N"
-    cycles_allowed: true     # 의존성 순환은 생길 수 있으나, 운영상 발견 시 리팩터링 권장
+    cycles_allowed: true
     required_meta: []
     recommended_meta:
       - risk_level
@@ -121,8 +128,8 @@ edge_types:
     from: ["Condition"]
     to: ["StrategyPhase", "Track"]
     cardinality:
-      from_to: "1:N"        # 한 Condition이 여러 다음 단계/트랙을 열 수 있음
-    cycles_allowed: false    # unlock은 단계성을 전제하므로 순환 금지
+      from_to: "1:N"
+    cycles_allowed: false
     required_meta: []
     recommended_meta: ["note"]
     choose_when:
@@ -144,7 +151,7 @@ edge_types:
       from_to: "1:N"
     cycles_allowed: false
     required_meta:
-      - break_trigger        # 어떤 붕괴 조건으로 깨지는지 한 줄
+      - break_trigger
     recommended_meta:
       - note
     choose_when:
@@ -166,7 +173,7 @@ edge_types:
     from: ["Track"]
     to: ["Company"]
     cardinality:
-      from_to: "N:1"        # 여러 생존 트랙이 하나의 회사 존속에 연결될 수 있음
+      from_to: "N:1"
     cycles_allowed: false
     required_meta: []
     recommended_meta: ["note"]
@@ -184,6 +191,190 @@ edge_types:
           to_id: "co-01"
           note: "런웨이 임계 붕괴 시 회사 생존 위협"
 
+  # =========================
+  # GTM Layer (Business Reality)
+  # - ontology_lite_v1.yaml 확장 없이도 적용 가능하도록 from/to는 기존 타입만 사용
+  # - 역할(콘텐츠/앱/코칭/매출)은 Track/Project의 트랙 분류와 note/evidence로 구분
+  # =========================
+
+  gtm_activates_into:
+    meaning: "from가 to의 가입/활성/핵심행동 전환을 직접 만든다(유입/Activation). 예: 콘텐츠 -> 앱"
+    from: ["Track", "Project"]
+    to: ["Track", "Project"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: true
+    required_meta:
+      - evidence
+    recommended_meta:
+      - strength
+      - measured_at
+      - weight
+      - note
+    choose_when:
+      - "from(콘텐츠/채널)의 성과가 to(앱/제품)의 install/signup/activation 등 퍼널 지표에 연결될 때"
+      - "Amplitude/링크 트래킹/랜딩 전환 등으로 재검증 가능한 근거가 있을 때"
+    forbidden_when:
+      - "단순한 전략적 기여(이 경우 enables)"
+      - "패키지 구성 포함 관계(이 경우 gtm_includes)"
+      - "업셀/결제 전환(이 경우 gtm_upsells_to 또는 gtm_monetized_by)"
+    examples:
+      - from: {type: "Project", id: "prj-yt", title: "YouTube 1주 1업로드"}
+        to:   {type: "Project", id: "prj-app", title: "꼭꼭앱 Release Train"}
+        edge:
+          type: "gtm_activates_into"
+          from_id: "prj-yt"
+          to_id: "prj-app"
+          evidence: "amplitude_campaign_install_report"
+          strength: "medium"
+          measured_at: "2026-01-20"
+          note: "영상 CTA/랜딩을 통해 앱 설치/가입 전환 발생"
+
+  gtm_includes:
+    meaning: "from(오퍼/프로그램/코칭)이 to(앱/기능)를 포함한다(패키지 구성). 예: 코칭에서 앱을 같이 씀"
+    from: ["Track", "Project"]
+    to: ["Track", "Project"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: false
+    required_meta: []
+    recommended_meta:
+      - note
+    choose_when:
+      - "from에 참여/구매하면 to 사용이 제공되거나 필수로 포함될 때"
+      - "‘코칭에서 앱을 같이 씀’처럼 동반 사용/제공 관계를 표현할 때"
+    forbidden_when:
+      - "데이터가 시스템적으로 흘러가며 제품가치를 강화하는 경우(이 경우 gtm_data_feeds)"
+      - "유입/가입/활성 전환(이 경우 gtm_activates_into)"
+    examples:
+      - from: {type: "Project", id: "prj-coach", title: "와디즈 - 12주 습관 코칭 패키지"}
+        to:   {type: "Project", id: "prj-app", title: "꼭꼭앱 Release Train"}
+        edge:
+          type: "gtm_includes"
+          from_id: "prj-coach"
+          to_id: "prj-app"
+          note: "코칭 프로그램 운영 중 앱 기록/루틴을 동반 사용"
+
+  gtm_upsells_to:
+    meaning: "from가 to로 업셀/전환을 만든다(결제 전환 포함). 예: 앱 사용자 -> 코칭 결제, 코칭 사용자 -> 앱 구독"
+    from: ["Track", "Project"]
+    to: ["Track", "Project"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: true
+    required_meta:
+      - evidence
+    recommended_meta:
+      - strength
+      - measured_at
+      - weight
+      - note
+    choose_when:
+      - "from에서 to로 유료 전환(리드→결제/상담→결제/앱→구독 등)이 발생할 때"
+      - "전환율/퍼널 지표로 재검증 가능한 근거가 있을 때"
+    forbidden_when:
+      - "그냥 포함 관계(이 경우 gtm_includes)"
+      - "직접 결제가 from에서 발생(이 경우 gtm_monetized_by)"
+    examples:
+      - from: {type: "Project", id: "prj-app", title: "꼭꼭앱 Release Train"}
+        to:   {type: "Project", id: "prj-coach", title: "와디즈 - 12주 습관 코칭 패키지"}
+        edge:
+          type: "gtm_upsells_to"
+          from_id: "prj-app"
+          to_id: "prj-coach"
+          evidence: "coach_lead_funnel_report"
+          strength: "weak"
+          measured_at: "2026-01-20"
+          note: "앱 내 상담 CTA/프로그램 안내로 코칭 전환 시도"
+
+      - from: {type: "Project", id: "prj-coach", title: "코칭서비스"}
+        to:   {type: "Project", id: "prj-sub", title: "앱 유료 구독"}
+        edge:
+          type: "gtm_upsells_to"
+          from_id: "prj-coach"
+          to_id: "prj-sub"
+          evidence: "post_coaching_subscription_cohort"
+          strength: "medium"
+          measured_at: "2026-01-20"
+          note: "코칭 종료 후 앱 구독 전환(코칭 데이터 기반 가치 체감) 코호트 측정"
+
+  gtm_monetized_by:
+    meaning: "from에서 직접 결제가 발생하거나, from의 가치가 to(매출원)으로 수익화된다"
+    from: ["Track", "Project"]
+    to: ["Track", "Project"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: false
+    required_meta:
+      - evidence
+    recommended_meta:
+      - strength
+      - measured_at
+      - note
+    choose_when:
+      - "RevenueCat 결제/구독, 코칭 프로그램 결제, 환불/갱신 등 실제 매출 이벤트로 연결 가능할 때"
+      - "MRR/결제건수/환불률 등으로 재검증 가능한 근거가 있을 때"
+    forbidden_when:
+      - "단순 유입/활성 전환(이 경우 gtm_activates_into)"
+      - "전략적 기여(이 경우 enables)"
+    guardrails:
+      - "to는 Track_6_Revenue 성격의 Project/Track로 두는 것을 권장(예: '앱 유료 구독', '코칭 결제')"
+    examples:
+      - from: {type: "Project", id: "prj-sub", title: "앱 유료 구독"}
+        to:   {type: "Track", id: "trk-6", title: "Track_6_Revenue"}
+        edge:
+          type: "gtm_monetized_by"
+          from_id: "prj-sub"
+          to_id: "trk-6"
+          evidence: "revenuecat_mrr_dashboard"
+          strength: "strong"
+          measured_at: "2026-01-20"
+          note: "앱 구독이 Track_6 매출의 핵심 원천"
+
+      - from: {type: "Project", id: "prj-coach", title: "와디즈 - 12주 습관 코칭 패키지"}
+        to:   {type: "Track", id: "trk-6", title: "Track_6_Revenue"}
+        edge:
+          type: "gtm_monetized_by"
+          from_id: "prj-coach"
+          to_id: "trk-6"
+          evidence: "wadiz_payout_sheet"
+          strength: "medium"
+          measured_at: "2026-01-20"
+          note: "코칭 패키지 결제가 매출로 귀속"
+
+  gtm_data_feeds:
+    meaning: "from에서 생성된 데이터/라벨/개입 로직이 to로 축적되어 제품 가치(구독 전환/유지/효과)를 증폭한다(플라이휠)."
+    from: ["Track", "Project"]
+    to: ["Track", "Project"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: true
+    required_meta:
+      - evidence
+    recommended_meta:
+      - strength
+      - measured_at
+      - note
+    choose_when:
+      - "코칭 운영에서 생성되는 라벨/패턴/개입 기록이 앱/온톨로지/모델 개선에 들어갈 때"
+      - "CoachOS ↔ Loop Ontology ↔ 앱 데이터 파이프라인이 존재하고, 재검증 근거(스키마/ETL/대시보드)가 있을 때"
+    forbidden_when:
+      - "코칭에서 앱을 '같이 쓰는' 동반 사용(이 경우 gtm_includes)"
+      - "단순 전략적 선행(이 경우 enables)"
+    guardrails:
+      - "from은 Track_4_Coaching 또는 CoachOS 성격 프로젝트, to는 Track_1_Product/Track_2_Data 성격 프로젝트를 권장"
+    examples:
+      - from: {type: "Project", id: "prj-coachos", title: "CoachOS"}
+        to:   {type: "Project", id: "prj-app", title: "꼭꼭앱 Release Train"}
+        edge:
+          type: "gtm_data_feeds"
+          from_id: "prj-coachos"
+          to_id: "prj-app"
+          evidence: "coachos_mapping_spec_link"
+          strength: "medium"
+          measured_at: "2026-01-20"
+          note: "코칭 개입/라벨 데이터가 앱 온톨로지 이벤트/인사이트로 흡수되어 구독 가치 강화"
+
 # ------------------------------------------------------------
 # Anti-ambiguity rules (중복 의미 방지)
 # ------------------------------------------------------------
@@ -194,11 +385,31 @@ disambiguation_rules:
       test_question:
         - "to가 0이면 from이 성립하나? (NO면 from depends_on to)"
         - "from이 0이면 to가 성립하나? (NO면 from enables to 또는 to depends_on from 중 방향 재검토)"
+
     - pair: ["enables", "validates"]
       rule: "판정 근거(증거)로 쓰이면 validates, 선행/인프라면 enables"
       requirement: "validates에는 evidence 필수"
+
     - pair: ["depends_on", "breaks"]
       rule: "의존은 병목/제약, breaks는 '붕괴 시 전환/중단'의 공식 트리거"
+
+    # --- GTM vs Strategy ---
+    - pair: ["enables", "gtm_activates_into"]
+      rule: "전략적으로 도움/인프라 제공 = enables, 실제 유입/가입/활성 KPI로 전환을 만든다 = gtm_activates_into"
+      requirement: "gtm_activates_into에는 evidence(퍼널/KPI 근거) 권장(여기서는 필수)"
+
+    - pair: ["gtm_includes", "gtm_data_feeds"]
+      rule: "동반 사용/패키지 구성 = gtm_includes, 데이터/라벨/로직이 시스템적으로 흘러 제품가치를 강화 = gtm_data_feeds"
+      test_question:
+        - "코칭을 하지 않아도 데이터가 앱으로 축적되나? (YES면 data_feeds)"
+        - "그냥 코칭 과정에서 앱을 쓰는가? (YES면 includes)"
+
+    - pair: ["gtm_upsells_to", "gtm_monetized_by"]
+      rule: "업셀/전환 관계(퍼널 이동) = gtm_upsells_to, 결제 발생/매출 귀속 = gtm_monetized_by"
+      test_question:
+        - "결제가 'from -> to로 이동'에서 생기나? (YES면 upsells_to)"
+        - "결제가 'from 자체'에서 생기나? (YES면 monetized_by)"
+
   duplicate_edge_policy:
     - "동일 (type, from_id, to_id)는 1개만 허용(중복 저장 금지)"
     - "같은 의미의 edge를 두 타입으로 동시 연결 금지(예: enables와 depends_on을 같은 쌍에 동시에 금지). 단, note가 달라도 금지."
@@ -208,6 +419,7 @@ disambiguation_rules:
 # 운영자가 10개 관계를 분류했을 때 애매 케이스 <=2 목표
 # ------------------------------------------------------------
 classification_samples:
+  # Strategy layer
   - statement: "Track6의 매출 지표가 ConditionD 충족 여부를 판정한다"
     expected_edge: "validates"
   - statement: "Project 와디즈는 런웨이 확보에 기여하지만 성공해도 ConditionD를 자동 충족하진 않는다"
@@ -228,3 +440,15 @@ classification_samples:
     expected_edge: "breaks"
   - statement: "Track4(코칭)이 없으면 Track2(데이터) 패턴 발견이 불가능하다"
     expected_edge: "depends_on"
+
+  # GTM layer (추가 샘플)
+  - statement: "YouTube 콘텐츠가 앱 설치/가입을 유의미하게 올린다"
+    expected_edge: "gtm_activates_into"
+  - statement: "코칭 프로그램은 앱 사용(기록/루틴)을 포함한다"
+    expected_edge: "gtm_includes"
+  - statement: "앱 사용자 일부가 12주 코칭 프로그램으로 유료 전환한다"
+    expected_edge: "gtm_upsells_to"
+  - statement: "앱 구독 결제가 RevenueCat로 집계되며 매출로 귀속된다"
+    expected_edge: "gtm_monetized_by"
+  - statement: "코칭에서 생성된 라벨/개입 데이터가 앱/온톨로지로 축적되어 구독 전환/유지를 강화한다"
+    expected_edge: "gtm_data_feeds"
