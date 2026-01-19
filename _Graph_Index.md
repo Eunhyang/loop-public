@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 596
+total_entities: 597
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 596개
+- **총 엔티티**: 597개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 451 |
+| Task | 452 |
 | Hypothesis | 58 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 56 |
-| done | 382 |
+| done | 383 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (451개)
+## Task (452개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -371,6 +371,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768809114457` | API - Multi-Dock contributes에 reasoning 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768809114457.md` |
 | `tsk-023-1768817911261` | AI 추론 버그 수정 - 프론트엔드 description 무시 문제 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768817911261.md` |
 | `tsk-023-1768826648077` | API - file-read 디렉토리 지원 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768826648077.md` |
+| `tsk-023-1768827356397` | Dashboard - Vault Explorer 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768827356397.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -947,6 +948,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768809114457 (API - Multi-Dock contributes에 reasoning 추가)
   - tsk-023-1768817911261 (AI 추론 버그 수정 - 프론트엔드 description 무시 문제)
   - tsk-023-1768826648077 (API - file-read 디렉토리 지원 추가)
+  - tsk-023-1768827356397 (Dashboard - Vault Explorer 기능 구현)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
