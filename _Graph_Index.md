@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 600
+total_entities: 601
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 600개
+- **총 엔티티**: 601개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -30,7 +30,7 @@ tags: ["meta", "graph", "index"]
 | Program | 12 |
 | Project | 41 |
 | Task | 453 |
-| Hypothesis | 60 |
+| Hypothesis | 61 |
 | Experiment | 1 |
 
 ### 상태별
@@ -43,7 +43,7 @@ tags: ["meta", "graph", "index"]
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 27 |
+| planning | 28 |
 | todo | 116 |
 | unknown | 4 |
 | validating | 6 |
@@ -615,7 +615,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (60개)
+## Hypothesis (61개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -663,6 +663,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-4-15` | 오픈톡 인증자 수 증가 가설 |  | `60_Hypotheses/2026/hyp-4-15_오픈톡_인증자_수_증가_가설.md` |
 | `hyp-4-16` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다 | planning | `60_Hypotheses/2026/hyp-4-16.md` |
 | `hyp-4-18` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 매일 리마인드와 주1회 하이라이트로 Week1 인증자 수를 늘린다 | planning | `60_Hypotheses/2026/hyp-4-18.md` |
+| `hyp-4-19` | 오픈 채팅방 활성화 - 챌린지 운영 1차: 챌린지 운영이 방 활성화와 서비스 유입률을 동시에 증가시킨다 | planning | `60_Hypotheses/2026/hyp-4-19.md` |
 | `hyp-6-01` | 주니어 개발자 온보딩이 내부 고객의 개발 병목을 줄인다 | planning | `60_Hypotheses/2026/hyp-6-01.md` |
 | `hyp-6-02` | 앱 전환율 최소선 | todo | `60_Hypotheses/2026/hyp-6-02_전환율_최소선.md` |
 | `hyp-6-03` | 환불/클레임 통제 | todo | `60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md` |
@@ -1269,6 +1270,7 @@ tags: ["meta", "graph", "index"]
   - hyp-4-15 (오픈톡 인증자 수 증가 가설)
   - hyp-4-16 (오픈 채팅방 활성화 - 챌린지 운영 1차: 첫 주 인증 마찰을 낮추면 Week1 인증이 증가한다)
   - hyp-4-18 (오픈 채팅방 활성화 - 챌린지 운영 1차: 매일 리마인드와 주1회 하이라이트로 Week1 인증자 수를 늘린다)
+  - hyp-4-19 (오픈 채팅방 활성화 - 챌린지 운영 1차: 챌린지 운영이 방 활성화와 서비스 유입률을 동시에 증가시킨다)
   - pgm-cs (CS·고객지원)
   - prj-006 (코치 1명 구인 & 1차 온보딩 준비)
   - prj-008 (Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행))

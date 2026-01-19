@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T23:00:08.284480",
-  "total_entities": 600,
+  "generated": "2026-01-19T23:15:08.148905",
+  "total_entities": 601,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -421,6 +421,13 @@
       "name": "약물이 아니라 시스템 메시지가 앱 다운로드 반응을 만든다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-3-04.md"
+    },
+    {
+      "id": "hyp-4-19",
+      "type": "Hypothesis",
+      "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 챌린지 운영이 방 활성화와 서비스 유입률을 동시에 증가시킨다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-19.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -5503,6 +5510,11 @@
     },
     {
       "source": "trk-4",
+      "target": "hyp-4-19",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
       "target": "prj-12329q",
       "type": "parent_of"
     },
@@ -8482,6 +8494,11 @@
       "type": "validates"
     },
     {
+      "source": "prj-12329q",
+      "target": "hyp-4-19",
+      "type": "validates"
+    },
+    {
       "source": "prj-waoz74",
       "target": "hyp-3-01",
       "type": "validates"
@@ -8929,7 +8946,8 @@
       "hyp-4-15",
       "hyp-4-16",
       "hyp-4-18",
-      "hyp-3-04"
+      "hyp-3-04",
+      "hyp-4-19"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9513,6 +9531,7 @@
       "hyp-4-16",
       "hyp-4-18",
       "hyp-3-04",
+      "hyp-4-19",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",
