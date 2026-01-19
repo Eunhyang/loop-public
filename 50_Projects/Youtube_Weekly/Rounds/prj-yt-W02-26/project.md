@@ -32,6 +32,8 @@ realized_impact:
 outgoing_relations: []
 validates:
 - hyp-3-02
+- hyp-1-03
+- hyp-1-04
 validated_by: []
 experiments: []
 tags:
