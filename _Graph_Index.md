@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 586
+total_entities: 588
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 586개
+- **총 엔티티**: 588개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 445 |
+| Task | 447 |
 | Hypothesis | 54 |
 | Experiment | 1 |
 
@@ -39,12 +39,12 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 56 |
-| done | 378 |
+| done | 379 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 23 |
-| todo | 114 |
+| todo | 115 |
 | unknown | 2 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (445개)
+## Task (447개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -368,6 +368,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768721377517` | AI API - Vault Ontology Schema 컨텍스트 자동 주입 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768721377517.md` |
 | `tsk-023-1768729558248` | ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md` |
 | `tsk-023-1768742466` | Project Create 모드 AI 버튼 활성화 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768742466.md` |
+| `tsk-023-1768809114457` | API - Multi-Dock contributes에 reasoning 추가 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768809114457.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -540,6 +541,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-mzjr8a-1768542536681` | 꼭꼭 앱 - 마이그레이션 코드  | done | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768542536681.md` |
 | `tsk-mzjr8a-1768742760758` | sosi - 식전 사진 카메라 전면→후면 버그 수정 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768742760758.md` |
 | `tsk-mzjr8a-1768791541000` | sosi - 푸시알림 긴급/중요 알림 채널 적용 | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768791541000.md` |
+| `tsk-mzjr8a-1768809277000` | sosi - 타이머 시작 호흡 가이드 길이 조절 + 파동 UX | todo | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768809277000.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
 | `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/Vault_System/Rounds/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
@@ -934,6 +936,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768717908724 (AI Inference - Project Summary 버튼 추가)
   - tsk-023-1768721377517 (AI API - Vault Ontology Schema 컨텍스트 자동 주입)
   - tsk-023-1768729558248 (ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast)
+  - tsk-023-1768809114457 (API - Multi-Dock contributes에 reasoning 추가)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -1093,6 +1096,7 @@ tags: ["meta", "graph", "index"]
   - tsk-mzjr8a-1768542536681 (꼭꼭 앱 - 마이그레이션 코드 )
   - tsk-mzjr8a-1768742760758 (sosi - 식전 사진 카메라 전면→후면 버그 수정)
   - tsk-mzjr8a-1768791541000 (sosi - 푸시알림 긴급/중요 알림 채널 적용)
+  - tsk-mzjr8a-1768809277000 (sosi - 타이머 시작 호흡 가이드 길이 조절 + 파동 UX)
 - **prj-n8n** (n8n Vault 자동화)
   - tsk-000n8n-1768057225620 (n8n - Entity Validator Auto-Apply 기능)
   - tsk-000n8n-1768068452347 (n8n - YouTube 데이터 수집 + Discord 알림)

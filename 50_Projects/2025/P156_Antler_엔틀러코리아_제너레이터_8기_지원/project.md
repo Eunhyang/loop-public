@@ -5,7 +5,7 @@ entity_name: Antler - 엔틀러코리아 제너레이터 8기 지원
 created: '2026-01-09'
 updated: '2026-01-19'
 status: planning
-owner: 한명학
+owner: 김은향
 priority_flag: medium
 parent_id: trk-6
 program_id: pgm-tips
@@ -16,16 +16,23 @@ conditions_3y:
 - cond-d
 - cond-e
 track_contributes: []
+condition_contributes:
+- to: cond-d
+  weight: 0.6
+  description: 월 매출 및 런웨이의 지속 가능성을 평가하여 프로젝트의 성공 여부에 직접적인 영향을 미침.
+- to: cond-e
+  weight: 0.4
+  description: 핵심 역할이 갖춰진 팀인지 평가하여 프로젝트의 실행 가능성에 기여.
 ---
 # Antler - 엔틀러코리아 제너레이터 8기 지원 (prj-156anu)
 
 > **Status**: planning\
-****Owner**: 한명학\
-****Primary Assignee**: 김은향\
-****Program**: 투자/TIPS 준비 (pgm-tips)\
-****Parent Track**: Track_6_Revenue (trk-6)\
-****Related Conditions (3Y)**: Condition_D_Runway (cond-d), Condition_E_Team (cond-e)\
-****Last Updated**: 2026-01-19
+> \*\***Owner**: 한명학\
+> \*\***Primary Assignee**: 김은향\
+> \*\***Program**: 투자/TIPS 준비 (pgm-tips)\
+> \*\***Parent Track**: Track_6_Revenue (trk-6)\
+> \*\*\*\*Related Conditions (3Y)\*\*: Condition_D_Runway (cond-d), Condition_E_Team (cond-e)\
+> \*\***Last Updated**: 2026-01-19
 
 ---
 
@@ -168,12 +175,11 @@ track_contributes: []
 
 ### 9.1 이번 주 (W02: 2026-01-19 \~ 2026-01-23)
 
-- [ ]  인터뷰 목표/핵심 메시지 3축 확정
+- [ ] 인터뷰 목표/핵심 메시지 3축 확정
 
-- [ ]  질문 리스트 30개 수집(예상 Q) + 답변 초안 작성
+- [ ] 질문 리스트 30개 수집(예상 Q) + 답변 초안 작성
 
-
-- [ ]  모의면접 2회 이상 + 피드백 반영
+- [ ] 모의면접 2회 이상 + 피드백 반영
 
 ---
 
