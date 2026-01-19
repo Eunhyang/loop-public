@@ -1,0 +1,230 @@
+schema_name: edge_types_dictionary
+schema_version: "1.0"
+updated_at: "2026-01-18"
+purpose: "LLM agent가 관계를 추론하지 않도록 edge_type 의미를 고정한다"
+design_principles:
+  - "edge는 항상 방향(from -> to)을 가진다"
+  - "중복 의미를 만들지 않는다(ambiguous edges 금지)"
+  - "모든 edge는 최소한 note(자연어 근거)를 권장한다"
+  - "validates/breaks는 운영 의사결정에 직접 쓰이므로 메타를 더 강하게 요구한다"
+
+# ------------------------------------------------------------
+# Global constraints / conventions
+# ------------------------------------------------------------
+global:
+  edge_id:
+    rule: "선택. 저장 시에는 (type, from_id, to_id)로 유일키를 만들거나, 별도 edge_id(uuid)를 둘 수 있다"
+  default_fields:
+    required: ["type", "from_id", "to_id"]
+    optional: ["note", "weight", "evidence", "strength", "measured_at", "risk_level", "break_trigger"]
+  strength_enum: ["weak", "medium", "strong"]
+  risk_level_enum: ["low", "medium", "high"]
+  weight:
+    rule: "0~1 실수. 여러 edge의 weight 합은 1일 필요 없음(상대적 기여도 표기용)"
+  cycles:
+    default_policy: "허용하되, retrieval에서 depth 제한과 중복 제거로 통제한다"
+
+# ------------------------------------------------------------
+# Edge Types
+# ------------------------------------------------------------
+edge_types:
+
+  validates:
+    meaning: "from가 생성한 증거가 to의 충족/참 여부를 판단하는 근거가 된다."
+    from: ["Track", "Project", "Hypothesis"]
+    to: ["Condition", "MetaHypothesis"]
+    cardinality:
+      from_to: "N:N"        # 여러 from이 같은 to를 검증 가능, 하나의 from이 여러 to를 검증도 가능
+    cycles_allowed: false    # '검증'이 순환하면 판정이 꼬임. (A validates B and B validates A) 금지
+    required_meta:
+      - evidence             # 링크/리포트/로그/대시보드 등 (없으면 validates 금지)
+    recommended_meta:
+      - strength             # weak|medium|strong
+      - measured_at          # YYYY-MM-DD
+      - note
+    choose_when:
+      - "to의 판정(충족/붕괴)을 업데이트하는 직접 근거가 있을 때"
+      - "측정/실험/리포트 형태로 재검증 가능할 때"
+    forbidden_when:
+      - "그냥 도움이 됐다는 수준(이 경우 enables)"
+      - "막히면 못 한다는 의존(이 경우 depends_on)"
+    examples:
+      - from: {type: "Track", id: "trk-6", title: "Track_6_Revenue"}
+        to:   {type: "Condition", id: "cond-d", title: "Condition_D_Runway"}
+        edge:
+          type: "validates"
+          from_id: "trk-6"
+          to_id: "cond-d"
+          evidence: "revenue_dashboard_link"
+          strength: "medium"
+          measured_at: "2026-01-18"
+          note: "월매출/런웨이 지표로 Condition D 충족 여부 판단"
+
+  enables:
+    meaning: "from가 to를 가능하게 하는 선행조건/인프라/레버리지를 제공한다(성패 판정의 직접 근거는 아님)."
+    from: ["Track", "Project"]
+    to: ["Condition", "Track"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: true     # enable 루프는 현실에서 생김(인프라/팀/프로세스)
+    required_meta: []
+    recommended_meta:
+      - weight               # 기여도(선택)
+      - note
+    choose_when:
+      - "from가 없으면 to가 느려지거나 불가능하지만, to의 판정 자체를 직접 측정하는 건 아닐 때"
+      - "to에 대한 간접 기여/선행 작업일 때"
+    forbidden_when:
+      - "from 결과가 to 판정의 직접 근거(이 경우 validates)"
+      - "to가 막히면 from도 구조적으로 멈춤(이 경우 depends_on, 방향 주의)"
+    examples:
+      - from: {type: "Project", id: "prj-002", title: "와디즈 - 12주 코칭 습관 코칭팩"}
+        to:   {type: "Condition", id: "cond-d", title: "Condition_D_Runway"}
+        edge:
+          type: "enables"
+          from_id: "prj-002"
+          to_id: "cond-d"
+          weight: 0.6
+          note: "펀딩 성공 시 현금흐름/런웨이 확보에 기여"
+
+  depends_on:
+    meaning: "from가 to에 의존한다. to가 막히면 from도 구조적으로 진행 불가/심각한 지연이 발생한다."
+    from: ["Track", "Project"]
+    to: ["Track", "Condition"]
+    cardinality:
+      from_to: "N:N"
+    cycles_allowed: true     # 의존성 순환은 생길 수 있으나, 운영상 발견 시 리팩터링 권장
+    required_meta: []
+    recommended_meta:
+      - risk_level
+      - note
+    choose_when:
+      - "to가 실패/지연되면 from의 실행이 멈추거나 KPI 달성이 불가능해질 때"
+      - "조직/기술/리소스 차원의 병목 관계일 때"
+    forbidden_when:
+      - "그냥 도움 정도(이 경우 enables)"
+    tie_breaker_rules:
+      - "애매하면 질문: 'to가 0이면 from이 성립하나?' → NO면 depends_on"
+      - "반대로 'from이 0이면 to가 성립하나?' → NO면 enables가 아니라 depends_on(방향 재검토)"
+    examples:
+      - from: {type: "Track", id: "trk-6", title: "Track_6_Revenue"}
+        to:   {type: "Track", id: "trk-1", title: "Track_1_Product"}
+        edge:
+          type: "depends_on"
+          from_id: "trk-6"
+          to_id: "trk-1"
+          risk_level: "high"
+          note: "유료화 기반이 제품에 의존"
+
+  unlocks:
+    meaning: "to가 충족되면 다음 단계/트랙이 공식적으로 열린다(Go 신호)."
+    from: ["Condition"]
+    to: ["StrategyPhase", "Track"]
+    cardinality:
+      from_to: "1:N"        # 한 Condition이 여러 다음 단계/트랙을 열 수 있음
+    cycles_allowed: false    # unlock은 단계성을 전제하므로 순환 금지
+    required_meta: []
+    recommended_meta: ["note"]
+    choose_when:
+      - "Condition 충족이 '착수 허가'나 '확장 허가'로 쓰일 때"
+    examples:
+      - from: {type: "Condition", id: "cond-b", title: "Condition_B_Loop_Dataset"}
+        to:   {type: "StrategyPhase", id: "phase-01", title: "3Y Strategy Entry"}
+        edge:
+          type: "unlocks"
+          from_id: "cond-b"
+          to_id: "phase-01"
+          note: "재현 패턴 10개 충족 시 3년 전략 진입"
+
+  breaks:
+    meaning: "from(Condition)가 붕괴되면 to(Strategy/Track)가 깨지며 전환/중단이 강제된다(Stop/Branch 신호)."
+    from: ["Condition"]
+    to: ["Strategy", "Track"]
+    cardinality:
+      from_to: "1:N"
+    cycles_allowed: false
+    required_meta:
+      - break_trigger        # 어떤 붕괴 조건으로 깨지는지 한 줄
+    recommended_meta:
+      - note
+    choose_when:
+      - "조건 붕괴가 곧 전략 전환/중단 트리거일 때"
+    forbidden_when:
+      - "단순 리스크 경고(이 경우 depends_on + risk_level)"
+    examples:
+      - from: {type: "Condition", id: "cond-b", title: "Condition_B_Loop_Dataset"}
+        to:   {type: "Strategy", id: "str-01", title: "Data Strategy"}
+        edge:
+          type: "breaks"
+          from_id: "cond-b"
+          to_id: "str-01"
+          break_trigger: "6개월간 패턴 증가 정체 또는 재현율 30% 미만"
+          note: "데이터 전략 폐기/피벗 브랜치로 전환"
+
+  terminates:
+    meaning: "from(Track) 실패가 회사 존속에 치명적이며 종료/긴급모드 전환을 유발한다."
+    from: ["Track"]
+    to: ["Company"]
+    cardinality:
+      from_to: "N:1"        # 여러 생존 트랙이 하나의 회사 존속에 연결될 수 있음
+    cycles_allowed: false
+    required_meta: []
+    recommended_meta: ["note"]
+    guardrails:
+      - "생존 Track(런웨이/규제/법적 리스크 등)만 사용"
+      - "남발 금지: 전체 Track 중 1~2개 수준을 권장"
+    choose_when:
+      - "실패 시 '전략 수정'이 아니라 '존속 모드'로 즉시 전환해야 할 때"
+    examples:
+      - from: {type: "Track", id: "trk-6", title: "Track_6_Revenue"}
+        to:   {type: "Company", id: "co-01", title: "LOOP"}
+        edge:
+          type: "terminates"
+          from_id: "trk-6"
+          to_id: "co-01"
+          note: "런웨이 임계 붕괴 시 회사 생존 위협"
+
+# ------------------------------------------------------------
+# Anti-ambiguity rules (중복 의미 방지)
+# ------------------------------------------------------------
+disambiguation_rules:
+  primary_confusions:
+    - pair: ["enables", "depends_on"]
+      rule: "A가 없으면 B가 '느려진다/어렵다' = enables, A가 없으면 B가 '성립 불가/중단' = depends_on"
+      test_question:
+        - "to가 0이면 from이 성립하나? (NO면 from depends_on to)"
+        - "from이 0이면 to가 성립하나? (NO면 from enables to 또는 to depends_on from 중 방향 재검토)"
+    - pair: ["enables", "validates"]
+      rule: "판정 근거(증거)로 쓰이면 validates, 선행/인프라면 enables"
+      requirement: "validates에는 evidence 필수"
+    - pair: ["depends_on", "breaks"]
+      rule: "의존은 병목/제약, breaks는 '붕괴 시 전환/중단'의 공식 트리거"
+  duplicate_edge_policy:
+    - "동일 (type, from_id, to_id)는 1개만 허용(중복 저장 금지)"
+    - "같은 의미의 edge를 두 타입으로 동시 연결 금지(예: enables와 depends_on을 같은 쌍에 동시에 금지). 단, note가 달라도 금지."
+
+# ------------------------------------------------------------
+# Quick classification test set (샘플 10개)
+# 운영자가 10개 관계를 분류했을 때 애매 케이스 <=2 목표
+# ------------------------------------------------------------
+classification_samples:
+  - statement: "Track6의 매출 지표가 ConditionD 충족 여부를 판정한다"
+    expected_edge: "validates"
+  - statement: "Project 와디즈는 런웨이 확보에 기여하지만 성공해도 ConditionD를 자동 충족하진 않는다"
+    expected_edge: "enables"
+  - statement: "Track6은 Track1 유료화가 막히면 실행이 불가능하다"
+    expected_edge: "depends_on"
+  - statement: "ConditionB 충족 시 3년 전략 단계로 진입한다"
+    expected_edge: "unlocks"
+  - statement: "ConditionB가 붕괴되면 데이터 전략을 폐기한다"
+    expected_edge: "breaks"
+  - statement: "Track6 실패는 회사 존속에 치명적이다"
+    expected_edge: "terminates"
+  - statement: "Project가 만든 실험 리포트가 MH3를 강화/반증한다"
+    expected_edge: "validates"
+  - statement: "Track2의 데이터 파이프라인이 Track5(파트너십)의 임상 설득을 가능하게 한다"
+    expected_edge: "enables"
+  - statement: "ConditionD가 깨지면 모든 트랙이 생존모드로 전환된다"
+    expected_edge: "breaks"
+  - statement: "Track4(코칭)이 없으면 Track2(데이터) 패턴 발견이 불가능하다"
+    expected_edge: "depends_on"
