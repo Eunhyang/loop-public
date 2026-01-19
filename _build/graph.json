@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-20T01:45:08.757384",
-  "total_entities": 609,
+  "generated": "2026-01-20T02:00:08.647504",
+  "total_entities": 610,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -1280,7 +1280,7 @@
     {
       "id": "tsk-1kthoh-1768841096537",
       "type": "Task",
-      "name": "Ontology Lite v1 - Strategic Context 매핑 함수 생성",
+      "name": "Ontology Lite v1 - Strategic Context → Graph Normalizer (v1.1: GTM Subgraph Deterministic Merge)",
       "status": "done",
       "path": "50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768841096537.md",
       "assignee": "김은향"
@@ -4080,6 +4080,14 @@
       "name": "Dashboard - 프롬프트 템플릿 관리 기능",
       "status": "done",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768828783525.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768841419050",
+      "type": "Task",
+      "name": "Entity Form - 원본 파일 Vault Explorer로 열기",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768841419050.md",
       "assignee": "김은향"
     },
     {
@@ -7617,6 +7625,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768841419050",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -9474,6 +9487,7 @@
       "tsk-023-1768826648077",
       "tsk-023-1768827356397",
       "tsk-023-1768828783525",
+      "tsk-023-1768841419050",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -10122,6 +10136,7 @@
       "tsk-023-1768826648077",
       "tsk-023-1768827356397",
       "tsk-023-1768828783525",
+      "tsk-023-1768841419050",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
