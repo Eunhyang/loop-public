@@ -18,16 +18,22 @@ owner: 한명학
 budget: null
 deadline: '2026-01-31'
 expected_impact:
-  statement: W03-26 영상이 예정대로 업로드되면 주간 업로드 일관성이 유지됨이 증명된다
-  metric: 업로드 완료 여부 + 쇼츠 5개
-  target: 2026-01-31까지 본편 1개 + 쇼츠 5개 업로드
+  tier: operational
+  impact_magnitude: low
+  confidence: 0.8
+  contributes: []
+  rationale: YouTube - W03-26 프로젝트는 GLP-1 언어 선점과 Loop Narrative를 통해 콘텐츠 배포를 목표로 하며,
+    중간 수준의 영향력을 미칠 것으로 예상됩니다.
 realized_impact:
   verdict: null
   outcome: null
   evidence_links: []
   decided: null
 outgoing_relations: []
-validates: []
+validates:
+- hyp-1-01
+- hyp-1-02
+- hyp-1-03
 validated_by: []
 experiments: []
 tags:
@@ -49,6 +55,9 @@ track_contributes:
 - to: trk-2
   weight: 0.5
   description: 코치+기록 기반 데이터의 패턴화 가능성이 YouTube 콘텐츠와 연계될 수 있음.
+primary_hypothesis_id: hyp-3-04
+summary: '[Track_3_Content] Track_3_Content에서 약물이나 외모보다 결국 습관, 시스템에 설득되는지 콘텐츠를 제작하는
+  프로젝트.'
 ---
 # YouTube - W03-26
 

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T22:45:08.334489",
-  "total_entities": 599,
+  "generated": "2026-01-19T23:00:08.284480",
+  "total_entities": 600,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -414,6 +414,13 @@
       "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 매일 리마인드와 주1회 하이라이트로 Week1 인증자 수를 늘린다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-4-18.md"
+    },
+    {
+      "id": "hyp-3-04",
+      "type": "Hypothesis",
+      "name": "약물이 아니라 시스템 메시지가 앱 다운로드 반응을 만든다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-3-04.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -5656,6 +5663,11 @@
     },
     {
       "source": "trk-3",
+      "target": "hyp-3-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
       "target": "prj-waoz74",
       "type": "parent_of"
     },
@@ -8505,6 +8517,21 @@
       "type": "validates"
     },
     {
+      "source": "prj-yt-W03-26",
+      "target": "hyp-1-01",
+      "type": "validates"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "hyp-1-02",
+      "type": "validates"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "hyp-1-03",
+      "type": "validates"
+    },
+    {
       "source": "prj-api-exec-vault",
       "target": "hyp-2-02",
       "type": "validates"
@@ -8901,7 +8928,8 @@
       "hyp-4-14",
       "hyp-4-15",
       "hyp-4-16",
-      "hyp-4-18"
+      "hyp-4-18",
+      "hyp-3-04"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9484,6 +9512,7 @@
       "hyp-6-15",
       "hyp-4-16",
       "hyp-4-18",
+      "hyp-3-04",
       "prj-{NUMBER}",
       "prj-001",
       "prj-005",

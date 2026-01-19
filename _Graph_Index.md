@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-19
 updated: 2026-01-19
-total_entities: 599
+total_entities: 600
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 599개
+- **총 엔티티**: 600개
 - **마지막 업데이트**: 2026-01-19
 
 ### 타입별
@@ -30,7 +30,7 @@ tags: ["meta", "graph", "index"]
 | Program | 12 |
 | Project | 41 |
 | Task | 453 |
-| Hypothesis | 59 |
+| Hypothesis | 60 |
 | Experiment | 1 |
 
 ### 상태별
@@ -43,7 +43,7 @@ tags: ["meta", "graph", "index"]
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
-| planning | 26 |
+| planning | 27 |
 | todo | 116 |
 | unknown | 4 |
 | validating | 6 |
@@ -615,7 +615,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-{PRJ_NUMBER}-{SEQ}` | {태스크명} | todo | `50_Projects/_template_task.md` |
 
 
-## Hypothesis (59개)
+## Hypothesis (60개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -645,6 +645,7 @@ tags: ["meta", "graph", "index"]
 | `hyp-3-01` | Content OS 기획시간 50% 단축 | assumed | `60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md` |
 | `hyp-3-02` | 폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호 | planning | `60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md` |
 | `hyp-3-03` | 브랜드 재현성이 성과를 만든다. | assumed | `60_Hypotheses/2026/hyp-3-03_브랜드_재현성이_성과를_만든다.md` |
+| `hyp-3-04` | 약물이 아니라 시스템 메시지가 앱 다운로드 반응을 만든다 | planning | `60_Hypotheses/2026/hyp-3-04.md` |
 | `hyp-4-01` | 심화 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md` |
 | `hyp-4-02` | GLP-1 과정 수요 재현 | todo | `60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md` |
 | `hyp-4-03` | 완주율 | todo | `60_Hypotheses/2026/hyp-4-03_완주율.md` |
@@ -1243,6 +1244,7 @@ tags: ["meta", "graph", "index"]
   - hyp-3-01 (Content OS 기획시간 50% 단축)
   - hyp-3-02 (폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호)
   - hyp-3-03 (브랜드 재현성이 성과를 만든다.)
+  - hyp-3-04 (약물이 아니라 시스템 메시지가 앱 다운로드 반응을 만든다)
   - pgm-content-os (Content OS)
   - pgm-youtube-weekly (YouTube 1주 1업로드)
   - prj-content-os (Content OS - MVP 개발)
