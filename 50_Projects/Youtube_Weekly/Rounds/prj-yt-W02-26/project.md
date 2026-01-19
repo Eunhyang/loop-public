@@ -10,6 +10,7 @@ cycle: W02
 parent_id: trk-3
 conditions_3y:
 - cond-a
+- cond-d
 aliases:
 - prj-yt-W02-26
 - YouTube - W02
@@ -17,9 +18,12 @@ owner: 한명학
 budget: null
 deadline: '2026-01-24'
 expected_impact:
-  statement: W02 영상이 예정대로 업로드되면 주간 업로드 일관성이 유지됨이 증명된다
-  metric: 업로드 완료 여부 + 쇼츠 5개
-  target: 2026-01-24까지 본편 1개 + 쇼츠 5개 업로드
+  tier: operational
+  impact_magnitude: low
+  confidence: 0.8
+  contributes: []
+  rationale: YouTube - W02 프로젝트는 GLP-1 언어 선점과 Loop Narrative 기반 콘텐츠 배포를 통해 전략 실행을
+    지원하며, cond-a에 중요한 기여를 합니다.
 realized_impact:
   verdict: null
   outcome: null
@@ -36,6 +40,24 @@ tags:
 - round
 priority_flag: medium
 primary_hypothesis_id: hyp-3-02
+track_contributes:
+- to: trk-1
+  weight: 0.55
+  description: Loop Core OS 제품이 국내 PMF를 달성하는 데 간접적으로 기여할 가능성이 있다.
+- to: trk-2
+  weight: 0.3
+  description: 코치+기록 기반 데이터의 패턴화 가능성이 프로젝트에 긍정적인 영향을 미칠 수 있다.
+- to: trk-4
+  weight: 0.15
+  description: 코치가 라벨러 역할로 전환하여 고품질 데이터를 생성하는 것이 프로젝트에 기여할 수 있다.
+condition_contributes:
+- to: cond-a
+  weight: 0.7
+  description: 프로젝트 결과가 Tier1/2가 Loop 언어로 문제를 설명하는 것에 직접적인 영향을 미친다.
+- to: cond-d
+  weight: 0.3
+  description: 프로젝트의 성공 여부가 월 매출 또는 런웨이에 영향을 미친다.
+summary: '[Track 3(Content)] Track 3(Content)에서 폭식후 개입 첫 MVP 실험으로 반응을 검증하는 프로젝트.'
 ---
 # YouTube - W02
 

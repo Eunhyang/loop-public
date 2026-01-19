@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-19T18:30:08.057264",
+  "generated": "2026-01-19T18:45:07.852607",
   "total_entities": 588,
   "nodes": [
     {
@@ -1611,7 +1611,8 @@
       "status": "doing",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/project.md",
       "conditions_3y": [
-        "cond-a"
+        "cond-a",
+        "cond-d"
       ],
       "priority_flag": "medium",
       "owner": "한명학"
@@ -8651,6 +8652,7 @@
       "prj-008",
       "prj-015",
       "prj-020",
+      "prj-yt-W02-26",
       "pgm-tips",
       "prj-021",
       "prj-012",

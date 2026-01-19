@@ -23,6 +23,13 @@ condition_contributes:
 - to: cond-e
   weight: 0.4
   description: 핵심 역할이 갖춰진 팀인지 평가하여 프로젝트의 실행 가능성에 기여.
+expected_impact:
+  tier: enabling
+  impact_magnitude: high
+  confidence: 0.2
+  contributes: []
+  rationale: 이 프로젝트는 유료화 및 투자 확보를 목표로 하며, Track의 Primary Condition인 cond-d에 기여할 것으로
+    예상됩니다. 현재는 planning 단계로, 신뢰도는 중간 수준입니다.
 ---
 # Antler - 엔틀러코리아 제너레이터 8기 지원 (prj-156anu)
 
