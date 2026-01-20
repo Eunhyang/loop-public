@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-1t7iu4
 entity_name: MCP API - Deployment Optimization
 created: '2026-01-13'
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 owner: 김은향
 priority_flag: medium
 parent_id: trk-1

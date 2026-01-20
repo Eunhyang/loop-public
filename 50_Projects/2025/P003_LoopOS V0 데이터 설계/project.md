@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-003
 entity_name: LoopOS - V0 데이터 설계
 created: 2025-12-18
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 parent_id: trk-2
 aliases:
 - prj-003
@@ -50,6 +50,7 @@ primary_hypothesis_id: hyp-2-01
 summary: 'ㅇ
 
   ㅇ'
+notes: PATCH test
 ---
 ## 이 프로젝트는 뭐하는가? (하위태스크 기준)
 

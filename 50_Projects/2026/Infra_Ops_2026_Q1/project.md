@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-infra-ops-2026q1
 entity_name: Infra Ops - 2026 Q1
 created: '2026-01-16'
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 parent_id: trk-6
 program_id: pgm-kkokkkokfit-web
 conditions_3y:

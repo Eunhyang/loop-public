@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 617
+total_entities: 618
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 617개
+- **총 엔티티**: 618개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 467 |
+| Task | 468 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -38,13 +38,12 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 60 |
-| done | 398 |
+| doing | 43 |
+| done | 399 |
 | draft | 1 |
 | fixed | 1 |
-| hold | 1 |
-| planning | 29 |
-| todo | 113 |
+| planning | 48 |
+| todo | 112 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -114,49 +113,49 @@ tags: ["meta", "graph", "index"]
 | ID | Name | Status | Path |
 |----|------|--------|------|
 | `prj-001` | Ontology v0.1 | planning | `50_Projects/2025/P001_Ontology/project.md` |
-| `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | doing | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
-| `prj-003` | LoopOS - V0 데이터 설계 | doing | `50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md` |
+| `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | planning | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
+| `prj-003` | LoopOS - V0 데이터 설계 | planning | `50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md` |
 | `prj-005` | LoopOS - 최소 선제 학습 | planning | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md` |
 | `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
 | `prj-007` | Hiring - 안지온님(엔씨온 외부 비서) | done | `50_Projects/2025/P007_외부 비서/project.md` |
 | `prj-008` | Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행) | planning | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/project.md` |
-| `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | hold | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |
+| `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | planning | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |
 | `prj-012` | CS - 2026 Q1 | planning | `50_Projects/CS/Rounds/P012_CS_2026Q1/project.md` |
-| `prj-014` | 꼭꼭FIT 랜딩 페이지 - 리뉴얼 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md` |
+| `prj-014` | 꼭꼭FIT 랜딩 페이지 - 리뉴얼 | planning | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md` |
 | `prj-015` | Hiring - 임단(주니어 개발자 채용) | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/project.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | planning | `50_Projects/2025/P016_법인 전환 설립(주) 루프/project.md` |
-| `prj-019` | Dual-Vault - 정비 | doing | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/project.md` |
+| `prj-019` | Dual-Vault - 정비 | planning | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/project.md` |
 | `prj-020` | 스타트업베이 - 2025 지원사업 | planning | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/project.md` |
-| `prj-021` | 경영관리 - 2026 Q1 | doing | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/project.md` |
-| `prj-023` | Dashboard - React+TS 마이그레이션 | doing | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/project.md` |
+| `prj-021` | 경영관리 - 2026 Q1 | planning | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/project.md` |
+| `prj-023` | Dashboard - React+TS 마이그레이션 | planning | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/project.md` |
 | `prj-12329q` | 오픈 채팅방 활성화 - 챌린지 운영 1차 | planning | `50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md` |
 | `prj-151f61` | Test - MCP Write API 완성 | planning | `50_Projects/2025/P151_Test_MCP_Write_API_완성/project.md` |
 | `prj-156anu` | Antler - 엔틀러코리아 제너레이터 8기 지원 | planning | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md` |
 | `prj-1kthoh` | Ontology - Vault Ontology Lite v1 | planning | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/project.md` |
-| `prj-1t7iu4` | MCP API - Deployment Optimization | doing | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md` |
+| `prj-1t7iu4` | MCP API - Deployment Optimization | planning | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md` |
 | `prj-5w69jw` | Vault - Hypothesis 유지 전략 | planning | `50_Projects/2025/P5_Vault_Hypothesis_유지_전략/project.md` |
-| `prj-api-exec-vault` | API - Exec Vault 통합 | doing | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md` |
-| `prj-content-os` | Content OS - MVP 개발 | doing | `50_Projects/Content_OS/Rounds/prj-content-os/project.md` |
+| `prj-api-exec-vault` | API - Exec Vault 통합 | planning | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md` |
+| `prj-content-os` | Content OS - MVP 개발 | planning | `50_Projects/Content_OS/Rounds/prj-content-os/project.md` |
 | `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/project.md` |
 | `prj-enlnjr` | MCP API - Deployment Optimization | planning | `50_Projects/2025/Penlnjr_MCP_API_Deployment_Optimization/project.md` |
-| `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | doing | `50_Projects/Vault_System/Rounds/prj-feedback-system/project.md` |
-| `prj-impact-schema-v2` | Schema - Realized Impact 확장 | doing | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md` |
-| `prj-infra-ops-2026q1` | Infra Ops - 2026 Q1 | doing | `50_Projects/2026/Infra_Ops_2026_Q1/project.md` |
+| `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | planning | `50_Projects/Vault_System/Rounds/prj-feedback-system/project.md` |
+| `prj-impact-schema-v2` | Schema - Realized Impact 확장 | planning | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md` |
+| `prj-infra-ops-2026q1` | Infra Ops - 2026 Q1 | planning | `50_Projects/2026/Infra_Ops_2026_Q1/project.md` |
 | `prj-kkokkkok-v1028` | KkokKkok App v1.0.28 - Hotfix | done | `50_Projects/KkokKkok_Release/Rounds/prj-kkokkkok-v1028/project.md` |
-| `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | doing | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/project.md` |
+| `prj-mcp-dual-vault-rbac` | MCP Dual-Vault RBAC | planning | `50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/project.md` |
 | `prj-mzjr8a` | KkokKkok App v1.0.29 - Release | planning | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/project.md` |
-| `prj-n8n` | n8n Vault 자동화 | doing | `50_Projects/Vault_System/Rounds/prj-n8n/project.md` |
-| `prj-vault-gpt` | ChatGPT Vault MCP 연결 | doing | `50_Projects/Vault_System/Rounds/prj-vault-gpt/project.md` |
+| `prj-n8n` | n8n Vault 자동화 | planning | `50_Projects/Vault_System/Rounds/prj-n8n/project.md` |
+| `prj-vault-gpt` | ChatGPT Vault MCP 연결 | planning | `50_Projects/Vault_System/Rounds/prj-vault-gpt/project.md` |
 | `prj-w5kz77` | KkokKkok Backend - Maintenance | planning | `50_Projects/2025/Pw5kz77_KkokKkok_Backend_Maintenance/project.md` |
-| `prj-waoz74` | Content OS - Dashboard v2 | todo | `50_Projects/Content_OS/Rounds/prj-waoz74/project.md` |
-| `prj-yt-W02-26` | YouTube - W02 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/project.md` |
+| `prj-waoz74` | Content OS - Dashboard v2 | planning | `50_Projects/Content_OS/Rounds/prj-waoz74/project.md` |
+| `prj-yt-W02-26` | YouTube - W02 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/project.md` |
 | `prj-yt-W03-26` | YouTube - W03-26 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/project.md` |
 | `prj-yt-w33` | YouTube - W33 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/project.md` |
-| `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | doing | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
+| `prj-yt-wegovy` | 위고비 유튜브 콘텐츠 기획 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md` |
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (467개)
+## Task (468개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -382,6 +381,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768842493769` | MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842493769.md` |
 | `tsk-023-1768844444` | Strategic Context MCP Action 노출 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768844444.md` |
 | `tsk-023-1768878808515` | MCP SSE 연결 안정화 - Synology nginx 설정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768878808515.md` |
+| `tsk-023-1768885291967` | Wikilink - entity_name 검색 및 표시 기능 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768885291967.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -977,6 +977,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768842493769 (MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현)
   - tsk-023-1768844444 (Strategic Context MCP Action 노출)
   - tsk-023-1768878808515 (MCP SSE 연결 안정화 - Synology nginx 설정)
+  - tsk-023-1768885291967 (Wikilink - entity_name 검색 및 표시 기능)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

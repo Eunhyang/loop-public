@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-019
 entity_name: Dual-Vault - 정비
 created: 2026-01-02
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 parent_id: trk-2
 program_id: pgm-vault-system
 aliases:

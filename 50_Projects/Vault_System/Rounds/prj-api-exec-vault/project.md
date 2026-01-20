@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-api-exec-vault
 entity_name: API - Exec Vault 통합
 created: 2026-01-02
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 program_id: pgm-vault-system
 cycle: '2026'
 owner: 김은향

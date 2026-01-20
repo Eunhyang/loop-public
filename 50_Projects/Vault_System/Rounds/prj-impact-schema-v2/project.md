@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-impact-schema-v2
 entity_name: Schema - Realized Impact 확장
 created: 2025-12-27
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 parent_id: trk-2
 program_id: pgm-vault-system
 aliases:

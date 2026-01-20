@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-yt-wegovy
 entity_name: 위고비 유튜브 콘텐츠 기획
 created: 2025-12-26
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 program_id: pgm-youtube-weekly
 cycle: '2025'
 owner: 한명학

@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-002
 entity_name: 와디즈 - 12주 습관 코칭 패키지
 created: 2025-12-18
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 parent_id: trk-6
 aliases:
 - prj-002

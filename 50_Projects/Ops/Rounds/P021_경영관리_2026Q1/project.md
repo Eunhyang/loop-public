@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-021
 entity_name: 경영관리 - 2026 Q1
 created: 2025-12-29
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 owner: 한명학
 budget: null
 deadline: null

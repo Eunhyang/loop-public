@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-content-os
 entity_name: Content OS - MVP 개발
 created: 2025-12-31
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 parent_id: trk-3
 aliases:
 - prj-content-os

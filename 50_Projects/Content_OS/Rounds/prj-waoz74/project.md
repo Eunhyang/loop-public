@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-waoz74
 entity_name: Content OS - Dashboard v2
 created: 2026-01-14
-updated: '2026-01-14'
-status: todo
+updated: '2026-01-20'
+status: planning
 parent_id: trk-3
 aliases:
 - prj-waoz74

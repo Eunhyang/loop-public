@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-vault-gpt
 entity_name: ChatGPT Vault MCP 연결
 created: 2025-12-25
-updated: '2026-01-19'
-status: doing
+updated: '2026-01-20'
+status: planning
 program_id: pgm-vault-system
 cycle: '2025'
 owner: 김은향

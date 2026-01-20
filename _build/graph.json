@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-20T14:00:17.144408",
-  "total_entities": 617,
+  "generated": "2026-01-20T14:30:16.328111",
+  "total_entities": 618,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -500,7 +500,7 @@
       "id": "prj-003",
       "type": "Project",
       "name": "LoopOS - V0 데이터 설계",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md",
       "conditions_3y": [
         "cond-b"
@@ -687,7 +687,7 @@
       "id": "prj-011",
       "type": "Project",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
-      "status": "hold",
+      "status": "planning",
       "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md",
       "conditions_3y": [
         "cond-c",
@@ -981,7 +981,7 @@
       "id": "prj-002",
       "type": "Project",
       "name": "와디즈 - 12주 습관 코칭 패키지",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md",
       "conditions_3y": [
         "cond-b",
@@ -1170,7 +1170,7 @@
       "id": "prj-1t7iu4",
       "type": "Project",
       "name": "MCP API - Deployment Optimization",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md",
       "priority_flag": "medium",
       "owner": "김은향"
@@ -1208,7 +1208,7 @@
       "id": "prj-waoz74",
       "type": "Project",
       "name": "Content OS - Dashboard v2",
-      "status": "todo",
+      "status": "planning",
       "path": "50_Projects/Content_OS/Rounds/prj-waoz74/project.md",
       "conditions_3y": [
         "cond-a"
@@ -1695,7 +1695,7 @@
       "id": "prj-yt-wegovy",
       "type": "Project",
       "name": "위고비 유튜브 콘텐츠 기획",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-wegovy/project.md",
       "conditions_3y": [
         "cond-a"
@@ -1716,7 +1716,7 @@
       "id": "prj-yt-W02-26",
       "type": "Project",
       "name": "YouTube - W02",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/project.md",
       "conditions_3y": [
         "cond-a",
@@ -2016,7 +2016,7 @@
       "id": "prj-vault-gpt",
       "type": "Project",
       "name": "ChatGPT Vault MCP 연결",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-vault-gpt/project.md",
       "conditions_3y": [
         "cond-b"
@@ -2555,7 +2555,7 @@
       "id": "prj-mcp-dual-vault-rbac",
       "type": "Project",
       "name": "MCP Dual-Vault RBAC",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-mcp-dual-vault-rbac/project.md",
       "conditions_3y": [
         "cond-b"
@@ -2603,7 +2603,7 @@
       "id": "prj-impact-schema-v2",
       "type": "Project",
       "name": "Schema - Realized Impact 확장",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md",
       "conditions_3y": [
         "cond-b"
@@ -2677,7 +2677,7 @@
       "id": "prj-n8n",
       "type": "Project",
       "name": "n8n Vault 자동화",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-n8n/project.md",
       "conditions_3y": [
         "cond-e"
@@ -2917,7 +2917,7 @@
       "id": "prj-019",
       "type": "Project",
       "name": "Dual-Vault - 정비",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/project.md",
       "conditions_3y": [
         "cond-b"
@@ -3018,7 +3018,7 @@
       "id": "prj-api-exec-vault",
       "type": "Project",
       "name": "API - Exec Vault 통합",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md",
       "conditions_3y": [
         "cond-e"
@@ -3092,7 +3092,7 @@
       "id": "prj-feedback-system",
       "type": "Project",
       "name": "Feedback - 유저 피드백 수집 시스템",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/prj-feedback-system/project.md",
       "priority_flag": "high",
       "owner": "김은향"
@@ -3110,7 +3110,7 @@
       "id": "prj-023",
       "type": "Project",
       "name": "Dashboard - React+TS 마이그레이션",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/project.md",
       "conditions_3y": [
         "cond-e"
@@ -4139,6 +4139,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768885291967",
+      "type": "Task",
+      "name": "Wikilink - entity_name 검색 및 표시 기능",
+      "status": "done",
+      "path": "50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768885291967.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-coaching",
       "type": "Program",
       "name": "코칭서비스",
@@ -4151,7 +4159,7 @@
       "id": "prj-014",
       "type": "Project",
       "name": "꼭꼭FIT 랜딩 페이지 - 리뉴얼",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md",
       "conditions_3y": [
         "cond-b",
@@ -4342,7 +4350,7 @@
       "id": "prj-content-os",
       "type": "Project",
       "name": "Content OS - MVP 개발",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Content_OS/Rounds/prj-content-os/project.md",
       "conditions_3y": [
         "cond-a"
@@ -4741,7 +4749,7 @@
       "id": "prj-021",
       "type": "Project",
       "name": "경영관리 - 2026 Q1",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/Ops/Rounds/P021_경영관리_2026Q1/project.md",
       "conditions_3y": [
         "cond-d"
@@ -5010,7 +5018,7 @@
       "id": "prj-infra-ops-2026q1",
       "type": "Project",
       "name": "Infra Ops - 2026 Q1",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/2026/Infra_Ops_2026_Q1/project.md",
       "conditions_3y": [
         "cond-d"
@@ -7711,6 +7719,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768885291967",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-014",
       "target": "tsk-014-1768228019327",
       "type": "parent_of"
@@ -9575,6 +9588,7 @@
       "tsk-023-1768842493769",
       "tsk-023-1768844444",
       "tsk-023-1768878808515",
+      "tsk-023-1768885291967",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -9755,21 +9769,40 @@
       "hyp-4-20",
       "prj-{NUMBER}",
       "prj-001",
+      "prj-003",
       "prj-005",
+      "prj-011",
       "prj-016",
       "prj-151f61",
       "prj-156anu",
       "prj-w5kz77",
+      "prj-002",
       "prj-5w69jw",
       "prj-enlnjr",
+      "prj-1t7iu4",
       "prj-12329q",
+      "prj-waoz74",
       "prj-1kthoh",
       "prj-008",
       "prj-020",
       "prj-yt-w33",
+      "prj-yt-wegovy",
+      "prj-yt-W02-26",
+      "prj-vault-gpt",
       "prj-dashboard-ux-v1",
+      "prj-mcp-dual-vault-rbac",
+      "prj-impact-schema-v2",
+      "prj-n8n",
+      "prj-019",
+      "prj-api-exec-vault",
+      "prj-feedback-system",
+      "prj-023",
+      "prj-014",
+      "prj-content-os",
       "prj-mzjr8a",
+      "prj-021",
       "prj-012",
+      "prj-infra-ops-2026q1",
       "exp-{NUMBER}"
     ],
     "todo": [
@@ -9840,7 +9873,6 @@
       "tsk-002-09",
       "tsk-002-07",
       "tsk-002-10",
-      "prj-waoz74",
       "tsk-1kthoh-1768748073383",
       "tsk-006-03",
       "tsk-008-05",
@@ -10231,6 +10263,7 @@
       "tsk-023-1768842493769",
       "tsk-023-1768844444",
       "tsk-023-1768878808515",
+      "tsk-023-1768885291967",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -10306,33 +10339,19 @@
       "retro:2025-annual"
     ],
     "doing": [
-      "prj-003",
-      "prj-002",
-      "prj-1t7iu4",
       "tsk-1kthoh-1768841096537",
       "tsk-1kthoh-1768878418480",
       "pgm-hiring",
       "prj-006",
       "pgm-grants",
       "pgm-youtube-weekly",
-      "prj-yt-wegovy",
-      "prj-yt-W02-26",
       "pgm-vault-system",
-      "prj-vault-gpt",
       "tsk-dashboard-ux-v1-24",
-      "prj-mcp-dual-vault-rbac",
       "tsk-mcp-rbac-04",
       "tsk-mcp-rbac-03",
-      "prj-impact-schema-v2",
       "tsk-impact-schema-v2-05",
-      "prj-n8n",
       "tsk-n8n-24",
-      "prj-019",
-      "prj-api-exec-vault",
-      "prj-feedback-system",
-      "prj-023",
       "pgm-coaching",
-      "prj-014",
       "tsk-1ca2sj-1767960085150",
       "tsk-685ac7-1767962817221",
       "tsk-uhklhc-1767959944222",
@@ -10341,16 +10360,13 @@
       "tsk-014-1768627876217",
       "pgm-tips",
       "pgm-content-os",
-      "prj-content-os",
       "pgm-kkokkkok-app-release",
       "pgm-ops",
-      "prj-021",
       "tsk-021-1768832996246",
       "pgm-cs",
       "tsk-012-1768140940912",
       "pgm-coachos",
       "pgm-kkokkkokfit-web",
-      "prj-infra-ops-2026q1",
       "trk-1",
       "trk-2",
       "trk-3",
@@ -10366,9 +10382,6 @@
       "status-runway",
       "status-team",
       "off-app-subscription-v1"
-    ],
-    "hold": [
-      "prj-011"
     ],
     "active": [
       "prj-yt-W03-26",
