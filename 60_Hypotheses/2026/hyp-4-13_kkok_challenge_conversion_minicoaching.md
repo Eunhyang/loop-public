@@ -7,6 +7,7 @@ updated: 2026-01-13
 status: validating
 evidence_status: assumed
 confidence: 0.45
+start_date: null
 horizon: "6week"
 deadline: 2026-02-23
 
@@ -54,6 +55,7 @@ measurement: |
   - CTA 노출 방식별 전환 (공지 단독 vs 후기/하이라이트 후 CTA)
 
 # === 시간 범위 ===
+start_date: null
 horizon: "6week"
 deadline: 2026-02-23
 

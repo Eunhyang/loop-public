@@ -7,6 +7,7 @@ updated: 2026-01-13
 status: validating
 evidence_status: assumed
 confidence: 0.5
+start_date: null
 horizon: "6week"
 deadline: 2026-02-23
 
@@ -59,6 +60,7 @@ measurement: |
   - 운영자 리마인드 횟수 대비 참여 반응 (댓글/리액션)
 
 # === 시간 범위 ===
+start_date: null
 horizon: "6week"
 deadline: 2026-02-23
 

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-21T01:00:08.556600",
-  "total_entities": 618,
+  "generated": "2026-01-21T02:45:08.999410",
+  "total_entities": 620,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -3865,6 +3865,22 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768926273490",
+      "type": "Task",
+      "name": "Strategy Calendar - 로드맵+캘린더 통합 뷰 구현",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768926273490.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768931067137",
+      "type": "Task",
+      "name": "Hypothesis - start_date 필드 추가",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931067137.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-019",
       "type": "Project",
       "name": "Dual-Vault - 정비",
@@ -7639,6 +7655,16 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768926273490",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768931067137",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-019",
       "target": "tsk-kly0ry-1767960471502",
       "type": "parent_of"
@@ -9570,6 +9596,8 @@
       "tsk-023-1768878808515",
       "tsk-023-1768885291967",
       "tsk-023-1768890869239",
+      "tsk-023-1768926273490",
+      "tsk-023-1768931067137",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -10259,6 +10287,8 @@
       "tsk-023-1768878808515",
       "tsk-023-1768885291967",
       "tsk-023-1768890869239",
+      "tsk-023-1768926273490",
+      "tsk-023-1768931067137",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",

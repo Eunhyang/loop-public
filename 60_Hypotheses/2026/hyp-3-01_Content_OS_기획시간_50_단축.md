@@ -15,6 +15,7 @@ success_criteria: 2주(또는 10개 기획 세션) 기준, 평균 기획 리드�
 failure_criteria: 평균 기획 리드타임 감소 <20% 또는 승인률 <30% (또는 운영 부담 증가로 프로세스 정착 실패)
 measurement: Content OS DB 이벤트(Draft→Approved timestamp) + Vault decision_log.jsonl
   + (선택) YouTube Analytics
+start_date: null
 horizon: '2026'
 deadline: null
 evidence_status: assumed

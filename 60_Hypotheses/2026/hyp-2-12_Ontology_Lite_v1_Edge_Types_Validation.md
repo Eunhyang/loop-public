@@ -15,6 +15,7 @@ success_criteria: 6개월 내 regression snapshot 100% 통과, edge 타입 오�
 failure_criteria: 3개월 후 regression snapshot 통과율 90% 미만 시 접근법 변경
 measurement: 회귀 테스트 결과 / 스냅샷 비교 / 주간 리드타임 측정
 confidence: 0.6
+start_date: null
 horizon: '2026'
 tags:
 - hypothesis

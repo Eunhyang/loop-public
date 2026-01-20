@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-21
 updated: 2026-01-21
-total_entities: 618
+total_entities: 620
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 618개
+- **총 엔티티**: 620개
 - **마지막 업데이트**: 2026-01-21
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 468 |
+| Task | 470 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 43 |
-| done | 404 |
+| done | 406 |
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
@@ -154,7 +154,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (468개)
+## Task (470개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -382,6 +382,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768878808515` | MCP SSE 연결 안정화 - Synology nginx 설정 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768878808515.md` |
 | `tsk-023-1768885291967` | Wikilink - entity_name 검색 및 표시 기능 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768885291967.md` |
 | `tsk-023-1768890869239` | API - SSOT vault separation (public/exec 분리) | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768890869239.md` |
+| `tsk-023-1768926273490` | Strategy Calendar - 로드맵+캘린더 통합 뷰 구현 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768926273490.md` |
+| `tsk-023-1768931067137` | Hypothesis - start_date 필드 추가 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931067137.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -978,6 +980,8 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768878808515 (MCP SSE 연결 안정화 - Synology nginx 설정)
   - tsk-023-1768885291967 (Wikilink - entity_name 검색 및 표시 기능)
   - tsk-023-1768890869239 (API - SSOT vault separation (public/exec 분리))
+  - tsk-023-1768926273490 (Strategy Calendar - 로드맵+캘린더 통합 뷰 구현)
+  - tsk-023-1768931067137 (Hypothesis - start_date 필드 추가)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

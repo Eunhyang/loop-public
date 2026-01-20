@@ -7,6 +7,7 @@ updated: 2026-01-13
 status: validating
 evidence_status: assumed
 confidence: 0.55
+start_date: null
 horizon: "2week"
 deadline: 2026-01-20
 
@@ -48,6 +49,7 @@ measurement: |
   - 운영자 제외 참여자 비율
 
 # === 시간 범위 ===
+start_date: null
 horizon: "2week"
 deadline: 2026-01-20
 

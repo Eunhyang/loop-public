@@ -438,6 +438,7 @@ known_fields:
     - closed_inferred  # updated | git_commit_date | today
   Hypothesis:
     - hypothesis_question  # 질문 형태 ("?"로 끝나야 함)
+    - start_date             # 검증 대상으로 공식 채택한 날짜 (YYYY-MM-DD)
     - success_criteria     # 숫자/기간/표본 포함
     - failure_criteria     # 피벗/중단 기준
     - measurement          # 어디서/무엇을/어떻게
@@ -876,8 +877,12 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.7"
-last_updated: "2026-01-17"
+schema_version: "5.8"
+last_updated: "2026-01-21"
+# v5.8 변경 (2026-01-21):
+# - Hypothesis.start_date 필드 추가
+#   - 의미: "이 가설을 검증 대상으로 공식 채택한 날짜" (YYYY-MM-DD)
+#   - created(생성일)와 구분: 문서 생성 ≠ 검증 시작
 # v5.7 변경 (2026-01-17):
 # - Project.summary 필드 추가 (1-2줄 프로젝트 요약, 리스트/hover용)
 # v5.6 변경 (2026-01-13):

@@ -19,6 +19,7 @@ failure_criteria: "자료는 있어도 '핵심 증거(효과/매출/데이터)' 
 measurement: "투자 미팅 피드백 로그 + 자료 체크리스트"
 
 # === 시간 범위 ===
+start_date: null
 horizon: "2026"
 deadline: 2026-09-30
 
