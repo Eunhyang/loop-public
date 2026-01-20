@@ -397,6 +397,7 @@ known_fields:
     - focus            # [string]
     - owner
     - objectives       # 구조: [{metric, target, current, status}]
+    - quarters         # 구조: [{q, period, goals, success_criteria}] - 분기별 목표
   Program:
     - program_type
     - owner
@@ -516,6 +517,14 @@ field_structures:
       - target: string
       - current: "string | number"
       - status: string
+
+  # Track.quarters (분기별 목표)
+  quarters:
+    fields:
+      - q: string              # Q1, Q2, Q3, Q4, Q3-Q4 등
+      - period: string         # "2026-01 ~ 2026-03" 형식
+      - goals: "[string]"      # 해당 분기 목표 목록
+      - success_criteria: string  # 성공 기준
 
   # Program.kpis
   kpis:
