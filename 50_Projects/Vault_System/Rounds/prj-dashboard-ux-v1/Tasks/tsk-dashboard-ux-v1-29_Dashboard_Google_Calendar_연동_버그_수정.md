@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-dashboard-ux-v1-29
 entity_name: Dashboard - Google Calendar 연동 버그 수정
 created: 2026-01-06
-updated: '2026-01-19'
+updated: '2026-01-20'
 status: done
 closed: 2026-01-06
 parent_id: prj-dashboard-ux-v1

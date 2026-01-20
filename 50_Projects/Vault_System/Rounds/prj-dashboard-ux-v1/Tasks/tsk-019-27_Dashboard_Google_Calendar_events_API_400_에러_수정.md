@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-019-27
 entity_name: Dashboard - Google Calendar events API 400 에러 수정
 created: 2026-01-06
-updated: '2026-01-19'
+updated: '2026-01-20'
 status: done
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
