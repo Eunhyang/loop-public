@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 618
+total_entities: 617
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 618개
+- **총 엔티티**: 617개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 468 |
+| Task | 467 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 43 |
-| done | 399 |
+| done | 398 |
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
@@ -155,7 +155,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (468개)
+## Task (467개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -536,7 +536,6 @@ tags: ["meta", "graph", "index"]
 | `tsk-dashboard-ux-v1-37` | Dashboard - 캘린더뷰 Google 이벤트 최상단 표시 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-37_Dashboard_캘린더뷰_Google_이벤트_최상단_표시.md` |
 | `tsk-dashboard-ux-v1-38` | Dashboard - Project Panel 프로그램 선택 및 Auto-save | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-38_Dashboard_Project_Panel_프로그램_선택_및_Auto-save.md` |
 | `tsk-dashboard-ux-v1-39` | Dashboard - 캘린더뷰 유효하지않은 날짜 필터링 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-39_Dashboard_캘린더뷰_유효하지않은_날짜_필터링.md` |
-| `tsk-e4476d-1767962910349` | 투자/사업계획서 - 사업계획서/IR 피칭덱 정리 | done | `50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-e4476d-1767962910349.md` |
 | `tsk-ebce8c-1767962902966` | working sheets 생성 - 외부비서 보고용 | done | `50_Projects/2025/P007_외부 비서/Tasks/tsk-ebce8c-1767962902966.md` |
 | `tsk-fcaef7-1767962901871` | 원천세 납부 - 용역비 3건 | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-fcaef7-1767962901871.md` |
 | `tsk-fcaef7-1767962902686` | 외부비서 업무 활용 - 지우님 할 일 정리(1월 7일) | done | `50_Projects/2025/P007_외부 비서/Tasks/tsk-fcaef7-1767962902686.md` |

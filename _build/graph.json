@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-20T14:30:16.328111",
-  "total_entities": 618,
+  "generated": "2026-01-20T14:45:17.608880",
+  "total_entities": 617,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -4327,14 +4327,6 @@
       "owner": "김은향"
     },
     {
-      "id": "tsk-e4476d-1767962910349",
-      "type": "Task",
-      "name": "투자/사업계획서 - 사업계획서/IR 피칭덱 정리",
-      "status": "done",
-      "path": "50_Projects/TIPS_Batch/Rounds/prj-017_아이디어파트너스_배치/Tasks/tsk-e4476d-1767962910349.md",
-      "assignee": "한명학"
-    },
-    {
       "id": "pgm-content-os",
       "type": "Program",
       "name": "Content OS",
@@ -7814,11 +7806,6 @@
       "type": "parent_of"
     },
     {
-      "source": "prj-017",
-      "target": "tsk-e4476d-1767962910349",
-      "type": "parent_of"
-    },
-    {
       "source": "prj-content-os",
       "target": "tsk-content-os-04",
       "type": "parent_of"
@@ -9607,7 +9594,6 @@
       "tsk-014-1768627876217",
       "tsk-014-1768653594228",
       "tsk-014-1768756487394",
-      "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
       "tsk-content-os-01",
@@ -10274,7 +10260,6 @@
       "tsk-014-1768241993366",
       "tsk-014-1768488324886",
       "tsk-014-1768653594228",
-      "tsk-e4476d-1767962910349",
       "tsk-content-os-04",
       "tsk-content-os-07",
       "tsk-content-os-01",
