@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-20T15:30:09.441097",
-  "total_entities": 616,
+  "generated": "2026-01-20T16:30:09.130386",
+  "total_entities": 617,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -3857,6 +3857,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768890869239",
+      "type": "Task",
+      "name": "API - SSOT vault separation (public/exec 분리)",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768890869239.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-019",
       "type": "Project",
       "name": "Dual-Vault - 정비",
@@ -4221,7 +4229,7 @@
       "id": "tsk-014-1768756487394",
       "type": "Task",
       "name": "코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향)",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md",
       "assignee": "김은향"
     },
@@ -7612,6 +7620,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768890869239",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-019",
       "target": "tsk-kly0ry-1767960471502",
       "type": "parent_of"
@@ -9542,6 +9555,7 @@
       "tsk-023-1768844444",
       "tsk-023-1768878808515",
       "tsk-023-1768885291967",
+      "tsk-023-1768890869239",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -9855,7 +9869,6 @@
       "tsk-023-1768386479760",
       "tsk-feedback-01",
       "tsk-685ac7-1767962904466",
-      "tsk-014-1768756487394",
       "tsk-mzjr8a-1768742760758",
       "tsk-mzjr8a-1768231080040",
       "tsk-mzjr8a-1768196988716",
@@ -10233,6 +10246,7 @@
       "tsk-023-1768844444",
       "tsk-023-1768878808515",
       "tsk-023-1768885291967",
+      "tsk-023-1768890869239",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -10260,6 +10274,7 @@
       "tsk-014-1768241993366",
       "tsk-014-1768488324886",
       "tsk-014-1768653594228",
+      "tsk-014-1768756487394",
       "tsk-012-01",
       "tsk-11nt0p-1767960275703",
       "tsk-1igiyf-1767945247366",

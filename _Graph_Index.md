@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 616
+total_entities: 617
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 616개
+- **총 엔티티**: 617개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 467 |
+| Task | 468 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -39,11 +39,11 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 42 |
-| done | 398 |
+| done | 400 |
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
-| todo | 112 |
+| todo | 111 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -154,7 +154,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (467개)
+## Task (468개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -239,7 +239,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768575802981` | 랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00) | doing | `50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md` |
 | `tsk-014-1768627876217` | 랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석 | doing | `50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md` |
 | `tsk-014-1768653594228` | 랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달 | done | `50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md` |
-| `tsk-014-1768756487394` | 코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향) | todo | `50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md` |
+| `tsk-014-1768756487394` | 코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향) | done | `50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md` |
 | `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
 | `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
 | `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
@@ -381,6 +381,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768844444` | Strategic Context MCP Action 노출 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768844444.md` |
 | `tsk-023-1768878808515` | MCP SSE 연결 안정화 - Synology nginx 설정 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768878808515.md` |
 | `tsk-023-1768885291967` | Wikilink - entity_name 검색 및 표시 기능 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768885291967.md` |
+| `tsk-023-1768890869239` | API - SSOT vault separation (public/exec 분리) | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768890869239.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -976,6 +977,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768844444 (Strategic Context MCP Action 노출)
   - tsk-023-1768878808515 (MCP SSE 연결 안정화 - Synology nginx 설정)
   - tsk-023-1768885291967 (Wikilink - entity_name 검색 및 표시 기능)
+  - tsk-023-1768890869239 (API - SSOT vault separation (public/exec 분리))
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
