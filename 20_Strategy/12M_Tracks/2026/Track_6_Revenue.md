@@ -369,80 +369,53 @@ graph TD
 **마지막 업데이트**: 2024-12-18 (35% 진행)
 **다음 체크**: 2026-01 (월간 리뷰)
 **책임자**: Founder + 전 팀
+
 ## [GTM_SUBGRAPH] v1
 
 ### Nodes
-- id: trk-3
-  type: Track
-  title: Track_3_Content
+- id: prj-content-youtube
+  type: Project
+  title: YouTube 1주 1업로드
   attrs:
-    role: acquisition
+    gtm_role: acquisition_channel
+    owner: Content Team
 
-- id: trk-1
-  type: Track
-  title: Track_1_Product
+- id: prj-app-kkokkkok
+  type: Project
+  title: 꼭꼭앱 Release Train
   attrs:
-    role: core_product
+    gtm_role: activation_product
+    owner: Product Team
 
-- id: trk-4
-  type: Track
-  title: Track_4_Coaching
+- id: prj-app-subscription
+  type: Project
+  title: 앱 유료 구독
   attrs:
-    role: service_delivery
+    gtm_role: monetization_offer
+    billing: subscription
 
 - id: trk-6
   type: Track
   title: Track_6_Revenue
   attrs:
-    role: monetization
+    gtm_role: revenue_track
 
-# 구독을 “명시 노드”로 두고 싶으면 (추천: 전환/리텐션 질문이 쉬워짐)
-- id: prj-app-subscription
-  type: Project
-  title: App Subscription (RevenueCat)
-  attrs:
-    role: sku
-    billing: subscription
 
 ### Edges
-# 콘텐츠 -> 앱 (다운로드/가입/활성화)
 - type: gtm_activates_into
-  from_id: trk-3
-  to_id: trk-1
-  note: "콘텐츠 유입이 앱 설치/가입/활성화를 만든다"
+  from_id: prj-content-youtube
+  to_id: prj-app-kkokkkok
+  note: 콘텐츠 유입을 앱 설치/활성으로 전환
+  evidence: "YouTube CTA/링크/설치 유도 퍼널 (랜딩/스토어/딥링크)"
 
-# 앱 -> 구독 (앱 내 유료화)
 - type: gtm_upsells_to
-  from_id: trk-1
+  from_id: prj-app-kkokkkok
   to_id: prj-app-subscription
-  note: "앱 사용이 구독 결제로 업셀된다"
+  note: 앱 사용자를 유료 구독으로 업셀
+  evidence: "앱 내 paywall/리포트/성과 가시화 기반 전환"
 
-# 구독 -> 매출 트랙 (매출 집계/런웨이)
 - type: gtm_monetized_by
   from_id: prj-app-subscription
   to_id: trk-6
-  note: "구독 매출이 Track_6_Revenue를 구성한다"
-
-# 콘텐츠 -> 코칭 (상담/구매 전환)
-- type: gtm_activates_into
-  from_id: trk-3
-  to_id: trk-4
-  note: "콘텐츠 유입이 코칭 상담/구매로 전환된다"
-
-# 코칭은 앱을 '같이 사용'
-- type: gtm_includes
-  from_id: trk-4
-  to_id: trk-1
-  note: "코칭 제공 과정에서 앱을 함께 사용한다"
-
-# 코칭 데이터 -> 앱 가치/모델 개선(=앱 구독 성장의 레버)
-- type: gtm_data_feeds
-  from_id: trk-4
-  to_id: trk-1
-  note: "코칭 과정에서 생성된 라벨/세션/개입 데이터가 앱의 온톨로지/추천/리포트 품질로 흘러간다"
-
-# (선택) 코칭 -> 구독 업셀을 '명시'하고 싶으면
-- type: gtm_upsells_to
-  from_id: trk-4
-  to_id: prj-app-subscription
-  note: "코칭 고객이 앱 구독으로 전환/연장되도록 설계한다"
+  note: 구독 매출이 Revenue Track KPI를 구성
+  evidence: "RevenueCat/결제 지표가 Track_6_Revenue KPI로 집계"
