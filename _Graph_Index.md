@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 617
+total_entities: 616
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 617개
+- **총 엔티티**: 616개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -28,7 +28,7 @@ tags: ["meta", "graph", "index"]
 | Condition | 5 |
 | Track | 7 |
 | Program | 12 |
-| Project | 41 |
+| Project | 40 |
 | Task | 467 |
 | Hypothesis | 62 |
 | Experiment | 1 |
@@ -42,7 +42,7 @@ tags: ["meta", "graph", "index"]
 | done | 398 |
 | draft | 1 |
 | fixed | 1 |
-| planning | 48 |
+| planning | 47 |
 | todo | 112 |
 | unknown | 4 |
 | validating | 6 |
@@ -108,7 +108,7 @@ tags: ["meta", "graph", "index"]
 | `pgm-youtube-weekly` | YouTube 1주 1업로드 | doing | `50_Projects/Youtube_Weekly/_PROGRAM.md` |
 
 
-## Project (41개)
+## Project (40개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -116,28 +116,27 @@ tags: ["meta", "graph", "index"]
 | `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | planning | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
 | `prj-003` | LoopOS - V0 데이터 설계 | planning | `50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md` |
 | `prj-005` | LoopOS - 최소 선제 학습 | planning | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md` |
-| `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
+| `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
 | `prj-007` | Hiring - 안지온님(엔씨온 외부 비서) | done | `50_Projects/2025/P007_외부 비서/project.md` |
-| `prj-008` | Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행) | planning | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/project.md` |
+| `prj-008` | Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행) | planning | `50_Projects/2025/P008_파일럿_프로젝트/project.md` |
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | planning | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |
 | `prj-012` | CS - 2026 Q1 | planning | `50_Projects/CS/Rounds/P012_CS_2026Q1/project.md` |
 | `prj-014` | 꼭꼭FIT 랜딩 페이지 - 리뉴얼 | planning | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md` |
-| `prj-015` | Hiring - 임단(주니어 개발자 채용) | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/project.md` |
+| `prj-015` | Hiring - 임단(주니어 개발자 채용) | done | `50_Projects/2025/P015_주니어_개발자_채용/project.md` |
 | `prj-016` | 법인 전환 설립(주) 루프 | planning | `50_Projects/2025/P016_법인 전환 설립(주) 루프/project.md` |
 | `prj-019` | Dual-Vault - 정비 | planning | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/project.md` |
 | `prj-020` | 스타트업베이 - 2025 지원사업 | planning | `50_Projects/Grants/P020_스타트업베이_2025_지원사업/project.md` |
 | `prj-021` | 경영관리 - 2026 Q1 | planning | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/project.md` |
 | `prj-023` | Dashboard - React+TS 마이그레이션 | planning | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/project.md` |
-| `prj-12329q` | 오픈 채팅방 활성화 - 챌린지 운영 1차 | planning | `50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md` |
-| `prj-151f61` | Test - MCP Write API 완성 | planning | `50_Projects/2025/P151_Test_MCP_Write_API_완성/project.md` |
-| `prj-156anu` | Antler - 엔틀러코리아 제너레이터 8기 지원 | planning | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md` |
-| `prj-1kthoh` | Ontology - Vault Ontology Lite v1 | planning | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/project.md` |
-| `prj-1t7iu4` | MCP API - Deployment Optimization | planning | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/project.md` |
-| `prj-5w69jw` | Vault - Hypothesis 유지 전략 | planning | `50_Projects/2025/P5_Vault_Hypothesis_유지_전략/project.md` |
+| `prj-12329q` | 오픈 채팅방 활성화 - 챌린지 운영 1차 | planning | `50_Projects/2026/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md` |
+| `prj-151f61` | Test - MCP Write API 완성 | planning | `50_Projects/2026/P151_Test_MCP_Write_API_완성/project.md` |
+| `prj-156anu` | Antler - 엔틀러코리아 제너레이터 8기 지원 | planning | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md` |
+| `prj-1kthoh` | Ontology - Vault Ontology Lite v1 | planning | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/project.md` |
+| `prj-1t7iu4` | MCP API - Deployment Optimization | planning | `50_Projects/2026/P1_MCP_API_Deployment_Optimization/project.md` |
+| `prj-5w69jw` | Vault - Hypothesis 유지 전략 | planning | `50_Projects/2026/P5_Vault_Hypothesis_유지_전략/project.md` |
 | `prj-api-exec-vault` | API - Exec Vault 통합 | planning | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/project.md` |
-| `prj-content-os` | Content OS - MVP 개발 | planning | `50_Projects/Content_OS/Rounds/prj-content-os/project.md` |
+| `prj-content-os` | Content OS - MVP 개발 | planning | `50_Projects/2025/prj-content-os/project.md` |
 | `prj-dashboard-ux-v1` | 대시보드 UX 개선 v1 | planning | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/project.md` |
-| `prj-enlnjr` | MCP API - Deployment Optimization | planning | `50_Projects/2025/Penlnjr_MCP_API_Deployment_Optimization/project.md` |
 | `prj-feedback-system` | Feedback - 유저 피드백 수집 시스템 | planning | `50_Projects/Vault_System/Rounds/prj-feedback-system/project.md` |
 | `prj-impact-schema-v2` | Schema - Realized Impact 확장 | planning | `50_Projects/Vault_System/Rounds/prj-impact-schema-v2/project.md` |
 | `prj-infra-ops-2026q1` | Infra Ops - 2026 Q1 | planning | `50_Projects/2026/Infra_Ops_2026_Q1/project.md` |
@@ -146,8 +145,8 @@ tags: ["meta", "graph", "index"]
 | `prj-mzjr8a` | KkokKkok App v1.0.29 - Release | planning | `50_Projects/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/project.md` |
 | `prj-n8n` | n8n Vault 자동화 | planning | `50_Projects/Vault_System/Rounds/prj-n8n/project.md` |
 | `prj-vault-gpt` | ChatGPT Vault MCP 연결 | planning | `50_Projects/Vault_System/Rounds/prj-vault-gpt/project.md` |
-| `prj-w5kz77` | KkokKkok Backend - Maintenance | planning | `50_Projects/2025/Pw5kz77_KkokKkok_Backend_Maintenance/project.md` |
-| `prj-waoz74` | Content OS - Dashboard v2 | planning | `50_Projects/Content_OS/Rounds/prj-waoz74/project.md` |
+| `prj-w5kz77` | KkokKkok Backend - Maintenance | planning | `50_Projects/2026/Pw5kz77_KkokKkok_Backend_Maintenance/project.md` |
+| `prj-waoz74` | Content OS - Dashboard v2 | planning | `50_Projects/2026/prj-waoz74/project.md` |
 | `prj-yt-W02-26` | YouTube - W02 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/project.md` |
 | `prj-yt-W03-26` | YouTube - W03-26 | active | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/project.md` |
 | `prj-yt-w33` | YouTube - W33 | planning | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/project.md` |
@@ -159,24 +158,24 @@ tags: ["meta", "graph", "index"]
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
-| `tsk-0000os-1767981542605` | ContentOS - Performance Dashboard 상태 표시 개선 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1767981542605.md` |
-| `tsk-0000os-1768066362208` | Content OS - Performance 페이지 스냅샷 데이터 통합 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768066362208.md` |
-| `tsk-0000os-1768241491256` | Content OS - YouTube 페이지네이션 구현 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768241491256.md` |
-| `tsk-0000os-1768331167938` | Content OS - Inventory and Mapping | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768331167938.md` |
-| `tsk-0000os-1768465926049` | Content OS - API Migration Spec | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465926049.md` |
-| `tsk-0000os-1768465929225` | Content OS - YouTube Search Analytics API | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465929225.md` |
-| `tsk-0000os-1768465946312` | Content OS - YouTube OAuth API Migration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465946312.md` |
-| `tsk-0000os-1768465946730` | Content OS - Routing Navigation Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768465946730.md` |
-| `tsk-0000os-1768466086422` | Content OS - API Content Data | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466086422.md` |
-| `tsk-0000os-1768466087103` | Content OS - Auth Flow in Vite | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466087103.md` |
-| `tsk-0000os-1768466096034` | Content OS - Migrate Opportunity UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096034.md` |
-| `tsk-0000os-1768466096543` | Content OS - Dashboard V2 Scaffold | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466096543.md` |
-| `tsk-0000os-1768466105945` | Content OS - Migrate Explorer UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466105945.md` |
-| `tsk-0000os-1768466256660` | Content OS - Deprecate Next App | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466256660.md` |
-| `tsk-0000os-1768466262169` | Content OS - Stabilize SSOT Build | todo | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466262169.md` |
-| `tsk-0000os-1768466263435` | Content OS - Migrate Retro UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466263435.md` |
-| `tsk-0000os-1768466267924` | Content OS - Migrate Performance UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466267924.md` |
-| `tsk-0000os-1768466274272` | Content OS - Migrate Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-0000os-1768466274272.md` |
+| `tsk-0000os-1767981542605` | ContentOS - Performance Dashboard 상태 표시 개선 | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1767981542605.md` |
+| `tsk-0000os-1768066362208` | Content OS - Performance 페이지 스냅샷 데이터 통합 | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768066362208.md` |
+| `tsk-0000os-1768241491256` | Content OS - YouTube 페이지네이션 구현 | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768241491256.md` |
+| `tsk-0000os-1768331167938` | Content OS - Inventory and Mapping | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768331167938.md` |
+| `tsk-0000os-1768465926049` | Content OS - API Migration Spec | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768465926049.md` |
+| `tsk-0000os-1768465929225` | Content OS - YouTube Search Analytics API | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768465929225.md` |
+| `tsk-0000os-1768465946312` | Content OS - YouTube OAuth API Migration | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768465946312.md` |
+| `tsk-0000os-1768465946730` | Content OS - Routing Navigation Integration | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768465946730.md` |
+| `tsk-0000os-1768466086422` | Content OS - API Content Data | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466086422.md` |
+| `tsk-0000os-1768466087103` | Content OS - Auth Flow in Vite | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466087103.md` |
+| `tsk-0000os-1768466096034` | Content OS - Migrate Opportunity UI | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466096034.md` |
+| `tsk-0000os-1768466096543` | Content OS - Dashboard V2 Scaffold | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466096543.md` |
+| `tsk-0000os-1768466105945` | Content OS - Migrate Explorer UI | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466105945.md` |
+| `tsk-0000os-1768466256660` | Content OS - Deprecate Next App | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466256660.md` |
+| `tsk-0000os-1768466262169` | Content OS - Stabilize SSOT Build | todo | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466262169.md` |
+| `tsk-0000os-1768466263435` | Content OS - Migrate Retro UI | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466263435.md` |
+| `tsk-0000os-1768466267924` | Content OS - Migrate Performance UI | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466267924.md` |
+| `tsk-0000os-1768466274272` | Content OS - Migrate Pipeline UI | done | `50_Projects/2025/prj-content-os/Tasks/tsk-0000os-1768466274272.md` |
 | `tsk-000gpt-1768236851889` | Expected Impact - Batch Fill MCP API | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-000gpt-1768236851889.md` |
 | `tsk-000gpt-1768282752487` | Impact Batch API v2 - Response Schema Enhancement | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-000gpt-1768282752487.md` |
 | `tsk-000gpt-1768289348860` | Impact Expected 추론 - 단일 컨텍스트 스키마 통합 | done | `50_Projects/Vault_System/Rounds/prj-vault-gpt/Tasks/tsk-000gpt-1768289348860.md` |
@@ -211,19 +210,19 @@ tags: ["meta", "graph", "index"]
 | `tsk-005-03` | [LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결 | todo | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md` |
 | `tsk-005-04` | [LoopOS 데이터] Day 6 — 최소 구현 시작 | todo | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md` |
 | `tsk-005-05` | [LoopOS 데이터] Day 2 — 엔티티 경계 깨보기 | todo | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md` |
-| `tsk-006-01` | 코치 규칙 정하기 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-01_코치_규칙_정하기.md` |
-| `tsk-006-02` | 채용 및 계약서 작성 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-02_채용_및_계약서_작성.md` |
-| `tsk-006-03` | 혜영 코치에게 인수인계 받기 | todo | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-03_혜영_코치에게_인수인계_받기.md` |
-| `tsk-006-04` | 기본 프로토콜 및 교육 프로세스 정하기 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-04_기본_프로토콜_및_교육_프로세스_정하기.md` |
-| `tsk-006-05` | 용역비 지급(보윤님, 잔디님, 단님) | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-05_용역비_지급.md` |
+| `tsk-006-01` | 코치 규칙 정하기 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-01_코치_규칙_정하기.md` |
+| `tsk-006-02` | 채용 및 계약서 작성 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-02_채용_및_계약서_작성.md` |
+| `tsk-006-03` | 혜영 코치에게 인수인계 받기 | todo | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-03_혜영_코치에게_인수인계_받기.md` |
+| `tsk-006-04` | 기본 프로토콜 및 교육 프로세스 정하기 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-04_기본_프로토콜_및_교육_프로세스_정하기.md` |
+| `tsk-006-05` | 용역비 지급(보윤님, 잔디님, 단님) | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-05_용역비_지급.md` |
 | `tsk-007-01` | 외부 비서 채용 – 3. 공고용 업무·요건 문단 작성 | done | `50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md` |
 | `tsk-007-02` | 외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리 | done | `50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md` |
 | `tsk-007-03` | 외부 비서 채용 – 1. 역할·권한 정책 문서 고정 | done | `50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md` |
-| `tsk-008-01` | [단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX | done | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md` |
-| `tsk-008-02` | [단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안 | done | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md` |
-| `tsk-008-03` | [단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계 | done | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md` |
-| `tsk-008-04` | 꼭꼭 앱 Onboarding UI/UX 리뷰 | done | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 Onboarding 리뷰.md` |
-| `tsk-008-05` | 꼭꼭 앱 iOS/Android 배포 | todo | `50_Projects/Hiring/Rounds/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 iOS Android 배포.md` |
+| `tsk-008-01` | [단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX | done | `50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md` |
+| `tsk-008-02` | [단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안 | done | `50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md` |
+| `tsk-008-03` | [단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계 | done | `50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md` |
+| `tsk-008-04` | 꼭꼭 앱 Onboarding UI/UX 리뷰 | done | `50_Projects/2025/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 Onboarding 리뷰.md` |
+| `tsk-008-05` | 꼭꼭 앱 iOS/Android 배포 | todo | `50_Projects/2025/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 iOS Android 배포.md` |
 | `tsk-011-01` | 리크루팅 사이트) 원택님 피드백 반영 | todo | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md` |
 | `tsk-012-01` | [고객 관리] 카카오톡 채널 활성화 방안 기획 | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md` |
 | `tsk-012-1768140940912` | 오픈 카톡방 챌린지 - 챌린지 기획 및 공유 | doing | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-012-1768140940912.md` |
@@ -241,19 +240,19 @@ tags: ["meta", "graph", "index"]
 | `tsk-014-1768627876217` | 랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md` |
 | `tsk-014-1768653594228` | 랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md` |
 | `tsk-014-1768756487394` | 코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향) | todo | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md` |
-| `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
-| `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
-| `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
-| `tsk-015-04` | Hiring - 주니어 개발자 기술 과제 설계 초안 작성 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md` |
-| `tsk-015-05` | Hiring - 실전 과제 제안 및 안내 발송 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md` |
-| `tsk-015-06` | Hiring - 실전 과제 평가기준 작성 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md` |
-| `tsk-015-07` | Hiring - 주니어 개발자 과제 제출물 기술 평가 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md` |
-| `tsk-015-09` | Hiring - 기술 리뷰 1:1 면접 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md` |
-| `tsk-015-10` | Hiring - 파일럿 프로젝트 계약서 작성 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md` |
-| `tsk-015-11` | Hiring - 개발자 온보딩 문서 v1 작성 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
-| `tsk-015-12` | Hiring - 개발 환경 세팅 문서 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
-| `tsk-015-13` | Hiring - Day1 Onboarding 진행 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
-| `tsk-015-1768627947254` | sosi - 타이머 UI 개선: 물 차오르는 애니메이션 + 마지막 한입 UX | todo | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-015-1768627947254.md` |
+| `tsk-015-01` | 커피챗 대상자 확정 및 연락 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md` |
+| `tsk-015-02` | Hiring - 커피챗 일정 조율 & 진행 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md` |
+| `tsk-015-03` | Hiring - 주니어 개발자 커피챗 진행 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md` |
+| `tsk-015-04` | Hiring - 주니어 개발자 기술 과제 설계 초안 작성 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md` |
+| `tsk-015-05` | Hiring - 실전 과제 제안 및 안내 발송 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md` |
+| `tsk-015-06` | Hiring - 실전 과제 평가기준 작성 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md` |
+| `tsk-015-07` | Hiring - 주니어 개발자 과제 제출물 기술 평가 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md` |
+| `tsk-015-09` | Hiring - 기술 리뷰 1:1 면접 진행 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md` |
+| `tsk-015-10` | Hiring - 파일럿 프로젝트 계약서 작성 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md` |
+| `tsk-015-11` | Hiring - 개발자 온보딩 문서 v1 작성 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md` |
+| `tsk-015-12` | Hiring - 개발 환경 세팅 문서 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md` |
+| `tsk-015-13` | Hiring - Day1 Onboarding 진행 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md` |
+| `tsk-015-1768627947254` | sosi - 타이머 UI 개선: 물 차오르는 애니메이션 + 마지막 한입 UX | todo | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-1768627947254.md` |
 | `tsk-016-01` | 법인 정관 작성 후 최종 검토 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md` |
 | `tsk-016-02` | 법인 신청 및 결제/추후 보완사항 대응 | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md` |
 | `tsk-016-03` | 법인 전환 - 신동진 고문님 계약서 전달(정신과 전문의) | done | `50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-03.md` |
@@ -284,12 +283,12 @@ tags: ["meta", "graph", "index"]
 | `tsk-021-1768832764224` | 세무 - 토스, 애플 등 매출내역 세무기장 전달('25년 하반기 부가세 처리) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832764224.md` |
 | `tsk-021-1768832996246` | 코칭 인수인계 마무리 - 혜영님 식후감정일기 파일 업로드 요청 | doing | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832996246.md` |
 | `tsk-022-02` | Dashboard - 패턴 기반 폼 자동 기본값 채우기 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md` |
-| `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
+| `tsk-022-03` | ContentOS - Firebase 스키마 보완 패치 | done | `50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md` |
 | `tsk-022-06` | 콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함) | done | `50_Projects/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md` |
 | `tsk-022-11` | Dashboard - 미팅 태스크 클릭/삭제 동기화 버그 수정 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-11_Dashboard_미팅_태스크_클릭삭제_동기화_버그_수정.md` |
-| `tsk-022-15` | ContentOS - Firebase Rules/Indexes 배포 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase Rules Indexes 배포.md` |
+| `tsk-022-15` | ContentOS - Firebase Rules/Indexes 배포 | done | `50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase Rules Indexes 배포.md` |
 | `tsk-022-17` | Dashboard - State.js FALLBACK_CONSTANTS SSOT 동기화 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-022-17_Dashboard_State.js_FALLBACK_CONSTANTS_SSOT_동기화.md` |
-| `tsk-022575-1767962905630` | 주니어 개발자 채용 - 김민서님 커피챗 15:00 | done | `50_Projects/Hiring/Rounds/P015_주니어_개발자_채용/Tasks/tsk-022575-1767962905630.md` |
+| `tsk-022575-1767962905630` | 주니어 개발자 채용 - 김민서님 커피챗 15:00 | done | `50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-022575-1767962905630.md` |
 | `tsk-023-01` | Dashboard - 필터 시스템 통합 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-01.md` |
 | `tsk-023-02` | Calendar - TaskDrawer 연동 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-02.md` |
 | `tsk-023-03` | Dashboard - 로그인 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-03.md` |
@@ -409,45 +408,45 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-43` | Dashboard - Notes 인라인 이미지 삽입 기능 | todo | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-43.md` |
 | `tsk-0vault-1768106628300` | OAuth - SQLite busy_timeout 설정 | done | `50_Projects/Vault_System/Rounds/prj-api-exec-vault/Tasks/tsk-0vault-1768106628300.md` |
 | `tsk-11nt0p-1767960275703` | 와디즈 마무리 - 와디즈 상품 발송 후 고객응대(7일 동안 유효) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-11nt0p-1767960275703.md` |
-| `tsk-12329q-1768743358112` | 카카오톡 단톡방 챌린지 - 1주차 챌린지 결산 및 안내 | done | `50_Projects/2025/P12329_오픈_채팅방_활성화_챌린지_운영_1차/Tasks/tsk-12329q-1768743358112.md` |
-| `tsk-156anu-1768025743558` | Antler 서류 - Founder이력서 작성 (김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768025743558.md` |
-| `tsk-156anu-1768028031839` | Antler 서류 - Founder이력서 작성 (한명학) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768028031839.md` |
-| `tsk-156anu-1768039688709` | Antler 서류 - 피칭덱 틀 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768039688709.md` |
-| `tsk-156anu-1768047905414` | Antler 서류  - 신청서 작성(경험 부분_한명학) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047905414.md` |
-| `tsk-156anu-1768047928102` | Antler 서류 - 지원자와 공동창업자가 훌륭한 팀인 이유를 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047928102.md` |
-| `tsk-156anu-1768048041857` | Antler 서류  - 신청서 작성(경험 부분_김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768048041857.md` |
-| `tsk-156anu-1768052656145` | Antler 서류  - 기술전문가 또는 빌더 내용 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md` |
-| `tsk-156anu-1768116970407` | Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md` |
-| `tsk-156anu-1768117071989` | Antler 서류 - 피칭덱 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md` |
-| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 (전략 세우기) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
-| `tsk-156anu-1768236267952` | Antler 2차 -  3분 비디오 촬영 및 업로드 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md` |
-| `tsk-156anu-1768239501209` | Antler 2차 -  Take Home Test 작성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md` |
-| `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
-| `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
-| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
-| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
-| `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
-| `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
-| `tsk-156anu-1768805284323` | Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR))  | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md` |
-| `tsk-156anu-1768817617276` | Antler 4차 - 예상 면접 QnA 작성 | todo | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md` |
+| `tsk-12329q-1768743358112` | 카카오톡 단톡방 챌린지 - 1주차 챌린지 결산 및 안내 | done | `50_Projects/2026/P12329_오픈_채팅방_활성화_챌린지_운영_1차/Tasks/tsk-12329q-1768743358112.md` |
+| `tsk-156anu-1768025743558` | Antler 서류 - Founder이력서 작성 (김은향) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768025743558.md` |
+| `tsk-156anu-1768028031839` | Antler 서류 - Founder이력서 작성 (한명학) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768028031839.md` |
+| `tsk-156anu-1768039688709` | Antler 서류 - 피칭덱 틀 작성 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768039688709.md` |
+| `tsk-156anu-1768047905414` | Antler 서류  - 신청서 작성(경험 부분_한명학) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047905414.md` |
+| `tsk-156anu-1768047928102` | Antler 서류 - 지원자와 공동창업자가 훌륭한 팀인 이유를 작성 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047928102.md` |
+| `tsk-156anu-1768048041857` | Antler 서류  - 신청서 작성(경험 부분_김은향) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768048041857.md` |
+| `tsk-156anu-1768052656145` | Antler 서류  - 기술전문가 또는 빌더 내용 작성 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md` |
+| `tsk-156anu-1768116970407` | Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md` |
+| `tsk-156anu-1768117071989` | Antler 서류 - 피칭덱 작성 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md` |
+| `tsk-156anu-1768199827383` | Antler 3차 - AI몬스터 면접 준비 (전략 세우기) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md` |
+| `tsk-156anu-1768236267952` | Antler 2차 -  3분 비디오 촬영 및 업로드 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md` |
+| `tsk-156anu-1768239501209` | Antler 2차 -  Take Home Test 작성 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md` |
+| `tsk-156anu-1768239514823` | Antler 2차 -  3분 비디오 기획(대본 작성) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md` |
+| `tsk-156anu-1768573665233` | Antler 2차 - 비디오 면접 관련 내용 확인 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md` |
+| `tsk-156anu-1768575996462` | Antler 3차 - AI몬스터 면접 연습 (01/16) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md` |
+| `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
+| `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
+| `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
+| `tsk-156anu-1768805284323` | Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR))  | todo | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md` |
+| `tsk-156anu-1768817617276` | Antler 4차 - 예상 면접 QnA 작성 | todo | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
 | `tsk-1addiu-1767960317370` | 외부 비서 활용 - 지우님 할일 전달(1월 12일) | done | `50_Projects/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md` |
 | `tsk-1ca2sj-1767960085150` | 유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획 | doing | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1ca2sj-1767960085150.md` |
 | `tsk-1igiyf-1767945247366` | 와디즈 마무리 - 와디즈 택배 배송(총 3분, 식판/워크북 + 다이어리 동봉) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1igiyf-1767945247366.md` |
-| `tsk-1kthoh-1768748042882` | Ontology Lite v1 - 엔티티 및 ID 규칙 정의 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748042882.md` |
-| `tsk-1kthoh-1768748072688` | Ontology Lite v1 - edge_types 사전 정의 및 예시 작성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md` |
-| `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
-| `tsk-1kthoh-1768748073383` | Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md` |
-| `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
-| `tsk-1kthoh-1768834361862` | Ontology Lite v1 - GTM 축(콘텐츠-앱-코칭-매출) 최소 확장 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768834361862.md` |
-| `tsk-1kthoh-1768841096537` | Ontology Lite v1 - Strategic Context → Graph Normalizer (v1.1: GTM Subgraph Deterministic Merge) | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768841096537.md` |
-| `tsk-1kthoh-1768844455000` | GTM Subgraph Deterministic Merge (v1.1) | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768844455000.md` |
-| `tsk-1kthoh-1768878418480` | Ontology Lite v1 - Offering (PaywallOffer) 최소 스펙 + GTM SSOT 설계 + 구현 ToDo (v1.1) | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768878418480.md` |
+| `tsk-1kthoh-1768748042882` | Ontology Lite v1 - 엔티티 및 ID 규칙 정의 | done | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748042882.md` |
+| `tsk-1kthoh-1768748072688` | Ontology Lite v1 - edge_types 사전 정의 및 예시 작성 | done | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072688.md` |
+| `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | done | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
+| `tsk-1kthoh-1768748073383` | Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증 | todo | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md` |
+| `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | done | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
+| `tsk-1kthoh-1768834361862` | Ontology Lite v1 - GTM 축(콘텐츠-앱-코칭-매출) 최소 확장 | done | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768834361862.md` |
+| `tsk-1kthoh-1768841096537` | Ontology Lite v1 - Strategic Context → Graph Normalizer (v1.1: GTM Subgraph Deterministic Merge) | doing | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768841096537.md` |
+| `tsk-1kthoh-1768844455000` | GTM Subgraph Deterministic Merge (v1.1) | done | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768844455000.md` |
+| `tsk-1kthoh-1768878418480` | Ontology Lite v1 - Offering (PaywallOffer) 최소 스펙 + GTM SSOT 설계 + 구현 ToDo (v1.1) | doing | `50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768878418480.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
-| `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
+| `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
 | `tsk-1q091r-1767960173667` | 코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md` |
-| `tsk-1t7iu4-1768242340825` | Blue-Green Deployment - MCP API | done | `50_Projects/2025/P1_MCP_API_Deployment_Optimization/Tasks/tsk-1t7iu4-1768242340825.md` |
+| `tsk-1t7iu4-1768242340825` | Blue-Green Deployment - MCP API | done | `50_Projects/2026/P1_MCP_API_Deployment_Optimization/Tasks/tsk-1t7iu4-1768242340825.md` |
 | `tsk-26-1768238550460` | YouTube W02 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238550460.md` |
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
 | `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
@@ -457,8 +456,8 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768832666705` | 다온 - w02 유튜브 편집본 캡컷 공유 받음 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768832666705.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
-| `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
-| `tsk-4ec0f2-1767962904144` | 세금 처리 - 급여명세서 처리(임단,보윤,잔디) | done | `50_Projects/Hiring/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962904144.md` |
+| `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
+| `tsk-4ec0f2-1767962904144` | 세금 처리 - 급여명세서 처리(임단,보윤,잔디) | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962904144.md` |
 | `tsk-61e939-1767962817717` | Dual-Vault - exec pre-commit hook | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-61e939-1767962817717.md` |
 | `tsk-61e939-1767962817965` | SSOT - Task 파일명 규칙 강제 구현 | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-61e939-1767962817965.md` |
 | `tsk-61e939-1767962818712` | Dual-Vault - Program-Round 대시보드 통합 | done | `50_Projects/Vault_System/Rounds/prj-019_dual-vault-cleanup/Tasks/tsk-61e939-1767962818712.md` |
@@ -489,19 +488,19 @@ tags: ["meta", "graph", "index"]
 | `tsk-b4fa1e-1767962908524` | Dashboard v2 - Kanban 보드 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962908524.md` |
 | `tsk-b4fa1e-1767962909096` | Dashboard v2 - Pending Review 페이지 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962909096.md` |
 | `tsk-bpnbz2-1768237849865` | Dashboard - Task Drawer Duplicate Loading 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768237849865.md` |
-| `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
-| `tsk-content-os-04` | Content OS - Task Pipeline UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
-| `tsk-content-os-05` | Content OS - 회고 대시보드 UI | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
-| `tsk-content-os-06` | ContentOS - Performance Dashboard Phase 1 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md` |
-| `tsk-content-os-07` | Content OS - Video Explorer Live Search | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md` |
-| `tsk-content-os-08` | Content OS - DB 스키마 구축 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - DB 스키마 구축.md` |
-| `tsk-content-os-09` | Content OS - YouTube API Integration | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube API Integration.md` |
-| `tsk-content-os-10` | Content OS - YouTube Analytics API 연동 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md` |
-| `tsk-content-os-11` | Content OS - 하드코딩 인증 구현 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md` |
-| `tsk-content-os-12` | Content OS - Performance Delta 툴팁 UX | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - Performance Delta 툴팁 UX.md` |
-| `tsk-content-os-13` | ContentOS - Firebase 스키마 설계 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/ContentOS - Firebase 스키마 설계.md` |
-| `tsk-content-os-14` | ContentOS - YouTube Analytics 전체 메트릭 수집 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/tsk-content-os-14.md` |
-| `tsk-content-os-15` | Content OS - YouTube Studio 스냅샷 시스템 | done | `50_Projects/Content_OS/Rounds/prj-content-os/Tasks/Content OS - YouTube Studio 스냅샷 시스템.md` |
+| `tsk-content-os-01` | Content OS - 프로젝트 초기 세팅 | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md` |
+| `tsk-content-os-04` | Content OS - Task Pipeline UI | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - Task Pipeline UI.md` |
+| `tsk-content-os-05` | Content OS - 회고 대시보드 UI | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md` |
+| `tsk-content-os-06` | ContentOS - Performance Dashboard Phase 1 | done | `50_Projects/2025/prj-content-os/Tasks/ContentOS - Performance Dashboard Phase 1.md` |
+| `tsk-content-os-07` | Content OS - Video Explorer Live Search | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - Video Explorer Live Search.md` |
+| `tsk-content-os-08` | Content OS - DB 스키마 구축 | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - DB 스키마 구축.md` |
+| `tsk-content-os-09` | Content OS - YouTube API Integration | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube API Integration.md` |
+| `tsk-content-os-10` | Content OS - YouTube Analytics API 연동 | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md` |
+| `tsk-content-os-11` | Content OS - 하드코딩 인증 구현 | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md` |
+| `tsk-content-os-12` | Content OS - Performance Delta 툴팁 UX | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - Performance Delta 툴팁 UX.md` |
+| `tsk-content-os-13` | ContentOS - Firebase 스키마 설계 | done | `50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase 스키마 설계.md` |
+| `tsk-content-os-14` | ContentOS - YouTube Analytics 전체 메트릭 수집 | done | `50_Projects/2025/prj-content-os/Tasks/tsk-content-os-14.md` |
+| `tsk-content-os-15` | Content OS - YouTube Studio 스냅샷 시스템 | done | `50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube Studio 스냅샷 시스템.md` |
 | `tsk-dashboard-ux-v1-01` | 뷰 전환 단축키 (1/2/3) | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md` |
 | `tsk-dashboard-ux-v1-02` | 대시보드 키보드 단축키 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md` |
 | `tsk-dashboard-ux-v1-03` | 사이드바 엔티티 상세 패널 구현 | done | `50_Projects/Vault_System/Rounds/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md` |
@@ -1237,7 +1236,6 @@ tags: ["meta", "graph", "index"]
   - prj-020 (스타트업베이 - 2025 지원사업)
   - prj-151f61 (Test - MCP Write API 완성)
   - prj-1t7iu4 (MCP API - Deployment Optimization)
-  - prj-enlnjr (MCP API - Deployment Optimization)
   - prj-kkokkkok-v1028 (KkokKkok App v1.0.28 - Hotfix)
   - prj-mzjr8a (KkokKkok App v1.0.29 - Release)
   - prj-w5kz77 (KkokKkok Backend - Maintenance)
