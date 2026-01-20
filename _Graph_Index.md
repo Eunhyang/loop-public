@@ -38,11 +38,11 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 43 |
+| doing | 42 |
 | done | 398 |
 | draft | 1 |
 | fixed | 1 |
-| planning | 47 |
+| planning | 48 |
 | todo | 112 |
 | unknown | 4 |
 | validating | 6 |
@@ -116,7 +116,7 @@ tags: ["meta", "graph", "index"]
 | `prj-002` | 와디즈 - 12주 습관 코칭 패키지 | planning | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md` |
 | `prj-003` | LoopOS - V0 데이터 설계 | planning | `50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md` |
 | `prj-005` | LoopOS - 최소 선제 학습 | planning | `50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md` |
-| `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | doing | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
+| `prj-006` | 코치 1명 구인 & 1차 온보딩 준비 | planning | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/project.md` |
 | `prj-007` | Hiring - 안지온님(엔씨온 외부 비서) | done | `50_Projects/2025/P007_외부 비서/project.md` |
 | `prj-008` | Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행) | planning | `50_Projects/2025/P008_파일럿_프로젝트/project.md` |
 | `prj-011` | 사이드프로젝트 리크루팅 사이트 제작 | planning | `50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md` |

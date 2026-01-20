@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-20T15:15:32.767552",
+  "generated": "2026-01-20T15:30:09.441097",
   "total_entities": 616,
   "nodes": [
     {
@@ -1433,7 +1433,7 @@
       "id": "prj-006",
       "type": "Project",
       "name": "코치 1명 구인 & 1차 온보딩 준비",
-      "status": "doing",
+      "status": "planning",
       "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/project.md",
       "conditions_3y": [
         "cond-b",
@@ -9747,6 +9747,7 @@
       "prj-002",
       "prj-content-os",
       "prj-008",
+      "prj-006",
       "prj-dashboard-ux-v1",
       "prj-impact-schema-v2",
       "prj-mcp-dual-vault-rbac",
@@ -10308,7 +10309,6 @@
       "retro:2025-annual"
     ],
     "doing": [
-      "prj-006",
       "tsk-dashboard-ux-v1-24",
       "tsk-impact-schema-v2-05",
       "tsk-mcp-rbac-04",
