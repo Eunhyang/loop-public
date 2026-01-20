@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-21
 updated: 2026-01-21
-total_entities: 622
+total_entities: 623
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 622개
+- **총 엔티티**: 623개
 - **마지막 업데이트**: 2026-01-21
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 472 |
+| Task | 473 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -39,7 +39,7 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 43 |
-| done | 408 |
+| done | 409 |
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
@@ -154,7 +154,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (472개)
+## Task (473개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -386,6 +386,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768931067137` | Hypothesis - start_date 필드 추가 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931067137.md` |
 | `tsk-023-1768931607143` | Project - start_date 필드 추가 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931607143.md` |
 | `tsk-023-1768931978351` | Schema - Track quarter_objectives 필드 추가 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931978351.md` |
+| `tsk-023-1768933806691` | API - SSOT frontmatter 생성 로직 중앙화 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768933806691.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -986,6 +987,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768931067137 (Hypothesis - start_date 필드 추가)
   - tsk-023-1768931607143 (Project - start_date 필드 추가)
   - tsk-023-1768931978351 (Schema - Track quarter_objectives 필드 추가)
+  - tsk-023-1768933806691 (API - SSOT frontmatter 생성 로직 중앙화)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)

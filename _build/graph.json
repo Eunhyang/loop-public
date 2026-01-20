@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-21T03:30:08.756392",
-  "total_entities": 622,
+  "generated": "2026-01-21T03:45:08.724709",
+  "total_entities": 623,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -3897,6 +3897,14 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768933806691",
+      "type": "Task",
+      "name": "API - SSOT frontmatter 생성 로직 중앙화",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768933806691.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-019",
       "type": "Project",
       "name": "Dual-Vault - 정비",
@@ -7691,6 +7699,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768933806691",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-019",
       "target": "tsk-kly0ry-1767960471502",
       "type": "parent_of"
@@ -9626,6 +9639,7 @@
       "tsk-023-1768931067137",
       "tsk-023-1768931607143",
       "tsk-023-1768931978351",
+      "tsk-023-1768933806691",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -10319,6 +10333,7 @@
       "tsk-023-1768931067137",
       "tsk-023-1768931607143",
       "tsk-023-1768931978351",
+      "tsk-023-1768933806691",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
