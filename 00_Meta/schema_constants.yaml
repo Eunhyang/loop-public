@@ -397,7 +397,8 @@ known_fields:
     - focus            # [string]
     - owner
     - objectives       # 구조: [{metric, target, current, status}]
-    - quarters         # 구조: [{q, period, goals, success_criteria}] - 분기별 목표
+    - quarters         # 구조: [{q, period, goals, success_criteria}] - 분기별 목표 (legacy)
+    - quarter_objectives  # 구조: {YYYYQN: {objective, kpi, target, owner?, evidence_link?}} - 분기별 측정 가능 목표
   Program:
     - program_type
     - owner
@@ -409,6 +410,7 @@ known_fields:
   Project:
     - owner
     - summary          # 1-2줄 프로젝트 요약 (리스트/hover용)
+    - start_date       # 프로젝트 공식 시작일 (YYYY-MM-DD)
     - budget           # number | null
     - deadline         # date | null
     - program_id       # 소속 프로그램 ID
@@ -519,13 +521,25 @@ field_structures:
       - current: "string | number"
       - status: string
 
-  # Track.quarters (분기별 목표)
+  # Track.quarters (분기별 목표) - legacy, quarter_objectives 권장
   quarters:
     fields:
       - q: string              # Q1, Q2, Q3, Q4, Q3-Q4 등
       - period: string         # "2026-01 ~ 2026-03" 형식
       - goals: "[string]"      # 해당 분기 목표 목록
       - success_criteria: string  # 성공 기준
+
+  # Track.quarter_objectives (분기별 측정 가능 목표) - 권장
+  # 맵 형태: 키는 YYYYQN (예: 2026Q1, 2026Q2)
+  quarter_objectives:
+    description: "분기별 목표를 측정 가능한 약속으로 구조화. 대시보드/롤업/리뷰 자동화 지원."
+    key_pattern: "YYYYQN"      # 예: 2026Q1, 2026Q2, 2027Q1
+    fields:
+      - objective: string      # 분기 목표 (무엇을 달성할 것인가)
+      - kpi: string            # 핵심 지표 (어떻게 측정할 것인가)
+      - target: string         # 목표치 (얼마나)
+      - owner: "string | null" # 담당자 (선택)
+      - evidence_link: "string | null"  # 근거 문서 링크 (선택)
 
   # Program.kpis
   kpis:
@@ -877,8 +891,17 @@ impact:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.8"
+schema_version: "5.10"
 last_updated: "2026-01-21"
+# v5.10 변경 (2026-01-21):
+# - Track.quarter_objectives 필드 추가 (분기별 측정 가능 목표)
+#   - 맵 형태: {YYYYQN: {objective, kpi, target, owner?, evidence_link?}}
+#   - 기존 quarters(배열)보다 대시보드/롤업/자동화에 적합
+#   - 연도 확장 시 키만 추가 (2026Q1, 2027Q1 등)
+# v5.9 변경 (2026-01-21):
+# - Project.start_date 필드 추가
+#   - 의미: "프로젝트 공식 시작일" (YYYY-MM-DD)
+#   - created(생성일)와 구분: 문서 생성 ≠ 프로젝트 시작
 # v5.8 변경 (2026-01-21):
 # - Hypothesis.start_date 필드 추가
 #   - 의미: "이 가설을 검증 대상으로 공식 채택한 날짜" (YYYY-MM-DD)

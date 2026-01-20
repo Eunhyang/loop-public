@@ -15,6 +15,7 @@ aliases:
 - prj-yt-W03-26
 - YouTube - W03-26
 owner: 한명학
+start_date: null
 budget: null
 deadline: '2026-01-31'
 expected_impact:

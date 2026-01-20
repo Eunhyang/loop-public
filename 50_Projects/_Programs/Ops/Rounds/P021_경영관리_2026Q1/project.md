@@ -6,6 +6,7 @@ created: 2025-12-29
 updated: '2026-01-20'
 status: planning
 owner: 한명학
+start_date: null
 budget: null
 deadline: null
 expected_impact:

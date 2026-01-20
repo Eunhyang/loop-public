@@ -8,6 +8,7 @@ status: planning
 program_id: pgm-youtube-weekly
 cycle: '2025'
 owner: 한명학
+start_date: null
 budget: null
 deadline: null
 expected_impact:

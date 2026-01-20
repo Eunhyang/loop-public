@@ -6,6 +6,7 @@ created: '2026-01-09'
 updated: '2026-01-19'
 status: planning
 owner: 김은향
+start_date: null
 priority_flag: medium
 parent_id: trk-6
 program_id: pgm-tips

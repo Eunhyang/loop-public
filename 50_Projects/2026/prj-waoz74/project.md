@@ -18,6 +18,7 @@ validated_by: []
 primary_hypothesis_id: hyp-3-01
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: Dashboard v2를 구축하면 Content OS 기능을 Vite 기반의 경량 대시보드로 마이그레이션할 수 있다
 experiments: []

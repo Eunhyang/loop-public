@@ -15,6 +15,7 @@ aliases:
 - prj-yt-W02-26
 - YouTube - W02
 owner: 김은향
+start_date: null
 budget: null
 deadline: '2026-01-24'
 expected_impact:

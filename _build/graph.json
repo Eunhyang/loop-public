@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-21T02:45:08.999410",
-  "total_entities": 620,
+  "generated": "2026-01-21T03:00:09.101962",
+  "total_entities": 622,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -3881,6 +3881,22 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-023-1768931607143",
+      "type": "Task",
+      "name": "Project - start_date 필드 추가",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931607143.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768931978351",
+      "type": "Task",
+      "name": "Schema - Track quarter_objectives 필드 추가",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931978351.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "prj-019",
       "type": "Project",
       "name": "Dual-Vault - 정비",
@@ -7665,6 +7681,16 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768931607143",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1768931978351",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-019",
       "target": "tsk-kly0ry-1767960471502",
       "type": "parent_of"
@@ -9598,6 +9624,8 @@
       "tsk-023-1768890869239",
       "tsk-023-1768926273490",
       "tsk-023-1768931067137",
+      "tsk-023-1768931607143",
+      "tsk-023-1768931978351",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -10289,6 +10317,8 @@
       "tsk-023-1768890869239",
       "tsk-023-1768926273490",
       "tsk-023-1768931067137",
+      "tsk-023-1768931607143",
+      "tsk-023-1768931978351",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",

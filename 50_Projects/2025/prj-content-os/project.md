@@ -17,6 +17,7 @@ validated_by: []
 primary_hypothesis_id: hyp-3-01
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: Content OS를 구축하면 콘텐츠 기획 시간이 50% 감소하고, Evidence 기반 학습이 축적된다
 experiments: []

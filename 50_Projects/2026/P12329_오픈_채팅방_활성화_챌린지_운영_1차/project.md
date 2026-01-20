@@ -6,6 +6,7 @@ created: '2026-01-13'
 updated: '2026-01-19'
 status: planning
 owner: 한명학
+start_date: null
 priority_flag: medium
 parent_id: trk-4
 program_id: null

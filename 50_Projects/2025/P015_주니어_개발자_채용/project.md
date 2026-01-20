@@ -15,6 +15,7 @@ validates: []
 validated_by: []
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: 주니어 개발자를 채용하여 제품 개발 속도를 높일 수 있다
 experiments: []

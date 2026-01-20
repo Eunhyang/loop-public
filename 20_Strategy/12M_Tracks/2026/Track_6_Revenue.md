@@ -46,6 +46,27 @@ objectives:
 progress: 0.35
 risk_level: high
 conditions_3y: ['cond-e']
+
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: 유료화 + 매출 기반 - 월매출 1,200만원 + IR 덱 완성
+    kpi: 월매출
+    target: 1,200만원
+    owner: Founder + 전 팀
+  2026Q2:
+    objective: 투자 클로징 시작 - 월매출 1,500만원 + Seed 투자 LOI
+    kpi: 월매출
+    target: 1,500만원
+  2026Q3:
+    objective: 투자 클로징 + 매출 확대 - 월매출 1,800만원
+    kpi: 월매출
+    target: 1,800만원
+  2026Q4:
+    objective: Condition D 충족 - 월매출 2,000만원 + 런웨이 18개월
+    kpi: 런웨이
+    target: 18개월
+
 tags:
 - track
 - 12month

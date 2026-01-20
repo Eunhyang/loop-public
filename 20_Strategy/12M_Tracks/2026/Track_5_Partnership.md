@@ -39,6 +39,27 @@ objectives:
 progress: 0.1
 risk_level: medium
 conditions_3y: ['cond-c', 'cond-d']
+
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: 탐색 + 준비 - 타겟 의원 5곳 리스트 + 제안서 완성
+    kpi: 타겟 의원 리스트
+    target: 5곳
+    owner: Founder + BD 담당
+  2026Q2:
+    objective: 제휴 확보 - 의원 1곳 LOI + 참여자 모집 시작
+    kpi: LOI 체결
+    target: 1곳
+  2026Q3:
+    objective: 파일럿 실행 - 케이스 스터디 5명 + 데이터 수집
+    kpi: 케이스 스터디 참여자
+    target: 5명
+  2026Q4:
+    objective: 파일럿 완료 - 케이스 10명 + Early Warning Index 초기 버전
+    kpi: 케이스 스터디 참여자
+    target: 10명
+
 tags:
 - track
 - 12month

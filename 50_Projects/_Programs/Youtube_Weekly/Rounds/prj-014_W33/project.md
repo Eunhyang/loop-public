@@ -13,6 +13,7 @@ aliases:
 - prj-yt-w33
 - YouTube W33
 owner: 한명학
+start_date: null
 budget: null
 deadline: '2025-12-31'
 expected_impact:

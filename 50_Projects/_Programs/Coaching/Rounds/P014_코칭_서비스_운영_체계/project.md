@@ -15,6 +15,7 @@ validates:
 validated_by: []
 owner: 한명학
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: 코칭 운영 프로토콜과 철칙을 수립하면 서비스 품질과 확장성이 확보된다
 tier: enabling

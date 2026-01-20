@@ -6,6 +6,7 @@ created: '2026-01-13'
 updated: '2026-01-20'
 status: planning
 owner: 김은향
+start_date: null
 priority_flag: medium
 parent_id: trk-1
 program_id: pgm-vault-system

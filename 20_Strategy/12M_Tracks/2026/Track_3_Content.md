@@ -39,6 +39,27 @@ objectives:
 progress: 0.2
 risk_level: low
 conditions_3y: ['cond-a']
+
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: 언어 정의 + 기반 - GLP-1 키워드 10개 + 콘텐츠 20개
+    kpi: GLP-1 키워드 수
+    target: 10개
+    owner: 콘텐츠 담당
+  2026Q2:
+    objective: 확산 - 키워드 20개 + 콘텐츠 35개 + Loop Index 교육 시리즈
+    kpi: 콘텐츠 수
+    target: 35개
+  2026Q3:
+    objective: 성숙 - 고성과 콘텐츠 식별 + 유입-전환 파이프라인 분석
+    kpi: GLP-1 키워드 수
+    target: 25개
+  2026Q4:
+    objective: 자연 유입 기반 확보 - 키워드 30개 + 콘텐츠 50개
+    kpi: 콘텐츠 수
+    target: 50개
+
 tags:
 - track
 - 12month

@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-020
 entity_name: 스타트업베이 - 2025 지원사업
 created: '2026-01-03'
-updated: '2026-01-13'
+updated: '2026-01-21'
 status: planning
 owner: 김은향
 priority_flag: medium
@@ -24,6 +24,8 @@ realized_impact:
   outcome: null
   evidence: null
   updated: null
+start_date: null
+deadline: '2026-01-10'
 ---
 # 스타트업베이 - 2025 지원사업
 

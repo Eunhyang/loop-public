@@ -46,6 +46,27 @@ objectives:
 progress: 0.6
 risk_level: medium
 conditions_3y: ['cond-b']
+
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: 패턴 5개 확보 + 스키마 안정화
+    kpi: 재현 패턴 수
+    target: 5개
+    owner: Founder + Data Team
+  2026Q2:
+    objective: Condition B 충족 - 패턴 10개 + 재현율 70%
+    kpi: 재현 패턴 수
+    target: 10개
+  2026Q3:
+    objective: 패턴 품질 검증 및 IRB 서류 준비
+    kpi: 패턴 재현율
+    target: 70%
+  2026Q4:
+    objective: 의료 기관 설득 자료 + Condition C 준비
+    kpi: IRB 서류 준비
+    target: 완료
+
 tags:
 - track
 - 12month

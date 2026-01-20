@@ -7,6 +7,7 @@ updated: '2026-01-19'
 status: planning
 owner: 한명학
 budget: null
+start_date: null
 deadline: null
 expected_impact:
   statement: null

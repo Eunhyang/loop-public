@@ -26,6 +26,27 @@ objectives:
     current: ""
     status: "진행 중"
 
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: ""     # 무엇을 달성할 것인가
+    kpi: ""           # 어떻게 측정할 것인가
+    target: ""        # 목표치
+    # owner: ""       # 담당자 (선택)
+    # evidence_link: ""  # 근거 문서 (선택)
+  2026Q2:
+    objective: ""
+    kpi: ""
+    target: ""
+  2026Q3:
+    objective: ""
+    kpi: ""
+    target: ""
+  2026Q4:
+    objective: ""
+    kpi: ""
+    target: ""
+
 # === 3Y 전략 연결 (필수) ===
 conditions_3y: ["cond-{CONDITION}"]  # 최소 1개 필수 (a-e)
 

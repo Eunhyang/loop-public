@@ -20,6 +20,7 @@ validated_by: []
 primary_hypothesis_id: null
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: exec vault와 public vault의 경로 구조를 통일하면 API와 스크립트의 재사용성이 높아진다
 experiments: []

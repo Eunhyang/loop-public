@@ -17,6 +17,7 @@ validates: []
 validated_by: []
 primary_hypothesis_id: null
 owner: 김은향
+start_date: null
 budget: null
 deadline: 2026-01-02
 program_id: pgm-kkokkkok-app-release

@@ -15,6 +15,7 @@ validates: []
 validated_by: []
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: Realized Impact에 time_range와 metrics_snapshot을 추가하면 A/B 비교가 재현 가능해진다
 experiments: []

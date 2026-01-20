@@ -9,6 +9,7 @@ program_id: pgm-vault-system
 cycle: '2025'
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 expected_impact:
   statement: ChatGPT에서 LOOP vault를 직접 탐색/검색할 수 있게 함

@@ -47,6 +47,27 @@ objectives:
 progress: 0.4
 risk_level: medium
 conditions_3y: ['cond-b', 'cond-d']
+
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: 교육 + 확장 - 코치 4명 + 참여자 100명
+    kpi: 코치 수
+    target: 4명
+    owner: 코치 팀 리드
+  2026Q2:
+    objective: 품질 + 규모 - 코치 5명 + 라벨링 주 120건 + 일관성 60%
+    kpi: 주간 라벨링 건수
+    target: 120건
+  2026Q3:
+    objective: 안정화 - 참여자 130명 + Tier2 전환율 80%
+    kpi: 참여자 수
+    target: 130명
+  2026Q4:
+    objective: Track 4 목표 달성 - 코치 6명 + 참여자 150명 + 라벨링 150건
+    kpi: 주간 라벨링 건수
+    target: 150건
+
 tags:
 - track
 - 12month

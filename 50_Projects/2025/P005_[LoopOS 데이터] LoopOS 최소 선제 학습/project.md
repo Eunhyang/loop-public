@@ -16,6 +16,7 @@ validates:
 validated_by: []
 owner: 김은향
 budget: null
+start_date: null
 deadline: '2026-01-30'
 hypothesis_text: Notion CSV에서 마이그레이션된 프로젝트
 tier: enabling

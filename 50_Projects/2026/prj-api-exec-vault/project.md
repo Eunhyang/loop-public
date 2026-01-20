@@ -9,6 +9,7 @@ program_id: pgm-vault-system
 cycle: '2026'
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 expected_impact:
   tier: enabling

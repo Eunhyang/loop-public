@@ -19,6 +19,7 @@ validates: []
 validated_by: []
 owner: 김은향
 budget: null
+start_date: null
 deadline: null
 hypothesis_text: 역할 기반 접근 제어로 loop_exec 민감 데이터를 코어팀으로부터 보호할 수 있다
 experiments: []

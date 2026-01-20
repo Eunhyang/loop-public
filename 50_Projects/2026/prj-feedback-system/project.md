@@ -13,6 +13,7 @@ aliases:
 - Feedback System
 - 유저 피드백 수집
 owner: 김은향
+start_date: null
 priority: high
 tasks:
 - tsk-feedback-01

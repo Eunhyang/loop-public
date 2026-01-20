@@ -10,6 +10,7 @@ program_id: pgm-kkokkkokfit-web
 conditions_3y:
 - cond-d
 owner: 김은향
+start_date: null
 aliases:
 - Infra Ops 2026 Q1
 - 인프라 운영 2026 Q1

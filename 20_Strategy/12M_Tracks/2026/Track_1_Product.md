@@ -44,6 +44,27 @@ objectives:
 progress: 0.4
 risk_level: medium
 conditions_3y: ['cond-a']
+
+# === 분기별 목표 (측정 가능한 약속) ===
+quarter_objectives:
+  2026Q1:
+    objective: 기반 구축 - Loop Mapping v0.6 + 천천히 먹기 베타
+    kpi: Loop Mapping 버전
+    target: v0.6
+    owner: PM 1 + 개발 1
+  2026Q2:
+    objective: 핵심 기능 완성 - 천천히 먹기 정식 런칭 + PMF 신호 확인
+    kpi: 천천히 먹기 정식 출시
+    target: Live
+  2026Q3:
+    objective: 안정화 - 버그 픽스 및 성능 최적화
+    kpi: Product 안정성
+    target: 90%
+  2026Q4:
+    objective: Condition A 달성 - Loop Mapping v1 + 안정성 95%
+    kpi: Loop Mapping 버전
+    target: v1
+
 tags:
 - track
 - 12month
