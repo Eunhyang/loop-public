@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-002-10
 entity_name: 꼭꼭FIT 강의 페이지 + 과제 페이지 만들기
 created: 2025-12-18
-updated: '2026-01-19'
+updated: '2026-01-21'
 status: todo
 parent_id: prj-002
 project_id: prj-002
@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-21'
+due: '2026-01-24'
 priority: high
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-21'
+start_date: '2026-01-24'
 notes: '# 꼭꼭FIT 강의 페이지 + 과제 페이지 만들기
 
 

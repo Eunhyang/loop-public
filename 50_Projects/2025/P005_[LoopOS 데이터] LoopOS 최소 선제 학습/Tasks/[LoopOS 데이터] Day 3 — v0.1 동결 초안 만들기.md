@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-005-02
 entity_name: '[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기'
 created: 2025-12-18
-updated: '2026-01-10'
+updated: '2026-01-21'
 status: todo
 parent_id: prj-005
 project_id: prj-005
@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-21'
+due: '2026-01-24'
 priority: medium
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: high
-start_date: '2026-01-21'
+start_date: '2026-01-24'
 notes: '# \[LoopOS 데이터\] Day 3 — v0.1 동결 초안 만들기
 
 

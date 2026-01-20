@@ -2,8 +2,8 @@
 entity_type: GraphIndex
 entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
-created: 2026-01-20
-updated: 2026-01-20
+created: 2026-01-21
+updated: 2026-01-21
 total_entities: 617
 auto_generated: true
 tags: ["meta", "graph", "index"]
@@ -18,7 +18,7 @@ tags: ["meta", "graph", "index"]
 ## 요약 통계
 
 - **총 엔티티**: 617개
-- **마지막 업데이트**: 2026-01-20
+- **마지막 업데이트**: 2026-01-21
 
 ### 타입별
 | Type | Count |
@@ -39,11 +39,11 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 42 |
-| done | 400 |
+| done | 404 |
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
-| todo | 111 |
+| todo | 107 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -428,7 +428,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-156anu-1768576137968` | Antler 3차 - AI몬스터 면접 연습 (01/18) | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md` |
 | `tsk-156anu-1768579596258` | Antler 3차 - AI몬스터 면접 진행 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md` |
 | `tsk-156anu-1768803029885` | Antler 4차 - 면접 전략짜기 | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md` |
-| `tsk-156anu-1768805284323` | Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR))  | todo | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md` |
+| `tsk-156anu-1768805284323` | Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR))  | done | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md` |
 | `tsk-156anu-1768817617276` | Antler 4차 - 예상 면접 QnA 작성 | todo | `50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md` |
 | `tsk-186i77-1767945624590` | 유튜브 채널 고도화 - w02 대본, w02-1 대본 초안 작성 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-186i77-1767945624590.md` |
 | `tsk-19203a-1767940029834` | 와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건) | done | `50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md` |
@@ -450,10 +450,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-1t7iu4-1768242340825` | Blue-Green Deployment - MCP API | done | `50_Projects/2026/P1_MCP_API_Deployment_Optimization/Tasks/tsk-1t7iu4-1768242340825.md` |
 | `tsk-26-1768238550460` | YouTube W02 - 원고 작성 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238550460.md` |
 | `tsk-26-1768238602412` | YouTube W02 - 편집본 확인 | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238602412.md` |
-| `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
+| `tsk-26-1768238654295` | YouTube W02 - 추가편집(필요한 영상등 추가) | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768238654295.md` |
 | `tsk-26-1768441882042` | 다온 - w02 편집 영상 검토 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768441882042.md` |
 | `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
-| `tsk-26-1768817962653` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768817962653.md` |
+| `tsk-26-1768817962653` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768817962653.md` |
 | `tsk-26-1768832666705` | 다온 - w02 유튜브 편집본 캡컷 공유 받음 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768832666705.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/_Programs/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
@@ -607,7 +607,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-w02-26-01` | YouTube W02 - 주제 선정 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-01_주제_선정.md` |
 | `tsk-yt-w02-26-02` | YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md` |
 | `tsk-yt-w02-26-03` | YouTube W02 - 원고 수정 + 촬영 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-03_원고_수정_촬영.md` |
-| `tsk-yt-w02-26-04` | YouTube W02 - 편집 외주 | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-04_편집_외주.md` |
+| `tsk-yt-w02-26-04` | YouTube W02 - 편집 외주 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-04_편집_외주.md` |
 | `tsk-yt-w02-26-05` | YouTube W02 - 썸네일 + 업로드 | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-05_썸네일_업로드.md` |
 | `tsk-yt-w02-26-06` | YouTube W02 - 쇼츠 #1 | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-06_쇼츠_1.md` |
 | `tsk-yt-w02-26-07` | YouTube W02 - 쇼츠 #2 | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-07_쇼츠_2.md` |
@@ -1357,5 +1357,5 @@ tags: ["meta", "graph", "index"]
 
 ---
 
-**Auto-generated**: 2026-01-20
+**Auto-generated**: 2026-01-21
 **Script**: scripts/build_graph_index.py
