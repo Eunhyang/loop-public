@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-21
 updated: 2026-01-21
-total_entities: 617
+total_entities: 618
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 617개
+- **총 엔티티**: 618개
 - **마지막 업데이트**: 2026-01-21
 
 ### 타입별
@@ -38,7 +38,7 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 42 |
+| doing | 43 |
 | done | 404 |
 | draft | 1 |
 | fixed | 1 |
@@ -1233,6 +1233,7 @@ tags: ["meta", "graph", "index"]
   - hyp-1-09 (행동변화 지표 3종이 안정)
   - hyp-1-10 (결제 전 가치 인지)
   - hyp-1-11 (상품 메시지 2~3개로 수렴)
+  - off-app-subscription-v0 (앱 구독 v0 (부분 유료 / RevenueCat default))
   - off-app-subscription-v1 (앱 구독 v1 (전면 유료화))
   - pgm-coaching (코칭서비스)
   - prj-020 (스타트업베이 - 2025 지원사업)

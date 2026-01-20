@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-21T00:30:10.452884",
-  "total_entities": 617,
+  "generated": "2026-01-21T00:45:09.377867",
+  "total_entities": 618,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -5321,6 +5321,15 @@
       "status": "doing",
       "path": "20_Strategy/Offerings/off-app-subscription-v1.md",
       "owner": "Product Team"
+    },
+    {
+      "id": "off-app-subscription-v0",
+      "type": "Offering",
+      "name": "앱 구독 v0 (부분 유료 / RevenueCat default)",
+      "status": "doing",
+      "path": "20_Strategy/Offerings/off-app-subscription-v0.md",
+      "priority_flag": "high",
+      "owner": "Product Team"
     }
   ],
   "edges": [
@@ -5422,6 +5431,11 @@
     {
       "source": "trk-1",
       "target": "off-app-subscription-v1",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-1",
+      "target": "off-app-subscription-v0",
       "type": "parent_of"
     },
     {
@@ -9736,7 +9750,8 @@
       "status-team"
     ],
     "Offering": [
-      "off-app-subscription-v1"
+      "off-app-subscription-v1",
+      "off-app-subscription-v0"
     ]
   },
   "by_status": {
@@ -10365,7 +10380,8 @@
       "status-budget",
       "status-runway",
       "status-team",
-      "off-app-subscription-v1"
+      "off-app-subscription-v1",
+      "off-app-subscription-v0"
     ],
     "draft": [
       "prd:graph-view-mvp"

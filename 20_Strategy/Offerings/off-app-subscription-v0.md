@@ -1,5 +1,4 @@
 ---
-
 entity_type: Offering
 entity_id: off-app-subscription-v0
 entity_name: 앱 구독 v0 (부분 유료 / RevenueCat default)
@@ -9,29 +8,27 @@ status: doing
 owner: Product Team
 parent_id: trk-1
 tags:
-
-* gtm
-* monetization
-* subscription
-  priority_flag: high
+  - gtm
+  - monetization
+  - subscription
+priority_flag: high
 
 # 그래프 연결을 위한 최소 필드(권장)
-
 attached_surface_id: prj-app-kkokkkok
 monetizes_track_id: trk-6
 
 revenuecat:
-project_id: f712ee71
-offering_identifier: default
-revenuecat_id: ofrng1d4357f47a
-packages:
-- package_id: $rc_monthly
-rc_product_identifier: pro.monthly:promonthly
-store_product_id: pro_monthly_1
-- package_id: $rc_annual
-rc_product_identifier: pro.annual:proannual
-store_product_id: pro_annual_1
-------------------------------
+  project_id: f712ee71
+  offering_identifier: default
+  revenuecat_id: ofrng1d4357f47a
+  packages:
+    - package_id: $rc_monthly
+      rc_product_identifier: pro.monthly:promonthly
+      store_product_id: pro_monthly_1
+    - package_id: $rc_annual
+      rc_product_identifier: pro.annual:proannual
+      store_product_id: pro_annual_1
+---
 
 # Offering: 앱 구독 v0
 
