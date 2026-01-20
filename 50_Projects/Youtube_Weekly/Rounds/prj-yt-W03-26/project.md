@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-yt-W03-26
 entity_name: YouTube - W03-26
 created: '2026-01-16'
-updated: '2026-01-19'
+updated: '2026-01-20'
 status: active
 program_id: pgm-youtube-weekly
 cycle: W03-26
@@ -32,8 +32,8 @@ realized_impact:
 outgoing_relations: []
 validates:
 - hyp-1-01
-- hyp-1-02
 - hyp-1-03
+- hyp-3-02
 validated_by: []
 experiments: []
 tags:
@@ -55,7 +55,7 @@ track_contributes:
 - to: trk-2
   weight: 0.5
   description: 코치+기록 기반 데이터의 패턴화 가능성이 YouTube 콘텐츠와 연계될 수 있음.
-primary_hypothesis_id: hyp-3-04
+primary_hypothesis_id: hyp-3-02
 summary: '[Track_3_Content] Track_3_Content에서 약물이나 외모보다 결국 습관, 시스템에 설득되는지 콘텐츠를 제작하는
   프로젝트.'
 ---

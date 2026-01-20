@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-dashboard-ux-v1-10
 entity_name: api/constants.py 응답 확장
 created: 2025-12-27
-updated: '2026-01-17'
+updated: '2026-01-20'
 status: done
 parent_id: prj-dashboard-ux-v1
 project_id: prj-023
@@ -13,7 +13,7 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-10'
+due: '2025-12-27'
 priority: medium
 estimated_hours: null
 actual_hours: null

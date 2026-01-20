@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-20
 updated: 2026-01-20
-total_entities: 614
+total_entities: 617
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 614개
+- **총 엔티티**: 617개
 - **마지막 업데이트**: 2026-01-20
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 41 |
-| Task | 465 |
+| Task | 467 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -38,13 +38,13 @@ tags: ["meta", "graph", "index"]
 |--------|-------|
 | active | 2 |
 | assumed | 2 |
-| doing | 59 |
-| done | 395 |
+| doing | 60 |
+| done | 398 |
 | draft | 1 |
 | fixed | 1 |
 | hold | 1 |
 | planning | 29 |
-| todo | 114 |
+| todo | 113 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -156,7 +156,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (465개)
+## Task (467개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -381,6 +381,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1768842042959` | Vault Explorer 파일 생성 기능 추가 (노션 스타일) | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842042959.md` |
 | `tsk-023-1768842493769` | MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842493769.md` |
 | `tsk-023-1768844444` | Strategic Context MCP Action 노출 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768844444.md` |
+| `tsk-023-1768878808515` | MCP SSE 연결 안정화 - Synology nginx 설정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768878808515.md` |
 | `tsk-023-18` | Dashboard - Child Project 필터 버그 수정 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md` |
 | `tsk-023-19` | FilterPanel - 기본 필터 및 Assignee 동적 표시 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md` |
 | `tsk-023-20` | FilterPanel - 기본 필터 활성화 상태 개선 | done | `50_Projects/Vault_System/Rounds/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md` |
@@ -439,9 +440,10 @@ tags: ["meta", "graph", "index"]
 | `tsk-1kthoh-1768748072863` | Ontology Lite v1 - Strategic Context 매핑 함수 PRD 작성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748072863.md` |
 | `tsk-1kthoh-1768748073383` | Ontology Lite v1 - 회귀 테스트 및 샘플 케이스 검증 | todo | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748073383.md` |
 | `tsk-1kthoh-1768748985191` | Ontology Lite v1 - Strategic Context 매핑 함수 생성 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768748985191.md` |
-| `tsk-1kthoh-1768834361862` | Ontology Lite v1 - GTM 축(콘텐츠-앱-코칭-매출) 최소 확장 | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768834361862.md` |
+| `tsk-1kthoh-1768834361862` | Ontology Lite v1 - GTM 축(콘텐츠-앱-코칭-매출) 최소 확장 | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768834361862.md` |
 | `tsk-1kthoh-1768841096537` | Ontology Lite v1 - Strategic Context → Graph Normalizer (v1.1: GTM Subgraph Deterministic Merge) | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768841096537.md` |
 | `tsk-1kthoh-1768844455000` | GTM Subgraph Deterministic Merge (v1.1) | done | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768844455000.md` |
+| `tsk-1kthoh-1768878418480` | Ontology Lite v1 - Offering (PaywallOffer) 최소 스펙 + GTM SSOT 설계 + 구현 ToDo (v1.1) | doing | `50_Projects/2025/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768878418480.md` |
 | `tsk-1m08zu-1767945274325` | 와디즈 마무리 - 구글드라이브 폴더 생성(강의 과제, 구독권 등록 방법, 강의 보는 법 등) | done | `50_Projects/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-1m08zu-1767945274325.md` |
 | `tsk-1pg1i9-1767935607817` | Antler 서류 - 지원서 문항 추출 및 초안 목차 생성 | done | `50_Projects/2025/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md` |
 | `tsk-1q091r-1767960173667` | 코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획 | done | `50_Projects/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md` |
@@ -615,7 +617,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-yt-w02-26-10` | YouTube W02 - 쇼츠 #5 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-10_쇼츠_5.md` |
 | `tsk-yt-w03-26-01` | YouTube W03-26 - 주제 선정 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-01.md` |
 | `tsk-yt-w03-26-02` | YouTube W03-26 - 원고 작성 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-02.md` |
-| `tsk-yt-w03-26-03` | YouTube W03-26 - 원고 수정 + 촬영 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md` |
+| `tsk-yt-w03-26-03` | YouTube W03-26 - 원고 수정 + 촬영 | done | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-03.md` |
 | `tsk-yt-w03-26-04` | YouTube W03-26 - 편집 외주 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-04.md` |
 | `tsk-yt-w03-26-05` | YouTube W03-26 - 썸네일 + 업로드 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-05.md` |
 | `tsk-yt-w03-26-06` | YouTube W03-26 - 쇼츠 #1 | todo | `50_Projects/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-yt-w03-26-06.md` |
@@ -974,6 +976,7 @@ tags: ["meta", "graph", "index"]
   - tsk-023-1768841419050 (Entity Form - 원본 파일 Vault Explorer로 열기)
   - tsk-023-1768842493769 (MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현)
   - tsk-023-1768844444 (Strategic Context MCP Action 노출)
+  - tsk-023-1768878808515 (MCP SSE 연결 안정화 - Synology nginx 설정)
   - tsk-023-18 (Dashboard - Child Project 필터 버그 수정)
   - tsk-023-20 (FilterPanel - 기본 필터 활성화 상태 개선)
   - tsk-023-21 (Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정)
@@ -1033,6 +1036,7 @@ tags: ["meta", "graph", "index"]
   - tsk-1kthoh-1768748985191 (Ontology Lite v1 - Strategic Context 매핑 함수 생성)
   - tsk-1kthoh-1768834361862 (Ontology Lite v1 - GTM 축(콘텐츠-앱-코칭-매출) 최소 확장)
   - tsk-1kthoh-1768841096537 (Ontology Lite v1 - Strategic Context → Graph Normalizer (v1.1: GTM Subgraph Deterministic Merge))
+  - tsk-1kthoh-1768878418480 (Ontology Lite v1 - Offering (PaywallOffer) 최소 스펙 + GTM SSOT 설계 + 구현 ToDo (v1.1))
 - **prj-1t7iu4** (MCP API - Deployment Optimization)
   - tsk-1t7iu4-1768242340825 (Blue-Green Deployment - MCP API)
 - **prj-api-exec-vault** (API - Exec Vault 통합)
@@ -1228,6 +1232,7 @@ tags: ["meta", "graph", "index"]
   - hyp-1-09 (행동변화 지표 3종이 안정)
   - hyp-1-10 (결제 전 가치 인지)
   - hyp-1-11 (상품 메시지 2~3개로 수렴)
+  - off-app-subscription-v1 (앱 구독 v1 (전면 유료화))
   - pgm-coaching (코칭서비스)
   - prj-020 (스타트업베이 - 2025 지원사업)
   - prj-151f61 (Test - MCP Write API 완성)
