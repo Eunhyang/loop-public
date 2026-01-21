@@ -915,6 +915,9 @@ write_targets:
       - expected_impact
       - realized_impact
       - notes
+      - conditions_3y          # 3년 조건 연결
+      - condition_contributes  # 기여 조건
+      - track_contributes      # 트랙 기여 연결
     Hypothesis:
       - status
       - evidence_status
