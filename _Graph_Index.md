@@ -39,11 +39,11 @@ tags: ["meta", "graph", "index"]
 | active | 2 |
 | assumed | 2 |
 | doing | 43 |
-| done | 409 |
+| done | 410 |
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
-| todo | 109 |
+| todo | 108 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -310,7 +310,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-023-1767974842230` | Dashboard - Task Drawer PR/Commit 필드 추가 (React) | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767974842230.md` |
 | `tsk-023-1767976230998` | Dashboard - Activity Panel Global Feed 구현 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976230998.md` |
 | `tsk-023-1768026376001` | Vault API - Task duplicate 기능 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768026376001.md` |
-| `tsk-023-1768027776050` | Dashboard - Favorites 기능 구현 | todo | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768027776050.md` |
+| `tsk-023-1768027776050` | Dashboard - Favorites 기능 구현 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768027776050.md` |
 | `tsk-023-1768028623070` | Dashboard - Comment Discord 알림 추가 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768028623070.md` |
 | `tsk-023-1768030620896` | Dashboard - Discord 알림 링크 추가 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768030620896.md` |
 | `tsk-023-1768032255632` | Dashboard - Favorites 기능 확장 (Task + Project + Program) | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768032255632.md` |
