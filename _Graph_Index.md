@@ -4,7 +4,7 @@ entity_id: meta:graph
 entity_name: LOOP Vault Graph Index
 created: 2026-01-21
 updated: 2026-01-21
-total_entities: 623
+total_entities: 625
 auto_generated: true
 tags: ["meta", "graph", "index"]
 ---
@@ -17,7 +17,7 @@ tags: ["meta", "graph", "index"]
 
 ## 요약 통계
 
-- **총 엔티티**: 623개
+- **총 엔티티**: 625개
 - **마지막 업데이트**: 2026-01-21
 
 ### 타입별
@@ -29,7 +29,7 @@ tags: ["meta", "graph", "index"]
 | Track | 7 |
 | Program | 12 |
 | Project | 40 |
-| Task | 473 |
+| Task | 475 |
 | Hypothesis | 62 |
 | Experiment | 1 |
 
@@ -43,7 +43,7 @@ tags: ["meta", "graph", "index"]
 | draft | 1 |
 | fixed | 1 |
 | planning | 48 |
-| todo | 107 |
+| todo | 109 |
 | unknown | 4 |
 | validating | 6 |
 
@@ -154,7 +154,7 @@ tags: ["meta", "graph", "index"]
 | `prj-{NUMBER}` | {프로젝트명} | planning | `50_Projects/_template_project.md` |
 
 
-## Task (473개)
+## Task (475개)
 
 | ID | Name | Status | Path |
 |----|------|--------|------|
@@ -460,6 +460,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-26-1768658545586` | YouTube W02 - 다온님 영상편집 2차 내용 확인 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768658545586.md` |
 | `tsk-26-1768817962653` | YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768817962653.md` |
 | `tsk-26-1768832666705` | 다온 - w02 유튜브 편집본 캡컷 공유 받음 | done | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768832666705.md` |
+| `tsk-26-1768967458149` | YouTube W02 - 추가편집(중복 내용 삭제 및 영상 정리) | todo | `50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768967458149.md` |
 | `tsk-33df47-1767962906458` | 고객 관리 - 새해 인사 전달(유튜브, 오픈톡방, 꼭꼭Fit 참여인원 등) | done | `50_Projects/_Programs/CS/Rounds/P012_CS_2026Q1/Tasks/tsk-33df47-1767962906458.md` |
 | `tsk-40ao11-1767935128563` | Dashboard - Links + Attachments 기능 구현 | done | `50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md` |
 | `tsk-4ec0f2-1767962903880` | 코치 고용 - 잔디님 보윤님 결과 통보 | done | `50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md` |
@@ -566,6 +567,7 @@ tags: ["meta", "graph", "index"]
 | `tsk-mzjr8a-1768742760758` | sosi - 식전 사진 카메라 전면→후면 버그 수정 | todo | `50_Projects/_Programs/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768742760758.md` |
 | `tsk-mzjr8a-1768791541000` | sosi - 푸시알림 긴급/중요 알림 채널 적용 | todo | `50_Projects/_Programs/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768791541000.md` |
 | `tsk-mzjr8a-1768809277000` | sosi - 타이머 시작 호흡 가이드 길이 조절 + 파동 UX | todo | `50_Projects/_Programs/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768809277000.md` |
+| `tsk-mzjr8a-1768965572347` | sosi - iOS 라이브액티비티 업데이트 오류 수정 | todo | `50_Projects/_Programs/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768965572347.md` |
 | `tsk-n8n-01` | n8n Docker 배포 및 파이프라인 구축 | done | `50_Projects/2025/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md` |
 | `tsk-n8n-02` | n8n 자동화 워크플로우 구축 | done | `50_Projects/2025/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md` |
 | `tsk-n8n-03` | n8n - Project Impact Score 자동화 n8n 워크플로우 | done | `50_Projects/2025/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md` |
@@ -1152,6 +1154,7 @@ tags: ["meta", "graph", "index"]
   - tsk-mzjr8a-1768742760758 (sosi - 식전 사진 카메라 전면→후면 버그 수정)
   - tsk-mzjr8a-1768791541000 (sosi - 푸시알림 긴급/중요 알림 채널 적용)
   - tsk-mzjr8a-1768809277000 (sosi - 타이머 시작 호흡 가이드 길이 조절 + 파동 UX)
+  - tsk-mzjr8a-1768965572347 (sosi - iOS 라이브액티비티 업데이트 오류 수정)
 - **prj-n8n** (n8n Vault 자동화)
   - tsk-000n8n-1768057225620 (n8n - Entity Validator Auto-Apply 기능)
   - tsk-000n8n-1768068452347 (n8n - YouTube 데이터 수집 + Discord 알림)
@@ -1201,6 +1204,7 @@ tags: ["meta", "graph", "index"]
   - tsk-26-1768658545586 (YouTube W02 - 다온님 영상편집 2차 내용 확인)
   - tsk-26-1768817962653 (YouTube W02 - 유튜브 영상 편집 및 MVP 영상 넣기)
   - tsk-26-1768832666705 (다온 - w02 유튜브 편집본 캡컷 공유 받음)
+  - tsk-26-1768967458149 (YouTube W02 - 추가편집(중복 내용 삭제 및 영상 정리))
   - tsk-yt-01 (법인 전환 - 포괄양수도 계약 관련 세무사 협의(이현아 세무사))
   - tsk-yt-w02-26-01 (YouTube W02 - 주제 선정)
   - tsk-yt-w02-26-02 (YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가)
