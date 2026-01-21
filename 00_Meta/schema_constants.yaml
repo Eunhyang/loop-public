@@ -438,6 +438,8 @@ known_fields:
     - closed           # 완료일
     - archived_at      # 아카이브 이동일
     - closed_inferred  # updated | git_commit_date | today
+    - pr_url           # GitHub PR URL (dev Task용)
+    - merged_commit    # 머지된 커밋 해시
   Hypothesis:
     - hypothesis_question  # 질문 형태 ("?"로 끝나야 함)
     - start_date             # 검증 대상으로 공식 채택한 날짜 (YYYY-MM-DD)
@@ -897,6 +899,7 @@ impact:
 write_targets:
   writable_fields:
     Task:
+      # 기본 필드
       - status
       - assignee
       - due
@@ -906,7 +909,17 @@ write_targets:
       - estimated_hours
       - actual_hours
       - notes
+      # 확장 필드 (Dashboard EditForm 지원)
+      - entity_name      # 이름 변경
+      - type             # 태스크 유형 (dev, strategy, research, ops)
+      - links            # 링크 추가
+      - pr_url           # GitHub PR URL
+      - merged_commit    # 머지 커밋 해시
+      - tags             # 태그
+      - conditions_3y    # 전략 연결
+      - project_id       # 프로젝트 변경
     Project:
+      # 기본 필드
       - status
       - owner
       - start_date
@@ -918,19 +931,46 @@ write_targets:
       - conditions_3y          # 3년 조건 연결
       - condition_contributes  # 기여 조건
       - track_contributes      # 트랙 기여 연결
+      # 확장 필드 (Dashboard EditForm 지원)
+      - entity_name           # 이름 변경
+      - parent_id             # Track 연결
+      - program_id            # Program 연결
+      - priority_flag         # 우선순위
+      - validates             # 가설 검증 연결
+      - primary_hypothesis_id # 주요 가설
+      - links                 # 링크
+      - attachments           # 첨부파일
+      - tags                  # 태그
     Hypothesis:
+      # 기본 필드
       - status
       - evidence_status
       - confidence
       - start_date
       - deadline
       - notes
+      # 확장 필드 (Dashboard EditForm 지원)
+      - entity_name         # 이름 변경
+      - parent_id           # Track 연결
+      - hypothesis_question # 가설 질문
+      - success_criteria    # 성공 기준
+      - failure_criteria    # 실패 기준
+      - measurement         # 측정 방법
+      - horizon             # 시간 범위 (검증 목표 연도)
+      - loop_layer          # Loop 레이어
+      - tags                # 태그
 
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.11"
+schema_version: "5.12"
 last_updated: "2026-01-21"
+# v5.12 변경 (2026-01-21):
+# - writable_fields 대폭 확장 (Dashboard EditForm 필드 일치)
+#   - Task: 9 → 17개 (entity_name, type, links, pr_url, merged_commit, tags, conditions_3y, project_id 추가)
+#   - Project: 11 → 20개 (entity_name, parent_id, program_id, priority_flag, validates, primary_hypothesis_id, links, attachments, tags 추가)
+#   - Hypothesis: 6 → 15개 (entity_name, parent_id, hypothesis_question, success_criteria, failure_criteria, measurement, horizon, loop_layer, tags 추가)
+# - known_fields.Task에 pr_url, merged_commit 추가
 # v5.10 변경 (2026-01-21):
 # - Track.quarter_objectives 필드 추가 (분기별 측정 가능 목표)
 #   - 맵 형태: {YYYYQN: {objective, kpi, target, owner?, evidence_link?}}
