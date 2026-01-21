@@ -25,7 +25,7 @@ realized_impact:
   evidence: null
   updated: null
 start_date: null
-deadline: '2026-01-10'
+deadline: '2026-03-20'
 ---
 # 스타트업베이 - 2025 지원사업
 
