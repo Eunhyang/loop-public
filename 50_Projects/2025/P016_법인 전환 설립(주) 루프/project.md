@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-016
 entity_name: 법인 전환 설립(주) 루프
 created: 2025-12-25
-updated: '2026-01-19'
+updated: '2026-01-22'
 status: planning
 owner: 한명학
 budget: null
@@ -23,6 +23,7 @@ experiments: []
 parent_id: trk-6
 conditions_3y:
 - cond-d
+- cond-e
 aliases:
 - prj-016
 - 법인 전환 설립(주) 루프
@@ -39,6 +40,13 @@ tags:
 priority_flag: high
 track_contributes: []
 program_id: pgm-ops
+condition_contributes:
+- to: cond-d
+  weight: 0.7
+  description: 팀 구성 및 운영에 대한 기여
+- to: cond-e
+  weight: 0.3
+  description: 기술 및 인프라 관련 기여
 ---
 # 법인 전환 설립(주) 루프
 
