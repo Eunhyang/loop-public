@@ -6,7 +6,7 @@ created: '2026-01-09'
 updated: '2026-01-21'
 status: planning
 owner: 김은향
-start_date: null
+start_date: '2026-01-20'
 priority_flag: high
 parent_id: trk-1
 program_id: pgm-kkokkkok-app-release

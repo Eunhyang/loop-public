@@ -6,7 +6,7 @@ created: '2026-01-09'
 updated: '2026-01-21'
 status: planning
 owner: 김은향
-start_date: null
+start_date: '2026-01-01'
 priority_flag: medium
 parent_id: trk-1
 program_id: pgm-kkokkkok-app-release
@@ -41,7 +41,7 @@ condition_contributes:
 - to: cond-d
   weight: 0.15
   description: null
-deadline: '2026-06-07'
+deadline: '2026-02-01'
 ---
 Primary(hyp-2-03)를 “검증 가능”하게 만들려면, 이 프로젝트는 **성공 기준을 ‘유지보수 완료’가 아니라 ‘데이터 품질 수치 개선’으로** 잡아야 합니다.
 
