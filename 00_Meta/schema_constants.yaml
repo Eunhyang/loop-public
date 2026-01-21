@@ -889,9 +889,44 @@ impact:
 #   - 3개월 후 aliases 제거 (모든 링크 변환 완료 후)
 
 # ============================================
+# Write Targets (API 수정 허용 필드 - SSOT)
+# ============================================
+# 이 섹션만이 API에서 어떤 필드를 수정할 수 있는지 결정합니다.
+# 규칙: writable_fields[Entity] ⊆ known_fields[Entity]
+# 새 필드 추가 시 이 파일만 수정하면 API가 자동으로 허용합니다.
+write_targets:
+  writable_fields:
+    Task:
+      - status
+      - assignee
+      - due
+      - priority
+      - start_date
+      - closed           # 완료일
+      - estimated_hours
+      - actual_hours
+      - notes
+    Project:
+      - status
+      - owner
+      - start_date
+      - deadline
+      - summary
+      - expected_impact
+      - realized_impact
+      - notes
+    Hypothesis:
+      - status
+      - evidence_status
+      - confidence
+      - start_date
+      - deadline
+      - notes
+
+# ============================================
 # Schema Version
 # ============================================
-schema_version: "5.10"
+schema_version: "5.11"
 last_updated: "2026-01-21"
 # v5.10 변경 (2026-01-21):
 # - Track.quarter_objectives 필드 추가 (분기별 측정 가능 목표)

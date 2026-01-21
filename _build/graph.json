@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-21T14:00:08.557693",
-  "total_entities": 625,
+  "generated": "2026-01-21T14:15:08.744963",
+  "total_entities": 626,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -2734,6 +2734,14 @@
       "name": "Ontology Lite v1 - Offering (PaywallOffer) 최소 스펙 + GTM SSOT 설계 + 구현 ToDo (v1.1)",
       "status": "doing",
       "path": "50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768878418480.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768971618133",
+      "type": "Task",
+      "name": "Loop Vault - SSOT Write Targets 중앙화 ",
+      "status": "todo",
+      "path": "50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768971618133.md",
       "assignee": "김은향"
     },
     {
@@ -7111,6 +7119,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768971618133",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-020",
       "target": "tsk-020-1768137610590",
       "type": "parent_of"
@@ -9533,6 +9546,7 @@
       "tsk-1kthoh-1768841096537",
       "tsk-1kthoh-1768844455000",
       "tsk-1kthoh-1768878418480",
+      "tsk-1kthoh-1768971618133",
       "tsk-020-1768137610590",
       "tsk-8ebd16-1767962820437",
       "tsk-8ebd16-1767962820938",
@@ -9976,6 +9990,7 @@
       "tsk-006-03",
       "tsk-156anu-1768817617276",
       "tsk-1kthoh-1768748073383",
+      "tsk-1kthoh-1768971618133",
       "tsk-023-43",
       "tsk-023-1768331190178",
       "tsk-023-1768386479760",
