@@ -403,13 +403,23 @@ write: C-Level + 승인된 경로 (예: PR approval or 특정 관리자)
 
 ### 6.3 수정 가능 필드 (SSOT Write Target)
 
-**UI/API가 수정할 수 있는 frontmatter 필드**:
+> **SSOT**: `schema_constants.yaml` → `write_targets.writable_fields`
+>
+> 수정 가능 필드 목록은 YAML에서 유일하게 정의됩니다.
+> 문서에 중복 기재하지 않습니다 (드리프트 방지).
 
-| 엔티티 | 수정 가능 필드 | 예시 |
-|--------|---------------|------|
-| Task | `status`, `assignee`, `due`, `priority` | 태스크 진행 상태 변경 |
-| Project | `status`, `owner`, `expected_impact`, `realized_impact` | 프로젝트 완료 처리 |
-| Hypothesis | `evidence_status`, `confidence` | 가설 검증 진행 |
+**확인 방법**:
+```bash
+# YAML에서 직접 확인
+grep -A 30 "write_targets:" public/00_Meta/schema_constants.yaml
+
+# 또는 ssot_loader 사용 (Python)
+from shared.ssot_loader import get_writable_fields
+print(get_writable_fields("Task"))     # ['status', 'assignee', 'due', ...]
+print(get_writable_fields("Project"))  # ['status', 'owner', 'start_date', ...]
+```
+
+**Derived 문서**: `00_Meta/SSOT_WRITE_TARGETS.md` (build_ssot_docs.py로 자동 생성)
 
 **수정 금지 필드** (생성 후 변경 불가):
 - `entity_id`: 생성 후 절대 변경 금지
