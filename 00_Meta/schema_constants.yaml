@@ -225,6 +225,50 @@ experiment:
     - inconclusive
 
 # ============================================
+# Project Kind (프로젝트 검증 단계)
+# ============================================
+project_kind:
+  values:
+    - signal      # 신호 검증
+    - adoption    # 채택 실험
+    - impact      # 임팩트 실증
+  default: signal
+  labels:
+    signal: "Signal"
+    adoption: "Adoption"
+    impact: "Impact"
+  labels_ko:
+    signal: "신호"
+    adoption: "채택"
+    impact: "임팩트"
+  colors:
+    signal: "#3b82f6"     # blue-500
+    adoption: "#f59e0b"   # amber-500
+    impact: "#10b981"     # green-500
+
+# ============================================
+# Hypothesis Kind (가설 검증 단계)
+# ============================================
+hypothesis_kind:
+  values:
+    - signal
+    - adoption
+    - impact
+  default: signal
+  labels:
+    signal: "Signal"
+    adoption: "Adoption"
+    impact: "Impact"
+  labels_ko:
+    signal: "신호"
+    adoption: "채택"
+    impact: "임팩트"
+  colors:
+    signal: "#3b82f6"
+    adoption: "#f59e0b"
+    impact: "#10b981"
+
+# ============================================
 # Paths (검증/인덱싱 대상 경로)
 # ============================================
 paths:
@@ -415,6 +459,7 @@ known_fields:
     - deadline         # date | null
     - program_id       # 소속 프로그램 ID
     - cycle            # 사이클/라운드 (예: "2026Q1")
+    - project_kind     # signal | adoption | impact (검증 단계)
     - expected_impact  # 구조: {statement, metric, target}
     - realized_impact  # 구조: {verdict, outcome, evidence_links, decided, window_id, time_range, metrics_snapshot}
     - hypothesis_id           # deprecated → primary_hypothesis_id
@@ -453,6 +498,7 @@ known_fields:
     - evidence_status
     - confidence           # 0.0 ~ 1.0
     - loop_layer           # emotional | eating | habit | reward | autonomic
+    - hypothesis_kind      # signal | adoption | impact (검증 단계)
     - hypothesis_text      # deprecated → hypothesis_question
   Experiment:
     - hypothesis_id
@@ -929,6 +975,7 @@ write_targets:
       - start_date
       - deadline
       - summary
+      - project_kind           # 검증 단계 (signal | adoption | impact)
       - expected_impact
       - realized_impact
       - notes
@@ -952,6 +999,7 @@ write_targets:
       - confidence
       - start_date
       - deadline
+      - hypothesis_kind      # 검증 단계 (signal | adoption | impact)
       - notes
       # 확장 필드 (Dashboard EditForm 지원)
       - entity_name         # 이름 변경
@@ -967,8 +1015,15 @@ write_targets:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.13"
+schema_version: "5.14"
 last_updated: "2026-01-21"
+# v5.14 변경 (2026-01-21):
+# - project_kind enum 추가 (signal | adoption | impact) - 프로젝트 검증 단계
+# - hypothesis_kind enum 추가 (signal | adoption | impact) - 가설 검증 단계
+# - known_fields.Project에 project_kind 추가
+# - known_fields.Hypothesis에 hypothesis_kind 추가
+# - writable_fields.Project에 project_kind 추가
+# - writable_fields.Hypothesis에 hypothesis_kind 추가
 # v5.13 변경 (2026-01-21):
 # - known_fields.Task에 start_time, end_time 추가 (Week view timeblock 지원)
 # - writable_fields.Task에 start_time, end_time 추가
