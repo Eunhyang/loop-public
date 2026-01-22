@@ -1,0 +1,41 @@
+---
+entity_type: Project
+entity_id: prj-youtub-w0526
+entity_name: YouTube - W05-26
+created: '2026-01-22'
+updated: '2026-01-22'
+status: active
+program_id: pgm-youtube-weekly
+cycle: W05-26
+parent_id: trk-3
+aliases:
+- prj-youtub-w0526
+- YouTube - W05-26
+owner: 한명학
+deadline: '2026-02-11'
+tags:
+- youtube-weekly
+- w05-26
+priority_flag: medium
+---
+
+# YouTube - W05-26
+
+> Project ID: `prj-youtub-w0526` | Cycle: W05-26
+
+## 개요
+
+YouTube 1주 1업로드 라운드 생성 (Project + 11 Tasks)
+
+**기간**: 2026-01-27 ~ 2026-02-11
+
+---
+
+## Tasks
+
+(Tasks 자동 생성됨)
+
+---
+
+**Created**: 2026-01-22
+**Owner**: 한명학
