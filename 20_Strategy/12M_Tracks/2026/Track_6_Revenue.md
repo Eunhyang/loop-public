@@ -376,6 +376,7 @@ graph TD
 
 ### Conditions
 - [[Condition_D_Runway]] - Track 6이 충족할 조건
+- [[Revenue_Roadmap]] - 중장기 매출 폭발 시기 및 규모 추론
 
 ### 다른 Tracks
 - [[Track_1_Product]] - 유료화 기반
