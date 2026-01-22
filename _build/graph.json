@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-21T14:30:08.881530",
-  "total_entities": 626,
+  "generated": "2026-01-23T02:06:38.915206",
+  "total_entities": 678,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -14,217 +14,217 @@
       "type": "Hypothesis",
       "name": "천천히 먹기: 행동 변화",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-01_천천히먹기_행동변화.md"
+      "path": "60_Hypotheses/2026/hyp-1-01_천천히먹기_행동변화.md"
     },
     {
       "id": "hyp-1-02",
       "type": "Hypothesis",
       "name": "지속사용",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-02_지속사용.md"
+      "path": "60_Hypotheses/2026/hyp-1-02_지속사용.md"
     },
     {
       "id": "hyp-1-03",
       "type": "Hypothesis",
       "name": "행동 변화의 전환 연계",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-03_행동변화_전환연계.md"
+      "path": "60_Hypotheses/2026/hyp-1-03_행동변화_전환연계.md"
     },
     {
       "id": "hyp-1-04",
       "type": "Hypothesis",
       "name": "효과 가시화가 결제를 올림",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-04_효과_가시화_결제.md"
+      "path": "60_Hypotheses/2026/hyp-1-04_효과_가시화_결제.md"
     },
     {
       "id": "hyp-1-05",
       "type": "Hypothesis",
       "name": "앱 단독 vs 코칭 결합 효과",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-05_앱단독_코칭결합_효과.md"
+      "path": "60_Hypotheses/2026/hyp-1-05_앱단독_코칭결합_효과.md"
     },
     {
       "id": "hyp-1-06",
       "type": "Hypothesis",
       "name": "세그먼트별 효과 차이",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-06_세그먼트별_효과차이.md"
+      "path": "60_Hypotheses/2026/hyp-1-06_세그먼트별_효과차이.md"
     },
     {
       "id": "hyp-1-07",
       "type": "Hypothesis",
       "name": "온보딩이 이해→행동을 만든다",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-07_온보딩_이해_행동.md"
+      "path": "60_Hypotheses/2026/hyp-1-07_온보딩_이해_행동.md"
     },
     {
       "id": "hyp-1-08",
       "type": "Hypothesis",
       "name": "유료 기능의 사용이 유지의 원인",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-08_유료기능_사용_유지.md"
+      "path": "60_Hypotheses/2026/hyp-1-08_유료기능_사용_유지.md"
     },
     {
       "id": "hyp-1-09",
       "type": "Hypothesis",
       "name": "행동변화 지표 3종이 안정",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-09_행동변화_지표_안정.md"
+      "path": "60_Hypotheses/2026/hyp-1-09_행동변화_지표_안정.md"
     },
     {
       "id": "hyp-1-10",
       "type": "Hypothesis",
       "name": "결제 전 가치 인지",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-10_결제전_가치인지.md"
+      "path": "60_Hypotheses/2026/hyp-1-10_결제전_가치인지.md"
     },
     {
       "id": "hyp-1-11",
       "type": "Hypothesis",
       "name": "상품 메시지 2~3개로 수렴",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-1-11_상품메시지_수렴.md"
+      "path": "60_Hypotheses/2026/hyp-1-11_상품메시지_수렴.md"
     },
     {
       "id": "hyp-2-01",
       "type": "Hypothesis",
       "name": "스키마 최소세트가 충분",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
+      "path": "60_Hypotheses/2026/hyp-2-01_스키마_최소세트_충분.md"
     },
     {
       "id": "hyp-2-02",
       "type": "Hypothesis",
       "name": "스키마 안정성",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
+      "path": "60_Hypotheses/2026/hyp-2-02_스키마_안정성.md"
     },
     {
       "id": "hyp-2-03",
       "type": "Hypothesis",
       "name": "데이터 누락률",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-03_데이터_누락률.md"
+      "path": "60_Hypotheses/2026/hyp-2-03_데이터_누락률.md"
     },
     {
       "id": "hyp-2-04",
       "type": "Hypothesis",
       "name": "앱+코칭 데이터 결합 가능",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md"
+      "path": "60_Hypotheses/2026/hyp-2-04_앱코칭_데이터결합.md"
     },
     {
       "id": "hyp-2-05",
       "type": "Hypothesis",
       "name": "라벨 일관성",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
+      "path": "60_Hypotheses/2026/hyp-2-05_라벨_일관성.md"
     },
     {
       "id": "hyp-2-06",
       "type": "Hypothesis",
       "name": "패턴 재현율",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
+      "path": "60_Hypotheses/2026/hyp-2-06_패턴_재현율.md"
     },
     {
       "id": "hyp-2-07",
       "type": "Hypothesis",
       "name": "효과지표 산출 자동화",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
+      "path": "60_Hypotheses/2026/hyp-2-07_효과지표_자동화.md"
     },
     {
       "id": "hyp-2-08",
       "type": "Hypothesis",
       "name": "데이터로 루프 재구성",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
+      "path": "60_Hypotheses/2026/hyp-2-08_데이터_루프재구성.md"
     },
     {
       "id": "hyp-2-09",
       "type": "Hypothesis",
       "name": "데이터 품질 리포트가 행동을 바꿈",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md"
+      "path": "60_Hypotheses/2026/hyp-2-09_데이터품질_리포트_행동변화.md"
     },
     {
       "id": "hyp-2-10",
       "type": "Hypothesis",
       "name": "투자/외부 설득용 신뢰도",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md"
+      "path": "60_Hypotheses/2026/hyp-2-10_투자_외부설득_신뢰도.md"
     },
     {
       "id": "hyp-4-01",
       "type": "Hypothesis",
       "name": "심화 과정 수요 재현",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md"
+      "path": "60_Hypotheses/2026/hyp-4-01_심화과정_수요재현.md"
     },
     {
       "id": "hyp-4-02",
       "type": "Hypothesis",
       "name": "GLP-1 과정 수요 재현",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md"
+      "path": "60_Hypotheses/2026/hyp-4-02_GLP1과정_수요재현.md"
     },
     {
       "id": "hyp-4-03",
       "type": "Hypothesis",
       "name": "완주율",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-03_완주율.md"
+      "path": "60_Hypotheses/2026/hyp-4-03_완주율.md"
     },
     {
       "id": "hyp-4-04",
       "type": "Hypothesis",
       "name": "만족/추천",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-04_만족_추천.md"
+      "path": "60_Hypotheses/2026/hyp-4-04_만족_추천.md"
     },
     {
       "id": "hyp-4-05",
       "type": "Hypothesis",
       "name": "행동변화",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-05_행동변화.md"
+      "path": "60_Hypotheses/2026/hyp-4-05_행동변화.md"
     },
     {
       "id": "hyp-4-06",
       "type": "Hypothesis",
       "name": "운영 표준화",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-06_운영_표준화.md"
+      "path": "60_Hypotheses/2026/hyp-4-06_운영_표준화.md"
     },
     {
       "id": "hyp-4-07",
       "type": "Hypothesis",
       "name": "코치 시간/단가 구조",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md"
+      "path": "60_Hypotheses/2026/hyp-4-07_코치_시간단가_구조.md"
     },
     {
       "id": "hyp-4-08",
       "type": "Hypothesis",
       "name": "코칭 결과물의 상품성",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md"
+      "path": "60_Hypotheses/2026/hyp-4-08_코칭_결과물_상품성.md"
     },
     {
       "id": "hyp-4-09",
       "type": "Hypothesis",
       "name": "코칭→데이터 엔진",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
+      "path": "60_Hypotheses/2026/hyp-4-09_코칭_데이터엔진.md"
     },
     {
       "id": "hyp-4-10",
       "type": "Hypothesis",
       "name": "코칭 포지셔닝",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md"
+      "path": "60_Hypotheses/2026/hyp-4-10_코칭_포지셔닝.md"
     },
     {
       "id": "hyp-6-01",
@@ -238,105 +238,105 @@
       "type": "Hypothesis",
       "name": "앱 전환율 최소선",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-02_전환율_최소선.md"
+      "path": "60_Hypotheses/2026/hyp-6-02_전환율_최소선.md"
     },
     {
       "id": "hyp-6-03",
       "type": "Hypothesis",
       "name": "환불/클레임 통제",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md"
+      "path": "60_Hypotheses/2026/hyp-6-03_환불_클레임_통제.md"
     },
     {
       "id": "hyp-6-04",
       "type": "Hypothesis",
       "name": "앱 가격·플랜 최적 조합 존재",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md"
+      "path": "60_Hypotheses/2026/hyp-6-04_가격_플랜_최적조합.md"
     },
     {
       "id": "hyp-6-05",
       "type": "Hypothesis",
       "name": "유료 유지/이탈",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-05_유료_유지_이탈.md"
+      "path": "60_Hypotheses/2026/hyp-6-05_유료_유지_이탈.md"
     },
     {
       "id": "hyp-6-06",
       "type": "Hypothesis",
       "name": "유료 가치 패키지",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-06_유료_가치패키지.md"
+      "path": "60_Hypotheses/2026/hyp-6-06_유료_가치패키지.md"
     },
     {
       "id": "hyp-6-07",
       "type": "Hypothesis",
       "name": "코칭→앱 업셀",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-07_코칭_앱업셀.md"
+      "path": "60_Hypotheses/2026/hyp-6-07_코칭_앱업셀.md"
     },
     {
       "id": "hyp-6-08",
       "type": "Hypothesis",
       "name": "앱→코칭 업셀",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-08_앱_코칭업셀.md"
+      "path": "60_Hypotheses/2026/hyp-6-08_앱_코칭업셀.md"
     },
     {
       "id": "hyp-6-09",
       "type": "Hypothesis",
       "name": "와디즈/캠페인 효율",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md"
+      "path": "60_Hypotheses/2026/hyp-6-09_와디즈_캠페인효율.md"
     },
     {
       "id": "hyp-6-10",
       "type": "Hypothesis",
       "name": "효과 증거가 전환을 올림",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-10_효과증거_전환.md"
+      "path": "60_Hypotheses/2026/hyp-6-10_효과증거_전환.md"
     },
     {
       "id": "hyp-6-11",
       "type": "Hypothesis",
       "name": "운영비 구조가 런웨이를 만든다",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md"
+      "path": "60_Hypotheses/2026/hyp-6-11_운영비_구조_런웨이.md"
     },
     {
       "id": "hyp-6-12",
       "type": "Hypothesis",
       "name": "월매출 런웨이 최소선",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
+      "path": "60_Hypotheses/2026/hyp-6-12_월매출_런웨이_최소선.md"
     },
     {
       "id": "hyp-6-13",
       "type": "Hypothesis",
       "name": "TIPS/투자 요구조건 충족",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
+      "path": "60_Hypotheses/2026/hyp-6-13_TIPS_투자_요구조건.md"
     },
     {
       "id": "hyp-6-14",
       "type": "Hypothesis",
       "name": "실제 자금조달 성립",
       "status": "todo",
-      "path": "60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md"
+      "path": "60_Hypotheses/2026/hyp-6-14_실제_자금조달_성립.md"
     },
     {
       "id": "hyp-3-01",
       "type": "Hypothesis",
       "name": "Content OS 기획시간 50% 단축",
       "status": "assumed",
-      "path": "60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md"
+      "path": "60_Hypotheses/2026/hyp-3-01_Content_OS_기획시간_50_단축.md"
     },
     {
       "id": "hyp-3-02",
       "type": "Hypothesis",
       "name": "폭식 후 회복 루틴 MVP - 댓글 기반 PMF 신호",
       "status": "planning",
-      "path": "60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md"
+      "path": "60_Hypotheses/2026/hyp-3-02_폭식회복루틴_댓글반응.md"
     },
     {
       "id": "hyp-4-11",
@@ -369,9 +369,9 @@
     {
       "id": "hyp-3-03",
       "type": "Hypothesis",
-      "name": "브랜드 재현성이 성과를 만든다.",
-      "status": "assumed",
-      "path": "60_Hypotheses/2026/hyp-3-03_브랜드_재현성이_성과를_만든다.md"
+      "name": "폭식 직전 트리거 푸시 개입 MVP - 콘텐츠 CTR 웨지 신호",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-3-03.md"
     },
     {
       "id": "hyp-2-12",
@@ -392,14 +392,14 @@
       "type": "Hypothesis",
       "name": "오픈톡 인증자 수 증가 가설",
       "status": null,
-      "path": "60_Hypotheses/2026/hyp-4-14_오픈톡_인증자_수_증가_가설.md"
+      "path": "60_Hypotheses/2026/hyp-4-14_오픈톡_인증자_수_증가_가설.md"
     },
     {
       "id": "hyp-4-15",
       "type": "Hypothesis",
       "name": "오픈톡 인증자 수 증가 가설",
       "status": null,
-      "path": "60_Hypotheses/2026/hyp-4-15_오픈톡_인증자_수_증가_가설.md"
+      "path": "60_Hypotheses/2026/hyp-4-15_오픈톡_인증자_수_증가_가설.md"
     },
     {
       "id": "hyp-4-16",
@@ -435,6 +435,34 @@
       "name": "오픈 채팅방 활성화 - 챌린지 운영 1차: 인증 스크린샷 가이드가 서비스 유입률을 올린다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-4-20.md"
+    },
+    {
+      "id": "hyp-2-13",
+      "type": "Hypothesis",
+      "name": "Nightly Customer Insights 운영 효과",
+      "status": "todo",
+      "path": "60_Hypotheses/2026/hyp-2-13_nightly_customer_insights_effect.md"
+    },
+    {
+      "id": "hyp-1-XX",
+      "type": "Hypothesis",
+      "name": "가설 이름",
+      "status": null,
+      "path": "60_Hypotheses/2026/hyp-1-XX.md"
+    },
+    {
+      "id": "hyp-4-21",
+      "type": "Hypothesis",
+      "name": "오픈카톡 1:1 미니코칭 데이 — 활성화·서비스·UX검증: 무료 1:1이 단톡 활성화와 서비스 전환을 올린다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-21.md"
+    },
+    {
+      "id": "hyp-4-25",
+      "type": "Hypothesis",
+      "name": "꼭꼭Fit 5기 모집 — 콘텐츠→상담→세일즈→결제 퍼널이 20명 모집과 매출 1,000만을 만든다",
+      "status": "planning",
+      "path": "60_Hypotheses/2026/hyp-4-25.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -501,7 +529,7 @@
       "type": "Project",
       "name": "LoopOS - V0 데이터 설계",
       "status": "planning",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/project.md",
       "conditions_3y": [
         "cond-b"
       ],
@@ -513,7 +541,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 1. 스키마 초안 만들기.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -522,7 +550,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 2. 데이터 플로우 정의.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -531,7 +559,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -540,7 +568,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 4. Minimal Logging Spec",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 4. Minimal Logging Spec.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -549,7 +577,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 5. 데이터 QA 규칙.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -558,7 +586,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 6. 저장 전략 결정",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 6. 저장 전략 결정.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -567,7 +595,7 @@
       "type": "Task",
       "name": "Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화",
       "status": "todo",
-      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
+      "path": "50_Projects/2025/P003_LoopOS V0 데이터 설계/Tasks/Loop OS V0 데이터 설계 – 7~8. 리포트 정의 & V0 문서화.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -576,7 +604,7 @@
       "type": "Project",
       "name": "LoopOS - 최소 선제 학습",
       "status": "planning",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/project.md",
       "conditions_3y": [
         "cond-b"
       ],
@@ -588,7 +616,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기",
       "status": "todo",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 2 — 엔티티 경계 깨보기.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -597,7 +625,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종 동결",
       "status": "todo",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 5 — Lite 스키마 데이터 투입 2차 + v0.1 최종.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -606,7 +634,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 6 — 최소 구현 시작",
       "status": "todo",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 6 — 최소 구현 시작.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -615,7 +643,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기",
       "status": "todo",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 3 — v0.1 동결 초안 만들기.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -624,7 +652,7 @@
       "type": "Task",
       "name": "[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차",
       "status": "todo",
-      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
+      "path": "50_Projects/2025/P005_[LoopOS 데이터] LoopOS 최소 선제 학습/Tasks/[LoopOS 데이터] Day 4 — Lite 스키마 데이터 투입 1차.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -633,7 +661,7 @@
       "type": "Project",
       "name": "Hiring - 안지온님(엔씨온 외부 비서)",
       "status": "done",
-      "path": "50_Projects/2025/P007_외부 비서/project.md",
+      "path": "50_Projects/2025/P007_외부 비서/project.md",
       "conditions_3y": [
         "cond-e"
       ],
@@ -645,7 +673,7 @@
       "type": "Task",
       "name": "외부 비서 채용 – 1. 역할·권한 정책 문서 고정",
       "status": "done",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 1. 역할·권한 정책 문서 고정.md",
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -654,7 +682,7 @@
       "type": "Task",
       "name": "working sheets 생성 - 외부비서 보고용",
       "status": "done",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/tsk-ebce8c-1767962902966.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/tsk-ebce8c-1767962902966.md",
       "assignee": "한명학"
     },
     {
@@ -662,7 +690,7 @@
       "type": "Task",
       "name": "외부비서 업무 활용 - 지우님 할 일 정리(1월 7일)",
       "status": "done",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/tsk-fcaef7-1767962902686.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/tsk-fcaef7-1767962902686.md",
       "assignee": "한명학"
     },
     {
@@ -670,7 +698,7 @@
       "type": "Task",
       "name": "외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리",
       "status": "done",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 2. 엔씨온 조건 최종 합의 정리.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -679,7 +707,7 @@
       "type": "Task",
       "name": "외부 비서 채용 – 3. 공고용 업무·요건 문단 작성",
       "status": "done",
-      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
+      "path": "50_Projects/2025/P007_외부 비서/Tasks/외부 비서 채용 – 3. 공고용 업무·요건 문단 작성.md",
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -688,7 +716,7 @@
       "type": "Project",
       "name": "사이드프로젝트 리크루팅 사이트 제작",
       "status": "planning",
-      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/project.md",
       "conditions_3y": [
         "cond-c",
         "cond-d"
@@ -701,7 +729,7 @@
       "type": "Task",
       "name": "리크루팅 사이트) 원택님 피드백 반영",
       "status": "todo",
-      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
+      "path": "50_Projects/2025/P011_사이드프로젝트 리크루팅 사이트 제작/Tasks/리크루팅 사이트) 원택님 피드백 반영.md",
       "priority_flag": "low",
       "assignee": "김은향"
     },
@@ -710,9 +738,10 @@
       "type": "Project",
       "name": "법인 전환 설립(주) 루프",
       "status": "planning",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/project.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/project.md",
       "conditions_3y": [
-        "cond-d"
+        "cond-d",
+        "cond-e"
       ],
       "priority_flag": "high",
       "owner": "한명학"
@@ -722,7 +751,7 @@
       "type": "Task",
       "name": "법인 정관 작성 후 최종 검토",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-01_정관작성검토.md",
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -731,7 +760,7 @@
       "type": "Task",
       "name": "법인 신청 및 결제/추후 보완사항 대응",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-02_신청결제보완.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -740,7 +769,7 @@
       "type": "Task",
       "name": "법인 전환 - 신동진 고문님 계약서 전달(정신과 전문의)",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-03.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-03.md",
       "assignee": "한명학"
     },
     {
@@ -748,7 +777,7 @@
       "type": "Task",
       "name": "법인 전환 - 세무법인 업무 협의(포괄양수도 계약, 향후 기장 대행)",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-r6vqy6-1767945523056.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-r6vqy6-1767945523056.md",
       "assignee": "한명학"
     },
     {
@@ -756,7 +785,7 @@
       "type": "Task",
       "name": "루프 출범 - 법인 진행 상황 공유 및 미팅 기획(고문_신동진)",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-81b5f1-1767962819202.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-81b5f1-1767962819202.md",
       "assignee": "한명학"
     },
     {
@@ -764,7 +793,7 @@
       "type": "Task",
       "name": "법인 전환 - 법인전환관련 사업자등록 신청",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-81b5f1-1767962906092.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-81b5f1-1767962906092.md",
       "assignee": "한명학"
     },
     {
@@ -772,7 +801,7 @@
       "type": "Task",
       "name": "법인 운영 - 포괄양수도 계약 및 기장 수임 계약서 작성",
       "status": "done",
-      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-1768195418764.md",
+      "path": "50_Projects/2025/P016_법인 전환 설립(주) 루프/Tasks/tsk-016-1768195418764.md",
       "assignee": "한명학"
     },
     {
@@ -780,7 +809,7 @@
       "type": "Project",
       "name": "와디즈 - 12주 습관 코칭 패키지",
       "status": "planning",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/project.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
@@ -793,7 +822,7 @@
       "type": "Task",
       "name": "11/22: 심사 통과, 광고 소재 제작 (크)",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/1122 심사 통과, 광고 소재 제작 (크).md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -802,7 +831,7 @@
       "type": "Task",
       "name": "11/25: 오픈예정 공개",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/1125 오픈예정 공개.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -811,7 +840,7 @@
       "type": "Task",
       "name": "와디즈 - 리워드 발송 2년 구독권 생성(2건), 1년 구독권 생성(4건)",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-19203a-1767940029834.md",
       "assignee": "김은향"
     },
     {
@@ -819,7 +848,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 관련 과제 내용과 AI 통합",
       "status": "todo",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 관련 과제 내용과 AI 통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -828,7 +857,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 음식편향테스트 특정 주차에 노출",
       "status": "todo",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 음식편향테스트 특정 주차에 노출.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -837,7 +866,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 페이지 UI 업데이트",
       "status": "todo",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 페이지 UI 업데이트.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -846,7 +875,7 @@
       "type": "Task",
       "name": "꼭꼭FIT+꼭꼭 앱 로그인 통합",
       "status": "todo",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT+꼭꼭 앱 로그인 통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -855,7 +884,7 @@
       "type": "Task",
       "name": "와디즈 새소식 초안 작성 - 브랜드 방향성 위주",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 새소식 초안 작성 - 브랜드 방향성 위주.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -864,7 +893,7 @@
       "type": "Task",
       "name": "와디즈 오픈 후 고객 대응",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 오픈 후 고객 대응.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/와디즈 오픈 후 고객 대응.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -873,7 +902,7 @@
       "type": "Task",
       "name": "12/17: 본펀딩 공개",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962815722.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962815722.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -882,7 +911,7 @@
       "type": "Task",
       "name": "12/31: 펀딩 종료",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962816218.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962816218.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -891,7 +920,7 @@
       "type": "Task",
       "name": "콘텐츠 제작 - 워크북/다이어리 가제본 검토(다예님 미팅)",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962818221.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962818221.md",
       "assignee": "한명학"
     },
     {
@@ -899,7 +928,7 @@
       "type": "Task",
       "name": "콘텐츠 제작 - 가제본 확인 후 수정사항 디자이너 전달(구조, 명언, 톤 등)",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962903406.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-88fe92-1767962903406.md",
       "assignee": "한명학"
     },
     {
@@ -907,7 +936,7 @@
       "type": "Task",
       "name": "Promotion - 2단계 트랜잭션 리팩토링",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-13.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-13.md",
       "assignee": "김은향"
     },
     {
@@ -915,7 +944,7 @@
       "type": "Task",
       "name": "꼭꼭FIT 강의 페이지 + 과제 페이지 만들기",
       "status": "todo",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/꼭꼭FIT 강의 페이지 + 과제 페이지 만들기.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -924,7 +953,7 @@
       "type": "Task",
       "name": "와디즈 리워드 발송 - 2년/1년 구독권 프로모션 코드 생성 및 테스트",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-w5kz77-1767962815962.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-w5kz77-1767962815962.md",
       "assignee": "김은향"
     },
     {
@@ -932,7 +961,7 @@
       "type": "Task",
       "name": "와디즈 회고 - 알람신청 참여자, 광고 유입자 유형 분석",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768743710425.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768743710425.md",
       "assignee": "한명학"
     },
     {
@@ -940,7 +969,7 @@
       "type": "Task",
       "name": "와디즈 마무리 - 비즈콘 비즈머니 충전 요청(소미님)",
       "status": "done",
-      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768832606756.md",
+      "path": "50_Projects/2025/P002_와디즈 12주 코칭 습관팩 런칭/Tasks/tsk-002-1768832606756.md",
       "assignee": "한명학"
     },
     {
@@ -978,7 +1007,7 @@
       "type": "Task",
       "name": "Content OS - 프로젝트 초기 세팅",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - 프로젝트 초기 세팅.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -987,7 +1016,7 @@
       "type": "Task",
       "name": "Content OS - 회고 대시보드 UI",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - 회고 대시보드 UI.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1014,7 +1043,7 @@
       "type": "Task",
       "name": "Content OS - YouTube Analytics API 연동",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube Analytics API 연동.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1023,7 +1052,7 @@
       "type": "Task",
       "name": "Content OS - Performance Delta 툴팁 UX",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - Performance Delta 툴팁 UX.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - Performance Delta 툴팁 UX.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1032,7 +1061,7 @@
       "type": "Task",
       "name": "Content OS - 하드코딩 인증 구현",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - 하드코딩 인증 구현.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1041,7 +1070,7 @@
       "type": "Task",
       "name": "Content OS - DB 스키마 구축",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - DB 스키마 구축.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - DB 스키마 구축.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1050,7 +1079,7 @@
       "type": "Task",
       "name": "ContentOS - Firebase 스키마 설계",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase 스키마 설계.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase 스키마 설계.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1059,7 +1088,7 @@
       "type": "Task",
       "name": "ContentOS - Firebase 스키마 보완 패치",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase 스키마 보완 패치.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1068,7 +1097,7 @@
       "type": "Task",
       "name": "ContentOS - Firebase Rules/Indexes 배포",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase Rules Indexes 배포.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/ContentOS - Firebase Rules Indexes 배포.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1095,7 +1124,7 @@
       "type": "Task",
       "name": "Content OS - YouTube Studio 스냅샷 시스템",
       "status": "done",
-      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube Studio 스냅샷 시스템.md",
+      "path": "50_Projects/2025/prj-content-os/Tasks/Content OS - YouTube Studio 스냅샷 시스템.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1240,7 +1269,7 @@
       "type": "Project",
       "name": "Hiring - 임단(주니어 개발자 파일럿 프로젝트 진행)",
       "status": "planning",
-      "path": "50_Projects/2025/P008_파일럿_프로젝트/project.md",
+      "path": "50_Projects/2025/P008_파일럿_프로젝트/project.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
@@ -1253,7 +1282,7 @@
       "type": "Task",
       "name": "[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UI/UX",
       "status": "done",
-      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
+      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 1 – 꼭꼭 앱 Onboarding UIUX.md",
       "priority_flag": "high",
       "assignee": "임단"
     },
@@ -1262,7 +1291,7 @@
       "type": "Task",
       "name": "[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안",
       "status": "done",
-      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
+      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-1 – Today(기록) 페이지 상태 기록 UX 설계안.md",
       "priority_flag": "high",
       "assignee": "임단"
     },
@@ -1271,7 +1300,7 @@
       "type": "Task",
       "name": "[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계",
       "status": "done",
-      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
+      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/[단님] 후보 태스크 2-2 – 식사 저장 시 ‘기록 기회 리마인드’ UX 설계.md",
       "priority_flag": "high",
       "assignee": "임단"
     },
@@ -1280,7 +1309,7 @@
       "type": "Task",
       "name": "꼭꼭 앱 Onboarding UI/UX 리뷰",
       "status": "done",
-      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 Onboarding 리뷰.md",
+      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 Onboarding 리뷰.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1289,7 +1318,7 @@
       "type": "Task",
       "name": "꼭꼭 앱 iOS/Android 배포",
       "status": "todo",
-      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 iOS Android 배포.md",
+      "path": "50_Projects/2025/P008_파일럿_프로젝트/Tasks/꼭꼭 앱 iOS Android 배포.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1298,7 +1327,7 @@
       "type": "Project",
       "name": "Hiring - 임단(주니어 개발자 채용)",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/project.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/project.md",
       "conditions_3y": [
         "cond-d"
       ],
@@ -1310,7 +1339,7 @@
       "type": "Task",
       "name": "커피챗 대상자 확정 및 연락",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-01_커피챗_대상자_확정_및_연락.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1319,7 +1348,7 @@
       "type": "Task",
       "name": "Hiring - 커피챗 일정 조율 & 진행",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-02_커피챗_일정_조율_및_진행.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1328,7 +1357,7 @@
       "type": "Task",
       "name": "Hiring - 주니어 개발자 커피챗 진행",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-03_주니어_개발자_커피챗_진행.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1337,7 +1366,7 @@
       "type": "Task",
       "name": "Hiring - 주니어 개발자 기술 과제 설계 초안 작성",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-04_기술_과제_설계_초안_작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1346,7 +1375,7 @@
       "type": "Task",
       "name": "Hiring - 실전 과제 제안 및 안내 발송",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-05_실전_과제_제안_및_안내_발송.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1355,7 +1384,7 @@
       "type": "Task",
       "name": "Hiring - 실전 과제 평가기준 작성",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-06_실전_과제_평가기준_작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1364,7 +1393,7 @@
       "type": "Task",
       "name": "Hiring - 주니어 개발자 과제 제출물 기술 평가",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-07_과제_제출물_기술_평가.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1373,7 +1402,7 @@
       "type": "Task",
       "name": "Hiring - 기술 리뷰 1:1 면접 진행",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-09_기술_리뷰_1대1_면접.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1382,7 +1411,7 @@
       "type": "Task",
       "name": "Hiring - 파일럿 프로젝트 계약서 작성",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-10_파일럿_프로젝트_계약서_작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1391,7 +1420,7 @@
       "type": "Task",
       "name": "Hiring - 개발자 온보딩 문서 v1 작성",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-11_온보딩_문서_v1_작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1400,7 +1429,7 @@
       "type": "Task",
       "name": "Hiring - 개발 환경 세팅 문서",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-12_개발_환경_세팅_문서.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1409,7 +1438,7 @@
       "type": "Task",
       "name": "Hiring - Day1 Onboarding 진행",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-13_Day1_Onboarding_진행.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1418,7 +1447,7 @@
       "type": "Task",
       "name": "주니어 개발자 채용 - 김민서님 커피챗 15:00",
       "status": "done",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-022575-1767962905630.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-022575-1767962905630.md",
       "assignee": "김은향"
     },
     {
@@ -1426,7 +1455,7 @@
       "type": "Task",
       "name": "sosi - 타이머 UI 개선: 물 차오르는 애니메이션 + 마지막 한입 UX",
       "status": "todo",
-      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-1768627947254.md",
+      "path": "50_Projects/2025/P015_주니어_개발자_채용/Tasks/tsk-015-1768627947254.md",
       "assignee": "김은향"
     },
     {
@@ -1434,7 +1463,7 @@
       "type": "Project",
       "name": "코치 1명 구인 & 1차 온보딩 준비",
       "status": "planning",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/project.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/project.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
@@ -1447,7 +1476,7 @@
       "type": "Task",
       "name": "코치 규칙 정하기",
       "status": "done",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-01_코치_규칙_정하기.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-01_코치_규칙_정하기.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1456,7 +1485,7 @@
       "type": "Task",
       "name": "채용 및 계약서 작성",
       "status": "done",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-02_채용_및_계약서_작성.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-02_채용_및_계약서_작성.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1465,7 +1494,7 @@
       "type": "Task",
       "name": "혜영 코치에게 인수인계 받기",
       "status": "todo",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-03_혜영_코치에게_인수인계_받기.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-03_혜영_코치에게_인수인계_받기.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1474,7 +1503,7 @@
       "type": "Task",
       "name": "기본 프로토콜 및 교육 프로세스 정하기",
       "status": "done",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-04_기본_프로토콜_및_교육_프로세스_정하기.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-04_기본_프로토콜_및_교육_프로세스_정하기.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -1483,7 +1512,7 @@
       "type": "Task",
       "name": "용역비 지급(보윤님, 잔디님, 단님)",
       "status": "done",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-05_용역비_지급.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-006-05_용역비_지급.md",
       "assignee": "한명학"
     },
     {
@@ -1491,7 +1520,7 @@
       "type": "Task",
       "name": "코치 고용 - 잔디님 보윤님 결과 통보",
       "status": "done",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962903880.md",
       "assignee": "한명학"
     },
     {
@@ -1499,7 +1528,7 @@
       "type": "Task",
       "name": "세금 처리 - 급여명세서 처리(임단,보윤,잔디)",
       "status": "done",
-      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962904144.md",
+      "path": "50_Projects/2025/P006_코치 1명 구인 & 1차 온보딩 준비/Tasks/tsk-4ec0f2-1767962904144.md",
       "assignee": "한명학"
     },
     {
@@ -1519,7 +1548,7 @@
       "type": "Task",
       "name": "뷰 전환 단축키 (1/2/3)",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-01_뷰_전환_단축키.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1528,7 +1557,7 @@
       "type": "Task",
       "name": "대시보드 키보드 단축키",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-02_대시보드_키보드_단축키.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1537,7 +1566,7 @@
       "type": "Task",
       "name": "사이드바 엔티티 상세 패널 구현",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-03_사이드바_엔티티_상세_패널.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1546,7 +1575,7 @@
       "type": "Task",
       "name": "Schema 상수 중앙화",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-05_Schema_상수_중앙화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-05_Schema_상수_중앙화.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1555,7 +1584,7 @@
       "type": "Task",
       "name": "Dashboard Reset Filter 전체 초기화",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-06_Dashboard_Reset_Filter_전체_초기화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-06_Dashboard_Reset_Filter_전체_초기화.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1564,7 +1593,7 @@
       "type": "Task",
       "name": "validate_schema.py YAML 일원화",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-07_validate_schema.py_YAML_일원화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-07_validate_schema.py_YAML_일원화.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1573,7 +1602,7 @@
       "type": "Task",
       "name": "build_graph_index.py YAML 일원화",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-08_build_graph_index.py_YAML_일원화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-08_build_graph_index.py_YAML_일원화.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1582,7 +1611,7 @@
       "type": "Task",
       "name": "loop-entity-creator 문서 수정",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-09_loop-entity-creator_문서_수정.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-09_loop-entity-creator_문서_수정.md",
       "priority_flag": "low",
       "assignee": "김은향"
     },
@@ -1591,7 +1620,7 @@
       "type": "Task",
       "name": "schema_registry.md 상수 분리",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-11_schema_registry.md_상수_분리.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-11_schema_registry.md_상수_분리.md",
       "priority_flag": "low",
       "assignee": "김은향"
     },
@@ -1600,7 +1629,7 @@
       "type": "Task",
       "name": "state.js YAML 일원화",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-12_state.js_YAML_일원화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-12_state.js_YAML_일원화.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1618,7 +1647,7 @@
       "type": "Task",
       "name": "Week/Month 필터 담당자 탭 이동",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-14_Week_Month_필터_담당자_탭_이동.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1627,7 +1656,7 @@
       "type": "Task",
       "name": "Schema 상수 하드코딩 제거 및 일원화 강제",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-15_Schema_하드코딩_제거_일원화.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1636,7 +1665,7 @@
       "type": "Task",
       "name": "캘린더뷰 Task Type 필터링 UI 구현",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-16_캘린더뷰_Task_Type_필터링_UI.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1645,7 +1674,7 @@
       "type": "Task",
       "name": "Dashboard - Task 첨부파일 업로드 API",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-18_Dashboard_Task_첨부파일_업로드_API.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-18_Dashboard_Task_첨부파일_업로드_API.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1654,7 +1683,7 @@
       "type": "Task",
       "name": "Dashboard - PDF 인라인 뷰어",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-20_Dashboard_PDF_인라인_뷰어.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-20_Dashboard_PDF_인라인_뷰어.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1663,7 +1692,7 @@
       "type": "Task",
       "name": "Dashboard - Task 첨부파일 UI",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-19_Dashboard_Task_첨부파일_UI.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-19_Dashboard_Task_첨부파일_UI.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1672,7 +1701,7 @@
       "type": "Task",
       "name": "Dashboard - 첨부파일 텍스트 추출 API",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-21_Dashboard_첨부파일_텍스트_추출_API.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-21_Dashboard_첨부파일_텍스트_추출_API.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1681,7 +1710,7 @@
       "type": "Task",
       "name": "Schema - Task type에 meeting 추가",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-019-25_Schema_Task_type에_meeting_추가.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-019-25_Schema_Task_type에_meeting_추가.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1690,7 +1719,7 @@
       "type": "Task",
       "name": "Dashboard - PDF 첨부파일 500 에러 진단",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-22_Dashboard_PDF_첨부파일_500_에러_진단.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-22_Dashboard_PDF_첨부파일_500_에러_진단.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1699,7 +1728,7 @@
       "type": "Task",
       "name": "Quick Date Filter 초기화 버그 수정",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-04_Quick_Date_Filter_초기화_버그_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1708,7 +1737,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더 우클릭 미팅 추가",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-23_Dashboard_캘린더_우클릭_미팅_추가.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-23_Dashboard_캘린더_우클릭_미팅_추가.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1717,7 +1746,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더 Google Calendar 연동",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-25_Dashboard_캘린더_Google_Calendar_연동.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-25_Dashboard_캘린더_Google_Calendar_연동.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1726,7 +1755,7 @@
       "type": "Task",
       "name": "Dashboard - Meeting Task Google Meet 생성",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-26_Dashboard_Meeting_Task_Google_Meet_생성.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-26_Dashboard_Meeting_Task_Google_Meet_생성.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1735,7 +1764,7 @@
       "type": "Task",
       "name": "Dashboard - Calendar 사이드바 Google 계정 관리 UX 개선",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-28_Dashboard_Calendar_사이드바_Google_계정_관리_UX_개선.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-28_Dashboard_Calendar_사이드바_Google_계정_관리_UX_개선.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1744,7 +1773,7 @@
       "type": "Task",
       "name": "대시보드 - 코어멤버만 기본 표시",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-30_대시보드_코어멤버만_기본_표시.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-30_대시보드_코어멤버만_기본_표시.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1753,7 +1782,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더 주간뷰 모든 태스크 표시",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-32_Dashboard_캘린더_주간뷰_모든_태스크_표시.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-32_Dashboard_캘린더_주간뷰_모든_태스크_표시.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1762,7 +1791,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더 월뷰 overflow 수정 및 +more 토글 버튼 추가",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-33_Dashboard_캘린더_월뷰_overflow_수정_및_more_토글.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-33_Dashboard_캘린더_월뷰_overflow_수정_및_more_토글.md",
       "assignee": "김은향"
     },
     {
@@ -1770,7 +1799,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더뷰 Google 이벤트 최상단 표시",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-37_Dashboard_캘린더뷰_Google_이벤트_최상단_표시.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-37_Dashboard_캘린더뷰_Google_이벤트_최상단_표시.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1779,7 +1808,7 @@
       "type": "Task",
       "name": "Dashboard - 패턴 기반 폼 자동 기본값 채우기",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-022-02_Dashboard_패턴_기반_폼_자동_기본값_채우기.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1788,7 +1817,7 @@
       "type": "Task",
       "name": "Dashboard - 미팅 태스크 클릭/삭제 동기화 버그 수정",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-022-11_Dashboard_미팅_태스크_클릭삭제_동기화_버그_수정.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-022-11_Dashboard_미팅_태스크_클릭삭제_동기화_버그_수정.md",
       "assignee": "김은향"
     },
     {
@@ -1796,7 +1825,7 @@
       "type": "Task",
       "name": "Dashboard - State.js FALLBACK_CONSTANTS SSOT 동기화",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-022-17_Dashboard_State.js_FALLBACK_CONSTANTS_SSOT_동기화.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-022-17_Dashboard_State.js_FALLBACK_CONSTANTS_SSOT_동기화.md",
       "assignee": "김은향"
     },
     {
@@ -1804,7 +1833,7 @@
       "type": "Task",
       "name": "Dashboard - Project Panel 프로그램 선택 및 Auto-save",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-38_Dashboard_Project_Panel_프로그램_선택_및_Auto-save.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-38_Dashboard_Project_Panel_프로그램_선택_및_Auto-save.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1813,7 +1842,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더뷰 유효하지않은 날짜 필터링",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-39_Dashboard_캘린더뷰_유효하지않은_날짜_필터링.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-39_Dashboard_캘린더뷰_유효하지않은_날짜_필터링.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1839,7 +1868,7 @@
       "type": "Task",
       "name": "Dashboard - Google OAuth 계정 연결",
       "status": "doing",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-24_Dashboard_Google_OAuth_계정_연결.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-24_Dashboard_Google_OAuth_계정_연결.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1848,7 +1877,7 @@
       "type": "Task",
       "name": "api/constants.py 응답 확장",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-10_api_constants.py_응답_확장.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -1857,7 +1886,7 @@
       "type": "Task",
       "name": "Dashboard - Google Calendar 연동 버그 수정",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-29_Dashboard_Google_Calendar_연동_버그_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1866,7 +1895,7 @@
       "type": "Task",
       "name": "Dashboard - Task Type Chip 즉시 저장 버그 수정",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-dashboard-ux-v1-31_Dashboard_Task_Type_Chip_즉시_저장_버그_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1875,7 +1904,7 @@
       "type": "Task",
       "name": "Dashboard - Google Calendar events API 400 에러 수정",
       "status": "done",
-      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
+      "path": "50_Projects/2025/prj-dashboard-ux-v1/Tasks/tsk-019-27_Dashboard_Google_Calendar_events_API_400_에러_수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1896,7 +1925,7 @@
       "type": "Task",
       "name": "Impact - Realized 필드 확장",
       "status": "done",
-      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md",
+      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-01_Realized_필드_확장.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1905,7 +1934,7 @@
       "type": "Task",
       "name": "Schema - Derived 필드 롤업 로직 완성",
       "status": "doing",
-      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-02_Derived_롤업_로직.md",
+      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-02_Derived_롤업_로직.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1914,7 +1943,7 @@
       "type": "Task",
       "name": "Schema - Hypothesis validated_by 필드 마이그레이션",
       "status": "done",
-      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-03_validated_by_마이그레이션.md",
+      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-03_validated_by_마이그레이션.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1923,7 +1952,7 @@
       "type": "Task",
       "name": "Schema - Hypothesis-Evidence 연결 설계",
       "status": "done",
-      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-04_Hypothesis_Evidence_설계.md",
+      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-04_Hypothesis_Evidence_설계.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1941,7 +1970,7 @@
       "type": "Task",
       "name": "Evidence - 품질 메타 표준화 + 승인 로그 구현",
       "status": "done",
-      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-06_Evidence_품질메타_승인로그.md",
+      "path": "50_Projects/2025/prj-impact-schema-v2/Tasks/tsk-impact-v2-06_Evidence_품질메타_승인로그.md",
       "assignee": "김은향"
     },
     {
@@ -1979,7 +2008,7 @@
       "type": "Task",
       "name": "대시보드 OAuth 로그인 통합",
       "status": "done",
-      "path": "50_Projects/2025/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md",
+      "path": "50_Projects/2025/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-02_대시보드_OAuth_로그인_통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1988,7 +2017,7 @@
       "type": "Task",
       "name": "MCP - 복합 API exec vault 필터링",
       "status": "doing",
-      "path": "50_Projects/2025/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-04_복합_API_exec_vault_필터링.md",
+      "path": "50_Projects/2025/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-04_복합_API_exec_vault_필터링.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -1997,7 +2026,7 @@
       "type": "Task",
       "name": "MCP - loop_exec Vault 라우팅 구현",
       "status": "doing",
-      "path": "50_Projects/2025/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-03_loop_exec_Vault_라우팅.md",
+      "path": "50_Projects/2025/prj-mcp-dual-vault-rbac/Tasks/tsk-mcp-rbac-03_loop_exec_Vault_라우팅.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2018,7 +2047,7 @@
       "type": "Task",
       "name": "n8n 자동화 워크플로우 구축",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-02_n8n_자동화_워크플로우_구축.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2027,7 +2056,7 @@
       "type": "Task",
       "name": "n8n - Project Impact Score 자동화 n8n 워크플로우",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-03_Project_Impact_Score_자동화_워크플로우.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2036,7 +2065,7 @@
       "type": "Task",
       "name": "n8n LLM 프롬프트 템플릿 개선",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-04_LLM_프롬프트_템플릿_개선.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2045,7 +2074,7 @@
       "type": "Task",
       "name": "API 비즈니스 로직 통합 - 스킬→API 공통화",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-05_API_비즈니스_로직_통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2054,7 +2083,7 @@
       "type": "Task",
       "name": "AI Router - Evidence 추론 엔드포인트 구현",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-07_AI_Router_Evidence_추론_엔드포인트_구현.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2063,7 +2092,7 @@
       "type": "Task",
       "name": "n8n - Workflow v4 구현 및 E2E 테스트",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-08_Workflow_v4_구현_및_E2E_테스트.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-08_Workflow_v4_구현_및_E2E_테스트.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2072,7 +2101,7 @@
       "type": "Task",
       "name": "n8n - Phase 1/2 AI Router 통합",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-09_Phase_1_2_AI_Router_통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2081,7 +2110,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Reviews 3단 레이아웃 UX 개선",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-10_Dashboard_Pending_Reviews_3단_레이아웃_UX_개선.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2090,7 +2119,7 @@
       "type": "Task",
       "name": "Hypothesis - Seeder 워크플로우 API 개발",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-11_Hypothesis_Seeder_워크플로우_API_개발.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2099,7 +2128,7 @@
       "type": "Task",
       "name": "Evidence 자동화 - 운영 완성 (Workflow C + Server Skip)",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-12_Evidence_자동화_운영_완성.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2108,7 +2137,7 @@
       "type": "Task",
       "name": "Impact Model - SSOT 구조 개선",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-14_Impact_Model_SSOT_구조_개선.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-14_Impact_Model_SSOT_구조_개선.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2117,7 +2146,7 @@
       "type": "Task",
       "name": "Hypothesis - 고객중심 가설 강제 시스템",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-15_Hypothesis_고객중심_가설_강제_시스템.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-15_Hypothesis_고객중심_가설_강제_시스템.md",
       "conditions_3y": [
         "cond-e"
       ],
@@ -2129,7 +2158,7 @@
       "type": "Task",
       "name": "Ontology-Lite - 무결성 검증 시스템 구축",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-17_Ontology-Lite_무결성_검증_시스템.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-17_Ontology-Lite_무결성_검증_시스템.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2138,7 +2167,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Reviews 워크플로우 필터링 및 일괄 삭제",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-18_Dashboard_Pending_Reviews_워크플로우_필터링_및_일괄_삭제.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-18_Dashboard_Pending_Reviews_워크플로우_필터링_및_일괄_삭제.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2147,7 +2176,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Reviews 필드 선택 UX 개선",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-13_Dashboard_Pending_Reviews_필드_선택_UX_개선.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2156,7 +2185,7 @@
       "type": "Task",
       "name": "n8n - 워크플로우 source_workflow 필드 추가",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-19_n8n_워크플로우_source_workflow_필드_추가.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-19_n8n_워크플로우_source_workflow_필드_추가.md",
       "conditions_3y": [
         "cond-e"
       ],
@@ -2167,7 +2196,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Panel Entity Preview UX 개선",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-20_Dashboard_Pending_Panel_Entity_Preview_UX_개선.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-20_Dashboard_Pending_Panel_Entity_Preview_UX_개선.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2176,7 +2205,7 @@
       "type": "Task",
       "name": "Pending Review - 새로고침 기능 (개별 엔티티 재추론 API 및 Dashboard UI)",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-21_Pending_Review_새로고침_기능.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-21_Pending_Review_새로고침_기능.md",
       "conditions_3y": [
         "cond-e"
       ],
@@ -2187,7 +2216,7 @@
       "type": "Task",
       "name": "n8n Docker 배포 및 파이프라인 구축",
       "status": "done",
-      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md",
+      "path": "50_Projects/2025/prj-n8n/Tasks/tsk-n8n-01_n8n_Docker_배포_파이프라인.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2258,7 +2287,7 @@
       "type": "Task",
       "name": "v1 HTTP MCP 설정",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-01_v1_HTTP_MCP_설정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2267,7 +2296,7 @@
       "type": "Task",
       "name": "API - Tree + Batch 엔드포인트 추가",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-03_API_Tree_Batch_엔드포인트.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2276,7 +2305,7 @@
       "type": "Task",
       "name": "MCP Bearer Token 인증 추가",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-04_MCP_Bearer_Token_인증_추가.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2285,7 +2314,7 @@
       "type": "Task",
       "name": "MCP - 전용 복합 API 엔드포인트 개발",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-05_MCP_전용_복합_API_엔드포인트.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2303,7 +2332,7 @@
       "type": "Task",
       "name": "OAuth 인증 세션 유지 (볼륨 영구 저장)",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-07_OAuth_서버_분리.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2312,7 +2341,7 @@
       "type": "Task",
       "name": "LOOP API - YouTube Weekly Round 자동 생성 엔드포인트",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-08_YouTube_Weekly_Round_자동생성_API.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-08_YouTube_Weekly_Round_자동생성_API.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2321,7 +2350,7 @@
       "type": "Task",
       "name": "LOOP n8n - YouTube Weekly 자동 트리거 워크플로우",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-09_n8n_YouTube_Weekly_자동트리거.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-09_n8n_YouTube_Weekly_자동트리거.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -2339,7 +2368,7 @@
       "type": "Task",
       "name": "Navigation - _INDEX.md API 이전",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-11_INDEX_API_이전.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-11_INDEX_API_이전.md",
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -2348,7 +2377,7 @@
       "type": "Task",
       "name": "MCP - Navigation 자동 주입 미들웨어",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-12_MCP_Navigation_자동주입_미들웨어.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-12_MCP_Navigation_자동주입_미들웨어.md",
       "priority_flag": "high",
       "assignee": "한명학"
     },
@@ -2357,7 +2386,7 @@
       "type": "Task",
       "name": "MCP API TaskUpdate 모델 확장",
       "status": "done",
-      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md",
+      "path": "50_Projects/2025/prj-vault-gpt/Tasks/tsk-vault-gpt-02_TaskUpdate_모델_확장.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2428,7 +2457,7 @@
       "type": "Project",
       "name": "오픈 채팅방 활성화 - 챌린지 운영 1차",
       "status": "planning",
-      "path": "50_Projects/2026/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md",
+      "path": "50_Projects/2026/P12329_오픈_채팅방_활성화_챌린지_운영_1차/project.md",
       "conditions_3y": [
         "cond-b",
         "cond-d"
@@ -2441,7 +2470,7 @@
       "type": "Task",
       "name": "카카오톡 단톡방 챌린지 - 1주차 챌린지 결산 및 안내",
       "status": "done",
-      "path": "50_Projects/2026/P12329_오픈_채팅방_활성화_챌린지_운영_1차/Tasks/tsk-12329q-1768743358112.md",
+      "path": "50_Projects/2026/P12329_오픈_채팅방_활성화_챌린지_운영_1차/Tasks/tsk-12329q-1768743358112.md",
       "assignee": "한명학"
     },
     {
@@ -2449,7 +2478,7 @@
       "type": "Project",
       "name": "Test - MCP Write API 완성",
       "status": "planning",
-      "path": "50_Projects/2026/P151_Test_MCP_Write_API_완성/project.md",
+      "path": "50_Projects/2026/P151_Test_MCP_Write_API_완성/project.md",
       "priority_flag": "medium",
       "owner": "김은향"
     },
@@ -2458,7 +2487,7 @@
       "type": "Project",
       "name": "Antler - 엔틀러코리아 제너레이터 8기 지원",
       "status": "planning",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/project.md",
       "conditions_3y": [
         "cond-d",
         "cond-e"
@@ -2471,7 +2500,7 @@
       "type": "Task",
       "name": "Antler 서류  - 신청서 작성(경험 부분_한명학)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047905414.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047905414.md",
       "assignee": "한명학"
     },
     {
@@ -2479,7 +2508,7 @@
       "type": "Task",
       "name": "Antler 서류  - 기술전문가 또는 빌더 내용 작성",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768052656145.md",
       "assignee": "김은향"
     },
     {
@@ -2487,7 +2516,7 @@
       "type": "Task",
       "name": "Antler 서류 - Founder이력서 작성 (한명학)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768028031839.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768028031839.md",
       "assignee": "한명학"
     },
     {
@@ -2495,7 +2524,7 @@
       "type": "Task",
       "name": "Antler 서류  - 신청서 작성(당신을 이해하는 데 도움이 될 만한 한 가지_김은향)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768116970407.md",
       "assignee": "한명학"
     },
     {
@@ -2503,7 +2532,7 @@
       "type": "Task",
       "name": "Antler 2차 -  3분 비디오 촬영 및 업로드",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768236267952.md",
       "assignee": "김은향"
     },
     {
@@ -2511,7 +2540,7 @@
       "type": "Task",
       "name": "Antler 2차 -  Take Home Test 작성",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239501209.md",
       "assignee": "김은향"
     },
     {
@@ -2519,7 +2548,7 @@
       "type": "Task",
       "name": "Antler 2차 -  3분 비디오 기획(대본 작성)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768239514823.md",
       "assignee": "김은향"
     },
     {
@@ -2527,7 +2556,7 @@
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 준비 (전략 세우기)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768199827383.md",
       "assignee": "김은향"
     },
     {
@@ -2535,7 +2564,7 @@
       "type": "Task",
       "name": "Antler 서류 - Founder이력서 작성 (김은향)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768025743558.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768025743558.md",
       "assignee": "김은향"
     },
     {
@@ -2543,7 +2572,7 @@
       "type": "Task",
       "name": "Antler 서류 - 피칭덱 틀 작성",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768039688709.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768039688709.md",
       "assignee": "김은향"
     },
     {
@@ -2551,7 +2580,7 @@
       "type": "Task",
       "name": "Antler 서류 - 지원자와 공동창업자가 훌륭한 팀인 이유를 작성",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047928102.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768047928102.md",
       "assignee": "김은향"
     },
     {
@@ -2559,7 +2588,7 @@
       "type": "Task",
       "name": "Antler 서류  - 신청서 작성(경험 부분_김은향)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768048041857.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768048041857.md",
       "assignee": "김은향"
     },
     {
@@ -2567,7 +2596,7 @@
       "type": "Task",
       "name": "Antler 서류 - 피칭덱 작성",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768117071989.md",
       "assignee": "김은향"
     },
     {
@@ -2575,7 +2604,7 @@
       "type": "Task",
       "name": "Antler 서류 - 지원서 문항 추출 및 초안 목차 생성",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-1pg1i9-1767935607817.md",
       "assignee": "김은향"
     },
     {
@@ -2583,7 +2612,7 @@
       "type": "Task",
       "name": "Antler 2차 - 비디오 면접 관련 내용 확인",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768573665233.md",
       "assignee": "김은향"
     },
     {
@@ -2591,7 +2620,7 @@
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 연습 (01/16)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768575996462.md",
       "assignee": "김은향"
     },
     {
@@ -2599,7 +2628,7 @@
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 연습 (01/18)",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768576137968.md",
       "assignee": "김은향"
     },
     {
@@ -2607,7 +2636,7 @@
       "type": "Task",
       "name": "Antler 3차 - AI몬스터 면접 진행",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768579596258.md",
       "assignee": "김은향"
     },
     {
@@ -2615,7 +2644,7 @@
       "type": "Task",
       "name": "Antler 4차 - 면접 전략짜기",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768803029885.md",
       "assignee": "김은향"
     },
     {
@@ -2623,16 +2652,27 @@
       "type": "Task",
       "name": "Antler 4차 - ​​ZOOM 세션 참여 (Building with a Global VC | 글로벌 VC와 함께 만드는 성장 (KR)) ",
       "status": "done",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768805284323.md",
       "assignee": "김은향"
     },
     {
       "id": "tsk-156anu-1768817617276",
       "type": "Task",
       "name": "Antler 4차 - 예상 면접 QnA 작성",
-      "status": "todo",
-      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md",
+      "status": "doing",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1768817617276.md",
       "assignee": "김은향"
+    },
+    {
+      "id": "tsk-156anu-1769075695408",
+      "type": "Task",
+      "name": "Antler 4차 - 예상 면접 모의연습",
+      "status": "todo",
+      "path": "50_Projects/2026/P156_Antler_엔틀러코리아_제너레이터_8기_지원/Tasks/tsk-156anu-1769075695408.md",
+      "assignee": [
+        "김은향",
+        "한명학"
+      ]
     },
     {
       "id": "prj-1t7iu4",
@@ -2740,8 +2780,16 @@
       "id": "tsk-1kthoh-1768971618133",
       "type": "Task",
       "name": "Loop Vault - SSOT Write Targets 중앙화 ",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768971618133.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-1kthoh-1768994658583",
+      "type": "Task",
+      "name": "Ontology Lite v1 - project_kind, hypothesis_kind추가",
+      "status": "done",
+      "path": "50_Projects/2026/P1_Ontology_Vault_Ontology_Lite_v1/Tasks/tsk-1kthoh-1768994658583.md",
       "assignee": "김은향"
     },
     {
@@ -2749,7 +2797,7 @@
       "type": "Project",
       "name": "Vault - Hypothesis 유지 전략",
       "status": "planning",
-      "path": "50_Projects/2026/P5_Vault_Hypothesis_유지_전략/project.md",
+      "path": "50_Projects/2026/P5_Vault_Hypothesis_유지_전략/project.md",
       "conditions_3y": [
         "cond-b"
       ],
@@ -2785,7 +2833,7 @@
       "type": "Project",
       "name": "스타트업베이 - 2025 지원사업",
       "status": "planning",
-      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/project.md",
+      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/project.md",
       "conditions_3y": [
         "cond-d"
       ],
@@ -2797,7 +2845,7 @@
       "type": "Task",
       "name": "스타트업베이 마무리 - 12월 경영활동보고서 제출",
       "status": "done",
-      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md",
+      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-020-1768137610590.md",
       "assignee": "한명학"
     },
     {
@@ -2805,7 +2853,7 @@
       "type": "Task",
       "name": "스타트업베이 - 발표평가",
       "status": "done",
-      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820437.md",
+      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820437.md",
       "assignee": "김은향"
     },
     {
@@ -2813,7 +2861,7 @@
       "type": "Task",
       "name": "스타트업베이 - Level-up 임팩트 IR",
       "status": "done",
-      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820938.md",
+      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962820938.md",
       "assignee": "김은향"
     },
     {
@@ -2821,7 +2869,7 @@
       "type": "Task",
       "name": "스타트업베이 - 최종발표",
       "status": "done",
-      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962821427.md",
+      "path": "50_Projects/2026/P020_스타트업베이_2025_지원사업/Tasks/tsk-8ebd16-1767962821427.md",
       "assignee": "김은향"
     },
     {
@@ -2829,7 +2877,7 @@
       "type": "Project",
       "name": "Dashboard - React+TS 마이그레이션",
       "status": "planning",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/project.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/project.md",
       "conditions_3y": [
         "cond-e"
       ],
@@ -2841,7 +2889,7 @@
       "type": "Task",
       "name": "Dashboard - 필터 시스템 통합 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-01.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-01.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2850,7 +2898,7 @@
       "type": "Task",
       "name": "Dashboard - 로그인 기능 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-03.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-03.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2859,7 +2907,7 @@
       "type": "Task",
       "name": "Calendar - TaskDrawer 연동",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-02.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-02.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -2868,7 +2916,7 @@
       "type": "Task",
       "name": "Dashboard - Entity Drawer 통합 시스템 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-06.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-06.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2877,7 +2925,7 @@
       "type": "Task",
       "name": "DateFilters - 레거시 Quick Date Multi-Select 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-04.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-04.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2886,7 +2934,7 @@
       "type": "Task",
       "name": "Dashboard v2 - TaskDrawer를 TaskForm으로 통합",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-07.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-07.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2895,7 +2943,7 @@
       "type": "Task",
       "name": "Dashboard v2 - TaskForm Create 모드 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-08.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-08.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2904,7 +2952,7 @@
       "type": "Task",
       "name": "Dashboard - Kanban Filter UI 마이그레이션 (Program+Project 버튼)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-09.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-09.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2913,7 +2961,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Keyboard Shortcuts 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-10.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-10.md",
       "assignee": "김은향"
     },
     {
@@ -2921,7 +2969,7 @@
       "type": "Task",
       "name": "Dashboard - Kanban Visibility 필터 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-12.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-12.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2930,7 +2978,7 @@
       "type": "Task",
       "name": "Dashboard - Command Palette (Cmd+P)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-14.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-14.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2939,7 +2987,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Project/Program Edit Mode 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-15.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-15.md",
       "assignee": "김은향"
     },
     {
@@ -2947,7 +2995,7 @@
       "type": "Task",
       "name": "Dashboard - Create Buttons 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-17.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-17.md",
       "assignee": "김은향"
     },
     {
@@ -2955,7 +3003,7 @@
       "type": "Task",
       "name": "Dashboard - Child Project 필터 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-18.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -2964,7 +3012,7 @@
       "type": "Task",
       "name": "FilterPanel - 기본 필터 및 Assignee 동적 표시",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-19.md",
       "assignee": "김은향"
     },
     {
@@ -2972,7 +3020,7 @@
       "type": "Task",
       "name": "FilterPanel - 기본 필터 활성화 상태 개선",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-20.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -2981,7 +3029,7 @@
       "type": "Task",
       "name": "Dashboard - 필터뷰 Program/Project 하위 항목 표시 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-21.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-21.md",
       "assignee": "김은향"
     },
     {
@@ -2989,7 +3037,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Track 색상 CSS 변수 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-22.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-22.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -2998,7 +3046,7 @@
       "type": "Task",
       "name": "Dashboard - TaskDrawer Notes 표시 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-23.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-23.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3007,7 +3055,7 @@
       "type": "Task",
       "name": "Dashboard - Project Form Program 선택 UI 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-25.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-25.md",
       "assignee": "김은향"
     },
     {
@@ -3015,7 +3063,7 @@
       "type": "Task",
       "name": "Dashboard - 필터 버튼 Drawer 아이콘 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-26.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-26.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -3024,7 +3072,7 @@
       "type": "Task",
       "name": "Pending - Workflow/Run 필터 기능",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-24.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-24.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -3033,7 +3081,7 @@
       "type": "Task",
       "name": "Pending Review - Suggested Fields 버튼 옵션 선택",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-27.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-27.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3042,7 +3090,7 @@
       "type": "Task",
       "name": "Dashboard - Program Drawer Delete 버튼 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-29.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-29.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -3051,7 +3099,7 @@
       "type": "Task",
       "name": "Pending - EntityPreview를 Form view 모드로 교체",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-28.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-28.md",
       "assignee": "김은향"
     },
     {
@@ -3059,7 +3107,7 @@
       "type": "Task",
       "name": "EntityDrawer - 뒤로가기 네비게이션 스택 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-31.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-31.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -3068,7 +3116,7 @@
       "type": "Task",
       "name": "Dashboard v2 - TaskDrawer 기능 완성",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-05.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-05.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3077,7 +3125,7 @@
       "type": "Task",
       "name": "Dashboard - Notion 스타일 ChipSelect 공통 모듈",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-32.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-32.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3086,7 +3134,7 @@
       "type": "Task",
       "name": "Dashboard - WYSIWYG Markdown Editor 공용 컴포넌트",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-33.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-33.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3095,7 +3143,7 @@
       "type": "Task",
       "name": "Dashboard - ChipSelectExpand 구현 (assignee, owner, project)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-35.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-35.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3104,7 +3152,7 @@
       "type": "Task",
       "name": "API - Project body 조회/수정 기능 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-36.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-36.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3113,7 +3161,7 @@
       "type": "Task",
       "name": "VaultCache - get_project_path 메서드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-38.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-38.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3122,7 +3170,7 @@
       "type": "Task",
       "name": "Dashboard - Links + Attachments 기능 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-40ao11-1767935128563.md",
       "assignee": "김은향"
     },
     {
@@ -3130,7 +3178,7 @@
       "type": "Task",
       "name": "Dashboard - Project Drawer Task 목록 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-40.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-40.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3139,7 +3187,7 @@
       "type": "Task",
       "name": "Dashboard - Share URL v2 deep link 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-41.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-41.md",
       "assignee": "김은향"
     },
     {
@@ -3147,7 +3195,7 @@
       "type": "Task",
       "name": "Dashboard - ProjectForm View 모드 리팩토링",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-42.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-42.md",
       "assignee": "김은향"
     },
     {
@@ -3155,7 +3203,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Kanban 보드 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962907900.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962907900.md",
       "assignee": "김은향"
     },
     {
@@ -3163,7 +3211,7 @@
       "type": "Task",
       "name": "Dashboard v2 - 프로젝트 초기화",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962908193.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962908193.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3172,7 +3220,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Kanban 보드 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962908524.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962908524.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3181,7 +3229,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Pending Review 페이지 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962909096.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-b4fa1e-1767962909096.md",
       "assignee": "김은향"
     },
     {
@@ -3189,7 +3237,7 @@
       "type": "Task",
       "name": "Dashboard - Notion-style Activity Panel 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767973768058.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767973768058.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3198,7 +3246,7 @@
       "type": "Task",
       "name": "Dashboard - Task Drawer PR/Commit 필드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-uegvfe-1767941662809.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-uegvfe-1767941662809.md",
       "assignee": "김은향"
     },
     {
@@ -3206,7 +3254,7 @@
       "type": "Task",
       "name": "Dashboard - Task Drawer PR/Commit 필드 추가 (React)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767974842230.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767974842230.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3215,7 +3263,7 @@
       "type": "Task",
       "name": "Dashboard - Activity Panel Global Feed 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976230998.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767976230998.md",
       "assignee": "김은향"
     },
     {
@@ -3223,7 +3271,7 @@
       "type": "Task",
       "name": "Vault API - Task duplicate 기능",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768026376001.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768026376001.md",
       "assignee": "김은향"
     },
     {
@@ -3231,7 +3279,7 @@
       "type": "Task",
       "name": "Dashboard - Comment Discord 알림 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768028623070.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768028623070.md",
       "assignee": "김은향"
     },
     {
@@ -3239,7 +3287,7 @@
       "type": "Task",
       "name": "Dashboard - Favorites 기능 확장 (Task + Project + Program)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768032255632.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768032255632.md",
       "assignee": "김은향"
     },
     {
@@ -3247,7 +3295,7 @@
       "type": "Task",
       "name": "Dashboard - Comment Discord 알림 내용 표시 및 링크 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768045340391.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768045340391.md",
       "assignee": "김은향"
     },
     {
@@ -3255,7 +3303,7 @@
       "type": "Task",
       "name": "Dashboard - 댓글 작성자 표시 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768045355850.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768045355850.md",
       "assignee": "김은향"
     },
     {
@@ -3263,7 +3311,7 @@
       "type": "Task",
       "name": "Dashboard - Calendar Week View 수직 스크롤 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768046291674.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768046291674.md",
       "assignee": "김은향"
     },
     {
@@ -3271,7 +3319,7 @@
       "type": "Task",
       "name": "Dashboard - 댓글 시스템 + @멘션 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-39.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-39.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3280,7 +3328,7 @@
       "type": "Task",
       "name": "Dashboard - ProjectForm Impact 필드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768067799113.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768067799113.md",
       "assignee": "김은향"
     },
     {
@@ -3288,7 +3336,7 @@
       "type": "Task",
       "name": "Dashboard - Project Drawer ChipSelect 통일",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768070421265.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768070421265.md",
       "assignee": "김은향"
     },
     {
@@ -3296,7 +3344,7 @@
       "type": "Task",
       "name": "Dashboard - Calendar 뷰 Favorites 추가 및 필터 상태 유지",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768100698653.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768100698653.md",
       "assignee": "김은향"
     },
     {
@@ -3304,7 +3352,7 @@
       "type": "Task",
       "name": "Dashboard - 캘린더 필터 통합",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-13.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-13.md",
       "assignee": "김은향"
     },
     {
@@ -3312,7 +3360,7 @@
       "type": "Task",
       "name": "TaskForm - Body 템플릿 시스템",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767962861523.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1767962861523.md",
       "assignee": "김은향"
     },
     {
@@ -3320,7 +3368,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Reviews 필터링 기능 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768107686217.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768107686217.md",
       "assignee": "김은향"
     },
     {
@@ -3328,7 +3376,7 @@
       "type": "Task",
       "name": "TaskForm - 템플릿 시스템 개선",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768111131921.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768111131921.md",
       "assignee": "김은향"
     },
     {
@@ -3336,7 +3384,7 @@
       "type": "Task",
       "name": "Content OS - Dashboard OAuth 통합",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768112286500.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768112286500.md",
       "assignee": "김은향"
     },
     {
@@ -3344,7 +3392,7 @@
       "type": "Task",
       "name": "Dashboard - Notes 인라인 이미지 삽입 기능",
       "status": "todo",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-43.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-43.md",
       "assignee": "김은향"
     },
     {
@@ -3352,7 +3400,7 @@
       "type": "Task",
       "name": "Dashboard - FilterPanel Task 필터 연결 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-16.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-16.md",
       "assignee": "김은향"
     },
     {
@@ -3360,7 +3408,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Pending Review Auto-Applied UI 및 Project Review Mode 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768064163160.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768064163160.md",
       "assignee": "김은향"
     },
     {
@@ -3368,7 +3416,7 @@
       "type": "Task",
       "name": "Dashboard - Notes 편집 시 커서 점프 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768152055162.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768152055162.md",
       "assignee": "김은향"
     },
     {
@@ -3376,7 +3424,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Review Expected Impact UI 개선",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768155181799.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768155181799.md",
       "assignee": "김은향"
     },
     {
@@ -3384,7 +3432,7 @@
       "type": "Task",
       "name": "Dashboard - Project Drawer 신규 필드 UI",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768155858638.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768155858638.md",
       "assignee": "김은향"
     },
     {
@@ -3392,7 +3440,7 @@
       "type": "Task",
       "name": "Dashboard - Project Attachments + Links 기능 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768159599590.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768159599590.md",
       "assignee": "김은향"
     },
     {
@@ -3400,7 +3448,7 @@
       "type": "Task",
       "name": "Quick Create Task - 자연어 AI prefill",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768201736397.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768201736397.md",
       "assignee": "김은향"
     },
     {
@@ -3408,7 +3456,7 @@
       "type": "Task",
       "name": "Dashboard - Project status done→completed 마이그레이션",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768202011038.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768202011038.md",
       "assignee": "김은향"
     },
     {
@@ -3416,7 +3464,7 @@
       "type": "Task",
       "name": "Dashboard - Attachment 즉시 텍스트 추출 + 클린아키텍처",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768204346395.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768204346395.md",
       "assignee": "김은향"
     },
     {
@@ -3424,7 +3472,7 @@
       "type": "Task",
       "name": "Dashboard - Constants SSOT 연동 (하드코딩 제거)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768202003964.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768202003964.md",
       "assignee": "김은향"
     },
     {
@@ -3432,7 +3480,7 @@
       "type": "Task",
       "name": "Dashboard - Impact Score UI 리팩토링 (A+B Collapsible)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768225301981.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768225301981.md",
       "assignee": "김은향"
     },
     {
@@ -3440,7 +3488,7 @@
       "type": "Task",
       "name": "Drawer 네비게이션 - 뒤로가기/앞으로가기 전체 엔티티 지원",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768227845010.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768227845010.md",
       "assignee": "김은향"
     },
     {
@@ -3448,7 +3496,7 @@
       "type": "Task",
       "name": "Task Drawer - Link Preview Card",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768228605920.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768228605920.md",
       "assignee": "김은향"
     },
     {
@@ -3456,7 +3504,7 @@
       "type": "Task",
       "name": "Dashboard - Task Drawer Duplicate Loading 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768237849865.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768237849865.md",
       "assignee": "김은향"
     },
     {
@@ -3464,7 +3512,7 @@
       "type": "Task",
       "name": "Dashboard - 업데이트 후 변경사항이 원래대로 돌아오는 문제 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768244708843.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768244708843.md",
       "assignee": "김은향"
     },
     {
@@ -3472,7 +3520,7 @@
       "type": "Task",
       "name": "Pending Review - Review Mode 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-34.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-34.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3481,7 +3529,7 @@
       "type": "Task",
       "name": "Dashboard - Favorites 기능 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768027776050.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768027776050.md",
       "assignee": "김은향"
     },
     {
@@ -3489,7 +3537,7 @@
       "type": "Task",
       "name": "Dashboard - Discord 알림 링크 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768030620896.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768030620896.md",
       "assignee": "김은향"
     },
     {
@@ -3497,7 +3545,7 @@
       "type": "Task",
       "name": "Create Project Gate - Require Hypothesis + Expected Impact",
       "status": "todo",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768331190178.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768331190178.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -3506,7 +3554,7 @@
       "type": "Task",
       "name": "Schema - Collaboration Fields 공통 모듈화",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768156139268.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768156139268.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3515,7 +3563,7 @@
       "type": "Task",
       "name": "Dashboard v2 - Expected/Hypothesis AI feedback loop",
       "status": "todo",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768386479760.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768386479760.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -3524,7 +3572,7 @@
       "type": "Task",
       "name": "API - exec-api를 api로 통합",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768462246386.md",
       "assignee": "김은향"
     },
     {
@@ -3532,7 +3580,7 @@
       "type": "Task",
       "name": "Dashboard - 3Y Conditions 라벨링 SSOT 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768488217439.md",
       "assignee": "김은향"
     },
     {
@@ -3540,7 +3588,7 @@
       "type": "Task",
       "name": "Infra - MCP 전용 컨테이너 분리 (loop-mcp)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494544353.md",
       "assignee": "김은향"
     },
     {
@@ -3548,7 +3596,7 @@
       "type": "Task",
       "name": "Dashboard - ProjectForm Edit footer 통합",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494638451.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768494638451.md",
       "assignee": "김은향"
     },
     {
@@ -3556,7 +3604,7 @@
       "type": "Task",
       "name": "Dashboard - Split Drawer (Cmd+클릭 시 좌우 분할)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496364389.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496364389.md",
       "assignee": "김은향"
     },
     {
@@ -3564,7 +3612,7 @@
       "type": "Task",
       "name": "Dashboard - Track 통합 + Conditions_3Y UI 개선",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496347729.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768496347729.md",
       "assignee": "김은향"
     },
     {
@@ -3572,7 +3620,7 @@
       "type": "Task",
       "name": "Dashboard - Hypothesis CRUD 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768499125620.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768499125620.md",
       "assignee": "김은향"
     },
     {
@@ -3580,7 +3628,7 @@
       "type": "Task",
       "name": "Dashboard - Hypothesis Candidates API 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768500289204.md",
       "assignee": "김은향"
     },
     {
@@ -3588,7 +3636,7 @@
       "type": "Task",
       "name": "Dashboard - Expected Impact Gate 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768501503985.md",
       "assignee": "김은향"
     },
     {
@@ -3596,7 +3644,7 @@
       "type": "Task",
       "name": "API - suggest_batch MISSING_CONSTRAINTS 기본값 자동 생성",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768502769059.md",
       "assignee": "김은향"
     },
     {
@@ -3604,7 +3652,7 @@
       "type": "Task",
       "name": "Dashboard - Pending Review validates 배열 필드 병합 표시",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768536435979.md",
       "assignee": "김은향"
     },
     {
@@ -3612,7 +3660,7 @@
       "type": "Task",
       "name": "API - ai.py → impact_batch.py 통합 (n8n 워크플로우 변경)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768545831670.md",
       "assignee": "김은향"
     },
     {
@@ -3620,7 +3668,7 @@
       "type": "Task",
       "name": "Dashboard - Entity Form 패턴 통일 (로컬 상태 + Save 버튼)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768554593687.md",
       "assignee": "김은향"
     },
     {
@@ -3628,7 +3676,7 @@
       "type": "Task",
       "name": "Dashboard - Form migration",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768559066017.md",
       "assignee": "김은향"
     },
     {
@@ -3636,7 +3684,7 @@
       "type": "Task",
       "name": "API - Expected Impact 프롬프트 SSOT 개선 (Phase 1)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768621773613.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768621773613.md",
       "assignee": "김은향"
     },
     {
@@ -3644,7 +3692,7 @@
       "type": "Task",
       "name": "Dashboard - Confidence Scorecard",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768628306653.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768628306653.md",
       "assignee": "김은향"
     },
     {
@@ -3652,7 +3700,7 @@
       "type": "Task",
       "name": "Pending - 검색바 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631606970.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631606970.md",
       "assignee": "김은향"
     },
     {
@@ -3660,7 +3708,7 @@
       "type": "Task",
       "name": "Pending - Strategic Context prefetch 및 캐싱",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631745980.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768631745980.md",
       "assignee": "김은향"
     },
     {
@@ -3668,7 +3716,7 @@
       "type": "Task",
       "name": "ProjectForm - summary 필드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768635015525.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768635015525.md",
       "assignee": "김은향"
     },
     {
@@ -3676,7 +3724,7 @@
       "type": "Task",
       "name": "API - hypothesis_seeder에 build_strategic_context 적용",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768637569532.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768637569532.md",
       "assignee": "김은향"
     },
     {
@@ -3684,7 +3732,7 @@
       "type": "Task",
       "name": "Entity Validator - validates 가설 추천 프롬프트 개선",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639226829.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639226829.md",
       "assignee": "김은향"
     },
     {
@@ -3692,7 +3740,7 @@
       "type": "Task",
       "name": "Pending API - approve 후 캐시 갱신 로직 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639817374.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768639817374.md",
       "assignee": "김은향"
     },
     {
@@ -3700,7 +3748,7 @@
       "type": "Task",
       "name": "Pending Review 단순화 - Project Save 기반 + 탭 제거",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768662785986.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768662785986.md",
       "assignee": "김은향"
     },
     {
@@ -3708,7 +3756,7 @@
       "type": "Task",
       "name": "n8n - entity-validator 워크플로우 라우팅 버그 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768664856131.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768664856131.md",
       "assignee": "김은향"
     },
     {
@@ -3716,7 +3764,7 @@
       "type": "Task",
       "name": "AI Inference - 다단계 Project Validation API 및 Dashboard 버튼",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768670951852.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768670951852.md",
       "assignee": "김은향"
     },
     {
@@ -3724,7 +3772,7 @@
       "type": "Task",
       "name": "Graph View - MVP 구현 (전략-실행 계층 시각화)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768714509715.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768714509715.md",
       "assignee": "김은향"
     },
     {
@@ -3732,7 +3780,7 @@
       "type": "Task",
       "name": "Strategic Context - 프론트엔드 캐시 조립 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717061074.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717061074.md",
       "assignee": "김은향"
     },
     {
@@ -3740,7 +3788,7 @@
       "type": "Task",
       "name": "AI Inference - Project Summary 버튼 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717908724.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768717908724.md",
       "assignee": "김은향"
     },
     {
@@ -3748,7 +3796,7 @@
       "type": "Task",
       "name": "AI API - Vault Ontology Schema 컨텍스트 자동 주입",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768721377517.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768721377517.md",
       "assignee": "김은향"
     },
     {
@@ -3756,7 +3804,7 @@
       "type": "Task",
       "name": "ProjectForm - Create/Edit 폼 통합 + 비활성화 버튼 toast",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768729558248.md",
       "assignee": "김은향"
     },
     {
@@ -3764,7 +3812,7 @@
       "type": "Task",
       "name": "Project Create 모드 AI 버튼 활성화",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768742466.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768742466.md",
       "assignee": "김은향"
     },
     {
@@ -3772,7 +3820,7 @@
       "type": "Task",
       "name": "Dashboard v2 - TaskForm type 필드 경로 수정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-30.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -3781,7 +3829,7 @@
       "type": "Task",
       "name": "API - Multi-Dock contributes에 reasoning 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768809114457.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768809114457.md",
       "assignee": "김은향"
     },
     {
@@ -3789,7 +3837,7 @@
       "type": "Task",
       "name": "AI 추론 버그 수정 - 프론트엔드 description 무시 문제",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768817911261.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768817911261.md",
       "assignee": "김은향"
     },
     {
@@ -3797,7 +3845,7 @@
       "type": "Task",
       "name": "API - file-read 디렉토리 지원 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768826648077.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768826648077.md",
       "assignee": "김은향"
     },
     {
@@ -3805,7 +3853,7 @@
       "type": "Task",
       "name": "Dashboard - Vault Explorer 기능 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768827356397.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768827356397.md",
       "assignee": "김은향"
     },
     {
@@ -3813,7 +3861,7 @@
       "type": "Task",
       "name": "Dashboard - 프롬프트 템플릿 관리 기능",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768828783525.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768828783525.md",
       "assignee": "김은향"
     },
     {
@@ -3821,7 +3869,7 @@
       "type": "Task",
       "name": "Entity Form - 원본 파일 Vault Explorer로 열기",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768841419050.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768841419050.md",
       "assignee": "김은향"
     },
     {
@@ -3829,7 +3877,7 @@
       "type": "Task",
       "name": "Vault Explorer 파일 생성 기능 추가 (노션 스타일)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842042959.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842042959.md",
       "assignee": "김은향"
     },
     {
@@ -3837,7 +3885,7 @@
       "type": "Task",
       "name": "MarkdownEditor - Vault 파일 참조 기능 (Wikilink) 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842493769.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768842493769.md",
       "assignee": "김은향"
     },
     {
@@ -3845,7 +3893,7 @@
       "type": "Task",
       "name": "Strategic Context MCP Action 노출",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768844444.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768844444.md",
       "assignee": "김은향"
     },
     {
@@ -3853,7 +3901,7 @@
       "type": "Task",
       "name": "MCP SSE 연결 안정화 - Synology nginx 설정",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768878808515.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768878808515.md",
       "assignee": "김은향"
     },
     {
@@ -3861,7 +3909,7 @@
       "type": "Task",
       "name": "Wikilink - entity_name 검색 및 표시 기능",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768885291967.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768885291967.md",
       "assignee": "김은향"
     },
     {
@@ -3869,7 +3917,7 @@
       "type": "Task",
       "name": "API - SSOT vault separation (public/exec 분리)",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768890869239.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768890869239.md",
       "assignee": "김은향"
     },
     {
@@ -3877,7 +3925,7 @@
       "type": "Task",
       "name": "Strategy Calendar - 로드맵+캘린더 통합 뷰 구현",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768926273490.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768926273490.md",
       "assignee": "김은향"
     },
     {
@@ -3885,7 +3933,7 @@
       "type": "Task",
       "name": "Hypothesis - start_date 필드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931067137.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931067137.md",
       "assignee": "김은향"
     },
     {
@@ -3893,7 +3941,7 @@
       "type": "Task",
       "name": "Project - start_date 필드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931607143.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931607143.md",
       "assignee": "김은향"
     },
     {
@@ -3901,7 +3949,7 @@
       "type": "Task",
       "name": "Schema - Track quarter_objectives 필드 추가",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931978351.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768931978351.md",
       "assignee": "김은향"
     },
     {
@@ -3909,7 +3957,39 @@
       "type": "Task",
       "name": "API - SSOT frontmatter 생성 로직 중앙화",
       "status": "done",
-      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768933806691.md",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768933806691.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1768976530953",
+      "type": "Task",
+      "name": "MCP API - Connection Stability & Error Code Standardization",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1768976530953.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1769013208858",
+      "type": "Task",
+      "name": "Schema - project_kind & hypothesis_kind 필드 추가",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1769013208858.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1769054156236",
+      "type": "Task",
+      "name": "Entity Template System - Project+Tasks 일괄 생성 기능",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1769054156236.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-023-1769065360052",
+      "type": "Task",
+      "name": "Audio STT - 음성 파일 전사 및 LLM 요약 기능 구현",
+      "status": "done",
+      "path": "50_Projects/2026/P023_Dashboard_ReactTS_마이그레이션/Tasks/tsk-023-1769065360052.md",
       "assignee": "김은향"
     },
     {
@@ -4030,7 +4110,7 @@
       "type": "Task",
       "name": "API - VaultCache exec vault 프로젝트 로드",
       "status": "done",
-      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md",
+      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - VaultCache exec vault 프로젝트 로드.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4039,7 +4119,7 @@
       "type": "Task",
       "name": "API - exec vault 프로젝트 스캔 로직 리팩토링",
       "status": "done",
-      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - exec vault 프로젝트 스캔 로직 리팩토링.md",
+      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - exec vault 프로젝트 스캔 로직 리팩토링.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4048,7 +4128,7 @@
       "type": "Task",
       "name": "API - SSOT 아키텍처 통합",
       "status": "done",
-      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - SSOT 아키텍처 통합.md",
+      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - SSOT 아키텍처 통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4057,7 +4137,7 @@
       "type": "Task",
       "name": "API - public shared import 경로 수정",
       "status": "done",
-      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - public shared import 경로 수정.md",
+      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - public shared import 경로 수정.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4066,7 +4146,7 @@
       "type": "Task",
       "name": "API - Members SSOT 통합",
       "status": "done",
-      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - Members SSOT 통합.md",
+      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - Members SSOT 통합.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4083,7 +4163,7 @@
       "type": "Task",
       "name": "API - exec MCP mount 구현",
       "status": "done",
-      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - exec MCP mount 구현.md",
+      "path": "50_Projects/2026/prj-api-exec-vault/Tasks/API - exec MCP mount 구현.md",
       "priority_flag": "high",
       "assignee": "김은향"
     },
@@ -4103,6 +4183,93 @@
       "status": "todo",
       "path": "50_Projects/2026/prj-feedback-system/Tasks/tsk-feedback-01.md",
       "priority_flag": "high",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-024",
+      "type": "Project",
+      "name": "Nightly Customer Problem Review 시스템 구축",
+      "status": "planning",
+      "path": "50_Projects/2026/P024_Nightly_Customer_Review_System/project.md",
+      "conditions_3y": [
+        "cond-a",
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "owner": "김은향"
+    },
+    {
+      "id": "prj-025",
+      "type": "Project",
+      "name": "Nightly Customer Problem Review - 6주 운영 라운드 (2026Q1)",
+      "status": "doing",
+      "path": "50_Projects/2026/P025_Nightly_Customer_Review_6w/project.md",
+      "conditions_3y": [
+        "cond-a",
+        "cond-b"
+      ],
+      "priority_flag": "high",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-025-01",
+      "type": "Task",
+      "name": "고객 인사이트 회의 (2026-01-21)",
+      "status": "todo",
+      "path": "50_Projects/2026/P025_Nightly_Customer_Review_6w/Tasks/tsk-025-01_고객_인사이트_회의_2026-01-21.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-025-1769078489138",
+      "type": "Task",
+      "name": "주간 리뷰 미팅",
+      "status": "todo",
+      "path": "50_Projects/2026/P025_Nightly_Customer_Review_6w/Tasks/tsk-025-1769078489138.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-025-1769078682639",
+      "type": "Task",
+      "name": "주간 리뷰 미팅",
+      "status": "done",
+      "path": "50_Projects/2026/P025_Nightly_Customer_Review_6w/Tasks/tsk-025-1769078682639.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "prj-kikehr",
+      "type": "Project",
+      "name": "오픈카톡 1:1 미니코칭 - 활성화·서비스·UX검증",
+      "status": "planning",
+      "path": "50_Projects/2026/Pkikehr_오픈카톡_11_미니코칭_활성화서비스UX검증/project.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-1xl2hh",
+      "type": "Project",
+      "name": "꼭꼭Fit 5기 모집 - 콘텐츠→상담→세일즈→결제 퍼널로 20명·매출 1,000만",
+      "status": "planning",
+      "path": "50_Projects/2026/P1_꼭꼭Fit_5기_모집_콘텐츠상담세일즈결제_퍼널로_20명매출_1000만/project.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "prj-3pnv6w",
+      "type": "Project",
+      "name": "KPI Dashboard - 노션 스타일 분석 대시보드",
+      "status": "planning",
+      "path": "50_Projects/2026/P3_KPI_Dashboard_노션_스타일_분석_대시보드/project.md",
+      "priority_flag": "medium",
+      "owner": "김은향"
+    },
+    {
+      "id": "tsk-3pnv6w-1769079377727",
+      "type": "Task",
+      "name": "KPI Dashboard Feature 구현 - 노션 스타일 UI, React Query 기반",
+      "status": "done",
+      "path": "50_Projects/2026/P3_KPI_Dashboard_노션_스타일_분석_대시보드/Tasks/tsk-3pnv6w-1769079377727.md",
       "assignee": "김은향"
     },
     {
@@ -4128,7 +4295,7 @@
       "type": "Project",
       "name": "꼭꼭FIT 랜딩 페이지 - 리뉴얼",
       "status": "planning",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/project.md",
       "conditions_3y": [
         "cond-b",
         "cond-e"
@@ -4141,7 +4308,7 @@
       "type": "Task",
       "name": "랜딩페이지 리뉴얼 - 레퍼런스 서칭 중",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768228019327.md",
       "assignee": "한명학"
     },
     {
@@ -4149,7 +4316,7 @@
       "type": "Task",
       "name": "유튜브 채널 성장, 브랜딩 - 신동진 고문님 콘텐츠 기획",
       "status": "doing",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1ca2sj-1767960085150.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1ca2sj-1767960085150.md",
       "assignee": "한명학"
     },
     {
@@ -4157,7 +4324,7 @@
       "type": "Task",
       "name": "코칭 랜딩페이지 리뉴얼 - 랜딩페이지 제작 방향 등 기획",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-1q091r-1767960173667.md",
       "assignee": "한명학"
     },
     {
@@ -4165,7 +4332,7 @@
       "type": "Task",
       "name": "꼭꼭Fit 3기 환급 검토",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962816709.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962816709.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4174,7 +4341,7 @@
       "type": "Task",
       "name": "코칭 랜딩페이지 리뉴얼 - 작업 일정 연기 진행(최홍희 강사님)",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962816968.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962816968.md",
       "assignee": "한명학"
     },
     {
@@ -4182,7 +4349,7 @@
       "type": "Task",
       "name": "코칭 랜딩페이지 리뉴얼 - 랜딩페이지 재정의",
       "status": "doing",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962817221.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962817221.md",
       "assignee": "한명학"
     },
     {
@@ -4190,7 +4357,7 @@
       "type": "Task",
       "name": "꼭꼭Fit 랜딩페이지 리뉴얼 - 홍희님 사전 미팅(1.16 연기)",
       "status": "todo",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962904466.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962904466.md",
       "assignee": "한명학"
     },
     {
@@ -4198,7 +4365,7 @@
       "type": "Task",
       "name": "코칭 서비스 고도화 - 랜딩페이지 리뉴얼을 진행을 위한 제작 연락(최홍희)",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962904729.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962904729.md",
       "assignee": "한명학"
     },
     {
@@ -4206,7 +4373,7 @@
       "type": "Task",
       "name": "코칭서비스 졸업자 사후 설문 데이터 - 지원 내용 확인 및 답장",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962904992.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962904992.md",
       "assignee": "한명학"
     },
     {
@@ -4214,7 +4381,7 @@
       "type": "Task",
       "name": "12주 과정 후 실제 변화/미해결 패턴 검증 - 꼭꼭Fit 졸업자들 대상 사후 설문 전달(워크북/다이어리 배송 포함)",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962905272.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-685ac7-1767962905272.md",
       "assignee": "한명학"
     },
     {
@@ -4222,7 +4389,7 @@
       "type": "Task",
       "name": "유튜브 채널 성장, 브랜딩 - 보윤님 협업 콘텐츠 기획",
       "status": "doing",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-uhklhc-1767959944222.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-uhklhc-1767959944222.md",
       "assignee": "한명학"
     },
     {
@@ -4230,7 +4397,7 @@
       "type": "Task",
       "name": "코칭 랜딩페이지 리뉴얼 - 은향 리뷰",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768241993366.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768241993366.md",
       "assignee": "김은향"
     },
     {
@@ -4238,7 +4405,7 @@
       "type": "Task",
       "name": "랜딩페이지 리뉴얼 - 커뮤니티를 통한 고객 반응 확인(유튜브, 인스타 등)",
       "status": "doing",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768471047156.md",
       "assignee": "한명학"
     },
     {
@@ -4246,7 +4413,7 @@
       "type": "Task",
       "name": "콘텐츠 전략 - 네이버 블로그 포스트 업로드(01.15)",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768488324886.md",
       "assignee": "한명학"
     },
     {
@@ -4254,7 +4421,7 @@
       "type": "Task",
       "name": "랜딩페이지 리뉴얼 - 최홍희 디렉터님 킥오프 미팅(1.17, 20:00)",
       "status": "doing",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768575802981.md",
       "assignee": "한명학"
     },
     {
@@ -4262,7 +4429,7 @@
       "type": "Task",
       "name": "랜딩페이지 리뉴얼 - 꼭꼭Fit 졸업생 12주차 인터뷰 응답 분석",
       "status": "doing",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768627876217.md",
       "assignee": "한명학"
     },
     {
@@ -4270,7 +4437,7 @@
       "type": "Task",
       "name": "랜딩페이지 리뉴얼 - 홍희 디렉터님께 개발 일정 전달",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768653594228.md",
       "assignee": "김은향"
     },
     {
@@ -4278,7 +4445,7 @@
       "type": "Task",
       "name": "코칭 랜딩페이지 리뉴얼 - 최홍희강사님 리뉴얼 페이지 확인(은향)",
       "status": "done",
-      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md",
+      "path": "50_Projects/_Programs/Coaching/Rounds/P014_코칭_서비스_운영_체계/Tasks/tsk-014-1768756487394.md",
       "assignee": "김은향"
     },
     {
@@ -4320,7 +4487,7 @@
       "type": "Task",
       "name": "[고객 관리] 카카오톡 채널 활성화 방안 기획",
       "status": "done",
-      "path": "50_Projects/_Programs/CS/Rounds/P012_CS_2026Q1/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
+      "path": "50_Projects/_Programs/CS/Rounds/P012_CS_2026Q1/Tasks/[고객 관리] 카카오톡 채널 활성화 방안 기획.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4537,6 +4704,22 @@
       "assignee": "김은향"
     },
     {
+      "id": "tsk-mzjr8a-1768984975777",
+      "type": "Task",
+      "name": "sosi - 음주 여부/양 데이터 입력 기능 + UX 리서치",
+      "status": "todo",
+      "path": "50_Projects/_Programs/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768984975777.md",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-mzjr8a-1768989647469",
+      "type": "Task",
+      "name": "sosi - [당일 직후] 폭식 후 죄책감 해소 행동 미션 (청소/요가/명상)",
+      "status": "todo",
+      "path": "50_Projects/_Programs/KkokKkok_Release/Rounds/Pmzjr8a_v1029_Release/Tasks/tsk-mzjr8a-1768989647469.md",
+      "assignee": "김은향"
+    },
+    {
       "id": "pgm-kkokkkokfit-web",
       "type": "Program",
       "name": "kkokkkokfit Web",
@@ -4559,7 +4742,7 @@
       "type": "Project",
       "name": "경영관리 - 2026 Q1",
       "status": "planning",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/project.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/project.md",
       "conditions_3y": [
         "cond-d"
       ],
@@ -4571,7 +4754,7 @@
       "type": "Task",
       "name": "외부 비서 활용 - 지우님 할일 공유(1월 8일)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-01.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-01.md",
       "assignee": "한명학"
     },
     {
@@ -4579,7 +4762,7 @@
       "type": "Task",
       "name": "HR - 12월 급여 처리(황란경, 문혜영, 한명학)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767964326285.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767964326285.md",
       "assignee": "한명학"
     },
     {
@@ -4587,7 +4770,7 @@
       "type": "Task",
       "name": "빌드업 사업 마무리 - 12월 지원금 서류 제출(급여명세서, 이체확인증, 4대 보험 완납증명서 등)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767965869633.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1767965869633.md",
       "assignee": "한명학"
     },
     {
@@ -4595,7 +4778,7 @@
       "type": "Task",
       "name": "빌드업 사업 마무리 - 12월 선지급 건 추가자료 제출(임금대장, 4대보험 완납증명서 등 4건)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768146049610.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768146049610.md",
       "assignee": "한명학"
     },
     {
@@ -4603,7 +4786,7 @@
       "type": "Task",
       "name": "외부 비서 활용 - 지우님 할일 전달(1월 9일)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768197408582.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768197408582.md",
       "assignee": "한명학"
     },
     {
@@ -4611,7 +4794,7 @@
       "type": "Task",
       "name": "원천세 납부 - 용역비 3건",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-fcaef7-1767962901871.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-fcaef7-1767962901871.md",
       "assignee": "한명학"
     },
     {
@@ -4619,7 +4802,7 @@
       "type": "Task",
       "name": "외부 비서 활용 - 지우님 할일 전달(1월 12일)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-1addiu-1767960317370.md",
       "assignee": "김은향"
     },
     {
@@ -4627,7 +4810,7 @@
       "type": "Task",
       "name": "HR - 원천세 신고('25년 12월분)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768369981548.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768369981548.md",
       "assignee": "한명학"
     },
     {
@@ -4635,7 +4818,7 @@
       "type": "Task",
       "name": "세무 - 25 Q3~Q4 부가세 신고",
       "status": "todo",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768370031417.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768370031417.md",
       "assignee": "한명학"
     },
     {
@@ -4643,7 +4826,7 @@
       "type": "Task",
       "name": "부가세 신고 - 신용카드 매입 내용 전환(불공제 => 공제)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768546807989.md",
       "assignee": "한명학"
     },
     {
@@ -4651,7 +4834,7 @@
       "type": "Task",
       "name": "경영관리 - 4대 보험료 납부(1월 분)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768635878173.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768635878173.md",
       "assignee": "한명학"
     },
     {
@@ -4659,7 +4842,7 @@
       "type": "Task",
       "name": "유튜브 편집자 구인 - 공고 게재(당근마켓)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768720733426.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768720733426.md",
       "assignee": "한명학"
     },
     {
@@ -4667,7 +4850,7 @@
       "type": "Task",
       "name": "코칭 인수인계 마무리 - 4기 정다은님 연락",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768743605059.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768743605059.md",
       "assignee": "한명학"
     },
     {
@@ -4675,7 +4858,7 @@
       "type": "Task",
       "name": "세무 - 토스, 애플 등 매출내역 세무기장 전달('25년 하반기 부가세 처리)",
       "status": "done",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832764224.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832764224.md",
       "assignee": "한명학"
     },
     {
@@ -4683,7 +4866,15 @@
       "type": "Task",
       "name": "코칭 인수인계 마무리 - 혜영님 식후감정일기 파일 업로드 요청",
       "status": "doing",
-      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832996246.md",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1768832996246.md",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-021-1769054098913",
+      "type": "Task",
+      "name": "재무 - '25년 하반기 구매 건 상세내역 세무사 전달(부가세 신고)",
+      "status": "done",
+      "path": "50_Projects/_Programs/Ops/Rounds/P021_경영관리_2026Q1/Tasks/tsk-021-1769054098913.md",
       "assignee": "한명학"
     },
     {
@@ -4739,7 +4930,7 @@
       "type": "Task",
       "name": "W33 업로드",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-04_업로드.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4748,7 +4939,7 @@
       "type": "Task",
       "name": "W33 촬영",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-014_W33/Tasks/tsk-014-03_촬영.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -4757,7 +4948,7 @@
       "type": "Task",
       "name": "콘텐츠 제작 - 유튜브 숏폼 제작 후 업로드(인스타 포함)",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-014_W33/Tasks/콘텐츠_제작_유튜브_숏폼_제작_후_업로드인스타_포함.md",
       "assignee": "한명학"
     },
     {
@@ -4794,7 +4985,7 @@
       "type": "Task",
       "name": "위고비 처방 및 구매",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-wegovy/Tasks/tsk-yt-wegovy-01_위고비처방구매.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4816,7 +5007,7 @@
       "type": "Task",
       "name": "YouTube W02 - 주제 선정",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-01_주제_선정.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-01_주제_선정.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -4824,17 +5015,17 @@
       "id": "tsk-yt-w02-26-06",
       "type": "Task",
       "name": "YouTube W02 - 쇼츠 #1",
-      "status": "todo",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-06_쇼츠_1.md",
+      "status": "done",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-06_쇼츠_1.md",
       "priority_flag": "medium",
-      "assignee": "한명학"
+      "assignee": "김은향"
     },
     {
       "id": "tsk-yt-w02-26-07",
       "type": "Task",
       "name": "YouTube W02 - 쇼츠 #2",
       "status": "todo",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-07_쇼츠_2.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-07_쇼츠_2.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4843,7 +5034,7 @@
       "type": "Task",
       "name": "YouTube W02 - 쇼츠 #3",
       "status": "todo",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-08_쇼츠_3.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-08_쇼츠_3.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4852,7 +5043,7 @@
       "type": "Task",
       "name": "YouTube W02 - 쇼츠 #4",
       "status": "todo",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-09_쇼츠_4.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-09_쇼츠_4.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4861,7 +5052,7 @@
       "type": "Task",
       "name": "YouTube W02 - 쇼츠 #5",
       "status": "todo",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-10_쇼츠_5.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-10_쇼츠_5.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4870,7 +5061,7 @@
       "type": "Task",
       "name": "YouTube W02 - 편집 외주",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-04_편집_외주.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-04_편집_외주.md",
       "priority_flag": "medium",
       "assignee": "외주"
     },
@@ -4895,7 +5086,7 @@
       "type": "Task",
       "name": "YouTube W02 - 원고 수정 + 촬영",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-03_원고_수정_촬영.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-03_원고_수정_촬영.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4930,8 +5121,8 @@
       "id": "tsk-yt-w02-26-05",
       "type": "Task",
       "name": "YouTube W02 - 썸네일 + 업로드",
-      "status": "todo",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-05_썸네일_업로드.md",
+      "status": "done",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-05_썸네일_업로드.md",
       "priority_flag": "medium",
       "assignee": "한명학"
     },
@@ -4974,7 +5165,7 @@
       "type": "Task",
       "name": "YouTube W02 - 폭식 Recovery Rountine MVP 기능 추가",
       "status": "done",
-      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-yt-w02-26-02_원고_작성.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -4982,8 +5173,17 @@
       "id": "tsk-26-1768967458149",
       "type": "Task",
       "name": "YouTube W02 - 추가편집(중복 내용 삭제 및 영상 정리)",
-      "status": "todo",
+      "status": "done",
       "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1768967458149.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-26-1769047635956",
+      "type": "Task",
+      "name": "YouTube W02 - 섬네일 변경 1회",
+      "status": "done",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W02-26/Tasks/tsk-26-1769047635956.md",
       "priority_flag": "medium",
       "assignee": "김은향"
     },
@@ -5091,11 +5291,253 @@
       "assignee": "한명학"
     },
     {
+      "id": "tsk-26-1769068166356",
+      "type": "Task",
+      "name": "YouTube W03-26 - MVP 개발(폭식 직전 개입)",
+      "status": "todo",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-26-1769068166356.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-26-1769068844709",
+      "type": "Task",
+      "name": "YouTube W03-26 - MVP 영상 촬영 및 삽입",
+      "status": "todo",
+      "path": "50_Projects/_Programs/Youtube_Weekly/Rounds/prj-yt-W03-26/Tasks/tsk-26-1769068844709.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "pgm-customer-insights-nightly",
+      "type": "Program",
+      "name": "Nightly Customer Insights (23:00)",
+      "status": "doing",
+      "path": "50_Projects/_Programs/Customer_Insights_Nightly/_PROGRAM.md",
+      "owner": "김은향, 한명학"
+    },
+    {
+      "id": "prj-youtub-w0526",
+      "type": "Project",
+      "name": "YouTube - W05-26",
+      "status": "active",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/project.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-01",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 주제 선정",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-01.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-yout-w0526-02",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 원고 작성",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-02.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-03",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 원고 수정 + 촬영",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-03.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-04",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 편집 외주",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-04.md",
+      "priority_flag": "medium",
+      "assignee": "외주"
+    },
+    {
+      "id": "tsk-yout-w0526-05",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 썸네일 제작",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-05.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-yout-w0526-06",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 업로드",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-06.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-07",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 쇼츠 #1",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-07.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-08",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 쇼츠 #2",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-08.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-09",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 쇼츠 #3",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-09.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-10",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 쇼츠 #4",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-10.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0526-11",
+      "type": "Task",
+      "name": "YouTube Weekly Round W05-26 - 쇼츠 #5",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0526/Tasks/tsk-yout-w0526-11.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "prj-youtub-w0426",
+      "type": "Project",
+      "name": "YouTube - W04-26",
+      "status": "active",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/project.md",
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-01",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 주제 선정",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-01.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-yout-w0426-02",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 원고 작성",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-02.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-03",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 원고 수정 + 촬영",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-03.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-04",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 편집 외주",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-04.md",
+      "priority_flag": "medium",
+      "assignee": "외주"
+    },
+    {
+      "id": "tsk-yout-w0426-05",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 썸네일 제작",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-05.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-yout-w0426-06",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 업로드",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-06.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-07",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 쇼츠 #1",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-07.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-08",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 쇼츠 #2",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-08.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-09",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 쇼츠 #3",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-09.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-10",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 쇼츠 #4",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-10.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yout-w0426-11",
+      "type": "Task",
+      "name": "YouTube Weekly Round W04-26 - 쇼츠 #5",
+      "status": "todo",
+      "path": "50_Projects/Templates/Rounds/prj-youtub-w0426/Tasks/tsk-yout-w0426-11.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
       "id": "ns-001",
       "type": "NorthStar",
       "name": "10년 비전",
       "status": "fixed",
-      "path": "01_North_Star/10년 비전.md",
+      "path": "01_North_Star/10년 비전.md",
       "priority_flag": "critical"
     },
     {
@@ -5103,7 +5545,7 @@
       "type": "MetaHypothesis",
       "name": "MH3_데이터_모델링_가능",
       "status": "validating",
-      "path": "01_North_Star/MH3_데이터_모델링_가능.md",
+      "path": "01_North_Star/MH3_데이터_모델링_가능.md",
       "priority_flag": "critical"
     },
     {
@@ -5111,7 +5553,7 @@
       "type": "MetaHypothesis",
       "name": "MH1_루프는_지속적_문제",
       "status": "validating",
-      "path": "01_North_Star/MH1_루프는_지속적_문제.md",
+      "path": "01_North_Star/MH1_루프는_지속적_문제.md",
       "priority_flag": "critical"
     },
     {
@@ -5119,7 +5561,7 @@
       "type": "MetaHypothesis",
       "name": "MH2_행동개입_효과",
       "status": "validating",
-      "path": "01_North_Star/MH2_행동개입_효과.md",
+      "path": "01_North_Star/MH2_행동개입_효과.md",
       "priority_flag": "critical"
     },
     {
@@ -5127,7 +5569,7 @@
       "type": "MetaHypothesis",
       "name": "MH4_단계적_확장_가능",
       "status": "validating",
-      "path": "01_North_Star/MH4_단계적_확장_가능.md",
+      "path": "01_North_Star/MH4_단계적_확장_가능.md",
       "priority_flag": "critical"
     },
     {
@@ -5150,7 +5592,7 @@
       "type": "Retrospective",
       "name": "소식연구소 2025년 연간 회고",
       "status": "done",
-      "path": "70_Experiments/2025/2025_연간_회고.md",
+      "path": "70_Experiments/2025/2025_연간_회고.md",
       "priority_flag": "critical"
     },
     {
@@ -5164,6 +5606,21 @@
       ],
       "priority_flag": "medium",
       "owner": "{담당자}"
+    },
+    {
+      "id": "strat-revenue-roadmap",
+      "type": "Strategy",
+      "name": "매출 폭발 시기 및 규모 추론 정리 v2",
+      "status": "doing",
+      "path": "20_Strategy/Revenue_Roadmap.md",
+      "priority_flag": "high"
+    },
+    {
+      "id": "moc-strategy",
+      "type": "MOC",
+      "name": "전략 맵 (Map of Contents)",
+      "status": "doing",
+      "path": "20_Strategy/_MOC_전략.md"
     },
     {
       "id": "trk-1",
@@ -5324,7 +5781,7 @@
       "type": "PartnershipStage",
       "name": "PS1_국내_의료기관",
       "status": "todo",
-      "path": "20_Strategy/PartnershipStages/PS1_국내_의료기관.md",
+      "path": "20_Strategy/PartnershipStages/PS1_국내_의료기관.md",
       "priority_flag": "high"
     },
     {
@@ -5332,7 +5789,7 @@
       "type": "PartnershipStage",
       "name": "PS2_제약_Exploratory",
       "status": "todo",
-      "path": "20_Strategy/PartnershipStages/PS2_제약_Exploratory.md",
+      "path": "20_Strategy/PartnershipStages/PS2_제약_Exploratory.md",
       "priority_flag": "medium"
     },
     {
@@ -5340,7 +5797,7 @@
       "type": "PartnershipStage",
       "name": "PS3_해외_클리닉",
       "status": "todo",
-      "path": "20_Strategy/PartnershipStages/PS3_해외_클리닉.md",
+      "path": "20_Strategy/PartnershipStages/PS3_해외_클리닉.md",
       "priority_flag": "medium"
     },
     {
@@ -5348,7 +5805,7 @@
       "type": "PartnershipStage",
       "name": "PS4_글로벌_제약_보험_API",
       "status": "todo",
-      "path": "20_Strategy/PartnershipStages/PS4_글로벌_제약_보험_API.md",
+      "path": "20_Strategy/PartnershipStages/PS4_글로벌_제약_보험_API.md",
       "priority_flag": "critical"
     },
     {
@@ -5460,6 +5917,11 @@
     },
     {
       "source": "trk-1",
+      "target": "hyp-1-XX",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-1",
       "target": "prj-151f61",
       "type": "parent_of"
     },
@@ -5565,6 +6027,11 @@
     },
     {
       "source": "trk-2",
+      "target": "hyp-2-13",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
       "target": "prj-001",
       "type": "parent_of"
     },
@@ -5631,6 +6098,21 @@
     {
       "source": "trk-2",
       "target": "prj-feedback-system",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-024",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-025",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-2",
+      "target": "prj-3pnv6w",
       "type": "parent_of"
     },
     {
@@ -5725,6 +6207,11 @@
     },
     {
       "source": "trk-4",
+      "target": "hyp-4-21",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
       "target": "prj-008",
       "type": "parent_of"
     },
@@ -5736,6 +6223,11 @@
     {
       "source": "trk-4",
       "target": "prj-12329q",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-4",
+      "target": "prj-kikehr",
       "type": "parent_of"
     },
     {
@@ -5830,6 +6322,11 @@
     },
     {
       "source": "trk-6",
+      "target": "hyp-4-25",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
       "target": "prj-007",
       "type": "parent_of"
     },
@@ -5856,6 +6353,11 @@
     {
       "source": "trk-6",
       "target": "prj-156anu",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-6",
+      "target": "prj-1xl2hh",
       "type": "parent_of"
     },
     {
@@ -5926,6 +6428,16 @@
     {
       "source": "trk-3",
       "target": "prj-yt-W03-26",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "prj-youtub-w0526",
+      "type": "parent_of"
+    },
+    {
+      "source": "trk-3",
+      "target": "prj-youtub-w0426",
       "type": "parent_of"
     },
     {
@@ -7074,6 +7586,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-156anu",
+      "target": "tsk-156anu-1769075695408",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-1t7iu4",
       "target": "tsk-1t7iu4-1768242340825",
       "type": "parent_of"
@@ -7121,6 +7638,11 @@
     {
       "source": "prj-1kthoh",
       "target": "tsk-1kthoh-1768971618133",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-1kthoh",
+      "target": "tsk-1kthoh-1768994658583",
       "type": "parent_of"
     },
     {
@@ -7734,6 +8256,26 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-023",
+      "target": "tsk-023-1768976530953",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1769013208858",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1769054156236",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-023",
+      "target": "tsk-023-1769065360052",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-019",
       "target": "tsk-kly0ry-1767960471502",
       "type": "parent_of"
@@ -7811,6 +8353,26 @@
     {
       "source": "prj-feedback-system",
       "target": "tsk-feedback-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-025",
+      "target": "tsk-025-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-025",
+      "target": "tsk-025-1769078489138",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-025",
+      "target": "tsk-025-1769078682639",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-3pnv6w",
+      "target": "tsk-3pnv6w-1769079377727",
       "type": "parent_of"
     },
     {
@@ -7949,6 +8511,16 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-mzjr8a",
+      "target": "tsk-mzjr8a-1768984975777",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-mzjr8a",
+      "target": "tsk-mzjr8a-1768989647469",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-021",
       "target": "tsk-021-01",
       "type": "parent_of"
@@ -8021,6 +8593,11 @@
     {
       "source": "prj-021",
       "target": "tsk-021-1768832996246",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-021",
+      "target": "tsk-021-1769054098913",
       "type": "parent_of"
     },
     {
@@ -8154,6 +8731,11 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-yt-W02-26",
+      "target": "tsk-26-1769047635956",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-yt-W03-26",
       "target": "tsk-yt-w03-26-01",
       "type": "parent_of"
@@ -8204,6 +8786,126 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-26-1769068166356",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W03-26",
+      "target": "tsk-26-1769068844709",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0526",
+      "target": "tsk-yout-w0526-11",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-10",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-youtub-w0426",
+      "target": "tsk-yout-w0426-11",
+      "type": "parent_of"
+    },
+    {
       "source": "ns-001",
       "target": "mh-3",
       "type": "parent_of"
@@ -8221,6 +8923,11 @@
     {
       "source": "ns-001",
       "target": "mh-4",
+      "type": "parent_of"
+    },
+    {
+      "source": "ns-001",
+      "target": "strat-revenue-roadmap",
       "type": "parent_of"
     },
     {
@@ -8859,6 +9566,31 @@
       "type": "validates"
     },
     {
+      "source": "prj-024",
+      "target": "hyp-2-13",
+      "type": "validates"
+    },
+    {
+      "source": "prj-025",
+      "target": "hyp-2-13",
+      "type": "validates"
+    },
+    {
+      "source": "prj-kikehr",
+      "target": "hyp-4-21",
+      "type": "validates"
+    },
+    {
+      "source": "prj-1xl2hh",
+      "target": "hyp-4-25",
+      "type": "validates"
+    },
+    {
+      "source": "prj-3pnv6w",
+      "target": "hyp-2-07",
+      "type": "validates"
+    },
+    {
       "source": "prj-014",
       "target": "hyp-4-11",
       "type": "validates"
@@ -8886,16 +9618,6 @@
     {
       "source": "prj-yt-W02-26",
       "target": "hyp-1-04",
-      "type": "validates"
-    },
-    {
-      "source": "prj-yt-W03-26",
-      "target": "hyp-1-01",
-      "type": "validates"
-    },
-    {
-      "source": "prj-yt-W03-26",
-      "target": "hyp-1-03",
       "type": "validates"
     },
     {
@@ -9148,6 +9870,8 @@
       "prj-1kthoh",
       "prj-5w69jw",
       "prj-019",
+      "prj-024",
+      "prj-025",
       "prj-014",
       "prj-012",
       "prj-yt-W03-26",
@@ -9156,6 +9880,7 @@
     ],
     "cond-e": [
       "prj-007",
+      "prj-016",
       "prj-dashboard-ux-v1",
       "prj-n8n",
       "tsk-n8n-15",
@@ -9195,6 +9920,8 @@
       "prj-content-os",
       "prj-w5kz77",
       "prj-waoz74",
+      "prj-024",
+      "prj-025",
       "pgm-content-os",
       "prj-kkokkkok-v1028",
       "prj-mzjr8a",
@@ -9268,7 +9995,11 @@
       "hyp-4-18",
       "hyp-3-04",
       "hyp-4-19",
-      "hyp-4-20"
+      "hyp-4-20",
+      "hyp-2-13",
+      "hyp-1-XX",
+      "hyp-4-21",
+      "hyp-4-25"
     ],
     "Project": [
       "prj-{NUMBER}",
@@ -9302,6 +10033,11 @@
       "prj-019",
       "prj-api-exec-vault",
       "prj-feedback-system",
+      "prj-024",
+      "prj-025",
+      "prj-kikehr",
+      "prj-1xl2hh",
+      "prj-3pnv6w",
       "prj-014",
       "prj-012",
       "prj-kkokkkok-v1028",
@@ -9310,7 +10046,9 @@
       "prj-yt-w33",
       "prj-yt-wegovy",
       "prj-yt-W02-26",
-      "prj-yt-W03-26"
+      "prj-yt-W03-26",
+      "prj-youtub-w0526",
+      "prj-youtub-w0426"
     ],
     "Task": [
       "tsk-{PRJ_NUMBER}-{SEQ}",
@@ -9536,6 +10274,7 @@
       "tsk-156anu-1768803029885",
       "tsk-156anu-1768805284323",
       "tsk-156anu-1768817617276",
+      "tsk-156anu-1769075695408",
       "tsk-1t7iu4-1768242340825",
       "tsk-1kthoh-1768748042882",
       "tsk-1kthoh-1768748072688",
@@ -9547,6 +10286,7 @@
       "tsk-1kthoh-1768844455000",
       "tsk-1kthoh-1768878418480",
       "tsk-1kthoh-1768971618133",
+      "tsk-1kthoh-1768994658583",
       "tsk-020-1768137610590",
       "tsk-8ebd16-1767962820437",
       "tsk-8ebd16-1767962820938",
@@ -9681,6 +10421,10 @@
       "tsk-023-1768931607143",
       "tsk-023-1768931978351",
       "tsk-023-1768933806691",
+      "tsk-023-1768976530953",
+      "tsk-023-1769013208858",
+      "tsk-023-1769054156236",
+      "tsk-023-1769065360052",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -9699,6 +10443,10 @@
       "tsk-0vault-1768106628300",
       "tsk-018-04",
       "tsk-feedback-01",
+      "tsk-025-01",
+      "tsk-025-1769078489138",
+      "tsk-025-1769078682639",
+      "tsk-3pnv6w-1769079377727",
       "tsk-014-1768228019327",
       "tsk-1ca2sj-1767960085150",
       "tsk-1q091r-1767960173667",
@@ -9738,6 +10486,8 @@
       "tsk-mzjr8a-1768791541000",
       "tsk-mzjr8a-1768809277000",
       "tsk-mzjr8a-1768965572347",
+      "tsk-mzjr8a-1768984975777",
+      "tsk-mzjr8a-1768989647469",
       "tsk-021-01",
       "tsk-021-1767964326285",
       "tsk-021-1767965869633",
@@ -9753,6 +10503,7 @@
       "tsk-021-1768743605059",
       "tsk-021-1768832764224",
       "tsk-021-1768832996246",
+      "tsk-021-1769054098913",
       "tsk-014-04",
       "tsk-014-03",
       "tsk-022-06",
@@ -9779,6 +10530,7 @@
       "tsk-26-1768832666705",
       "tsk-yt-w02-26-02",
       "tsk-26-1768967458149",
+      "tsk-26-1769047635956",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
@@ -9788,7 +10540,31 @@
       "tsk-yt-w03-26-07",
       "tsk-yt-w03-26-08",
       "tsk-yt-w03-26-09",
-      "tsk-yt-w03-26-10"
+      "tsk-yt-w03-26-10",
+      "tsk-26-1769068166356",
+      "tsk-26-1769068844709",
+      "tsk-yout-w0526-01",
+      "tsk-yout-w0526-02",
+      "tsk-yout-w0526-03",
+      "tsk-yout-w0526-04",
+      "tsk-yout-w0526-05",
+      "tsk-yout-w0526-06",
+      "tsk-yout-w0526-07",
+      "tsk-yout-w0526-08",
+      "tsk-yout-w0526-09",
+      "tsk-yout-w0526-10",
+      "tsk-yout-w0526-11",
+      "tsk-yout-w0426-01",
+      "tsk-yout-w0426-02",
+      "tsk-yout-w0426-03",
+      "tsk-yout-w0426-04",
+      "tsk-yout-w0426-05",
+      "tsk-yout-w0426-06",
+      "tsk-yout-w0426-07",
+      "tsk-yout-w0426-08",
+      "tsk-yout-w0426-09",
+      "tsk-yout-w0426-10",
+      "tsk-yout-w0426-11"
     ],
     "Program": [
       "pgm-coachos",
@@ -9802,7 +10578,8 @@
       "pgm-ops",
       "pgm-tips",
       "pgm-vault-system",
-      "pgm-youtube-weekly"
+      "pgm-youtube-weekly",
+      "pgm-customer-insights-nightly"
     ],
     "PRD": [
       "prd:graph-view-mvp"
@@ -9833,6 +10610,12 @@
       "trk-4",
       "trk-5",
       "trk-6"
+    ],
+    "Strategy": [
+      "strat-revenue-roadmap"
+    ],
+    "MOC": [
+      "moc-strategy"
     ],
     "Condition": [
       "cond-a",
@@ -9874,12 +10657,15 @@
       "hyp-3-02",
       "hyp-4-11",
       "hyp-2-11",
+      "hyp-3-03",
       "hyp-6-15",
       "hyp-4-16",
       "hyp-4-18",
       "hyp-3-04",
       "hyp-4-19",
       "hyp-4-20",
+      "hyp-4-21",
+      "hyp-4-25",
       "prj-{NUMBER}",
       "prj-001",
       "prj-003",
@@ -9909,6 +10695,10 @@
       "prj-019",
       "prj-api-exec-vault",
       "prj-feedback-system",
+      "prj-024",
+      "prj-kikehr",
+      "prj-1xl2hh",
+      "prj-3pnv6w",
       "prj-014",
       "prj-012",
       "prj-mzjr8a",
@@ -9963,6 +10753,7 @@
       "hyp-6-12",
       "hyp-6-13",
       "hyp-6-14",
+      "hyp-2-13",
       "tsk-{PRJ_NUMBER}-{SEQ}",
       "tsk-001-02",
       "tsk-001-01",
@@ -9988,13 +10779,14 @@
       "tsk-008-05",
       "tsk-015-1768627947254",
       "tsk-006-03",
-      "tsk-156anu-1768817617276",
+      "tsk-156anu-1769075695408",
       "tsk-1kthoh-1768748073383",
-      "tsk-1kthoh-1768971618133",
       "tsk-023-43",
       "tsk-023-1768331190178",
       "tsk-023-1768386479760",
       "tsk-feedback-01",
+      "tsk-025-01",
+      "tsk-025-1769078489138",
       "tsk-685ac7-1767962904466",
       "tsk-mzjr8a-1768742760758",
       "tsk-mzjr8a-1768231080040",
@@ -10002,15 +10794,14 @@
       "tsk-mzjr8a-1768791541000",
       "tsk-mzjr8a-1768809277000",
       "tsk-mzjr8a-1768965572347",
+      "tsk-mzjr8a-1768984975777",
+      "tsk-mzjr8a-1768989647469",
       "tsk-021-1768370031417",
-      "tsk-yt-w02-26-06",
       "tsk-yt-w02-26-07",
       "tsk-yt-w02-26-08",
       "tsk-yt-w02-26-09",
       "tsk-yt-w02-26-10",
       "tsk-26-1768238602412",
-      "tsk-yt-w02-26-05",
-      "tsk-26-1768967458149",
       "tsk-yt-w03-26-04",
       "tsk-yt-w03-26-05",
       "tsk-yt-w03-26-06",
@@ -10018,6 +10809,30 @@
       "tsk-yt-w03-26-08",
       "tsk-yt-w03-26-09",
       "tsk-yt-w03-26-10",
+      "tsk-26-1769068166356",
+      "tsk-26-1769068844709",
+      "tsk-yout-w0526-01",
+      "tsk-yout-w0526-02",
+      "tsk-yout-w0526-03",
+      "tsk-yout-w0526-04",
+      "tsk-yout-w0526-05",
+      "tsk-yout-w0526-06",
+      "tsk-yout-w0526-07",
+      "tsk-yout-w0526-08",
+      "tsk-yout-w0526-09",
+      "tsk-yout-w0526-10",
+      "tsk-yout-w0526-11",
+      "tsk-yout-w0426-01",
+      "tsk-yout-w0426-02",
+      "tsk-yout-w0426-03",
+      "tsk-yout-w0426-04",
+      "tsk-yout-w0426-05",
+      "tsk-yout-w0426-06",
+      "tsk-yout-w0426-07",
+      "tsk-yout-w0426-08",
+      "tsk-yout-w0426-09",
+      "tsk-yout-w0426-10",
+      "tsk-yout-w0426-11",
       "trk-5",
       "cond-c",
       "pl-2",
@@ -10030,8 +10845,7 @@
       "ps-4"
     ],
     "assumed": [
-      "hyp-3-01",
-      "hyp-3-03"
+      "hyp-3-01"
     ],
     "validating": [
       "hyp-4-12",
@@ -10045,6 +10859,7 @@
       "hyp-2-12",
       "hyp-4-14",
       "hyp-4-15",
+      "hyp-1-XX",
       "ev:{YYYY}-{NNNN}"
     ],
     "done": [
@@ -10249,6 +11064,8 @@
       "tsk-1kthoh-1768748985191",
       "tsk-1kthoh-1768834361862",
       "tsk-1kthoh-1768844455000",
+      "tsk-1kthoh-1768971618133",
+      "tsk-1kthoh-1768994658583",
       "tsk-020-1768137610590",
       "tsk-8ebd16-1767962820437",
       "tsk-8ebd16-1767962820938",
@@ -10380,6 +11197,10 @@
       "tsk-023-1768931607143",
       "tsk-023-1768931978351",
       "tsk-023-1768933806691",
+      "tsk-023-1768976530953",
+      "tsk-023-1769013208858",
+      "tsk-023-1769054156236",
+      "tsk-023-1769065360052",
       "tsk-kly0ry-1767960471502",
       "tsk-019-09",
       "tsk-019-10",
@@ -10397,6 +11218,8 @@
       "tsk-018-06",
       "tsk-0vault-1768106628300",
       "tsk-018-04",
+      "tsk-025-1769078682639",
+      "tsk-3pnv6w-1769079377727",
       "tsk-014-1768228019327",
       "tsk-1q091r-1767960173667",
       "tsk-685ac7-1767962816709",
@@ -10436,6 +11259,7 @@
       "tsk-021-1768720733426",
       "tsk-021-1768743605059",
       "tsk-021-1768832764224",
+      "tsk-021-1769054098913",
       "tsk-014-04",
       "tsk-014-03",
       "tsk-022-06",
@@ -10443,17 +11267,21 @@
       "tsk-w33-1767962818953",
       "tsk-yt-wegovy-01",
       "tsk-yt-w02-26-01",
+      "tsk-yt-w02-26-06",
       "tsk-yt-w02-26-04",
       "tsk-yt-01",
       "tsk-186i77-1767945624590",
       "tsk-yt-w02-26-03",
       "tsk-26-1768238550460",
       "tsk-26-1768238654295",
+      "tsk-yt-w02-26-05",
       "tsk-26-1768441882042",
       "tsk-26-1768658545586",
       "tsk-26-1768817962653",
       "tsk-26-1768832666705",
       "tsk-yt-w02-26-02",
+      "tsk-26-1768967458149",
+      "tsk-26-1769047635956",
       "tsk-yt-w03-26-01",
       "tsk-yt-w03-26-02",
       "tsk-yt-w03-26-03",
@@ -10465,8 +11293,10 @@
       "tsk-mcp-rbac-04",
       "tsk-mcp-rbac-03",
       "tsk-n8n-24",
+      "tsk-156anu-1768817617276",
       "tsk-1kthoh-1768841096537",
       "tsk-1kthoh-1768878418480",
+      "prj-025",
       "pgm-coachos",
       "pgm-coaching",
       "tsk-1ca2sj-1767960085150",
@@ -10487,6 +11317,9 @@
       "pgm-tips",
       "pgm-vault-system",
       "pgm-youtube-weekly",
+      "pgm-customer-insights-nightly",
+      "strat-revenue-roadmap",
+      "moc-strategy",
       "trk-1",
       "trk-2",
       "trk-3",
@@ -10509,6 +11342,8 @@
     ],
     "active": [
       "prj-yt-W03-26",
+      "prj-youtub-w0526",
+      "prj-youtub-w0426",
       "trk-{NUMBER}"
     ],
     "fixed": [
