@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-waoz74
 entity_name: Content OS - Dashboard v2
 created: 2026-01-14
-updated: '2026-01-20'
+updated: '2026-01-22'
 status: planning
 parent_id: trk-3
 aliases:
@@ -178,6 +178,11 @@ Content OS의 프론트엔드를 Next.js에서 Vite 기반의 경량 대시보�
 **Phase 2: 프론트엔드 UI 구현 (Task 8-13)**
 
 - [ ] Task 8: Vite에서 OAuth 인증 플로우 구현
+
+- [x] Task 8.5: Content OS 전용 레이아웃 분리 (2026-01-22 완료)
+  - ContentOSLayout, ContentOSHeader 생성 (`features/content-os/layout/`)
+  - 라우터 분리 (AppLayout에서 독립)
+  - LOOP Dashboard 헤더 제거, Content OS 전용 네비게이션 추가
 
 - [ ] Task 9: Opportunity 대시보드 UI 마이그레이션
 
