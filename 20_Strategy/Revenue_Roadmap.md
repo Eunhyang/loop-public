@@ -253,27 +253,74 @@ BED 외 확장(ED 전체, GLP-1 Crash, 비진단 폭식)을 포함하면, **연 
 
 ---
 
-## 9. 관계도
+## 9. 매출 가치 사슬 (Revenue Value Chain) 도식화
 
 ```mermaid
 graph TD
-    Vision[10년 비전<br/>Inner Loop OS] --> Roadmap[매출 폭발 추론 v2<br/>Revenue Roadmap]
-    Roadmap --> C1[패턴 가설 C1<br/>AUC 0.75-0.85]
-    Roadmap --> C0[노이즈 가설 C0<br/>AUC 0.6]
-    
-    Roadmap --> T2026[2026: 4-8억]
-    Roadmap --> T2029[2029: 30-60억]
-    Roadmap --> T2032[2032: 500-600억]
-    
-    T2026 --> CondD[Condition D 충족]
-    T2029 --> B2B[B2B/API 본격화]
-    T2032 --> Global[글로벌 OS 확장]
-    
-    subgraph "Scenarios"
-        Roadmap --- Base[Base]
-        Roadmap --- Aggressive[Aggressive]
-        Roadmap --- Outlier[Outlier]
+    subgraph Evidence ["계층적 증거 (Science)"]
+        EMA[EMA/자가기록 데이터]
+        Wear[웨어러블 센서 데이터]
+        EMA & Wear --> Feature[루프 피처 공간 구축]
     end
+
+    subgraph Prediction ["핵심 가설 & 성능 (Logic)"]
+        direction LR
+        C1["가설 C1 (Prob: 80%)<br/>폭식 패턴 기반<br/>Predictive AUC 0.8"]
+        C0["가설 C0 (Prob: 20%)<br/>노이즈 기반<br/>Predictive AUC 0.6"]
+    end
+
+    Feature --> C1
+    Feature --> C0
+
+    subgraph Impact ["임상적 임팩트 (Intervention)"]
+        JITAI_High["고성능 JITAI 개입<br/>(30% 폭식 빈도 감소)"]
+        JITAI_Low["저성능 개입/코칭<br/>(10-15% 감소)"]
+    end
+
+    C1 --> JITAI_High
+    C0 --> JITAI_Low
+
+    subgraph Econ ["경제적 가치 창출 (Economics)"]
+        SocialCost["BED 1인당 사회적 비용<br/>($20,000/yr)"]
+        TargetMarket["미국 BED 유효 시장<br/>(40만 명)"]
+        
+        SavingHigh["1인당 비용 절감 $6,100"]
+        SavingLow["1인당 비용 절감 $395"]
+    end
+
+    JITAI_High --> SavingHigh
+    JITAI_Low --> SavingLow
+    SocialCost -.-> SavingHigh
+    SocialCost -.-> SavingLow
+
+    subgraph Revenue ["매출 포착 (Business)"]
+        CaptureHigh["연간 구독/라이선스<br/>$160/person"]
+        CaptureLow["연간 구독/커미션<br/>$60/person"]
+        
+        RevHigh["C1 시나리오 매출<br/>$16M - $48M"]
+        RevLow["C0 시나리오 매출<br/>$6M"]
+        
+        EV["베이지안 기대 매출 (EV)<br/>연간 $50M+ (USA BED Only)"]
+    end
+
+    SavingHigh --> CaptureHigh
+    SavingLow --> CaptureLow
+    
+    CaptureHigh --> RevHigh
+    CaptureLow --> RevLow
+    TargetMarket --> RevHigh
+    TargetMarket --> RevLow
+    
+    RevHigh -.->|Weight 0.8| EV
+    RevLow -.->|Weight 0.2| EV
+
+    subgraph Scalability ["확장 옵션 (Scalability)"]
+        HumanOS["Human Behavior OS<br/>(GLP-1, 타 섭식장애, 루프 확장)"]
+        Valuation["기업 가치 퀀텀 점프<br/>($250M - $400M+)"]
+    end
+
+    EV --> HumanOS
+    HumanOS --> Valuation
 ```
 
 ---
