@@ -1,0 +1,21 @@
+graph LR
+    P1["Phase 1 (2025-26)<br/>Data Foundation"] --> P2["Phase 2 (2027)<br/>Clinical Link"]
+    P2 --> P3["Phase 3 (2028)<br/>DTx & Early Pilot"]
+    P3 --> P4["Phase 4 (2029)<br/>B2B/API Pivot"]
+    P4 --> P5["Phase 5 (2030-32)<br/>Global Scaling"]
+    P5 --> P6["Phase 6 (2033-35)<br/>Human OS"]
+
+    subgraph Early ["B2C & 근거 축적"]
+        P1
+        P2
+        P3
+    end
+
+    subgraph Expansion ["B2B 레버리지 & 폭발"]
+        P4
+        P5
+        P6
+    end
+
+    classDef hockey fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    class P4,P5,P6 hockey

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-23T02:06:38.915206",
-  "total_entities": 678,
+  "generated": "2026-01-23T09:45:44.628740",
+  "total_entities": 690,
   "nodes": [
     {
       "id": "hyp-{TRK}-{SEQ}",
@@ -463,6 +463,13 @@
       "name": "꼭꼭Fit 5기 모집 — 콘텐츠→상담→세일즈→결제 퍼널이 20명 모집과 매출 1,000만을 만든다",
       "status": "planning",
       "path": "60_Hypotheses/2026/hyp-4-25.md"
+    },
+    {
+      "id": "logic-pattern-binge",
+      "type": "Logic",
+      "name": "폭식 패턴 기반 가설 근거 및 베이지안 기대값",
+      "status": "active",
+      "path": "60_Hypotheses/Logic/ logic-pattern-binge_폭식_패턴_논리.md"
     },
     {
       "id": "prj-{NUMBER}",
@@ -5533,6 +5540,108 @@
       "assignee": "한명학"
     },
     {
+      "id": "prj-yt-W04-26",
+      "type": "Project",
+      "name": "YouTube - W04-26",
+      "status": "active",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/project.md",
+      "conditions_3y": [
+        "cond-a"
+      ],
+      "priority_flag": "medium",
+      "owner": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-01",
+      "type": "Task",
+      "name": "YouTube W04-26 - 주제 선정",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-01.md",
+      "priority_flag": "medium",
+      "assignee": "김은향"
+    },
+    {
+      "id": "tsk-yt-w04-26-02",
+      "type": "Task",
+      "name": "YouTube W04-26 - 원고 작성",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-02.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-03",
+      "type": "Task",
+      "name": "YouTube W04-26 - 원고 수정 + 촬영",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-03.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-04",
+      "type": "Task",
+      "name": "YouTube W04-26 - 편집 외주",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-04.md",
+      "priority_flag": "medium",
+      "assignee": "외주"
+    },
+    {
+      "id": "tsk-yt-w04-26-05",
+      "type": "Task",
+      "name": "YouTube W04-26 - 썸네일 + 업로드",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-05.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-06",
+      "type": "Task",
+      "name": "YouTube W04-26 - 쇼츠 #1",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-06.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-07",
+      "type": "Task",
+      "name": "YouTube W04-26 - 쇼츠 #2",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-07.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-08",
+      "type": "Task",
+      "name": "YouTube W04-26 - 쇼츠 #3",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-08.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-09",
+      "type": "Task",
+      "name": "YouTube W04-26 - 쇼츠 #4",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-09.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
+      "id": "tsk-yt-w04-26-10",
+      "type": "Task",
+      "name": "YouTube W04-26 - 쇼츠 #5",
+      "status": "todo",
+      "path": "50_Projects/Youtube_Weekly/Rounds/prj-yt-W04-26/Tasks/tsk-yt-w04-26-10.md",
+      "priority_flag": "medium",
+      "assignee": "한명학"
+    },
+    {
       "id": "ns-001",
       "type": "NorthStar",
       "name": "10년 비전",
@@ -6441,6 +6550,11 @@
       "type": "parent_of"
     },
     {
+      "source": "trk-3",
+      "target": "prj-yt-W04-26",
+      "type": "parent_of"
+    },
+    {
       "source": "prj-012",
       "target": "hyp-4-12",
       "type": "parent_of"
@@ -6508,6 +6622,11 @@
     {
       "source": "prj-012",
       "target": "tsk-012-1768832938598",
+      "type": "parent_of"
+    },
+    {
+      "source": "hyp-2-06",
+      "target": "logic-pattern-binge",
       "type": "parent_of"
     },
     {
@@ -8906,6 +9025,56 @@
       "type": "parent_of"
     },
     {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-01",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-02",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-03",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-04",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-05",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-06",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-07",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-08",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-09",
+      "type": "parent_of"
+    },
+    {
+      "source": "prj-yt-W04-26",
+      "target": "tsk-yt-w04-26-10",
+      "type": "parent_of"
+    },
+    {
       "source": "ns-001",
       "target": "mh-3",
       "type": "parent_of"
@@ -9928,6 +10097,7 @@
       "prj-yt-wegovy",
       "prj-yt-W02-26",
       "prj-yt-W03-26",
+      "prj-yt-W04-26",
       "trk-1",
       "trk-3"
     ]
@@ -10001,6 +10171,9 @@
       "hyp-4-21",
       "hyp-4-25"
     ],
+    "Logic": [
+      "logic-pattern-binge"
+    ],
     "Project": [
       "prj-{NUMBER}",
       "prj-001",
@@ -10048,7 +10221,8 @@
       "prj-yt-W02-26",
       "prj-yt-W03-26",
       "prj-youtub-w0526",
-      "prj-youtub-w0426"
+      "prj-youtub-w0426",
+      "prj-yt-W04-26"
     ],
     "Task": [
       "tsk-{PRJ_NUMBER}-{SEQ}",
@@ -10564,7 +10738,17 @@
       "tsk-yout-w0426-08",
       "tsk-yout-w0426-09",
       "tsk-yout-w0426-10",
-      "tsk-yout-w0426-11"
+      "tsk-yout-w0426-11",
+      "tsk-yt-w04-26-01",
+      "tsk-yt-w04-26-02",
+      "tsk-yt-w04-26-03",
+      "tsk-yt-w04-26-04",
+      "tsk-yt-w04-26-05",
+      "tsk-yt-w04-26-06",
+      "tsk-yt-w04-26-07",
+      "tsk-yt-w04-26-08",
+      "tsk-yt-w04-26-09",
+      "tsk-yt-w04-26-10"
     ],
     "Program": [
       "pgm-coachos",
@@ -10833,6 +11017,16 @@
       "tsk-yout-w0426-09",
       "tsk-yout-w0426-10",
       "tsk-yout-w0426-11",
+      "tsk-yt-w04-26-01",
+      "tsk-yt-w04-26-02",
+      "tsk-yt-w04-26-03",
+      "tsk-yt-w04-26-04",
+      "tsk-yt-w04-26-05",
+      "tsk-yt-w04-26-06",
+      "tsk-yt-w04-26-07",
+      "tsk-yt-w04-26-08",
+      "tsk-yt-w04-26-09",
+      "tsk-yt-w04-26-10",
       "trk-5",
       "cond-c",
       "pl-2",
@@ -10861,6 +11055,14 @@
       "hyp-4-15",
       "hyp-1-XX",
       "ev:{YYYY}-{NNNN}"
+    ],
+    "active": [
+      "logic-pattern-binge",
+      "prj-yt-W03-26",
+      "prj-youtub-w0526",
+      "prj-youtub-w0426",
+      "prj-yt-W04-26",
+      "trk-{NUMBER}"
     ],
     "done": [
       "tsk-001-03",
@@ -11339,12 +11541,6 @@
     ],
     "draft": [
       "prd:graph-view-mvp"
-    ],
-    "active": [
-      "prj-yt-W03-26",
-      "prj-youtub-w0526",
-      "prj-youtub-w0426",
-      "trk-{NUMBER}"
     ],
     "fixed": [
       "ns-001"
