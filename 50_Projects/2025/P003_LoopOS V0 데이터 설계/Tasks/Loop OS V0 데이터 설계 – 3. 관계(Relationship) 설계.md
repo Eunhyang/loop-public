@@ -3,7 +3,7 @@ entity_type: Task
 entity_id: tsk-003-06
 entity_name: Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계
 created: 2025-12-18
-updated: '2026-01-21'
+updated: '2026-01-24'
 status: todo
 parent_id: prj-003
 project_id: prj-003
@@ -15,13 +15,13 @@ outgoing_relations: []
 validates: []
 validated_by: []
 assignee: 김은향
-due: '2026-01-24'
+due: '2026-01-27'
 priority: medium
 estimated_hours: null
 actual_hours: null
 tags: []
 priority_flag: medium
-start_date: '2026-01-24'
+start_date: '2026-01-27'
 ---
 # Loop OS V0 데이터 설계 – 3. 관계(Relationship) 설계
 
