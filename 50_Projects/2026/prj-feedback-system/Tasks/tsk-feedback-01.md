@@ -3,13 +3,13 @@ entity_type: Task
 entity_id: tsk-feedback-01
 entity_name: Feedback - API 엔드포인트 + Firestore 스키마 구현
 created: '2026-01-05'
-updated: '2026-01-22'
+updated: '2026-01-24'
 status: todo
 project_id: prj-feedback-system
 parent_id: prj-feedback-system
 assignee: 김은향
 priority: high
-due: '2026-01-24'
+due: '2026-01-29'
 aliases:
 - tsk-feedback-01
 outgoing_relations: []
@@ -21,7 +21,7 @@ tags:
 - firestore
 - feedback
 priority_flag: high
-start_date: '2026-01-24'
+start_date: '2026-01-29'
 start_time: 04:30
 end_time: 05:30
 ---
