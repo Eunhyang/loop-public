@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-006
 entity_name: 코치 1명 구인 & 1차 온보딩 준비
 created: 2025-12-18
-updated: '2026-01-20'
+updated: '2026-01-25'
 status: planning
 parent_id: trk-4
 program_id: pgm-hiring
@@ -32,9 +32,11 @@ condition_contributes:
   description: 코칭 참여자 증가 → 매출 → 런웨이
 track_contributes: []
 expected_impact:
-  statement: 이 프로젝트가 성공하면 코칭 서비스 Scale이 가능함이 증명된다
-  metric: 코치 채용 및 온보딩 완료
-  target: 코치 1명 채용 + 온보딩 완료
+  tier: operational
+  impact_magnitude: mid
+  confidence: 0.7
+  contributes: []
+  rationale: null
 realized_impact:
   outcome: null
   evidence: null
@@ -45,27 +47,9 @@ conditions_3y:
 - cond-d
 tags: []
 priority_flag: medium
+primary_hypothesis_id: ''
+summary: null
+links: []
+attachments: []
 ---
-# 코치 1명 구인 & 1차 온보딩 준비
-
-> Project ID: `prj-006` | Program: `pgm-hiring` | Status: doing
-
-## 프로젝트 개요
-
-이 프로젝트는 Notion Tasks 데이터베이스에서 마이그레이션되었습니다.
-
----
-
-## Tasks
-
-아래 Tasks/ 폴더에 프로젝트의 모든 태스크가 포함되어 있습니다.
-
----
-
-## 참고 문서
-
-- \[\[Track_2_Data\]\] - 소속 Track
-
----
-
-**Created**: 2025-12-18 **Owner**: 미정
+<p></p>

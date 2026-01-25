@@ -10,16 +10,16 @@ project_id: prj-youtub-w0426
 aliases:
 - tsk-yout-w0426-01
 assignee: 김은향
-due: '2026-01-25'
+due: '2026-01-26'
 priority: medium
 type: ops
 tags:
 - youtube-weekly
 - w04-26
 priority_flag: medium
-start_date: '2026-01-25'
-start_time: '16:00'
-end_time: '17:00'
+start_date: '2026-01-26'
+start_time: '13:00'
+end_time: '14:00'
 ---
 # YouTube Weekly Round W04-26 - 주제 선정
 

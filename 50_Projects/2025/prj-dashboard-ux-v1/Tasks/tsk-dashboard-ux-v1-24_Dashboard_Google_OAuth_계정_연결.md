@@ -3,8 +3,8 @@ entity_type: Task
 entity_id: tsk-dashboard-ux-v1-24
 entity_name: Dashboard - Google OAuth 계정 연결
 created: 2026-01-06
-updated: '2026-01-16'
-status: doing
+updated: '2026-01-25'
+status: done
 parent_id: prj-dashboard-ux-v1
 project_id: prj-dashboard-ux-v1
 aliases:
@@ -74,7 +74,7 @@ notes: "# Dashboard - Google OAuth 계정 연결\n\n> Task ID: `tsk-dashboard-ux
   \nTOKEN_ENCRYPTION_KEY=\"32-byte-key\"\n```\n\n**Python 패키지**\n\n```\ngoogle-auth\n\
   google-auth-oauthlib\ncryptography\n```\n\n---\n\n## 참고 문서\n\n- \\[\\[prj-dashboard-ux-v1\\\
   ]\\] - 소속 Project\n- `public/api/oauth/` - 기존 OAuth 구현 참고\n- Google OAuth 2.0 문서:\
-  \ https://developers.google.com/identity/protocols/oauth2\n\n---\n\n## Implementation\
+  \ <https://developers.google.com/identity/protocols/oauth2>\n\n---\n\n## Implementation\
   \ Log (2026-01-06)\n\n### 구현 완료 파일\n\n1. **api/models/google_accounts.py** (신규)\n\
   \n   - `GoogleAccount` 모델: 암호화된 토큰 저장\n   - `GoogleOAuthState` 모델: CSRF 방지용 state\
   \ 저장\n   - SQLite DB 초기화\n\n2. **api/services/google_oauth.py** (신규)\n\n   - AES-256-GCM\

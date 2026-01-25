@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-002
 entity_name: 와디즈 - 12주 습관 코칭 패키지
 created: 2025-12-18
-updated: '2026-01-20'
+updated: '2026-01-25'
 status: planning
 parent_id: trk-6
 aliases:
@@ -52,25 +52,8 @@ tasks:
 - tsk-002-02
 - tsk-002-13
 primary_hypothesis_id: hyp-6-09
+summary: null
+links: []
+attachments: []
 ---
-# \[와디즈\] 12주 코칭 습관팩 런칭
-
-> Project ID: `prj-002` | Track: `trk-6` | Status: planning
-
-## 프로젝트 개요
-
-이 프로젝트는 Notion Tasks 데이터베이스에서 마이그레이션되었습니다.
-
----
-
-## Tasks
-
-아래 Tasks/ 폴더에 프로젝트의 모든 태스크가 포함되어 있습니다.
-
----
-
-## 참고 문서
-
-- \[\[Track_2_Data\]\] - 소속 Track
-
----
+<p></p>

@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-014
 entity_name: 꼭꼭FIT 랜딩 페이지 - 리뉴얼
 created: 2025-12-18
-updated: '2026-01-20'
+updated: '2026-01-25'
 status: planning
 parent_id: trk-4
 aliases:
@@ -33,7 +33,8 @@ expected_impact:
   tier: enabling
   impact_magnitude: mid
   confidence: 0.5
-  condition_contributes: []
+  contributes: []
+  rationale: null
 realized_impact:
   outcome: null
   evidence: null
@@ -46,27 +47,8 @@ tags: []
 priority_flag: medium
 primary_hypothesis_id: hyp-4-11
 program_id: pgm-coaching
+summary: null
+links: []
+attachments: []
 ---
-# 코칭 서비스 운영 체계 재구축
-
-> Project ID: `prj-014` | Track: `trk-4` | Status: active
-
-## 프로젝트 개요
-
-이 프로젝트는 Notion Tasks 데이터베이스에서 마이그레이션되었습니다.
-
----
-
-## Tasks
-
-아래 Tasks/ 폴더에 프로젝트의 모든 태스크가 포함되어 있습니다.
-
----
-
-## 참고 문서
-
-- \[\[Track_2_Data\]\] - 소속 Track
-
----
-
-**Created**: 2025-12-18 **Owner**: 한명학
+<p></p>

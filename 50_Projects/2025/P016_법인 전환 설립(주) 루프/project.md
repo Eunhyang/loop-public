@@ -3,16 +3,18 @@ entity_type: Project
 entity_id: prj-016
 entity_name: 법인 전환 설립(주) 루프
 created: 2025-12-25
-updated: '2026-01-22'
+updated: '2026-01-25'
 status: planning
 owner: 한명학
 budget: null
 start_date: null
 deadline: null
 expected_impact:
-  statement: null
-  metric: null
-  target: null
+  tier: operational
+  impact_magnitude: mid
+  confidence: 0.7
+  contributes: []
+  rationale: null
 realized_impact:
   verdict: null
   outcome: null
@@ -47,43 +49,9 @@ condition_contributes:
 - to: cond-e
   weight: 0.3
   description: 기술 및 인프라 관련 기여
+primary_hypothesis_id: ''
+summary: null
+links: []
+attachments: []
 ---
-# 법인 전환 설립(주) 루프
-
-> Project ID: `prj-016` | Track: \[\[trk-6\]\] | Status: planning
-
-## 프로젝트 개요
-
-개인사업자에서 주식회사 루프로 법인 전환하는 프로젝트.
-
----
-
-## Expected Impact
-
-> `/auto-fill-project-impact` 실행하여 채우기
-
-| 항목 | 값 |
-| --- | --- |
-| Statement | (미정) |
-| Metric | (미정) |
-| Target | (미정) |
-
----
-
-## Tasks
-
-| Task ID | Task Name | Assignee | Status |
-| --- | --- | --- | --- |
-| tsk-016-01 | 법인 정관 작성 후 최종 검토 | 한명학 | planning |
-| tsk-016-02 | 법인 신청 및 결제/추후 보완사항 대응 | 한명학 | planning |
-
----
-
-## 참조
-
-- **Track**: \[\[trk-6|Scale/Infra\]\]
-- **Condition**: \[\[cond-d\]\]
-
----
-
-**Created**: 2025-12-25 **Owner**: 한명학
+<p></p>

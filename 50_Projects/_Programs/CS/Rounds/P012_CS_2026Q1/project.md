@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-012
 entity_name: CS - 2026 Q1
 created: 2025-12-18
-updated: '2026-01-19'
+updated: '2026-01-25'
 status: planning
 parent_id: trk-4
 program_id: pgm-cs
@@ -31,9 +31,11 @@ condition_contributes:
   description: 고객 만족 → 재등록률 → 매출
 track_contributes: []
 expected_impact:
-  statement: 이 프로젝트가 성공하면 고객 CS 프로세스가 안정화됨이 증명된다
-  metric: CS 응답 시간 + 해결률
-  target: 24시간 내 응답 + 90% 해결
+  tier: operational
+  impact_magnitude: mid
+  confidence: 0.7
+  contributes: []
+  rationale: null
 realized_impact:
   outcome: null
   evidence: null
@@ -44,27 +46,9 @@ conditions_3y:
 - cond-d
 tags: []
 priority_flag: medium
+primary_hypothesis_id: ''
+summary: null
+links: []
+attachments: []
 ---
-# CS - 2026 Q1
-
-> Project ID: `prj-012` | Track: `trk-4` | Program: `pgm-cs` | Status: planning
-
-## 프로젝트 개요
-
-이 프로젝트는 Notion Tasks 데이터베이스에서 마이그레이션되었습니다.
-
----
-
-## Tasks
-
-아래 Tasks/ 폴더에 프로젝트의 모든 태스크가 포함되어 있습니다.
-
----
-
-## 참고 문서
-
-- \[\[Track_2_Data\]\] - 소속 Track
-
----
-
-**Created**: 2025-12-18 **Owner**: 한명학
+<p></p>
