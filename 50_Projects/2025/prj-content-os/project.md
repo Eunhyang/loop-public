@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-content-os
 entity_name: Content OS - MVP 개발
 created: 2025-12-31
-updated: '2026-01-20'
-status: planning
+updated: '2026-01-25'
+status: done
 parent_id: trk-3
 aliases:
 - prj-content-os
@@ -17,8 +17,8 @@ validated_by: []
 primary_hypothesis_id: hyp-3-01
 owner: 김은향
 budget: null
-start_date: null
-deadline: null
+start_date: '2026-01-05'
+deadline: '2026-01-17'
 hypothesis_text: Content OS를 구축하면 콘텐츠 기획 시간이 50% 감소하고, Evidence 기반 학습이 축적된다
 experiments: []
 tier: enabling
