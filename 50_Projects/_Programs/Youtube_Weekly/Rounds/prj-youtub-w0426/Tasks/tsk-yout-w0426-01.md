@@ -17,8 +17,10 @@ tags:
 - youtube-weekly
 - w04-26
 priority_flag: medium
+start_date: '2026-01-25'
+start_time: '16:00'
+end_time: '17:00'
 ---
-
 # YouTube Weekly Round W04-26 - 주제 선정
 
 > Task ID: `tsk-yout-w0426-01` | Project: `prj-youtub-w0426` | Due: 2026-01-25
