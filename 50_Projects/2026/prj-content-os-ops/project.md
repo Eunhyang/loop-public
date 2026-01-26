@@ -83,7 +83,7 @@ Content OS가 Dashboard v2에 통합 완료(prj-waoz74)되었으며, 본 프로�
 | 3 | 성능 유지 | 페이지 로딩 &lt; 2초, API 응답 &lt; 500ms |
 | 4 | 코드 품질 | LLM Work Rules 준수율 100% |
 
-### 실패 신호
+### 전환 신호
 
 1. 동일 버그 반복 발생 (3회+)
 2. 사용자 기피로 Legacy 방식 회귀
