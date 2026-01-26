@@ -3,8 +3,8 @@ entity_type: Project
 entity_id: prj-3pnv6w
 entity_name: KPI Dashboard - 노션 스타일 분석 대시보드
 created: '2026-01-22'
-updated: '2026-01-22'
-status: planning
+updated: '2026-01-26'
+status: doing
 owner: 김은향
 parent_id: trk-2
 program_id: pgm-vault-system
@@ -27,19 +27,20 @@ expected_impact:
 
 # KPI Dashboard - 노션 스타일 분석 대시보드
 
-> Project ID: `prj-3pnv6w` | Track: `trk-2` | Status: planning
+> Project ID: `prj-3pnv6w` | Track: `trk-2` | Status: doing
 
 ---
 
 ## 목표
 
-KPI API (`/api/kpi/*`)를 활용한 노션 스타일 대시보드 Feature를 dashboard-v2 아키텍처에 맞춰 구현.
+KPI API (`/api/kpi/*`)를 활용한 **시계열 그래프 기반** 대시보드 Feature를 dashboard-v2 아키텍처에 맞춰 구현.
 
 ### 성공 기준
-1. MAU, Revenue, Conversion 핵심 지표를 카드 형태로 한눈에 파악
-2. 노션 스타일 깔끔한 UI (미니멀 디자인, 카드 레이아웃)
-3. 기존 dashboard-v2 클린 아키텍처 준수 (feature 기반 모듈화)
-4. `npm run build` 통과
+1. DAU/MAU/Stickiness 시계열 라인 차트로 트렌드 파악
+2. 날짜 범위 선택기 (7d/30d/90d)로 기간별 분석
+3. 컴팩트 요약 카드로 핵심 지표 한눈에 확인
+4. 기존 dashboard-v2 클린 아키텍처 준수 (feature 기반 모듈화)
+5. `npm run build` 통과
 
 ### 실패 신호
 1. 빌드 실패 또는 TypeScript 에러
@@ -50,12 +51,17 @@ KPI API (`/api/kpi/*`)를 활용한 노션 스타일 대시보드 Feature를 das
 ## 범위
 
 ### In Scope
-- KPI Overview 페이지 (`/kpi` 라우트)
-- MAU/Revenue/Conversion 메트릭 카드
-- 날짜 필터 (선택사항)
+- KPI Analytics 페이지 (`/kpi` 라우트)
+- DAU/MAU/Stickiness 시계열 라인 차트 (recharts)
+- 날짜 범위 선택기 (7d/30d/90d)
+- KPI 전용 헤더 디자인
+- 요약 카드 (컴팩트, 그래프 상단)
+- Clean Architecture 구조 적용
 
 ### Out of Scope
-- KPI 트렌드 차트 (차트 라이브러리 선택 필요, 추후 작업)
+- Conversion funnel 시각화 (별도 프로젝트)
+- User cohort 분석
+- Revenue KPI (exec 전용)
 - 사용자 여정 상세 페이지
 - 환불 분석 대시보드
 
@@ -70,56 +76,68 @@ dashboard-v2/src/
 ├── features/kpi/
 │   ├── api.ts                    # KPI API 엔드포인트 래퍼
 │   ├── queries.ts                # React Query hooks
+│   ├── utils.ts                  # 데이터 변환 함수 (NEW)
 │   └── components/
-│       ├── KPIPage.tsx           # 페이지 컴포넌트
-│       ├── KPIOverviewCard.tsx   # 개요 카드
-│       ├── KPIMetricCard.tsx     # 개별 메트릭 카드
-│       └── KPIDateFilter.tsx     # 날짜 필터
+│       ├── KPIPage.tsx           # 페이지 컴포넌트 (REFACTORED)
+│       ├── KPIHeader.tsx         # KPI 전용 헤더 + 날짜 선택기 (NEW)
+│       ├── KPISummaryCards.tsx   # 컴팩트 요약 카드 (NEW)
+│       ├── KPILineChart.tsx      # 시계열 라인 차트 (NEW)
+│       └── KPIMetricCard.tsx     # 개별 메트릭 카드
 │
-├── types/kpi.ts                  # DTO 타입 정의 (SSOT)
-├── queries/keys.ts               # kpiKeys 추가 (기존 파일)
-└── App.tsx                       # /kpi 라우트 추가
+├── types/kpi.ts                  # DTO + Chart 타입 정의 (SSOT)
+├── queries/keys.ts               # kpiKeys (기존 파일)
+└── App.tsx                       # /kpi 라우트
 ```
+
+### 컴포넌트 구조
+
+| 컴포넌트 | 역할 | 상태 |
+|----------|------|------|
+| `KPIPage` | 메인 페이지, 상태 관리 | DONE |
+| `KPIHeader` | 제목, 날짜 선택기 | DONE |
+| `KPISummaryCards` | Avg DAU/MAU/Stickiness/Engagement | DONE |
+| `KPILineChart` | recharts LineChart 래퍼 | DONE |
 
 ### API 엔드포인트
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/kpi/overview` | GET | MAU, Revenue 개요 |
-| `/api/kpi/mau` | GET | MAU 상세 (params: start_date, end_date) |
-| `/api/kpi/conversion` | GET | Conversion 상세 |
+| `/api/kpi/dau` | GET | DAU 시계열 (params: start_date, end_date) |
+| `/api/kpi/mau` | GET | MAU 시계열 (params: start_date, end_date) |
+| `/api/kpi/stickiness` | GET | Stickiness 계산 |
 
 ### 의존성
 - 기존 dashboard-v2 아키텍처 (React Query, Tailwind CSS)
+- recharts (시계열 차트)
 - KPI API 정상 동작 확인됨
 - Bearer token 인증 (admin role 또는 kpi:read scope)
 
 ---
 
-## 수정 대상 파일
+## 변경 이력
 
-| 파일 | 작업 | 설명 |
+| 날짜 | 변경 | 설명 |
 |------|------|------|
-| `src/types/kpi.ts` | **신규** | KPI DTO 타입 정의 |
-| `src/types/index.ts` | 수정 | kpi.ts export 추가 |
-| `src/queries/keys.ts` | 수정 | kpi 관련 queryKeys 추가 |
-| `src/features/kpi/api.ts` | **신규** | API 엔드포인트 래퍼 |
-| `src/features/kpi/queries.ts` | **신규** | React Query hooks |
-| `src/features/kpi/components/*.tsx` | **신규** | UI 컴포넌트들 |
-| `src/App.tsx` | 수정 | /kpi 라우트 추가 |
+| 2026-01-22 | 초기 생성 | 카드 기반 대시보드 계획 |
+| 2026-01-26 | 리팩토링 | 시계열 그래프 기반으로 전환 |
 
 ---
 
 ## Todo
 
-- [ ] Types 정의 (`src/types/kpi.ts`)
-- [ ] Query Keys 추가 (`src/queries/keys.ts`)
-- [ ] API 래퍼 (`src/features/kpi/api.ts`)
-- [ ] React Query Hooks (`src/features/kpi/queries.ts`)
-- [ ] KPIMetricCard 컴포넌트
-- [ ] KPIPage 컴포넌트
-- [ ] 라우트 등록 (`src/App.tsx`)
-- [ ] `npm run build` 통과 확인
+- [x] Types 정의 (`src/types/kpi.ts`)
+- [x] Query Keys 추가 (`src/queries/keys.ts`)
+- [x] API 래퍼 (`src/features/kpi/api.ts`)
+- [x] React Query Hooks (`src/features/kpi/queries.ts`)
+- [x] Utils 함수 (`src/features/kpi/utils.ts`)
+- [x] KPILineChart 컴포넌트
+- [x] KPIHeader 컴포넌트
+- [x] KPISummaryCards 컴포넌트
+- [x] KPIPage 리팩토링
+- [x] 라우트 등록 (`src/App.tsx`)
+- [x] `npm run build` 통과 확인
+- [ ] 배포 및 실제 데이터 확인
 
 ---
 
@@ -132,4 +150,5 @@ dashboard-v2/src/
 ---
 
 **Created**: 2026-01-22
+**Updated**: 2026-01-26
 **Owner**: 김은향
