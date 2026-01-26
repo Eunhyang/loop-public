@@ -769,11 +769,73 @@ find 50_Projects -name "project.md" | xargs grep "parent_id:" | grep -v "trk-"
 
 ---
 
-**Version**: 1.3
-**Last Updated**: 2026-01-13
+## 13. Content OS 연동 규칙
+
+> **Version**: 1.0 (2026-01-26)
+> **Task**: Content OS Performance와 Vault Task 1:1 연결
+
+### 13.1 예외 조항: Content OS 데이터
+
+Content OS의 일부 데이터는 **Firestore**에 저장됩니다.
+이는 SSOT 원칙의 예외로, 실시간 YouTube Analytics 연동에 필요합니다.
+
+| 데이터 | 저장 위치 | 비고 |
+|--------|----------|------|
+| YouTube Performance | YouTube Analytics API | 외부 데이터 |
+| Snapshot 히스토리 | Firestore `contentos_snapshots` | 예외 (캐시) |
+| **Task-Video 관계** | **Vault Task.video_id** | **SSOT** |
+
+### 13.2 Task-Video 관계 SSOT
+
+**SSOT**: Vault Task의 `video_id` 필드
+
+```yaml
+# Task frontmatter (SSOT)
+entity_type: Task
+entity_id: tsk-yt-w03-26-07
+video_id: abc123xyz  # YouTube video ID (11자)
+```
+
+**관계 방향**:
+- Task → Video: `task.video_id`로 직접 조회
+- Video → Task: API가 Task 스캔하여 역참조 (Derived)
+
+### 13.3 video_id 필드 규칙
+
+**형식**: YouTube video ID (11자 영숫자)
+- 예: `dQw4w9WgXcQ`, `abc123xyz00`
+
+**추출 소스**: YouTube URL에서 추출
+```
+https://www.youtube.com/watch?v=VIDEO_ID
+https://youtu.be/VIDEO_ID
+https://www.youtube.com/shorts/VIDEO_ID
+```
+
+**1:1 제약**:
+- 하나의 video_id는 하나의 Task에만 연결
+- 연결 시 기존 연결 여부 검증 필수
+- 충돌 시 HTTP 400 반환
+
+### 13.4 금지 사항
+
+| 금지 사항 | 이유 |
+|----------|------|
+| Firestore에 task_id 저장 | 동일 관계를 두 곳에 저장 금지 |
+| video_id 형식 미검증 저장 | 11자 영숫자 패턴 필수 |
+| 동일 video_id 중복 연결 | 1:1 관계 위반 |
+
+---
+
+**Version**: 1.4
+**Last Updated**: 2026-01-26
 **Status**: Active (모든 코드/API/UI가 준수해야 함)
 
 **변경 이력**:
+- v1.4 (2026-01-26): Section 13 추가 - Content OS 연동 규칙
+  - Task.video_id 필드를 통한 YouTube Performance 연결
+  - SSOT는 Vault Task, Firestore에 역참조 저장 금지
+  - 1:1 제약 및 video_id 형식 규칙 명시
 - v1.3 (2026-01-13): Section 10 추가 - Project parent_id 의미 명확화 (A안 + C안)
   - parent_id는 전략 부모(Track)만, program_id는 운영 소속(Program) 분리
   - 4개 가드레일 정의: parent_id 패턴(ERROR), conditions_3y 필수(ERROR), program_id 일치(WARNING), 자동 채움

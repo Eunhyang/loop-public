@@ -487,6 +487,7 @@ known_fields:
     - merged_commit    # 머지된 커밋 해시
     - start_time       # 시작 시간 (HH:MM) - Week view timeblock
     - end_time         # 종료 시간 (HH:MM) - Week view timeblock
+    - video_id         # YouTube video ID (Content OS Performance 연결)
   Hypothesis:
     - hypothesis_question  # 질문 형태 ("?"로 끝나야 함)
     - start_date             # 검증 대상으로 공식 채택한 날짜 (YYYY-MM-DD)
@@ -968,6 +969,7 @@ write_targets:
       - project_id       # 프로젝트 변경
       - start_time       # 시작 시간 (Week view timeblock)
       - end_time         # 종료 시간 (Week view timeblock)
+      - video_id         # YouTube video ID (Content OS Performance 연결)
     Project:
       # 기본 필드
       - status
@@ -1015,8 +1017,12 @@ write_targets:
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.14"
-last_updated: "2026-01-21"
+schema_version: "5.15"
+last_updated: "2026-01-26"
+# v5.15 변경 (2026-01-26):
+# - known_fields.Task에 video_id 추가 (Content OS Performance 연결)
+# - writable_fields.Task에 video_id 추가
+# - YouTube 업로드 콘텐츠와 Task 1:1 매핑 지원
 # v5.14 변경 (2026-01-21):
 # - project_kind enum 추가 (signal | adoption | impact) - 프로젝트 검증 단계
 # - hypothesis_kind enum 추가 (signal | adoption | impact) - 가설 검증 단계
