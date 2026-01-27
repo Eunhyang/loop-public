@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-mzjr8a
 entity_name: KkokKkok App v1.0.29 - Release
 created: '2026-01-09'
-updated: '2026-01-26'
+updated: '2026-01-28'
 status: planning
 owner: 김은향
 start_date: '2026-01-20'
@@ -15,11 +15,26 @@ aliases:
 tags: []
 conditions_3y:
 - cond-a
+- cond-b
 track_contributes: []
 deadline: '2026-01-30'
 validates:
 - hyp-1-12
 primary_hypothesis_id: hyp-1-12
+expected_impact:
+  tier: strategic
+  impact_magnitude: high
+  confidence: 0.2
+  contributes: []
+  rationale: KkokKkok App v1.0.29 프로젝트는 DAU와 재방문율을 개선하기 위한 개입 효과를 검증하는 파일럿으로, 중간 수준의
+    영향력을 가지고 있으며, Loop 언어 사용을 촉진하는 데 기여할 것입니다.
+condition_contributes:
+- to: cond-a
+  weight: 0.7
+  description: 프로젝트의 목표가 Loop 언어로 문제를 설명하고 선택을 유도하는 것이므로, cond-a는 핵심적인 기여를 한다.
+- to: cond-b
+  weight: 0.3
+  description: 프로젝트 결과가 데이터 패턴의 재현 가능성과 관련이 있으므로, cond-b도 기여하지만 상대적으로 낮은 기여도를 가진다.
 ---
 # 2주 코어 파일럿 — 다음날 회복 + 직전 60초(옵트인)
 
