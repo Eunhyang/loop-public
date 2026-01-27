@@ -18,8 +18,36 @@ tags:
 - w04-26
 priority_flag: medium
 start_date: '2026-01-27'
-start_time: '14:00'
-end_time: '15:00'
+start_time: '12:30'
+end_time: '13:30'
+notes: '# YouTube Weekly Round W04-26 - 주제 선정
+
+
+  > Task ID: `tsk-yout-w0426-01` | Project: `prj-youtub-w0426` | Due: 2026-01-25
+
+
+  ## 목표
+
+
+  **완료 조건**:
+
+
+  - [ ] 주제 선정 완료
+
+
+  ---
+
+
+  ## Notes
+
+
+  ---
+
+
+  **Created**: 2026-01-25 **Assignee**: 김은향 **Due**: 2026-01-25'
+links:
+- label: '참고 영상: 도파민 중독 벗어나는 법'
+  url: https://www.youtube.com/watch?v=T9fO9uGeJk0
 ---
 # YouTube Weekly Round W04-26 - 주제 선정
 
