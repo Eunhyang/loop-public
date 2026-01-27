@@ -9,24 +9,14 @@ icon: megaphone
 category: marketing
 
 default_project_id: prj-026
-default_assignee: 한명학
-default_type: ops
 
-task:
-  name_template: "Reddit 홍보 Day {day_number}"
-  assignee: 한명학
-  type: ops
-  estimated_hours: 1
-  notes_template: |
-    ## 포스팅 정보
-    - 커뮤니티:
-    - 제목:
-    - URL:
-
-    ## 반응 기록
-    - Upvotes:
-    - 댓글:
-    - 특이사항:
+# 템플릿 스키마: _TEMPLATE_SCHEMA.md 참조
+tasks:
+  - seq: 1
+    name_template: "Reddit 홍보 Day"
+    day_offset: 0
+    assignee: 한명학
+    type: ops
 ---
 
 # 꼭꼭앱 Reddit 홍보 태스크 템플릿

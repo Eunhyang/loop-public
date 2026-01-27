@@ -3,22 +3,24 @@ entity_type: Task
 entity_id: tsk-yout-w0426-03
 entity_name: YouTube Weekly Round W04-26 - 원고 수정 + 촬영
 created: '2026-01-25'
-updated: '2026-01-25'
+updated: '2026-01-27'
 status: todo
 parent_id: prj-youtub-w0426
 project_id: prj-youtub-w0426
 aliases:
 - tsk-yout-w0426-03
 assignee: 한명학
-due: '2026-01-27'
+due: '2026-01-28'
 priority: medium
 type: ops
 tags:
 - youtube-weekly
 - w04-26
 priority_flag: medium
+start_date: '2026-01-28'
+start_time: '10:30'
+end_time: '11:30'
 ---
-
 # YouTube Weekly Round W04-26 - 원고 수정 + 촬영
 
 > Task ID: `tsk-yout-w0426-03` | Project: `prj-youtub-w0426` | Due: 2026-01-27

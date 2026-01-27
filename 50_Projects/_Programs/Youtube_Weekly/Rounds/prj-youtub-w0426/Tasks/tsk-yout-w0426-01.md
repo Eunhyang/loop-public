@@ -4,7 +4,7 @@ entity_id: tsk-yout-w0426-01
 entity_name: YouTube Weekly Round W04-26 - 주제 선정
 created: '2026-01-25'
 updated: '2026-01-27'
-status: todo
+status: done
 parent_id: prj-youtub-w0426
 project_id: prj-youtub-w0426
 aliases:
