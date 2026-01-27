@@ -3,8 +3,8 @@ entity_type: Meta
 entity_id: meta:ssot-contract
 entity_name: LOOP Vault SSOT Contract
 created: 2026-01-07
-updated: 2026-01-07
-version: "1.2"
+updated: 2026-01-27
+version: "1.5"
 tags: ["meta", "ssot", "contract", "governance"]
 ---
 
@@ -827,11 +827,139 @@ https://www.youtube.com/shorts/VIDEO_ID
 
 ---
 
-**Version**: 1.4
-**Last Updated**: 2026-01-26
+## 14. Hypothesis 위계 규칙
+
+> **Version**: 1.0 (2026-01-27)
+> **Task**: Hypothesis 간 부모-자식 관계 지원
+
+### 14.1 개요
+
+Hypothesis 엔티티 간 위계를 표현하여 가설 트리 구조를 지원합니다.
+
+**사용 사례**:
+- 상위 가설에서 하위 가설로 분해
+- Signal → Adoption → Impact 검증 단계 추적
+- Cross-Track 가설 연결
+
+### 14.2 SSOT 필드 정의
+
+| 필드 | 위치 | 타입 | 설명 |
+|------|------|------|------|
+| `parent_hypothesis_id` | Hypothesis frontmatter | string (hyp-N-NN) | **SSOT** - 상위 가설 ID |
+| `child_hypotheses` | Derived (계산) | [string] | **Derived** - 하위 가설 IDs |
+
+**핵심 원칙**: `parent_hypothesis_id`만 저장, `child_hypotheses`는 빌드 시 역인덱스 계산
+
+### 14.3 설계 결정
+
+**Kind 위계**: Flexible
+- 같은 kind + 상위 kind 모두 허용
+- Signal → Adoption, Signal → Signal 모두 가능
+
+**Track 제약**: Cross-Track 허용
+- 다른 Track의 가설도 부모로 지정 가능
+- 예: Track 2 가설이 Track 1 가설을 부모로 가능
+
+### 14.4 패턴 규칙
+
+**parent_hypothesis_id 형식**:
+```
+hyp-[1-6]-\d{2}
+예: hyp-1-01, hyp-3-05
+```
+
+**검증 규칙**:
+1. 패턴 일치: `^hyp-[1-6]-\d{2}$`
+2. 존재 여부: 참조된 가설이 vault에 존재해야 함
+3. 자기 참조 금지: `parent_hypothesis_id != entity_id`
+4. 순환 참조 금지: A→B→C→A 같은 순환 불허
+
+### 14.5 API 엔드포인트
+
+**목록 조회** (`GET /api/hypotheses`):
+```
+?parent_hypothesis_id=hyp-1-01  # 특정 부모의 자식만
+?has_parent=true                # 부모 있는 가설만
+?has_parent=false               # 루트 가설만
+```
+
+**개별 조회** (`GET /api/hypotheses/{id}`):
+- 응답에 `child_hypotheses` 필드 포함 (Derived)
+
+**트리 조회** (`GET /api/hypotheses/{id}/tree`):
+```json
+{
+  "tree": {
+    "hypothesis_id": "hyp-1-05",
+    "ancestors": ["hyp-1-01"],
+    "descendants": {"hyp-1-05": ["hyp-1-10", "hyp-1-11"]},
+    "root": "hyp-1-01",
+    "depth": 1
+  }
+}
+```
+
+### 14.6 수정 규칙
+
+**parent_hypothesis_id 설정**:
+```yaml
+# API 요청
+PUT /api/hypotheses/hyp-1-05
+{ "parent_hypothesis_id": "hyp-1-01" }
+```
+
+**parent_hypothesis_id 해제**:
+```yaml
+# 빈 문자열로 연결 해제
+PUT /api/hypotheses/hyp-1-05
+{ "parent_hypothesis_id": "" }
+```
+
+### 14.7 금지 사항
+
+| 금지 사항 | 이유 |
+|----------|------|
+| `child_hypotheses` 직접 저장 | Derived 필드 (계산 필요) |
+| 순환 참조 생성 | 무한 루프 방지 |
+| 잘못된 ID 형식 | 참조 무결성 |
+| 존재하지 않는 가설 참조 | 고아 참조 방지 |
+
+### 14.8 예시
+
+```yaml
+# hyp-1-01 (루트)
+entity_id: hyp-1-01
+hypothesis_kind: signal
+parent_hypothesis_id: null
+
+# hyp-1-05 (hyp-1-01의 자식)
+entity_id: hyp-1-05
+hypothesis_kind: adoption
+parent_hypothesis_id: hyp-1-01
+
+# hyp-1-10 (hyp-1-05의 자식)
+entity_id: hyp-1-10
+hypothesis_kind: impact
+parent_hypothesis_id: hyp-1-05
+
+# hyp-2-03 (Cross-Track, hyp-1-01의 자식)
+entity_id: hyp-2-03
+hypothesis_kind: signal
+parent_hypothesis_id: hyp-1-01  # Track 2지만 Track 1 가설을 부모로
+```
+
+---
+
+**Version**: 1.5
+**Last Updated**: 2026-01-27
 **Status**: Active (모든 코드/API/UI가 준수해야 함)
 
 **변경 이력**:
+- v1.5 (2026-01-27): Section 14 추가 - Hypothesis 위계 규칙
+  - parent_hypothesis_id 필드 추가 (가설 간 부모-자식 관계)
+  - child_hypotheses는 Derived (역인덱스 계산)
+  - Cross-Track 허용, Flexible Kind (같은/상위 kind 모두 가능)
+  - 순환 참조 방지, 패턴 검증 (hyp-[1-6]-NN)
 - v1.4 (2026-01-26): Section 13 추가 - Content OS 연동 규칙
   - Task.video_id 필드를 통한 YouTube Performance 연결
   - SSOT는 Vault Task, Firestore에 역참조 저장 금지

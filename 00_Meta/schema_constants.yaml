@@ -501,6 +501,7 @@ known_fields:
     - loop_layer           # emotional | eating | habit | reward | autonomic
     - hypothesis_kind      # signal | adoption | impact (검증 단계)
     - hypothesis_text      # deprecated → hypothesis_question
+    - parent_hypothesis_id # 상위 가설 ID (hyp-*), 선택 필드
   Experiment:
     - hypothesis_id
     - protocol
@@ -667,6 +668,7 @@ validation_rules:
   derived_fields:
     Hypothesis:
       - validated_by         # Evidence에서 역인덱스 계산
+      - child_hypotheses     # parent_hypothesis_id 역인덱스 계산
     Track:
       - realized_sum         # 하위 Project B 집계 (build_impact.py)
     Condition:
@@ -1013,12 +1015,18 @@ write_targets:
       - horizon             # 시간 범위 (검증 목표 연도)
       - loop_layer          # Loop 레이어
       - tags                # 태그
+      - parent_hypothesis_id  # 상위 가설 ID (hyp-*)
 
 # ============================================
 # Schema Version
 # ============================================
-schema_version: "5.15"
-last_updated: "2026-01-26"
+schema_version: "5.16"
+last_updated: "2026-01-27"
+# v5.16 변경 (2026-01-27):
+# - known_fields.Hypothesis에 parent_hypothesis_id 추가 (가설 간 위계 지원)
+# - writable_fields.Hypothesis에 parent_hypothesis_id 추가
+# - derived_fields.Hypothesis에 child_hypotheses 추가 (역인덱스 계산)
+# - 가설 간 부모-자식 관계 표현 가능 (Cross-Track 허용, Flexible Kind)
 # v5.15 변경 (2026-01-26):
 # - known_fields.Task에 video_id 추가 (Content OS Performance 연결)
 # - writable_fields.Task에 video_id 추가
