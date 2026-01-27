@@ -3,7 +3,7 @@ entity_type: Project
 entity_id: prj-yt-W02-26
 entity_name: YouTube - W02
 created: '2026-01-03'
-updated: '2026-01-20'
+updated: '2026-01-27'
 status: planning
 program_id: pgm-youtube-weekly
 cycle: W02
@@ -33,8 +33,6 @@ realized_impact:
 outgoing_relations: []
 validates:
 - hyp-3-02
-- hyp-1-03
-- hyp-1-04
 validated_by: []
 experiments: []
 tags:
